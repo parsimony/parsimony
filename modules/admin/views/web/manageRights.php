@@ -81,7 +81,9 @@ background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -mo
 background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulename"><?php echo t('Module', FALSE); ?> :</label>
                         <select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->name ?>-' + this.value).show()">
                             <?php
-                            foreach (\app::$activeModules as $moduleName => $type) {
+                            $modules = \app::$activeModules;
+                            unset($modules['admin']);
+                            foreach ($modules as $moduleName => $type) {
                                 echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
                             }
                             ?>
