@@ -276,5 +276,8 @@ $lang['Enable']= 'Activer';
 $lang['Content']= 'Contenu';
 $lang['%s role']='Rôle %s';
 $lang['Enable the %s module for %s role']='Activer le module %s pour le rôle %s';
+$lang['The only right of reading content and in some offline cases  to add, delete or modify his own content']='Le droit de seulement lire le contenu and dans certains cas en mode déconnecté d\'ajouter, supprimer et modifier son propre contenu';
+$lang['The right of editing content & pages']='Le droit d\'éditer le contenu et les pages';
+$lang['All web development rights : Design, Module, blocks, database & so on']='Tous les droits de développement web : Design, module, blocs, base de données etc'; 
 
 ?>
