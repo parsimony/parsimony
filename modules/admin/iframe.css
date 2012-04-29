@@ -1,0 +1,45 @@
+/* ################ In Iframe Site ################# */
+body{overflow: hidden;} 
+
+/*traduction*/
+.traduction{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
+.traduction:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
+
+/* Marker drag n drop blocks */
+#container #dropInPage{position:relative;z-index:999995;height: 0px;}
+#container #dropInPage #dropInPageChild{position: absolute;border-radius: 3px;border: 1px solid #96005b;background: #c8007a;width: 100%;height: 8px;top: -4px;}
+#container #dropInPage.floatleft{float:left;width: 20px;}
+.dropInContainer{padding: 10px 0px;}
+.dropInContainerChild{padding: 10px 10px;position: relative;border: 1px dashed #276D7F;text-align: center;margin: 0px 10px;text-shadow: 1px 1px 0px white;
+font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
+
+
+/* Outline block */
+.selection-block{outline:2px solid #4EDBFF;}
+.selection-container{outline:4px solid #007BC8;}
+
+/* editinplace */
+*[contentEditable]:hover{outline:1px orange solid;}
+*[contentEditable]:focus{outline:1px orange solid;}
+.editinline{display:inline}
+
+/* Resizable */
+.parsimonyResize{position: absolute;display:none;z-index: 99999; display: block; width: 12px; height: 12px;background: #444;border-radius:10px}
+.parsimonyResize.se{ right: -6px; bottom: -6px;cursor: se-resize;}
+.parsimonyResize.nw{ left: -6px; top: -6px;cursor: nw-resize;}
+.parsimonyResize.ne{ right: -6px; top: -6px;cursor: ne-resize;}
+.parsimonyResize.sw{ left: -6px; bottom: -6px;cursor: sw-resize;}
+.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 10px;}
+
+/* CSS Picker */
+.cssPicker{outline : 2px solid #ff00fb}
+
+/* Selection */
+html ::selection {
+background: #00D5FF;
+color: #ffffff;
+}
+html ::-moz-selection {
+background: #00D5FF;
+color: #ffffff;
+}
