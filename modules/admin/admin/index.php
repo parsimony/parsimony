@@ -192,8 +192,8 @@
 				include_once('modules/'.$module.'/module.php');
 				$name = $module.'\\'.$module;
 				$rc = new ReflectionClass($name);
+				if($rc->hasMethod('onLoad')) $value = '1';
 			    }
-			    if($rc->hasMethod('onLoad')) $value = '1';
                             $input = ' 
                             <tr class="trover">
                                 <td style="padding: 0px 6px;text-align: center;padding-left: 5px;line-height: 30px;font-size: 16px;text-transform: capitalize;letter-spacing: 2px;vertical-align: middle">' . $module . '</td>
