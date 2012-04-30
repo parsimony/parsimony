@@ -179,7 +179,7 @@
                         <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead>';
                     $left = '<table style="float:left; margin: 0px 30px;border-left: solid #CCC 1px;padding: 0px 25px;">
                         <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead><tbody>';
-                    foreach (glob(PROFILE_PATH . '*', GLOB_ONLYDIR) as $filename) {
+                    foreach (glob('modules/*', GLOB_ONLYDIR) as $filename) {
                         $module = substr(strrchr($filename, '/'), 1);
                         if ($module != 'core' && $module != 'db' && $module != 'admin') {
                             $i++;
