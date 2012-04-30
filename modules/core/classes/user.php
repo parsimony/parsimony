@@ -50,7 +50,7 @@ class user {
 
         if (!isset($_COOKIE['PHPSESSID'])) {
             $this->setSessionId();
-        }elseif (!is_file($this->sessPath . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][0] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][1] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][2] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][3] . DIRECTORY_SEPARATOR)) {
+        }elseif (!is_dir($this->sessPath . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][0] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][1] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][2] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][3] . DIRECTORY_SEPARATOR)) {
             $this->setSessionId();
 	}else{
             session_start();
