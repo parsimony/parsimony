@@ -593,7 +593,7 @@ while (1) {
 	    $index = file('index.php');
 	    if(trim($index[1]) == 'include(\'install.php\');exit;'){
 		unset($index[1]);
-		file_put_contents('index.php', implode(PHP_EOL,$index));
+		file_put_contents('index.php', implode('',$index));
 	    }
 	    
 	    //synchronize with parsimony.mobi
