@@ -50,8 +50,11 @@ class user {
 
         if (!isset($_COOKIE['PHPSESSID'])) {
             $this->setSessionId();
-        }else
+        }elseif (!is_file($this->sessPath . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][0] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][1] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][2] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][3] . DIRECTORY_SEPARATOR)) {
+            $this->setSessionId();
+	}else{
             session_start();
+	}
         if (!isset($_SESSION['time'])) {
             $_SESSION['time'] = time();
         } else {
