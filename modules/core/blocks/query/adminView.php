@@ -425,7 +425,7 @@ $view = $this->getConfig('view');
 	    $(".table",sqlscheme).attr('value',$(this).parent().attr('table'));
 	    $(".table",sqlscheme).attr('name','properties[' + nameProp + '][table]');
 	    $(sqlscheme).attr('property',$(this).parent().attr('table') + "_" + $(this).text());
-	    $(".property",sqlsche).val($(this).text());
+	    $(".property",sqlscheme).val($(this).text());
 	    $(".property",sqlscheme).attr('name','properties[' + nameProp + '][property]');
 	    $(".display",sqlscheme).attr('name','properties[' + nameProp + '][display]');
 	    $(".aggregate",sqlscheme).attr('name','properties[' + nameProp + '][aggregate]');
@@ -473,4 +473,4 @@ $view = $this->getConfig('view');
     function editorChange(){
 	$("#regenerateview").removeAttr("checked");
     }
-</script>pt>
+</script>
