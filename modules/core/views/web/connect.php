@@ -131,6 +131,11 @@ if (isset($_POST['connexion'])) {
         <script LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
         <script>
             $(document).ready(function () {
+                
+                if(!window.chrome){
+                    $('body').empty();       
+                    $('<div style="background: #EEE url(admin/img/connect-page.png);postion:fixed;padding: 100px 0;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px; color:#777;text-shadow: 0px 1px 0px white;z-index:99999999;width:100%;height:100%">Parsimony Alpha uses <a style="color:#777;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;text-shadow: 0px 1px 0px white;" href="https://www.google.com/chrome">Google Chrome</a> for administration.<br>Please <a style="color:#777;text-shadow: 0px 1px 0px white;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;" href="https://www.google.com/chrome">Install</a> or use Google Chrome </div>').prependTo('body');
+                }
                 $("#newmdpgo").on("click", function(){
                     $.post('<?php echo BASE_PATH; ?>renewPass',{mail:$("#newmdp").val()}, function(data) {
                         if(data == 1){
