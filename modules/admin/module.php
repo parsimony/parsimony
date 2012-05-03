@@ -1139,7 +1139,7 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 			} else {
 			    $field->addColumn($nameFieldBefore);
 			}
-			$nameFieldBefore = $field->name;
+			if(get_class($field) != \app::$aliasClasses['field_formasso']) $nameFieldBefore = $field->name;
 		    }
 		    foreach ($oldObjModel->getFields() as $fieldName => $field) {
 			if (is_object($field) && (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ))
