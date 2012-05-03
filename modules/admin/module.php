@@ -296,7 +296,7 @@ class admin extends \module {
 	$moduleObj = \app::getModule($module);
 	if ($page == 'new') {
 	    $lastPage = array_keys($moduleObj->getPages());
-	    $idPage = array_pop($lastPage) + 1;
+	    $idPage = max($lastPage) + 1;
 	    $page = new \page($idPage);
             $page->setModule($module);
 	    $page->setTitle('Page '.$idPage);
