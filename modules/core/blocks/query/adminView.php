@@ -266,14 +266,14 @@ $view = $this->getConfig('view');
 	    <a href="" style="display: block;margin-bottom: 15px;font-weight: bold;color: #333;" onclick="$('#links').slideToggle();return false;"> > <?php echo t('Relationship Management', FALSE); ?></a>
 	    <div id="links" class="none">
 		<?php
+		$sql = $view->getSQL();
 		if (!empty($sql['joins'])) {
-		    $sql = $view->getSQL();
 		    foreach ($sql['joins'] as $join) {
 			list($table1, $idTableLeft) = explode('.', $join['propertyLeft']);
 			list($table2, $idTableRight) = explode('.', $join['propertyRight']);
 			?>
 			<div>
-			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyLeft]" value="<?php echo $table1 . '_' . $idTableLeft; ?>">
+			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyLeft]" value="<?php echo $table1 . '.' . $idTableLeft; ?>">
 			    <div class="propertyJoin propertyJoinLeft inline-block">
 				<?php echo $table1 . ' . ' . $idTableLeft; ?>
 			    </div>
@@ -289,7 +289,7 @@ $view = $this->getConfig('view');
 			    <div class="propertyJoin propertyJoinRight inline-block">
 				<?php echo $table2 . ' . ' . $idTableRight; ?>
 			    </div>
-			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyRight]" value="<?php echo $table2 . '_' . $idTableRight; ?>">
+			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyRight]" value="<?php echo $table2 . '.' . $idTableRight; ?>">
 			</div>
 			<?php
 		    }
