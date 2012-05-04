@@ -139,7 +139,7 @@ if (isset($_POST['connexion'])) {
                 $("#newmdpgo").on("click", function(){
                     $.post('<?php echo BASE_PATH; ?>renewPass',{mail:$("#newmdp").val()}, function(data) {
                         if(data == 1){
-                            alert('<?php echo t('A new PassWord has been sent to your E-mail account'); ?>');
+                            alert('<?php echo t('A new PassWord has been sent to your E-mail account'); ?>'); 
                         }else if(data == 0){
                             alert('<?php echo t('Error on mail send'); ?>');
                         }else{
