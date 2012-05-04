@@ -1013,6 +1013,7 @@ $this = $(elem).closest(".block").get(0);*/
         setPreviewMode :   function (){
             ParsimonyAdmin.unloadCreationMode();
             ParsimonyAdmin.loadPreviewMode();
+	    $('.parsimonyDND',ParsimonyAdmin.currentWindow).parsimonyDND('destroy');
             $('.creation,.panelblocks').hide();
             $('#switchPreviewMode').addClass("selected");
             $('#switchCreationMode').removeClass("selected");
