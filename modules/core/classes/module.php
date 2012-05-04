@@ -56,10 +56,10 @@ class module {
      * @param string $title module name
      */
     public function __construct($name = '', $title = '') {
-        if (!empty($name))
-            $this->name = $name;
-        if (!empty($title))
-            $this->title = $title;
+	if (!empty($name))
+	    $this->name = $name;
+	if (!empty($title))
+	    $this->title = $title;
     }
 
     /**
@@ -67,11 +67,11 @@ class module {
      * @param string $name
      */
     public function setName($name) {
-        if (!empty($name)) {
-            $this->name = $name;
-        } else {
-            throw new \Exception(t('Name can\'t be empty', FALSE));
-        }
+	if (!empty($name)) {
+	    $this->name = $name;
+	} else {
+	    throw new \Exception(t('Name can\'t be empty', FALSE));
+	}
     }
 
     /**
@@ -79,7 +79,7 @@ class module {
      * @return string
      */
     public function getName() {
-        return $this->name;
+	return $this->name;
     }
 
     /**
@@ -87,10 +87,10 @@ class module {
      * @return string
      */
     public function getTitle() {
-        if (!is_null($this->title))
-            return $this->title;
-        else
-            return $this->name;
+	if (!is_null($this->title))
+	    return $this->title;
+	else
+	    return $this->name;
     }
 
     /**
@@ -100,20 +100,20 @@ class module {
      * @return module
      */
     public static function get($name) {
-        if (isset(app::$activeModules[$name])) {
-            if (!class_exists($name . '\\' . $name, false))
-                include('modules/' . str_replace('\\', '/', $name) . '/module.php');
-            $path = PROFILE_PATH . str_replace('\\', '/', $name) . '/module';
-            if (is_file($path . '.' . \app::$config['dev']['serialization'])) {
-                return \tools::unserialize($path);
-            } else {
-                $className = '\\' . $name . '\\' . $name;
-                $module = new $className($name, ucfirst($name));
-                $module->save();
-                return $module;
-            }
-        } else
-            throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
+	if (isset(app::$activeModules[$name])) {
+	    if (!class_exists($name . '\\' . $name, false))
+		include('modules/' . str_replace('\\', '/', $name) . '/module.php');
+	    $path = PROFILE_PATH . str_replace('\\', '/', $name) . '/module';
+	    if (is_file($path . '.' . \app::$config['dev']['serialization'])) {
+		return \tools::unserialize($path);
+	    } else {
+		$className = '\\' . $name . '\\' . $name;
+		$module = new $className($name, ucfirst($name));
+		$module->save();
+		return $module;
+	    }
+	} else
+	    throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
     }
 
     /**
@@ -121,13 +121,13 @@ class module {
      * @return array of pages
      */
     public function getPages() {
-        $pages = array();
-        foreach ($this->pages as $key => $page) {
-            $page = $this->getPage($key);
-            if ($page != FALSE)
-                $pages[$key] = $page;
-        }
-        return $pages;
+	$pages = array();
+	foreach ($this->pages as $key => $page) {
+	    $page = $this->getPage($key);
+	    if ($page != FALSE)
+		$pages[$key] = $page;
+	}
+	return $pages;
     }
 
     /**
@@ -136,12 +136,12 @@ class module {
      * @return array of pages
      */
     public function reoderPages($order) {
-        $newOrder = array();
-        foreach ($order as $value) {
-            $newOrder[$value] = $this->pages[$value];
-        }
-        $this->pages = $newOrder;
-        return $this->save();
+	$newOrder = array();
+	foreach ($order as $value) {
+	    $newOrder[$value] = $this->pages[$value];
+	}
+	$this->pages = $newOrder;
+	return $this->save();
     }
 
     /**
@@ -150,10 +150,10 @@ class module {
      * @return page
      */
     public function getPage($id) {
-        if (is_file(PROFILE_PATH . $this->name . '/pages/' . $id . '.' . \app::$config['dev']['serialization']))
-            return \tools::unserialize(PROFILE_PATH . $this->name . '/pages/' . $id);
-        else
-            throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
+	if (is_file(PROFILE_PATH . $this->name . '/pages/' . $id . '.' . \app::$config['dev']['serialization']))
+	    return \tools::unserialize(PROFILE_PATH . $this->name . '/pages/' . $id);
+	else
+	    throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
     }
 
     /**
@@ -163,11 +163,11 @@ class module {
      * @return array
      */
     public static function getPageList($name) {
-        $links = array();
-        foreach ($this->getPages() AS $page) {
-            $links[$page->getURL()] = $page->getTitle();
-        }
-        return $links;
+	$links = array();
+	foreach ($this->getPages() AS $page) {
+	    $links[$page->getURL()] = $page->getTitle();
+	}
+	return $links;
     }
 
     /**
@@ -178,10 +178,10 @@ class module {
      * @return mixed
      */
     public function callBlockAction($name, $method, $args) {
-        $blockName = '\\' . $this->name . '\\blocks\\' . $name;
-        $params = array();
-        parse_str($args, $params);
-        return call_user_func_array(array(new $blockName('call'), $method), $params);
+	$blockName = '\\' . $this->name . '\\blocks\\' . $name;
+	$params = array();
+	parse_str($args, $params);
+	return call_user_func_array(array(new $blockName('call'), $method), $params);
     }
 
     /**
@@ -189,12 +189,12 @@ class module {
      * @return array $fields
      */
     public function getFields() {
-        $fields = array();
-        foreach (glob(PROFILE_PATH . $this->name . '/fields/*.php') as $filename) {
-            $field = basename($filename, '.php');
-            $fields[] = $field;
-        }
-        return $fields;
+	$fields = array();
+	foreach (glob(PROFILE_PATH . $this->name . '/fields/*.php') as $filename) {
+	    $field = basename($filename, '.php');
+	    $fields[] = $field;
+	}
+	return $fields;
     }
 
     /**
@@ -202,10 +202,10 @@ class module {
      * @return config
      */
     public function getConfigs() {
-        if (isset(\app::$config[$this->name]))
-            return \app::$config[$this->name];
-        else
-            return FALSE;
+	if (isset(\app::$config[$this->name]))
+	    return \app::$config[$this->name];
+	else
+	    return FALSE;
     }
 
     /**
@@ -214,10 +214,10 @@ class module {
      * @return string|false
      */
     public function getConfig($key) {
-        if (isset(\app::$config[$this->name][$key]))
-            return \app::$config[$this->name][$key];
-        else
-            return FALSE;
+	if (isset(\app::$config[$this->name][$key]))
+	    return \app::$config[$this->name][$key];
+	else
+	    return FALSE;
     }
 
     /**
@@ -226,7 +226,7 @@ class module {
      * @param string $val
      */
     public function setConfig($key, $val) {
-        \app::$config[$this->name][$key] = $val;
+	\app::$config[$this->name][$key] = $val;
     }
 
     /**
@@ -234,11 +234,11 @@ class module {
      * @return array
      */
     public function getModel() {
-        foreach (glob('modules/' . $this->name . '/model/*.php') as $filename) {
-            $model = basename($filename, '.php');
-            $this->model[$model] = $this->getEntity($model);
-        }
-        return $this->model;
+	foreach (glob('modules/' . $this->name . '/model/*.php') as $filename) {
+	    $model = basename($filename, '.php');
+	    $this->model[$model] = $this->getEntity($model);
+	}
+	return $this->model;
     }
 
     /**
@@ -246,13 +246,13 @@ class module {
      * @return string
      */
     public function getView($name, $themeType = FALSE) {
-        $themeType = ($themeType !== FALSE) ? $themeType : THEMETYPE;
-        ob_start();
-        $path = $this->name . '/views/' . $themeType . '/' . $name . '.php';
-        //if(is_file(PROFILE_PATH.$path)) require(PROFILE_PATH.$path);
-        //else require('modules/'.$path);
-        include($path);
-        return ob_get_clean();
+	$themeType = ($themeType !== FALSE) ? $themeType : THEMETYPE;
+	ob_start();
+	$path = $this->name . '/views/' . $themeType . '/' . $name . '.php';
+	//if(is_file(PROFILE_PATH.$path)) require(PROFILE_PATH.$path);
+	//else require('modules/'.$path);
+	include($path);
+	return ob_get_clean();
     }
 
     /**
@@ -261,19 +261,19 @@ class module {
      * @return entity|false
      */
     public function getEntity($entity) {
-        if (isset($this->model[$entity])) {
-            return $this->model[$entity];
-        } else {
-            if (is_file('modules/' . $this->name . '/model/' . $entity . '.' . \app::$config['dev']['serialization'])) {
-                if (!class_exists($this->name . '\\model\\' . $entity))
-                    include ('modules/' . $this->name . '/model/' . $entity . '.php');
+	if (isset($this->model[$entity])) {
+	    return $this->model[$entity];
+	} else {
+	    if (is_file('modules/' . $this->name . '/model/' . $entity . '.' . \app::$config['dev']['serialization'])) {
+		if (!class_exists($this->name . '\\model\\' . $entity))
+		    include ('modules/' . $this->name . '/model/' . $entity . '.php');
 
-                $this->model[$entity] = \tools::unserialize('modules/' . $this->name . '/model/' . $entity);
-                return $this->model[$entity];
-            } else {
-                throw new \Exception(t('Entity doesn\'t exist', FALSE));
-            }
-        }
+		$this->model[$entity] = \tools::unserialize('modules/' . $this->name . '/model/' . $entity);
+		return $this->model[$entity];
+	    } else {
+		throw new \Exception(t('Entity doesn\'t exist', FALSE));
+	    }
+	}
     }
 
     /**
@@ -281,12 +281,12 @@ class module {
      * @return array
      */
     public function getThemes() {
-        $themes = array();
-        foreach (glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR) as $filename) {
-            $themeName = basename($filename);
-            $themes[] = $themeName;
-        }
-        return $themes;
+	$themes = array();
+	foreach (glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR) as $filename) {
+	    $themeName = basename($filename);
+	    $themes[] = $themeName;
+	}
+	return $themes;
     }
 
     /**
@@ -294,7 +294,7 @@ class module {
      * @return bool
      */
     public function save() {
-        return \tools::file_put_contents(PROFILE_PATH . $this->name . '/module.obj', serialize($this));
+	return \tools::file_put_contents(PROFILE_PATH . $this->name . '/module.obj', serialize($this));
     }
 
     /**
@@ -302,31 +302,31 @@ class module {
      * @return string|false
      */
     public function displayAdmin() {
-        if (file_exists('modules/' . $this->name . '/admin/index.php')) {
-            ob_start();
-            require('modules/' . $this->name . '/admin/index.php');
-            return ob_get_clean();
-        } else {
-            return FALSE;
-        }
+	if (file_exists('modules/' . $this->name . '/admin/index.php')) {
+	    ob_start();
+	    require('modules/' . $this->name . '/admin/index.php');
+	    return ob_get_clean();
+	} else {
+	    return FALSE;
+	}
     }
 
     /**
      * Install Module, create model in DB
      */
     public function install() {
-        foreach ($this->getModel() AS $model) {
-            $this->getEntity($model->getName())->createTable();
-        }
+	foreach ($this->getModel() AS $model) {
+	    $this->getEntity($model->getName())->createTable();
+	}
     }
 
     /**
      * Uninstall Module, delete model of DB
      */
     public function uninstall() {
-        foreach ($this->getModel() AS $model) {
-            $this->getEntity($model->getName())->deleteTable();
-        }
+	foreach ($this->getModel() AS $model) {
+	    $this->getEntity($model->getName())->deleteTable();
+	}
     }
 
     /**
@@ -335,30 +335,30 @@ class module {
      * @return page|false
      */
     public function controller($url) {
-        if (method_exists($this, $url . 'Action')) {
-            $class = new \ReflectionClass($this);
-            $method = $class->getMethod($url . 'Action');
-            $params = array();
-            foreach ($method->getParameters() as $i => $param) {
-                $name = $param->getName();
-                $value = app::$request->getParam($name);
-                if ($value !== FALSE) {
-                    $params[] = $value;
-                } elseif ($param->isDefaultValueAvailable()) {
-                    $params[] = $param->getDefaultValue();
-                }
-            }
-            return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params), 200);
-        }
-        foreach ($this->pages AS $index => $regex) {
-            if (preg_match($regex, $url, $_GET)) {
-                app::$request->setParams($_GET);
-                $page = $this->getPage($index);
-                //if(isset($_SESSION['idr']) && ($_SESSION['idr']==1 || $page->getRights($_SESSION['idr']) & DISPLAY))
-                return app::$response->setContent($page, 200);
-            }
-        }
-        return FALSE;
+	if (method_exists($this, $url . 'Action')) {
+	    $class = new \ReflectionClass($this);
+	    $method = $class->getMethod($url . 'Action');
+	    $params = array();
+	    foreach ($method->getParameters() as $i => $param) {
+		$name = $param->getName();
+		$value = app::$request->getParam($name);
+		if ($value !== FALSE) {
+		    $params[] = $value;
+		} elseif ($param->isDefaultValueAvailable()) {
+		    $params[] = $param->getDefaultValue();
+		}
+	    }
+	    return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params), 200);
+	}
+	foreach ($this->pages AS $index => $regex) {
+	    if (preg_match($regex, $url, $_GET)) {
+		app::$request->setParams($_GET);
+		$page = $this->getPage($index);
+		//if(isset($_SESSION['idr']) && ($_SESSION['idr']==1 || $page->getRights($_SESSION['idr']) & DISPLAY))
+		return app::$response->setContent($page, 200);
+	    }
+	}
+	return FALSE;
     }
 
     /**
@@ -367,7 +367,7 @@ class module {
      * @return page|false
      */
     public function controllerGET($url) {
-        return $this->controller($url);
+	return $this->controller($url);
     }
 
     /**
@@ -376,7 +376,7 @@ class module {
      * @return page|false
      */
     public function controllerPOST($url) {
-        return $this->controller($url);
+	return $this->controller($url);
     }
 
     /**
@@ -385,7 +385,7 @@ class module {
      * @return page|false
      */
     public function controllerPUT($url) {
-        return $this->controller($url);
+	return $this->controller($url);
     }
 
     /**
@@ -394,7 +394,7 @@ class module {
      * @return page|false
      */
     public function controllerDELETE($url) {
-        return $this->controller($url);
+	return $this->controller($url);
     }
 
     /**
@@ -418,11 +418,11 @@ class module {
      * @param page $page
      */
     public function addPage(page $page) {
-        $pages = array_reverse($this->pages, true);
-        $pages[$page->getId()] = $page->getRegex();
-        $pages = array_reverse($pages, true);
-        $this->pages = $pages;
-        $page->save($this->name);
+	$pages = array_reverse($this->pages, true);
+	$pages[$page->getId()] = $page->getRegex();
+	$pages = array_reverse($pages, true);
+	$this->pages = $pages;
+	$page->save($this->name);
     }
 
     /**
@@ -430,9 +430,9 @@ class module {
      * @param page $page
      */
     public function updatePage(page $page) {
-        $id = $page->getId();
-        $this->pages[$id] = $page->getRegex();
-        $page->save();
+	$id = $page->getId();
+	$this->pages[$id] = $page->getRegex();
+	$page->save();
     }
 
     /**
@@ -440,33 +440,33 @@ class module {
      * @param page $page
      */
     public function deletePage(page $page) {
-        foreach ($this->pages as $idPage => $thepage) {
-            if ($idPage == $page->getId()) {
-                unset($this->pages[$idPage]);
-                return unlink(PROFILE_PATH . $this->name . '/pages/' . $page->getId() . '.' . \app::$config['dev']['serialization']);
-            }
-        }
-        return FALSE;
+	foreach ($this->pages as $idPage => $thepage) {
+	    if ($idPage == $page->getId()) {
+		unset($this->pages[$idPage]);
+		return unlink(PROFILE_PATH . $this->name . '/pages/' . $page->getId() . '.' . \app::$config['dev']['serialization']);
+	    }
+	}
+	return FALSE;
     }
 
     /**
      * Init config of the module
      */
     public function initConfig() {
-        $config = array();
-        include($this->name . '/config.php');
-        \app::$config = array_merge(\app::$config, $config);
+	$config = array();
+	include($this->name . '/config.php');
+	\app::$config = array_merge(\app::$config, $config);
     }
 
     /**
      * Init config of the module
      */
     public function saveConfig() {
-        $configObj = new \config(PROFILE_PATH . '/' . $this->name . '/config.php', TRUE);
-        $config = array();
-        include($this->name . '/config.php');
-        $config = array_intersect_key(\app::$config, $config);
-        return $configObj->saveConfig($config);
+	$configObj = new \config(PROFILE_PATH . '/' . $this->name . '/config.php', TRUE);
+	$config = array();
+	include($this->name . '/config.php');
+	$config = array_intersect_key(\app::$config, $config);
+	return $configObj->saveConfig($config);
     }
 
     /**
@@ -475,7 +475,7 @@ class module {
      * @return integer $rights
      */
     public function updateRights($role, $rights) {
-        $this->rights[$role] = $rights;
+	$this->rights[$role] = $rights;
     }
 
     /**
@@ -484,8 +484,8 @@ class module {
      * @return integer
      */
     public function getRights($role) {
-        if (isset($this->rights[(String) $role]))
-            return $this->rights[(String) $role];
+	if (isset($this->rights[(String) $role]))
+	    return $this->rights[(String) $role];
     }
 
     /**
@@ -495,43 +495,47 @@ class module {
      * @param string $title module title
      */
     public static function build($name, $title) {
-        $name = tools::sanitizeString($name);
-        tools::createDirectory('modules/' . $name);
-        tools::createDirectory('modules/' . $name . '/blocks/');
-        tools::createDirectory(PROFILE_PATH . $name . '/model/');
-        tools::createDirectory(PROFILE_PATH . $name . '/pages/');
-        tools::createDirectory(PROFILE_PATH . $name . '/views/');
-        $template = '<?php
+	if (!is_dir('modules/' . $name)) {
+	    $name = tools::sanitizeString($name);
+	    tools::createDirectory('modules/' . $name);
+	    tools::createDirectory('modules/' . $name . '/blocks/');
+	    tools::createDirectory(PROFILE_PATH . $name . '/model/');
+	    tools::createDirectory(PROFILE_PATH . $name . '/pages/');
+	    tools::createDirectory(PROFILE_PATH . $name . '/views/');
+	    $template = '<?php
             namespace ' . $name . ';
             class ' . $name . ' extends \module {
                 protected $title = \'' . str_replace('\'', '\\\'', $title) . '\';
                 protected $name = \'' . str_replace('\'', '\\\'', $name) . '\';
             }
             ?>';
-        file_put_contents('modules/' . $name . '/module.php', $template);
-        include('modules/' . $name . '/module.php');
-        $name2 = $name . '\\' . $name;
-        $mod = new $name2();
-        $page = new \page('1');
-        $page->setModule($name);
-        $page->setTitle('Index ' . $name);
-        $page->setRegex('@index@');
-        $mod->addPage($page);
-        $mod->save();
-        if (PROFILE == 'www')
-            $config = new \config('config.php', TRUE);
-        else
-            $config = new \config(PROFILE_PATH . 'config.php', TRUE);
-        $config->add('$config[\'activeModules\'][\'' . $name . '\']', '0');
-        return $config->save();
+	    file_put_contents('modules/' . $name . '/module.php', $template);
+	    include('modules/' . $name . '/module.php');
+	    $name2 = $name . '\\' . $name;
+	    $mod = new $name2();
+	    $page = new \page('1');
+	    $page->setModule($name);
+	    $page->setTitle('Index ' . $name);
+	    $page->setRegex('@index@');
+	    $mod->addPage($page);
+	    $mod->save();
+	    if (PROFILE == 'www')
+		$config = new \config('config.php', TRUE);
+	    else
+		$config = new \config(PROFILE_PATH . 'config.php', TRUE);
+	    $config->add('$config[\'activeModules\'][\'' . $name . '\']', '0');
+	    return $config->save();
+	}else {
+	    return FALSE;
+	}
     }
 
     public function __sleep() {
-        $props = get_object_vars($this);
-        unset($props['model']);
-        unset($props['title']);
-        unset($props['name']);
-        return array_keys($props);
+	$props = get_object_vars($this);
+	unset($props['model']);
+	unset($props['title']);
+	unset($props['name']);
+	return array_keys($props);
     }
 
 }
