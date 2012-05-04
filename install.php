@@ -110,6 +110,7 @@ function tr($text) {
 }
 
 function displayNotif($ok, $high, $low) {
+    $serverOK = TRUE;
     if (!empty($ok)) {
         foreach ($ok as $messOk) {
             echo '<div class="notify positive">' . $messOk . '</div>';
@@ -126,6 +127,7 @@ function displayNotif($ok, $high, $low) {
             echo '<div class="notify normal">' . $info . '</div>';
         }
     }
+    return $serverOK;
 }
 
 ob_start();
@@ -251,7 +253,9 @@ while (1) {
                 $ok[] = tr('Permissions are Ok');
             }
 
-            displayNotif($ok, $high, $low)
+            if(!displayNotif($ok, $high, $low) && $serverOK ){
+		$serverOK = FALSE;
+	    }
             ?>
             <h2><?php echo tr('PHP Extensions'); ?></h2>
             <?php
@@ -295,7 +299,9 @@ while (1) {
                 $ok[] = '<span>gd</span> '.tr('extension enabled');
             }
 
-            displayNotif($ok, $high, $low)
+            if(!displayNotif($ok, $high, $low) && $serverOK ){
+		$serverOK = FALSE;
+	    }
             ?>
             <h2><?php echo tr('PHP.ini Stettings'); ?></h2>
             <?php
@@ -332,7 +338,9 @@ while (1) {
                 $ok[] = '<span>session.auto_start</span> '.tr('is off');
             }
 
-            displayNotif($ok, $high, $low)
+            if(!displayNotif($ok, $high, $low) && $serverOK ){
+		$serverOK = FALSE;
+	    }
             ?>
             <input type="hidden" name="serverok" value="<?php echo (string) $serverOK ?>">
             <br><br>
