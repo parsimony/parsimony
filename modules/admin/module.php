@@ -733,9 +733,8 @@ class admin extends \module {
      * @return string 
      */
     protected function addModuleAction($name_module, $name_titre) {
-	if (!is_dir('modules/' . $name_module)) {
-	    \module::build($name_module, $name_titre);
-	    $return = array('eval' => 'top.window.location.href = "/' . $name_module . '/index"', 'notification' => t('The Module has been created', FALSE), 'notificationType' => 'positive');
+	if (\module::build($name_module, $name_titre)) {
+	    $return = array('eval' => 'top.window.location.href = "' . BASE_PATH . $name_module . '/index"', 'notification' => t('The Module has been created', FALSE), 'notificationType' => 'positive');
 	} else {
 	    $return = array('eval' => '', 'notification' => t('Module already exists, please choose another name', FALSE), 'notificationType' => 'negative');
 	}
