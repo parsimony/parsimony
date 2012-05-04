@@ -76,7 +76,7 @@ if (isset($_POST['connexion'])) {
             #header{position: fixed;min-width: 1250px;width: 100%;z-index: 999999;height: 40px;color: #555;text-shadow: white 0 1px 0;text-decoration: none;font-weight: bold;background-color: #F3F3F3;background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E9EF),to(#FEFEFE));box-shadow: 0 2px 6px #443;top: 0;left: 0;padding-top: 5px;}
             #header a{color: #555;text-decoration: none;cursor: pointer;padding: 0;height: 28px;}
             #header a:hover{color: rgba(191, 230, 255, 0.25);text-shadow: 0px 0px #0070A1;}
-            body{background: #EEE url(/admin/img/connect-page.png);text-align:center;}
+            body{background: #EEE url(<?php echo BASE_PATH ?>admin/img/connect-page.png);text-align:center;}
             #content{margin: 200px auto;position: relative;width: 503px;height: 253px;}
             #img{float: left;width: 250px;height: 250px;margin: 0px auto;border-bottom-left-radius: 10px;background: #EEE;border: 1px solid #DDD;text-shadow: 0 1px 1px white;-webkit-box-shadow: 0 1px 1px #fff;-moz-box-shadow: 0 1px 1px #fff;box-shadow: 1px 1px 0px #fff, #F4F8FD 1px 1px 1px 0 inset;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;padding-top: 30px;}
             label{font-size: 20px;line-height: 25px;}
@@ -134,7 +134,7 @@ if (isset($_POST['connexion'])) {
                 
                 if(!window.chrome){
                     $('body').empty();       
-                    $('<div style="background: #EEE url(admin/img/connect-page.png);postion:fixed;padding: 100px 0;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px; color:#777;text-shadow: 0px 1px 0px white;z-index:99999999;width:100%;height:100%">Parsimony Alpha uses <a style="color:#777;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;text-shadow: 0px 1px 0px white;" href="https://www.google.com/chrome">Google Chrome</a> for administration.<br>Please <a style="color:#777;text-shadow: 0px 1px 0px white;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;" href="https://www.google.com/chrome">Install</a> or use Google Chrome </div>').prependTo('body');
+                    $('<div style="background: #EEE url(<?php echo BASE_PATH ?>admin/img/connect-page.png);postion:fixed;padding: 100px 0;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px; color:#777;text-shadow: 0px 1px 0px white;z-index:99999999;width:100%;height:100%">Parsimony Alpha uses <a style="color:#777;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;text-shadow: 0px 1px 0px white;" href="https://www.google.com/chrome">Google Chrome</a> for administration.<br>Please <a style="color:#777;text-shadow: 0px 1px 0px white;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;" href="https://www.google.com/chrome">Install</a> or use Google Chrome </div>').prependTo('body');
                 }
                 $("#newmdpgo").on("click", function(){
                     $.post('<?php echo BASE_PATH; ?>renewPass',{mail:$("#newmdp").val()}, function(data) {
