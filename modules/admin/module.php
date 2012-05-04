@@ -34,6 +34,8 @@ namespace admin;
  * Manage the administration of Parsimony
  */
 class admin extends \module {
+    
+    protected $name = 'admin';
 
     /** @var string theme name */
     private $theme;
