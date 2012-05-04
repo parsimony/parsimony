@@ -499,6 +499,7 @@ while (1) {
             }
             break;
         case 4:
+	    include('config.php');
             ?>
             <h1><?php echo tr('Step'); ?> 4</h1>
             <h2><?php echo tr('Account Settings'); ?></h2>
@@ -514,7 +515,7 @@ while (1) {
             </div>
             <div>
                 <label>E-mail *</label>
-                <input type="text" name="mail" value="<?php if (isset($_POST['mail'])) echo se($_POST['mail']); ?>" required>
+                <input type="text" name="mail" value="<?php if (isset($_POST['mail'])) echo se($_POST['mail']); else echo $config['mail']['adminMail']; ?>" required>
             </div>
             <div>
                 <label><?php echo tr('Password'); ?> * <small>(<?php echo tr('at least 8 characters alphanumeric'); ?>)</small></label>
