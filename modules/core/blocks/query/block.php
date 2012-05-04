@@ -90,7 +90,7 @@ class query extends \block {
         if (!empty($tab_selected)) {
 	    $myView = $myView->initFromArray($tab_selected);
             foreach ($myView->getFields() AS $sqlName => $field) {
-		if(substr($sqlName,0,3) == 'id_') $displayLine = '->display($line)';
+		if(substr($sqlName,0,3) != 'id_') $displayLine = '->display($line)';
 		else  $displayLine = '';
                 $view_code .= "\t\t" . '<div class="' . $sqlName . '"><?php echo $line->' . $sqlName . $displayLine . '; ?></div>' . "\n";
             }
