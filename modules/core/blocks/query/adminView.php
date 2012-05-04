@@ -114,6 +114,8 @@ $view = $this->getConfig('view');
 					if (get_class($field) != \app::$aliasClasses['field_formasso']) :
 					    if (get_class($field) == 'core\fields\field_foreignkey')
 						$link = ' link="' . $module . '_' . $field->link . '"';
+                                            elseif (get_class($field) == 'core\fields\field_user') 
+                                                $link = ' link="core_user"';
 					    else
 						$link = '';
 					    ?>
@@ -326,11 +328,11 @@ $view = $this->getConfig('view');
 <script>
     function putLink(table1,table2,type) {
 	if($('#schema_sql div[table="' + table2 +  '"] div[link="' + table1 + '"]').text().length == 0){
-	    var idTableLeft = $("#schema_sql div[table=" + table2 + "]").find(".field_ident").text();
-	    var idTableRight = $('#schema_sql div[table="' + table1 +  '"] div[link="' + table2 + '"]').text();
+	    var idTableRight = $("#schema_sql div[table=" + table2 + "]").find(".field_ident").text();
+	    var idTableLeft = $('#schema_sql div[table="' + table1 +  '"] div[link="' + table2 + '"]').text();
 	}else{
-	    var idTableRight = $("#schema_sql div[table=" + table1 + "]").find(".field_ident").text();
-	    var idTableLeft = $('#schema_sql div[table="' + table2 +  '"] div[link="' + table1 + '"]').text();
+	    var idTableLeft = $("#schema_sql div[table=" + table1 + "]").find(".field_ident").text();
+	    var idTableRight = $('#schema_sql div[table="' + table2 +  '"] div[link="' + table1 + '"]').text();
 	}
 	$("<div><input type=\"hidden\" name=\"relations[" + table1 + "_" + table2 + "][propertyLeft]\" value=\"" + table1 + "." + idTableLeft + "\"><div class=\"propertyJoin propertyJoinLeft inline-block align_right\">" + table1 + "." + idTableLeft + "</div><select name=\"relations[" + table1 + "_" + table2 + "][type]\"><option>" + type + "</option><option>inner join</option><option>join</option><option>left join</option><option>left outer join</option><option>right join</option><option>right outer join</option></select><div class=\"propertyJoin propertyJoinRight inline-block\">" + table2 + "." +  idTableRight + "</div><input type=\"hidden\" name=\"relations[" + table1 + "_" + table2 + "][propertyRight]\" value=\"" + table2 + "." +  idTableRight + "\"></div>").appendTo("#linkstransit");
 
