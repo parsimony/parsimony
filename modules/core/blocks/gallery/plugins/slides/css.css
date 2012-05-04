@@ -1,5 +1,5 @@
-#slides {
-	position:absolute;
+.slides {
+	position:relative;
 	top:15px;
 	left:4px;
 	z-index:100;
@@ -13,7 +13,6 @@
 */
 
 .slides_container {
-	width:500px;
 	overflow:hidden;
 	position:relative;
 	display:none;
@@ -27,18 +26,12 @@
 	Set to display block
 */
 
-.slides_container div.slide {
-	width:500px;
-	height:270px;
-	display:block;
-}
-
 
 /*
 	Next/prev buttons
 */
 
-#slides .next,#slides .prev {
+.slides .next,.slides .prev {
 	position:absolute;
 	top:107px;
 	left:-24px;
@@ -48,17 +41,10 @@
 	z-index:101;
 }
 
-#slides .next {
-	left:500px;
-}
 
 /*
 	Pagination
 */
-
-.paginationSlides {
-	width: 500px;
-}
 
 .paginationSlides li {
 	float:left;
@@ -71,7 +57,6 @@
 	width:12px;
 	height:0;
 	padding-top:12px;
-	background-image:url(/core/blocks/gallery/plugins/slides/pagination.png);
 	background-position:0 0;
 	float:left;
 	overflow:hidden;

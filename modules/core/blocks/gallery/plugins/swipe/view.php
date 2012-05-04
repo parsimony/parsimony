@@ -29,7 +29,7 @@
 \app::$request->page->addCSSFile(BASE_PATH . 'modules/core/blocks/gallery/plugins/swipe/style.css');
 ?>
 
-<div id="slider">
+<div id="<?php echo $this->getId(); ?>_slider">
     <ul>
 	<?php
 	$imgs = $this->getConfig('img');
@@ -37,7 +37,7 @@
 	    foreach ($imgs as $id => $image) {
 		?>
 		<li> 
-		    <a href="<?php echo $image['url']; ?>" title="<?php echo $image['title']; ?>" target="_blank"><img class="imgpanel" title=""  src="/<?php BASE_PATH ?>thumbnail?x=<?php echo $this->getConfig('width'); ?>&y=<?php echo $this->getConfig('height'); ?>&crop=1&path=<?php echo PROFILE_PATH.$this->module . '/files/' . $id ?>" alt=""></a>
+		    <a href="<?php echo $image['url']; ?>" title="<?php echo $image['title']; ?>" target="_blank"><img class="imgpanel" title=""  src="<?php echo BASE_PATH ?>thumbnail?x=<?php echo $this->getConfig('width'); ?>&y=<?php echo $this->getConfig('height'); ?>&crop=1&path=<?php echo PROFILE_PATH.$this->module . '/files/' . $id ?>" alt=""></a>
 		    </lu>
 		    <?php
 		}
@@ -47,6 +47,6 @@
 </div>
 <script>
     $(function(){
-        window.mySwipe = new Swipe(document.getElementById('slider'));
+        window.mySwipe = new Swipe(document.getElementById('<?php echo $this->getId(); ?>_slider'));
     });
 </script>
