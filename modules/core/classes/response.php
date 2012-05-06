@@ -80,7 +80,7 @@ class response {
      * @param mixed $body optional
      */
     public function setContent($body = '',$status = FALSE) {
-	if($status !== FALSE) $this->status = $status;
+	if($status !== FALSE) $this->setStatus($status);
         if (is_object($body) && get_class($body) == 'core\classes\page') {
 
             app::$request->page = $body;
@@ -132,7 +132,7 @@ class response {
      * @param integer $status
      */
     public function setStatus($status) {
-        if (isset(self::$HTTPstatus[$this->status]))
+        if (isset(self::$HTTPstatus[$status]))
             $this->status = $status;
         else
             throw new \Exception(t('Parsimony doesn\'t know this HTTP status', FALSE));

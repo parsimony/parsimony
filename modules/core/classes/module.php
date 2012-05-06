@@ -348,7 +348,7 @@ class module {
 		    $params[] = $param->getDefaultValue();
 		}
 	    }
-	    return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params), 200);
+	    return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params));
 	}
 	foreach ($this->pages AS $index => $regex) {
 	    if (preg_match($regex, $url, $_GET)) {
