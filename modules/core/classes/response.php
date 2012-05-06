@@ -225,13 +225,17 @@ class response {
         416 => 'Requested Range Not Satisfiable',
         417 => 'Expectation Failed',
         426 => 'Upgrade Required',
+	428 => 'Precondition Required',
+	429 => 'Too Many Requests',
+	431 => 'Request Header Fields Too Large',
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
         502 => 'Bad Gateway',
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
-        509 => 'Bandwidth Limit Exceeded'
+        509 => 'Bandwidth Limit Exceeded',
+	511 => 'Network Authentication Required'
     );
 
     /**
