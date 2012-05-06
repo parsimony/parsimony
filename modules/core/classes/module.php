@@ -496,12 +496,8 @@ class module {
      */
     public static function build($name, $title) {
 	if (!is_dir('modules/' . $name)) {
-	    $name = tools::sanitizeString($name);
+	    $name = str_replace('-','_',tools::sanitizeString($name));
 	    tools::createDirectory('modules/' . $name);
-	    tools::createDirectory('modules/' . $name . '/blocks/');
-	    tools::createDirectory(PROFILE_PATH . $name . '/model/');
-	    tools::createDirectory(PROFILE_PATH . $name . '/pages/');
-	    tools::createDirectory(PROFILE_PATH . $name . '/views/');
 	    $template = '<?php
             namespace ' . $name . ';
             class ' . $name . ' extends \module {

@@ -28,7 +28,6 @@
 ?>
 <div id="addmodule" class="adminzone">
     <div class="adminzonemenu">
-        <div class="save"><a href="#" class="ellipsis" id="adminzone_save" onclick="$('#save_configs').trigger('click');return false;"><?php echo t('Save', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Create Module', FALSE); ?></a></div>
     </div>
