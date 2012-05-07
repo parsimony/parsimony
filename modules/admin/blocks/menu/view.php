@@ -22,11 +22,9 @@
 	<li style="border-left:0;" class="subMenu" >
     	    <a href="#" style="background: none" title="<?php echo t('My domains', FALSE); ?>"><img src="<?php echo BASE_PATH . 'admin/img/multi.png'; ?>" style="position: relative;top: 5px;left: 5px;" /> </a>
     	    <ul>
-		<?php foreach(glob('profiles/*', GLOB_ONLYDIR) AS $domainPath):
-		    $basen = basename($domainPath);
-		?>
+		<?php foreach(glob('profiles/*', GLOB_ONLYDIR) AS $domainPath):	?>
     		<li>
-                    <a href="http://<?php if($basen != 'www') echo $basen.'.'.DOMAIN.'/connect'; else echo DOMAIN.'/connect'; ?>"><?php echo ucfirst($basen); ?></a>
+                   <a href="http://<?php $basen=basename($domainPath); if($basen= 'www') $basen='';  echo $basen.'.'.DOMAIN.'/connect' ;?>"><?php echo ucfirst(basename($domainPath)); ?></a>
     		</li>
 		<?php endforeach; ?>
     	    </ul>
