@@ -314,7 +314,7 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 .datagrid{width: 100%; }
 .datagrid th{padding: 0 4px;}
 .line{max-height:20px;cursor: pointer;}
-.datagrid .line:nth-child(even){background: #f3f3f3}
+.datagrid .line:nth-child(even){background: #f4f4f4}
 .datagrid .line:nth-child(odd){background: #FFF}
 .datagrid .column{overflow:hidden;padding:3px;max-width:100px;max-height:30px;width:auto}
 .datagrid .line:hover td:not([rowspan]){border-color: DDD;background-color: #EFEFEF;}
