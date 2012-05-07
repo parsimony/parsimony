@@ -24,7 +24,7 @@
     	    <ul>
 		<?php foreach(glob('profiles/*', GLOB_ONLYDIR) AS $domainPath): ?>
     		<li>
-		    <a href="#"><?php echo ucfirst(basename($domainPath)); ?></a>
+                    <a href="http://<?php $basen=basename($domainPath); if($basen= 'www') $basen='';  echo $basen.'.'.DOMAIN.'/connect' ;?>"><?php echo ucfirst($basen); ?></a>
     		</li>
 		<?php endforeach; ?>
     	    </ul>
