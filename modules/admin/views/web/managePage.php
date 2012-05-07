@@ -88,6 +88,9 @@
                         <a style="color: #333;" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Advanced', FALSE); ?></a>
                     </div>
                     <script type="text/javascript">
+                        $('input[name="title"]').live('change keyup',function(){
+                            genereregex();
+                        });
                         $('#save_page').live('click',function(e){
                             e.preventDefault();
                             $('#conf_box input[name="action"]').val("savePage");
