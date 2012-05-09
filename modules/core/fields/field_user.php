@@ -63,7 +63,7 @@ class field_user extends \field {
      * @return string
      */
     public function validate($value) {
-	if($this->visibility & INSERT && $this->visibility & UPDATE && is_numeric($value)){
+	if(/*$this->visibility & INSERT && $this->visibility & UPDATE && */is_numeric($value)){
 	    return $value;
 	}else{
 	    return $_SESSION['id_user'];
