@@ -266,36 +266,34 @@ $view = $this->getConfig('view');
 	    <a href="" style="display: block;margin-bottom: 15px;font-weight: bold;color: #333;" onclick="$('#links').slideToggle();return false;"> > <?php echo t('Relationship Management', FALSE); ?></a>
 	    <div id="links" class="none">
 		<?php
-                if(is_object($view)){
-                    $sql = $view->getSQL();
-                    if (!empty($sql['joins'])) {
-                        foreach ($sql['joins'] as $join) {
-                            list($table1, $idTableLeft) = explode('.', $join['propertyLeft']);
-                            list($table2, $idTableRight) = explode('.', $join['propertyRight']);
-                            ?>
-                            <div>
-                                <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyLeft]" value="<?php echo $table1 . '.' . $idTableLeft; ?>">
-                                <div class="propertyJoin propertyJoinLeft inline-block">
-                                    <?php echo $table1 . ' . ' . $idTableLeft; ?>
-                                </div>
-                                <select name="relations[<?php echo $table1 . '_' . $table2; ?>][type]">
-                                    <option><?php echo $join['type']; ?></option>
-                                    <option>inner join</option>
-                                    <option>join</option>
-                                    <option>left join</option>
-                                    <option>left outer join</option>
-                                    <option>right join</option>
-                                    <option>right outer join</option>
-                                </select>
-                                <div class="propertyJoin propertyJoinRight inline-block">
-                                    <?php echo $table2 . ' . ' . $idTableRight; ?>
-                                </div>
-                                <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyRight]" value="<?php echo $table2 . '.' . $idTableRight; ?>">
-                            </div>
-                            <?php
-                        }
-                    }
-                }
+		$sql = $view->getSQL();
+		if (!empty($sql['joins'])) {
+		    foreach ($sql['joins'] as $join) {
+			list($table1, $idTableLeft) = explode('.', $join['propertyLeft']);
+			list($table2, $idTableRight) = explode('.', $join['propertyRight']);
+			?>
+			<div>
+			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyLeft]" value="<?php echo $table1 . '.' . $idTableLeft; ?>">
+			    <div class="propertyJoin propertyJoinLeft inline-block">
+				<?php echo $table1 . ' . ' . $idTableLeft; ?>
+			    </div>
+			    <select name="relations[<?php echo $table1 . '_' . $table2; ?>][type]">
+				<option><?php echo $join['type']; ?></option>
+				<option>inner join</option>
+				<option>join</option>
+				<option>left join</option>
+				<option>left outer join</option>
+				<option>right join</option>
+				<option>right outer join</option>
+			    </select>
+			    <div class="propertyJoin propertyJoinRight inline-block">
+				<?php echo $table2 . ' . ' . $idTableRight; ?>
+			    </div>
+			    <input type="hidden" name="relations[<?php echo $table1 . '_' . $table2; ?>][propertyRight]" value="<?php echo $table2 . '.' . $idTableRight; ?>">
+			</div>
+			<?php
+		    }
+		}
 		?>
 	    </div>
 	    <div id="linkstransit" class="none"></div>
