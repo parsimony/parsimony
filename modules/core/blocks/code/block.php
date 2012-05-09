@@ -54,7 +54,7 @@ class code extends \block {
         \app::addListener('error', array($this, 'catchError'));
 	\tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $_POST['editor']);
         $testIfHasError = exec('php -l '.PROFILE_PATH.$this->getConfig('pathCode'));
-        if (!empty($testIfHasError) && strstr($testIfHasError, 'No syntax errors detected')){
+        if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')){
             \tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $testIfHasError .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
         }
     }
