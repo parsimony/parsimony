@@ -186,7 +186,7 @@ abstract class entity implements \Iterator {
         $this->afterInsert();
         \app::dispatchEvent('afterInsert', array($vars, &$this));
         if(!$res) return FALSE;
-        else $sth->fetch(PDO::FETCH_ASSOC);
+        else $sth->lastInsertId();
     }
 
     /**
