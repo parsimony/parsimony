@@ -89,6 +89,11 @@ $lang['fr']['at least 6 characters alphanumeric'] = 'au minimum 6 caractères al
 $lang['fr']['at least 8 characters alphanumeric'] = 'au minimum 8 caractères alphanumériques';
 $lang['fr']['Login must contains at least 6 characters alphanumeric'] = 'L\' identifiant doit contenir au minimum 6 caractères alphanumériques';
 $lang['fr']['Password must contains at least 6 characters alphanumeric'] = 'Le mot de passe doit contenir au minimum 8 caractères alphanumériques';
+$lang['fr']['http://en.wikipedia.org/wiki/Second-level_domain'] = 'http://fr.wikipedia.org/wiki/Domaine_de_deuxième_niveau';
+$lang['fr']['My WebSite'] = 'Mon site';
+$lang['fr']['Password'] = 'Mot de passe';
+$lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
+
 
 
 
@@ -381,7 +386,7 @@ while (1) {
 		    <option value="0"><?php echo tr('No'); ?></option>
 		    <option value="1" <?php if(isset($_POST['multisite']) && $_POST['multisite']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <?php echo tr('Only if you want to manage severals subdomain'); ?> (ex: www1.mysite.com,www2.mysite.com)
+                <?php echo tr('Only if you want to manage several subdomains'); ?> (ex: www1.mysite.com,www2.mysite.com)
             </div><br>
 	    <div>
                 <label><?php echo tr('Your domain is it a Second Level domain'); ?> (ex : mysite<u>.co.uk</u>)</label>
@@ -389,7 +394,7 @@ while (1) {
 		    <option value="2"><?php echo tr('No'); ?></option>
 		    <option value="3" <?php if(isset($_POST['sld']) && $_POST['sld']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <a href="http://en.wikipedia.org/wiki/Second-level_domain" target="_blank" style="color:#444"><?php echo tr('What is it ?'); ?></a>
+                <a href="<?php echo tr('http://en.wikipedia.org/wiki/Second-level_domain'); ?>" target="_blank" style="color:#444"><?php echo tr('What is it ?'); ?></a>
             </div>
             <input type="hidden" name="step" value="validstep2" />
             <?php
@@ -505,7 +510,7 @@ while (1) {
             <h2><?php echo tr('Account Settings'); ?></h2>
             <div>
                 <label><?php echo tr('Site Name'); ?> * </label>
-                <input type="text" name="name" value="My WebSite" required>
+                <input type="text" name="name" value="<?php echo tr('My WebSite'); ?>" required>
             </div>
 
             <h2><?php tr('Admin Account Settings'); ?></h2>
