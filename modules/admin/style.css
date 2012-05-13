@@ -149,9 +149,20 @@ body{background:url(admin/img/carbon_fibre.png);}
 #panelcss_tab_border select{width:60px}
 #changecssformcode{border-left: 1px solid #D3D5DB;border-bottom: 1px solid #D3D5DB;}
 #goeditcss{width: 20px;height: 20px;display:none; background: url('admin/img/arrow.gif') no-repeat;position: absolute;top: 30px;right: 5px;}
-#changecsscode{width:237px;font-size: 11px;font-family: arial, sans-serif;}
+#changecsscode{font-size: 11px;font-family: arial, sans-serif;}
 #panelcss_tab_background label{margin: 5px 10px;position: relative;width: 70px;}
 .adminbtnrightslide{width: 50%;color: #333;font-weight: bold;float:left;text-align: center;cursor:pointer;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;}
+
+#panelcss .CodeMirror {border: 1px solid #eee;}
+#panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}
+#panelcss .barre{text-decoration: line-through;}
+#panelcss .activeline {background: #e8f2ff !important;}
+#changecsscode .selectorcss{position: relative;background:#ccc;padding-left:7px;line-height: 22px;}
+#changecsscode .gotoform{position: absolute;right: 0;top:0;background:#eee;cursor:pointer;padding:0 4px}
+#changecsscode .gotoform:hover{background:#888;color:white}
+#changecsscode .activebtn{cursor:pointer}
+#changecsscode .activebtn:hover{color:#444;}
+#changecsscode .csscode{display:none;}
 
 /* CSS Color Picker*/
 #panelcss .colorpicker{z-index: 9999999999999;}

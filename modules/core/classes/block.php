@@ -275,7 +275,7 @@ abstract class block {
 	if($type == 'add'){
 	    return 'ParsimonyAdmin.addBlock("' . $this->id . '","' . preg_replace("@<script[^>]*>[\S\s]*?<\/script[^>]*>@i", "", str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display())))) . '","dropInPage");$("#changeres").trigger("change");';
 	}else{
-	    return '$("#' . $this->id . '",ParsimonyAdmin.currentWindow).replaceWith("' .  str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display()))) . '");$("#changeres").trigger("change");';
+	    return '$("#' . $this->id . '",ParsimonyAdmin.currentBody).replaceWith("' .  str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display()))) . '");$("#changeres").trigger("change");';
 	}
     }
     

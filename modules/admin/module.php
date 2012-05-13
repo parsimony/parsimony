@@ -240,7 +240,7 @@ class admin extends \module {
 	    $css->deleteSelector('#' . $idBlock);
 	    $css->save();
 	    $this->saveAll();
-	    $return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentWindow).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted', FALSE), 'notificationType' => 'positive');
+	    $return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted', FALSE), 'notificationType' => 'positive');
 	}else
 	    $return = array('eval' => '', 'notification' => t('Container block cannot be deleted', FALSE), 'notificationType' => 'negative');
 	return $this->returnResult($return);
@@ -372,88 +372,104 @@ class admin extends \module {
      * @param string $selector
      * @return string 
      */
-    protected function saveCSSAction($filePath, $selector,$typeofinput = 'form',$changecsscodetextarea = '',$save = TRUE) {
-        if(!is_file(PROFILE_PATH. $filePath) && is_file('modules/'. $filePath)) \tools::file_put_contents(PROFILE_PATH. $filePath,file_get_contents('modules/'. $filePath));
-        if(is_file(PROFILE_PATH. $filePath)) $filePath2 =  PROFILE_PATH. $filePath;
-        else $filePath2 =  'modules/'. $filePath;
-	$css3 = array(
-	    'box-shadow' => array('-moz-box-shadow', '-webkit-box-shadow'),
-	    'border-radius' => array('-moz-border-radius', '-webkit-border-radius'),
-	    'border-image' => array('-moz-border-image', '-webkit-border-image'),
-	    'transform' => array('-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform'),
-	    'transition' => array('-webkit-transition', '-moz-transition', '-ms-transition', '-o-transition'),
-	    'text-shadow' => array(),
-	    'background-size' => array('-moz-background-size', '-webkit-background-size'),
-	    'column-count' => array('-moz-column-count', '-webkit-column-count'),
-	    'column-gap' => array('-moz-column-gap', '-webkit-column-gap'),
-	    'background-clip' => array('-moz-background-clip', '-webkit-background-clip'),
-	    'background-origin' => array('-webkit-background-origin'),
-	    'transform-origin' => array('-ms-transform-origin', '-webkit-transform-origin', '-moz-transform-origin', '-o-transform-origin'),
-	    'transform-style' => array('-webkit-transform-style'),
-	    'perspective' => array('-webkit-perspective'),
-	    'perspective-origin' => array('-webkit-perspective-origin'),
-	    'backface-visibility' => array('-webkit-backface-visibility'),
-	    'transition-property' => array('-moz-transition-property', '-webkit-transition-property', '-o-transition-property'),
-	    'transition-duration' => array('-moz-transition-duration', '-webkit-transition-duration', '-o-transition-duration'));
-	$css = new \css($filePath2);
-	unset($_POST['current_selector_update']);
-	unset($_POST['action']);
-	unset($_POST['filePath']);
-	unset($_POST['selector']);
-	unset($_POST['typeofinput']);
-        unset($_POST['save']);
-	if (!$css->selectorExists($selector)) {
-	    unset($_POST['action']);
-	    $css->addSelector($selector);
-	}
-	if ($typeofinput == 'form') {
-	    unset($_POST['changecsscodetextarea']);
-	    foreach ($_POST AS $key => $value) {
-		$value = trim($value);
-		if ($value != '') {
-		    if (!$css->propertyExists($selector, $key)) {
-			if (isset($css3[$key])) {
-			    foreach ($css3[$key] as $property) {
-				$css->addProperty($selector, $property, $value);
-			    }
-			}
-			$css->addProperty($selector, $key, $value);
-		    } else {
-			if (isset($css3[$key])) {
-			    foreach ($css3[$key] as $property) {
-				$css->updateProperty($selector, $property, $value);
-			    }
-			}
-			$css->updateProperty($selector, $key, $value);
-		    }
-		} else {
-		    if (isset($css3[$key])) {
-			foreach ($css3[$key] as $property) {
-			    $css->deleteProperty($selector, $property);
-			}
-		    }
-		    $css->deleteProperty($selector, $key);
-		}
-	    }
-	    if (!$css->propertyExists($selector, 'behavior')) {
-		$css->addProperty($selector, 'behavior', 'url(/lib/csspie/PIE.htc)');
-	    }
-	} elseif ($typeofinput == 'code') {
-	    $css->replaceSelector($selector, $_POST['changecsscodetextarea']);
-	}
-	if (!$css->propertyExists($selector, 'behavior')) {
-	    $css->addProperty($selector, 'behavior', 'url(/lib/csspie/PIE.htc)');
-        }
-        $selectorText = str_replace("\t", '', trim($css->selectorExists($selector)));
-        if (!$selectorText)
-            $selectorText = '';
-        $CSSJson = array('selector' => $selector, 'filePath' => $filePath, 'code' => $selectorText, 'values' => $css->extractSelectorRules($selector));
-        if((bool)$save){ 
+    protected function saveCSSAction($filePath, $selector, $typeofinput = 'form', array $selectors = array()) {
+        $css3 = array(
+            'box-shadow' => array('-moz-box-shadow', '-webkit-box-shadow'),
+            'border-radius' => array('-moz-border-radius', '-webkit-border-radius'),
+            'border-image' => array('-moz-border-image', '-webkit-border-image'),
+            'transform' => array('-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform'),
+            'transition' => array('-webkit-transition', '-moz-transition', '-ms-transition', '-o-transition'),
+            'text-shadow' => array(),
+            'background-size' => array('-moz-background-size', '-webkit-background-size'),
+            'column-count' => array('-moz-column-count', '-webkit-column-count'),
+            'column-gap' => array('-moz-column-gap', '-webkit-column-gap'),
+            'background-clip' => array('-moz-background-clip', '-webkit-background-clip'),
+            'background-origin' => array('-webkit-background-origin'),
+            'transform-origin' => array('-ms-transform-origin', '-webkit-transform-origin', '-moz-transform-origin', '-o-transform-origin'),
+            'transform-style' => array('-webkit-transform-style'),
+            'perspective' => array('-webkit-perspective'),
+            'perspective-origin' => array('-webkit-perspective-origin'),
+            'backface-visibility' => array('-webkit-backface-visibility'),
+            'transition-property' => array('-moz-transition-property', '-webkit-transition-property', '-o-transition-property'),
+            'transition-duration' => array('-moz-transition-duration', '-webkit-transition-duration', '-o-transition-duration'));
+
+        if ($typeofinput == 'form') {
+            if (!is_file(PROFILE_PATH . $filePath) && is_file('modules/' . $filePath))
+                \tools::file_put_contents(PROFILE_PATH . $filePath, file_get_contents('modules/' . $filePath));
+            if (is_file(PROFILE_PATH . $filePath))
+                $filePath2 = PROFILE_PATH . $filePath;
+            else
+                $filePath2 = 'modules/' . $filePath;
+            $css = new \css($filePath2);
+            unset($_POST['current_selector_update']);
+            unset($_POST['action']);
+            unset($_POST['filePath']);
+            unset($_POST['selector']);
+            unset($_POST['typeofinput']);
+            unset($_POST['save']);
+            if (!$css->selectorExists($selector)) {
+                unset($_POST['action']);
+                $css->addSelector($selector);
+            }
+            unset($_POST['selectors']);
+            foreach ($_POST AS $key => $value) {
+                $value = trim($value);
+                if ($value != '') {
+                    if (!$css->propertyExists($selector, $key)) {
+                        if (isset($css3[$key])) {
+                            foreach ($css3[$key] as $property) {
+                                $css->addProperty($selector, $property, $value);
+                            }
+                        }
+                        $css->addProperty($selector, $key, $value);
+                    } else {
+                        if (isset($css3[$key])) {
+                            foreach ($css3[$key] as $property) {
+                                $css->updateProperty($selector, $property, $value);
+                            }
+                        }
+                        $css->updateProperty($selector, $key, $value);
+                    }
+                } else {
+                    if (isset($css3[$key])) {
+                        foreach ($css3[$key] as $property) {
+                            $css->deleteProperty($selector, $property);
+                        }
+                    }
+                    $css->deleteProperty($selector, $key);
+                }
+            }
+            if (!$css->propertyExists($selector, 'behavior')) {
+                $css->addProperty($selector, 'behavior', 'url(/lib/csspie/PIE.htc)');
+            }
             $css->save();
-            $return = array('eval' => '','css' => $CSSJson, 'notification' => t('The style sheet has been saved', FALSE), 'notificationType' => 'positive');
-        }else{
-            $return = array('eval' => '','css' => $CSSJson);
+        } elseif ($typeofinput == 'code') {
+            $csstab = array();
+            foreach ($selectors AS $css) {
+                if (!isset($csstab[$css['file']])){
+                    if (is_file(PROFILE_PATH . $css['file']))
+                        $filePath = PROFILE_PATH . $css['file'];
+                    elseif(is_file('modules/' . $css['file']))
+                        $filePath = 'modules/' . $css['file'];
+                    else{
+                        \tools::file_put_contents(PROFILE_PATH . $filePath, file_get_contents(PROFILE_PATH . $css['file']));
+                        $filePath = PROFILE_PATH . $css['file'];
+                    }
+                    $csstab[$css['file']] = new \css($filePath);
+                }
+                $css['code'] = trim($css['code']);
+                if(!empty($css['code'])){
+                    if (!$csstab[$css['file']]->selectorExists($css['selector'])) {
+                        $csstab[$css['file']]->addSelector($css['selector']);
+                    }
+                }
+                $csstab[$css['file']]->replaceSelector($css['selector'], $css['code']);
+            }
+            foreach ($csstab AS $css) {
+                $css->save();
+            }
         }
+        $return = array('eval' => '', 'notification' => t('The style sheet has been saved', FALSE), 'notificationType' => 'positive');
         return $this->returnResult($return);
     }
 
@@ -559,7 +575,7 @@ class admin extends \module {
 	$config = new \config($path, TRUE);
 	$config->setVariable('lang');
 	$config->saveConfig($lang);
-	$return = array('eval' => '$(\'span[data-key="' . $key . '"]\',ParsimonyAdmin.currentWindow).html("' . $val . '")', 'notification' => t('The translation has been saved', FALSE), 'notificationType' => 'positive');
+	$return = array('eval' => '$(\'span[data-key="' . $key . '"]\',ParsimonyAdmin.currentBody).html("' . $val . '")', 'notification' => t('The translation has been saved', FALSE), 'notificationType' => 'positive');
 	return $this->returnResult($return);
     }
 

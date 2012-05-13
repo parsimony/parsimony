@@ -9,6 +9,11 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js');
 app::$request->page->addJSFile(BASE_PATH . 'admin/script.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
 app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale() . '-lang.js');
 ?>
 <script type="text/javascript">

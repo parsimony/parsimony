@@ -1,7 +1,8 @@
 var ParsimonyAdmin = {
-    isInit    :   false,
-    currentWindow    :   "",
-    inProgress    :   "",
+    isInit : false,
+    currentDocument : "",
+    currentBody : "",
+    inProgress :  "",
     typeProgress : "",
     startTypeCont : "theme",
     startIdParentBlock : "",
@@ -12,6 +13,7 @@ var ParsimonyAdmin = {
     moveBlock : false,
     dragLastDomId : "",
     dragMiddle : 0,
+    csseditors: [],
 	
     initBefore :   function(){
         $("#toolbars").live('change',function(){
@@ -101,7 +103,7 @@ var ParsimonyAdmin = {
 		
         /* Orientation and resolution */
         $("#toolbar").on('change','#changeres', function(e) {
-	    var bodyIframe = document.getElementById("parsiframe").contentWindow.document.body;
+	    var bodyIframe = ParsimonyAdmin.currentDocument.body;
             var res = $(this).val();
 	    $("#currentRes").text(res);
             if(res=='max'){
@@ -212,7 +214,7 @@ var ParsimonyAdmin = {
         
         var timer=setInterval(function resizeIframe() {
             if(document.getElementById("changeres").value == "max"){
-                var height = document.getElementById("parsiframe").contentWindow.document.body.offsetHeight;
+                var height = ParsimonyAdmin.currentDocument.body.offsetHeight;
                 if(screen.height > height) height = screen.height - 28;
                     document.getElementById("parsiframe").style.height = height + "px"
             }
@@ -221,26 +223,27 @@ var ParsimonyAdmin = {
     },
 
     initIframe :   function(){
-        ParsimonyAdmin.currentWindow = $('#parsiframe').contents().find("body");
+        ParsimonyAdmin.currentDocument = document.getElementById("parsiframe").contentWindow.document;
+        ParsimonyAdmin.currentBody = ParsimonyAdmin.currentDocument.body;
         ParsimonyAdmin.inProgress = "container";
         ParsimonyAdmin.updateUI();
-        $(ParsimonyAdmin.currentWindow).append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
+        $(ParsimonyAdmin.currentBody).append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
         ParsimonyAdmin.changeDeviceUpdate();
         ParsimonyAdmin.loadCreationMode();
 	
         /*var x;
 	var y;
-	$(ParsimonyAdmin.currentWindow).on('dragstart',function(event){
+	$(ParsimonyAdmin.currentBody).on('dragstart',function(event){
 	var img = document.createElement("img");
 	event.originalEvent.dataTransfer.setDragImage(img, 128,128);
 	x =  event.originalEvent.clientX;
 	y =  event.originalEvent.clientY;
 	});
-	$(ParsimonyAdmin.currentWindow).parent().on('dragover',function(event){
-	$(ParsimonyAdmin.currentWindow).css( '-webkit-transform', 'perspective(' + $("#perspective").val() + 'px) rotate(' + $("#rotate").val() + 'deg) rotateX(' + ((event.originalEvent.clientY - y) + parseInt($("#rotatex").val())) + 'deg) rotateY(' + ((event.originalEvent.clientX - x) + parseInt($("#rotatey").val())) + 'deg) translateZ(' + $("#translatez").val() + 'px)' );
+	$(ParsimonyAdmin.currentBody).parent().on('dragover',function(event){
+	$(ParsimonyAdmin.currentBody).css( '-webkit-transform', 'perspective(' + $("#perspective").val() + 'px) rotate(' + $("#rotate").val() + 'deg) rotateX(' + ((event.originalEvent.clientY - y) + parseInt($("#rotatex").val())) + 'deg) rotateY(' + ((event.originalEvent.clientX - x) + parseInt($("#rotatey").val())) + 'deg) translateZ(' + $("#translatez").val() + 'px)' );
 	return false;
 	});
-	$(ParsimonyAdmin.currentWindow).parent().on('drop',function(event){
+	$(ParsimonyAdmin.currentBody).parent().on('drop',function(event){
 	$("#rotatey").val(((event.originalEvent.clientX - x) + parseInt($("#rotatey").val())));
 	$("#rotatex").val(((event.originalEvent.clientY - y) + parseInt($("#rotatex").val())));
 	return false;
@@ -256,7 +259,7 @@ var ParsimonyAdmin = {
             $("#switchPreviewMode").trigger('click');
         }
         
-        var styleSheets = document.getElementById("parsiframe").contentWindow.document.styleSheets;
+        var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
         $("#changecsspath").html('');
         for (var i = 0; i < styleSheets.length; i++){
             if(styleSheets[i].href && styleSheets[i].href.match(new RegExp("/" + window.location.host + "/")) && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib")) && styleSheets[i].href != "http://" + window.location.host + BASE_PATH + 'admin/iframe.css' )
@@ -273,14 +276,14 @@ var ParsimonyAdmin = {
     ,
     loadCreationMode :   function(){
         ParsimonyAdmin.unloadCreationMode();
-        $(ParsimonyAdmin.currentWindow).on('click.creation','.traduction', function(e){
+        $(ParsimonyAdmin.currentBody).on('click.creation','.traduction', function(e){
             e.trad = true;
             ParsimonyAdmin.closeParsiadminMenu();
             ParsimonyAdmin.addTitleParsiadminMenu("Traduction");
             ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="Gestion des Traductions">Traduct</a>');
         });
 	
-        $(ParsimonyAdmin.currentWindow).on('click.creation','a', function(e){
+        $(ParsimonyAdmin.currentBody).on('click.creation','a', function(e){
             e.link = true;
             e.preventDefault();
             if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
@@ -288,11 +291,11 @@ var ParsimonyAdmin = {
             ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');">Go to the link</a>');
         });	
 		
-        /*$(ParsimonyAdmin.currentWindow).on('click',function(e){ 
+        /*$(ParsimonyAdmin.currentBody).on('click',function(e){ 
       var elem = document.getElementById("parsiframe").contentWindow.document.elementFromPoint ( e.pageX , e.pageY );
     //console.log ( $(elem).closest(".block") );
 $this = $(elem).closest(".block").get(0);*/
-        $(ParsimonyAdmin.currentWindow).on('click.creation','.block', function(e){
+        $(ParsimonyAdmin.currentBody).on('click.creation','.block', function(e){
             e.stopPropagation();
             ParsimonyAdmin.selectBlock(this.id);
             
@@ -305,12 +308,12 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width()/2),e.pageY || ($(window).height()/2));
         });
         
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').on('dragover.creation dragenter.creation','.marqueurdragndrop', function(e) {
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover.creation dragenter.creation','.marqueurdragndrop', function(e) {
             e.stopImmediatePropagation();
             return false;
         });
 	
-        $(ParsimonyAdmin.currentWindow).on('mouseover.creation mouseout.creation',".block", function(event) {
+        $(ParsimonyAdmin.currentBody).on('mouseover.creation mouseout.creation',".block", function(event) {
             event.stopImmediatePropagation();
             if (event.type == 'mouseover') {
                 $(this).addClass("selection-block");
@@ -319,20 +322,12 @@ $this = $(elem).closest(".block").get(0);*/
             }
         });
 	
-        /*$(document).on('mouseover mouseout',"#timer", function(event) {
-            if (event.type == 'mouseover') {
-                $("#infodev").show();
-            } else {
-                $("#infodev").hide();
-            }
-        });*/
-        
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').on('drop.creation','.container,.tree_selector',function( event ){
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('drop.creation','.container,.tree_selector',function( event ){
             ParsimonyAdmin.stopDragging();
             event.stopPropagation();
             var evt = event.originalEvent;
             evt.stopPropagation();
-            var toto = $( "#dropInPage" ,ParsimonyAdmin.currentWindow);
+            var toto = $( "#dropInPage" ,ParsimonyAdmin.currentBody);
             if(toto.is(':visible')){
                 if(toto.closest(".container").hasClass("container_page")) ParsimonyAdmin.stopIdParentBlock = toto.closest(".container").data('page');
                 else ParsimonyAdmin.stopIdParentBlock = toto.closest(".container").attr('id');
@@ -348,7 +343,7 @@ $this = $(elem).closest(".block").get(0);*/
             }
         });
             
-        $(ParsimonyAdmin.currentWindow).on('mouseover.creation mouseout.creation','#menu div',function(e){ /* todo fixer */
+        $(ParsimonyAdmin.currentBody).on('mouseover.creation mouseout.creation','#menu div',function(e){ /* todo fixer */
             if (e.type == 'mouseover') {
                 $($(this).text()).not("#admin " + $(this).text()).addClass("cssselectorviewer");
             } else {
@@ -367,25 +362,25 @@ $this = $(elem).closest(".block").get(0);*/
     }, 
 
     unloadCreationMode :   function(){
-        $(".selection-block",ParsimonyAdmin.currentWindow).removeClass("selection-block");
-        $(".selection-container",ParsimonyAdmin.currentWindow).removeClass("selection-container");
+        $(".selection-block",ParsimonyAdmin.currentBody).removeClass("selection-block");
+        $(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
         ParsimonyAdmin.closeParsiadminMenu();
-        $(ParsimonyAdmin.currentWindow).off('.creation');
+        $(ParsimonyAdmin.currentBody).off('.creation');
     },
     
     loadPreviewMode :   function(){
-        $(ParsimonyAdmin.currentWindow).on('click.preview','a', function(e){
+        $(ParsimonyAdmin.currentBody).on('click.preview','a', function(e){
             if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
                 e.preventDefault();
                 ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
             }
         });
 	
-        $(ParsimonyAdmin.currentWindow).on('dblclick.preview',".editinline",function(){
+        $(ParsimonyAdmin.currentBody).on('dblclick.preview',".editinline",function(){
             $(this).attr('contentEditable', true);
         });
         
-        $(".editinline",ParsimonyAdmin.currentWindow).on('blur.preview',function(){
+        $(".editinline",ParsimonyAdmin.currentBody).on('blur.preview',function(){
             ParsimonyAdmin.postData(BASE_PATH + "admin/editInLine",{
                 TOKEN: TOKEN,
                 module: $(this).data('module'),
@@ -402,7 +397,7 @@ $this = $(elem).closest(".block").get(0);*/
     }, 
     
     unloadPreviewMode :   function(){
-        $(ParsimonyAdmin.currentWindow).off('.preview');
+        $(ParsimonyAdmin.currentBody).off('.preview');
     }, 
     init :   function(){
         
@@ -415,16 +410,16 @@ $this = $(elem).closest(".block").get(0);*/
         $(document).add('#config_tree_selector').on('click',".action", function(e){
             if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr("id")=="treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
                 else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr('id').replace("treedom_","");
-            ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",$(this).attr('title'),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentWindow).data('page') +"&" + $(this).attr('params'));
+            ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",$(this).attr('title'),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
             e.preventDefault();
         });
 
         $('#right_sidebar').on('click','.tree_selector', function(event){
             event.stopPropagation(); 
             ParsimonyAdmin.selectBlock(this.id.split("treedom_")[1]);
-            if($("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentWindow).length > 0){
+            if($("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).length > 0){
                 $("body").animate({
-                    scrollTop : $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentWindow).offset().top -50
+                    scrollTop : $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).offset().top -50
                 },"fast");
             }
         });
@@ -432,13 +427,18 @@ $this = $(elem).closest(".block").get(0);*/
         $('#right_sidebar').on('mouseenter','.tree_selector', function(event){
             event.stopPropagation();
             var ids = this.id.split("treedom_")[1];
-            $(".selection-block:not(#" + ParsimonyAdmin.inProgress + ")",ParsimonyAdmin.currentWindow).removeClass("selection-block");
-            $("#" + ids,ParsimonyAdmin.currentWindow).trigger('mouseover');
+            $(".selection-block:not(#" + ParsimonyAdmin.inProgress + ")",ParsimonyAdmin.currentBody).removeClass("selection-block");
+            $("#" + ids,ParsimonyAdmin.currentBody).trigger('mouseover');
         });
 	
         //ui update
         $("#panelcss").on("keyup change",".liveconfig", function(event){
-            if(typeof $(this).attr("name") != 'undefined') $($("#current_selector_update").val(),ParsimonyAdmin.currentWindow).css($(this).attr("name"), $(this).val());
+            var nbstyle = document.getElementById("current_stylesheet_nb").value;
+            var nbrule = document.getElementById("current_stylesheet_nb_rule").value;
+            var stylesh = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule];
+            if(typeof stylesh != "undefined") var rules = stylesh.style.cssText + this.getAttribute("name") + ": " + this.value + ";";
+            else rules = this.getAttribute("name") + ": " + this.value + ";";
+            ParsimonyAdmin.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
         });
 
         //destruction of a block
@@ -458,9 +458,9 @@ $this = $(elem).closest(".block").get(0);*/
         });
         $("#menu").add('#paneltree').on('dragstart',".move_block",function( event ){  
             var evt = event.originalEvent;
-            var toto = $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentWindow);
+            var toto = $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody);
             var InProgressId = toto.attr("id");
-            evt.dataTransfer.setDragImage($("#" + InProgressId,ParsimonyAdmin.currentWindow).get(0),15,15);
+            evt.dataTransfer.setDragImage($("#" + InProgressId,ParsimonyAdmin.currentBody).get(0),15,15);
             evt.dataTransfer.setData("Text", InProgressId);
             evt.dataTransfer.setData('text/plain', "moveBlock");
             evt.dataTransfer.effectAllowed = 'copyMove';
@@ -468,16 +468,16 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.startTypeCont = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
             if(toto.parent().closest(".container").hasClass("container_page")) ParsimonyAdmin.startIdParentBlock = toto.parent().closest(".container").data('page');
             else ParsimonyAdmin.startIdParentBlock = toto.parent().closest(".container").attr('id');
-            if(ParsimonyAdmin.startIdParentBlock == 'content') ParsimonyAdmin.startIdParentBlock = $(".container_page",ParsimonyAdmin.currentWindow).data('page');
+            if(ParsimonyAdmin.startIdParentBlock == 'content') ParsimonyAdmin.startIdParentBlock = $(".container_page",ParsimonyAdmin.currentBody).data('page');
             ParsimonyAdmin.idBlock = InProgressId;
         });
         
         $('#conf_box_content').on('click',"#dialog-ok",function(e){
             e.preventDefault();
-            var toto = $( "#dropInPage" ,ParsimonyAdmin.currentWindow);
+            var toto = $( "#dropInPage" ,ParsimonyAdmin.currentBody);
             ParsimonyAdmin.idBlock = $("#dialog-id").val();
             if(ParsimonyAdmin.idBlock != ''){
-                //if($("#" + ParsimonyAdmin.idBlock,ParsimonyAdmin.currentWindow).length == 0){           <-- server do this check
+                //if($("#" + ParsimonyAdmin.idBlock,ParsimonyAdmin.currentBody).length == 0){           <-- server do this check
                     if( ParsimonyAdmin.idNextBlock == '' || ParsimonyAdmin.stopIdParentBlock == '' || ParsimonyAdmin.whereIAm("dropInTree") == '') alert("stop");
                     ParsimonyAdmin.changeBlockPosition(ParsimonyAdmin.blockType,ParsimonyAdmin.idBlock,ParsimonyAdmin.idNextBlock,'',ParsimonyAdmin.stopIdParentBlock,'',ParsimonyAdmin.whereIAm("dropInTree"),"addBlock");
                 //}
@@ -497,7 +497,7 @@ $this = $(elem).closest(".block").get(0);*/
         $(".subSidebar").on('click',"#csspicker", function(e){
             e.preventDefault();
             e.stopPropagation();
-            $('#container',ParsimonyAdmin.currentWindow).on('mouseover mouseout',"*", function(e) {
+            $('#container',ParsimonyAdmin.currentBody).on('mouseover mouseout',"*", function(e) {
                 e.stopPropagation();
                 if (e.type == 'mouseover') {
                     $(this).addClass('cssPicker');
@@ -505,44 +505,35 @@ $this = $(elem).closest(".block").get(0);*/
                     $(this).removeClass('cssPicker');
                 }
             });
-            $('#container',ParsimonyAdmin.currentWindow).on('click',"*",function(e){
+            $('#container',ParsimonyAdmin.currentBody).on('click',"*",function(e){
                 e.preventDefault();
                 e.stopPropagation();
                 $(".cssPicker").removeClass("cssPicker");
                 $(this).addClass("cssPicker");
-                ParsimonyAdmin.closeParsiadminMenu();
-                ParsimonyAdmin.addTitleParsiadminMenu("Existing Selectors :");
-                ParsimonyAdmin.getCSSForCSSpicker();
-		ParsimonyAdmin.getCSSForCSSpicker2();
                 var title = CSSTHEMEPATH;
-                //if(ParsimonyAdmin.whereIAm($(this))=='page') title = CSSPAGEPATH;
-			
-                if(this.id != "") ParsimonyAdmin.addOptionParsiadminMenu("<div class=\"selectorcss\" title=\"" + title + "\" selector=\"#" + this.id + "\"><b>#" + this.id + "</b> <small>dans " + title + "</small></div>");
+                if(this.id != "") ParsimonyAdmin.addNewSelectorCSS( title, "#" + this.id);
                 $.each($(this).attr('class').replace('  ',' ').split(' '), function(index, value) {
-                    if(value != 'cssPicker') ParsimonyAdmin.addOptionParsiadminMenu("<div class=\"selectorcss\" title=\"" + title + "\" selector=\"." + value + "\"><b>." + value + "</b> <small>in " + title + "</small></div>");
+                    ParsimonyAdmin.addNewSelectorCSS( title, "." + value);
                 });
                 var good = false;
                 var selectProp = this.tagName.toLowerCase();
                 if(this.id == ""){
-                    ParsimonyAdmin.addTitleParsiadminMenu("Proposals of New Selectors  :");
                     if($(this).attr('class') != undefined) selectProp = selectProp + ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
                     $(this).parentsUntil("body").each(function(){
                         if(!good){
                             var selectid = "";
                             var selectclass = "";
                             if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
-                            if($(this).attr('class') != undefined) selectclass = "." + $(this).attr("class").replace(" ",".");
-                            selectProp =  selectid + selectclass + " " + selectProp;
+                            if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ","");
+                            selectProp =  selectid + selectclass.replace("  ","") + " " + selectProp;
                             if(selectid != "") good = true;
                         }
                     });
-                    //if(ParsimonyAdmin.whereIAm($(selectProp))=='page') title = CSSPAGEPATH;
-                    ParsimonyAdmin.addOptionParsiadminMenu("<div class=\"selectorcss\" title=\"" + title + "\" selector=\"" + selectProp + "\">" + selectProp + "</div>");
+                    ParsimonyAdmin.addNewSelectorCSS( title, selectProp);
                 }
-                ParsimonyAdmin.openParsiadminMenu(e.pageX,e.pageY);
-                $('#container',ParsimonyAdmin.currentWindow).off('click',"*");
-                $('#container',ParsimonyAdmin.currentWindow).off('mouseover mouseout',"*");
-                this.style.outline = "none";
+                ParsimonyAdmin.getCSSForCSSpicker();
+                $('#container',ParsimonyAdmin.currentBody).off('click',"*");
+                $('#container',ParsimonyAdmin.currentBody).off('mouseover mouseout',"*");
                 return false;
             });
         });
@@ -578,7 +569,7 @@ $this = $(elem).closest(".block").get(0);*/
         });
         
         $("#treedom_content").on('mouseover mouseout',function(event){
-            var dom = $(".container_page",ParsimonyAdmin.currentWindow).get(0);
+            var dom = $(".container_page",ParsimonyAdmin.currentBody).get(0);
             if(typeof dom.style != "undefined"){
                 if (event.type == 'mouseover') {
                     dom.style.outline = '5px #c8007a solid';
@@ -616,7 +607,7 @@ $this = $(elem).closest(".block").get(0);*/
             obj.jsFiles = jQuery.parseJSON(obj.jsFiles);
             $.each(obj.jsFiles, function(index, url) { 
                 if (!$("script[scr='" + url + "']",headParsiFrame).length) {
-                    $(ParsimonyAdmin.currentWindow).append('<script type="text/javascript" src="' + url + '"></script>');
+                    $(ParsimonyAdmin.currentBody).append('<script type="text/javascript" src="' + url + '"></script>');
                 }
             });
         }
@@ -624,15 +615,13 @@ $this = $(elem).closest(".block").get(0);*/
             obj.CSSFiles = jQuery.parseJSON(obj.CSSFiles);
             $.each(obj.CSSFiles, function(index, url) {
                 if (!$('link[href="' + url + '"]',headParsiFrame).length) {
-                    $(ParsimonyAdmin.currentWindow).append('<link rel="stylesheet" type="text/css" href="' + url + '">');
+                    $(ParsimonyAdmin.currentBody).append('<link rel="stylesheet" type="text/css" href="' + url + '">');
                 }
             });
              
         }
         if (obj.notification) 
             ParsimonyAdmin.notify(obj.notification,obj.notificationType);
-        if(obj.css)
-            ParsimonyAdmin.updateCSSUI(obj.css);
     },
     postData :   function (url,params,callBack){
         $.post(url,params,function(data){
@@ -650,7 +639,7 @@ $this = $(elem).closest(".block").get(0);*/
                     idBlock:ParsimonyAdmin.inProgress,
                     parentBlock: parentId ,
                     typeProgress:ParsimonyAdmin.typeProgress,
-                    IDPage:($(".container_page",ParsimonyAdmin.currentWindow).data('page') || $(".sublist.selected").attr("id").replace("page_",""))
+                    IDPage:($(".container_page",ParsimonyAdmin.currentBody).data('page') || $(".sublist.selected").attr("id").replace("page_",""))
                     } ,function(data){
                     ParsimonyAdmin.execResult(data);
                     ParsimonyAdmin.returnToShelter();
@@ -660,47 +649,48 @@ $this = $(elem).closest(".block").get(0);*/
         }
     },
     addBlock :   function (idBlock, contentBlock, idBlockAfter){
-        if($( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).parent().hasClass("container")){
-            $( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).after(contentBlock);
+        if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
+            $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after(contentBlock);
             ParsimonyAdmin.returnToShelter();
         }else {
-            var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).parent().parent().parent();
+            var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().parent().parent();
             ParsimonyAdmin.returnToShelter();
             $(".dropInContainer:first",block).remove();
             if(block.get(0).id == 'container' && block.children(".block").length==1) block.prepend(contentBlock);
             else block.append(contentBlock);
         }
-        $("#" + idBlock,ParsimonyAdmin.currentWindow ).trigger("click");
+        $("#" + idBlock,ParsimonyAdmin.currentBody ).trigger("click");
     },
     moveMyBlock :   function (idBlock, idBlockAfter){
-        if($( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).parent().hasClass("container")){
-            $( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).after( $("#" + idBlock,ParsimonyAdmin.currentWindow) );
+        if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
+            $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after( $("#" + idBlock,ParsimonyAdmin.currentBody) );
             ParsimonyAdmin.returnToShelter();
         }else {
-            var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentWindow).parent().parent().parent();
+            var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().parent().parent();
             ParsimonyAdmin.returnToShelter();
-            block.html($("#" + idBlock,ParsimonyAdmin.currentWindow ) );
+            block.html($("#" + idBlock,ParsimonyAdmin.currentBody ) );
         }
     },
     startDragging :   function (){
         ParsimonyAdmin.moveBlock = true;
-        $(ParsimonyAdmin.currentWindow).append($("#dropInPage" ));
+        $(ParsimonyAdmin.currentBody).append($("#dropInPage" ));
         ParsimonyAdmin.openRightTreePanel(); 
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').on('dragenter','.block,#dropInTree,.tree_selector', function(e) {
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragenter','.block,#dropInTree,.tree_selector', function(e) {
             
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
             var isContainer = false;
-            if(this.id =='container'  || this.id =='treedom_container') isContainer = true;
+            if((" " + this.className + " ").replace(/[\n\t]/g, " ").indexOf(" container ") > -1  || this.id =='treedom_container') isContainer = true;
             if(e.type == 'dragenter' || (ParsimonyAdmin.dragLastDomId != this.id ||
                 ( ParsimonyAdmin.dragMiddlePos == 1 && (e.originalEvent.pageY > ParsimonyAdmin.dragMiddle)) ||
                 ( ParsimonyAdmin.dragMiddlePos == 0 && (e.originalEvent.pageY < ParsimonyAdmin.dragMiddle)))){
                 var theBlock = this;
-                if((" " + this.className + " ").replace(/[\n\t]/g, " ").indexOf(" tree_selector ") > -1) theBlock = $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentWindow).get(0);
+                if((" " + this.className + " ").replace(/[\n\t]/g, " ").indexOf(" tree_selector ") > -1) theBlock = $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).get(0);
                 var theBlockTree = document.getElementById("treedom_" + theBlock.id);
-                var dropInPage = $( "#dropInPage",ParsimonyAdmin.currentWindow).get(0);
+                var dropInPage = $( "#dropInPage",ParsimonyAdmin.currentBody).get(0);
                 ParsimonyAdmin.dragLastDomId = this.id;
                 ParsimonyAdmin.dragMiddle = $(this).offset().top + this.offsetHeight/2;
+                console.log(e.originalEvent.pageY +" "+ ParsimonyAdmin.dragMiddle);
                 if(e.originalEvent.pageY < ParsimonyAdmin.dragMiddle && !isContainer){
                     ParsimonyAdmin.dragMiddlePos = 1;
                     $(theBlock).before(dropInPage);
@@ -723,7 +713,7 @@ $this = $(elem).closest(".block").get(0);*/
             return false;
         });
 	
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').on('dragover','.block,#dropInTree,.tree_selector', function(e) {
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover','.block,#dropInTree,.tree_selector', function(e) {
             e.stopImmediatePropagation();
             return false;
         });
@@ -731,20 +721,20 @@ $this = $(elem).closest(".block").get(0);*/
 
     },
     stopDragging :   function (){
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').off('dragenter','.block,#dropInTree,.tree_selector');
-        $(ParsimonyAdmin.currentWindow).add('#paneltree').off('dragover','.block,#dropInTree,.tree_selector');
+        $(ParsimonyAdmin.currentBody).add('#paneltree').off('dragenter','.block,#dropInTree,.tree_selector');
+        $(ParsimonyAdmin.currentBody).add('#paneltree').off('dragover','.block,#dropInTree,.tree_selector');
         ParsimonyAdmin.moveBlock = false;
     },
     selectBlock :   function (idBlock){
-        var blockObj = $("#" + idBlock,ParsimonyAdmin.currentWindow);
+        var blockObj = $("#" + idBlock,ParsimonyAdmin.currentBody);
         var blockTreeObj = $("#treedom_" + idBlock);
         
-        $(".selection-block",ParsimonyAdmin.currentWindow).removeClass("selection-block");
-        $(".selection-container",ParsimonyAdmin.currentWindow).removeClass("selection-container");
+        $(".selection-block",ParsimonyAdmin.currentBody).removeClass("selection-block");
+        $(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
         ParsimonyAdmin.inProgress = idBlock;
         ParsimonyAdmin.typeProgress = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
         $("#tree .tree_selector,#tree .container").css('background','transparent');
-        $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentWindow).addClass("selection-block").parent(".container").addClass("selection-container");
+        $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).addClass("selection-block").parent(".container").addClass("selection-container");
 
         blockTreeObj.css('background','#999');
         if(idBlock=="container" || blockObj.hasClass('container_page')) $("#right_sidebar #config_tree_selector").addClass("restrict");
@@ -754,8 +744,8 @@ $this = $(elem).closest(".block").get(0);*/
     },
     whereIAm :   function (idBlock){
         var where = "theme";
-        if($("#" + idBlock,ParsimonyAdmin.currentWindow).length > 0){
-            if($("#" + idBlock,ParsimonyAdmin.currentWindow).parent().closest("#content").length > 0 ){
+        if($("#" + idBlock,ParsimonyAdmin.currentBody).length > 0){
+            if($("#" + idBlock,ParsimonyAdmin.currentBody).parent().closest("#content").length > 0 ){
                 where = "page";
             }
         }else{
@@ -814,14 +804,14 @@ $this = $(elem).closest(".block").get(0);*/
             
         },
         returnToShelter :   function (){
-            $("#dropInPage",ParsimonyAdmin.currentWindow).prependTo($("#shelter"));
+            $("#dropInPage",ParsimonyAdmin.currentBody).prependTo($("#shelter"));
             $("#dropInTree").prependTo($("#shelter"));
         },
         structure_tree :   function (elmt){
             if(typeof html == "undefined") {
                 var html = ""
             }
-            elmt.children(".block",ParsimonyAdmin.currentWindow).each(function(i){
+            elmt.children(".block",ParsimonyAdmin.currentBody).each(function(i){
                 var id = this.id;
                 if($(this).hasClass('container')) html += "<ul class=\"tree_selector container parsicontainer\" style=\"clear:both\" id=\"treedom_" + this.id + "\"><span class=\"arrow_tree\"></span>" + id + "" ;
                 else html += "<li class=\"tree_selector parsiblock\" id=\"treedom_" + this.id + "\"> " + id + "</li>";
@@ -831,12 +821,12 @@ $this = $(elem).closest(".block").get(0);*/
             return html;
         },
         /*ajax :   function (action,title,params){
-            ParsimonyAdmin.postData(BASE_PATH + "admin/" + action,"idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentWindow).parent().attr("id") + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&" + params,function(data){
+            ParsimonyAdmin.postData(BASE_PATH + "admin/" + action,"idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).parent().attr("id") + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&" + params,function(data){
                 ParsimonyAdmin.displayConfBox(data,title);
             });
         },*/
         changeBlockPosition : function (blockType,idBlock,idNextBlock,startIdParentBlock,stopIdParentBlock,startTypeCont,stopTypeCont,action){
-            if(typeof startIdParentBlock == "undefined" || typeof stopIdParentBlock == "undefined"){ alert('Error in your DOM, perhaps an HTML tag isn\'t closed.');return false};
+            if(typeof startIdParentBlock == "undefined" || typeof stopIdParentBlock == "undefined"){alert('Error in your DOM, perhaps an HTML tag isn\'t closed.');return false};
             if(idNextBlock == undefined || idNextBlock==idBlock) idNextBlock = "last";
             ParsimonyAdmin.postData(BASE_PATH + "admin/" + action,{
                 TOKEN: TOKEN ,
@@ -847,7 +837,7 @@ $this = $(elem).closest(".block").get(0);*/
                 parentBlock:stopIdParentBlock ,
                 start_typecont:startTypeCont ,
                 stop_typecont:stopTypeCont ,
-                IDPage: $(".container_page",ParsimonyAdmin.currentWindow).data('page')
+                IDPage: $(".container_page",ParsimonyAdmin.currentBody).data('page')
                 },function(data){
                 ParsimonyAdmin.execResult(data);
                 ParsimonyAdmin.returnToShelter();
@@ -978,15 +968,15 @@ $this = $(elem).closest(".block").get(0);*/
                 });
         },
         updateUI :   function (tree){
-            $(".dropInContainer",ParsimonyAdmin.currentWindow).remove();
+            $(".dropInContainer",ParsimonyAdmin.currentBody).remove();
             if(tree!=false) {
                 $("#config_tree_selector").hide().prependTo("#right_sidebar");
                 ParsimonyAdmin.loadBlock('tree');
-                //$("#tree").html(ParsimonyAdmin.structure_tree($(ParsimonyAdmin.currentWindow)));
+                //$("#tree").html(ParsimonyAdmin.structure_tree($(ParsimonyAdmin.currentBody)));
                 ParsimonyAdmin.loadBlock('tree',function(){if(ParsimonyAdmin.inProgress != "container") $("#treedom_" + ParsimonyAdmin.inProgress).trigger("click");});
                 
             }
-            $(".container",ParsimonyAdmin.currentWindow).each(function(){
+            $(".container",ParsimonyAdmin.currentBody).each(function(){
                 if($(this).find('.block:not("#content")').length==0) {
                     $(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + $(this).get(0).id + ". " + t("Drop the blocks in this space") + '</div></div>');
                 }else $(".dropInContainerChild:first",this).remove();
@@ -995,11 +985,9 @@ $this = $(elem).closest(".block").get(0);*/
         updateCSSUI :   function (cssprop){
             $("#current_selector_update,#current_selector_update_prev").val(cssprop.selector);
             $("#changecsspath").val(cssprop.filePath);
-            $("#changecsscodetextarea").val(cssprop.code);
-            $("#changecsscodeinitial").html(cssprop.code);
-            $("#panelcss *[data-initial]").val($(this).data('initial'));
+            $("#panelcss *[data-initial]").val('');
             $.each(cssprop.values, function(i,item){
-                $("#panelcss [css=" + i + "]").val(item).trigger("change");
+                $("#panelcss [css=" + i + "]").val(item);
             });
         },
         setCreationMode :   function (){
@@ -1013,7 +1001,7 @@ $this = $(elem).closest(".block").get(0);*/
         setPreviewMode :   function (){
             ParsimonyAdmin.unloadCreationMode();
             ParsimonyAdmin.loadPreviewMode();
-	    $('.parsimonyDND',ParsimonyAdmin.currentWindow).parsimonyDND('destroy');
+	    $('.parsimonyDND',ParsimonyAdmin.currentBody).parsimonyDND('destroy');
             $('.creation,.panelblocks').hide();
             $('#switchPreviewMode').addClass("selected");
             $('#switchCreationMode').removeClass("selected");
@@ -1028,34 +1016,54 @@ $this = $(elem).closest(".block").get(0);*/
             },func);
             //$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");
         },
+        setCss: function(nbstyle, nbrule, rule){
+            if(nbrule == null){
+                nbrule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length - 1;
+            }else{
+                ParsimonyAdmin.currentDocument.styleSheets[nbstyle].removeRule(nbrule);
+            }
+            ParsimonyAdmin.currentDocument.styleSheets[nbstyle].insertRule(rule,nbrule);
+        },
         displayCSSConf :  function (filePath,selector){
-            $("#container " + $('#current_selector_update').val(),ParsimonyAdmin.currentWindow).removeClass('cssPicker');
+            ParsimonyAdmin.openCSSForm();
             ParsimonyAdmin.postData(BASE_PATH + "admin/getCSSSelectorRules" ,{
                 TOKEN:TOKEN,
                 selector: selector,
                 filePath: filePath
             } ,function(data){
-                var selectorPrev = $("#current_selector_update_prev").val();
-                if(selectorPrev.length > 0){
-                    var selectorPrevObj = $(selectorPrev,ParsimonyAdmin.currentWindow);
-                    $('.liveconfig').each(function(){
-                        selectorPrevObj.css($(this).attr('css'),$(this).attr('data-initial'));
-                    });
-                    selectorPrevObj.css('cssText', $("#changecsscodeinitial").html());
-                }
                 $("#css_panel input[type!=\"hidden\"]").val("");
                 ParsimonyAdmin.updateCSSUI($.parseJSON(data));
-                $('.liveconfig').each(function(){
-                    $(this).attr('data-initial', $(this).val());
-                });
             });
-            ParsimonyAdmin.openRightPanel();
-            ParsimonyAdmin.openRightCSSPanel();
-            $('#css_panel').show();
-            $("#goeditcss").hide();
-            if($(selector,ParsimonyAdmin.currentWindow).length == 1){
-                $(selector,ParsimonyAdmin.currentWindow).parsimonyDND('destroy');
-                $(selector,ParsimonyAdmin.currentWindow).parsimonyDND({
+            var selectorPrev = $("#current_selector_update_prev").val();
+            if(selectorPrev.length > 0){
+                var nbstyle = $("#current_stylesheet_nb").val();
+                var nbrule = $("#current_stylesheet_nb_rule").val();
+                ParsimonyAdmin.setCss(nbstyle, nbrule, selectorPrev + "{" + ($("#current_stylesheet_rules").val() || " ") + "}");
+            }
+            document.getElementById("typeofinput").value = "form";
+            document.getElementById("current_stylesheet_rules").value = "";
+            document.getElementById("current_stylesheet_nb_rule").value = "";
+            $("#changecssformcode").removeClass("none");
+            
+            var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
+            for (var i = 0; i < styleSheets.length; i++){
+                 if(styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.match(new RegExp(filePath))){
+                   $("#current_stylesheet_nb").val(i);
+                   $.each(styleSheets[i].cssRules, function(nbrule) {
+                        if(this.selectorText == selector){
+                            $("#current_stylesheet_nb_rule").val(nbrule);
+                            $("#current_stylesheet_rules").val(styleSheets[i].cssRules[nbrule].style.cssText);
+                        }
+                    });
+                    if($("#current_stylesheet_nb_rule").val().length == 0){
+                        $("#current_stylesheet_nb_rule").val(null);
+                    }
+                }
+            }
+
+            if($(selector,ParsimonyAdmin.currentBody).length == 1){
+                $(selector,ParsimonyAdmin.currentBody).parsimonyDND('destroy');
+                $(selector,ParsimonyAdmin.currentBody).parsimonyDND({
                     stopResizable : function(event, ui) {
                         $("#form_css input[css=width]").val(ui.width() + "px");
                         $("#form_css input[css=height]").val(ui.height() + "px");
@@ -1069,31 +1077,123 @@ $this = $(elem).closest(".block").get(0);*/
                 });
             }
         },
+        CSSeditor :  function (id){
+            editor = CodeMirror(function(node) {
+                document.getElementById(id).parentNode.insertBefore(node, document.getElementById(id).nextSibling);
+                }, {
+                mode:"text/css",
+                value: document.getElementById(id).value,
+                lineNumbers: false,
+                gutter:true,
+                autoClearEmptyLines:true,
+                onGutterClick: function(c, n) {
+                    var info = c.lineInfo(n);
+                    console.dir(info);
+                    if (info.lineClass == "barre") c.setLineClass(n, "");
+                    else c.setLineClass(n, "barre");
+                    this.onChange(c);
+                },
+                onChange: function(c) {
+                    var textarea = document.getElementById(c.id);
+                    var nbstyle = textarea.getAttribute('data-nbstyle');
+                    var nbrule = textarea.getAttribute('data-nbrule');
+                    var selector = textarea.getAttribute('data-selector');
+                    var code = selector + '{';
+                    for(var i = 0;i < c.lineCount(); i++){
+                        if(c.lineInfo(i).lineClass != "barre") code += c.getLine(i);
+                    }
+                    ParsimonyAdmin.setCss(nbstyle, nbrule, code + "}");
+                    textarea.value = c.getValue();
+                },
+                onCursorActivity: function(c) {
+                    var cursorLine = c.getCursor().line;
+                    for(var i = 0;i < c.lineCount() - 1; i++){
+                        if(c.getLine(i) == "" && cursorLine != i) c.removeLine(i);
+                        //editor.setLine(i,editor.getLine(i).replace(/([a-z\-]);([a-z\-])/g, "$1;"));
+                        //editor.indentLine(i);
+                    } 
+                }
+            });
+            for(var i = 0;i < editor.lineCount() - 1; i++){
+                editor.setMarker(i, '<span class="activebtn">●</span>');
+            }
+            editor.id = id;
+            ParsimonyAdmin.csseditors.push(editor);
+        },
         getCSSForCSSpicker :  function (){
-            var styleSheets = document.getElementById("parsiframe").contentWindow.document.styleSheets;
+            ParsimonyAdmin.openCSSCode();
+            var elmt = $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker').get(0);
+            var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
             for (var i = 0; i < styleSheets.length; i++){
-                var fileRules = styleSheets[i].cssRules || styleSheets[i].rules;
-                if(fileRules != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
-                    $.each(fileRules, function() {
-                        if(styleSheets[i].href != null){
-                            if(this.selectorText!='.cssPicker' && this.selectorText.substring(0,1)!='-' && !this.selectorText.match(/,|::/) && $(this.selectorText + ".cssPicker",ParsimonyAdmin.currentWindow).length > 0){
-                                var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
-                                ParsimonyAdmin.addOptionParsiadminMenu('<div class=\"selectorcss\" title="' + url + '" selector="' + this.selectorText + '"><b>' + this.selectorText + '</b> <small>in ' + url + '</small></div>');
-                            }
+                if(styleSheets[i].href != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
+                    $.each(styleSheets[i].cssRules, function(nbrule) {
+                        if(elmt.webkitMatchesSelector(this.selectorText)){
+                            var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
+                            ParsimonyAdmin.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-z\-]/g, ";\n"), i , nbrule);
                         }
                     });
                 }
             }
         },
+        addNewSelectorCSS :  function ( path, selector){
+            var code = '';
+            var nbstyle = '';
+            var nbrule = '';
+            var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
+            for (var i = 0; i < styleSheets.length; i++){
+                if(styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.match(new RegExp(path))){
+                    nbstyle = i;
+                    $.each(styleSheets[i].cssRules, function(indexRule) {
+                        if(this.selectorText == selector){
+                            nbrule = indexRule;
+                            code = styleSheets[i].cssRules[nbrule].style.cssText;
+                        }
+                    });
+                    if(nbrule.length == 0){
+                        nbrule = null;
+                    }
+                }
+            }
+            ParsimonyAdmin.addSelectorCSS( path, selector, code, nbstyle, nbrule);
+            ParsimonyAdmin.setCss(nbstyle, nbrule, selector + "{" + code + "}");
+        },
+        addSelectorCSS :  function ( url, selector, styleCSS, nbstyle, nbrule){
+            var id = 'idcss' + nbstyle + nbrule;
+            var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small><div class="gotoform" onclick="ParsimonyAdmin.displayCSSConf(\'' + url + '\',\'' + selector + '\')">Go to form</div></div>'
+            + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
+            + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
+            $("#changecsscode").prepend(code);
+            ParsimonyAdmin.CSSeditor(id);
+        },
+        openCSSForm :  function (){
+            ParsimonyAdmin.openRightCSSPanel();
+            $("#changecssform").removeClass('none');
+            $("#changecsscode").addClass('none');
+            $("#typeofinput").val("form");
+            $('#css_panel').show();
+            $("#goeditcss").hide();
+        },
+        openCSSCode :  function (){
+            ParsimonyAdmin.openRightCSSPanel();
+            $("#changecsscode").removeClass('none');
+            $("#changecssform").addClass('none');
+            $("#typeofinput").val("code");
+            $('#css_panel').show();
+            $("#goeditcss").hide();
+            $.each(ParsimonyAdmin.csseditors,function(i, el){
+                ParsimonyAdmin.csseditors.splice(i,i+1);
+            });
+            $("#changecsscode").empty();
+        },
         getCSSForCSSpicker2 :  function (){
 	    var test = '';
-            var styleSheets = document.getElementById("parsiframe").contentWindow.document.styleSheets;
+            var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
             for (var i = 0; i < styleSheets.length; i++){
                 var fileRules = styleSheets[i].cssRules || styleSheets[i].rules;
                 if(fileRules != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
                     $.each(fileRules, function(num) {
                         if(styleSheets[i].href != null){
-                            if(this.selectorText!='.cssPicker' && this.selectorText.substring(0,1)!='-' && !this.selectorText.match(/,|::/) && $(this.selectorText + ".cssPicker",ParsimonyAdmin.currentWindow).length > 0){
+                            if(this.selectorText!='.cssPicker' && this.selectorText.substring(0,1)!='-' && !this.selectorText.match(/,|::/) && $(this.selectorText + ".cssPicker",ParsimonyAdmin.currentBody).length > 0){
                                 var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
 				test += '{'+num+':' + url + ',' + this.selectorText + '</div>';
                             }

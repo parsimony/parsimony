@@ -15,7 +15,8 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 
 
 /* Outline block */
-.selection-block{outline:2px solid #4EDBFF;}
+.selection-block {
+outline: rgb(78, 219, 255) solid 2px;}
 .selection-container{outline:4px solid #007BC8;}
 
 /* editinplace */
@@ -29,7 +30,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 .parsimonyResize.nw{ left: -6px; top: -6px;cursor: nw-resize;}
 .parsimonyResize.ne{ right: -6px; top: -6px;cursor: ne-resize;}
 .parsimonyResize.sw{ left: -6px; bottom: -6px;cursor: sw-resize;}
-.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 10px;}
+.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 12px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 10px;}
 
 /* CSS Picker */
 .cssPicker{outline : 2px solid #ff00fb}

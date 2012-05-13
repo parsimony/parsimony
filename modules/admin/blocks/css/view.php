@@ -25,7 +25,6 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme') {
     $filePath = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
     $filePath2 = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
@@ -57,7 +56,6 @@ $selectors = $css->getAllSselectors();
     #opencssfilepath2{color:#fff;font-size:9px;border-top: 1px #CCC solid;}
     #savemycss{border-right:1px solid white;border-bottom: 1px solid #D3D5DB;}
     #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
-    #changecsscodetextarea{width:100%;height:500px;font-size: 11px;text-shadow: none;}
     #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
 </style>
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
@@ -65,14 +63,19 @@ $selectors = $css->getAllSselectors();
         <div class="titleTab"><?php echo t('CSS Selector', FALSE); ?><span id="closepanelcss" class="ui-icon ui-icon-circle-close" style="display: inline-block;right: 30px;position: absolute;top: 3px;"></span><span id="opencssfilepath" style="display: inline-block;right: 10px;position: absolute;top: 3px;" class="ui-icon ui-icon-folder-open"></span></div>
         <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
             <option></option>
-            <?php if (!empty($selectors)):
+            <?php
+            if (!empty($selectors)):
                 foreach ($selectors AS $option):
                     ?>
                     <option><?php echo $option; ?></option>
                 <?php endforeach;
-            endif; ?>
+            endif;
+            ?>
         </select>
-        <input type="hidden" id="current_selector_update_prev" value="" />
+        <input type="hidden" id="current_selector_update_prev" />
+        <input type="hidden" id="current_stylesheet_nb" />
+        <input type="hidden" id="current_stylesheet_nb_rule" />
+        <input type="hidden" id="current_stylesheet_rules" />
         <div id="opencssfilepath2">
             <select id="changecsspath" style="width: 100%" name="filePath">           
 
@@ -84,9 +87,9 @@ $selectors = $css->getAllSselectors();
     <div id="css_panel" style="" class="none">
         <div>
             <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><img src="<?php echo BASE_PATH; ?>admin/img/savecss.png" style="margin:0px auto;"></div>
-            <div id="changecssformcode" class="adminbtnrightslide"><input type="hidden" name="typeofinput" value="form" /><img src="<?php echo BASE_PATH; ?>admin/img/switch.png" style="margin: 0px auto"></div>
+            <div id="changecssformcode" class="adminbtnrightslide"><input type="hidden" name="typeofinput" id="typeofinput" value="code" /><img src="<?php echo BASE_PATH; ?>admin/img/switch.png" style="margin: 0px auto"></div>
         </div>
-        <div id="changecssform" class="clearboth changecsscode">
+        <div id="changecssform" class="clearboth none swicthcsscode">
             <div id="css_menu" class="clearboth">
                 <div class="active" rel="panelcss_tab_general">General</div>
                 <div rel="panelcss_tab_border">Borders</div>
@@ -230,14 +233,14 @@ $selectors = $css->getAllSselectors();
             </div>
 
             <div class="panelcss_tab none" id="panelcss_tab_background">
-                
+
                 <label for="background">Background</label>
                 <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background" type="text" name="background" css="background" value="">
-                
+
                 <label for="background_image">Image</label>
                 <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background_image" type="text" name="background-image" css="background-image" value="">
                 <span class="ui-icon ui-icon-folder-open explorer" rel="background_image" style="position: relative;"></span>
-                
+
                 <label for="background_color">Color</label>
                 <input class="liveconfig colorpicker2" id="background_color" css="background-color" name="background-color" type="text" value="">
 
@@ -275,7 +278,7 @@ $selectors = $css->getAllSselectors();
                 <input class="liveconfig spinner" type="text" name="letter-spacing" css="letter-spacing" value="<?php echo $css->getPropertyValue($selector, 'letter-spacing') ?>">
                 <label for="text_lineheight">TextIndent</label>
                 <input class="liveconfig spinner" type="text" name="text-indent" css="text-indent" value="<?php echo $css->getPropertyValue($selector, 'text-indent') ?>">
-                
+
                 <label for="text_weight">Weight</label>
                 <select class="select liveconfig" id="text_weight" name="font-weight" css="font-weight"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'font-weight') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-weight')) ?></option><option value="normal">normal</option><option value="bold">bold</option><option value="bolder">bolder</option><option value="lighter">lighter</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option><option value="800">800</option><option value="900">900</option></select>
 
@@ -477,12 +480,8 @@ $selectors = $css->getAllSselectors();
              */ ?>
 
         </div>
-        <div id="changecsscode" class="none changecsscode">
-            <textarea id="changecsscodetextarea" name="changecsscodetextarea" spellcheck="false"></textarea>
-        </div>
-        <div id="changecsscodeinitial" class="none"></div>
+        <div id="changecsscode" class="clearboth swicthcsscode"></div>
         <input type="hidden" name="action" value="saveCSS" />
-        <input type="hidden" id="savecssflag" name="save" value="1" />
     </div>
 </form>
 <script type="text/javascript">
@@ -495,12 +494,22 @@ $selectors = $css->getAllSselectors();
         });
 
         $("#panelcss").on('click','#changecssformcode',function(){
-            $("#savecssflag").val(0);
-            $(this).closest('form').trigger('submit');
-            $(".changecsscode").toggleClass("none");
-            if($("#changecssform").hasClass("none")) $("input",this).val("code");
-            else $("input",this).val("form");
-            $("#savecssflag").val(1);
+            if($("#typeofinput").val() == 'code'){ // go to form
+                if($("#current_selector_update").val() == ""){
+                    $(".gotoform:first").trigger("click");
+                }else{
+                    ParsimonyAdmin.displayCSSConf($("#changecsspath").val(),$("#current_selector_update").val());
+                }
+            }else{ // go to code
+                var elmt = $($("#current_selector_update").val().replace(/:[hover|focus|active|visited|link|target]/,"") + ":first",ParsimonyAdmin.currentBody)
+                if(elmt.length > 0){
+                    elmt.addClass("cssPicker");
+                    ParsimonyAdmin.getCSSForCSSpicker();
+                }else{
+                    ParsimonyAdmin.addNewSelectorCSS( $("#changecsspath").val(), $("#current_selector_update").val());
+                    ParsimonyAdmin.openCSSCode();
+                }
+            }
         });
 
         $("#panelcss").on('click','#css_menu > div',function(){
@@ -511,43 +520,45 @@ $selectors = $css->getAllSselectors();
         });
         
         $("#panelcss").on('click','#savemycss',function(){
+            if($("#typeofinput").val()=='form') { // update prev styles
+                var nbstyle = $("#current_stylesheet_nb").val();
+                var nbrule = $("#current_stylesheet_nb_rule").val();
+                $("#current_stylesheet_rules").val(document.getElementById("parsiframe").contentWindow.document.styleSheets[nbstyle].cssRules[nbrule].style.cssText);
+            }
             $(this).closest('form').trigger('submit');
         });
-
-        $("#panelcss").on('keyup','#changecsscodetextarea',function(){
-            $($('#current_selector_update').val(),ParsimonyAdmin.currentWindow).css('cssText', $(this).val());
-        });
+        
         function split( val ) {
-			return val.split( /,\s*/ );
-		}
-    function extractLast( term ) {
-			return split( term ).pop();
-		}
-	$("select.autocomplete").each(function(){
-	    $(this).addClass( "ui-autocomplete" );
-	    var x = new Array();
-	    var obj = $("option", this).each(function(){
-		x.push($(this).val());
-	    });
-	    var name="";
-	    if( typeof $(this).attr('name') != "undefined") var name = 'name="' + $(this).attr('name') + '"';
-	    if( typeof $(this).attr('css') != "undefined") var css = 'css="' + $(this).attr('css') + '"';
-	    $(this).replaceWith('<input type="text" style="position:relative;' + $(this).attr('style') + '" ' + name + ' ' + css + ' id="' + $(this).attr('id') + '" class="' + $(this).attr('class') + '" value="' + $(this).val() + '">');
-	    $('#' + $(this).attr('id')).autocomplete('destroy');
-	    if($(this).attr('id') != 'current_selector_update') $('#' + $(this).attr('id')).autocomplete({source: x});
+            return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+            return split( term ).pop();
+        }
+        $("select.autocomplete").each(function(){
+            $(this).addClass( "ui-autocomplete" );
+            var x = new Array();
+            var obj = $("option", this).each(function(){
+                x.push($(this).val());
+            });
+            var name="";
+            if( typeof $(this).attr('name') != "undefined") var name = 'name="' + $(this).attr('name') + '"';
+            if( typeof $(this).attr('css') != "undefined") var css = 'css="' + $(this).attr('css') + '"';
+            $(this).replaceWith('<input type="text" style="position:relative;' + $(this).attr('style') + '" ' + name + ' ' + css + ' id="' + $(this).attr('id') + '" class="' + $(this).attr('class') + '" value="' + $(this).val() + '">');
+            $('#' + $(this).attr('id')).autocomplete('destroy');
+            if($(this).attr('id') != 'current_selector_update') $('#' + $(this).attr('id')).autocomplete({source: x});
             else $('#' + $(this).attr('id')).autocomplete({
                 source: function( request, response ) {
-                        $.getJSON( "admin/getCSSSelectors?filePath=" + $("#changecsspath").val(), { 
-                                term: extractLast( request.term )
-                        }, response );
+                    $.getJSON( "admin/getCSSSelectors?filePath=" + $("#changecsspath").val(), { 
+                        term: extractLast( request.term )
+                    }, response );
                 },
-		close: function(event, ui) {
-		    if($(this).attr("id") == "current_selector_update") {
-			$("#goeditcss").trigger("click");
-		    }
-		}
-	    });
-	});
+                select: function(event, ui) {
+                    if($(this).attr("id") == "current_selector_update") {
+                        $("#goeditcss").trigger("click");
+                    }
+                }
+            });
+        });
     });
 
     /* Color Picker */
@@ -675,13 +686,20 @@ $selectors = $css->getAllSselectors();
     });
     
     $("#panelcss").on("click",'#goeditcss',function(){
-        ParsimonyAdmin.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
+        var selector = $('#current_selector_update').val();
+        var path = $('#changecsspath').val();
+        if($("#typeofinput").val() == 'code') {
+            ParsimonyAdmin.addNewSelectorCSS( path, selector);
+            ParsimonyAdmin.openCSSCode();
+        }else{
+            ParsimonyAdmin.displayCSSConf(path,selector);
+        }
     });
 
     $("#panelcss").on("keypress",'#current_selector_update',function(e){
         var code = e.keyCode || e.which; 
         if(code == 13) {
-            ParsimonyAdmin.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
+            $("#goeditcss").trigger("click");
         }
     });
     
@@ -690,11 +708,10 @@ $selectors = $css->getAllSselectors();
         var code = event.keyCode || event.which; 
         if(code != 13) {
             if (event.type == 'keyup') {
-                $('.cssPicker',ParsimonyAdmin.currentWindow).removeClass('cssPicker');
-                $("#container " + $('#current_selector_update').val(),ParsimonyAdmin.currentWindow).addClass('cssPicker');
+                $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker');
+                $("#container " + $('#current_selector_update').val(),ParsimonyAdmin.currentBody).addClass('cssPicker');
             }else {
                 $('#goeditcss').show();
-                $($('#current_selector_update').val()).css('cssText', $("#changecsscodeinitial").html());
                 $("#css_panel").hide();
             }
             $("#css_panel").hide();
@@ -736,7 +753,7 @@ $selectors = $css->getAllSselectors();
 <?php
 /*
   ?>
-  <a href="#" onclick="ParsimonyAdmin.currentWindow.attr('draggable','true');ParsimonyAdmin.currentWindow.prepend('<style>' + $('#test').html() + '</style>');return false;" style="font-size:2px">Test</a>
+  <a href="#" onclick="ParsimonyAdmin.currentBody.attr('draggable','true');ParsimonyAdmin.currentBody.prepend('<style>' + $('#test').html() + '</style>');return false;" style="font-size:2px">Test</a>
   <div class="none" id="test">
   body{-webkit-transform-origin: center center;}
   html *{

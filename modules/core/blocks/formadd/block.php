@@ -62,7 +62,7 @@ class formadd extends \block {
     public function catchError($code, $file, $line, $message) {
         $mess = $message.' in '.$file.' in line '. $line ;
         \tools::file_put_contents( $this->getConfig('pathCode'), $mess .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
-        $return = array('eval' => '$("#' . basename($file,'.php') . '",ParsimonyAdmin.currentWindow).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
+        $return = array('eval' => '$("#' . basename($file,'.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
         echo json_encode($return);
         exit;
     }
