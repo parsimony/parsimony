@@ -32,34 +32,34 @@ error_reporting(E_ALL);
 $lang = array();
 $lang['fr']['Step'] = 'Etape';
 $lang['fr']['You have to accept license agreement to continue'] = 'Veuillez accepter la licence pour continuer l\'installation';
-$lang['fr']['Default Language'] = 'Langue par default';
+$lang['fr']['Default Language'] = 'Langue par défaut';
 $lang['fr']['License agreement'] = 'Contrat de licence';
 $lang['fr']['I accept the terms of the license agreement'] = 'J\'approuve les termes et conditions du contrat ci-dessus';
 $lang['fr']['Server Settings'] = 'Configuration du serveur';
 $lang['fr']['Write permission of files and directories'] = 'Droit en écriture des fichiers et dossiers';
 $lang['fr']['PHP Extensions'] = 'Extensions PHP';
-$lang['fr']['PHP.ini Stettings'] = 'PHP.ini Configuration';
+$lang['fr']['PHP.ini Settings'] = 'Configuration PHP.ini';
 $lang['fr']['TimeZone'] = 'Fuseaux Horaires (TimeZone)';
 $lang['fr']['Admin E-mail'] = 'E-mail de l\'administrateur';
 $lang['fr']['Invalid E-mail'] = 'Adresse E-mail invalide';
 $lang['fr']['The PHP "mail()" function is used by default'] = 'La fonction PHP "mail()" est utilisée par défaut';
 $lang['fr']['The administrator E-mail address is invalid'] = 'Veuillez entrer un E-mail administrateur valide';
 $lang['fr']['Your server configuration is invalid. Please fix the issues to continue'] = 'Votre configuration serveur n\'est pas correcte. Merci de corriger ces problèmes pour continuer';
-$lang['fr']['Database Settings'] = 'Configuration base de donnée';
+$lang['fr']['Database Settings'] = 'Configuration base de données';
 $lang['fr']['Account Settings'] = 'Configuration compte';
 $lang['fr']['Server'] = 'Serveur';
-$lang['fr']['Database'] = 'Base de donnée';
+$lang['fr']['Database'] = 'Base de données';
 $lang['fr']['Server'] = 'Serveur';
 $lang['fr']['Port server'] = 'Port du serveur';
-$lang['fr']['Database Name'] = 'Nom de la base de donnée';
-$lang['fr']['User Name'] = 'Nom d\' utilisateur';
+$lang['fr']['Database Name'] = 'Nom de la base de données';
+$lang['fr']['User Name'] = 'Nom d\'utilisateur';
 $lang['fr']['Tables Prefix'] = 'Préfixe des tables';
 $lang['fr']['Finish'] = 'Fini';
 $lang['fr']['Login'] = 'Identifiant';
 $lang['fr']['Next Step'] = 'Etape suivante';
-$lang['fr']['Congratulations, Parsimony is now ready'] = 'Félicitation, Parsimony a été installé avec succées';
+$lang['fr']['Congratulations, Parsimony is now ready'] = 'Félicitation, Parsimony a été installé avec succès';
 $lang['fr']['Let\'s Go !'] = 'C\'est Parti !';
-$lang['fr']['Your database connection settings are not valid'] = 'Les données de la connection à la base de données sont incorrects';
+$lang['fr']['Your database connection settings are not valid'] = 'Les données de la connection à la base de données sont incorrectes';
 $lang['fr']['Site Name'] = 'Nom du Site Principal';
 $lang['fr']['Admin Account'] = 'Compte administrateur';
 $lang['fr']['Password confirmation is different'] = 'La confirmation du mot de passe n\'est pas correcte';
@@ -67,11 +67,11 @@ $lang['fr']['Please choose a login'] = 'Veuillez choisir un identifiant';
 $lang['fr']['Please give a name to your site'] = 'Veuillez donner un nom à votre site';
 $lang['fr']['Install and enable the'] = 'Installez et activez l\'extenssion';
 $lang['fr']['extension enabled'] = 'est activé';
-$lang['fr']['Permissions are Ok'] = 'Les droits sont Ok';
-$lang['fr']['Set write permissions on <span>"profiles/"</span> directory (and sub-directories) using an FTP client'] = 'Mettre les permissions d\'écriture le dossier <span>"profiles/"</span> ( et ces sous-dossiers) via un client FTP';
+$lang['fr']['Permissions are Ok'] = 'Les droits conviennent';
+$lang['fr']['Set write permissions on <span>"profiles/"</span> directory (and sub-directories) using an FTP client'] = 'Mettre les permissions d\'écriture dans le dossier <span>"profiles/"</span> ( et ces sous-dossiers) via un client FTP';
 $lang['fr']['You are running PHP v '] = 'Vous êtes sous PHP v ';
 $lang['fr']['is off'] = 'est désactivé';
-$lang['fr']['is set'] = 'est définie';
+$lang['fr']['is set'] = 'est défini';
 $lang['fr']['Set the <span>date.timezone</span> setting in php.ini (like Europe/London).'] = 'Définir  la configuration <span>date.timezone</span> dans php.ini (ex Europe/London)';
 $lang['fr']['Set'] = 'Définir';
 $lang['fr'][' to <span>off</span> in php.ini.'] = ' à <span>off</span> dans php.ini.';
@@ -79,16 +79,21 @@ $lang['fr']['Apache does not have <span>Mod_Rewrite</span>.'] = 'Le module d\'Ap
 $lang['fr']['Apache has mod_rewrite.'] = 'Le module d\'Apache  <span>Mod_Rewrite</span> est activé';
 $lang['fr'][', but Parsimony needs at least PHP "5.3.0" to run.'] = ', mais Parsimony a besoin au minimum de PHP "5.3.0" pour s\'executer';
 $lang['fr']['Enable Multi-Site'] = 'Activer le Multi-Site';
-$lang['fr']['Only if you want to manage severals subdomain'] = 'Seulement si vous souhaitez gérer plusieurs sous-domaines';
+$lang['fr']['Only if you want to manage several subdomains'] = 'Seulement si vous souhaitez gérer plusieurs sous-domaines';
 $lang['fr']['Your domain is it a Second Level domain'] = 'Le nom de domaine est t\'il de second niveau';
 $lang['fr']['Yes'] = 'Oui';
 $lang['fr']['No'] = 'Non';
-$lang['fr']['What is it ?'] = 'Q\'est ce que c\'est ?';
+$lang['fr']['What is it ?'] = 'Qu\'est ce que c\'est ?';
 $lang['fr']['Synchronise with parsimony.mobi in order to access to downloadable modules'] = 'Synchroniser avec Parsimony.mobi pour accéder aux modules téléchargeables';
-$lang['fr']['at least 6 characters alphanumeric'] = 'au minimum 6 caracteres alphanumériques';
-$lang['fr']['at least 8 characters alphanumeric'] = 'au minimum 8 caracteres alphanumériques';
-$lang['fr']['Login must contains at least 6 characters alphanumeric'] = 'L\' identifiant doit contenir au minimum 6 caracteres alphanumériques';
-$lang['fr']['Password must contains at least 6 characters alphanumeric'] = 'Le mot de passe doit contenir au minimum 8 caracteres alphanumériques';
+$lang['fr']['at least 6 characters alphanumeric'] = 'au minimum 6 caractères alphanumériques';
+$lang['fr']['at least 8 characters alphanumeric'] = 'au minimum 8 caractères alphanumériques';
+$lang['fr']['Login must contains at least 6 characters alphanumeric'] = 'L\' identifiant doit contenir au minimum 6 caractères alphanumériques';
+$lang['fr']['Password must contains at least 6 characters alphanumeric'] = 'Le mot de passe doit contenir au minimum 8 caractères alphanumériques';
+$lang['fr']['http://en.wikipedia.org/wiki/Second-level_domain'] = 'http://fr.wikipedia.org/wiki/Domaine_de_deuxième_niveau';
+$lang['fr']['My WebSite'] = 'Mon site';
+$lang['fr']['Password'] = 'Mot de passe';
+$lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
+
 
 
 
@@ -381,7 +386,7 @@ while (1) {
 		    <option value="0"><?php echo tr('No'); ?></option>
 		    <option value="1" <?php if(isset($_POST['multisite']) && $_POST['multisite']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <?php echo tr('Only if you want to manage severals subdomain'); ?> (ex: www1.mysite.com,www2.mysite.com)
+                <?php echo tr('Only if you want to manage several subdomains'); ?> (ex: www1.mysite.com,www2.mysite.com)
             </div><br>
 	    <div>
                 <label><?php echo tr('Your domain is it a Second Level domain'); ?> (ex : mysite<u>.co.uk</u>)</label>
@@ -389,7 +394,7 @@ while (1) {
 		    <option value="2"><?php echo tr('No'); ?></option>
 		    <option value="3" <?php if(isset($_POST['sld']) && $_POST['sld']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <a href="http://en.wikipedia.org/wiki/Second-level_domain" target="_blank" style="color:#444"><?php echo tr('What is it ?'); ?></a>
+                <a href="<?php echo tr('http://en.wikipedia.org/wiki/Second-level_domain'); ?>" target="_blank" style="color:#444"><?php echo tr('What is it ?'); ?></a>
             </div>
             <input type="hidden" name="step" value="validstep2" />
             <?php
@@ -505,7 +510,7 @@ while (1) {
             <h2><?php echo tr('Account Settings'); ?></h2>
             <div>
                 <label><?php echo tr('Site Name'); ?> * </label>
-                <input type="text" name="name" value="My WebSite" required>
+                <input type="text" name="name" value="<?php echo tr('My WebSite'); ?>" required>
             </div>
 
             <h2><?php tr('Admin Account Settings'); ?></h2>
