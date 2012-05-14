@@ -57,6 +57,7 @@ $lang['fr']['Tables Prefix'] = 'Préfixe des tables';
 $lang['fr']['Finish'] = 'Fini';
 $lang['fr']['Login'] = 'Identifiant';
 $lang['fr']['Next Step'] = 'Etape suivante';
+$lang['fr']['Prev Step'] = 'Retour';
 $lang['fr']['Congratulations, Parsimony is now ready'] = 'Félicitation, Parsimony a été installé avec succès';
 $lang['fr']['Let\'s Go !'] = 'C\'est Parti !';
 $lang['fr']['Your database connection settings are not valid'] = 'Les données de la connection à la base de données sont incorrectes';
@@ -93,6 +94,7 @@ $lang['fr']['http://en.wikipedia.org/wiki/Second-level_domain'] = 'http://fr.wik
 $lang['fr']['My WebSite'] = 'Mon site';
 $lang['fr']['Password'] = 'Mot de passe';
 $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
+$lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 
 
 
@@ -110,7 +112,7 @@ function se($text) {
 
 function tr($text) {
     global $lang;
-    if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr' && isset($lang['fr'][$text])) return $lang['fr'][$text];
+    if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr-FR' && isset($lang['fr'][$text])) return $lang['fr'][$text];
     else return $text;
 }
 
@@ -154,8 +156,8 @@ while (1) {
             <div>
                 <h2><?php echo tr('Default Language'); ?></h2>
                 <select name="lang" onchange="document.cookie = 'lang=' + this.value;window.location.reload()">
-                    <option value="en">English</option>
-                    <option value="fr"<?php  if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr') echo ' selected="selected"'; ?>>Français</option>
+                    <option value="en_EN">English</option>
+                    <option value="fr_FR"<?php  if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr') echo ' selected="selected"'; ?>>Français</option>
                 </select>
                 <h2><?php echo tr('License agreement'); ?> : Open Software License v. 3.0</h2>
                 <div style="overflow-y: scroll;height:250px;border:#ccc solid 1px;">
@@ -232,7 +234,9 @@ while (1) {
             include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
             $configObj = new \core\classes\config('config.php', TRUE);
-            $update = array('localization' => array('timezone' => $_POST['timezone']),
+            $lang = 'en_EN';
+            if(isset($_COOKIE['lang'])) $lang = $_COOKIE['lang'];
+            $update = array('localization' => array('timezone' => $_POST['timezone'],'default_language' => $lang),
 		'mail' => array('adminMail' => $_POST['mailadmin']),
 		'security' => array('salt' => substr(hash('sha1', uniqid(mt_rand())), 0, 8)),
 		'domain' => array('sld' => $_POST['sld'],
@@ -319,12 +323,6 @@ while (1) {
                 $ok[] = '<span>date.timezone</span> '.tr('is set');
             }
 
-            if (ini_get('short_open_tag')) {
-                $low[] = tr('Set').' <span>short_open_tag</span> '.tr(' to <span>off</span> in php.ini.');
-            } else {
-                $ok[] = '<span>short_open_tag</span> '.tr('is off');
-            }
-
             if (ini_get('magic_quotes_gpc')) {
                 $low[] = tr('Set').' <span>magic_quotes_gpc</span> '.tr(' to <span>off</span> in php.ini.');
             } else {
@@ -365,7 +363,7 @@ while (1) {
 
                         $city = $ex[1];
                         $continent = $ex[0];
-                        if (date_default_timezone_get() && date_default_timezone_get() == $value)
+                        if ((date_default_timezone_get() && date_default_timezone_get() == $value) || (isset($_POST['timezone']) && $_POST['timezone'] == $value))
                             $selected = ' selected="selected"';
                         else
                             $selected = '';
@@ -491,11 +489,6 @@ while (1) {
                 $ok = FALSE;
                 echo '<div class="notify negative">'.tr('Password must contains at least 8 characters alphanumeric').'.</div>';
             }
-            
-            if (!isset($_POST['pass1']) || empty($_POST['pass1']) || !isset($_POST['pass2']) || empty($_POST['pass2']) || $_POST['pass1'] != $_POST['pass2']) {
-                $ok = FALSE;
-                echo '<div class="notify negative">'.tr('Password confirmation is different').'.</div>';
-            }
 	    
             if ($ok) {
                 $step = 5;
@@ -524,11 +517,10 @@ while (1) {
             </div>
             <div>
                 <label><?php echo tr('Password'); ?> * <small>(<?php echo tr('at least 8 characters alphanumeric'); ?>)</small></label>
-                <input type="password" name="pass1" required>
+                <input type="password" name="pass1" id="pass1" required>
             </div>
             <div>
-                <label><?php echo tr('Confirm Password'); ?> *</label>
-                <input type="password" name="pass2" required>
+                <input type="checkbox" onclick="if(this.checked) document.getElementById('pass1').type = 'text'; else document.getElementById('pass1').type = 'password';"><?php echo tr('Check Password'); ?>
             </div>
 	    <div><br>
 		
@@ -647,15 +639,23 @@ $content = ob_get_clean();
                 <div>
                     <form method="post" id="form" class="form">
                         <?php echo $content; ?>
-                        <?php if ($step != 5) : ?>
-                            <p id="containerNext">
-                                <a href="#" class="next" onclick="document.getElementById('form').submit();return false;"><?php echo tr('Next Step'); ?></a>
-                            </p>
-                        <?php else : ?>
-                            <p id="containerNext">
-                                <a href="connect" class="next"><?php echo tr('Let\'s Go !'); ?></a>
-                            </p>
-                        <?php endif; ?>
+                        <div class="btns">
+                            <?php if ($step != 5) : ?>
+                                <?php if ($step != 1) : ?>
+                                    <p class="containerNext">
+                                        <a href="#" class="prev" onclick="window.history.back();return false;"><?php echo tr('Prev Step'); ?></a>
+                                    </p>
+                                <?php endif; ?>
+                                <p class="containerNext">
+                                    <a href="#" class="next" onclick="document.getElementById('form').submit();return false;"><?php echo tr('Next Step'); ?></a>
+                                </p>
+                            <?php else : ?>
+                                <p class="containerNext">
+                                    <a href="connect" class="next"><?php echo tr('Let\'s Go !'); ?></a>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+                        <div style="clear:both"></div>
                     </form>
                 </div>
             </div>
@@ -668,7 +668,7 @@ $content = ob_get_clean();
             #container h2{font-family: sans-serif;font-size: 18px;text-shadow: -2px -2px 0px #303030;color: rgba(191, 230, 255, 0.25);font-weight: bold;}
             #content{padding:5px;background: #fff;border-radius: 9px;box-shadow: 3px 1px 9px #999;}
             #content p{padding:5px;}
-            #containerNext{text-align: center;}
+            .containerNext{text-align: center;}
 
             .positive{background:#D7FFB8;border:solid #5C8011 1px;}
             .negative{background:#FFE5B5;border:solid #E0960B 1px;}
@@ -698,7 +698,7 @@ $content = ob_get_clean();
                 text-shadow: 0px 1px 0px white;
                 font-size: 16px;
             }
-            .form input[type="text"],.form input[type="passwords"]{
+            .form input[type="text"],.form input[type="password"]{
                 width: 340px;
                 height: 30px;
                 border-radius: 8px;
@@ -756,7 +756,7 @@ $content = ob_get_clean();
                 float: left;
             }
 
-            #breadcrumbs a,.next{
+            #breadcrumbs a,.next,.prev{
                 padding: .7em 1em .7em 2em;
                 float: left;
                 text-decoration: none;
@@ -771,7 +771,7 @@ $content = ob_get_clean();
                 background-image: -o-linear-gradient(left, whiteSmoke, #DDD);
                 background-image: linear-gradient(to right, whiteSmoke, #DDD);
             }
-            .next:hover{
+            .next:hover,.prev:hover{
                 background-color: #86F024;
                 background-image: -webkit-gradient(linear, left top, right bottom, from(#fff), to(#86F024));
                 background-image: -webkit-linear-gradient(left, #fff, #86F024);
@@ -779,6 +779,22 @@ $content = ob_get_clean();
                 background-image: -ms-linear-gradient(left, #fff, #86F024);
                 background-image: -o-linear-gradient(left, #fff, #86F024);
                 background-image: linear-gradient(to right, #fff, #86F024);
+            }
+            .prev{
+                background-image: -webkit-gradient(linear, left top, right bottom, from(#DDD), to(whiteSmoke));
+                background-image: -webkit-linear-gradient(right, whiteSmoke, #DDD);
+                background-image: -moz-linear-gradient(right, whiteSmoke, #DDD);
+                background-image: -ms-linear-gradient(right, whiteSmoke, #DDD);
+                background-image: -o-linear-gradient(right, whiteSmoke, #DDD);
+                background-image: linear-gradient(to left, whiteSmoke, #DDD);
+            }
+            .prev:hover{
+                background-image: -webkit-gradient(linear, left top, right bottom, from(#fff), to(#86F024));
+                background-image: -webkit-linear-gradient(right, #fff, #86F024);
+                background-image: -moz-linear-gradient(right, #fff, #86F024);
+                background-image: -ms-linear-gradient(right, #fff, #86F024);
+                background-image: -o-linear-gradient(right, #fff, #86F024);
+                background-image: linear-gradient(to left, #fff, #86F024);
             }
 
             #breadcrumbs li:first-child a{
@@ -801,6 +817,17 @@ $content = ob_get_clean();
                 border-left: 1em solid;
                 right: -1em;
             }
+            
+            .prev::after{
+                content: "";
+                position: absolute;
+                top: 50%;
+                margin-top: -1.5em;
+                border-top: 1.5em solid transparent;
+                border-bottom: 1.5em solid transparent;
+                border-right: 1em solid;
+                left: -1em;
+            }
 
             #breadcrumbs a::after,.next::after{
                 z-index: 2;
@@ -812,8 +839,19 @@ $content = ob_get_clean();
                 right: -1.1em;
                 z-index: 1;
             }
+            
+            .prev::after{
+                z-index: 2;
+                border-right-color: #ddd;
+            }
 
-            #breadcrumbs a:hover::after,.next:hover::after{
+            .prev::before{
+                border-right-color: #ccc;
+                right: -1.1em;
+                z-index: 1;
+            }
+
+            #breadcrumbs a:hover::after,.next:hover::after,.prev:hover::after{
                 border-left-color: #fff;
             }
 
@@ -830,8 +868,12 @@ $content = ob_get_clean();
             .next:hover::after{
                 border-left-color: #86F024;
             }
+            .prev:hover::after{
+                border-right-color: #86F024;
+            }
 
-            .next{margin:0 auto;float:none}
+            .containerNext{float:left}
+            .btns{margin:0 auto;float:none;width:275px}
         </style>
     </body>
 </html>
