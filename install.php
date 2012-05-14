@@ -112,7 +112,7 @@ function se($text) {
 
 function tr($text) {
     global $lang;
-    if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr-FR' && isset($lang['fr'][$text])) return $lang['fr'][$text];
+    if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr_FR' && isset($lang['fr'][$text])) return $lang['fr'][$text];
     else return $text;
 }
 
