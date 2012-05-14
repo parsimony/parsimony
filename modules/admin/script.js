@@ -254,7 +254,7 @@ var ParsimonyAdmin = {
         $(".tooltip").parsimonyTooltip({
             triangleWidth:5
         });
-
+       
         if(ParsimonyAdmin.getCookie("mode") == 'preview'){
             $("#switchPreviewMode").trigger('click');
         }
@@ -340,6 +340,13 @@ $this = $(elem).closest(".block").get(0);*/
                     if(ParsimonyAdmin.idBlock == '' || ParsimonyAdmin.idNextBlock == '' || ParsimonyAdmin.startIdParentBlock == '' || ParsimonyAdmin.stopIdParentBlock == '' || ParsimonyAdmin.startTypeCont == '' || ParsimonyAdmin.whereIAm("dropInTree") == '') alert("stop");
                     ParsimonyAdmin.changeBlockPosition('',ParsimonyAdmin.idBlock,ParsimonyAdmin.idNextBlock,ParsimonyAdmin.startIdParentBlock,ParsimonyAdmin.stopIdParentBlock,ParsimonyAdmin.startTypeCont,ParsimonyAdmin.whereIAm("dropInTree"),"moveBlock");
                 }
+            }
+        });
+        
+        $(document).on("keypress.creation",'#dialog-id',function(e){
+            var code = e.keyCode || e.which; 
+            if(code == 13) {
+                $("#dialog-ok").trigger("click");
             }
         });
             
