@@ -187,5 +187,5 @@ if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
 else
     $frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
 ?>
-    <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle"  style="text-align:center;width:100%;border:0;background: #FFF;margin-top: 28px !important;"></iframe>
+    <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle"></iframe>
 </div>
