@@ -767,7 +767,7 @@ $this = $(elem).closest(".block").get(0);*/
     displayConfBox :   function (url,title,params,modal){
         $("#conf_box").hide();
         if(typeof modal == "undefined" || modal == true) ParsimonyAdmin.showOverlay();
-        $("#conf_box_title").html(title);
+        ParsimonyAdmin.setConfBoxTitle(title);
         if(url.substring(0,1) != "#"){
             ParsimonyAdmin.returnToShelter();
             $("#conf_box_form").attr("action",url).empty();
@@ -801,6 +801,10 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.hideOverlay();
             $("#conf_box_title").empty();
             $("#conf_box_content_iframe").attr("src","about:blank");
+            
+        },
+        setConfBoxTitle :   function (title){
+            $("#conf_box_title").html(title);
             
         },
         returnToShelter :   function (){
