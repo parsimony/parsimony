@@ -41,10 +41,10 @@
     		    <a href="#" class="action" rel="getViewAdminRights" title="Gestion des Droits"><?php echo t('Permissions', FALSE); ?></a>
     		</li>
     		<li>
-    		    <a href="#" class="modeleajout ellipsis" rel="core - role"><?php echo t('Manage Roles', FALSE); ?></a>
+    		    <a href="#" class="modeleajout ellipsis" rel="core - role" title="<?php echo t('Manage Users', FALSE); ?>"><?php echo t('Manage Roles', FALSE); ?></a>
     		</li>
     		<li>
-    		    <a href="#" class="modeleajout ellipsis" rel="core - user"><?php echo t('Manage Users', FALSE); ?></a>
+    		    <a href="#" class="modeleajout ellipsis" rel="core - user" title="<?php echo t('Manage Users', FALSE); ?>"><?php echo t('Manage Users', FALSE); ?></a>
     		</li>
     	    </ul>
     	</li>              
@@ -55,7 +55,7 @@
     	</li>
 
 	<?php endif; ?>
-	<li class="subMenu"><a href="#" id="info_themetype" title="<?php echo t('Version', FALSE); ?>" style="text-transform: capitalize"><?php echo t('Version', FALSE); ?> <?php echo str_replace('theme', '', THEMETYPE); ?></a>
+	<li class="subMenu" style="width:74px"><a href="#" id="info_themetype" title="<?php echo t('Version', FALSE); ?>" style="text-transform: capitalize"><?php echo t('Version', FALSE); ?> <?php echo str_replace('theme', '', THEMETYPE); ?></a>
 	    <ul>
 		<?php foreach (\app::$devices AS $device): ?>
     		<li>
