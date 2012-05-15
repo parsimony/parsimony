@@ -41,7 +41,7 @@ class formadd extends \block {
             }
 
             $testIfHasError = exec('php -l ' . $pathOfView);
-            if (!strstr($testIfHasError, 'No syntax errors detected')) {
+            if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')) {
                 file_put_contents($pathOfView, $testIfHasError . PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
             }
         }
