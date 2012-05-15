@@ -303,10 +303,10 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #notify.normal{color:#444;background:#eee;border:solid #333 1px;}
 
 /* Menu link trad */
-#menu{font-style:arial, sans-serif;font-size:13px;position:absolute;border:1px #888 solid;padding:5px;border-radius:5px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: white;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2');}
+#menu{font-style:arial, sans-serif;font-size:13px;position:absolute;border:1px #888 solid;padding:2px;border-radius:5px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: white;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2');}
 #menu .option{border-top: white solid 1px;border-bottom: #E0E0E0 solid 1px;padding: 5px;clear:both}
 #menu .option:hover{background:#eee;cursor:pointer}
-#menu h5{padding: 4px 8px;line-height: 16px;font-size: 15px;color: #fff;letter-spacing: 1.1px;border-radius: 5px;
+#menu h5{padding: 4px 8px;line-height: 16px;font-family: arial;font-size: 15px;color: #fff;letter-spacing: 1.1px;border-radius: 3px;
 background: -webkit-gradient(linear,left bottom,left top,from(#777),to(#828282));
 background: -moz-linear-gradient(bottom,#828282,#777);
 background: -o-linear-gradient(bottom,#828282,#777);}
