@@ -157,7 +157,7 @@ while (1) {
                 <h2><?php echo tr('Default Language'); ?></h2>
                 <select name="lang" onchange="document.cookie = 'lang=' + this.value;window.location.reload()">
                     <option value="en_EN">English</option>
-                    <option value="fr_FR"<?php  if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr') echo ' selected="selected"'; ?>>Français</option>
+                    <option value="fr_FR"<?php  if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr_FR') echo ' selected="selected"'; ?>>Français</option>
                 </select>
                 <h2><?php echo tr('License agreement'); ?> : Open Software License v. 3.0</h2>
                 <div style="overflow-y: scroll;height:250px;border:#ccc solid 1px;">
