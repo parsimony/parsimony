@@ -94,7 +94,8 @@
 			    <div style="text-align: center">
 				<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 				<input class="button duplicate" data-themename="<?php echo s($themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
-				<form method="POST" style="" action="admin/changeTheme" target="ajaxhack">
+				<?php if($themeName != THEME): ?>
+                                <form method="POST" style="" action="admin/changeTheme" target="ajaxhack">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo THEMEMODULE; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
@@ -106,6 +107,7 @@
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
 				    <input class="input" type="submit" value="<?php echo t('Delete', FALSE) ?>" />
 				</form>
+                                <?php endif; ?>
 			    </div>
 			</li>
 			<?php
