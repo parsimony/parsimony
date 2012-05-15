@@ -1,30 +1,3 @@
-<meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-<!--[if IE]>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-
-<style>
-         .chromeFrameInstallDefaultStyle {
-           width: 800px;
-           border: 5px solid blue;
-           z-index: 99999;
-         }
-        </style>
-
-        <script>
-alert("Parsimony chooses modern browsers to improve your experience. Click ok to install Google Frame for IE or better yet use Chrome web browsers.");
-         // The conditional ensures that this code will only execute in IE,
-         // Therefore we can use the IE-specific attachEvent without worry
-         window.attachEvent("onload", function() {
-           CFInstall.check({
-             mode: "inline", // the default
-             oninstall: function(){
-                 alert("Chrome Frame is now installed. Restart your browser to start enjoying Parsimony!");
-             }
-           });
-         });
-        </script>
-<![endif]-->
 <?php
 /**
  * Parsimony
@@ -52,6 +25,39 @@ alert("Parsimony chooses modern browsers to improve your experience. Click ok to
  * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+if (\app::getClass('user')->VerifyConnexion()) { 
+    header('Location: '.BASE_PATH.'index');
+    exit;
+}
+
+?>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+<!--[if IE]>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+<style>
+    .chromeFrameInstallDefaultStyle {
+    width: 800px;
+    border: 5px solid blue;
+    z-index: 99999;
+    }
+</style>
+
+<script>
+alert("Parsimony chooses modern browsers to improve your experience. Click ok to install Google Frame for IE or better yet use Chrome web browsers.");
+    window.attachEvent("onload", function() {
+    CFInstall.check({
+        mode: "inline", // the default
+        oninstall: function(){
+            alert("Chrome Frame is now installed. Restart your browser to start enjoying Parsimony!");
+        }
+    });
+    });
+</script>
+<![endif]-->
+<?php
+
 if (isset($_POST['connexion'])) {
     $user = \app::getClass('user');
     $user->authentication($_POST['login'], $_POST['password']);
