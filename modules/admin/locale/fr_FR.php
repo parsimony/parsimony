@@ -263,5 +263,6 @@ $lang['to Foreign Key'] = 'vers Clé Etrangère';
 $lang['Form View'] = 'Vue du formulaire';
 $lang['In which form display the field ?'] = 'Dans quel formulaire afficher le field ?';
 $lang['Containers'] = 'Conteneur';
+$lang['Manage Users'] = 'Gestion des Utilisateurs';
 
 ?>

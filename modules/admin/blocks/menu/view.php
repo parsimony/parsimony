@@ -41,10 +41,10 @@
     		    <a href="#" class="action" rel="getViewAdminRights" title="Gestion des Droits"><?php echo t('Permissions', FALSE); ?></a>
     		</li>
     		<li>
-    		    <a href="#" class="modeleajout ellipsis" rel="core - role" title=""><?php echo t('Manage Rights', FALSE); ?></a>
+    		    <a href="#" class="modeleajout ellipsis" rel="core - role"><?php echo t('Manage Roles', FALSE); ?></a>
     		</li>
     		<li>
-    		    <a href="#" class="modeleajout ellipsis" rel="core - user" title=""><?php echo t('Manage Roles', FALSE); ?></a>
+    		    <a href="#" class="modeleajout ellipsis" rel="core - user"><?php echo t('Manage Users', FALSE); ?></a>
     		</li>
     	    </ul>
     	</li>              
