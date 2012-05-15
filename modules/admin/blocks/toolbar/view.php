@@ -60,9 +60,6 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
                 <div class="subSidebarOnglet revert" style="cursor: default; display: block; " title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-next"></span></div>
                 <div class="subSidebarOnglet" id="openrightslide" title="<?php echo t('Slide', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-e"></span></div>
                 <div class="subSidebarOnglet" id="resizerightslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w  ui-resizable-handle ui-resizable-w"></span></div>
-    <?php foreach ($contaireright->getBlocks() AS $block): ?>
-                    <div class="subSidebarOnglet <?php echo t($block->getId(), FALSE); ?>" rel="<?php echo t($block->getId(), FALSE); ?>" title="<?php echo t($block->getId(), FALSE); ?>"></div>
-                    <?php endforeach; ?>
                 <div class="subSidebarOnglet" id="csspicker"><img src="<?php echo BASE_PATH . 'admin/img/picker.png'; ?>" title="<?php echo t('CSSPicker', FALSE); ?>"/></div>
             </div>
             <div class="contenttab cs">
@@ -106,9 +103,6 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
             <div class="subSidebarOnglet revert" style="cursor: default; display: block;" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-prev"></span></div>
             <div class="subSidebarOnglet" id="openleftslide"><span class="ui-icon ui-icon-circle-arrow-w" title="<?php echo t('Slide', FALSE); ?>"></span></div>
             <div class="subSidebarOnglet" id="resizeleftslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-e"></span></div>
-                    <?php foreach ($contaireleft->getBlocks() AS $block): ?>
-                <div class="subSidebarOnglet <?php echo t($block->getId(), FALSE); ?>" rel="<?php echo t($block->getId(), FALSE); ?>" title="<?php echo t($block->getId(), FALSE); ?>"></div>
-                    <?php endforeach; ?>
         </div>
 
         <div class="contenttab cs">
