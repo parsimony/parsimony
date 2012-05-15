@@ -54,7 +54,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
-.subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover;#switchtab:hover{background: #C9C9C9;}
+.subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover,#switchtab:hover{background: #C9C9C9;}
 .contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;}
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
 .contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
@@ -198,7 +198,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #toolbar ul ul{display:none;z-index:2000;z-index: 1000000;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);background: white;background: rgba(255, 255, 255, 0.97);display: none;position: absolute;border: 1px solid #DFDFDF;border-top: none;float:none}
 #toolbar ul ul li{float:none;border:0;position:relative}
 #toolbar ul ul li:hover {background: #888;background: -o-linear-gradient(bottom,#2e6dae,#3a88d8);background: -moz-linear-gradient(bottom,#2e6dae,#3a88d8);background: -webkit-gradient(linear,left bottom,left top,from(#2e6dae),to(#3a88d8));}
-#toolbar ul ul li a{color: #555;text-shadow: none;display:block;width:140px;line-height:18px;box-shadow: none;}
+#toolbar ul ul li a{color: #555;text-shadow: none;display:block;min-width:140px;line-height:18px;box-shadow: none;}
 
 /* Top Toolbar right part */
 #toolbar .rightpart{margin-right:10px;}
