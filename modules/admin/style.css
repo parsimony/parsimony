@@ -54,16 +54,10 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
-.subSidebarOnglet.active,#admdesign:hover,#csspicker:hover,#switchtab:hover{background: #C9C9C9;}
-.subSidebar .panelmodules,.contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;}
-.subSidebar .panelmodules.active{background:url(admin/img/module.png) no-repeat 2px #C9C9C9;}
+.subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover,#switchtab:hover{background: #C9C9C9;}
+.contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;}
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
-.subSidebar .panelblocks,.contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
-.subSidebar .panelblocks.active{background:url(admin/img/bloc.png) no-repeat 2px #C9C9C9;}
-.subSidebar .paneltree{background:url(admin/img/treeicon.png) no-repeat 2px;}
-.subSidebar .paneltree.active{background:url(admin/img/treeicon.png) no-repeat 2px #C9C9C9;}
-.subSidebar .panelcss{background:url(admin/img/css.png) no-repeat 2px;}
-.subSidebar .panelcss.active{background:url(admin/img/css.png) no-repeat 2px #C9C9C9;}
+.contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
 
 /* Sidebar left */
 #left_sidebar{width:209px;background: whiteSmoke;/*width: 13.4%;*/}
@@ -204,7 +198,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #toolbar ul ul{display:none;z-index:2000;z-index: 1000000;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);background: white;background: rgba(255, 255, 255, 0.97);display: none;position: absolute;border: 1px solid #DFDFDF;border-top: none;float:none}
 #toolbar ul ul li{float:none;border:0;position:relative}
 #toolbar ul ul li:hover {background: #888;background: -o-linear-gradient(bottom,#2e6dae,#3a88d8);background: -moz-linear-gradient(bottom,#2e6dae,#3a88d8);background: -webkit-gradient(linear,left bottom,left top,from(#2e6dae),to(#3a88d8));}
-#toolbar ul ul li a{color: #555;text-shadow: none;display:block;width:140px;line-height:18px;box-shadow: none;}
+#toolbar ul ul li a{color: #555;text-shadow: none;display:block;min-width:140px;line-height:18px;box-shadow: none;}
 
 /* Top Toolbar right part */
 #toolbar .rightpart{margin-right:10px;}
@@ -358,18 +352,18 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 
 /* Footer ScrollBar for Webkit */
 
-.fs{overflow: hidden;overflow-x: auto;overflow-y: hidden;width: 100%;}
-.fs::-webkit-scrollbar{height:12px;}
-.fs::-webkit-scrollbar-track-piece{background-color:#CCC;}
-.fs::-webkit-scrollbar-button:horizontal{background-color:#CCC; }
-.fs::-webkit-scrollbar-thumb:horizontal{background-color:#AAA; }
-.fs::-webkit-scrollbar-corner:horizontal{background-color:#555;}
-.fs::-webkit-scrollbar-resizer:horizontal{background-color:#555;width:7px}
-.fs::-webkit-scrollbar-button:start:decrement{display:block;width:10px;background-color:#CCC;border-top-left-radius: 10px;border-bottom-left-radius: 10px;}
-.fs::-webkit-scrollbar-button:end:increment{display:block;width:10px;background-color:#CCC;border-top-right-radius: 10px;border-bottom-right-radius: 10px;}
-/*.fs::-webkit-scrollbar-thumb:horizontal:hover{background-color:#777}*/
-.fs::-webkit-scrollbar-button:horizontal:start:increment{display:none}
-.fs::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
+.fs{overflow: hidden;overflow-x: auto;width: 100%;}
+::-webkit-scrollbar{height:12px;}
+::-webkit-scrollbar-track-piece{background-color:#CCC;}
+::-webkit-scrollbar-button:horizontal{background-color:#777;width:7px }
+::-webkit-scrollbar-thumb:horizontal{background-color:#777;width:50px;border:0;border-radius: 5px  }
+::-webkit-scrollbar-corner:horizontal{background-color:#777;}
+::-webkit-scrollbar-resizer:horizontal{background-color:#777;}
+::-webkit-scrollbar-button:horizontal:start:increment{display:none}
+::-webkit-scrollbar-button:horizontal:end:decrement{display:none}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,0.4)}
+::-webkit-scrollbar-button:vertical:start:increment{display:none}
+::-webkit-scrollbar-button:vertical:end:decrement{display:none}
 
 /* UI Google Style */
 
