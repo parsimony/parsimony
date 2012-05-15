@@ -60,7 +60,7 @@
 	}
     }
     foreach ($blocksCat as $title => $blocks) {
-	echo '<div class="titleTab ellipsis" style="background: url(/admin/img/bloc.png) no-repeat 7px #777;padding-left: 35px;"></span> ' . ucfirst($title) . '</div>';
+	echo '<div class="titleTab ellipsis" style="background: url(/admin/img/bloc.png) no-repeat 7px #777;padding-left: 35px;"></span> ' . t(ucfirst($title),FALSE) . '</div>';
 	echo '<div id="blocks_' . $title . '" style="padding:0px;">';
 	echo $blocks;
 	echo '</div>';
