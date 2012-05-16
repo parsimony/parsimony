@@ -50,7 +50,9 @@
 	    $display = 'none';
 	?>  
         <div id="page_<?php echo $moduleobj->getName(); ?>" class="<?php echo $display; ?>">
-    	<div rel="pages" class="ssTab ellipsis active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" target="_blank"><?php echo t('Page', FALSE); ?><a href="#" style="text-decoration: none" class="action" params="module=<?php echo $moduleobj->getName() ?>&amp;page=new"  rel="getViewUpdatePage" title="<?php echo t('Add A Page in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><span style="color:#666;width: 16px;height: 16px;position: absolute;right: 3px;top: 6px;border: #666 solid 1px;border-radius: 5px;float: right;cursor: alias;line-height: 14px;">+</span></a></div>
+    	<div rel="pages" class="ssTab ellipsis active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" target="_blank"><?php echo t('Pages', FALSE); ?>
+            <a href="#" style="text-decoration: none;right: 3px;top: 6px;" class="action parsiplusone" params="module=<?php echo $moduleobj->getName() ?>&amp;page=new"  rel="getViewUpdatePage" title="<?php echo t('Add A Page in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"></a>
+        </div>
     	<div rel="models" class="ssTab db ellipsis" target="_blank" title="<?php echo t('Database', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Data', FALSE); ?>
     	    <span class="dbdesigner ui-icon ui-icon-extlink" title="<?php echo t('Database Designer', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" onclick="$(this).next('form').trigger('submit');return false;"></span>
     	    <form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">

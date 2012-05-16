@@ -106,7 +106,7 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
         </div>
 
         <div class="contenttab cs">
-            <div class="creation">
+            <div class="creation"> 
             <?php foreach ($contaireleft->getBlocks() AS $block): ?>
                     <div class="mainTab <?php echo t($block->getId(), FALSE); ?> ellipsis" rel="<?php echo t($block->getId(), FALSE); ?>"><span class="ui-icon floatleft <?php echo t($block->getId(), FALSE); ?>"></span>
     <?php echo t($block->getName(), FALSE);
