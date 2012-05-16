@@ -33,6 +33,7 @@
  */
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
+<link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
 <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </SCRIPT>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <style>
@@ -112,13 +113,16 @@
 		elseif ($objects->getDepth() < $depth)
 		    echo str_repeat('</ul>', $depth - $objects->getDepth());
 		if ($object->getBasename() != '.' && $object->getBasename() != '..') {
-		    if ($object->isDir())
-			echo '<li class="dir" path="/' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '"><span class="icondir"></span>' . $object->getBasename() . '</li>';
-		}
+		    if ($object->isDir()){
+                        $name = str_replace('\\','/',$name);
+			echo '<li class="dir" path="/' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '"><span class="icondir"></span>' . $object->getBasename() .'</li>' ;
+                    }
+                }
 		$depth = $objects->getDepth();
 	    }
+            echo str_repeat('</ul>', $depth - 0);
 	    ?>
-	</ul></ul></ul>
+        </ul>
 	<div id="explorercontainer">
 	    <?php
 	    $dirPath = $path;

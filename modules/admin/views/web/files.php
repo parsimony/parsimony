@@ -34,10 +34,11 @@ $extOk = array(); //'jpeg', 'png', 'gif', 'jpg'
 $extKo = array('obj');
 foreach (glob($dirPath . '/*') as $filename) :
     if (is_dir($filename)) :
+        $filename = str_replace('//','/',$filename); //fix
 	?>
 	<div class="explorer_file dir">
 	    <img src="<?php echo BASE_PATH ?>admin/img/icons/DIR.jpg" style="width:60%;height:60%" >
-	    <div class="explorer_file_name" path="<?php echo BASE_PATH . str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+	    <div class="explorer_file_name" path="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
     elseif ((empty($extOk) || in_array(substr(strrchr($filename, '.'), 1), $extOk)) &&
@@ -49,7 +50,7 @@ foreach (glob($dirPath . '/*') as $filename) :
 	    <?php else: ?>
 	        <img src="<?php echo BASE_PATH ?>admin/img/icons/FILE.jpg" style="width:60%;height:60%" >
 	    <?php endif; ?>
-	    <div class="explorer_file_name" file="<?php echo BASE_PATH . str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+	    <div class="explorer_file_name" file="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
     endif;
