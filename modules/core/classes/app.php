@@ -339,16 +339,18 @@ namespace {
     function t($text, $modAdmin = TRUE) {
 	$before = '';
 	$after = '';
-	if ($modAdmin && isset($_SESSION['idr']) && $_SESSION['idr'] == 1) {
+	if ( isset($_SESSION['idr']) && $_SESSION['idr'] == 1 && $modAdmin!=false ) {
 	    $before = '<span data-key="' . $text . '" class="traduction">';
-	    $after = '</span>';
-	}
-	if (isset(app::$lang[$text]))
-	    return $before . app::$lang[$text] . $after;
-	else {
-	    //file_put_contents('atraduire.php', $text.PHP_EOL, FILE_APPEND);
-	    return $before . $text . $after;
-	}
+	    $after = '</span>';      
+	} 
+        if(isset(app::$lang[$text])){
+                if(is_array($modAdmin)) return $before . vprintf(app::$lang[$text], $modAdmin) . $after;    
+                else return $before .  app::$lang[$text] . $after;     
+                           
+        }else{
+                if(is_array($modAdmin)) return $before . vprintf($text, $modAdmin) . $after;    
+                else return $before .  $text . $after;  
+        }
     }
 
     function s($text) {
