@@ -215,3 +215,4 @@ $lang['at']='à';
 $lang['Your mail'] = 'Votre mail';
 $lang['The changes have been saved'] = 'Les modifications ont été enregistrées';
 $lang['Send your mail'] = 'Envoyer votre mail';
+$lang['%s ago']= 'Il y a %s';
