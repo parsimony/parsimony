@@ -37,7 +37,7 @@
 <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </SCRIPT>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <style>
-    #explorerWrap{width: 100%;height:544px;display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
+    #explorerWrap{font-family: arial, sans-serif;font-size: 13px;width: 100%;height:544px;display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
     #explorer{min-width: 200px;overflow-y:scroll;height:100%}
     #explorer ul{display:none}
     #explorer li.file{display:none}
