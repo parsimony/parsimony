@@ -55,7 +55,7 @@
     	</li>
 
 	<?php endif; ?>
-	<li class="subMenu" style="width:74px"><a href="#" id="info_themetype" title="<?php echo t('Version', FALSE); ?>" style="text-transform: capitalize"><?php echo t('Version', FALSE); ?> <?php echo str_replace('theme', '', THEMETYPE); ?></a>
+	<li class="subMenu"><a href="#" id="info_themetype" title="<?php echo t('Version', FALSE); ?>" style="text-transform: capitalize"><?php echo t('Version', FALSE); ?> <?php echo str_replace('theme', '', THEMETYPE); ?></a>
 	    <ul>
 		<?php foreach (\app::$devices AS $device): ?>
     		<li>
@@ -66,7 +66,7 @@
 		<?php endforeach; ?>
 	    </ul>
 	</li>
-	<li class="subMenu"><a href="#" id="info_themetype" style="text-transform: capitalize"><img src="<?php echo BASE_PATH . 'admin/img/resolution.png'; ?>" style="position: relative;top: 4px;left: -5px;"/><span id="currentRes"></span></a>
+	<li class="subMenu" style="min-width:74px"><a href="#" id="info_themetype" style="text-transform: capitalize"><img src="<?php echo BASE_PATH . 'admin/img/resolution.png'; ?>" style="position: relative;top: 4px;left: -5px;"/><span id="currentRes"></span></a>
 	    <ul id="listres"></ul>
 	</li>
     </ul>
