@@ -36,295 +36,295 @@ namespace core\classes {
      */
     class app {
 
-	/** @var @static request object HTTP request */
-	public static $request;
+        /** @var @static request object HTTP request */
+        public static $request;
 
-	/** @var @static response object HTTP response */
-	public static $response;
+        /** @var @static response object HTTP response */
+        public static $response;
 
-	/** @var @static integer */
-	public static $timestart;
+        /** @var @static integer */
+        public static $timestart;
 
-	/** @var @static array contains all configs */
-	public static $config = array();
+        /** @var @static array contains all configs */
+        public static $config = array();
 
-	/** @var @static array contains traductions */
-	public static $lang = array();
+        /** @var @static array contains traductions */
+        public static $lang = array();
 
-	/** @var @static array contains all active modules */
-	public static $activeModules = array();
+        /** @var @static array contains all active modules */
+        public static $activeModules = array();
 
-	/** @var @static array contains all devices */
-	public static $devices = array();
+        /** @var @static array contains all devices */
+        public static $devices = array();
 
-	/** @var @static array contains all alias of classes */
-	public static $aliasClasses = array();
+        /** @var @static array contains all alias of classes */
+        public static $aliasClasses = array();
 
-	/** @var @static array contains all modules */
-	private static $modules = array();
+        /** @var @static array contains all modules */
+        private static $modules = array();
 
-	/** @var @static array contains all classes */
-	private static $classes = array();
+        /** @var @static array contains all classes */
+        private static $classes = array();
 
-	/** @var @static array contains all listeners */
-	private static $listeners = array();
+        /** @var @static array contains all listeners */
+        private static $listeners = array();
 
-	/**
-	 * Bootstrap of the app
-	 */
-	public function __construct() {
-	    self::$timestart = microtime(true);
+        /**
+         * Bootstrap of the app
+         */
+        public function __construct() {
+            self::$timestart = microtime(true);
 
-	    /* Load  general configs */
-	    include('config.php');
+            /* Load  general configs */
+            include('config.php');
 
-	    /* Determine the domain www.Domain Name */
-	    if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
-		set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
+            /* Determine the domain www.Domain Name */
+            if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
+                set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
 
-		/* Load general configs */
-		if (PROFILE != 'www')
-		    include(PROFILE_PATH . 'config.php');
-		self::$activeModules = $config['activeModules'];
-		self::$config = $config;
-		
-		class_alias('core\classes\response', 'response');
-		self::$response = new response();
+                /* Load general configs */
+                if (PROFILE != 'www')
+                    include(PROFILE_PATH . 'config.php');
+                self::$activeModules = $config['activeModules'];
+                self::$config = $config;
 
-		/* Check if it's a file */
-		if (!$this->sendFile()) {
-		    class_alias('core\classes\module', 'module');
-		    $this->launchActiveModules();
+                class_alias('core\classes\response', 'response');
+                self::$response = new response();
 
-		    self::$request = new request();
+                /* Check if it's a file */
+                if (!$this->sendFile()) {
+                    class_alias('core\classes\module', 'module');
+                    $this->launchActiveModules();
 
-		    /* Dispatch Request in case of HTTP Response */
-		    self::$request->dispatch();
-		    echo self::$response->getContent();
-		}
-	    }
-	}
+                    self::$request = new request();
 
-	/**
-	 * Determine MULTI SITE
-	 * @param $multi
-	 * @param $nbtld
-	 * @return bool
-	 */
-	protected function determineMultiSite($multi = FALSE, $nbtld = FALSE) {
-	    if (isset($_SERVER['HTTP_HOST'])) {
-		$_SERVER['HTTP_HOST'] = strtolower(trim($_SERVER['HTTP_HOST']));
-		if (!(bool) $multi) {
-		    define('DOMAIN', str_replace('www.', '', $_SERVER['HTTP_HOST']));
-		    $profile = 'www';
-		} elseif (strstr($_SERVER['HTTP_HOST'], '.') !== FALSE) {
-		    $host = explode('.', $_SERVER['HTTP_HOST'], substr_count($_SERVER['HTTP_HOST'], '.') + 2 - $nbtld);
-		    if (count($host) == 1)
-			array_unshift($host, 'www');
-		    define('DOMAIN', array_pop($host));
-		    $profile = implode('.', $host);
-		}else {
-		    define('DOMAIN', $_SERVER['HTTP_HOST']);
-		    $profile = 'www';
-		}
-		define('PROFILE', $profile);
-		define('PROFILE_PATH', 'profiles/' . PROFILE . '/modules/');
-		if (is_dir(PROFILE_PATH))
-		    return TRUE;
-	    }
-	    return FALSE;
-	}
+                    /* Dispatch Request in case of HTTP Response */
+                    self::$request->dispatch();
+                    echo self::$response->getContent();
+                }
+            }
+        }
 
-	/**
-	 * Call the onLoad method of each active modules
-	 */
-	protected function launchActiveModules() {
-	    foreach (self::$activeModules as $moduleName => $type) {
-		if ($type == 1) {
-		    $ClassName = $moduleName . '\\' . $moduleName;
-		    if (!class_exists($ClassName, false)) {
-			include('modules/' . $moduleName . '/module.php');
-		    }
-		    $mod = new $ClassName();
-		    $mod->onLoad();
-		}
-	    }
-	}
+        /**
+         * Determine MULTI SITE
+         * @param $multi
+         * @param $nbtld
+         * @return bool
+         */
+        protected function determineMultiSite($multi = FALSE, $nbtld = FALSE) {
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $_SERVER['HTTP_HOST'] = strtolower(trim($_SERVER['HTTP_HOST']));
+                if (!(bool) $multi) {
+                    define('DOMAIN', str_replace('www.', '', $_SERVER['HTTP_HOST']));
+                    $profile = 'www';
+                } elseif (strstr($_SERVER['HTTP_HOST'], '.') !== FALSE) {
+                    $host = explode('.', $_SERVER['HTTP_HOST'], substr_count($_SERVER['HTTP_HOST'], '.') + 2 - $nbtld);
+                    if (count($host) == 1)
+                        array_unshift($host, 'www');
+                    define('DOMAIN', array_pop($host));
+                    $profile = implode('.', $host);
+                }else {
+                    define('DOMAIN', $_SERVER['HTTP_HOST']);
+                    $profile = 'www';
+                }
+                define('PROFILE', $profile);
+                define('PROFILE_PATH', 'profiles/' . PROFILE . '/modules/');
+                if (is_dir(PROFILE_PATH))
+                    return TRUE;
+            }
+            return FALSE;
+        }
 
-	/**
-	 * Test if it's a file and send it to visitor
-	 * @return bool
-	 */
-	protected function sendFile() {
-	    if (!empty($_GET['parsiurl'])) {
-		$ext = pathinfo($_GET['parsiurl'], PATHINFO_EXTENSION);
-		if ($ext && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
-		    $path = stream_resolve_include_path($_GET['parsiurl']);
-		    if ($path) {
-			$gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
-			self::$response->setHeader('Last-Modified', $gmtime);
-			self::$response->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
-			self::$response->setHeader('Cache-Control', self::$config ['cache']['cache-control'] . ';max-age=' . self::$config ['cache']['max-age']);
-			self::$response->setHeader('Content-type', response::$mimeTypes[$ext]);
-			$content = file_get_contents($path, FILE_USE_INCLUDE_PATH);
-			echo self::$response->setContent($content);
-			return TRUE;
-		    }
-		}
-	    }
-	    return FALSE;
-	}
+        /**
+         * Call the onLoad method of each active modules
+         */
+        protected function launchActiveModules() {
+            foreach (self::$activeModules as $moduleName => $type) {
+                if ($type == 1) {
+                    $ClassName = $moduleName . '\\' . $moduleName;
+                    if (!class_exists($ClassName, false)) {
+                        include('modules/' . $moduleName . '/module.php');
+                    }
+                    $mod = new $ClassName();
+                    $mod->onLoad();
+                }
+            }
+        }
 
-	/**
-	 * Provide autoload classes
-	 * @param string $className
-	 */
-	public static function autoLoad($className) {
-	    if (isset(self::$aliasClasses[$className])) {
-		if (!class_exists(self::$aliasClasses[$className], false))
-		    include('modules/' . str_replace('\\', '/', self::$aliasClasses[$className]) . '.php');
-		class_alias(self::$aliasClasses[$className], $className);
-	    }else {
-		$className = str_replace('\\', '/', $className);
-		if (strstr($className, '/blocks/')) {
-		    include('modules/' . $className . '/block.php');
-		} else if (is_file('modules/' . $className . '.php')) {
-		    include('modules/' . $className . '.php');
-		}
-	    }
-	}
+        /**
+         * Test if it's a file and send it to visitor
+         * @return bool
+         */
+        protected function sendFile() {
+            if (!empty($_GET['parsiurl'])) {
+                $ext = pathinfo($_GET['parsiurl'], PATHINFO_EXTENSION);
+                if ($ext && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
+                    $path = stream_resolve_include_path($_GET['parsiurl']);
+                    if ($path) {
+                        $gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
+                        self::$response->setHeader('Last-Modified', $gmtime);
+                        self::$response->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
+                        self::$response->setHeader('Cache-Control', self::$config ['cache']['cache-control'] . ';max-age=' . self::$config ['cache']['max-age']);
+                        self::$response->setHeader('Content-type', response::$mimeTypes[$ext]);
+                        $content = file_get_contents($path, FILE_USE_INCLUDE_PATH);
+                        echo self::$response->setContent($content);
+                        return TRUE;
+                    }
+                }
+            }
+            return FALSE;
+        }
 
-	/**
-	 * Get a module and cache the instance
-	 * @static function
-	 * @param string $module
-	 * @return module object
-	 */
-	public static function setDevice(array $device) {
-	    array_unshift(self::$devices, $device);
-	}
+        /**
+         * Provide autoload classes
+         * @param string $className
+         */
+        public static function autoLoad($className) {
+            if (isset(self::$aliasClasses[$className])) {
+                if (!class_exists(self::$aliasClasses[$className], false))
+                    include('modules/' . str_replace('\\', '/', self::$aliasClasses[$className]) . '.php');
+                class_alias(self::$aliasClasses[$className], $className);
+            }else {
+                $className = str_replace('\\', '/', $className);
+                if (strstr($className, '/blocks/')) {
+                    include('modules/' . $className . '/block.php');
+                } else if (is_file('modules/' . $className . '.php')) {
+                    include('modules/' . $className . '.php');
+                }
+            }
+        }
 
-	/**
-	 * Get a module and cache the instance
-	 * @static function
-	 * @param string $module
-	 * @return module object
-	 */
-	public static function getModule($module) {
-	    if (isset(self::$modules[$module])) {
-		return self::$modules[$module];
-	    } else {
-		self::$modules[$module] = \module::get($module);
-		return self::$modules[$module];
-	    }
-	}
+        /**
+         * Get a module and cache the instance
+         * @static function
+         * @param string $module
+         * @return module object
+         */
+        public static function setDevice(array $device) {
+            array_unshift(self::$devices, $device);
+        }
 
-	/**
-	 * Get a class and cache the instance
-	 * @static function
-	 * @param string $classe
-	 * @param array $args optional
-	 * @todo $args
-	 */
-	public static function getClass($classe, $args = FALSE) {
-	    if (isset(self::$classes[$classe])) {
-		return self::$classes[$classe];
-	    } else {
-		self::$classes[$classe] = new $classe;
-		return self::$classes[$classe];
-	    }
-	}
+        /**
+         * Get a module and cache the instance
+         * @static function
+         * @param string $module
+         * @return module object
+         */
+        public static function getModule($module) {
+            if (isset(self::$modules[$module])) {
+                return self::$modules[$module];
+            } else {
+                self::$modules[$module] = \module::get($module);
+                return self::$modules[$module];
+            }
+        }
 
-	/**
-	 * Add a Listener
-	 * @static function
-	 * @param string $eventName
-	 * @param array|string $callback optional
-	 */
-	public static function addListener($eventName, $callback = array()) {
-	    self::$listeners[$eventName][] = $callback;
-	}
+        /**
+         * Get a class and cache the instance
+         * @static function
+         * @param string $classe
+         * @param array $args optional
+         * @todo $args
+         */
+        public static function getClass($classe, $args = FALSE) {
+            if (isset(self::$classes[$classe])) {
+                return self::$classes[$classe];
+            } else {
+                self::$classes[$classe] = new $classe;
+                return self::$classes[$classe];
+            }
+        }
 
-	/**
-	 * Add a Listener
-	 * @static function
-	 * @param string $eventName
-	 * @param array|string $callback optional
-	 */
-	public static function deleteListener($eventName) {
-	    if (isset(self::$listeners[$eventName]))
-		unset(self::$listeners[$eventName]);
-	}
+        /**
+         * Add a Listener
+         * @static function
+         * @param string $eventName
+         * @param array|string $callback optional
+         */
+        public static function addListener($eventName, $callback = array()) {
+            self::$listeners[$eventName][] = $callback;
+        }
 
-	/**
-	 * Dispatch an event
-	 * @static function
-	 * @param string $eventName
-	 * @param array $data optional
-	 */
-	public static function dispatchEvent($eventName, $data = array()) {
-	    if (!empty(self::$listeners[$eventName])) {
-		foreach (self::$listeners[$eventName] as $callback) {
-		    call_user_func_array($callback, $data);
-		}
-	    }
-	}
+        /**
+         * Add a Listener
+         * @static function
+         * @param string $eventName
+         * @param array|string $callback optional
+         */
+        public static function deleteListener($eventName) {
+            if (isset(self::$listeners[$eventName]))
+                unset(self::$listeners[$eventName]);
+        }
 
-	/**
-	 * Catch errors and convert them in exception
-	 * @static function
-	 * @param integer $errno 
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline) {
-	    self::errorLog($errno, $errfile, $errline, $errstr);
-	}
+        /**
+         * Dispatch an event
+         * @static function
+         * @param string $eventName
+         * @param array $data optional
+         */
+        public static function dispatchEvent($eventName, $data = array()) {
+            if (!empty(self::$listeners[$eventName])) {
+                foreach (self::$listeners[$eventName] as $callback) {
+                    call_user_func_array($callback, $data);
+                }
+            }
+        }
 
-	/**
-	 * Catch fatal error
-	 * @static function
-	 */
-	public static function errorHandlerFatal() {
-	    $lastError = error_get_last();
-	    if ($lastError['type'] == 1 || $lastError['type'] == 4 || $lastError['type'] == 256)
-		self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
-	}
+        /**
+         * Catch errors and convert them in exception
+         * @static function
+         * @param integer $errno 
+         * @param string $errstr
+         * @param string $errfile
+         * @param integer $errline
+         */
+        public static function errorHandler($errno, $errstr, $errfile, $errline) {
+            self::errorLog($errno, $errfile, $errline, $errstr);
+        }
 
-	/**
-	 * Catch exceptions and log them
-	 * @static function
-	 * @param exception object $e
-	 */
-	public static function exceptionHandler($e) {
-	    self::errorLog($e->getCode(), $e->getFile(), $e->getLine(), $e->getMessage());
-	}
+        /**
+         * Catch fatal error
+         * @static function
+         */
+        public static function errorHandlerFatal() {
+            $lastError = error_get_last();
+            if ($lastError['type'] == 1 || $lastError['type'] == 4 || $lastError['type'] == 256)
+                self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
+        }
 
-	/**
-	 * Log errors and display it if you are admin
-	 * @static function
-	 * @param integer $code
-	 * @param string $file
-	 * @param integer $line
-	 * @param string $message
-	 */
-	protected static function errorLog($code, $file, $line, $message) {
-	    $trace = $code . ' - ' . $file . ' - ' . $line . ' - ' . $message . PHP_EOL;
-	    $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH;
-	    if (is_file($root . 'modules/core/errors.log'))
-		file_put_contents($root . 'modules/core/errors.log', $trace, FILE_APPEND);
-	    self::dispatchEvent('error', array($code, $file, $line, $message));
-	    if (!isset($_SESSION['idr']) || $_SESSION['idr'] == 1) {
-		if (isset($_POST['action'])) {
-		    ob_clean();
-		    echo json_encode(array('notification' => $file . ' : ' . $message . ' in line ' . $line, 'notificationType' => 'negative'));
-		} else {
-		    include($root . 'modules/core/views/web/error.php');
-		}
-		exit;
-	    }
-	}
+        /**
+         * Catch exceptions and log them
+         * @static function
+         * @param exception object $e
+         */
+        public static function exceptionHandler($e) {
+            self::errorLog($e->getCode(), $e->getFile(), $e->getLine(), $e->getMessage());
+        }
+
+        /**
+         * Log errors and display it if you are admin
+         * @static function
+         * @param integer $code
+         * @param string $file
+         * @param integer $line
+         * @param string $message
+         */
+        protected static function errorLog($code, $file, $line, $message) {
+            $trace = $code . ' - ' . $file . ' - ' . $line . ' - ' . $message . PHP_EOL;
+            $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH;
+            if (is_file($root . 'modules/core/errors.log'))
+                file_put_contents($root . 'modules/core/errors.log', $trace, FILE_APPEND);
+            self::dispatchEvent('error', array($code, $file, $line, $message));
+            if (!isset($_SESSION['idr']) || $_SESSION['idr'] == 1) {
+                if (isset($_POST['action'])) {
+                    ob_clean();
+                    echo json_encode(array('notification' => $file . ' : ' . $message . ' in line ' . $line, 'notificationType' => 'negative'));
+                } else {
+                    include($root . 'modules/core/views/web/error.php');
+                }
+                exit;
+            }
+        }
 
     }
 
@@ -336,25 +336,46 @@ namespace {
      *  These 2 functions are the only procedural functions of Parsimony 
      *  
      */
-    function t($text, $modAdmin = TRUE) {
-	$before = '';
-	$after = '';
-	if ( isset($_SESSION['idr']) && $_SESSION['idr'] == 1 && $modAdmin!=false ) {
-	    $before = '<span data-key="' . $text . '" class="traduction">';
-	    $after = '</span>';      
-	} 
-        if(isset(app::$lang[$text])){
-                if(is_array($modAdmin)) return $before . vprintf(app::$lang[$text], $modAdmin) . $after;    
-                else return $before .  app::$lang[$text] . $after;     
-                           
-        }else{
-                if(is_array($modAdmin)) return $before . vprintf($text, $modAdmin) . $after;    
-                else return $before .  $text . $after;  
+    if (isset($_SESSION['idr']) && $_SESSION['idr'] == 1) {
+
+        function t($text, $modAdmin = TRUE) {
+            $before = '';
+            $after = '';
+            if ($modAdmin != false) {
+                $before = '<span data-key="' . $text . '" class="traduction">';
+                $after = '</span>';
+            }
+            if (isset(app::$lang[$text])) {
+                if (is_array($modAdmin))
+                    return $before . vprintf(app::$lang[$text], $modAdmin) . $after; else
+                    return $before . app::$lang[$text] . $after;
+            } else {
+                if (is_array($modAdmin))
+                    return $before . vprintf($text, $modAdmin) . $after; else
+                    return $before . $text . $after;
+            }
         }
+
+    } else {
+
+        function t($text, $params = FALSE) {
+            if (isset(app::$lang[$text])) {
+                if ($params)
+                    return vprintf(app::$lang[$text], $params);
+                else
+                    return app::$lang[$text] ;
+            }else {
+                if ($params)
+                    return vprintf($text, $params);
+                else
+                    return $text;
+            }
+        }
+
     }
 
     function s($text) {
-	return htmlentities($text, ENT_QUOTES | ENT_IGNORE, 'utf-8');
+        return htmlentities($text, ENT_QUOTES | ENT_IGNORE, 'utf-8');
     }
 
 }
