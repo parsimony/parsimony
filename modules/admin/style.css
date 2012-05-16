@@ -144,11 +144,10 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #panelcss_tab_general input{margin: 2px 0;}
 #panelcss_tab_general select{position: relative;top: -4px;}
 #panelcss_tab_border select{width:60px}
-#changecssformcode{border-left: 1px solid #D3D5DB;border-bottom: 1px solid #D3D5DB;}
 #goeditcss{width: 20px;height: 20px;display:none; background: url('admin/img/arrow.gif') no-repeat;position: absolute;top: 30px;right: 5px;}
 #changecsscode{font-size: 11px;font-family: arial, sans-serif;}
 #panelcss_tab_background label{margin: 5px 10px;position: relative;width: 70px;}
-.adminbtnrightslide{width: 50%;color: #333;font-weight: bold;float:left;text-align: center;cursor:pointer;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;}
+.adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;}
 
 #panelcss .CodeMirror {border: 1px solid #eee;}
 #panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}

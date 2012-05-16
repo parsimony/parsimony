@@ -57,10 +57,22 @@ $selectors = $css->getAllSselectors();
     #savemycss{border-right:1px solid white;border-bottom: 1px solid #D3D5DB;}
     #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
     #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
+    #changecssformcode{height: 36px;padding: 9px;
+    background-image: -webkit-gradient(linear,left bottom,left top,from(#b1b1b1),to(#b9b9b9));}
+    #changecssformcode div{float:left;width:50%;padding:3px;cursor: pointer;border: 1px solid #555;text-align:center;
+        background-image: -webkit-gradient(linear,left bottom,left top,from(#ccc),to(#f3f3f3));}
+    #changecssformcode div.active,#changecssformcode div:hover{color:#fff;box-shadow: inset 0px 1px 2px #444;
+        background-image: -webkit-gradient(linear,left bottom,left top,from(#959595),to(#555));}
+    #switchtovisuel{border-radius: 5px 0 0 5px;}
+    #switchtocode{border-radius: 0 5px 5px 0;}
 </style>
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
     <div style="min-width:230px;position:relative">
-        <div class="titleTab"><?php echo t('CSS Selector', FALSE); ?><span id="closepanelcss" class="ui-icon ui-icon-circle-close" style="display: inline-block;right: 30px;position: absolute;top: 3px;"></span><span id="opencssfilepath" style="display: inline-block;right: 10px;position: absolute;top: 3px;" class="ui-icon ui-icon-folder-open"></span></div>
+        <input type="hidden" name="typeofinput" id="typeofinput" value="code" />
+        <div id="changecssformcode">
+            <div id="switchtovisuel" class="active">Visuel</div>
+            <div id="switchtocode">Code</div>
+        </div>
         <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
             <option></option>
             <?php
@@ -87,7 +99,6 @@ $selectors = $css->getAllSselectors();
     <div id="css_panel" style="" class="none">
         <div>
             <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><img src="<?php echo BASE_PATH; ?>admin/img/savecss.png" style="margin:0px auto;"></div>
-            <div id="changecssformcode" class="adminbtnrightslide"><input type="hidden" name="typeofinput" id="typeofinput" value="code" /><img src="<?php echo BASE_PATH; ?>admin/img/switch.png" style="margin: 0px auto"></div>
         </div>
         <div id="changecssform" class="clearboth none swicthcsscode">
             <div id="css_menu" class="clearboth">
@@ -238,8 +249,10 @@ $selectors = $css->getAllSselectors();
                 <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background" type="text" name="background" css="background" value="">
 
                 <label for="background_image">Image</label>
-                <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background_image" type="text" name="background-image" css="background-image" value="">
-                <span class="ui-icon ui-icon-folder-open explorer" rel="background_image" style="position: relative;"></span>
+                <div>
+                    <span class="ui-icon ui-icon-folder-open explorer" rel="background_image" style="float:left;margin-right:5px;"></span>
+                    <input class="liveconfig input" style="width: 160px;float:left;height: 20px;" id="background_image" type="text" name="background-image" css="background-image" value="">
+                </div>
 
                 <label for="background_color">Color</label>
                 <input class="liveconfig colorpicker2" id="background_color" css="background-color" name="background-color" type="text" value="">
@@ -493,8 +506,8 @@ $selectors = $css->getAllSselectors();
             };
         });
 
-        $("#panelcss").on('click','#changecssformcode',function(){
-            if($("#typeofinput").val() == 'code'){ // go to form
+        $("#changecssformcode").on('click','#switchtovisuel,#switchtocode',function(){
+            if(this.id == 'switchtovisuel'){ // go to form
                 if($("#current_selector_update").val() == ""){
                     $(".gotoform:first").trigger("click");
                 }else{

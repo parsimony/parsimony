@@ -1180,6 +1180,8 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.openRightCSSPanel();
             $("#changecssform").removeClass('none');
             $("#changecsscode").addClass('none');
+            $("#switchtocode").removeClass('active');
+            $("#switchtovisuel").addClass('active');
             $("#typeofinput").val("form");
             $('#css_panel').show();
             $("#goeditcss").hide();
@@ -1188,6 +1190,8 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.openRightCSSPanel();
             $("#changecsscode").removeClass('none');
             $("#changecssform").addClass('none');
+            $("#switchtovisuel").removeClass('active');
+            $("#switchtocode").addClass('active');
             $("#typeofinput").val("code");
             $('#css_panel').show();
             $("#goeditcss").hide();
