@@ -18,7 +18,7 @@ body{background:url(admin/img/carbon_fibre.png);}
 
 /* Main Tab */
 .mainTab{position: relative;float: left;border-right: 1px solid #333;border-bottom: 1px solid #444;color: whiteSmoke;
-         width: 50%;box-sizing: border-box;font-weight: bold;text-align: center;padding: 6px;cursor: pointer;
+         width: 50%;box-sizing: border-box;font-weight: bold;text-align: center;padding: 12px 6px 10px;cursor: pointer;
          background-image: -webkit-gradient(linear, left top, left bottom, from(#555), to(#444));background-image: -moz-linear-gradient(top, #555, #444);background-image: -o-linear-gradient(top, #555, #444);}
 .mainTab:hover,.mainTab.active{background: #777;color: whiteSmoke;border-right: 1px solid #444;border-bottom: 1px solid #444;}
 
