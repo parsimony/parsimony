@@ -349,10 +349,12 @@ abstract class entity implements \Iterator {
             $html .= '<input type="hidden" name="entity" value="' . $_POST['module'] . ' - ' . $_POST['entity'] . '">';
         }
         foreach ($this->getFields() as $name => $field) {
-            if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
-                $col2 .= $field->formUpdate($this->{$field->name}, $this);
-            else
-                $col1 .= $field->formUpdate($this->{$field->name}, $this);
+            if ($field->visibility & UPDATE) {
+                if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
+                    $col2 .= $field->formUpdate($this->{$field->name}, $this);
+                else
+                    $col1 .= $field->formUpdate($this->{$field->name}, $this);
+            }
         }
         $html .= '<h2>' . t('Record', FALSE) . ' N° ' . $this->getId()->value;
         $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
