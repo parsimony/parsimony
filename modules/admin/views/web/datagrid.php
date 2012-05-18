@@ -51,16 +51,16 @@
                     <?php
                     foreach ($obj->getFields() as $field) :
 			$fieldName = $field->name;
+                        $class = '';
 			if ($fieldName == $id) {
-                            $class = 'datagrid_id';
-                        } elseif ($fieldName == $title) {
-                            $class = 'datagrid_title';
-                        } else {
-                            $class = '';
+                            $class = ' datagrid_id';
+                        }
+                        if ($fieldName == $title) {
+                            $class .= ' datagrid_title';
                         }
                         if (get_class($field) != 'core\fields\field_formasso') :
                         ?>
-                        <td class="column <?php echo $class; ?>"><?php echo $line->{$field->name}->displayGrid(); ?></td>
+                        <td class="column<?php echo $class; ?>"><?php echo $line->{$field->name}->displayGrid(); ?></td>
                     <?php endif;
                     endforeach; ?>
                 </tr>

@@ -483,6 +483,8 @@ abstract class entity implements \Iterator {
                     return $name;
                 }
             }
+            $properties = $this->getFields();
+            return reset($properties);
         }
         return FALSE;
     }
