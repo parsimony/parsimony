@@ -936,7 +936,7 @@ class admin extends \module {
 	    unset($_POST['delete']);
 	    $obj->where($obj->getId()->name.' = '.$_POST[$obj->getId()->name])->delete();
 	}
-	$return = array('eval' => '$(\'a[rel="' . $module . ' - ' . $entity . '"]\').trigger("click")', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
+	$return = array('eval' => '', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
 	return $this->returnResult($return);
     }
 
