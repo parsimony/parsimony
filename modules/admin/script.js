@@ -683,7 +683,7 @@ $this = $(elem).closest(".block").get(0);*/
         ParsimonyAdmin.moveBlock = true;
         $(ParsimonyAdmin.currentBody).append($("#dropInPage" ));
         ParsimonyAdmin.openRightTreePanel(); 
-        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragenter','.block,#dropInTree,.tree_selector', function(e) {
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragenter.drag','.block,#dropInTree,.tree_selector', function(e) {
             
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
@@ -721,7 +721,7 @@ $this = $(elem).closest(".block").get(0);*/
             return false;
         });
 	
-        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover','.block,#dropInTree,.tree_selector', function(e) {
+        $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover.drag','.block,#dropInTree,.tree_selector', function(e) {
             e.stopImmediatePropagation();
             return false;
         });
@@ -729,8 +729,7 @@ $this = $(elem).closest(".block").get(0);*/
 
     },
     stopDragging :   function (){
-        $(ParsimonyAdmin.currentBody).add('#paneltree').off('dragenter','.block,#dropInTree,.tree_selector');
-        $(ParsimonyAdmin.currentBody).add('#paneltree').off('dragover','.block,#dropInTree,.tree_selector');
+        $(ParsimonyAdmin.currentBody).add('#paneltree').off('.drag');
         ParsimonyAdmin.moveBlock = false;
     },
     selectBlock :   function (idBlock){
