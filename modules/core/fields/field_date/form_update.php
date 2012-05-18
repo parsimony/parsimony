@@ -31,7 +31,7 @@
         <label for="<?php echo $this->name ?>">
 	    <?php echo $this->label ?>
 	    <?php if (!empty($this->text_help)): ?>
-		<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo $this->text_help ?>"></span>
+		<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	    <?php endif; ?>
         </label>
         <input type="date" class="date" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />

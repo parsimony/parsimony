@@ -29,7 +29,7 @@
 <div><label for="<?php echo $this->name ?>">
 	<?php echo $this->label ?>
 	<?php if (!empty($this->text_help)): ?>
-    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo $this->text_help ?>"></span>
+    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	<?php endif; ?>
     </label>
 <input type="button" style="width:35%" value="<?php echo t('Save Draft',FALSE); ?>" name="add">

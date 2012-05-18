@@ -30,7 +30,7 @@
     <label for="<?php echo $this->name ?>">
 	<?php echo $this->label ?>
 	<?php if (!empty($this->text_help)): ?>
-    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo $this->text_help ?>"></span>
+    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	<?php endif; ?>
     </label>
     <input type="text" autocomplete="off" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo $this->default ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />

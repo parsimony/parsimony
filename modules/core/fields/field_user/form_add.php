@@ -31,7 +31,7 @@
     <label for="<?php echo $this->name ?>">
         <?php echo $this->label ?>
         <?php if (!empty($this->text_help)): ?>
-            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo $this->text_help ?>"></span>
+            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
         <?php endif; ?>
     </label>
     <select name="<?php echo $this->name ?>">
