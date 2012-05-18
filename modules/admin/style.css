@@ -251,7 +251,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 .adminzone th,.adminzone thead{border:1px solid #99BCE8;text-align:center;padding-top:8px}
 .adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #99BBE8;background-color: #CBDDF3;}
 .adminzone th{font-weight:normal;line-height: 30px;font-size: 15px;box-shadow: #F4F8FD 0 1px 0px 0 inset;}
-#tabsconfig th{min-width: 80px;}
+#tabsconfig th{min-width: 80px;} 
 .adminzone td{vertical-align: middle;border: 1px solid #DDD;text-align: left;text-overflow:ellipsis;}
 .adminzone tbody tr{background:white}
 .adminzone .adminzonemenu{width: 150px;vertical-align: top;background:#777;min-height: 400px;}
