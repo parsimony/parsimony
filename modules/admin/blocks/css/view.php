@@ -54,7 +54,7 @@ $selectors = $css->getAllSselectors();
     .border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
     #changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
     #opencssfilepath2{color:#fff;font-size:9px;border-top: 1px #CCC solid;}
-    #savemycss{border-right:1px solid white;border-bottom: 1px solid #D3D5DB;}
+    #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
     #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
     #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
     #changecssformcode{height: 36px;padding: 9px;
@@ -98,7 +98,7 @@ $selectors = $css->getAllSselectors();
     </div>
     <div id="css_panel" style="" class="none">
         <div>
-            <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><img src="<?php echo BASE_PATH; ?>admin/img/savecss.png" style="margin:0px auto;"></div>
+            <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><img src="<?php echo BASE_PATH; ?>admin/img/savecss.png" style="margin:0px auto;vertical-align: middle;">  <?php echo t('Save'); ?></div>
         </div>
         <div id="changecssform" class="clearboth none swicthcsscode">
             <div id="css_menu" class="clearboth">
