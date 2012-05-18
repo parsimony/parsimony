@@ -272,7 +272,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
 .adminzonecontent .col1 {margin: 0px 26px 0px 0px;min-width:490px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent .col2{min-width:250px;max-width: 350px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
-.adminzonecontent .col2 > label{margin: 10px 0px;line-height: 15px;display:block;font-weight: bold;font-size: 16px;text-align: left;border-radius: 4px;text-transform: capitalize;font-size: 15px;padding: 7px;color: white;background: #777;
+.adminzonecontent .col2 > div > label{margin: 10px 0px;line-height: 15px;display:block;font-weight: bold;font-size: 16px;text-align: left;border-radius: 4px;text-transform: capitalize;font-size: 15px;padding: 7px;color: white;background: #777;
                               background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#555));
                               background: -moz-linear-gradient(top, #777, #555);
                               background: -o-linear-gradient(top, #777, #555);
