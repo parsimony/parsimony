@@ -105,7 +105,8 @@ include_once('modules/core/classes/field.php');
     .question input{margin-right: 10px;}
     .entity2,.entity1{font-weight:bold}
     #cardinality{background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
-                 text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;} 
+                 text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
+    input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
     </style> 
 <?php    /*
     <div id="tooltip-field_string" class="none"><h1><?php echo t('String Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).

@@ -476,7 +476,7 @@ input[type='checkbox']:not(:disabled):active {
 
 input[type='checkbox']:checked::before {
     color: #808080;
-    content: url("../admin/img/checkmark.png");
+    content: url("admin/img/checkmark.png");
     font-size: 13px;
     height: 16px;
     left: 2px;
