@@ -13,7 +13,6 @@
         </script>
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>concat?format=css&files=<?php echo BASE_PATH ?>lib/cms.css,<?php echo BASE_PATH ?>admin/style.css,<?php echo BASE_PATH ?>lib/tooltip/parsimonyTooltip.css" />
         <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </SCRIPT>
-        <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
         <SCRIPT LANGUAGE="Javascript" SRC="<?php echo BASE_PATH ?>concat?format=js&files=<?php echo BASE_PATH ?>lib/cms.js,<?php echo BASE_PATH ?>lib/tooltip/parsimonyTooltip.js"> </SCRIPT>
         <style>body{overflow: hidden;}</style>
         <script>
@@ -22,7 +21,6 @@
 	    });
 	    $(document).ready(function() {
 		$(".tooltip").parsimonyTooltip({triangleWidth:5});
-                
 	    });
 	    $(".adminzonetab a").live('click',function(event){
 		event.preventDefault();
@@ -43,11 +41,9 @@
                 isCtrl = false;
 	    });
 	    
-        </script>    </head>
-    <body><div id="parsimonyTooltip">
-    <div class="tri"></div>
-    <div class="parsimonyTooltipContent"></div>
-</div>
+        </script>
+    </head>
+    <body>
 	<?php echo $content; ?>
     </body>
     

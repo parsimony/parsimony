@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-
+<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
 <style>
     fieldset{background: #EDEFF4;}
     .placeholder {background-color: #cfcfcf;}
@@ -78,11 +78,7 @@
             <input type="text" id="input_url"  placeholder="http://" />
             <input type="hidden" id="input_icon" />
             <div id="imgglyphish">
-		<?php
-		foreach (glob("lib/glyphish/glyphish-blue/*.png") as $filename) {
-		    echo '<img src="' . BASE_PATH . $filename . '" data-id="' . substr(basename($filename), 0, -4) . '" style="float:left;cursor:pointer"\>';
-		}
-		?>
+		
             </div>
             <input type="button" value="<?php echo t('Add', FALSE); ?>" id="add-menu-item">
         </fieldset>
@@ -129,10 +125,17 @@
         $("#add-menu-item").click(function(){
             addLink($("#input_title").val(),$("#input_url").val(),$("#input_icon").val());
         });
-        $("#imgglyphish img").click(function(){
+        $(document).on("click","#imgglyphish img",function(){
             $('.iconselect').removeClass('iconselect');
             $(this).addClass('iconselect');
             $("#input_icon").val($(this).data('id'));
         });
+        <?php
+            $imgs = '';
+            foreach (glob("lib/glyphish/glyphish-blue/*.png") as $filename) {
+                $imgs .= '<img src="' . BASE_PATH . $filename . '" data-id="' . substr(basename($filename), 0, -4) . '" style="float:left;cursor:pointer"\>';
+            }
+        ?>
+                $('<?php echo $imgs ?>').appendTo("#imgglyphish");
     });
 </script>
