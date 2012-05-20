@@ -517,10 +517,11 @@ $this = $(elem).closest(".block").get(0);*/
                 e.stopPropagation();
                 $(".cssPicker").removeClass("cssPicker");
                 $(this).addClass("cssPicker");
+                ParsimonyAdmin.getCSSForCSSpicker();
                 var title = CSSTHEMEPATH;
-                if(this.id != "") ParsimonyAdmin.addNewSelectorCSS( title, "#" + this.id);
+                if(this.id != "" && $(".selectorcss[selector='#" + this.id + "']").length == 0) ParsimonyAdmin.addNewSelectorCSS( title, "#" + this.id)
                 $.each($(this).attr('class').replace('  ',' ').split(' '), function(index, value) {
-                    ParsimonyAdmin.addNewSelectorCSS( title, "." + value);
+                    if($(".selectorcss[selector='." + value + "']").length == 0 && value != "selection-block") ParsimonyAdmin.addNewSelectorCSS( title, "." + value);
                 });
                 var good = false;
                 var selectProp = this.tagName.toLowerCase();
@@ -538,7 +539,7 @@ $this = $(elem).closest(".block").get(0);*/
                     });
                     ParsimonyAdmin.addNewSelectorCSS( title, selectProp);
                 }
-                ParsimonyAdmin.getCSSForCSSpicker();
+                
                 $('#container',ParsimonyAdmin.currentBody).off(".csspicker");
                 $("#csspicker").removeClass("active");
                 return false;
