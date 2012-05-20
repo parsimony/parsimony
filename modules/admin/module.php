@@ -365,6 +365,28 @@ class admin extends \module {
         }
         return json_encode($selectors);
     }
+    
+    /**
+     * Get the rules of css selectors and return them in json
+     * @param string $json
+     * @return string 
+     */
+    protected function getCSSSelectorsRulesAction($json) {
+        $selectors = json_decode($json);
+        $res = array();
+        foreach($selectors AS $selector){
+            if(is_file(PROFILE_PATH.  $selector->url)) $filePath2 =  PROFILE_PATH. $selector->url;
+            else $filePath2 =  'modules/'.  $selector->url;
+            $css = new \css($filePath2);
+            $selectorText = str_replace("\t", '', trim($css->selectorExists($selector->selector)));
+            if (!$selectorText)
+                $selectorText = '';
+            $res[] = array('selector' => $selector,'filePath' =>  $selector->url, 'nbstyle' => $selector->nbstyle,'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
+        }
+        \app::$response->setHeader('X-XSS-Protection', '0');
+	\app::$response->setHeader('Content-type', 'application/json');
+        return json_encode($res);
+    }
 
     /**
      * Save CSS

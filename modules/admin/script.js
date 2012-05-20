@@ -1142,13 +1142,24 @@ $this = $(elem).closest(".block").get(0);*/
                         if(elmt.webkitMatchesSelector(this.selectorText)){
                             var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
                             ParsimonyAdmin.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-z\-]/g, ";\n"), i , nbrule);
-                            json += '{"nbstyle":"' + i + '","nbstyle":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
+                            json += '{"nbstyle":"' + i + '","nbrule":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
                         }
                     });
                 }
             }
             json = json.substring(0, json.length - 1) + ']';
-            console.dir(jQuery.parseJSON(json));
+            $.post(BASE_PATH + "admin/getCSSSelectorsRules", { json: json },
+            function(data) {
+                $.each(data, function(i,item) {
+                    //alert(item.cssText);
+                    var id = 'idcss' + item.nbstyle + item.nbrule;
+                    document.getElementById(id).value = item.cssText;
+                });
+                $.each(ParsimonyAdmin.csseditors,function(i, el){
+                    el.setValue(document.getElementById(el.id).value);
+                });
+            });
+            
         },
         addNewSelectorCSS :  function ( path, selector){
             var code = '';
