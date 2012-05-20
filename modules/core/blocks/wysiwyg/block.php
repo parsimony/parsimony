@@ -49,6 +49,12 @@ class wysiwyg extends \block {
     public function saveConfigs() {
         \tools::file_put_contents( PROFILE_PATH .$this->getConfig('path'), $_POST['editor']);
     }
+    
+    public function setHTML($html) {
+        if (\app::getClass('user')->VerifyConnexion() && ID_ROLE == 1) {
+            \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),$html);
+        }
+    }
 
 }
 

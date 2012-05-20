@@ -587,21 +587,34 @@ class admin extends \module {
     private function domToArray($node) {
 	if ($node->children()) {
 	    $tts = array();
-	    // echo '<ul>';
 	    foreach ($node->children() as $kid) {
-		if ($kid->tag == 'div' && !empty($kid->id)) {
-		    //echo '<li>' . $kid->id . '</li>';
-		    $tts[$kid->id] = $kid->id;
+                if($kid->tag == 'center') {$kid->id = uniqid();$kid->tag = 'div';$kid->class = 'align_center';}
+                $allowTags = array('div','header','footer','section','article','aside','hgroup','nav');
+		if (in_array($kid->tag, $allowTags)/* && !empty($kid->id)*/) {
+                    if(empty($kid->id)){
+                        $kid->id = uniqid();
+                    }
+		    $tts[$kid->id]['content'] = $kid->id;
+                    $tts[$kid->id]['tag'] = $kid->tag;
+                    if(isset($kid->class)) $tts[$kid->id]['class'] = $kid->class;
 		    if ($kid->children()) {
+                        $mark = true;
+                        foreach ($kid->children() as $sskid){ //verif if children be part of structure
+                            if(!in_array($sskid->tag, $allowTags) && empty($sskid->id)) {
+                                $mark = false;
+                                //echo $sskid->tag ;exit;
+                                break;
+                            }
+                        } 
 			$res = $this->domToArray($kid);
-			if (empty($res))
-			    $tts[$kid->id] = $kid->innertext;
+                        $tts[$kid->id] = array('content' => '');
+			if (empty($res) || !$mark)
+			    $tts[$kid->id]['content'] = $kid->innertext;
 			else
-			    $tts[$kid->id] = $res;
-		    }
-		}
+			    $tts[$kid->id]['content'] = $res;
+                    }
+		}else  {echo $kid->tag.'tdddt'.$kid->id;}
 	    }
-	    //echo '</ul>';
 	    return $tts;
 	}
     }
@@ -613,17 +626,18 @@ class admin extends \module {
      * @return string 
      */
     private function arrayToBlocks($node, $id = 'container') {
-	if($id=='content') $block = new \core\blocks\page($id);
-	else $block = new \core\blocks\container($id);
 	if (is_array($node)) {
+            if($id=='content') $block = new \core\blocks\page($id);
+            else $block = new \core\blocks\container($id);
+            if(isset($node['tag'])) $block->setConfig('tag',$node['tag']);
 	    foreach ($node as $id => $ssnode) {
-		$b = $this->arrayToBlocks($ssnode, $id);
+		$b = $this->arrayToBlocks($ssnode['content'], $id);
 		$block->addBlock($b);
 	    }
 	} else {
-	    $b = new \core\blocks\wysiwyg($id . '_html');
-	    //$b->setConfig('text', $node);
-	    $block->addBlock($b);
+	    $block = new \core\blocks\wysiwyg($id);
+	    $block->setHTML(utf8_encode($node));
+	    if(isset($node['class'])) $block->setConfig('css_classes',$node['class']);
 	}
 	return $block;
     }
@@ -663,27 +677,43 @@ class admin extends \module {
      */
     protected function addThemeAction($thememodule, $name, $patterntype, $template, $url) {
 	if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
+            set_time_limit(0);
 	    mkdir(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
 	    if ($patterntype == 'url' && !empty($url)) {
 		include('lib/simplehtmldom/simple_html_dom.php');
 		$str = file_get_contents($url);
 		substr($url, -1) == '/' ? $baseurl = dirname($url . 'index') : $baseurl = dirname($url);
 		$str = \tools::absolute_url($str, $baseurl);
+                $str = preg_replace('#<!--(.*?)-->#is', '', $str);
+                $str = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $str);
+                $str = preg_replace('#<noscript(.*?)>(.*?)</noscript>#is', '', $str);
+                $str = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $str);
 		$html = str_get_html($str);
 		preg_match_all('/<.*href="(.*\.css).*[^"]/i', $str, $out);
 		$allCSS = '';
 		foreach ($out[1] as $css) {
-		    $allCSS .= file_get_contents($css);
+		    $code = file_get_contents($css);
+                    $base = dirname($css).'/';
+                    $host = 'http://'.parse_url($css, PHP_URL_HOST).'/';
+                    $code = preg_replace('@url\s+\(\s+@', 'url(', $code);
+                    $code = preg_replace('@url\((["\'])?/@', 'url(\1'.$host, $code);
+                    $code = preg_replace('@url\((["\'])?@', 'url(\1'.$base, $code);
+                    $code = str_replace($base.'http://', 'http://', $code);
+                    $code = str_replace($base.'http://', 'http://', $code);
+                    $allCSS .= $code;
 		}
 		file_put_contents(PROFILE_PATH . $thememodule . '/themes/' . $name . '/web.css', utf8_encode($allCSS));
 		$body = $html->find('body');
 		$tree = $this->domToArray($body[0]);
-		$structure1 = $this->arrayToBlocks($tree);
+                //print_r($tree);exit;
+		$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));
 		$theme = new \theme('container');
 		$theme->setName($name);
 		$theme->setThemeType('web');
 		$theme->setModule($thememodule);
-		$theme->setBlocks($structure1->getBlocks());
+                $conts = $structure1->getBlocks();
+                $cont = reset($conts);
+		$theme->setBlocks($cont->getBlocks());
 		$theme->save();
 	    } else if ($patterntype == 'template' && !empty($template)) {
 		$themeweb = \theme::get($thememodule, $template, 'web');
