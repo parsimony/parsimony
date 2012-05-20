@@ -1236,7 +1236,8 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
      * @return string 
      */
     protected function getBackUpAction($replace, $file) {
-	$old = file_get_contents('backup/' . $file . '-' . $replace . '.bak');
+	$old = file_get_contents('profiles/'.PROFILE.'/backup/' . $file . '-' . $replace . '.bak');
+        $old = preg_replace('#.*<\?php __halt_compiler\(\); \?>#Usi', '', $old);
 	file_put_contents($file, $old);
 	return $old;
     }
