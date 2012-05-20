@@ -183,6 +183,17 @@ class field {
         $html = ob_get_clean();
         return $html;
     }
+    
+    /**
+     * Display filter form
+     * @return string
+     */
+    public function displayFilter() {
+        ob_start();
+        include('modules/' . str_replace('\\', '/', get_class($this)) . '/form_filter.php');
+        $html = ob_get_clean();
+        return $html;
+    }
 
     /**
      * Display Updating Form
@@ -279,6 +290,14 @@ class field {
         else
             $default = '';
         return $this->name . ' ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
+    }
+    
+    /**
+     * Fill SQL Features
+     * @return string
+     */
+    public function sqlFilter($filter) {
+        return 'like \'%' . $filter . '%\'';
     }
     
     /**

@@ -255,6 +255,7 @@ class view implements \Iterator {
      * @return bool
      */
     public function buildQuery() {
+        \app::dispatchEvent('beforeBuildQuery', array());
         $query = 'SELECT ';
         foreach ($this->getFields() as $name => $field) {
             $property = $field->module . '_' . $field->entity . '.' . $field->name;

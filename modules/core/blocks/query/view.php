@@ -26,7 +26,7 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+\app::addListener('beforeBuildQuery', array($this, 'process'));
 $view = $this->getConfig('view');
 if ($view != FALSE) {
     include(PROFILE_PATH .$this->getConfig('pathOfViewFile'));
@@ -37,4 +37,6 @@ if ($view != FALSE) {
 if ($this->getConfig('pagination')) {
     echo $view->getPagination();
 }
+
+echo $this->getFilters();
 ?>

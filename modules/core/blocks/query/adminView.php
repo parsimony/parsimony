@@ -34,7 +34,16 @@ $view = $this->getConfig('view');
 ?>
 <style>
     .tabs{max-width: 1000px;}
-    .queryblock{margin:1px 1px;border-radius:3px;border:#ddd 1px solid;padding:1px;background-color: #EDEFF4;}
+    .queryblock{margin:1px 1px;border-radius:3px;padding:1px;
+	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0  1px  0  #ffffff ;
+	background: #eee;
+	background: -webkit-gradient(linear, left top, left bottom, from( #f2f2f2), to( #ddd));
+	background: -webkit-linear-gradient( #f2f2f2, #ddd); 
+	background: -moz-linear-gradient( #f2f2f2, #ddd);
+	background: -ms-linear-gradient( #f2f2f2, #ddd);
+	background: -o-linear-gradient( #f2f2f2, #ddd);
+	background: linear-gradient( #f2f2f2, #ddd);
+    }
     .property{padding: 0 4px;cursor:pointer;line-height: 20px;font-family: sans-serif}
     .property:hover{background:#CBDDF3}
     .caption{width:65px;position: absolute;left:0px;background:white;z-index: 100;float:left;}
@@ -51,14 +60,16 @@ $view = $this->getConfig('view');
     .schemasql a{text-decoration: none;color: #333;font-weight: bolder;text-transform: capitalize;padding-left: 4px;}
     .schemasql .menuh{border: 1px solid #5E9AE2;text-align: left;width: 100%;display:none;position:absolute;top:32px;z-index:8000;background:rgba(255,255,255,0.8);left: 0px;}
     .schemasql .tableCont{border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;width:97px;margin:2px 2px;}
-    .schemasql .tableCont .table{background:#F1F5F9;padding:5px 4px;line-height: 20px;font-weight: bold;}
+    .schemasql .tableCont .table{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
+				 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
+				 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
     #links{margin-bottom:15px;}
     #textdbquery{padding: 12px 0px 0px 50px;font-size: 15px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;height: 217px;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;}
+    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
     #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding:3px}
@@ -66,27 +77,12 @@ $view = $this->getConfig('view');
     .propertyJoin{width:250px;line-height:25px;font-weight: bold;font-family: sans-serif}
     .propertyJoinLeft{text-align: right;padding-right: 7px}
     .propertyJoinRight{text-align: left;padding-left: 7px}
-    .removeButton{border-radius: 5px;cursor: pointer;background: url(/admin/img/icons.png) -96px -128px, whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
-
-    /* Overridde CSS for test */
-    .schemasql .tableCont .table{color: white;background: #5E9AE2;
-				 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
-				 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
-    .queryblock{
-	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0  1px  0  #ffffff ;
-	background: #eee;
-	background: -webkit-gradient(linear, left top, left bottom, from( #f2f2f2), to( #ddd));
-	background: -webkit-linear-gradient( #f2f2f2, #ddd); 
-	background: -moz-linear-gradient( #f2f2f2, #ddd);
-	background: -ms-linear-gradient( #f2f2f2, #ddd);
-	background: -o-linear-gradient( #f2f2f2, #ddd);
-	background: linear-gradient( #f2f2f2, #ddd);
-    }
+    .bloctitle .property{color:#fff}
     .bloctitle{border-radius: 3px;background: #5E9AE2;
 	       background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
 	       background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
-    .bloctitle .property{color:#fff}
-    .removeButton {background: url(/admin/img/icons_white.png) -96px -128px;}
+    input.filter,input.sort{margin:3px 0}
+    .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
 </style>
 <div class="tabs">
     <ul>
@@ -160,6 +156,8 @@ $view = $this->getConfig('view');
 	    <div class="align_center"><input  class="display" type="checkbox" checked="checked"></div>
 	    <div><input class="where" type="text"></div>
 	    <div><input class="or" type="text"></div>
+            <div class="align_center"><input class="filter" type="checkbox" checked="checked"></div>
+            <div class="align_center"><input class="sort" type="checkbox" checked="checked"></div>
 	</div>         
 	<div class="clearboth"></div>
 	<div id="form" action="" style="position: relative">
@@ -171,6 +169,8 @@ $view = $this->getConfig('view');
 		<div><?php echo t('Display', FALSE); ?></div>
 		<div><?php echo t('Criteria', FALSE); ?></div>
 		<div><?php echo t('Or', FALSE); ?></div>
+                <div class="filter"><?php echo t('Filter', FALSE); ?></div>
+                <div class="sort"><?php echo t('Sort', FALSE); ?></div>
 	    </div>
 	    <div id="recipiant_sql_cont" class="fs">
 		<div id="recipiant_sql">
@@ -243,6 +243,16 @@ $view = $this->getConfig('view');
 			    ?>></div>
 				<div><input type="text" class="where" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][where]" value="<?php echo s($selected['where']); ?>"></div>
 				<div><input type="text" class="or" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][or]" value="<?php echo s($selected['or']); ?>"></div>
+                                <div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][filter]" class="filter" <?php
+					if (isset($selected['filter']) && $selected['filter']) {
+					    echo ' checked="checked"';
+					}
+			    ?>></div>
+                                <div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][sort]" class="sort" <?php
+					if (isset($selected['sort']) && $selected['sort']) {
+					    echo ' checked="checked"';
+					}
+			    ?>></div>
 			    </div><?php
 						     }
 						 }
@@ -260,6 +270,20 @@ $view = $this->getConfig('view');
 		</div>
 		<div style="display:inline;width:300px">
 		    <?php echo t('Site Pages show at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+		</div>
+	    </div>
+            <div class="clearboth" id="textdbquery">
+		<div style="display:inline-block;width:300px">
+		    <?php echo t('Active Filters', FALSE); ?> : <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
+		    if ($this->getConfig('filter') == 1)
+			echo ' checked="checked"';
+		    ?> />
+		</div>
+		<div style="display:inline-block;width:300px">
+		    <?php echo t('Active Sort', FALSE); ?> : <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
+		    if ($this->getConfig('sort') == 1)
+			echo ' checked="checked"';
+		    ?> />
 		</div>
 	    </div>
 	    <br>
@@ -339,6 +363,13 @@ $view = $this->getConfig('view');
 	$("<div><input type=\"hidden\" name=\"relations[" + table1 + "_" + table2 + "][propertyLeft]\" value=\"" + table1 + "." + idTableLeft + "\"><div class=\"propertyJoin propertyJoinLeft inline-block align_right\">" + table1 + "." + idTableLeft + "</div><select name=\"relations[" + table1 + "_" + table2 + "][type]\"><option>" + type + "</option><option>inner join</option><option>join</option><option>left join</option><option>left outer join</option><option>right join</option><option>right outer join</option></select><div class=\"propertyJoin propertyJoinRight inline-block\">" + table2 + "." +  idTableRight + "</div><input type=\"hidden\" name=\"relations[" + table1 + "_" + table2 + "][propertyRight]\" value=\"" + table2 + "." +  idTableRight + "\"></div>").appendTo("#linkstransit");
 
     }
+    function manageFilters() {
+        if($('#filter').is(':checked')) $('.filter').show();
+        else $('.filter').hide();
+        if($('#sort').is(':checked') ) $('.sort').show();
+        else $('.sort').hide();
+    }
+    
     function generateLinks() {
 	var tables = [], links = [], tableCount = [];
 	$('#recipiant_sql .queryblock').each(function(){
@@ -431,17 +462,20 @@ $view = $this->getConfig('view');
 	    $(sqlscheme).attr('property',$(this).parent().attr('table') + "_" + $(this).text());
 	    $(".property",sqlscheme).val($(this).text());
 	    $(".property",sqlscheme).attr('name','properties[' + nameProp + '][property]');
-	    $(".display",sqlscheme).attr('name','properties[' + nameProp + '][display]');
+	    $(".display",sqlscheme).attr('name','properties[' + nameProp + '][displayfilter]');
 	    $(".aggregate",sqlscheme).attr('name','properties[' + nameProp + '][aggregate]');
 	    $(".where",sqlscheme).attr('name','properties[' + nameProp + '][where]');
 	    $(".or",sqlscheme).attr('name','properties[' + nameProp + '][or]');
 	    $(".order",sqlscheme).attr('name','properties[' + nameProp + '][order]');
+            $(".filter",sqlscheme).attr('name','properties[' + nameProp + '][filter]');
+            $(".sort",sqlscheme).attr('name','properties[' + nameProp + '][sort]');
 	    sqlscheme.appendTo("#recipiant_sql").slideDown();
 	    $("#generate_query").trigger("click");
 	}
     });
     $(document).on("change","#form input,#form select",function() {
 	if($('#pagination').is(':checked') && $('#nbitem').val().length==0) $('#nbitem').val(10);
+        manageFilters();
 	$("#generate_query").trigger("click");
     });
     $('#generate_query').click(function() {
@@ -472,6 +506,7 @@ $view = $this->getConfig('view');
 	},function() {
 	    $("a",this).next().hide();
 	});
+        manageFilters();
 	//$("#generate_query").trigger("click");
     });
     function editorChange(){
