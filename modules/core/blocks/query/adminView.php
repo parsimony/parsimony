@@ -58,7 +58,7 @@ $view = $this->getConfig('view');
     #schema_sql{position:relative;}
     .schemasql{color:#383838;border: 1px solid #99BBE8;letter-spacing: 1.1px;box-shadow: #F4F8FD 0 1px 0px 0 inset;background-color: #CBDDF3;width: 100px;line-height: 30px;text-align: center;}
     .schemasql a{text-decoration: none;color: #333;font-weight: bolder;text-transform: capitalize;padding-left: 4px;}
-    .schemasql .menuh{border: 1px solid #5E9AE2;text-align: left;width: 100%;display:none;position:absolute;top:32px;z-index:8000;background:rgba(255,255,255,0.8);left: 0px;}
+    .schemasql .menuh{overflow-x: scroll;border: 1px solid #5E9AE2;text-align: left;width: 100%;display:none;position:absolute;top:32px;z-index:8000;background:rgba(255,255,255,0.8);left: 0px;}
     .schemasql .tableCont{border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;width:97px;margin:2px 2px;}
     .schemasql .tableCont .table{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
 				 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
