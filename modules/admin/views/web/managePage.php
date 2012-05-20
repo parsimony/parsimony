@@ -46,11 +46,16 @@
     .ui-icon-closethick{margin: 5px;border: #666 solid 1px;border-radius: 5px;margin: 0px auto}
     .modulecss{padding: 5px;list-style: none;border: 1px solid #99BBE8;background-color: #CBDDF3;text-transform: capitalize;}
     .modulecss a{text-decoration: none;color:#333;}
-    .details{display:none;position:absolute;top:23px;z-index:1;background:#fff;width: 900px;}
-    .entity{border: 1px solid #5E9AE2;margin: 2px 2px 2px 0px;}
-    .entityname{padding: 5px;background: #F1F5F9;}
+    .details{display:none;position:absolute;top:23px;z-index:1;background: rgba(255,255,255,0.8);width: 650px;overflow-x: scroll}
+    .detailsCont{width: 1500px;}
+    .entity{border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;margin:2px 2px;}
     .cent{width:100%;box-sizing:border-box;}
     td.type{cursor: move;}
+    .entityname{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
+				 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
+				 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
+    .property:hover{background:#CBDDF3}
+    #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
 </style>
 <div class="adminzone" id="adminformpage">
 
@@ -196,22 +201,22 @@
                                     $models = $module->getModel();
                                     if (count($models) > 0) {
                                         echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
-                                            <li class="ui-state-default ui-corner-top modulecss"><a href="#" onclick="return false">' . $module->getName() . '</a></li><div class="details">';
+                                            <li class="ui-state-default ui-corner-top modulecss"><a href="#" onclick="return false">' . $module->getName() . '</a></li><div class="details"><div class="detailsCont">';
                                         foreach ($models as $modelName => $model) {
 
-                                            echo '<div class="floatleft entity" table="' . $module->getName() . '_' . $modelName . '">
-								<div class="table entityname">' . $module->getName() . '_' . $modelName . '</div>';
+                                            echo '<div class="inline-block entity" table="' . $module->getName() . '_' . $modelName . '">
+								<div class="table entityname ellipsis">' . $module->getName() . '_' . $modelName . '</div>';
                                             $obj = app::getModule($module->getName())->getEntity($modelName);
                                             foreach ($obj->getFields() AS $field) {
                                                 if (get_class($field) == 'field_foreignkey')
                                                     $link = ' link="' . $module->getName() . '_' . $field->link . '"';
                                                 else
                                                     $link = '';
-                                                echo '<div name="' . $field->name . '" regex="(.*)" val="example" class="property ' . get_class($field) . '"' . $link . ' style="cursor:pointer;margin:5px">' . $field->name . '</div>';
+                                                echo '<div name="' . $field->name . '" regex="(.*)" val="example" class="ellipsis property ' . get_class($field) . '"' . $link . ' style="cursor:pointer;margin:5px">' . $field->name . '</div>';
                                             }
                                             echo '</div>';
                                         }
-                                        echo '</div></div>';
+                                        echo '</div></div></div>';
                                     }
                                     ?>
                                     <div class="clearboth"></div>
