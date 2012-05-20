@@ -1132,6 +1132,7 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.csseditors.push(editor);
         },
         getCSSForCSSpicker :  function (){
+            var json = '[';
             ParsimonyAdmin.openCSSCode();
             var elmt = $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker').get(0);
             var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
@@ -1141,10 +1142,13 @@ $this = $(elem).closest(".block").get(0);*/
                         if(elmt.webkitMatchesSelector(this.selectorText)){
                             var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
                             ParsimonyAdmin.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-z\-]/g, ";\n"), i , nbrule);
+                            json += '{"nbstyle":"' + i + '","nbstyle":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
                         }
                     });
                 }
             }
+            json = json.substring(0, json.length - 1) + ']';
+            console.dir(jQuery.parseJSON(json));
         },
         addNewSelectorCSS :  function ( path, selector){
             var code = '';
@@ -1199,24 +1203,6 @@ $this = $(elem).closest(".block").get(0);*/
                 ParsimonyAdmin.csseditors.splice(i,i+1);
             });
             $("#changecsscode").empty();
-        },
-        getCSSForCSSpicker2 :  function (){
-	    var test = '';
-            var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
-            for (var i = 0; i < styleSheets.length; i++){
-                var fileRules = styleSheets[i].cssRules || styleSheets[i].rules;
-                if(fileRules != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
-                    $.each(fileRules, function(num) {
-                        if(styleSheets[i].href != null){
-                            if(this.selectorText!='.cssPicker' && this.selectorText.substring(0,1)!='-' && !this.selectorText.match(/,|::/) && $(this.selectorText + ".cssPicker",ParsimonyAdmin.currentBody).length > 0){
-                                var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
-				test += '{'+num+':' + url + ',' + this.selectorText + '</div>';
-                            }
-                        }
-                    });
-                }
-            }
-	    console.log(test);
         },
         removeEmptyTextNodes: function(elem){
             var children = elem.childNodes;
