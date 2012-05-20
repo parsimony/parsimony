@@ -388,6 +388,7 @@ $this = $(elem).closest(".block").get(0);*/
         });
         
         $(".editinline",ParsimonyAdmin.currentBody).on('blur.preview',function(){
+            $(this).attr('contentEditable', false);
             ParsimonyAdmin.postData(BASE_PATH + "admin/editInLine",{
                 TOKEN: TOKEN,
                 module: $(this).data('module'),
@@ -396,8 +397,6 @@ $this = $(elem).closest(".block").get(0);*/
                 id: $(this).data('id'),
                 value: $(this).html()
             },function(data){
-                $("#conf_box_content_iframe").contents().find('body').html(data);
-                data = $("#conf_box_content_iframe").contents().find('body').html();
                 ParsimonyAdmin.execResult(data);
             });
         });
