@@ -136,6 +136,8 @@
                 $imgs .= '<img src="' . BASE_PATH . $filename . '" data-id="' . substr(basename($filename), 0, -4) . '" style="float:left;cursor:pointer"\>';
             }
         ?>
-                $('<?php echo $imgs ?>').appendTo("#imgglyphish");
+        $(window).load(function () {
+            $('<?php echo $imgs ?>').appendTo("#imgglyphish");
+        });
     });
 </script>
