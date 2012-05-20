@@ -69,7 +69,7 @@ $view = $this->getConfig('view');
     #links{margin-bottom:15px;}
     #textdbquery{padding: 12px 0px 0px 50px;font-size: 15px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;}
+    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;min-height:217px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
     #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding:3px}
@@ -462,7 +462,7 @@ $view = $this->getConfig('view');
 	    $(sqlscheme).attr('property',$(this).parent().attr('table') + "_" + $(this).text());
 	    $(".property",sqlscheme).val($(this).text());
 	    $(".property",sqlscheme).attr('name','properties[' + nameProp + '][property]');
-	    $(".display",sqlscheme).attr('name','properties[' + nameProp + '][displayfilter]');
+	    $(".display",sqlscheme).attr('name','properties[' + nameProp + '][display]');
 	    $(".aggregate",sqlscheme).attr('name','properties[' + nameProp + '][aggregate]');
 	    $(".where",sqlscheme).attr('name','properties[' + nameProp + '][where]');
 	    $(".or",sqlscheme).attr('name','properties[' + nameProp + '][or]');
