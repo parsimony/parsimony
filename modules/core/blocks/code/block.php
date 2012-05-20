@@ -53,9 +53,11 @@ class code extends \block {
     public function saveConfigs() {
         \app::addListener('error', array($this, 'catchError'));
 	\tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $_POST['editor']);
-        $testIfHasError = exec('php -l '.PROFILE_PATH.$this->getConfig('pathCode'));
-        if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')){
-            \tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $testIfHasError .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
+        //$testIfHasError = exec('php -l '.PROFILE_PATH.$this->getConfig('pathCode'));
+        $testIfHasError = \tools::testSyntaxError($_POST['editor']);
+        //if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')){
+        if (is_array($testIfHasError)){
+            $this->catchError(0,  PROFILE_PATH.$this->getConfig('pathCode'), $testIfHasError['line'], $testIfHasError['message']);
         }
     }
     
@@ -67,13 +69,13 @@ class code extends \block {
      * @param string $message
      */
     public function catchError($code, $file, $line, $message) {
-        $mess = $message.' in '.$file.' in line '. $line ;
-        \tools::file_put_contents( $this->getConfig('pathCode'), $mess .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
-        $return = array('eval' => '$("#' . basename($file,'.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
+        $mess = $message.' in '.$file.' '.t('in line').' '. $line ;
+        \tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $mess .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
+         $return = array('eval' => '$("#' . basename($file,'.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
         ob_clean();
 	echo json_encode($return);
         exit;
     }
-
+    
 }
 ?>

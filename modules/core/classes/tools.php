@@ -43,7 +43,7 @@ class tools {
      * @return string
      */
     public static function absolute_url($txt, $basePath) {
-	$needles = array('href="', 'src="', 'background="');
+	$needles = array('href="', 'src="', 'url("', 'background="');
 	$new_txt = '';
 	if (substr($basePath, -1) != '/')
 	    $basePath .= '/';
@@ -55,7 +55,6 @@ class tools {
 		if (substr($txt, $pos, 7) != 'http://' && substr($txt, $pos, 8) != 'https://' && substr($txt, $pos, 6) != 'ftp://' && substr($txt, $pos, 9) != 'mailto://') {
 		    if (substr($txt, $pos, 1) == '/')
 			$new_base_url = $base_url_parts['scheme'] . '://' . $base_url_parts['host'];
-
 		    $new_txt .= substr($txt, 0, $pos) . $new_base_url;
 		} else {
 		    $new_txt .= substr($txt, 0, $pos);
@@ -118,13 +117,13 @@ class tools {
      * @return string
      */
     public static function sanitizeTechString($name) {
-        $name = preg_replace('@[^a-z0-9_]@', '', mb_strtolower($name, 'UTF-8'));
+        $name = preg_replace('@[^a-zA-Z0-9_-]@', '', $name);
 	return $name;
     }
 
     /**
      * Create Directory event if parent directory doesn't exist
-     * @static functionn fai
+     * @static function
      * @param string $directory
      * @param integer $mask optional
      * @return bool
@@ -132,6 +131,21 @@ class tools {
     public static function createDirectory($directory, $mask=0755) {
 	if (!file_exists($directory))
 	    return mkdir($directory, $mask, TRUE);
+    }
+    
+    /**
+     * Test Syntax Error via exec or eval
+     * @static function
+     * @param string $code
+     * @return bool
+     */
+    public static function testSyntaxError($code){
+	$return = @eval('return TRUE;?>' . $code . '<?php ');
+	if ( $return === false && ( $error = error_get_last()) ) {
+		return $error;
+	}else{
+		return TRUE;
+	}
     }
 
     /**

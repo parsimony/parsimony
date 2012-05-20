@@ -66,9 +66,11 @@ class query extends \block {
             \tools::file_put_contents($pathOfViewFile, $_POST['editor']);
         }
 
-        $testIfHasError = exec('php -l ' . $pathOfViewFile);
-        if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')) {
-            file_put_contents($pathOfViewFile, $testIfHasError . PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
+        //$testIfHasError = exec('php -l ' . $pathOfViewFile);
+        $testIfHasError = \tools::testSyntaxError($_POST['editor']);
+        //if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')){
+        if (is_array($testIfHasError)){
+            $this->catchError(0, $pathOfViewFile, $testIfHasError['line'], $testIfHasError['message']);
         }
 
         $myView = new \view();
@@ -105,9 +107,10 @@ class query extends \block {
     }
 
     public function catchError($code, $file, $line, $message) {
-        $mess = $message . ' in ' . $file . ' in line ' . $line;
+        $mess = $message . ' in ' . $file . ' '.t('in line').' ' . $line;
         \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $mess . PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
         $return = array('eval' => '$("#' . basename($file, '.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
+        ob_clean();
         echo json_encode($return);
         exit;
     }
