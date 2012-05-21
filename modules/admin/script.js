@@ -1099,9 +1099,13 @@ $this = $(elem).closest(".block").get(0);*/
                 autoClearEmptyLines:true,
                 onGutterClick: function(c, n) {
                     var info = c.lineInfo(n);
-                    console.dir(info);
-                    if (info.lineClass == "barre") c.setLineClass(n, "");
-                    else c.setLineClass(n, "barre");
+                    if (info.lineClass == "barre"){
+			c.setLineClass(n, "");
+			c.clearMarker(n);
+		    }else{
+			c.setMarker(n, '<span class="activebtn">×</span>');
+			c.setLineClass(n, "barre");
+		    }
                     this.onChange(c);
                 },
                 onChange: function(c) {
@@ -1125,9 +1129,6 @@ $this = $(elem).closest(".block").get(0);*/
                     } 
                 }
             });
-            for(var i = 0;i < editor.lineCount() - 1; i++){
-                editor.setMarker(i, '<span class="activebtn">●</span>');
-            }
             editor.id = id;
             ParsimonyAdmin.csseditors.push(editor);
         },
@@ -1151,7 +1152,6 @@ $this = $(elem).closest(".block").get(0);*/
             $.post(BASE_PATH + "admin/getCSSSelectorsRules", { json: json },
             function(data) {
                 $.each(data, function(i,item) {
-                    //alert(item.cssText);
                     var id = 'idcss' + item.nbstyle + item.nbrule;
                     document.getElementById(id).value = item.cssText;
                 });

@@ -151,8 +151,13 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 
 #panelcss .CodeMirror {border: 1px solid #eee;}
 #panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}
+#panelcss .CodeMirror-lines > div{margin-left: 15px !important;}
+#panelcss .CodeMirror-gutter{min-width: initial !important;}
+#panelcss .CodeMirror-gutter pre{cursor:pointer;color:#444}
+#panelcss .CodeMirror-gutter pre:hover{background:#ddd !important;}
 #panelcss .barre{text-decoration: line-through;}
 #panelcss .activeline {background: #e8f2ff !important;}
+
 #changecsscode .selectorcss{position: relative;background:#ccc;padding-left:7px;line-height: 22px;}
 #changecsscode .gotoform{position: absolute;right: 0;top:0;background:#eee;cursor:pointer;padding:0 4px}
 #changecsscode .gotoform:hover{background:#888;color:white}

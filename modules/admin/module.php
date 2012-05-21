@@ -379,9 +379,9 @@ class admin extends \module {
             else $filePath2 =  'modules/'.  $selector->url;
             $css = new \css($filePath2);
             $selectorText = str_replace("\t", '', trim($css->selectorExists($selector->selector)));
-            if (!$selectorText)
-                $selectorText = '';
-            $res[] = array('selector' => $selector,'filePath' =>  $selector->url, 'nbstyle' => $selector->nbstyle,'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
+            if (!$selectorText) $selectorText = '';
+	    else $selectorText = preg_replace('/;[^a-z\-]/Usi', ';', $selectorText);
+            $res[] = array('selector' => $selector, 'filePath' => $selector->url, 'nbstyle' => $selector->nbstyle, 'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
         }
         \app::$response->setHeader('X-XSS-Protection', '0');
 	\app::$response->setHeader('Content-type', 'application/json');
