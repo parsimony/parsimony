@@ -845,7 +845,7 @@ class admin extends \module {
 	\unlink('cache/' . \app::$request->getLocale() . '-lang.php');
 	$configObj = new \config($file, TRUE);
 	$configObj->saveConfig($config);
-	$return = array('eval' => '', 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
+	$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'panelmodules\');', 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
 	return $this->returnResult($return);
     }
 
