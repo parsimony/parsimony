@@ -37,8 +37,10 @@ class menu extends \block {
 
     public function arbo($items) {
         foreach ($items AS &$item) {
-            $item['title'] = $_POST['title'][$item['id']];
-            $item['url'] = $_POST['url'][$item['id']];
+            if(isset($_POST['title'][$item['id']])) $item['title'] = $_POST['title'][$item['id']];
+            if(isset($_POST['url'][$item['id']])) $item['url'] = $_POST['url'][$item['id']];
+	    if(isset($_POST['module'][$item['id']])) $item['module'] = $_POST['module'][$item['id']];
+	    if(isset($_POST['page'][$item['id']])) $item['page'] = $_POST['page'][$item['id']];
             if (isset($item['children']))
                 $item['children'] = $this->arbo($item['children']);
         }
@@ -52,23 +54,30 @@ class menu extends \block {
     }
 
     public function init() {
-        $menu = array(array('id' => 1, 'title' => 'Home', 'url' => 'index.html'));
+        $menu = array(array('id' => 1, 'title' => 'Home', 'url' => 'index'));
         $this->setConfig('menu', json_encode($menu));
     }
 
-    public function drawadminmenu($items) {
+    public function drawAdminMenu($items) {
         foreach ($items AS $item) {
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>">
                 <div>
-                    <div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" type="text" class="input_title" name="title[<?php echo $item['id'] ?>]" value="<?php echo $item['title'] ?>" /></div>
-                    <div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" class="input_url floatright" type="text" name="url[<?php echo $item['id'] ?>]"  value="<?php echo $item['url'] ?>" /></div>
-                    <div class="inline-block none"><input type="checkbox" class="input_active" /></div>
+		    <?php if(isset($item['url'])): ?>
+			<div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" type="text" class="input_title" name="title[<?php echo $item['id'] ?>]" value="<?php echo $item['title'] ?>" /></div>
+			<div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" class="input_url floatright" type="text" name="url[<?php echo $item['id'] ?>]"  value="<?php echo $item['url'] ?>" /></div>
+                    <?php else: 
+			if(!empty($item['module'])) $title = \app::getModule($item['module'])->getPage($item['page'])->getTitle();
+			else $title = '';
+			?>
+			<div class="inline-block" style="width: 92%;box-sizing: border-box;"><input type="hidden" class="module" name="module[<?php echo $item['id'] ?>]" value="<?php echo $item['module'] ?>" /><input type="hidden" class="page" name="page[<?php echo $item['id'] ?>]" value="<?php echo $item['page'] ?>" /><span class="titlePage"><?php echo 'Module : '.$item['module'].'  - Title : '.$title ?></span></div>
+		    <?php endif; ?>
+		    <div class="inline-block none"><input type="checkbox" class="input_active" /></div>
                     <div class="inline-block floatright" style="width: 4%;box-sizing: border-box;"><a href="#" onclick="$(this).closest('li').remove();refreshPos();"><span class="ui-icon ui-icon-closethick"></span></a></div>
                 </div><?php
             if (isset($item['children'])) {
                 echo '<ol>';
-                $this->drawadminmenu($item['children']) . '';
+                $this->drawAdminMenu($item['children']) . '';
                 echo '</ol>';
             }
             ?>
@@ -83,13 +92,21 @@ class menu extends \block {
         foreach ($items AS $item) {
             $classes = array();
             $class = '';
-            if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $item['url']) $classes[] = 'current';
+	     if(isset($item['url'])){
+		 $url = $item['url'];
+		 $title = $item['title'];
+	     } else{
+		 $page = \app::getModule($item['module'])->getPage($item['page']);
+		 $url = $page->getRegex();
+		 $title = $page->getTitle();
+	     }
+            if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) $classes[] = 'current';
             if($count == $cpt) $classes[] = 'last';
             if($cpt==1) $classes[] = 'first';
             if(count($classes) > 0) $class = 'class="'.implode(' ',$classes).'"';
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-                <a href="<?php echo $item['url'] ?>"><?php echo $item['title'] ?></a>
+		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';

@@ -29,7 +29,7 @@
 <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/nestedSortable/jquery.ui.nestedSortable.js"></script>
 <script type="text/javascript" src="http://jquery-json.googlecode.com/files/jquery.json-2.2.min.js" ></script>
-<link rel="stylesheet" type="text/css" href="/modules/core/blocks/menu/menu.css">
+<link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/menu.css">
 <style>
     fieldset{background: #EDEFF4;}
     .placeholder {background-color: #fff;border: 1px #ccc dashed}
@@ -78,7 +78,12 @@
 </style>
 <div id="item-menu-template" class="none">
     <?php
-    echo $this->drawadminmenu(array(array('id' => ' ', 'title' => ' ', 'url' => ' ')));
+    echo $this->drawAdminMenu(array(array('id' => '', 'title' => '', 'url' => '')));
+    ?>
+</div>
+<div id="item-menu-page-template" class="none">
+    <?php
+    echo $this->drawAdminMenu(array(array('id' => '', 'module' => '', 'page' => '')));
     ?>
 </div>
 <fieldset id="design-menu">
@@ -104,7 +109,7 @@
 			    <?php
 			    foreach ($moduleObj->getPages() as $key => $page) {
 				if (count($page->getURLcomponents()) == 0)
-				    echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-url="' . $page->getURL() . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
+				    echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
 			    }
 			    ?>
 			</ul>
@@ -133,13 +138,16 @@
         $('#toHierarchy').val($.toJSON($('ol.sortable').nestedSortable('toHierarchy')));
     }
     $(document).ready(function() {
-        function addLink(title,url){
-            var maxnb = 0;
+	function getMaxId(){
+	    var maxnb = 0;
             $("ol.sortable li").each(function(i) {
                 var tab = $(this).attr("id").split(/itemlist_/);
                 if(parseInt(tab[1]) > maxnb) maxnb = parseInt(tab[1]);
             });
-            maxnb++;
+            return maxnb;
+	}
+        function addLink(title,url){
+            var maxnb = getMaxId() + 1;
             var obj = $('#item-menu-template > li').clone().attr("id","itemlist_" + maxnb);
             obj.find(".input_title").val(title).attr("name","title[" + maxnb + "]");
             obj.find(".input_url").val(url).attr("name","url[" + maxnb + "]");
@@ -149,11 +157,20 @@
             $("ol.sortable").append(obj);
             refreshPos();
         }
+	function addPage(module, page, title){
+            var maxnb = getMaxId() + 1;
+            var obj = $('#item-menu-page-template > li').clone().attr("id","itemlist_" + maxnb);
+            obj.find(".module").val(module).attr("name","module[" + maxnb + "]");
+            obj.find(".page").val(page).attr("name","page[" + maxnb + "]");
+            obj.find(".titlePage").text(title);
+            $("ol.sortable").append(obj);
+            refreshPos();
+        }
         $("#add-menu-item").click(function(){
             addLink($("#input_title").val(),$("#input_url").val());
         });
         $("#addPageItem a").click(function(){
-            addLink($(this).data('title'),$(this).data('url'));
+            addPage($(this).data('module'), $(this).data('page'), $(this).data('title'));
             return false;
         });
         $('ol.sortable').nestedSortable({
