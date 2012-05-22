@@ -667,7 +667,10 @@ $this = $(elem).closest(".block").get(0);*/
             if(block.get(0).id == 'container' && block.children(".block").length==1) block.prepend(contentBlock);
             else block.append(contentBlock);
         }
+	
         $("#" + idBlock,ParsimonyAdmin.currentBody ).trigger("click");
+	var offset = $("#" + idBlock,ParsimonyAdmin.currentBody ).offset();
+	ParsimonyAdmin.openParsiadminMenu(offset.left + 30,offset.top + 30);
     },
     moveMyBlock :   function (idBlock, idBlockAfter){
         if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
