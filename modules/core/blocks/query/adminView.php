@@ -107,7 +107,6 @@ $view = $this->getConfig('view');
 				    <?php
 				    $obj = app::getModule($module)->getEntity($model);
 				    foreach ($obj->getFields() AS $field) :
-					if (get_class($field) != \app::$aliasClasses['field_formasso']) :
 					    if (get_class($field) == 'core\fields\field_foreignkey')
 						$link = ' link="' . $module . '_' . $field->link . '"';
                                             elseif (get_class($field) == 'core\fields\field_user') 
@@ -117,7 +116,6 @@ $view = $this->getConfig('view');
 					    ?>
 		    			<div class="ellipsis property <?php echo $aliasClasses[get_class($field)]; ?>"<?php echo $link; ?>><?php echo $field->name; ?></div>
 					    <?php
-					endif;
 				    endforeach;
 				    ?>
 	    		    </div>
