@@ -484,7 +484,7 @@ $view = $this->getConfig('view');
 	    $("#resultpreview").html(data);
 	});
 	if($("#regenerateview").is(":checked")){
-	    $.post(BASE_PATH+'core/callBlock',{name:"query",method:'generateView',args:$('form input[name^="properties"]').serialize()},function(data){
+	    $.post(BASE_PATH+'core/callBlock',{name:"query",method:'generateView',args:$('form input').serialize()},function(data){
 		editor.setValue(data);
 		$("#regenerateview").attr("checked","checked");
 		editor.refresh();

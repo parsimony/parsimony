@@ -181,7 +181,7 @@ class module {
 	$blockName = '\\' . $this->name . '\\blocks\\' . $name;
 	$params = array();
 	parse_str($args, $params);
-	return call_user_func_array(array(new $blockName('call'), $method), $params);
+	return call_user_func_array(array(new $blockName('call'), $method), array($params));
     }
 
     /**

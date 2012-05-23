@@ -33,10 +33,4 @@ if ($view != FALSE) {
 } else {
     echo t('Please check the query configuration');
 }
-//pagination
-if ($this->getConfig('pagination')) {
-    echo $view->getPagination();
-}
-
-echo $this->getFilters();
 ?>
