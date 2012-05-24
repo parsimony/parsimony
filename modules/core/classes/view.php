@@ -303,7 +303,6 @@ class view implements \Iterator {
             $start = $this->SQL['pagination']->getCurrentPage() * $this->SQL['limit'] - $this->SQL['limit'];
             $query .= ' LIMIT ' . $start . ',' . $this->SQL['limit'];
         }
-        echo $query;
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
         if(strstr($query, ':') !== FALSE){
