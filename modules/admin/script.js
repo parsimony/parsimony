@@ -313,13 +313,14 @@ $this = $(elem).closest(".block").get(0);*/
             return false;
         });
 	
-        $(ParsimonyAdmin.currentBody).on('mouseover.creation mouseout.creation',".block", function(event) {
+        $(ParsimonyAdmin.currentBody).on('mouseover.creation',".block", function(event) {
             event.stopImmediatePropagation();
-            if (event.type == 'mouseover') {
-                $(this).addClass("selection-block");
-            } else {
-                if(this.id != ParsimonyAdmin.inProgress) $(this).removeClass("selection-block");
-            }
+	    var offset = $(this).offset();
+	    $("#blockOverlay").css({"display":"block","top":offset.top + 28 + "px","left":offset.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" })
+        });
+	
+	$(document).on('mouseover.creation',"body", function(event) {
+	    $("#blockOverlay").hide();
         });
 	
         $(ParsimonyAdmin.currentBody).add('#paneltree').on('drop.creation','.container,.tree_selector',function( event ){
@@ -503,13 +504,12 @@ $this = $(elem).closest(".block").get(0);*/
         $(".subSidebar").on('click',"#csspicker", function(e){
             e.preventDefault();
             e.stopPropagation();
-            $('#container',ParsimonyAdmin.currentBody).on('mouseover.csspicker mouseout.csspicker',"*", function(e) {
-                e.stopPropagation();
-                if (e.type == 'mouseover') {
-                    $(this).addClass('cssPicker');
-                } else {
-                    $(this).removeClass('cssPicker');
-                }
+	    ParsimonyAdmin.closeParsiadminMenu();
+	    $("#blockOverlay").addClass("csspicker");
+            $('#container',ParsimonyAdmin.currentBody).on('mouseover.csspicker',"*", function(event) {
+                event.stopPropagation();
+		var offset = $(this).offset();
+		$("#blockOverlay").css({"display":"block","top":offset.top + 28 + "px","left":offset.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" });
             });
             $("#csspicker").addClass("active");
             $('#container',ParsimonyAdmin.currentBody).on('click.csspicker',"*",function(e){
@@ -521,19 +521,19 @@ $this = $(elem).closest(".block").get(0);*/
                 var title = CSSTHEMEPATH;
                 if(this.id != "" && $(".selectorcss[selector='#" + this.id + "']").length == 0) ParsimonyAdmin.addNewSelectorCSS( title, "#" + this.id)
                 $.each($(this).attr('class').replace('  ',' ').split(' '), function(index, value) {
-                    if($(".selectorcss[selector='." + value + "']").length == 0 && value != "selection-block") ParsimonyAdmin.addNewSelectorCSS( title, "." + value);
+                    if(value.length > 0 && $(".selectorcss[selector='." + value + "']").length == 0 && value != "selection-block") ParsimonyAdmin.addNewSelectorCSS( title, "." + value);
                 });
                 var good = false;
                 var selectProp = this.tagName.toLowerCase();
                 if(this.id == ""){
-                    if($(this).attr('class') != undefined) selectProp = selectProp + ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
+                    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = selectProp + ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
                     $(this).parentsUntil("body").each(function(){
                         if(!good){
                             var selectid = "";
                             var selectclass = "";
                             if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
                             if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ","");
-                            selectProp =  selectid + selectclass.replace("  ","") + " " + selectProp;
+                            selectProp = selectid + selectclass.replace("  ","") + " " + selectProp;
                             if(selectid != "") good = true;
                         }
                     });
@@ -542,6 +542,7 @@ $this = $(elem).closest(".block").get(0);*/
                 
                 $('#container',ParsimonyAdmin.currentBody).off(".csspicker");
                 $("#csspicker").removeClass("active");
+		$("#blockOverlay").removeClass("csspicker");
                 return false;
             });
         });
