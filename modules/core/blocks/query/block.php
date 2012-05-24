@@ -61,7 +61,7 @@ class query extends \block {
         \app::addListener('error', array($this, 'catchError'));
 
         if ($this->getConfig('regenerateview') == 1) {
-            \tools::file_put_contents($pathOfViewFile, $this->generateView($_POST['properties']));
+            \tools::file_put_contents($pathOfViewFile, $this->generateView(array('properties' => $_POST['properties'])));
         } else {
             \tools::file_put_contents($pathOfViewFile, $_POST['editor']);
         }
@@ -84,13 +84,14 @@ class query extends \block {
         $this->setConfig('view', $myView);
     }
 
-    public function generateView(array $tab_selected) {
+    public function generateView($params) {
         $view_code = '';
-        $view_code .= '<?php foreach ($view as $key => $line) : ?>' . "\n";
+        if($this->getConfig('filter') || $this->getConfig('sort') || (isset($params['filter']) && $params['filter'] == 1)  || (isset($params['sort']) && $params['sort'] == 1)) $view_code .= '<?php echo $this->getFilters(); ?>' . PHP_EOL.PHP_EOL;
+        $view_code .= '<?php foreach ($view as $key => $line) : ?>' . PHP_EOL;
         $view_code .= "\t" . '<div class="clearboth">' . "\n";
         $myView = new \view();
-        if (!empty($tab_selected)) {
-            $myView = $myView->initFromArray($tab_selected);
+        if (!empty($params['properties'])) {
+            $myView = $myView->initFromArray($params['properties']);
             foreach ($myView->getFields() AS $sqlName => $field) {
                 if (substr($sqlName, 0, 3) != 'id_')
                     $displayLine = '->display($line)';
@@ -103,6 +104,7 @@ class query extends \block {
         }
         $view_code .= "\t" . '</div>' . "\n";
         $view_code .= '<?php endforeach; ?>';
+        if($this->getConfig('pagination') || (isset($params['pagination']) && $params['pagination'] == 1)) $view_code .= PHP_EOL.PHP_EOL.'<?php $view->getPagination(); ?>' . PHP_EOL;
         return $view_code;
     }
 

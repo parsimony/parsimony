@@ -175,7 +175,8 @@ class view implements \Iterator {
      * @return view object
      */
     public function join($propertyLeft, $propertyRight, $type) {
-        $this->SQL['joins'][] = array('propertyLeft' => $propertyLeft, 'propertyRight' => $propertyRight, 'type' => $type);
+        $left = explode('.',$propertyLeft);//title$left[0]
+        if(!isset($this->SQL['joins'][$propertyLeft])) $this->SQL['joins'][$propertyLeft] = array('propertyLeft' => $propertyLeft, 'propertyRight' => $propertyRight, 'type' => $type);
         return $this;
     }
 
@@ -258,14 +259,20 @@ class view implements \Iterator {
         \app::dispatchEvent('beforeBuildQuery', array());
         $query = 'SELECT ';
         foreach ($this->getFields() as $name => $field) {
-            $property = $field->module . '_' . $field->entity . '.' . $field->name;
             $id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
-            if (!isset($this->SQL['selects'][$id])) {
+            if(get_class($field) == \app::$aliasClasses['field_formasso']){
+                $currentEntity = \app::getModule($field->module)->getEntity($field->entity);
+                $foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
+                $idNameForeignEntity = $foreignEntity->getId()->name;
+                $this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+                $this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
+                $this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
+            }elseif (!isset($this->SQL['selects'][$id])) {
                 $this->select($field->module . '_' . $field->entity . '.' . $id,TRUE);
             }
         }
         $query .= implode(',',$this->SQL['selects']);
-        if (count($this->SQL['froms']) == 1 || empty($this->SQL['joins'])) {
+        if (count($this->SQL['froms']) == 1 && empty($this->SQL['joins'])) {
             $query .= ' FROM ' . reset($this->SQL['froms']);
         } else {
             $firstTable = reset($this->SQL['joins']);
