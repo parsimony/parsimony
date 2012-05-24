@@ -249,7 +249,7 @@ $selectors = $css->getAllSselectors();
                 <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background" type="text" name="background" css="background" value="">
 
                 <label for="background_image">Image</label>
-                <div>
+                <div padding-left: 13px;>
                     <span class="ui-icon ui-icon-folder-open explorer" rel="background_image" style="float:left;margin-right:5px;"></span>
                     <input class="liveconfig input" style="width: 160px;float:left;height: 20px;" id="background_image" type="text" name="background-image" css="background-image" value="">
                 </div>
