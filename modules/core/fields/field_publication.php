@@ -68,13 +68,17 @@ class field_publication extends \field {
     
     /**
      * Add a column after the last existing field 
-     * @param string $fieldBefore
+      * @param string $fieldBefore
      * @return bool
      */
     public function addColumn($fieldBefore) {
-        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD  ' . $this->name . ' DATETIME NOT NULL ,
-            ADD  ' . $this->name . '_status INT(1) NOT NULL AFTER ' . $this->name .',
-            ADD  ' . $this->name . '_visibility VARCHAR(25) NOT NULL AFTER ' . $this->name);
+        if (empty($fieldBefore))
+            $pos = ' FIRST ';
+        else
+            $pos = ' AFTER ' . $fieldBefore;
+        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . ' DATETIME NOT NULL '.$pos) && 
+            \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_status INT(1) NOT NULL '.$pos ) && 
+            \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_visibility VARCHAR(25) NOT NULL '.$pos);
     }
 
     /**
@@ -111,7 +115,7 @@ class field_publication extends \field {
      * @return array
      */
     public function getColumns(){
-        return array($this->name,$this->name . '_status',$this->name . '_visibility');
+        return array($this->name . '_visibility',$this->name . '_status',$this->name);
     }
 
 
