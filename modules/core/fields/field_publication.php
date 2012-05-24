@@ -56,6 +56,64 @@ class field_publication extends \field {
     public function __construct($module, $entity, $name, $type='datetime', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7) {
         $this->constructor(func_get_args());
     }
+    
+    /**
+     * Validate field
+     * @param string $value
+     * @return string
+     */
+    public function validate($value) {
+	 return $value;
+    }
+    
+    /**
+     * Add a column after the last existing field 
+     * @param string $fieldBefore
+     * @return bool
+     */
+    public function addColumn($fieldBefore) {
+        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD  ' . $this->name . ' DATETIME NOT NULL ,
+            ADD  ' . $this->name . '_status INT(1) NOT NULL AFTER ' . $this->name .',
+            ADD  ' . $this->name . '_visibility VARCHAR(25) NOT NULL AFTER ' . $this->name);
+    }
+
+    /**
+     * Alter the order of columns
+     * @param string $fieldBefore
+     * @param string $oldName optional
+     * @return bool
+     */
+    public function alterColumn($fieldBefore, $oldName = FALSE) {
+        return TRUE;
+    }
+
+    /**
+     * Delete a column 
+     * @return bool
+     */
+    public function deleteColumn() {
+        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . ';
+            ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_status' . ';
+            ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_visibility');
+         
+    }
+
+    /**
+     * Fill SQL Features
+     * @return string
+     */
+    public function sqlModel() {
+        return $this->name . ' ' . $this->type . 'DATETIME NOT NULL ,' . $this->name . '_status INT(1) NOT NULL,' . $this->name . '_visibility VARCHAR(25) NOT NULL';
+    }
+    
+    /**
+     * List SQLcolumns
+     * @return array
+     */
+    public function getColumns(){
+        return array($this->name,$this->name . '_status',$this->name . '_visibility');
+    }
+
 
 }
 
