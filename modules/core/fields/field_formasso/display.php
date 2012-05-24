@@ -25,4 +25,14 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-echo s($this); ?>
+
+$tags = array();
+if($this){
+    $items = explode(',',$this);
+    foreach($items AS $item){
+        $myItem = explode('||',$item);
+        if(isset($myItem[1])) $tags[$myItem[0]] = $myItem[1];
+    }
+    echo implode(', ',$tags);
+}
+?>
