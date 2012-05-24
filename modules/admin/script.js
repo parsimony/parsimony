@@ -317,7 +317,8 @@ $this = $(elem).closest(".block").get(0);*/
             event.stopImmediatePropagation();
 	    var offset = $(this).offset();
 	    var offsetFrame = $("#parsiframe").offset();
-	    $("#blockOverlay").css({"display":"block","top":offset.top + offsetFrame.top + "px","left":offset.left + offsetFrame.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" })
+	    if(ParsimonyAdmin.inProgress != this.id) $("#blockOverlay").css({"display":"block","top":offset.top + offsetFrame.top + "px","left":offset.left + offsetFrame.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" })
+	    else $("#blockOverlay").hide();
         });
 	
 	$(document).on('mouseover.creation',"body", function(event) {
