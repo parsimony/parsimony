@@ -316,7 +316,8 @@ $this = $(elem).closest(".block").get(0);*/
         $(ParsimonyAdmin.currentBody).on('mouseover.creation',".block", function(event) {
             event.stopImmediatePropagation();
 	    var offset = $(this).offset();
-	    $("#blockOverlay").css({"display":"block","top":offset.top + 28 + "px","left":offset.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" })
+	    var offsetFrame = $("#parsiframe").offset();
+	    $("#blockOverlay").css({"display":"block","top":offset.top + offsetFrame.top + "px","left":offset.left + offsetFrame.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" })
         });
 	
 	$(document).on('mouseover.creation',"body", function(event) {
@@ -509,7 +510,8 @@ $this = $(elem).closest(".block").get(0);*/
             $('#container',ParsimonyAdmin.currentBody).on('mouseover.csspicker',"*", function(event) {
                 event.stopPropagation();
 		var offset = $(this).offset();
-		$("#blockOverlay").css({"display":"block","top":offset.top + 28 + "px","left":offset.left + "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" });
+		var offsetFrame = $("#parsiframe").offset();
+		$("#blockOverlay").css({"display":"block","top":offset.top + offsetFrame.top + "px","left":offset.left + offsetFrame.left +  "px","width":$(this).outerWidth() + "px","height":$(this).outerHeight() + "px" });
             });
             $("#csspicker").addClass("active");
             $('#container',ParsimonyAdmin.currentBody).on('click.csspicker',"*",function(e){
