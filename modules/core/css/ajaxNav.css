@@ -1,0 +1,15 @@
+/* Ajax Pages transitions */
+.flip{
+	-webkit-animation-duration: 0.7s;
+	-webkit-transform-style: preserve-3d;
+	-webkit-animation-name: flipin;
+	-webkit-transform: rotateY(0) scale(1);
+	
+}
+@-webkit-keyframes flipin{
+	from{
+		-webkit-transform: rotateY(-360deg) scale(0.9);
+	}to{
+		-webkit-transform: rotateY(0) scale(1);
+	}
+}

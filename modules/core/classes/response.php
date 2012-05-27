@@ -92,12 +92,12 @@ class response {
 		$this->theme = \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
 	    }else
 		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-            
+            $structure = $body->getStructure();
             if (defined('PARSI_ADMIN')) {
                 $adm = new \admin\blocks\toolbar("admintoolbar");
                 $this->body = $adm->display();
             } else {
-                if ($body->getStructure())
+                if ($structure)
                     $this->body = $this->theme->display();
                 else
                     $this->body = $body->display();
@@ -107,11 +107,12 @@ class response {
                     $this->body .= '<script>window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST="'. json_encode($_POST).'";window.parent.document.getElementById("infodev_timer").innerHTML="' . round($this->timer, 4) . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";window.parent.ParsimonyAdmin.initIframe();  </script>';
                 }
             }
-
-            ob_start();
-            include('core/views/web/index.php');
-            $this->body = ob_get_clean();
-
+	    if ($structure){
+		ob_start();
+		include('core/views/web/index.php');
+		$this->body = ob_get_clean();
+	    }
+		
 //            @todo compact HTML
 //            $search = array('/\>[^\S ]+/s', '/[^\S ]+\</s');
 //            $replace = array('>', '<');

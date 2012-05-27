@@ -157,7 +157,7 @@ class page extends \block {
      * @return bool
      */
     public function getStructure() {
-        return $this->structure;
+        return $this->structure && !\app::$request->getParam('nostructure');
     }
     
     public function setmod($tt) {

@@ -119,7 +119,10 @@ class core extends \module {
 	\app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
 	\app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
 	\app::$request->page->addJSFile(BASE_PATH . 'lib/cms.js');
-
+	if(\app::$config['general']['ajaxnav']){
+	    \app::$request->page->addJSFile(BASE_PATH . 'core/js/ajaxNav.js');
+	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css');
+	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
 	    \app::$request->page->addJSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.js');
 	    \app::$request->page->addCSSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.css');

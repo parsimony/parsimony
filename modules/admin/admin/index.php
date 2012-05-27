@@ -58,7 +58,8 @@
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
         <div class="save"><a href="#" class="ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save', FALSE); ?></a></div>
-        <div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis">Cache</a></div>
+        <div class="adminzonetab firstpanel"><a href="#tabsb-0" class="ellipsis"><?php echo t('General', FALSE); ?></a></div>
+	<div class="adminzonetab"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
         <?php if (PROFILE == 'www'): ?>
             <div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
         <?php endif; ?>
@@ -74,6 +75,16 @@
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <input type="hidden" name="action" value="saveConfig">
             <div id="tabsconfig" style="min-width:465px;">
+		<div id="tabsb-0" class="admintabs">
+		    <h2><?php echo t('General', FALSE); ?></h2>
+		    <div class="placeholder">
+			<label class="label"><?php echo t('Ajax navigation', FALSE); ?></label>
+			<select name="config[general][ajaxnav]">
+			    <option value="0"><?php echo t('No', FALSE); ?></option>
+			    <option value="1"<?php if(isset(app::$config['general']['ajaxnav']) && app::$config['general']['ajaxnav']=='1') echo ' selected="selected"'; ?>><?php echo t('Yes', FALSE); ?></option>
+			</select>
+		    </div>
+		</div>
                 <?php if (PROFILE == 'www'): ?>
                     <div id="tabsb-1" class="admintabs">
                         <h2><?php echo t('Database'); ?> </h2>
