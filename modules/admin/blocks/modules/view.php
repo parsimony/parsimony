@@ -89,7 +89,7 @@
 			    $pageURL = BASE_PATH . $moduleobj->getName() . '/' . $page->getURL();
 			?>
 	    	    <li class="sublist ellipsis <?php echo $selected ?>" id="page_<?php echo $id_page ?>" data-url="<?php echo $pageURL ?>"><span class="ui-icon ui-icon-document floatleft"></span>
-	    		<a class="ellipsis" onclick="ParsimonyAdmin.goToPage('<?php echo str_replace("'", "\\'", $page->getTitle()); ?>', '<?php echo utf8_encode($pageURL); ?>');"
+	    		<a class="ellipsis" onclick="ParsimonyAdmin.goToPage('<?php echo str_replace("'", "\\'", $page->getTitle()); ?>', '<?php echo utf8_encode($pageURL); ?>');return false;"
 	    		   href="#" ><?php echo ucfirst(s($page->getTitle())); ?></a>
 	    		<span class="action ui-icon ui-icon-pencil" style="right: 5px;top: 2px;position: absolute;border: #666 solid 1px;border-radius: 5px;cursor: pointer;" rel="getViewUpdatePage" title="<?php echo t('Manage this page', FALSE); ?>" params="module=<?php echo $moduleobj->getName(); ?>&page=<?php echo $id_page; ?>"></span>
 
