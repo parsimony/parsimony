@@ -20,52 +20,56 @@ body {
  width: 922px;
 }
 #header {
- color: #333;
- width: 900px;
- float: left;
- padding: 10px;
- border: 1px solid #ccc;
- height: 100px;
- margin: 10px 0px 5px 0px;
- background: #BD9C8C;
+color : white;
+width : 900px ;
+float : left ;
+padding : 10px ;
+border : 1px solid #ccc ;
+height : 100px ;
+margin : 10px 0px 5px 0px ;
+background : #3B5998;
+position : relative ;
+behavior : url(/lib/csspie/PIE.htc) ;}
+#leftcolumn {
+	color : #333 ;
+	border : 1px solid #ccc ;
+	background : #9eadcc ;
+	margin : 0px 5px 5px 0px ;
+	padding : 10px ;
+	height : 350px ;
+	width : 195px ;
+	float : left ;
+	behavior : url(/lib/csspie/PIE.htc) ;
 }
-#leftcolumn { 
- color: #333;
- border: 1px solid #ccc;
- background: #E7DBD5;
- margin: 0px 5px 5px 0px;
- padding: 10px;
- height: 350px;
- width: 195px;
- float: left;
+#content {
+float : left ;
+color : #333 ;
+border : 1px solid #ccc ;
+background : #ced6e5 ;
+margin : 0px 5px 5px 0px ;
+padding : 10px ;
+height : 350px ;
+width : 456px ;
+display : inline ;
+behavior : url(/lib/csspie/PIE.htc) ;}
+#rightcolumn {
+	color : #333 ;
+	border : 1px solid #ccc ;
+	background : #9eadcc ;
+	margin : 0px 0px 5px 0px ;
+	padding : 10px ;
+	height : 350px ;
+	width : 195px ;
+	float : left ;
+	behavior : url(/lib/csspie/PIE.htc) ;
 }
-#content { 
- float: left;
- color: #333;
- border: 1px solid #ccc;
- background: #F2F2E6;
- margin: 0px 5px 5px 0px;
- padding: 10px;
- height: 350px;
- width: 456px;
- display: inline;
-}
-#rightcolumn { 
- color: #333;
- border: 1px solid #ccc;
- background: #E7DBD5;
- margin: 0px 0px 5px 0px;
- padding: 10px;
- height: 350px;
- width: 195px;
- float: left;
-}
-#footer { 
- width: 900px;
- clear: both;
- color: #333;
- border: 1px solid #ccc;
- background: #BD9C8C;
- margin: 0px 0px 10px 0px;
- padding: 10px;
+#footer {
+	width : 900px ;
+	clear : both ;
+	color : white ;
+	border : 1px solid #ccc ;
+	background : #1e2d4c ;
+	margin : 0px 0px 10px 0px ;
+	padding : 10px ;
+	behavior : url(/lib/csspie/PIE.htc) ;
 }
