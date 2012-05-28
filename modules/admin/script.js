@@ -290,7 +290,7 @@ var ParsimonyAdmin = {
             e.preventDefault();
             if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
             ParsimonyAdmin.addTitleParsiadminMenu("Link");
-            ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');">Go to the link</a>');
+            ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;">Go to the link</a>');
         });	
 		
         /*$(ParsimonyAdmin.currentBody).on('click',function(e){ 
@@ -371,6 +371,8 @@ $this = $(elem).closest(".block").get(0);*/
             $(".sublist.selected").removeClass('selected');
             itemLink.addClass('selected');
         }
+	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock"], document, ParsimonyAdmin.currentDocument);
+
     }, 
 
     unloadCreationMode :   function(){
