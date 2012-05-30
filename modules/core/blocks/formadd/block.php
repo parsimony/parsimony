@@ -47,7 +47,7 @@ class formadd extends \block {
         }
     }
     
-    public function generateView($module,$entity) {
+    public function generateViewAction($module,$entity) {
         $entity = \app::getModule($module)->getEntity($entity);
         $html = '<form method="post" class="form" action="">
 	<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />'.PHP_EOL;
