@@ -42,7 +42,7 @@ class core extends \module {
 		'480x800' => 'Samsung Galaxy S',
 		'320x480' => 'iPhone 3/4',
 		'480x854' => 'Motorola Droid'), 'detectFnc' => function() {
-		return preg_match('@(iPhone|BlackBerry|Android|HTC|LG|MOT|Nokia|Palm|SAMSUNG|SonyEricsson)@', $_SERVER['HTTP_USER_AGENT']);
+		return preg_match('/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $_SERVER['HTTP_USER_AGENT']);
 	    });
 	\app::$devices[] = array('name' => 'tablet', 'resolution' => array('600x1024' => 'BlackBerry PlayBook',
 		'768x1024' => 'iPad',
