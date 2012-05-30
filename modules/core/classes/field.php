@@ -162,11 +162,11 @@ class field {
      * @param string &$view
      * @return string
      */
-    public function display(&$view = '') {
+    public function display(&$row = '') {
         ob_start();
-        $model = \app::getModule($this->module)->getEntity($this->entity);
-        $id = $model->getId()->name;
-        echo '<div class="editinline" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $view->{$id} . '">';
+        //$model = \app::getModule($this->module)->getEntity($this->entity);
+        $idName = $row->getId()->name;
+        echo '<div class="editinline" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">';
         include('modules/' . str_replace('\\', '/', get_class($this)) . '/display.php');
         echo '</div>';
         $html = ob_get_clean();
