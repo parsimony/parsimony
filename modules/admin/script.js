@@ -371,7 +371,7 @@ $this = $(elem).closest(".block").get(0);*/
             $(".sublist.selected").removeClass('selected');
             itemLink.addClass('selected');
         }
-	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock"], document, ParsimonyAdmin.currentDocument);
+	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock"], document, ParsimonyAdmin.currentDocument);
 
     }, 
 
