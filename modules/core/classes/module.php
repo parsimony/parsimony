@@ -183,6 +183,19 @@ class module {
 	parse_str($args, $params);
 	return call_user_func_array(array(new $blockName('call'), $method), array($params));
     }
+    
+    /**
+     * Call a method of field
+     * @param string $name
+     * @param string $method
+     * @param string $args
+     * @return mixed
+     */
+    public function callFieldAction($module, $entity, $fieldName, $method, $args) {
+	parse_str($args, $params);
+	$fieldObj = \app::getModule($module)->getEntity($entity)->getField($fieldName);
+	return call_user_func_array(array($fieldObj, $method.'Action'), $params);
+    }
 
     /**
      * Get fields
