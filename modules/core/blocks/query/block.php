@@ -84,14 +84,14 @@ class query extends \block {
         $this->setConfig('view', $myView);
     }
 
-    public function generateView($params) {
+    public function generateViewAction($properties, $pagination = '', $filter = '', $sort = '') {
         $view_code = '';
-        if($this->getConfig('filter') || $this->getConfig('sort') || (isset($params['filter']) && $params['filter'] == 1)  || (isset($params['sort']) && $params['sort'] == 1)) $view_code .= '<?php echo $this->getFilters(); ?>' . PHP_EOL.PHP_EOL;
+        if($this->getConfig('filter') || $this->getConfig('sort') || ($filter == 1)  || ($sort == 1)) $view_code .= '<?php echo $this->getFilters(); ?>' . PHP_EOL.PHP_EOL;
         $view_code .= '<?php foreach ($view as $key => $line) : ?>' . PHP_EOL;
         $view_code .= "\t" . '<div class="clearboth">' . "\n";
         $myView = new \view();
-        if (!empty($params['properties'])) {
-            $myView = $myView->initFromArray($params['properties']);
+        if (!empty($properties)) {
+            $myView = $myView->initFromArray($properties);
             foreach ($myView->getFields() AS $sqlName => $field) {
                 if (substr($sqlName, 0, 3) != 'id_')
                     $displayLine = '->display($line)';
@@ -104,7 +104,7 @@ class query extends \block {
         }
         $view_code .= "\t" . '</div>' . "\n";
         $view_code .= '<?php endforeach; ?>';
-        if($this->getConfig('pagination') || (isset($params['pagination']) && $params['pagination'] == 1)) $view_code .= PHP_EOL.PHP_EOL.'<?php $view->getPagination(); ?>' . PHP_EOL;
+        if($this->getConfig('pagination') || ($pagination == 1)) $view_code .= PHP_EOL.PHP_EOL.'<?php $view->getPagination(); ?>' . PHP_EOL;
         return $view_code;
     }
 
