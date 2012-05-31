@@ -196,9 +196,9 @@ var ParsimonyAdmin = {
         }); 
 		
         $('#admin').on('click','.ssTab',function(){
-            $(this).parent().find("ul").hide();
-            $(this).parent().find("." + $(this).attr('rel')).show();
-            $(this).parent().find(".ssTab").removeClass('active');
+            $(this).parent().parent().find("ul").hide();
+            $(this).parent().parent().find("." + $(this).attr('rel')).show();
+            $(this).parent().parent().find(".ssTab").removeClass('active');
             $(this).addClass('active');
         });
         

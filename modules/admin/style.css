@@ -23,10 +23,10 @@ body{background:url(admin/img/carbon_fibre.png);}
 .mainTab:hover,.mainTab.active{background: #777;color: whiteSmoke;border-right: 1px solid #444;border-bottom: 1px solid #444;}
 
 /* Sub Tab */
-.ssTab{position: relative;float:left;border-right: 1px solid #aaa;border-bottom: 1px solid #D3D5DB;width: 50%;line-height: 18px;
-       font-weight: bold;text-align: center;padding: 6px;cursor: pointer;background-color: #DDD;color: #333;box-sizing: border-box;}
-.ssTab:hover,.ssTab.active{background-color: transparent;color: #333;}
-.ssTab.db{background-image:  url(admin/img/db.png);background-repeat: no-repeat;background-position:4px 3px;}
+.ssTab{position: relative;line-height: 18px;/*float:left;border-right: 1px solid #aaa;border-bottom: 1px solid #D3D5DB;width: 50%;
+       font-weight: bold;text-align: center;padding: 6px;cursor: pointer;background-color: #DDD;color: #333;box-sizing: border-box;*/}
+/*.ssTab:hover,.ssTab.active{background-color: transparent;color: #333;}
+.ssTab.db{background-image:  url(admin/img/db.png);background-repeat: no-repeat;background-position:4px 3px;}*/
 
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
@@ -39,12 +39,14 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 .titleTab{border-top: 1px solid #999;border-bottom: 1px solid #555;font-size: 15px;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;line-height: 25px;color: white;background: #777;letter-spacing: 1.5px;cursor: pointer;clear:both;
           background: -webkit-gradient(linear,left bottom,left top,from(#777),to(#828282));background: -moz-linear-gradient(bottom,#828282,#777);background: -o-linear-gradient(bottom,#828282,#777);position: relative;}
 .sublist{position:relative;line-height:22px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;clear:both;}
+.sublist:first-child,.sublist.selected:first-child{border-top: 1px solid transparent;}
+.sublist:last-child,.sublist.selected:last-child{border-bottom: 1px solid #D3D5DB;}
 .sublist a{font-weight: bold;font-size: 12px;color: #444;text-shadow: #eee 0 1px 0;text-decoration: none;display: block;text-transform: capitalize;}
-.sublist:hover,.sublist.selected{border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;}
+.sublist:hover,.sublist.selected{border-top: 1px solid #E5E5E5;border-bottom: 1px solid #EEE;}
 .sublist span.ui-icon-pencil{display: none}
 .sublist:hover span.ui-icon-pencil{display: block}
 .sublist .ui-icon-document{position:relative;top:2px}
-.sublist.selected{background: #ddd;}
+.sublist.selected{background: #e5e5e5;}
 
 /* Sub Sidebars */
 .subSidebar{width: 20px;position: absolute;top: 0px;box-shadow: 0px 3px 7px #444;
@@ -223,7 +225,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
                 color: whitesmoke;padding: 10px;border: 0px;font-size: 20px;font-weight: normal;border-radius: 5px 5px 0 0;}
 #conf_box_content_iframe{max-width: 100%;}
 #conf_box_content {overflow: hidden;max-width: 100%;}
-.dbdesigner{position: absolute;right:2px;top:5px;border: #666 solid 1px;border-radius: 5px;float:right;cursor: alias;}
+.dbdesigner{position: absolute;left:2px;top:3px;/*border: #666 solid 1px;border-radius: 5px;*/cursor: alias;}
 #conf_box_close, #conf_box_wpopup, #closemenu{margin:5px;border: #666 solid 2px;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px, whiteSmoke;}
 #conf_box_wpopup{background: url(admin/img/icons.png) -32px -80px, whiteSmoke;}
 #conf_box_close:hover, #conf_box_wpopup:hover{border: #5E9AE2 solid 2px;}
