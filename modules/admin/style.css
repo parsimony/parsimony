@@ -781,8 +781,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .ui-resizable-helper { border: 1px dotted red;z-index: 99999999; }
 
-#switchPreviewMode{margin-left:10px;border-radius: 10px 0 0 10px;box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
-#switchCreationMode{border-radius: 0 10px 10px 0;box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
-#switchEditMode{box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
+a#switchPreviewMode{margin-left:10px;border-radius: 10px 0 0 10px;box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
+a#switchCreationMode{border-radius: 0 10px 10px 0;box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
+a#switchEditMode{box-shadow: inset 1px 1px #777;padding: 2px 5px;background: white;}
 #switchEditMode:hover,#switchEditMode.selected,#switchPreviewMode:hover,#switchPreviewMode.selected,#switchCreationMode:hover,#switchCreationMode.selected{
     background: #999;color: white;text-shadow: none;}
