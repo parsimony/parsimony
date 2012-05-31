@@ -550,6 +550,18 @@ abstract class entity implements \Iterator {
         }
         return $fields;
     }
+    
+    /**
+     * Get field
+     * @param string $name
+     * @return field
+     */
+    public function getField($name) {
+	if (($this->$name instanceof \field)) {
+	    return $this->$name;
+	}
+        return FALSE;
+    }
 
     /**
      * Put content in file.obj

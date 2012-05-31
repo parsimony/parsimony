@@ -1,5 +1,6 @@
 var ParsimonyAdmin = {
     isInit : false,
+    currentWindow : "",
     currentDocument : "",
     currentBody : "",
     inProgress :  "",
@@ -211,7 +212,7 @@ var ParsimonyAdmin = {
             $("#conf_box_form").trigger("submit");
             $("#conf_box_form").attr('target','conf_box_content_iframe');
         });
-        
+	
         var timer=setInterval(function resizeIframe() {
             if(document.getElementById("changeres").value == "max"){
                 var height = ParsimonyAdmin.currentDocument.body.offsetHeight;
@@ -223,7 +224,8 @@ var ParsimonyAdmin = {
     },
 
     initIframe :   function(){
-        ParsimonyAdmin.currentDocument = document.getElementById("parsiframe").contentWindow.document;
+	ParsimonyAdmin.currentWindow = document.getElementById("parsiframe").contentWindow;
+        ParsimonyAdmin.currentDocument = ParsimonyAdmin.currentWindow.document;
         ParsimonyAdmin.currentBody = ParsimonyAdmin.currentDocument.body;
         ParsimonyAdmin.inProgress = "container";
         ParsimonyAdmin.updateUI();
@@ -265,7 +267,7 @@ var ParsimonyAdmin = {
             if(styleSheets[i].href && styleSheets[i].href.match(new RegExp("/" + window.location.host + "/")) && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib")) && styleSheets[i].href != "http://" + window.location.host + BASE_PATH + 'admin/iframe.css' )
                 $("#changecsspath").append("<option>" + styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length) + "</option>");
         }
-	
+
         //override jQuery ready function to exec them with ajax portions
         $.fn.ready = function(a) {
             document.getElementById("parsiframe").contentWindow.eval(" exec = " + a.toString()+";exec.call(window)");
@@ -288,7 +290,7 @@ var ParsimonyAdmin = {
             e.preventDefault();
             if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
             ParsimonyAdmin.addTitleParsiadminMenu("Link");
-            ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');">Go to the link</a>');
+            ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;">Go to the link</a>');
         });	
 		
         /*$(ParsimonyAdmin.currentBody).on('click',function(e){ 
@@ -369,6 +371,8 @@ $this = $(elem).closest(".block").get(0);*/
             $(".sublist.selected").removeClass('selected');
             itemLink.addClass('selected');
         }
+	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
+
     }, 
 
     unloadCreationMode :   function(){
@@ -600,12 +604,11 @@ $this = $(elem).closest(".block").get(0);*/
 	
     }
     ,
-    goToPage :   function (pageTitle,pageUrl){
+    goToPage :   function (pageTitle,pageUrl, isHistory){
         ParsimonyAdmin.unloadCreationMode();
         ParsimonyAdmin.unloadPreviewMode();
         if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH) pageUrl = BASE_PATH + pageUrl;
         pageUrl = $.trim(pageUrl);
-        history.pushState({}, pageTitle, pageUrl.replace("?parsiframe=ok","").replace("parsiframe=ok",""));
         if(pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '?parsiframe=ok';
         $('#parsiframe').attr('src', pageUrl);
         return false;

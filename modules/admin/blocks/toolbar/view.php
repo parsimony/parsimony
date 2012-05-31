@@ -2,9 +2,9 @@
 app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/colorpicker/colorpicker.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
 app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/tinymce/jquery.tinymce.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/tinymce/plugins/tinybrowser/tb_tinymce.js.php');
+app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js');

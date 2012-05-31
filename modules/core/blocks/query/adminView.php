@@ -29,7 +29,7 @@ $this->pathOfViewFile = PROFILE_PATH .$this->getConfig('pathOfViewFile');
 if (!file_exists($this->pathOfViewFile))
     tools::createDirectory(dirname($this->pathOfViewFile));
 if (!file_exists($this->pathOfViewFile))
-    $this->generateView(array());
+    $this->generateViewAction(array());
 $view = $this->getConfig('view');
 ?>
 <style>
@@ -491,7 +491,7 @@ $view = $this->getConfig('view');
 	    $("#resultpreview").html(data);
 	});
 	if($("#regenerateview").is(":checked")){
-	    $.post(BASE_PATH+'core/callBlock',{name:"query",method:'generateView',args:$('form input').serialize()},function(data){
+	    $.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
 		editor.setValue(data);
 		$("#regenerateview").attr("checked","checked");
 		editor.refresh();

@@ -342,6 +342,8 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 .placeholder input,.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
 .placeholder .tooltip{position: absolute;right: -19px;top: 1px;}
 
+/* Fix wysiwyg */
+#HTML5editorToolbar button{min-width: initial !important;}
 /* ############## BASIC UI ################## */
 
 /* ScrollBar for Webkit */

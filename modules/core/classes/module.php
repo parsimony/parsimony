@@ -172,16 +172,40 @@ class module {
 
     /**
      * Call a method of block
-     * @param string $name
+     * @param string $module
+     * @param string $idpage
+     * @param string $theme
+     * @param string $id
      * @param string $method
      * @param string $args
      * @return mixed
      */
-    public function callBlockAction($name, $method, $args) {
-	$blockName = '\\' . $this->name . '\\blocks\\' . $name;
+    public function callBlockAction($module, $idPage, $theme, $id, $method, $args) {
+	if(empty($theme)){
+	    $blockObj = \app::getModule($module)->getPage($idPage)->getBlock($id);
+	}else{
+	    $theme = \theme::get($module, $theme, THEMETYPE);
+	    $blockObj = $theme->search_block($theme, $id);
+	}
 	$params = array();
 	parse_str($args, $params);
-	return call_user_func_array(array(new $blockName('call'), $method), array($params));
+	return call_user_func_array(array($blockObj, $method.'Action'), $params);
+    }
+    
+    /**
+     * Call a method of field
+     * @param string $module
+     * @param string $entity
+     * @param string $fieldName
+     * @param string $method
+     * @param string $args
+     * @return mixed
+     */
+    public function callFieldAction($module, $entity, $fieldName, $method, $args) {
+	$params = array();
+	parse_str($args, $params);
+	$fieldObj = \app::getModule($module)->getEntity($entity)->getField($fieldName);
+	return call_user_func_array(array($fieldObj, $method.'Action'), $params);
     }
 
     /**

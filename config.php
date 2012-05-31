@@ -49,6 +49,9 @@ $config['preferences']['translateColor'] = '#ffffff';
 
 $config['cache']['active'] = '0';
 
+//general
+$config['general']['ajaxnav'] = '1';
+
 //mailing conf
 $config['mail']['adminMail'] = '';
 $config['mail']['type'] = 'smtp';

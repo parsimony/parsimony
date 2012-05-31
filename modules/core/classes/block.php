@@ -211,7 +211,7 @@ abstract class block {
                 $balise = $this->getConfig('tag');
             else
                 $balise = 'div';
-            $html = '<' . $balise . ' id="' . $this->id . '" class="block ' . (string) $this->getConfig('cssClasses') . '">';
+            $html = '<' . $balise . ' id="' . $this->id . '" class="block '.$this->blockName.' ' . (string) $this->getConfig('cssClasses') . '">';
             if ($this->getConfig('ajaxReload')) {
                 \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $this->getConfig('ajaxReload') . '000);});</script>';
             }
