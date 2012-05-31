@@ -87,8 +87,9 @@ foreach (\app::$devices AS $device) {
 	    <option value="portrait"><?php echo t('Portrait', FALSE); ?></option><option value="landscape"<?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape', FALSE); ?></option>
 	</select>
 	<?php if (ID_ROLE == 1): ?>
-            <a href="" id="switchPreviewMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();return false;">Preview</a>
-            <a href="" id="switchCreationMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;">Creation</a>
+            <a href="#" id="switchPreviewMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();return false;"><?php echo t('Preview') ?></a>
+            <a href="#" id="switchEditMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();return false;"><?php echo t('Edit') ?></a>
+            <a href="#" id="switchCreationMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;"><?php echo t('Creation') ?></a>
 	<?php endif; ?>
     </div>      
 </div>

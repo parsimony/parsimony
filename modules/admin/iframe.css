@@ -15,13 +15,12 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 
 
 /* Outline block */
-.selection-block {
-outline: rgb(78, 219, 255) solid 2px;}
+.selection-block {outline: rgb(78, 219, 255) solid 2px;}
 .selection-container{outline:4px solid #007BC8;}
 
 /* editinplace */
-*[contentEditable]:hover{outline:1px orange solid;}
-*[contentEditable]:focus{outline:1px orange solid;}
+*[contentEditable="true"]:hover{outline:1px orange solid;}
+*[contentEditable="true"]:focus{outline:1px orange solid;}
 .editinline{display:inline}
 
 /* Resizable */

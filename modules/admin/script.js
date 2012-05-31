@@ -231,7 +231,6 @@ var ParsimonyAdmin = {
         ParsimonyAdmin.updateUI();
         $(ParsimonyAdmin.currentBody).append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
         ParsimonyAdmin.changeDeviceUpdate();
-        ParsimonyAdmin.loadCreationMode();
 	
         /*var x;
 	var y;
@@ -257,7 +256,12 @@ var ParsimonyAdmin = {
             triangleWidth:5
         });
        
-        if(ParsimonyAdmin.getCookie("mode") == 'preview'){
+       var initialMode = ParsimonyAdmin.getCookie("mode");
+        if(initialMode == 'creation'){
+            $("#switchCreationMode").trigger('click');
+        }else if(initialMode == 'edit'){
+            $("#switchEditMode").trigger('click');
+        }else if(initialMode == 'preview'){
             $("#switchPreviewMode").trigger('click');
         }
         
@@ -371,7 +375,6 @@ $this = $(elem).closest(".block").get(0);*/
             $(".sublist.selected").removeClass('selected');
             itemLink.addClass('selected');
         }
-	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
 
     }, 
 
@@ -380,21 +383,24 @@ $this = $(elem).closest(".block").get(0);*/
         $(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
         ParsimonyAdmin.closeParsiadminMenu();
         $(ParsimonyAdmin.currentBody).off('.creation');
+        $('.parsimonyDND',ParsimonyAdmin.currentBody).parsimonyDND('destroy');
     },
     
-    loadPreviewMode :   function(){
-        $(ParsimonyAdmin.currentBody).on('click.preview','a', function(e){
+    loadEditMode :   function(){
+        HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
+
+        $(ParsimonyAdmin.currentBody).on('click.edit','a', function(e){
             if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
                 e.preventDefault();
                 ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
             }
         });
 	
-        $(ParsimonyAdmin.currentBody).on('dblclick.preview',".editinline",function(){
+        $(ParsimonyAdmin.currentBody).on('dblclick.edit',".editinline",function(){
             $(this).attr('contentEditable', true);
         });
         
-        $(".editinline",ParsimonyAdmin.currentBody).on('blur.preview',function(){
+        $(".editinline",ParsimonyAdmin.currentBody).on('blur.edit',function(){
             $(this).attr('contentEditable', false);
             ParsimonyAdmin.postData(BASE_PATH + "admin/editInLine",{
                 TOKEN: TOKEN,
@@ -409,9 +415,23 @@ $this = $(elem).closest(".block").get(0);*/
         });
     }, 
     
+    unloadEditMode :   function(){
+        HTML5editor.disable();
+        $(ParsimonyAdmin.currentBody).off('.edit');
+    },
+    loadPreviewMode :   function(){
+        ParsimonyAdmin.closeLeftPanel();
+        ParsimonyAdmin.closeRightPanel();
+        $(ParsimonyAdmin.currentBody).on('click.preview','a', function(e){
+            if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
+                e.preventDefault();
+                ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
+            }
+        });
+    },
     unloadPreviewMode :   function(){
         $(ParsimonyAdmin.currentBody).off('.preview');
-    }, 
+    },
     init :   function(){
         
         ParsimonyAdmin.isInit = true;
@@ -1013,22 +1033,35 @@ $this = $(elem).closest(".block").get(0);*/
         },
         setCreationMode :   function (){
             ParsimonyAdmin.loadCreationMode();
+            ParsimonyAdmin.unloadEditMode();
             ParsimonyAdmin.unloadPreviewMode();
             $('.creation,.panelblocks').show();
             $('#switchCreationMode').addClass("selected");
             $('#switchPreviewMode').removeClass("selected");
+            $('#switchEditMode').removeClass("selected");
             ParsimonyAdmin.setCookie("mode","creation",999);
         },
-        setPreviewMode :   function (){
+        setEditMode :   function (){
             ParsimonyAdmin.unloadCreationMode();
-            ParsimonyAdmin.loadPreviewMode();
-	    $('.parsimonyDND',ParsimonyAdmin.currentBody).parsimonyDND('destroy');
+            ParsimonyAdmin.unloadPreviewMode();
+            ParsimonyAdmin.loadEditMode();
             $('.creation,.panelblocks').hide();
-            $('#switchPreviewMode').addClass("selected");
+            $('#switchEditMode').addClass("selected");
             $('#switchCreationMode').removeClass("selected");
+            $('#switchPreviewMode').removeClass("selected");
             $("#left_sidebar #panelmodules").show();
             $("#left_sidebar #panelblocks").hide();
             $(".panelmodules").addClass('active');
+            ParsimonyAdmin.setCookie("mode","edit",999);
+        },
+        setPreviewMode :   function (){
+            ParsimonyAdmin.unloadCreationMode();
+            ParsimonyAdmin.unloadEditMode();
+            ParsimonyAdmin.loadPreviewMode();
+            $('.creation,.panelblocks').hide();
+            $('#switchPreviewMode').addClass("selected");
+            $('#switchEditMode').removeClass("selected");
+            $('#switchCreationMode').removeClass("selected");
             ParsimonyAdmin.setCookie("mode","preview",999);
         },
         loadBlock: function(id,func){
