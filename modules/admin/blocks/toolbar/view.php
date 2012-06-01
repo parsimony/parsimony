@@ -16,6 +16,7 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
 app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
 app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale() . '-lang.js');
 ?>
+ <script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui-1.8.18.min.js"><\/script>')</script>
 <script type="text/javascript">
     
     var CSSTHEMEPATH = "<?php echo THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css";
@@ -109,7 +110,10 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
             <div class="creation"> 
             <?php foreach ($contaireleft->getBlocks() AS $block): ?>
                     <div class="mainTab <?php echo t($block->getId(), FALSE); ?> ellipsis" rel="<?php echo t($block->getId(), FALSE); ?>"><span class="ui-icon floatleft <?php echo t($block->getId(), FALSE); ?>"></span>
-    <?php echo t($block->getName(), FALSE); ?>
+    <?php echo t($block->getName(), FALSE);
+    if ($block->getId() == 'panelmodules')
+        echo '<a href="#" title="' . t('Add a Module', FALSE) . '" id="add-module" class="action parsiplusone" rel="getViewAddModule"></a>';
+    ?>
                     </div>
     <?php endforeach; ?>
             </div>
