@@ -52,8 +52,20 @@ class wysiwyg extends \block {
     
     public function setHTML($html) {
         if (\app::getClass('user')->VerifyConnexion() && ID_ROLE == 1) {
-            \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),$html);
+            return \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),$html);
         }
+	return FALSE;
+    }
+    
+    public function saveWYSIWYGAction($html) {
+        if($this->setHTML($html)){
+	    $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
+	}else{
+	    $return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');
+	}
+	\app::$response->setHeader('X-XSS-Protection', '0');
+	\app::$response->setHeader('Content-type', 'application/json');
+	return json_encode($return);
     }
 
 }

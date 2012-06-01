@@ -25,40 +25,6 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+$path = PROFILE_PATH.$this->getConfig('path');
+include('modules/admin/views/web/editor.php');
 ?>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tinymce/tiny_mce.js"></script>
-<textarea name="editor" class="editorwysiwyg" class="editor" id="editor" cols="120" rows="30" ><?php  include(PROFILE_PATH .$this->getConfig('path')); ?></textarea>
-<script>
-    tinyMCE.init({ 
-	// Location of TinyMCE script
-	mode : "textareas",
-	script_url : BASE_PATH + 'lib/tinymce/tiny_mce.js',
-	elements : "elm3",
-
-	// General options
-	theme : "advanced",
-	plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
-
-	// Theme options
-	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
-	theme_advanced_buttons2 : "search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,image,cleanup,help,code,|forecolor,backcolor",
-	theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,charmap,emotions,iespell,media,|,ltr,rtl,|",
-	theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,|,visualchars",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : false,
-
-	// Example content CSS (should be your site CSS)
-	content_css : "<?php echo BASE_PATH . THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css",
-
-	// Drop lists for link/image/media/template dialogs
-	template_external_list_url : "lists/template_list.js",
-	external_link_list_url : "lists/link_list.js",
-	external_image_list_url : "lists/image_list.js",
-	media_external_list_url : "lists/media_list.js",
-	width:"100%",
-	height:"570px",
-	file_browser_callback : "tinyBrowser"
-    });
-    </script>

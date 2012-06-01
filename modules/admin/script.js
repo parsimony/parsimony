@@ -395,8 +395,33 @@ $this = $(elem).closest(".block").get(0);*/
                 ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
             }
         });
+	isGood = true; // yeah
+	$("#HTML5editorToolbar").on('mousedown.edit',function(e){
+	     window['isGood'] = false;
+	});
+	$("#HTML5editorToolbar").on('mouseup.edit',function(e){
+	     window['isGood'] = true;
+	});
 	
-        $(ParsimonyAdmin.currentBody).on('dblclick.edit',".editinline",function(){
+	$(".wysiwyg",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
+	    console.log("2");
+	    if (window['isGood']) {
+		var module = MODULE;
+		var theme = THEME;
+		var idPage = '';
+		if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
+		    theme = '';
+		    module = THEMEMODULE;
+		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
+		}
+		$.post(BASE_PATH + 'core/callBlock',{module:module, idPage:idPage,theme: theme, id:this.id, method:'saveWYSIWYG', args:"html=" + $(this).html()},function(data){
+		    ParsimonyAdmin.execResult(data);
+		});
+		window['isGood'] = true;
+	    }
+        });
+	
+        $(ParsimonyAdmin.currentBody).on('click.edit',".editinline",function(){
             $(this).attr('contentEditable', true);
         });
         
