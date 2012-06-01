@@ -146,23 +146,32 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #panelcss_tab_general input{margin: 2px 0;}
 #panelcss_tab_general select{position: relative;top: -4px;}
 #panelcss_tab_border select{width:60px}
-#goeditcss{width: 20px;height: 20px;display:none; background: url('admin/img/arrow.gif') no-repeat;position: absolute;top: 30px;right: 5px;}
+#goeditcss{width: 20px;height: 20px;display:none; background: url('admin/img/arrow.gif') no-repeat;position: absolute;top: 47px;right: 5px;}
 #changecsscode{font-size: 11px;font-family: arial, sans-serif;}
 #panelcss_tab_background label{margin: 5px 10px;position: relative;width: 70px;}
-.adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;}
-
+.adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;/*
+background-image: linear-gradient(bottom, rgb(250,250,250) 5%, rgb(230,230,230) 61%);
+background-image: -o-linear-gradient(bottom, rgb(250,250,250) 5%, rgb(230,230,230) 61%);
+background-image: -moz-linear-gradient(bottom, rgb(250,250,250) 5%, rgb(230,230,230) 61%);
+background-image: -webkit-linear-gradient(bottom, rgb(250,250,250) 5%, rgb(230,230,230) 61%);
+background-image: -ms-linear-gradient(bottom, rgb(250,250,250) 5%, rgb(230,230,230) 61%);
+background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.05, rgb(250,250,250)),color-stop(0.61,rgb(230,230,230)));  */                 
+background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;
+}
 #panelcss .CodeMirror {border: 1px solid #eee;}
 #panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}
 #panelcss .CodeMirror-lines > div{margin-left: 15px !important;}
 #panelcss .CodeMirror-gutter{min-width: initial !important;}
 #panelcss .CodeMirror-gutter pre{cursor:pointer;color:#444}
-#panelcss .CodeMirror-gutter pre:hover{background:#ddd !important;}
+#panelcss .CodeMirror-gutter pre:hover{background:#e4e4e4 !important;}
 #panelcss .barre{text-decoration: line-through;}
 #panelcss .activeline {background: #e8f2ff !important;}
+#panelcss .CodeMirror-gutter-text {background: white;margin-top: 2px;box-shadow: 1px 1px 1px #999 inset, -1px -1px 1px #999 inset;text-align: right;padding: 0em .1em 0.1em .1em;white-space: pre !important;}
 
-#changecsscode .selectorcss{position: relative;background:#ccc;padding-left:7px;line-height: 22px;}
-#changecsscode .gotoform{position: absolute;right: 0;top:0;background:#eee;cursor:pointer;padding:0 4px}
-#changecsscode .gotoform:hover{background:#888;color:white}
+#changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 22px;}
+#changecsscode .gotoform{background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));border-bottom: 1px solid #7F7F7F;position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;}
+#changecsscode .gotoform:hover{background:#777;color:white}
+#changecsscode .selectorcss b{overflow:hidden}
 #changecsscode .activebtn{cursor:pointer}
 #changecsscode .activebtn:hover{color:#444;}
 #changecsscode .csscode{display:none;}
@@ -331,11 +340,13 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 /* datagrid */
 .datagrid{width: 100%; }
 .datagrid th{padding: 0 4px;}
-.line{max-height:20px;cursor: pointer;}
-.datagrid .line:nth-child(even){background: #f1f1f3}
+.datagrid .line{cursor: pointer;height:30px;}
+.datagrid_id{text-align: center !important;}
+.datagrid .line:nth-child(even){background: #f6f6f6}
 .datagrid .line:nth-child(odd){background: #FFF}
-.datagrid .column{overflow:hidden;padding:3px;max-width:100px;max-height:30px;width:auto}
+.datagrid .column{overflow:hidden;padding:3px;max-width:100px;width:auto}
 .datagrid .line:hover td:not([rowspan]){border-color: DDD;background-color: #EFEFEF;}
+.datagrid_title{max-width: 300px !important;text-align: left !important;}
 .selecttr{border-style: dotted;border-color: #A3BAE9;background-color: #DFE8F6;}
 
 /* forms placeholder */
