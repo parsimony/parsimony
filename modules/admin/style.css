@@ -340,7 +340,7 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 /* datagrid */
 .datagrid{width: 100%; }
 .datagrid th{padding: 0 4px;}
-.datagrid .line{cursor: pointer;height:30px;}
+.datagrid .line{cursor: pointer;height:30px;line-height: 25px;}
 .datagrid_id{text-align: center !important;}
 .datagrid .line:nth-child(even){background: #f6f6f6}
 .datagrid .line:nth-child(odd){background: #FFF}
