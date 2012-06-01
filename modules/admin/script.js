@@ -1253,7 +1253,7 @@ $this = $(elem).closest(".block").get(0);*/
         },
         addSelectorCSS :  function ( url, selector, styleCSS, nbstyle, nbrule){
             var id = 'idcss' + nbstyle + nbrule;
-            var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small><div class="gotoform" onclick="ParsimonyAdmin.displayCSSConf(\'' + url + '\',\'' + selector + '\')">Go to form</div></div>'
+            var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;width:160px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="ParsimonyAdmin.displayCSSConf(\'' + url + '\',\'' + selector + '\')">'+ t('Go to form') +'</div></div>'
             + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
             + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
             $("#changecsscode").prepend(code);

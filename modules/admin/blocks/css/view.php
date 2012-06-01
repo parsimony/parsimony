@@ -57,12 +57,9 @@ $selectors = $css->getAllSselectors();
     #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
     #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
     #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
-    #changecssformcode{height: 36px;padding: 9px;
-    background-image: -webkit-gradient(linear,left bottom,left top,from(#b1b1b1),to(#b9b9b9));}
-    #changecssformcode div{float:left;width:50%;padding:3px;cursor: pointer;border: 1px solid #555;text-align:center;
-        background-image: -webkit-gradient(linear,left bottom,left top,from(#ccc),to(#f3f3f3));}
-    #changecssformcode div.active,#changecssformcode div:hover{color:#fff;box-shadow: inset 0px 1px 2px #444;
-        background-image: -webkit-gradient(linear,left bottom,left top,from(#959595),to(#555));}
+    #changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
+    #changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
+    #changecssformcode div.active,#changecssformcode div:hover{color:#fff;background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));}
     #switchtovisuel{border-radius: 5px 0 0 5px;}
     #switchtocode{border-radius: 0 5px 5px 0;}
 </style>
