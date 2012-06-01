@@ -1,9 +1,10 @@
 #HTML5editorToolbar{max-width:600px;min-width:400px;position:absolute;transition: all 0.3s;-o-transition: all 0.3s;-webkit-transition: all 0.3s;}
 #editor{width:500px;}
-.btn{display: inline-block;width:22px;height:22px;border:1px solid transparent;border-radius:4px;margin:1px;}
-.btn:hover{border-color:#ccc}
-.btn.active{background: #ccc;box-shadow: inset 1px 1px 3px #AAA;}
-.btn.inactive{opacity: 0.3;pointer-events: none}
+#HTML5editorToolbar .btn{display: inline-block;vertical-align: top;width:22px;height:22px;border:1px solid transparent;border-radius:4px;margin:1px;}
+#HTML5editorToolbar .btn:hover{border-color:#ccc}
+#HTML5editorToolbar .btn.active{background: #ccc;box-shadow: inset 1px 1px 3px #AAA;}
+#HTML5editorToolbar .btn.inactive{opacity: 0.3;pointer-events: none}
+#HTML5editorToolbar .btn > button,#HTML5editorToolbar .btn > div{cursor:pointer;}
 #HTML5editorToolbar .commands > div{display:none}
 #HTML5editorToolbar .commands{
     clear: both;background: whiteSmoke;
@@ -75,3 +76,5 @@
 }
 #HTML5editorToolbar .tabs a:hover, #HTML5editorToolbar .tabs a:hover::after, #HTML5editorToolbar .tabs a:focus, #HTML5editorToolbar .tabs a:focus::after {background: whiteSmoke;}
 #HTML5editorToolbar .tabs {padding: 0;list-style: none;}
+#HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
+#HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}

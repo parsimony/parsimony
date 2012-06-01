@@ -394,6 +394,7 @@ $view = $this->getConfig('view');
 		if(tableProv.length >= 2){
 		    $.each( tableProv, function(i, val){
 			if($.inArray(val, links) == -1){
+                            alert(val);
 			    links.push(val);
 			    var cut = val.split("=>");
 			    //tableCount[cut[1]] = (tableCount[cut[1]] || 0) + 1;

@@ -1,7 +1,7 @@
 <?php
 
 //General Config
-define('PARSIMONY_VERSION','0.1');
+define('PARSIMONY_VERSION','0.2');
 $base = dirname($_SERVER['PHP_SELF']);
 if($base=='/' || $base=='\\' ) $base = '';
 define('BASE_PATH',$base.'/');
@@ -27,7 +27,7 @@ $config['extensions_auth'] = 'js,png,css,jpg,jpeg,gif,swf,ico,xml,mp3,wmv,avi,mp
 
 //security
 $config['security']['allowedipadmin'] = '';
-$config['security']['salt'] = '1187c105';
+$config['security']['salt'] = '';
 
 //domain
 $config['domain']['multisite'] = '0';
@@ -50,7 +50,7 @@ $config['preferences']['translateColor'] = '#ffffff';
 $config['cache']['active'] = '0';
 
 //general
-$config['general']['ajaxnav'] = '1';
+$config['general']['ajaxnav'] = '0';
 
 //mailing conf
 $config['mail']['adminMail'] = '';
