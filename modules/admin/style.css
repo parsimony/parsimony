@@ -40,7 +40,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
           background: -webkit-gradient(linear,left bottom,left top,from(#777),to(#828282));background: -moz-linear-gradient(bottom,#828282,#777);background: -o-linear-gradient(bottom,#828282,#777);position: relative;}
 .sublist{position:relative;line-height:22px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;clear:both;}
 .sublist:first-child,.sublist.selected:first-child{border-top: 1px solid transparent;}
-.sublist:last-child,.sublist.selected:last-child{border-bottom: 1px solid #D3D5DB;}
+.sublist:last-child,.sublist.selected:last-child{border-bottom: 1px solid transparent;}
 .sublist a{font-weight: bold;font-size: 12px;color: #444;text-shadow: #eee 0 1px 0;text-decoration: none;display: block;text-transform: capitalize;}
 .sublist:hover,.sublist.selected{border-top: 1px solid #E5E5E5;border-bottom: 1px solid #EEE;}
 .sublist span.ui-icon-pencil{display: none}
