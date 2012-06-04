@@ -110,10 +110,7 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
             <div class="creation"> 
             <?php foreach ($contaireleft->getBlocks() AS $block): ?>
                     <div class="mainTab <?php echo t($block->getId(), FALSE); ?> ellipsis" rel="<?php echo t($block->getId(), FALSE); ?>"><span class="ui-icon floatleft <?php echo t($block->getId(), FALSE); ?>"></span>
-    <?php echo t($block->getName(), FALSE);
-    if ($block->getId() == 'panelmodules')
-        echo '<a href="#" title="' . t('Add a Module', FALSE) . '" id="add-module" class="action parsiplusone" rel="getViewAddModule"></a>';
-    ?>
+    <?php echo t($block->getName(), FALSE);  ?>
                     </div>
     <?php endforeach; ?>
             </div>
