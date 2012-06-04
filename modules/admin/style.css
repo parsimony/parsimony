@@ -57,7 +57,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
 .subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover,#switchtab:hover{background: #777;}
-.contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;}
+.contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;} 
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
 .contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
 
