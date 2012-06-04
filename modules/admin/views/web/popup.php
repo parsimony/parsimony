@@ -11,7 +11,8 @@
             var THEMEMODULE = '<?php echo THEMEMODULE ?>';
             var TOKEN = '<?php echo TOKEN ?>';
         </script>
-        <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </SCRIPT>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery-1.7.2.min.js"><\/script>')</script>
         <?php
         app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
         app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');

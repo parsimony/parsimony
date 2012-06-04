@@ -116,7 +116,6 @@ class core extends \module {
     }
 
     public function loadExternalFiles() {
-	\app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
 	\app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
 	\app::$request->page->addJSFile(BASE_PATH . 'lib/cms.js');
 	if(\app::$config['general']['ajaxnav']){
