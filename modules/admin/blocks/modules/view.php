@@ -126,7 +126,7 @@
         <?php
     }
     ?>		
-    <div class="titleTab ellipsis"><span style="margin: 7px 7px 0px 7px;background:url(/parsimony_cms/core/icon.png)" class="ui-icon floatleft"></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
+    <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon floatleft panelmodules" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
 </div>
 <script>
     $( ".pages" ).sortable({
