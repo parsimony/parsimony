@@ -42,7 +42,7 @@
     #themeFormAdd h4{margin: 0px 5px;border: 1px solid #D3D5DB;line-height: 20px;}
     #themeFormPattern{float:left;border-left: 1px solid whitesmoke;padding-left:10px}
     #duplicatepattern{display:none}
-    #themes span.ui-icon { background-image: url(/admin/img/icons_white.png);}
+    #themes span.ui-icon { background-image: url(admin/img/icons_white.png);}
     .adminzone .adminzonecontent li:last-child {border-right: 0;}
     .adminzone .adminzonecontent li:first-child{border-left: 0;}
     #themes_close{margin-right: 15px;border: #CCC solid 1px;border-radius: 5px;cursor: pointer;margin-top: 2px;}
