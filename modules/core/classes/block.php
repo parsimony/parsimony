@@ -146,7 +146,7 @@ abstract class block {
      */
     public function addBlock(block $block, $idNext='last') {
         $tempBlocks = array();
-        if($this->id == 'container' && count($this->blocks)==1) $idNext='content';
+        if($this->id == 'container' && count($this->blocks)==1 && isset($this->blocks['content'])) $idNext='content';
         foreach ($this->blocks as $idBlock => $temp_block) {
             if ($idBlock === $idNext) {
                 $tempBlocks[$block->getId()] = $block;

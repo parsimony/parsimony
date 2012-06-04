@@ -739,34 +739,32 @@ $this = $(elem).closest(".block").get(0);*/
         $(ParsimonyAdmin.currentBody).append($("#dropInPage" ));
         ParsimonyAdmin.openRightTreePanel(); 
         $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragenter.drag','.block,#dropInTree,.tree_selector', function(e) {
-            
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
             var isContainer = false;
-            if((" " + this.className + " ").replace(/[\n\t]/g, " ").indexOf(" container ") > -1  || this.id =='treedom_container') isContainer = true;
+            if(this.classList.contains("container") || this.id =='treedom_container') isContainer = true;
             if(e.type == 'dragenter' || (ParsimonyAdmin.dragLastDomId != this.id ||
                 ( ParsimonyAdmin.dragMiddlePos == 1 && (e.originalEvent.pageY > ParsimonyAdmin.dragMiddle)) ||
                 ( ParsimonyAdmin.dragMiddlePos == 0 && (e.originalEvent.pageY < ParsimonyAdmin.dragMiddle)))){
                 var theBlock = this;
-                if((" " + this.className + " ").replace(/[\n\t]/g, " ").indexOf(" tree_selector ") > -1) theBlock = $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).get(0);
+                if(this.classList.contains("tree_selector")) theBlock = $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).get(0);
                 var theBlockTree = document.getElementById("treedom_" + theBlock.id);
                 var dropInPage = $( "#dropInPage",ParsimonyAdmin.currentBody).get(0);
                 ParsimonyAdmin.dragLastDomId = this.id;
                 ParsimonyAdmin.dragMiddle = $(this).offset().top + this.offsetHeight/2;
-                console.log(e.originalEvent.pageY +" "+ ParsimonyAdmin.dragMiddle);
                 if(e.originalEvent.pageY < ParsimonyAdmin.dragMiddle && !isContainer){
                     ParsimonyAdmin.dragMiddlePos = 1;
                     $(theBlock).before(dropInPage);
                     theBlockTree.parentNode.insertBefore(document.getElementById( "dropInTree" ),theBlockTree);
                 }else{
                     ParsimonyAdmin.dragMiddlePos = 0;
-                    if(((" " + theBlock.className + " ").replace(/[\n\t]/g, " ").indexOf(" container ") > -1) && $(theBlock).children(".dropInContainer").length > 0){
+                    if(theBlock.classList.contains("container") && $(theBlock).children(".dropInContainer").length > 0){
                         $(".dropInContainerChild:first",theBlock).append(dropInPage);
                         theBlockTree.appendChild(document.getElementById( "dropInTree" ),theBlockTree);
-                    }else if((" " + theBlock.className + " ").replace(/[\n\t]/g, " ").indexOf(" container ") > -1 && !isContainer){
+                    }else if(theBlock.classList.contains("container") && !isContainer){
                         theBlock.parentNode.insertBefore(dropInPage,theBlock);
                         theBlockTree.parentNode.insertBefore(document.getElementById( "dropInTree" ),theBlockTree);
-                    }else if((" " + theBlock.parentNode.className + " ").replace(/[\n\t]/g, " ").indexOf(" container ") > -1 && !isContainer){
+                    }else if(theBlock.parentNode.classList.contains("container") && !isContainer){
                         theBlock.parentNode.insertBefore(dropInPage,theBlock.nextSibling);
                         theBlockTree.parentNode.insertBefore(document.getElementById( "dropInTree" ),theBlockTree.nextSibling);
                     }
