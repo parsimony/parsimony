@@ -162,6 +162,26 @@ class user {
 	}
 	
     }
+    
+    /**
+     * Registration mail
+     * @param $userMail mail
+     * @param $pseudo pseudo
+     */
+    public function registrationMail($userMail, $pseudo) {
+	$name = $pseudo;
+	$password = $newPass;
+        ob_start();
+        include('admin/views/mail/registration.php');
+        $body = ob_get_clean();
+	
+	if(\tools::sendMail($userMail, \app::$config['mail']['adminMail'], \app::$config['mail']['adminMail'], t('Your profile has been created with success'), $body)){
+	    return '1';
+	}else{
+	    return '0';
+	}
+	
+    }
 
 }
 
