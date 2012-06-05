@@ -50,19 +50,6 @@ if (isset($_POST['selector']) || isset($_POST['idBlock'])) {
 
 $selectors = $css->getAllSselectors();
 ?>
-<style>
-    .border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
-    #changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
-    #opencssfilepath2{color:#fff;font-size:9px;border-top: 1px #CCC solid;}
-    #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
-    #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
-    #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
-    #changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
-    #changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
-    #changecssformcode div.active{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
-    #switchtovisuel{border-radius: 5px 0 0 5px;}
-    #switchtocode{border-radius: 0 5px 5px 0;}
-</style>
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
     <div style="min-width:230px;position:relative">
         <input type="hidden" name="typeofinput" id="typeofinput" value="code" />
