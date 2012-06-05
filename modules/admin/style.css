@@ -23,11 +23,14 @@ body{background:url(admin/img/carbon_fibre.png);}
 .mainTab:hover,.mainTab.active{background: #777;color: whiteSmoke;border-right: 1px solid #444;border-bottom: 1px solid #444;}
 
 /* Sub Tab */
-.ssTab{position: relative;line-height: 18px;/*float:left;border-right: 1px solid #aaa;border-bottom: 1px solid #D3D5DB;width: 50%;
-       font-weight: bold;text-align: center;padding: 6px;cursor: pointer;background-color: #DDD;color: #333;box-sizing: border-box;*/}
-/*.ssTab:hover,.ssTab.active{background-color: transparent;color: #333;}
-.ssTab.db{background-image:  url(admin/img/db.png);background-repeat: no-repeat;background-position:4px 3px;}*/
-
+.ssTab{position: relative;line-height: 18px;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));float: left;width: 50%;padding: 3px;
+        cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
+.ssTab.active,.ssTab div:hover{color:white; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
+#switchtodata{border-radius: 5px 0 0 5px;border-right:0}
+#switchtopages{border-radius: 0 5px 5px 0;}
+ul.models,ul.pages{padding: 5px;}
+ #datatopages{height: 40px;padding: 7px;background: whiteSmoke;}
+ 
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
                background: url("admin/img/add.png") no-repeat;width: 16px;height: 16px;}
@@ -69,7 +72,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 
 /* Sidebar right */
 #right_sidebar{right:0px;width:230px;/*width: 14.6%;*/background: #777;}
-#right_sidebar.close{top:29px;position:fixed;right: -230px;width:0}
+#right_sidebar.close{top:29px;position:fixed;right: 0px;width:0}
 #right_sidebar .contenttab{box-shadow: -4px 7px 10px #444;border-left: 1px solid #999;min-height: 79px;}
 #right_sidebar .titleTab{line-height: 20px;padding-left: 15px;}
 
