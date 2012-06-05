@@ -38,6 +38,29 @@ class field_string extends \field {
 
     /** @var string $title by default 'String' */
     protected $title = 'String';
+    
+    public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $unique = FALSE){
+        $this->constructor(func_get_args());
+    }
+    
+    public function validate($value) {
+	if($this->unique){
+	    if($this->checkUniqueAction($value) == 0) return FALSE;
+	}
+        return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
+    }
+    
+    public function checkUniqueAction($chars) {
+	if($this->unique){
+	$obj = \app::getModule($this->module)->getEntity($this->entity)->where($this->name.' = "'.$chars.'"')->fetch();
+	    if(!$obj){
+		return '1';
+	    }else{
+		return '0';
+	    }
+	}
+	return FALSE;
+    }
 
 }
 
