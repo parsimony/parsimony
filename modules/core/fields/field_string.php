@@ -44,7 +44,7 @@ class field_string extends \field {
     }
     
     public function validate($value) {
-	if($this->unique){
+	if(isset($this->unique) && $this->unique){
 	    if($this->checkUniqueAction($value) == 0) return FALSE;
 	}
         return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
