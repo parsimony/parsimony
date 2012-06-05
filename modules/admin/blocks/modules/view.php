@@ -29,13 +29,11 @@
 <style>
     #datatopages{height: 40px;padding: 7px;background: whiteSmoke;}
     .ssTab{background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));float: left;width: 50%;padding: 3px;
-           cursor: pointer;border: 1px solid #777;text-align: center;
+           cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;
 
            /*float:left;width:50%;padding:3px;cursor: pointer;border: 1px solid #555;text-align:center;
            background-image: -webkit-gradient(linear,left bottom,left top,from(#ccc),to(#f3f3f3));*/}
-    .ssTab.active,.ssTab div:hover{
-        background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));color: white;/*color:white;box-shadow: inset 0px 1px 2px #444;background: 
-#777; background-image: -webkit-gradient(linear,left bottom,left top,from(#959595),to(#555));color:white*/}
+    .ssTab.active,.ssTab div:hover{color:white; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
     #switchtodata{border-radius: 5px 0 0 5px;}
     #switchtopages{border-radius: 0 5px 5px 0;}
     ul.models,ul.pages{padding: 5px;}
