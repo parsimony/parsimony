@@ -50,9 +50,12 @@ class field_string extends \field {
         return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
     }
     
-    public function checkUniqueAction($chars) {
+    public function checkUniqueAction($chars, $id = false) {
 	if($this->unique){
-	$obj = \app::getModule($this->module)->getEntity($this->entity)->where($this->name.' = "'.$chars.'"')->fetch();
+            $entity = \app::getModule($this->module)->getEntity($this->entity);
+            $obj = $entity->where($this->name.' = "'.$chars.'"');
+            if($id != false && is_numeric($id)) $obj = $obj->where($entity->getId()->name.' != '.$id);
+            $obj = $obj->fetch();
 	    if(!$obj){
 		return '1';
 	    }else{

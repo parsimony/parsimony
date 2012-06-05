@@ -53,7 +53,7 @@ class field_mail extends \field {
      * @param bool $required by default true
      * @param string $regex by default '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$'
      */
-    public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$', $visibility = 7) {
+    public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$', $visibility = 7, $unique = FALSE) {
         $this->constructor(func_get_args());
     }
 
@@ -63,6 +63,9 @@ class field_mail extends \field {
      * @return string
      */
     public function validate($value) {
+        if(isset($this->unique) && $this->unique){
+	    if($this->checkUniqueAction($value) == 0) return FALSE;
+	}
         if (strlen($value) <= $this->characters_max)
             if (!$this->required && empty($value))
                 return $value;
@@ -70,6 +73,21 @@ class field_mail extends \field {
                 return filter_var($value, FILTER_VALIDATE_EMAIL);
         else
             return FALSE;
+    }
+    
+    public function checkUniqueAction($chars, $id = false) {
+	if($this->unique){
+            $entity = \app::getModule($this->module)->getEntity($this->entity);
+            $obj = $entity->where($this->name.' = "'.$chars.'"');
+            if($id != false && is_numeric($id)) $obj = $obj->where($entity->getId()->name.' != '.$id);
+            $obj = $obj->fetch();
+	    if(!$obj){
+		return '1';
+	    }else{
+		return '0';
+	    }
+	}
+	return FALSE;
     }
 
 }

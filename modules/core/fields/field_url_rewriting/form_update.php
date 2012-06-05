@@ -27,23 +27,40 @@
  */
 ?>
 <script type="text/javascript">
-
+<?php
+if (isset($this->unique) && $this->unique):
+    ?>
+        $(document).on("keyup", "#<?php echo $this->name . '_' . $row->getId()->value ?>", function(){
+            $.post(BASE_PATH + '<?php echo $this->module; ?>/callField',{module:"<?php echo $this->module; ?>", entity:"<?php echo $this->entity; ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value + "&id=<?php echo $row->getId()->value ?>"}, function(data){
+                if(data == 1){
+                    $(".info_<?php echo $this->name . '_' . $row->getId()->value ?>").empty();
+                }else{
+                    $(".info_<?php echo $this->name . '_' . $row->getId()->value ?>").text("<?php echo t('It already exist, please choose another') ?>");
+                }
+            });
+        });
+    <?php
+endif;
+?>
     $(document).on ('blur','textarea[name="<?php echo $this->propertyToURL ?>"],input[name="<?php echo $this->propertyToURL ?>"]',function() {
-        if($(this).val().length > 0 && $('#<?php echo $this->name. '-'.$row->getId()->value ?>').val().length == 0){
-            $('#<?php echo $this->name. '-'.$row->getId()->value ?>').addClass('active');
+        if($(this).val().length > 0 && $('#<?php echo $this->name . '-' . $row->getId()->value ?>').val().length == 0){
+            $('#<?php echo $this->name . '-' . $row->getId()->value ?>').addClass('active');
             $.post(BASE_PATH + "admin/titleToUrl", {TOKEN: TOKEN ,url: $(this).val()},
             function(data) {
-                $('#<?php echo $this->name. '-'.$row->getId()->value ?>').val(data);
+                $('#<?php echo $this->name . '-' . $row->getId()->value ?>').val(data);
             });
         }
     });
 </script>
 <div class="placeholder">
     <label for="<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	<?php if (!empty($this->text_help)): ?>
-    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	<?php endif; ?>
+        <?php echo $this->label ?>
+        <?php if (!empty($this->text_help)): ?>
+            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
+        <?php endif; ?>
     </label>
-    <input type="text" autocomplete="off" id="<?php echo $this->name. '-'.$row->getId()->value ?>" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
+    <input type="text" autocomplete="off" id="<?php echo $this->name . '_' . $row->getId()->value ?>" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
+    <?php if (isset($this->unique) && $this->unique): ?>
+        <div class="infoUnique info_<?php echo $this->name . '_' . $row->getId()->value ?>"></div>
+    <?php endif; ?>
 </div>
