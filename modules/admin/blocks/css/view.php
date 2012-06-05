@@ -59,7 +59,7 @@ $selectors = $css->getAllSselectors();
     #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
     #changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
     #changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
-    #changecssformcode div.active,#changecssformcode div:hover{color:#fff;background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));}
+    #changecssformcode div.active{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
     #switchtovisuel{border-radius: 5px 0 0 5px;}
     #switchtocode{border-radius: 0 5px 5px 0;}
 </style>
