@@ -500,6 +500,7 @@ include_once('modules/core/classes/field.php');
                     current_update_field.addClass("current_property");
                     $.each($(this).data("attributs"), function(i,item){
                         var parent = $('#update_'+ current_update_field.attr('type_class'));
+                        if(item === false) item = 0;
                         $('[name=' + i + ']',parent).val(item);
                         if(i == 'visibility'){
                             if(item & 1) $('input[data-form="form-display"]',parent).attr('checked','checked');
