@@ -801,7 +801,6 @@ background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: 
 #switchEditMode:hover,#switchEditMode.selected,#switchPreviewMode:hover,#switchPreviewMode.selected,#switchCreationMode:hover,#switchCreationMode.selected{ color: white;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);}
 
-:valid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #5cd053;border-color: #5cd053;}
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
 input[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 50%;font-size: .8em;}
 textarea[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 20%;font-size: .8em;}
