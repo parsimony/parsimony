@@ -122,7 +122,8 @@ class field {
      * @return mixed 
      */
     public function __get($name) {
-        return $this->$name;
+        if(isset($this->$name)) return $this->$name;
+        else return FALSE;
     }
 
     /**
