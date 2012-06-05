@@ -742,7 +742,7 @@ $this = $(elem).closest(".block").get(0);*/
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
             var isContainer = false;
-            if(this.classList.contains("container") || this.id =='treedom_container') isContainer = true;
+            if((this.classList.contains("container") && !this.classList.contains("tree_selector"))  || this.id =='treedom_container') isContainer = true;
             if(e.type == 'dragenter' || (ParsimonyAdmin.dragLastDomId != this.id ||
                 ( ParsimonyAdmin.dragMiddlePos == 1 && (e.originalEvent.pageY > ParsimonyAdmin.dragMiddle)) ||
                 ( ParsimonyAdmin.dragMiddlePos == 0 && (e.originalEvent.pageY < ParsimonyAdmin.dragMiddle)))){
