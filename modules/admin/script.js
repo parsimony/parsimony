@@ -584,8 +584,7 @@ $this = $(elem).closest(".block").get(0);*/
                             var selectid = "";
                             var selectclass = "";
                             if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
-                            if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ","");
-                            selectProp = selectid + selectclass.replace("  ","") + " " + selectProp;
+                            if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");                            selectProp = selectid + selectclass.replace("  ","") + " " + selectProp;
                             if(selectid != "") good = true;
                         }
                     });
@@ -1204,7 +1203,7 @@ $this = $(elem).closest(".block").get(0);*/
             var elmt = $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker').get(0);
             var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
             for (var i = 0; i < styleSheets.length; i++){
-                if(styleSheets[i].href != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
+                if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
                     $.each(styleSheets[i].cssRules, function(nbrule) {
                         if(elmt.webkitMatchesSelector(this.selectorText)){
                             var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
@@ -1214,17 +1213,18 @@ $this = $(elem).closest(".block").get(0);*/
                     });
                 }
             }
-            json = json.substring(0, json.length - 1) + ']';
-            $.post(BASE_PATH + "admin/getCSSSelectorsRules", { json: json },
-            function(data) {
-                $.each(data, function(i,item) {
-                    var id = 'idcss' + item.nbstyle + item.nbrule;
-                    document.getElementById(id).value = item.cssText;
-                });
-                $.each(ParsimonyAdmin.csseditors,function(i, el){
-                    el.setValue(document.getElementById(el.id).value);
-                });
-            });
+            if(json.length > 1){
+		json = json.substring(0, json.length - 1) + ']';
+		$.post(BASE_PATH + "admin/getCSSSelectorsRules", { json: json },function(data) {
+		    $.each(data, function(i,item) {
+			var id = 'idcss' + item.nbstyle + item.nbrule;
+			document.getElementById(id).value = item.cssText;
+		    });
+		    $.each(ParsimonyAdmin.csseditors,function(i, el){
+			el.setValue(document.getElementById(el.id).value);
+		    });
+		});
+	    }
             
         },
         addNewSelectorCSS :  function ( path, selector){
