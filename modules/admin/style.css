@@ -806,14 +806,11 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
 
 .ui-resizable-helper { border: 1px dotted red;z-index: 99999999; }
-
-a#switchPreviewMode{color: white;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);margin-left: 10px;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));background-image: -webkit-linear-gradient(top, #707A84, #505968);background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: -ms-linear-gradient(top, #707A84, #505968);background-image: -o-linear-gradient(top, #707A84, #505968);background-image: linear-gradient(top, #707A84, #505968);border-radius: 10px 0 0 10px;box-shadow: inset 1px 1px #777;padding: 4px 10px;}
-a#switchCreationMode{border-radius: 0 10px 10px 0;color: white;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));background-image: -webkit-linear-gradient(top, #707A84, #505968);background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: -ms-linear-gradient(top, #707A84, #505968);background-image: -o-linear-gradient(top, #707A84, #505968);background-image: linear-gradient(top, #707A84, #505968);box-shadow: inset 1px 1px #777;padding: 4px 10px;}
-a#switchEditMode{color: white;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, 
-#707A84), color-stop(100%, #505968));background-image: -webkit-linear-gradient(top, #707A84, #505968);
-background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: -ms-linear-gradient(top, #707A84, #505968);background-image: -o-linear-gradient(top, 
-#707A84, #505968);background-image: linear-gradient(top, #707A84, #505968);box-shadow: inset 1px 1px #777;padding: 4px 10px;}
-#switchEditMode:hover,#switchEditMode.selected,#switchPreviewMode:hover,#switchPreviewMode.selected,#switchCreationMode:hover,#switchCreationMode.selected{ color: white;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
+a.switchMode{color: white !important;padding: 4px 10px !important;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));background-image: -webkit-linear-gradient(top, #707A84, #505968);background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: -ms-linear-gradient(top, #707A84, #505968);background-image: -o-linear-gradient(top, #707A84, #505968);background-image: linear-gradient(top, #707A84, #505968);box-shadow: inset 1px 1px #777;}
+a#switchPreviewMode{border-radius: 10px 0 0 10px;margin-left: 10px;}
+a#switchCreationMode{border-radius: 0 10px 10px 0;}
+a#switchEditMode{}
+a.switchMode:hover,a.switchMode.selected{background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);}
 
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
