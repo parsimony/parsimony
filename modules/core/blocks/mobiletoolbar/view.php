@@ -33,17 +33,17 @@
             $cpt = 0;
             foreach($menu AS $id => $item){
                 $cpt++;
+                $url = BASE_PATH.$item['url'];
             ?>
-                    <li<?php if($cpt==1) echo ' class="selected"'; ?>><a href="<?php echo $item['url'] ?>" style="background-image:url(<?php echo BASE_PATH; ?>lib/glyphish/glyphish-<?php if($cpt==1) echo 'blue'; else echo 'gray'; ?>/<?php echo $item['icon'] ?>.png)"><?php echo $item['title'] ?></a></li>
+                    <li<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo ' class="selected"'; ?>><a href="<?php echo $url; ?>" style="background-position:15px -7px;background-image:url(<?php echo BASE_PATH; ?>lib/glyphish/glyphish-<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo 'blue'; else echo 'gray'; ?>/<?php echo $item['icon'] ?>.png)"><?php echo $item['title'] ?></a></li>
             <?php
             }
         }
         ?>
 </ul>
 <style>
-    body{padding-bottom: 48px;}
     .tab_bar {
-        position:fixed;
+        position:absolute;
         bottom:-1px;
         width:100%;
         height: 50px;
@@ -73,7 +73,7 @@
         text-decoration: none;
         background-repeat: no-repeat;
         background-position: center -9px;
-        line-height: 73px;
+        line-height: 77px;
         white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     }
     .tab_bar li a img{

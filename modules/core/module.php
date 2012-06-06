@@ -131,18 +131,41 @@ class core extends \module {
 	    if (THEMETYPE == 'mobile') {
 		\app::$request->page->addCSSFile(BASE_PATH . 'lib/mobile.css');
 		\app::$request->page->head .= '<meta name="viewport" content="width=device-width">';
-		/* if (!defined('PARSI_ADMIN')) {
+		 if (!defined('PARSI_ADMIN')) {
 		  \app::$request->page->addJSFile(BASE_PATH . 'lib/iScroll/iscroll-lite.js'); // width=device-width, target-densityDpi=device-dpi
 		  \app::$request->page->head .= '<script type="text/javascript">
-		  var myScroll;
+                      var myScroll;
+                      function resizeContent(){
+                            if(document.getElementById("testScreenSize")){
+                                document.getElementById("wrapper").style.display = "none";
+                                var containerHeight = document.getElementById("container").offsetHeight;
+                                document.getElementById("wrapper").style.display = "block";
+                                var screenSizeHeight = parseInt(document.defaultView.getComputedStyle(document.getElementById("testScreenSize"), null).getPropertyValue(\'height\'));
+                                document.getElementById("wrapper").style.height = (screenSizeHeight - containerHeight) + "px";                            
+                                myScroll.refresh();
+                             }
+                        }
+                      window.onresize = function(event) {
+                            resizeContent();
+                       }
+		  
 		  function loaded() {
-		  $("#content").wrap(\'<div id="wrapper" />\');
-		  myScroll = new iScroll(\'wrapper\', { zoom:true });
+                    var div = document.createElement("div");
+                    div.id = "testScreenSize";
+                    div.style.top = "0";
+                    div.style.position = "absolute";
+                    div.style.width = "100%";
+                    div.style.height = "100%";
+                    div.style.zIndex = 0;
+                    $("body").prepend(div);
+                    $("#content").wrap(\'<div id="wrapper" />\');
+                    myScroll = new iScroll(\'wrapper\', { zoom:true });
+                    resizeContent();
 		  }
 		  document.addEventListener(\'touchmove\', function (e) { e.preventDefault(); }, false);
 		  document.addEventListener(\'DOMContentLoaded\', loaded, false);
 		  </script>';
-		  } */
+		  }
 	    }
 	}
     }
