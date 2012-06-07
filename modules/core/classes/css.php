@@ -61,7 +61,7 @@ class css {
      * @return string|false 
      */
     public function selectorExists($selector) {
-        if (preg_match('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@Usi', $this->CSS, $output)) {
+        if (preg_match('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@ims', $this->CSS, $output)) {
             return $output['rules'];
         }
         return FALSE;
@@ -196,7 +196,7 @@ class css {
             $code .= "\t" . $property . ' : ' . $value . ' ;' . PHP_EOL;
         }
         $code .= '}';
-        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@Usi', $code, $this->CSS);
+        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@ims', $code, $this->CSS);
     }
 
     /**
@@ -209,7 +209,7 @@ class css {
         $_selector = trim($_selector);
         $code = $selector . ' {' . PHP_EOL;
         $code .= $selectorCode . '}';
-        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@Usi', addslashes($code), $this->CSS);
+        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@ims', addslashes($code), $this->CSS);
     }
 
     /**
