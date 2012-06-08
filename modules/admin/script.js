@@ -639,12 +639,12 @@ $this = $(elem).closest(".block").get(0);*/
             }
         });
 
-        $(".explorer").on('click',function(event){
+        $(document).on('click',".explorer",function(event){
             ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/explorer","Explorer","idelmt=" + $(this).attr('rel'));
         });
 	
-        ParsimonyAdmin.removeEmptyTextNodes(document.body);
         ParsimonyAdmin.hideOverlay();
+	ParsimonyAdmin.removeEmptyTextNodes(document.body);
 	
     }
     ,
