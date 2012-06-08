@@ -180,8 +180,8 @@ abstract class entity implements \Iterator {
         $sth = PDOconnection::getDB()->prepare($query);
 
         $values = $this->prepareValues($vars);
-        if ($values == FALSE)
-            return FALSE;
+        if (!is_array($values)) 
+            return $values; // FALSE
         $res = $sth->execute($values);
         $this->afterInsert();
         \app::dispatchEvent('afterInsert', array($vars, &$this));
@@ -214,8 +214,8 @@ abstract class entity implements \Iterator {
         }
         $sth = PDOconnection::getDB()->prepare($query);
         $values = $this->prepareValues($vars, 'update');
-        if ($values == FALSE)
-            return FALSE;
+        if (!is_array($values)) 
+            return $values; // FALSE
         $res = $sth->execute($values);
         $this->afterUpdate();
         \app::dispatchEvent('afterUpdate', array($vars, &$this));
@@ -261,7 +261,7 @@ abstract class entity implements \Iterator {
                 else
                     $value = $field->validate($columnsValues);
                 if ($value === FALSE)
-                    return FALSE;
+                    return t('Error from field', FALSE).' : '.$field->name . '. ' . $field->msg_error; // return error message
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
                     foreach ($field->getColumns() AS $column)
                         if (count($columns) == 1)
