@@ -414,7 +414,7 @@ $this = $(elem).closest(".block").get(0);*/
 		    module = THEMEMODULE;
 		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
 		}
-		$.post(BASE_PATH + 'core/callBlock',{module:module, idPage:idPage,theme: theme, id:this.id, method:'saveWYSIWYG', args:"html=" + $(this).html()},function(data){
+		$.post(BASE_PATH + module + '/callBlock',{module:module, idPage:idPage,theme: theme, id:this.id, method:'saveWYSIWYG', args:"html=" + $(this).html()},function(data){
 		    ParsimonyAdmin.execResult(data);
 		});
 		window['isGood'] = true;
