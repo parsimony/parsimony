@@ -406,12 +406,12 @@ $this = $(elem).closest(".block").get(0);*/
 	$(".wysiwyg",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
 	    console.log("2");
 	    if (window['isGood']) {
-		var module = MODULE;
-		var theme = THEME;
+		var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
+		var theme = ParsimonyAdmin.currentWindow.THEME;
 		var idPage = '';
 		if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
 		    theme = '';
-		    module = THEMEMODULE;
+		    module = ParsimonyAdmin.currentWindow.MODULE;
 		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
 		}
 		$.post(BASE_PATH + module + '/callBlock',{module:module, idPage:idPage,theme: theme, id:this.id, method:'saveWYSIWYG', args:"html=" + $(this).html()},function(data){
