@@ -1057,7 +1057,7 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.loadCreationMode();
             ParsimonyAdmin.unloadEditMode();
             ParsimonyAdmin.unloadPreviewMode();
-            $('.creation,.panelblocks').show();
+            $('.creation,.panelblocks,#left_sidebar').show();
             $('#switchCreationMode').addClass("selected");
             $('#switchPreviewMode').removeClass("selected");
             $('#switchEditMode').removeClass("selected");
@@ -1071,7 +1071,7 @@ $this = $(elem).closest(".block").get(0);*/
             $('#switchEditMode').addClass("selected");
             $('#switchCreationMode').removeClass("selected");
             $('#switchPreviewMode').removeClass("selected");
-            $("#left_sidebar #panelmodules").show();
+            $("#left_sidebar #panelmodules,#left_sidebar").show();
             $("#left_sidebar #panelblocks").hide();
             $(".panelmodules").addClass('active');
             ParsimonyAdmin.setCookie("mode","edit",999);
@@ -1080,7 +1080,7 @@ $this = $(elem).closest(".block").get(0);*/
             ParsimonyAdmin.unloadCreationMode();
             ParsimonyAdmin.unloadEditMode();
             ParsimonyAdmin.loadPreviewMode();
-            $('.creation,.panelblocks').hide();
+            $('.creation,.panelblocks,#left_sidebar').hide();
             $('#switchPreviewMode').addClass("selected");
             $('#switchEditMode').removeClass("selected");
             $('#switchCreationMode').removeClass("selected");
