@@ -24,7 +24,7 @@ app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale()
 		
     $(document).ready(function() {
         ParsimonyAdmin.initBefore();
-        $('#parsiframe').load(function() {
+        $(ParsimonyAdmin.currentDocument).ready(function() {
             if(!ParsimonyAdmin.isInit) ParsimonyAdmin.init();   
         });
     });
