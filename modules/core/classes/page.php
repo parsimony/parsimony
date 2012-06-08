@@ -373,12 +373,13 @@ class page extends \block {
     /**
      * Add CSS File to includes
      * @param string $cssFile
-     */
+     */ 
     public function addCSSFile($cssFile) {
-        if (substr($cssFile, 0, 7) == 'http://')
-            $this->CSS_inc_http[] = $cssFile;
-        else
-            $this->CSS_inc[] = $cssFile;
+        if (substr($cssFile, 0, 7) == 'http://'){
+            if(!in_array($cssFile,$this->CSS_inc_http)) $this->CSS_inc_http[] = $cssFile;
+	}else{
+            if(!in_array($cssFile,$this->CSS_inc)) $this->CSS_inc[] = $cssFile;
+	}
     }
     
     /**
@@ -394,10 +395,11 @@ class page extends \block {
      * @param string $jsFile
      */
     public function addJSFile($jsFile) {
-        if (substr($jsFile, 0, 7) == 'http://')
-            $this->JS_inc_http[] = $jsFile;
-        else
-            $this->JS_inc[] = $jsFile;
+        if (substr($jsFile, 0, 7) == 'http://'){
+            if(!in_array($jsFile,$this->JS_inc_http)) $this->JS_inc_http[] = $jsFile;
+	}else{
+            if(!in_array($jsFile,$this->JS_inc)) $this->JS_inc[] = $jsFile;
+	}
     }
     
     /**
