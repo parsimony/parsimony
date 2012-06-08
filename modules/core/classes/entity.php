@@ -183,10 +183,11 @@ abstract class entity implements \Iterator {
         if (!is_array($values)) 
             return $values; // FALSE
         $res = $sth->execute($values);
-        $this->afterInsert();
-        \app::dispatchEvent('afterInsert', array($vars, &$this));
-        if(!$res) return FALSE;
-        else return  \PDOconnection::getDB()->lastInsertId();
+        if(!$res) {
+	    $this->afterInsert();
+	    \app::dispatchEvent('afterInsert', array($vars, &$this));
+	    return FALSE;
+	}else return  \PDOconnection::getDB()->lastInsertId();
     }
 
     /**
@@ -217,9 +218,11 @@ abstract class entity implements \Iterator {
         if (!is_array($values)) 
             return $values; // FALSE
         $res = $sth->execute($values);
-        $this->afterUpdate();
-        \app::dispatchEvent('afterUpdate', array($vars, &$this));
-        return $res;
+        if(!$res) {
+	    $this->afterUpdate();
+	    \app::dispatchEvent('afterUpdate', array($vars, &$this));
+	    return FALSE;
+	}else return TRUE;
     }
 
     /**
@@ -261,7 +264,7 @@ abstract class entity implements \Iterator {
                 else
                     $value = $field->validate($columnsValues);
                 if ($value === FALSE)
-                    return t('Error from field', FALSE).' : '.$field->name . '. ' . $field->msg_error; // return error message
+                    return t('Error from field', FALSE).' : '.$field->label . '. ' . $field->msg_error; // return error message
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
                     foreach ($field->getColumns() AS $column)
                         if (count($columns) == 1)
