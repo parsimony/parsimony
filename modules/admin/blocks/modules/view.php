@@ -63,7 +63,7 @@
                         $entityName = $entity->getName();
                         if ($module != 'core' || ($entityName != 'role' && $entityName != 'user')) {
                             ?>
-                            <li class="sublist" style="background: url(<?php echo BASE_PATH; ?>admin/img/db_small.png) no-repeat 3px 3px;padding-left: 25px;"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php ucfirst($entityName); ?>"><?php echo str_replace('_', ' ', $entityName); ?></a></li>
+                            <li class="sublist modelSubList"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php ucfirst($entityName); ?>"><?php echo str_replace('_', ' ', $entityName); ?></a></li>
                             <?php
                         }
                     }

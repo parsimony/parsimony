@@ -50,6 +50,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 .sublist:hover span.ui-icon-pencil{display: block}
 .sublist .ui-icon-document{position:relative;top:2px}
 .sublist.selected{background: #e5e5e5;}
+.modelSubList{background: url(admin/img/db_small.png) no-repeat 3px 3px;padding-left: 25px;}
 
 /* Sub Sidebars */
 .subSidebar{width: 20px;position: absolute;top: 0px;box-shadow: 0px 3px 7px #444;
