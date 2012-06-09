@@ -169,14 +169,17 @@ abstract class entity implements \Iterator {
      */
     public function insertInto(array $vars) {
         $vars = $this->beforeInsert($vars);
-        $query = 'INSERT INTO ' . $this->_tableName . ' VALUES(';
+        $query = 'INSERT INTO ' . $this->_tableName . '(';
+	$params = '';
         foreach ($this->getFields() as $name => $field) {
             if (get_class($field) != \app::$aliasClasses['field_formasso']) {
-                foreach ($field->getColumns() AS $column)
-                    $query .= ':' . $column . ',';
+                foreach ($field->getColumns() AS $column){
+		    $query .= $column . ',';
+		    $params .= ':' . $column . ',';
+		}
             }
         }
-        $query = substr($query, 0, -1) . ');';
+        $query = substr($query, 0, -1) . ') VALUES(' . substr($params, 0, -1) . ');';
         $sth = PDOconnection::getDB()->prepare($query);
 
         $values = $this->prepareValues($vars);
