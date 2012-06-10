@@ -20,12 +20,12 @@ var ParsimonyAdmin = {
     },
     initBefore :   function(){
 
-	$("#ajaxhack").load(function() {
+	$("#ajaxhack").on("load",function() {
 	    var elmt = $(this).contents().find('body').text();
 	    ParsimonyAdmin.execResult(elmt);
 	});
 
-	$("#conf_box_content_iframe").load(function() {
+	$("#conf_box_content_iframe").on("load",function() {
 	    if($(this).get(0).contentDocument.location.href != "about:blank"){
 		var bodyIframe = $(this).contents().find('body');
 		$( this ).add("#conf_box_content").css({
