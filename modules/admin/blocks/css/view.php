@@ -25,6 +25,17 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/colorpicker/colorpicker.css');
+app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');
+app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/css/script.js');
+
 if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme') {
     $filePath = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
     $filePath2 = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
@@ -495,16 +506,16 @@ $selectors = $css->getAllSselectors();
                 if($("#current_selector_update").val() == ""){
                     $(".gotoform:first").trigger("click");
                 }else{
-                    ParsimonyAdmin.displayCSSConf($("#changecsspath").val(),$("#current_selector_update").val());
+                    blockAdminCSS.displayCSSConf($("#changecsspath").val(),$("#current_selector_update").val());
                 }
             }else{ // go to code
                 var elmt = $($("#current_selector_update").val().replace(/:[hover|focus|active|visited|link|target]/,"") + ":first",ParsimonyAdmin.currentBody)
                 if(elmt.length > 0){
                     elmt.addClass("cssPicker");
-                    ParsimonyAdmin.getCSSForCSSpicker();
+                    blockAdminCSS.getCSSForCSSpicker();
                 }else{
-                    ParsimonyAdmin.addNewSelectorCSS( $("#changecsspath").val(), $("#current_selector_update").val());
-                    ParsimonyAdmin.openCSSCode();
+                    blockAdminCSS.addNewSelectorCSS( $("#changecsspath").val(), $("#current_selector_update").val());
+                    blockAdminCSS.openCSSCode();
                 }
             }
         });
@@ -520,7 +531,7 @@ $selectors = $css->getAllSselectors();
             if($("#typeofinput").val()=='form') { // update prev styles
                 var nbstyle = $("#current_stylesheet_nb").val();
                 var nbrule = $("#current_stylesheet_nb_rule").val();
-                $("#current_stylesheet_rules").val(document.getElementById("parsiframe").contentWindow.document.styleSheets[nbstyle].cssRules[nbrule].style.cssText);
+                $("#current_stylesheet_rules").val(ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule].style.cssText);
             }
             $(this).closest('form').trigger('submit');
         });
@@ -679,17 +690,17 @@ $selectors = $css->getAllSselectors();
     }
 
     $("#panelcss").on("change",'#changecsspath',function(){
-        if($('#current_selector_update').val().length > 2) ParsimonyAdmin.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
+        if($('#current_selector_update').val().length > 2) blockAdminCSS.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
     });
     
     $("#panelcss").on("click",'#goeditcss',function(){
         var selector = $('#current_selector_update').val();
         var path = $('#changecsspath').val();
         if($("#typeofinput").val() == 'code') {
-            ParsimonyAdmin.addNewSelectorCSS( path, selector);
-            ParsimonyAdmin.openCSSCode();
+            blockAdminCSS.addNewSelectorCSS( path, selector);
+            blockAdminCSS.openCSSCode();
         }else{
-            ParsimonyAdmin.displayCSSConf(path,selector);
+            blockAdminCSS.displayCSSConf(path,selector);
         }
     });
 

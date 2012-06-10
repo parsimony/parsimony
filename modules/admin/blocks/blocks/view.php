@@ -25,8 +25,9 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
 
+app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/blocks/script.js');
+?>
 <ul class="blocks">
     <?php
     $activeModule = \app::$activeModules;
