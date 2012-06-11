@@ -23,9 +23,11 @@
  * @version  Release: 1.0
  * @category  Parsimony
  * @package admin
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license    http://opensource.org/licenses/osl-3.0.php 
+ *  Open Software License (OSL 3.0)
  */
 ?>
+<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
 <script>
     $(function() {
         $(document).on('click',".tabs li a",function(e){
