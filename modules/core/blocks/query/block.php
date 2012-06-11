@@ -61,7 +61,7 @@ class query extends \block {
         \app::addListener('error', array($this, 'catchError'));
 
         if ($this->getConfig('regenerateview') == 1) {
-            \tools::file_put_contents($pathOfViewFile, $this->generateView(array('properties' => $_POST['properties'])));
+            \tools::file_put_contents($pathOfViewFile, $this->generateViewAction($_POST['properties']));
         } else {
             \tools::file_put_contents($pathOfViewFile, $_POST['editor']);
         }
