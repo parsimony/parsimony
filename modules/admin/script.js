@@ -164,10 +164,10 @@ var ParsimonyAdmin = {
 	    }
 	});
 	isGood = true; // yeah
-	$("#HTML5editorToolbar").on('mousedown.edit',function(e){
+	$(".HTML5editorToolbar").on('mousedown.edit',function(e){
 	    window['isGood'] = false;
 	});
-	$("#HTML5editorToolbar").on('mouseup.edit',function(e){
+	$(".HTML5editorToolbar").on('mouseup.edit',function(e){
 	    window['isGood'] = true;
 	});
 	
