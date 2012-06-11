@@ -41,79 +41,6 @@ $visibility = $this->name . '_visibility';
         while (val.length < length)  val = '0' + val;
         return val;
     }
-    
-    $(document).ready(function() {
-  
-        var myForm = $("#publishForm<?php echo $val; ?>").closest("form");
-            
-        $(myForm).on('change','.datesql', function(e) { 
-            var sqltime = lead($('.addyyyy', myForm).val(),4) + '-' + lead($('.addmm', myForm).val(),2) + '-' + lead($('.adddd', myForm).val(),2) + ' ' + lead($('.addhour', myForm).val(),2) + ':' + lead($('.addminut', myForm).val(),2) + ':' + lead($('.addsecond', myForm).val(),2);
-            $('.datestatus', myForm).val(sqltime);           
-        }); 
-       
-        $(myForm).on('change','.sticky input',function(){
-            var idst = '';
-            if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
-                idst = t('Public');
-            }else if($('input.password', myForm).prop("checked") == true) idst = $('label.password', myForm).text();
-            else idst = $('label.' + $(this).data("name"), myForm).text();
-            $('.visibstatus', myForm).text(idst);
-            var visibilitystatus = $(this).val();
-            if($(this).hasClass('stick')) visibilitystatus = $('input.stick', myForm).val();     
-            $('.visibilitystatus', myForm).val(visibilitystatus);
-        }); 
-        
-        $(myForm).on('change','.sticky input[type=radio]',function(){
-            $('input.stick').prop("checked", false);
-            if($(this).hasClass('public')){
-                $('input.stick', myForm).parent().show();
-                $('input.passname', myForm).hide();
-            }else if($(this).hasClass('password')){
-                $('input.passname', myForm).show();
-                $('.visibilitystatus', myForm).val($('input.passname', myForm).val());
-            }else{
-                $('input.stick', myForm).parent().hide();
-                $('input.passname', myForm).hide();
-            }
-        });
-       
-        $(myForm).on('keyup','input.passname',function(){
-            var str = $(this).val();
-            if(!str || str.length === 0 && $('.visibilitystatus', myForm).val()== str){
-                $('input.passname', myForm).attr('pattern','<?php echo $this->regex ?>').attr('required','');
-            }
-            $('.visibilitystatus', myForm).val(str);
-        });
-        
-        $(myForm).on('click','.publish',function(){
-            $('.publishcl', myForm).hide();
-        });     
-        
-        $(myForm).on('click','.pubstatus input',function(){
-            $('.pubstatus input', myForm).removeClass('active');
-            $(this).addClass('active');
-            var pub = $(this).data("ident");
-            $('.pubstatuslabel', myForm).text(t(pub)); 
-            if(pub == "Pending"){
-                pub = t('Save as Pending');
-                $('.publishstatus', myForm).val('2');
-            }else if(pub == "Draft"){
-                pub = t('Save Draft');
-                $('.publishstatus', myForm).val('1');
-            }else {
-                pub = t('Publish');
-                $('.publishstatus', myForm).val('0');
-            }
-            if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
-                $('.publishstatus', myForm).val('0');
-            }
-            $('input[name="add"]', myForm).val(pub);  
-        });
-        
-        $(myForm).on('click','.slide',function(){
-            $(this).next().slideToggle();
-        });
-    });
 </script>
 <style>
     .pubstatus input.active, .pubstatus input:hover{color: white;box-shadow: inset 0px 1px 2px #444;background-image: -webkit-gradient(linear,left bottom,left top,from(#959595),to(#555));}
@@ -185,6 +112,78 @@ $visibility = $this->name . '_visibility';
     </div> 
 </div>
 <script>
+    $(document).ready(function() {
+  
+        var myForm = $("#publishForm<?php echo $val; ?>").closest("form");
+            
+        $(myForm).on('change','.datesql', function(e) { 
+            var sqltime = lead($('.addyyyy', myForm).val(),4) + '-' + lead($('.addmm', myForm).val(),2) + '-' + lead($('.adddd', myForm).val(),2) + ' ' + lead($('.addhour', myForm).val(),2) + ':' + lead($('.addminut', myForm).val(),2) + ':' + lead($('.addsecond', myForm).val(),2);
+            $('.datestatus', myForm).val(sqltime);           
+        }); 
+       
+        $(myForm).on('change','.sticky input',function(){
+            var idst = '';
+            if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
+                idst = t('Public');
+            }else if($('input.password', myForm).prop("checked") == true) idst = $('label.password', myForm).text();
+            else idst = $('label.' + $(this).data("name"), myForm).text();
+            $('.visibstatus', myForm).text(idst);
+            var visibilitystatus = $(this).val();
+            if($(this).hasClass('stick')) visibilitystatus = $('input.stick', myForm).val();     
+            $('.visibilitystatus', myForm).val(visibilitystatus);
+        }); 
+        
+        $(myForm).on('change','.sticky input[type=radio]',function(){
+            $('input.stick').prop("checked", false);
+            if($(this).hasClass('public')){
+                $('input.stick', myForm).parent().show();
+                $('input.passname', myForm).hide();
+            }else if($(this).hasClass('password')){
+                $('input.passname', myForm).show();
+                $('.visibilitystatus', myForm).val($('input.passname', myForm).val());
+            }else{
+                $('input.stick', myForm).parent().hide();
+                $('input.passname', myForm).hide();
+            }
+        });
+       
+        $(myForm).on('keyup','input.passname',function(){
+            var str = $(this).val();
+            if(!str || str.length === 0 && $('.visibilitystatus', myForm).val()== str){
+                $('input.passname', myForm).attr('pattern','<?php echo $this->regex ?>').attr('required','');
+            }
+            $('.visibilitystatus', myForm).val(str);
+        });
+        
+        $(myForm).on('click','.publish',function(){
+            $('.publishcl', myForm).hide();
+        });     
+        
+        $(myForm).on('click','.pubstatus input',function(){
+            $('.pubstatus input', myForm).removeClass('active');
+            $(this).addClass('active');
+            var pub = $(this).data("ident");
+            $('.pubstatuslabel', myForm).text(t(pub)); 
+            if(pub == "Pending"){
+                pub = t('Save as Pending');
+                $('.publishstatus', myForm).val('2');
+            }else if(pub == "Draft"){
+                pub = t('Save Draft');
+                $('.publishstatus', myForm).val('1');
+            }else {
+                pub = t('Publish');
+                $('.publishstatus', myForm).val('0');
+            }
+            if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
+                $('.publishstatus', myForm).val('0');
+            }
+            $('input[name="add"]', myForm).val(pub);  
+        });
+        
+        $(myForm).on('click','.slide',function(){
+            $(this).next().slideToggle();
+        });
+
     if("<?php echo s($row->$visibility); ?>" == 0 || "<?php echo s($row->$visibility); ?>" == 1 || "<?php echo s($row->$visibility); ?>" == 2){
         $('.sticky input[data-val="<?php echo s($row->$visibility); ?>"]').trigger('click');
     }else{
@@ -196,5 +195,6 @@ $visibility = $this->name . '_visibility';
 
     $('.public', myForm).trigger('click');
     $('.datesql', myForm).trigger('change');  
-    $('.datesql',myForm).trigger('change');
+    $('.datesql',myForm).trigger('change');   
+});
 </script>
