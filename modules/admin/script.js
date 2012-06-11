@@ -5,6 +5,7 @@ var ParsimonyAdmin = {
     currentBody : "",
     inProgress :  "",
     typeProgress : "",
+    wysiwyg : "",
     plugins: [],
 	
     setPlugin :   function(plugin){
@@ -153,7 +154,8 @@ var ParsimonyAdmin = {
     },
     
     loadEditMode :   function(){
-	HTML5editor.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
+	if(typeof ParsimonyAdmin.wysiwyg == "string") ParsimonyAdmin.wysiwyg= new wysiwyg();
+	ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
 
 	$(ParsimonyAdmin.currentBody).on('click.edit','a', function(e){
 	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
@@ -215,7 +217,7 @@ var ParsimonyAdmin = {
     }, 
     
     unloadEditMode :   function(){
-	HTML5editor.disable();
+	ParsimonyAdmin.wysiwyg.disable();
 	$(ParsimonyAdmin.currentBody).off('.edit');
 	this.pluginDispatch("unloadEditMode");
     },

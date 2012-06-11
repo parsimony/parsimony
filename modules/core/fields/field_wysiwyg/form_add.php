@@ -25,6 +25,8 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
 ?>
 <div class="placeholder">
     <label for="<?php echo $this->name ?>">
@@ -34,41 +36,10 @@
 	<?php endif; ?>
     </label>
     <div style="padding-top: 24px;">
-	<textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><?php echo $this->default ?></textarea>
+	<textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><p><?php echo $this->default ?>...</p></textarea>
     </div>
 </div>
- <script>window.tinyMCE || document.write('<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tinymce/tiny_mce.js"><\/script>')</script>
 <script>
-    tinyMCE.init({
-	// Location of TinyMCE script
-        mode : "textareas",
-	script_url : BASE_PATH + 'lib/tinymce/tiny_mce.js',
-        editor_selector : "<?php echo $this->name; ?>",
-
-	// General options
-	theme : "advanced",
-	plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
-	skin : "o2k7",
-	skin_variant : "silver",
-	// Theme options
-	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
-	theme_advanced_buttons2 : "search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,image,cleanup,help,code,|forecolor,backcolor",
-	theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,charmap,emotions,iespell,media,|,ltr,rtl,|",
-	theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,|,visualchars",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : false,
-
-	// Example content CSS (should be your site CSS)
-	content_css : "<?php echo BASE_PATH . THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css",
-
-	// Drop lists for link/image/media/template dialogs
-	template_external_list_url : "lists/template_list.js",
-	external_link_list_url : "lists/link_list.js",
-	external_image_list_url : "lists/image_list.js",
-	media_external_list_url : "lists/media_list.js",
-	width:"100%",
-	height:"570px",
-	file_browser_callback : "tinyBrowser"
-    });</script>
+	var HTML5editor = new wysiwyg();
+	HTML5editor.init("#<?php echo $this->name ?>",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"]);
+</script>
