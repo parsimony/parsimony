@@ -967,7 +967,7 @@ class admin extends \module {
 	$obj = \app::getModule($module)->getEntity($entity);
 	unset($_POST['entity']);
 	$res = $obj->insertInto($_POST);
-	if(is_numeric($res)){
+	if(is_numeric($res) || $res == 1){
 	    $return = array('eval' => '$(\'a[rel="' . $module . ' - ' . $entity . '"]\').trigger("click")', 'notification' => t('The data have been added', FALSE), 'notificationType' => 'positive');
 	}elseif($res === FALSE){
 	    $return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
@@ -995,7 +995,7 @@ class admin extends \module {
 	    unset($_POST['delete']);
 	    $res = $obj->where($obj->getId()->name.' = '.$_POST[$obj->getId()->name])->delete();
 	}
-	if(is_numeric($res)){
+	if(is_numeric($res) || $res == 1){
 	    $return = array('eval' => '$(\'a[rel="' . $module . ' - ' . $entity . '"]\').trigger("click")', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
 	}elseif($res === FALSE){
 	    $return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE), 'notificationType' => 'negative');
