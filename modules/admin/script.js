@@ -217,7 +217,7 @@ var ParsimonyAdmin = {
     }, 
     
     unloadEditMode :   function(){
-	ParsimonyAdmin.wysiwyg.disable();
+	if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
 	$(ParsimonyAdmin.currentBody).off('.edit');
 	this.pluginDispatch("unloadEditMode");
     },
