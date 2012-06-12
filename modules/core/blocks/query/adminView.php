@@ -82,6 +82,7 @@ $view = $this->getConfig('view');
 	       background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
 	       background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
     input.filter,input.sort{margin:3px 0}
+    #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#888 1px solid}
     .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
 </style>
 <div class="tabs">
@@ -323,10 +324,13 @@ $view = $this->getConfig('view');
 	    <div id="linkstransit" class="none"></div>
 	</div>
 	<div style="padding: 1px 20px 10px;box-shadow: rgb(119, 119, 119) 2px 1px 13px;">
-	    <h3><?php echo t('Result Preview', FALSE); ?></h3><br>
-	    <div id="resultpreview">
+            <div style="position:relative;"><h3><?php echo t('Result Preview', FALSE); ?></h3> <a href="#" style="position:absolute;top:5px;right:10px;color:#555" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL', FALSE); ?></a></div>
+	    
+            <div id="resultpreview">
 		<?php
 		if (is_object($view)) {
+                    $sql = $view->getSQL();
+                    echo '<div id="generatedsql">'.$sql['query'].'</div>';
 		    $obj = $view;
 		    if ($this->getConfig('pagination') != 1)
 			$obj->limit(10);

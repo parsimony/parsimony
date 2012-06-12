@@ -923,8 +923,11 @@ class admin extends \module {
 	} else {
 	    return t('No data for this query.', FALSE);
 	}
+        $maview->buildQuery();
 	$obj = $maview;
 	ob_start();
+        $sql = $obj->getSQL();
+        echo '<div id="generatedsql">'.$sql['query'].'</div>';
 	require('modules/admin/views/web/datagrid.php');
 	return ob_get_clean();
     }
