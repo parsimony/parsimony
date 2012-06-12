@@ -95,7 +95,7 @@
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .CodeMirror {background: white;width: 900px;margin: 0 15px 0 0;}
     .CodeMirror-scroll {margin-top: 7px;height: 100%;width: 800px;overflow-y: hidden;overflow-x: auto;width: 100%;}
-    .activeline {background: #e8f2ff !important;}
+    .activeline {background: rgba(232, 242, 255, 0.33) !important;}
 </style>
 </head>
 <select onchange="changeMode(this.value);">
