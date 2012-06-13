@@ -96,7 +96,7 @@ class request {
 	$this->determineRole();
 
 	//verify if it's admin role or not
-	if (!isset($_GET['parsiframe']) && ID_ROLE == 1 && empty($_POST))
+	if (!isset($_GET['parsiframe']) && (BEHAVIOR == 1 || BEHAVIOR==2) && empty($_POST))
 	    define('PARSI_ADMIN', 1);
     }
 
@@ -268,8 +268,9 @@ class request {
 	if (\app::getClass('user')->VerifyConnexion() && $_SESSION['idr'] == 1 &&
 		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
 	    define('ID_ROLE', $_SESSION['idr']);
+            define('BEHAVIOR',$_SESSION['roleBehavior']);
 	}else
-	    define('ID_ROLE', 0);
+	    define('BEHAVIOR', 0);
     }
 
     /**

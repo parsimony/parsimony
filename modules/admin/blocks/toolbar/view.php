@@ -29,7 +29,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js');
     echo $menutop->display();
     ?>
     <?php
-    if (ID_ROLE == 1):
+    if (BEHAVIOR == 2 ):
         $style = '';
         if (isset($_COOKIE['rightToolbarCoordX']) && $_COOKIE['rightToolbarCoordX'] != 0)
             $style .= 'left:' . $_COOKIE['rightToolbarCoordX'] . ';top:' . $_COOKIE['rightToolbarCoordY'] . ';';
@@ -86,7 +86,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js');
              /* Modules */
              $block = new \admin\blocks\modules("panelmodules");
              $contaireleft->addBlock($block);
-             if (ID_ROLE == 1):
+             if (BEHAVIOR == 2):
                  /* Blocks */
                  $block = new \admin\blocks\blocks("panelblocks");
                  $contaireleft->addBlock($block);

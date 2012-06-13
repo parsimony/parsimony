@@ -88,7 +88,7 @@ class response {
             \app::dispatchEvent('pageLoad');
 
             /* THEME */
-	    if(ID_ROLE==1 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+	    if(BEHAVIOR == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
 		$this->theme = \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
 	    }else
 		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
@@ -102,7 +102,7 @@ class response {
                 else
                     $this->body = $body->display();
                    
-                if (ID_ROLE == 1 && !\app::$request->getParam('popup')){
+                if ((BEHAVIOR == 1 || BEHAVIOR==2) && !\app::$request->getParam('popup')){
                      $this->timer = microtime(true) - app::$timestart; 
                     $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST="'. json_encode($_POST).'";window.parent.document.getElementById("infodev_timer").innerHTML="' . round($this->timer, 4) . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";window.parent.ParsimonyAdmin.initIframe();  </script>';
                 }

@@ -1077,7 +1077,12 @@ class admin extends \module {
      * @param string $pagesrights
      * @return string 
      */
-    protected function saveRightsAction($modelsrights, $modulerights, $pagesrights) {
+    protected function saveRightsAction($type, $modelsrights, $modulerights, $pagesrights) {
+        if (is_array($type)) {
+	    foreach ($type as $numRole => $role) {
+		\app::getModule('core')->getEntity('role')->where('id_role = '.$numRole)->update(array('state' => $role ));
+	    }
+	}
 	if (is_array($modulerights)) {
 	    foreach ($modulerights as $numRole => $role) {
 		foreach ($role as $moduleName => $value) {

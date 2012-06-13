@@ -30,7 +30,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
 ?>
 <div id="toolbar">
     <div class="rightpart floatright">
-	<?php if (ID_ROLE == 1): ?>
+	<?php if (BEHAVIOR == 2): ?>
     	<a class="floatleft" href="#"><span class="ui-icon ui-icon-clipboard floatleft tooltip" data-tooltip="#infodev" data-pos="s"></span></a>
 	<?php endif; ?>
 	<a href="#" class="floatleft action tooltip" rel="getViewAdminLanguage" data-tooltip="<?php echo t('Current Language', FALSE); ?>" data-pos="s">
@@ -62,7 +62,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
     	    </ul>
     	</li>
 	<?php endif; ?>
-	<?php if (ID_ROLE == 1): ?>
+	<?php if (BEHAVIOR == 2): ?>
     	<li style="border-left:0;"><a href="#"  class="action" rel="getViewModuleAdmin" params="module=admin" title="<?php echo t('Settings', FALSE); ?>"><?php echo t('Settings', FALSE); ?></a></li>
     	<li class="subMenu" >
     	    <a href="#" style="background: none" title="<?php echo t('Accounts', FALSE); ?>"><?php echo t('Accounts', FALSE); ?></a>
@@ -116,10 +116,10 @@ foreach (\app::$devices AS $device) {
 	<select id="changeorientation" class="none">
 	    <option value="portrait"><?php echo t('Portrait', FALSE); ?></option><option value="landscape"<?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape', FALSE); ?></option>
 	</select>
-	<?php if (ID_ROLE == 1): ?>
+	<?php if (BEHAVIOR == 1): ?>
             <a href="#" id="switchPreviewMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();return false;"><?php echo t('Preview') ?></a><?php 
-            ?><a href="#" id="switchEditMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();return false;"><?php echo t('Edit') ?></a><?php 
-            ?><a href="#" id="switchCreationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;"><?php echo t('Creation') ?></a>
+         ?><a href="#" id="switchEditMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();return false;"><?php echo t('Edit') ?></a><?php 
+            endif; if (BEHAVIOR == 2):?><a href="#" id="switchCreationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;"><?php echo t('Creation') ?></a>
 	<?php endif; ?>
     </div>      
 </div>

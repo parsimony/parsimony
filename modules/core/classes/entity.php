@@ -186,6 +186,7 @@ abstract class entity implements \Iterator {
         if (!is_array($values)) 
             return $values; // FALSE
         $res = $sth->execute($values);
+        $this->purgeSQL();
         if(!$res) {
 	    $this->afterInsert();
 	    \app::dispatchEvent('afterInsert', array($vars, &$this));
@@ -221,6 +222,7 @@ abstract class entity implements \Iterator {
         if (!is_array($values)) 
             return $values; // FALSE
         $res = $sth->execute($values);
+        $this->purgeSQL();
         if(!$res) {
 	    $this->afterUpdate();
 	    \app::dispatchEvent('afterUpdate', array($vars, &$this));
@@ -576,7 +578,31 @@ abstract class entity implements \Iterator {
     public function save() {
         return \tools::serialize('modules/' . $this->_module . '/model/' . $this->_entityName, $this);
     }
+    
+    /**
+     * 
+     * 
+     */
+    public function purgeSQL() {
+        unset($this->_SQL['selects']);
+        unset($this->_SQL['wheres']);
+        unset($this->_SQL['joins']);
+        unset($this->_SQL['orders']);
+        unset($this->_SQL['limit']);
+        return TRUE;
+    }
 
+    /**
+     * 
+     * 
+     */
+    public function __sleep() {
+        $this->purgeSQL();
+        $fields = get_object_vars($this);
+        $fields = array_keys($fields);
+        return $fields;
+    }
+    
     /**
      * 
      * 
