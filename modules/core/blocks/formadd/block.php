@@ -35,7 +35,7 @@ class formadd extends \block {
 
             $pathOfView = PROFILE_PATH .$this->getConfig('pathOfView');
             if ($this->getConfig('regenerateview') == 1) {
-                \tools::file_put_contents($pathOfView, $this->generateView($this->getConfig('module'),$this->getConfig('entity')));
+                \tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'),$this->getConfig('entity')));
             } else {
                 \tools::file_put_contents($pathOfView, $_POST['editor']);
             }
