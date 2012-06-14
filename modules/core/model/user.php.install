@@ -9,12 +9,18 @@ namespace core\model;
 class user extends \entity {
 
     protected $id_user;
-    protected $pseudo;
-    protected $mail;
-    protected $pass;
-    protected $registration;
-    protected $id_role;
-
+
+    protected $pseudo;
+
+    protected $mail;
+
+    protected $pass;
+
+    protected $registration;
+
+    protected $id_role;
+
+
 
 public function __construct(\field_ident $id_user,\field_string $pseudo,\field_mail $mail,\field_password $pass,\field_date $registration,\field_foreignkey $id_role) {
         $this->id_user = $id_user;
@@ -27,23 +33,6 @@ public function __construct(\field_ident $id_user,\field_string $pseudo,\field_m
 }
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
-
-// DON'T TOUCH THE CODE ABOVE ##########################################################
 
 }
 
