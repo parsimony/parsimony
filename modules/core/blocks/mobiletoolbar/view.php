@@ -43,8 +43,6 @@
 </ul>
 <style>
     .tab_bar {
-        position:absolute;
-        bottom:-1px;
         width:100%;
         height: 50px;
         background: -webkit-gradient(linear, left top, left bottom, from(black), to(black), color-stop(0.02, #545454), color-stop(0.04, #3B3B3B), color-stop(0.5, #1D1D1D), color-stop(0.51, black));
