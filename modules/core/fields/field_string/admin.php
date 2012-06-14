@@ -27,7 +27,7 @@
  */
  ?>
 <div class="rightbar"><label class="ellipsis"><?php echo t('Unique',False) ; ?></label>
-    <select style="font-size:13px;height:26px" name="uniques">
+    <select style="font-size:13px;height:26px" name="unique">
 	<option value="1"><?php echo t('True'); ?></option>
 	<option value="0"><?php echo t('False'); ?></option>
     </select>

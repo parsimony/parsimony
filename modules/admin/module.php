@@ -49,7 +49,7 @@ class admin extends \module {
      * @return false 
      */
     public function controllerPOST($action) {
-	if (ID_ROLE != 1)
+	if (BEHAVIOR == 0)
 	    return $this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative'));
 	if (!empty($action)) {
 	    $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);

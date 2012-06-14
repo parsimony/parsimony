@@ -295,7 +295,7 @@ class module {
 		$this->model[$entity] = \tools::unserialize('modules/' . $this->name . '/model/' . $entity);
 		return $this->model[$entity];
 	    } else {
-		throw new \Exception(t('Entity doesn\'t exist', FALSE));
+		throw new \Exception(t('Entity doesn\'t exist', FALSE). ' : ' . s($entity));
 	    }
 	}
     }
