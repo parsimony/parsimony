@@ -319,7 +319,7 @@ class page extends \block {
         if (!empty($this->CSS_inc_http))
             $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->CSS_inc_http) . '" />';
 	if (!empty($this->CSS_inc)){
-            if(BEHAVIOR != 0 || defined('PARSI_ADMIN') || isset($_POST['popup'])) $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&files=' . implode(',', $this->CSS_inc) . '" />';
+            if(BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&files=' . implode(',', $this->CSS_inc) . '" />';
 	    else{
 		foreach($this->CSS_inc AS $css)
 		     $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' .$css. '" />';
@@ -328,7 +328,7 @@ class page extends \block {
         if (!empty($this->JS_inc_http))
             $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->JS_inc_http) . '"> </SCRIPT>';
         if (!empty($this->JS_inc)){
-            if(BEHAVIOR != 0 || defined('PARSI_ADMIN') || isset($_POST['popup'])){ 
+            if(BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])){ 
 		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&files=' . implode(',', $this->JS_inc) . '"> </SCRIPT>' . PHP_EOL;
 	    }else{
 		foreach($this->JS_inc AS $css)
