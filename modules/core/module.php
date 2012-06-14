@@ -123,8 +123,6 @@ class core extends \module {
 	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css');
 	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
-	    \app::$request->page->addJSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.js');
-	    \app::$request->page->addCSSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.css');
 	    \app::$request->page->addCSSFile(BASE_PATH . 'core/' . THEMETYPE . '.css');
 	    \app::$request->page->addCSSFile(BASE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
 
@@ -178,7 +176,7 @@ class core extends \module {
 
     public function install() {
 	parent::install();
-	$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'admin'));
+	$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'admin', 'state' => '2'));
     }
 
 }

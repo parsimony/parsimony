@@ -223,10 +223,10 @@ while (1) {
         case 'validstep2':
             $step = 3;
             /* Install user/role models */
-            rename('modules/core/model/user.obj.install', 'modules/core/model/user.obj');
-            rename('modules/core/model/user.php.install', 'modules/core/model/user.php');
-            rename('modules/core/model/role.obj.install', 'modules/core/model/role.obj');
-            rename('modules/core/model/role.php.install', 'modules/core/model/role.php');
+            if(is_file('modules/core/model/user.obj.install')) rename('modules/core/model/user.obj.install', 'modules/core/model/user.obj');
+            if(is_file('modules/core/model/user.php.install')) rename('modules/core/model/user.php.install', 'modules/core/model/user.php');
+            if(is_file('modules/core/model/role.obj.install')) rename('modules/core/model/role.obj.install', 'modules/core/model/role.obj');
+            if(is_file('modules/core/model/role.php.install')) rename('modules/core/model/role.php.install', 'modules/core/model/role.php');
             
             if (!isset($_POST['serverok']) || empty($_POST['serverok']) || $_POST['serverok'] != 1) {
                 echo '<div class="notify negative">' . tr('Your server configuration is invalid. Please fix the issues to continue') . '</div>';
@@ -581,6 +581,8 @@ while (1) {
 	    'field_formasso' => 'core\fields\field_formasso'
 	);
 	    app::$aliasClasses = $config['aliasClasses'];
+            app::$activeModules = $config['activeModules'];
+            define('PROFILE_PATH','profiles/www/modules');
 	    $toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_vote','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 	    
 	    foreach($config['aliasClasses'] AS $alias => $class){
