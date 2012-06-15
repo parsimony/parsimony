@@ -40,6 +40,9 @@ abstract class entity implements \Iterator {
 
     /** @var string table name for example $_tableName = core_entityName */
     protected $_tableName;
+    
+    /** @var string table name for example $_tableName = core_entityName */
+    protected $_tableTitle;
 
     /** @var string entity name */
     protected $_entityName;
@@ -117,6 +120,22 @@ abstract class entity implements \Iterator {
      */
     public function getName() {
         return $this->_entityName;
+    }
+    
+    /**
+     * Get Title
+     * @return string
+     */
+    public function getTitle() {
+        return $this->_entityTitle;
+    }
+    
+    /**
+     * Set Title
+     * @return string
+     */
+    public function setTitle($title) {
+        $this->_entityTitle = $title;
     }
 
     /**

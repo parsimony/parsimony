@@ -1215,10 +1215,11 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		$reflectionObj = new \ReflectionClass($module . '\\model\\' . $table->name);
 		$newObj = $reflectionObj->newInstanceArgs($args);
 		$newObj = unserialize(serialize($newObj)); // in order to call __wakeup method
-		$newObj->behaviorTitle = $table->title;
-		$newObj->behaviorDescription = $table->description;
-		$newObj->behaviorKeywords = $table->keywords;
-		$newObj->behaviorImage = $table->image;
+                $newObj->setTitle($table->title);
+		$newObj->behaviorTitle = $table->behaviorTitle;
+		$newObj->behaviorDescription = $table->behaviorDescription;
+		$newObj->behaviorKeywords = $table->behaviorKeywords;
+		$newObj->behaviorImage = $table->behaviorImage;
 		if ($oldObjModel != FALSE) {
 		    $nameFieldBefore = '';
 		    foreach ($args as $fieldName => $field) {
