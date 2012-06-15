@@ -9,12 +9,9 @@ namespace core\model;
 class role extends \entity {
 
     protected $id_role;
-
-    protected $name;
-
-    protected $state;
-
-
+    protected $name;
+    protected $state;
+
 
 public function __construct(\field_ident $id_role,\field_string $name,\field_state $state) {
         $this->id_role = $id_role;
@@ -22,6 +19,14 @@ public function __construct(\field_ident $id_role,\field_string $name,\field_sta
         $this->state = $state;
 
 }
+// DON'T TOUCH THE CODE ABOVE ##########################################################
+
+// DON'T TOUCH THE CODE ABOVE ##########################################################
+
+// DON'T TOUCH THE CODE ABOVE ##########################################################
+
+// DON'T TOUCH THE CODE ABOVE ##########################################################
+
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
