@@ -34,7 +34,7 @@ if(isset($this->unique) && $this->unique):
 		if(data == 1){
 		    $(".info_<?php echo $this->name.'_'.$row->getId()->value ?>").empty();
 		}else{
-		    $(".info_<?php echo $this->name.'_'.$row->getId()->value ?>").text("<?php echo t('It already exist, please choose another') ?>");
+		    $(".info_<?php echo $this->name.'_'.$row->getId()->value ?>").text("<?php echo t('It already exists, please choose another') ?>");
 		}
 	    });
 	});
