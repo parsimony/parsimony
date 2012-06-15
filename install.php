@@ -597,7 +597,7 @@ while (1) {
             $core = new \core\core('core');
             
             $core->install();
-            $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'id_role' => '1'));
+            $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'state' => '1','id_role' => '1'));
 
             $configObj = new \core\classes\config('config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
