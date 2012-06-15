@@ -32,9 +32,9 @@ if(isset($this->unique) && $this->unique):
 	$(document).on("keyup", "#insert_<?php echo $this->name ?>", function(){
 	    $.post(BASE_PATH + '<?php echo $this->module; ?>/callField',{module:"<?php echo $this->module; ?>", entity:"<?php echo $this->entity; ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value}, function(data){
 		if(data == 1){
-		    $(".info_insert_<?php echo $this->name ?>").html();
+		    $(".info_insert_<?php echo $this->name ?>").html('');
 		}else{
-		    $(".info_insert_<?php echo $this->name ?>").text("<?php echo t('It already exist, please choose another') ?>");
+		    $(".info_insert_<?php echo $this->name ?>").text("<?php echo t('It already exists, please choose another') ?>");
 		}
 	    });
 	});
