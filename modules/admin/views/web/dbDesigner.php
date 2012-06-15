@@ -210,7 +210,7 @@ include_once('modules/core/classes/field.php');
 			else
 			    $none = '';
 			echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-			echo '<div type_class="' . $class . '" data-attributs=\'' . json_encode($args) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class=" ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+			echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class=" ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
@@ -270,7 +270,7 @@ include_once('modules/core/classes/field.php');
 	    $newArray[$match[1]] = $match[2];
 	}
 	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-	echo '<div class="table" data-attributs=\'' . json_encode($tab) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
+        echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
 	$parameters = $entity->getFields();
 	foreach ($parameters as $propertyName => $field) {
 	    $class = get_class($field);
@@ -284,7 +284,7 @@ include_once('modules/core/classes/field.php');
 		$args [$ssparam->name] = $field->{$ssparam->name};
 	    }
 	    $args['oldName'] = $field->name;
-	    echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . json_encode($args) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+	    echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 	}
 	echo '</div>';
     }
@@ -308,6 +308,9 @@ include_once('modules/core/classes/field.php');
     </div>
     <span id="deletator" class="ui-icon ui-icon-closethick"></span>
     <script>
+        function enc(str){
+            return str.replace('"','\\"');
+        }
         $(document).on("change",'.visibilityform input[type="checkbox"]',function(e){
             var nb = 0;
             var parent = $(this).parent();
@@ -559,10 +562,10 @@ include_once('modules/core/classes/field.php');
                     $(".table").each(function(){
                         var recupId = $(".title",this).text();
 			var tableAttrs = $(this).data("attributs");
-                        propertylist += '{"name": "' + recupId + '","oldName": "' + tableAttrs.oldName + '","title":"' + tableAttrs.title + '","behaviorTitle":"' + tableAttrs.behaviorTitle + '","behaviorDescription":"' + tableAttrs.behaviorDescription + '","behaviorKeywords":"' + tableAttrs.behaviorKeywords + '","behaviorImage":"' + tableAttrs.behaviorImage + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
+                        propertylist += '{"name": "' + enc(recupId) + '","oldName": "' + enc(tableAttrs.oldName) + '","title":"' + enc(tableAttrs.title) + '","behaviorTitle":"' + enc(tableAttrs.behaviorTitle) + '","behaviorDescription":"' + enc(tableAttrs.behaviorDescription) + '","behaviorKeywords":"' + enc(tableAttrs.behaviorKeywords) + '","behaviorImage":"' + enc(tableAttrs.behaviorImage) + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
                         $(".property",$(this)).each(function(){
                             var jsonproperties = $(this).data("attributs");
-                            propertylist += '"' + jsonproperties.name + ':' + $(this).attr("type_class") + '" :' + $.toJSON(jsonproperties) +' ,';
+                            propertylist += '"' + enc(jsonproperties.name) + ':' + $(this).attr("type_class") + '" :' + $.toJSON(jsonproperties) +' ,';
                         });
                         propertylist = propertylist.substring(0, propertylist.length-1) + '}},';
                     });
