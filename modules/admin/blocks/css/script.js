@@ -28,7 +28,7 @@ function blockAdminCSS() {
 	    var stylesh = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule];
 	    if(typeof stylesh != "undefined") var rules = stylesh.style.cssText + this.getAttribute("name") + ": " + this.value + ";";
 	    else rules = this.getAttribute("name") + ": " + this.value + ";";
-	    ParsimonyAdmin.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
+	    blockAdminCSS.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
 	});
 	
 	
@@ -71,7 +71,7 @@ function blockAdminCSS() {
 			    var selectclass = "";
 			    if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
 			    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
-			    selectProp = selectid + selectclass.replace("  ","") + " " + selectProp;
+			    selectProp = selectid + selectclass.replace("  ","").replace(".block","").replace(".wysiwyg","") + " " + selectProp;
 			    if(selectid != "") good = true;
 			}
 		    });
@@ -109,7 +109,8 @@ blockAdminCSS.updateCSSUI = function (cssprop) {
 	
 blockAdminCSS.setCss = function (nbstyle, nbrule, rule) {
     if(nbrule == null){
-	nbrule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length - 1;
+	nbRule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length;
+	if(nbRule > 0) nbrule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length - 1;
     }else{
 	ParsimonyAdmin.currentDocument.styleSheets[nbstyle].removeRule(nbrule);
     }
@@ -295,10 +296,10 @@ blockAdminCSS.openCSSCode = function () {
     $("#typeofinput").val("code");
     $('#css_panel').show();
     $("#goeditcss").hide();
+    $("#changecsscode").empty();
     $.each(blockAdminCSS.csseditors,function(i, el){
 	blockAdminCSS.csseditors.splice(i,i+1);
     });
-    $("#changecsscode").empty();
 }
     
 

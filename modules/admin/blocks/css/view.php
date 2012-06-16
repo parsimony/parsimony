@@ -697,8 +697,8 @@ $selectors = $css->getAllSselectors();
         var selector = $('#current_selector_update').val();
         var path = $('#changecsspath').val();
         if($("#typeofinput").val() == 'code') {
+	    blockAdminCSS.openCSSCode();
             blockAdminCSS.addNewSelectorCSS( path, selector);
-            blockAdminCSS.openCSSCode();
         }else{
             blockAdminCSS.displayCSSConf(path,selector);
         }
