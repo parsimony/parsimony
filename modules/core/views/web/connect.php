@@ -32,6 +32,7 @@ if (\app::getClass('user')->VerifyConnexion()) {
 }
 
 ?>
+<meta name='robots' content='noindex,nofollow' />
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
 <!--[if IE]>
@@ -86,7 +87,7 @@ if (isset($_POST['connexion'])) {
             #content{margin: 200px auto;position: relative;width: 503px;height: 253px;}
             #img{float: left;width: 250px;height: 250px;margin: 0px auto;border-bottom-left-radius: 10px;background: #EEE;border: 1px solid #DDD;text-shadow: 0 1px 1px white;-webkit-box-shadow: 0 1px 1px #fff;-moz-box-shadow: 0 1px 1px #fff;box-shadow: 1px 1px 0px #fff, #F4F8FD 1px 1px 1px 0 inset;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;padding-top: 30px;}
             label{font-size: 20px;line-height: 25px;}
-            label, div a{text-shadow: 0px 1px 0px white;font-size: 20px;line-height: 25px;letter-spacing: 1.5px;}
+            label, div a{text-shadow: 0px 1px 0px white;font-size: 13px;line-height: 25px;letter-spacing: 1.5px;}
             div a{font-size: 15px;line-height: 18px;}
             #content form{width: 250px;height: 250px;border-top-right-radius: 10px;float: left;border-color: #DDD;border: 1px solid #DDD;text-shadow: 0 1px 1px white;-webkit-box-shadow: 0 1px 1px #fff;-moz-box-shadow: 0 1px 1px #fff;box-shadow: 0 1px 0px #fff;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;background: #EEE;box-shadow: 1px 1px 0px #fff, #F4F8FD 1px 1px 1px 0 inset;}
             #content > form > div{padding:11px 17px;}
