@@ -209,7 +209,7 @@ abstract class entity implements \Iterator {
         if(!$res) {
 	    return FALSE;
 	}else{
-	    $this->afterInsert();
+	    $this->afterInsert($values);
 	    \app::dispatchEvent('afterInsert', array($vars, &$this));
 	    return  \PDOconnection::getDB()->lastInsertId();
 	}
@@ -247,7 +247,7 @@ abstract class entity implements \Iterator {
         if(!$res) {
 	    return FALSE;
 	}else{
-	    $this->afterUpdate();
+	    $this->afterUpdate($values);
 	    \app::dispatchEvent('afterUpdate', array($vars, &$this));
 	    return TRUE;
 	}
