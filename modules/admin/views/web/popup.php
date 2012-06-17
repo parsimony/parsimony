@@ -35,6 +35,7 @@
                 $(".adminzonetab a").removeClass("active");
                 $(this).addClass("active");
                 $($(this).attr("href")).show();
+		top.ParsimonyAdmin.resizeConfBox();
             });            
             /* CTRL-S*/
             var isCtrl = false;
@@ -54,13 +55,4 @@
 <?php echo $content; ?>
     </body>
 
-</html><script>
-    /* var body = $(document);
-                $("#conf_box_content_iframe,#conf_box_content",window.parent.document).css({
-                    "width": body.outerWidth() + "px",
-                    "height": body.outerHeight() + "px"
-                });
-                $("#conf_box",window.parent.document).css({
-                    "width": body.outerWidth() + "px"
-                }).show();*/
-</script>
+</html>

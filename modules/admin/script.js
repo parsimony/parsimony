@@ -27,17 +27,7 @@ var ParsimonyAdmin = {
 	});
 
 	$("#conf_box_content_iframe").on("load",function() {
-	    if($(this).get(0).contentDocument.location.href != "about:blank"){
-		var bodyIframe = $(this).contents().find('body');
-		$( this ).add("#conf_box_content").css({
-		    "width": bodyIframe.outerWidth() + "px",
-		    "height": bodyIframe.outerHeight() + "px"
-		});
-		$( "#conf_box" ).css({
-		    "width": bodyIframe.outerWidth() + "px"
-		});
-		$("#conf_box").show();
-	    }
+	    ParsimonyAdmin.resizeConfBox();
 	});
 
 	$("#dialog-id").keyup(function(){
@@ -441,6 +431,20 @@ var ParsimonyAdmin = {
 	    $("#conf_box_title").empty();
 	    $("#conf_box_content_iframe").attr("src","about:blank");
             
+	},
+	resizeConfBox : function(){
+	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
+	    if(doc.location.href != "about:blank"){
+		var bodyIframe = $(doc);
+		$( "#conf_box_content_iframe" ).add("#conf_box_content").css({
+		    "width": bodyIframe.outerWidth() + "px",
+		    "height": bodyIframe.outerHeight() + "px"
+		});
+		$( "#conf_box" ).css({
+		    "width": bodyIframe.outerWidth() + "px"
+		});
+		$("#conf_box").show();
+	    }
 	},
 	setConfBoxTitle :   function (title){
 	    $("#conf_box_title").html(title);
