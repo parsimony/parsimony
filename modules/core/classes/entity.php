@@ -432,15 +432,15 @@ abstract class entity implements \Iterator {
     /**
      * Event before update
      */
-    public function beforeUpdate($vars) {
-        return $vars;
+    public function beforeUpdate($values) {
+        return $values;
     }
 
     /**
      * Event before insert
      */
-    public function beforeInsert($vars) {
-        return $vars;
+    public function beforeInsert($values) {
+        return $values;
     }
 
     /**
@@ -460,14 +460,14 @@ abstract class entity implements \Iterator {
     /**
      * Event after update
      */
-    public function afterUpdate() {
+    public function afterUpdate($values) {
         
     }
 
     /**
      * Event after insert
      */
-    public function afterInsert() {
+    public function afterInsert($values) {
         
     }
 
