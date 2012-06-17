@@ -207,10 +207,12 @@ abstract class entity implements \Iterator {
         $res = $sth->execute($values);
         $this->purgeSQL();
         if(!$res) {
+	    return FALSE;
+	}else{
 	    $this->afterInsert();
 	    \app::dispatchEvent('afterInsert', array($vars, &$this));
-	    return FALSE;
-	}else return  \PDOconnection::getDB()->lastInsertId();
+	    return  \PDOconnection::getDB()->lastInsertId();
+	}
     }
 
     /**
@@ -243,10 +245,12 @@ abstract class entity implements \Iterator {
         $res = $sth->execute($values);
         $this->purgeSQL();
         if(!$res) {
+	    return FALSE;
+	}else{
 	    $this->afterUpdate();
 	    \app::dispatchEvent('afterUpdate', array($vars, &$this));
-	    return FALSE;
-	}else return TRUE;
+	    return TRUE;
+	}
     }
 
     /**
