@@ -152,18 +152,18 @@ echo $themes->display();
     </div>
 </div>
     <?php
-    echo '<style>';
-    if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelblocks') {
-        echo '#panelmodules{display:none;}';
+    echo '<script> $(document).ready(function() {';
+    if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelmodules') {
+        echo '$(".panelmodules").trigger("click");';
     } else {
-        echo '#panelblocks{display:none;}';
+        echo '$(".panelblocks").trigger("click");';
     }
-    if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'panelcss') {
-        echo '#paneltree{display:none;}';
+    if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'paneltree') {
+        echo '$(".paneltree").trigger("click");';
     } else {
-        echo '#panelcss{display:none;}';
+        echo '$(".panelcss").trigger("click");';
     }
-    echo '</style>';
+    echo '}); </script>';
     ?>
 <div class="align_center" style="min-height: 600px;">
 <?php
