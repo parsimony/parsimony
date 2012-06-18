@@ -222,11 +222,7 @@ while (1) {
 
         case 'validstep2':
             $step = 3;
-            /* Install user/role models */
-            if(is_file('modules/core/model/user.obj.install')) rename('modules/core/model/user.obj.install', 'modules/core/model/user.obj');
-            if(is_file('modules/core/model/user.php.install')) rename('modules/core/model/user.php.install', 'modules/core/model/user.php');
-            if(is_file('modules/core/model/role.obj.install')) rename('modules/core/model/role.obj.install', 'modules/core/model/role.obj');
-            if(is_file('modules/core/model/role.php.install')) rename('modules/core/model/role.php.install', 'modules/core/model/role.php');
+	    
             
             if (!isset($_POST['serverok']) || empty($_POST['serverok']) || $_POST['serverok'] != 1) {
                 echo '<div class="notify negative">' . tr('Your server configuration is invalid. Please fix the issues to continue') . '</div>';
