@@ -309,7 +309,7 @@ include_once('modules/core/classes/field.php');
     <span id="deletator" class="ui-icon ui-icon-closethick"></span>
     <script>
         function enc(str){
-            return str.replace('"','\\"');
+            return str.toString().replace('"','\\"');
         }
         $(document).on("change",'.visibilityform input[type="checkbox"]',function(e){
             var nb = 0;
