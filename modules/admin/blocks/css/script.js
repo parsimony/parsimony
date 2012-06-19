@@ -70,8 +70,10 @@ function blockAdminCSS() {
 			    var selectid = "";
 			    var selectclass = "";
 			    if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
-			    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
-			    selectProp = selectid + selectclass.replace("  ","").replace(".block","").replace(".wysiwyg","") + " " + selectProp;
+			    else{
+				if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
+			    }
+			    selectProp = selectid + selectclass.replace("  ","").replace(".clearboth","") + " " + selectProp;
 			    if(selectid != "") good = true;
 			}
 		    });
@@ -111,9 +113,8 @@ blockAdminCSS.setCss = function (nbstyle, nbrule, rule) {
     if(nbrule == null){
 	nbRule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length;
 	if(nbRule > 0) nbrule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length - 1;
-    }else{
-	ParsimonyAdmin.currentDocument.styleSheets[nbstyle].removeRule(nbrule);
     }
+    if(typeof ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule] != "undefined") ParsimonyAdmin.currentDocument.styleSheets[nbstyle].removeRule(nbrule);
     ParsimonyAdmin.currentDocument.styleSheets[nbstyle].insertRule(rule,nbrule);
 }
     
@@ -201,15 +202,20 @@ blockAdminCSS.CSSeditor = function (id) {
 	    }
 	    blockAdminCSS.setCss(nbstyle, nbrule, code + "}");
 	    textarea.value = c.getValue();
-	},
+	}/*,,
+	extraKeys: { 
+	    "Ctrl-V": function(c, e) { console.dir(e); }
+	    }
 	onCursorActivity: function(c) {
 	    var cursorLine = c.getCursor().line;
-	    for(var i = 0;i < c.lineCount() - 1; i++){
+	    var lineCount = c.lineCount();
+	    for(var i = 0;i < lineCount; i++){alert();
 		if(c.getLine(i) == "" && cursorLine != i) c.removeLine(i);
-	    //editor.setLine(i,editor.getLine(i).replace(/([a-z\-]);([a-z\-])/g, "$1;"));
-	    //editor.indentLine(i);
+		c.setLine(i,c.getLine(i).replace(/(\r\n|\n|\r)/gm,"").replace(";",';\r\n'));
+		c.indentLine(i);
 	    } 
-	}
+
+	}*/
     });
     editor.id = id;
     blockAdminCSS.csseditors.push(editor);
@@ -261,7 +267,7 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
 		}
 	    });
 	    if(nbrule.length == 0){
-		nbrule = null;
+		nbrule = ParsimonyAdmin.currentDocument.styleSheets[i].cssRules.length;
 	    }
 	}
     }
@@ -270,7 +276,7 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
 }
 blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrule) {
     var id = 'idcss' + nbstyle + nbrule;
-    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;width:160px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')">'+ t('Go to form') +'</div></div>'
+    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;width:160px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
     + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
     + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
     $("#changecsscode").prepend(code);

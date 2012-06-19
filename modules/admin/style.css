@@ -172,7 +172,7 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 #panelcss .activeline {background: #e8f2ff !important;}
 #panelcss .CodeMirror-gutter-text pre{border-radius: 2px;max-width: 10px;background: #f1f1f1;max-height: 9px;line-height: 8px;margin-top: 2px;border: 1px solid #BBB;text-align: right;padding: 0em .1em 0.1em .1em;white-space: pre !important;}
 
-#changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 22px;}
+#changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 17px;}
 #changecsscode .gotoform{background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));border-bottom: 1px solid #7F7F7F;position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;}
 #changecsscode .gotoform:hover{background:#777;color:white}
 #changecsscode .selectorcss b{overflow:hidden}
