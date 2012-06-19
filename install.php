@@ -593,7 +593,7 @@ while (1) {
             $core = new \core\core('core');
             
             $core->install();
-	    echo '<div style="clear:both">';
+	    echo '<div style="display:none">';
             $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'state' => '1','id_role' => '1'));
 	    echo '</div>';
             $configObj = new \core\classes\config('config.php', TRUE);
