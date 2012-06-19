@@ -381,7 +381,10 @@ class admin extends \module {
             $css = new \css($filePath2);
             $selectorText = str_replace("\t", '', trim($css->selectorExists($selector->selector)));
             if (!$selectorText) $selectorText = '';
-	    else $selectorText = preg_replace('/;[^a-z\-]/ims', ';', $selectorText);
+	    else{
+		$selectorText = str_replace(array("\r\n", "\r", "\n", "\t"), '', $selectorText);
+		$selectorText = str_replace(';', ";\n", $selectorText);
+	    }
             $res[] = array('selector' => $selector, 'filePath' => $selector->url, 'nbstyle' => $selector->nbstyle, 'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
         }
         \app::$response->setHeader('X-XSS-Protection', '0');
