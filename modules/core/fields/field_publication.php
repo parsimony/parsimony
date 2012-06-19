@@ -107,7 +107,7 @@ class field_publication extends \field {
      * @return string
      */
     public function sqlModel() {
-        return $this->name . ' ' . $this->type . 'DATETIME NOT NULL ,' . $this->name . '_status INT(1) NOT NULL,' . $this->name . '_visibility VARCHAR(25) NOT NULL';
+        return $this->name . ' ' . $this->type . ' NOT NULL ,' . $this->name . '_status INT(1) NOT NULL,' . $this->name . '_visibility VARCHAR(25) NOT NULL';
     }
     
     /**
