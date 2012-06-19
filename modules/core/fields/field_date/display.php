@@ -25,4 +25,4 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-echo date(  "F j, Y, g:i a", strtotime( $this ) );?>
+echo strftime('%e %B %Y, %R', strtotime($this)); ?>

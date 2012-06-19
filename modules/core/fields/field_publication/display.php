@@ -26,4 +26,5 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-echo s($this); ?>
+echo strftime('%e %B %Y, %R', strtotime($this));
+?>
