@@ -265,7 +265,7 @@ class request {
      * Determine Role & permissions
      */
     protected function determineRole() {
-	if (\app::getClass('user')->VerifyConnexion() && $_SESSION['idr'] == 1 &&
+	if (\app::getClass('user')->VerifyConnexion() &&
 		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
 	    define('ID_ROLE', $_SESSION['idr']);
             define('BEHAVIOR',$_SESSION['roleBehavior']);
