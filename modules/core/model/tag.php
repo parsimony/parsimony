@@ -9,8 +9,11 @@ namespace core\model;
 class tag extends \entity {
 
     protected $id_tag;
-    protected $name;
-    protected $url;
+
+    protected $name;
+
+    protected $url;
+
 
 
 public function __construct(\field_ident $id_tag,\field_string $name,\field_url_rewriting $url) {

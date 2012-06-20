@@ -9,8 +9,11 @@ namespace core\model;
 class tag_post extends \entity {
 
     protected $id_tag_post;
-    protected $id_tag;
-    protected $id_post;
+
+    protected $id_tag;
+
+    protected $id_post;
+
 
 
 public function __construct(\field_ident $id_tag_post,\field_foreignkey $id_tag,\field_foreignkey $id_post) {

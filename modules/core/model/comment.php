@@ -9,17 +9,29 @@ namespace core\model;
 class comment extends \entity {
 
     protected $id_comment;
-    protected $id_post;
-    protected $author;
-    protected $author_url;
-    protected $author_email;
-    protected $author_IP;
-    protected $dateGMT;
-    protected $content;
-    protected $status;
-    protected $id_user;
-    protected $id_parent;
-    protected $type;
+
+    protected $id_post;
+
+    protected $author;
+
+    protected $author_url;
+
+    protected $author_email;
+
+    protected $author_IP;
+
+    protected $dateGMT;
+
+    protected $content;
+
+    protected $status;
+
+    protected $id_user;
+
+    protected $id_parent;
+
+    protected $type;
+
 
 
 public function __construct(\field_ident $id_comment,\field_foreignkey $id_post,\field_string $author,\field_string $author_url,\field_mail $author_email,\field_string $author_IP,\field_date $dateGMT,\field_textarea $content,\field_state $status,\field_user $id_user,\field_foreignkey $id_parent,\field_state $type) {

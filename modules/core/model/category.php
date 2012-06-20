@@ -3,16 +3,21 @@ namespace core\model;
 /**
 * Description of entity category
 * @author Parsimony
-* @top 217px
+* @top 219px
 * @left 1091px
 */
 class category extends \entity {
 
     protected $id_category;
-    protected $name;
-    protected $id_parent;
-    protected $url;
-    protected $description;
+
+    protected $name;
+
+    protected $id_parent;
+
+    protected $url;
+
+    protected $description;
+
 
 
 public function __construct(\field_ident $id_category,\field_string $name,\field_foreignkey $id_parent,\field_url_rewriting $url,\field_wysiwyg $description) {
