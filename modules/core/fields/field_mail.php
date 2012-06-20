@@ -63,8 +63,10 @@ class field_mail extends \field {
      * @return string
      */
     public function validate($value) {
-        if(isset($this->unique) && $this->unique){
-	    if($this->checkUniqueAction($value) == 0) return FALSE;
+        $args = func_get_args();
+	if(isset($this->unique) && $this->unique && isset($args[1])){
+            if($args[1] == 'insert') $args[1] = false;
+	    if($this->checkUniqueAction($value, $args[1]) == 0) return FALSE;
 	}
         if (strlen($value) <= $this->characters_max)
             if (!$this->required && empty($value))

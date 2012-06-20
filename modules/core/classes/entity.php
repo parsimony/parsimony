@@ -281,6 +281,8 @@ abstract class entity implements \Iterator {
      */
     public function prepareValues(array $vars, $type= 'insert') {
         $values = array();
+        $val = 'insert';
+        if($type == 'update') $val = $vars[$this->getId()->name];
         foreach ($this->getFields() as $name => $field) {
             if ($type=='insert' || isset($vars[$field->name])) {
                 $value = '';
@@ -288,9 +290,9 @@ abstract class entity implements \Iterator {
                 $columnsValues = array_intersect_key($vars, array_flip($columns));
                 if(isset($vars[$field->name])) $value = $vars[$field->name];
                 if (count($columns) == 1)
-                    $value = $field->validate($value);
+                    $value = $field->validate($value,$val);
                 else
-                    $value = $field->validate($columnsValues);
+                    $value = $field->validate($columnsValues,$val);
                 if ($value === FALSE)
                     return t('Error from field', FALSE).' : '.$field->label . '. ' . $field->msg_error; // return error message
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {

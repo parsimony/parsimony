@@ -44,8 +44,10 @@ class field_url_rewriting extends \field {
     }
     
     public function validate($value) {
-	if(isset($this->unique) && $this->unique){
-	    if($this->checkUniqueAction($value) == 0) return FALSE;
+	$args = func_get_args();
+	if(isset($this->unique) && $this->unique && isset($args[1])){
+            if($args[1] == 'insert') $args[1] = false;
+	    if($this->checkUniqueAction($value, $args[1]) == 0) return FALSE;
 	}
         return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
     }
