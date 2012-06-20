@@ -49,8 +49,9 @@ class admin extends \module {
      * @return false 
      */
     public function controllerPOST($action) {
-	if (BEHAVIOR == 0)
-	    return $this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative'));
+	$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel');
+	if (BEHAVIOR == 0 || ( BEHAVIOR == 1  && in_array($action, $justForCreators)))
+	    return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
 	if (!empty($action)) {
 	    $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
 	    $this->module = \app::getModule(MODULE);
