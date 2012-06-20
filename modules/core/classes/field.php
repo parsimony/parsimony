@@ -96,8 +96,9 @@ class field {
      * @param string $regex by default '.*'
      * * @param string $visibility by default '.*'
      */
-    public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7) {
+    public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'Invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7) {
         $this->constructor(func_get_args());
+	$this->msg_error = 'Invalid '.$name;
     }
 
     /**
