@@ -192,7 +192,7 @@ class admin extends \module {
 	    $block->setConfig('ajaxLoad', '1');
 	else
 	    $block->setConfig('ajaxLoad', '0');
-	$block->setConfig('css_classes', $cssClasses);
+	$block->setConfig('cssClasses', $cssClasses);
 	if (method_exists($block, 'saveConfigs')) {
 	    $block->saveConfigs();
 	} else {

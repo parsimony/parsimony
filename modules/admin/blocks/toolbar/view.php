@@ -98,15 +98,17 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js');
             <div class="subSidebarOnglet" id="openleftslide"><span class="ui-icon ui-icon-circle-arrow-w" title="<?php echo t('Slide', FALSE); ?>"></span></div>
             <div class="subSidebarOnglet" id="resizeleftslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-e"></span></div>
         </div>
-
-        <div class="contenttab cs">
-            <div class="creation"> 
-            <?php foreach ($contaireleft->getBlocks() AS $block): ?>
-                    <div class="mainTab <?php echo t($block->getId(), FALSE); ?> ellipsis" rel="<?php echo t($block->getId(), FALSE); ?>"><span class="ui-icon floatleft <?php echo t($block->getId(), FALSE); ?>"></span>
-    <?php echo t($block->getName(), FALSE);  ?>
-                    </div>
-    <?php endforeach; ?>
-            </div>
+	
+	    <div class="contenttab cs">
+		<?php if (BEHAVIOR == 2 ): ?>
+		    <div class="creation"> 
+		    <?php foreach ($contaireleft->getBlocks() AS $block): ?>
+			    <div class="mainTab <?php echo t($block->getId(), FALSE); ?> ellipsis" rel="<?php echo t($block->getId(), FALSE); ?>"><span class="ui-icon floatleft <?php echo t($block->getId(), FALSE); ?>"></span>
+		    <?php echo t($block->getName(), FALSE);  ?>
+				    </div>
+		    <?php endforeach; ?>
+		    </div>
+		<?php endif; ?>
 <?php
 echo $contaireleft->display();
 ?>

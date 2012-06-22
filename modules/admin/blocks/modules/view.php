@@ -71,6 +71,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
                         }
                     }
                 }
+		if (BEHAVIOR == 2 ):
                 ?>
                 <li class="sublist" style="padding-left: 25px;">
                     <span class="dbdesigner ui-icon ui-icon-extlink"></span>
@@ -79,6 +80,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
                         <input type="hidden" name="module" value="<?php echo $module; ?>">
                     </form>
                 </li>
+		<?php endif; ?>
             </ul>
             <ul class="pages" data-module="<?php echo $moduleobj->getName(); ?>">
                 <?php
@@ -114,8 +116,10 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
 
         <?php
     }
+    if (BEHAVIOR == 2 ):
     ?>		
     <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon floatleft panelmodules" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
+    <?php endif; ?>
 </div>
 <script>
     $( ".pages" ).sortable({
