@@ -91,9 +91,11 @@
                         <span for="genereURL" style="font-size:11px"><?php echo t('URL Example', FALSE); ?> :</span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
                     if ($modulename != 'core') echo $modulename; ?></span><?php if ($modulename != 'core') echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
                     </div>
+		    <?php if (BEHAVIOR == 2 ): ?>
                     <div style="top: 85px;position: absolute;left: 570px;color: #333;">
                         <a style="color: #333;" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Advanced', FALSE); ?></a>
                     </div>
+		    <?php endif; ?>
                     <script type="text/javascript">
                         $('input[name="title"]').live('change keyup',function(){
                             genereregex();
@@ -194,6 +196,7 @@
                     </script>
 
                     <div style="position:relative;padding-top: 30px;">
+			<?php if (BEHAVIOR == 2 ): ?>
                         <div id="tabs-admin-querieur" class="none" style="">
                             <div id="tabs-admin-query" style="">
                                 <h2><?php echo t('URL Rewriting', False); ?></h2>
@@ -295,6 +298,7 @@
                             <div class="none"><a href="#" onClick="$('input[name=\'regex\']');return false;"><?php echo t('Dynamise your page with numbers', FALSE); ?></a> <a href="#" onClick="$(this).next().slideToggle();return false;"><?php echo t('Dynamise your page with String', FALSE); ?></a></div>
                             <div class="clearboth"></div>
                         </div>
+			<?php endif; ?>
                     </div>
                 </div>
                 <div id="tabs-2" class="fields_to_update panel none">
