@@ -35,6 +35,15 @@ function blockAdminCSS() {
 	$(".subSidebar").on('click',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
+	    function destroyCSSpicker(){
+		$('#container',ParsimonyAdmin.currentBody).off(".csspicker");
+		$("#csspicker").removeClass("active");
+		$("#blockOverlay").removeClass("csspicker");
+	    }
+	    if($(this).hasClass("active")){
+		destroyCSSpicker();
+		return false;
+	    }
 	    ParsimonyAdmin.closeParsiadminMenu();
 	    $("#blockOverlay").addClass("csspicker");
 	    $('#container',ParsimonyAdmin.currentBody).on('mouseover.csspicker',"*", function(event) {
@@ -58,13 +67,14 @@ function blockAdminCSS() {
 		blockAdminCSS.getCSSForCSSpicker();
 		var title = CSSTHEMEPATH;
 		if(this.id != "" && $(".selectorcss[selector='#" + this.id + "']").length == 0) blockAdminCSS.addNewSelectorCSS( title, "#" + this.id)
-		$.each($(this).attr('class').replace('  ',' ').split(' '), function(index, value) {
-		    if(value.length > 0 && $(".selectorcss[selector='." + value + "']").length == 0 && value != "selection-block") blockAdminCSS.addNewSelectorCSS( title, "." + value);
+		var forbidClasses = ",selection-block,block,container,selection-container,";
+		$.each(this.classList, function(index, value) {
+		    if($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value+ ",") == "-1"){ blockAdminCSS.addNewSelectorCSS( title, "." + value);}
 		});
 		var good = false;
-		var selectProp = this.tagName.toLowerCase();
+		var selectProp = "";//this.tagName.toLowerCase();
 		if(this.id == ""){
-		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = selectProp + ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
+		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
 		    $(this).parentsUntil("body").each(function(){
 			if(!good){
 			    var selectid = "";
@@ -80,14 +90,12 @@ function blockAdminCSS() {
 		    blockAdminCSS.addNewSelectorCSS( title, selectProp);
 		}
                 
-		$('#container',ParsimonyAdmin.currentBody).off(".csspicker");
-		$("#csspicker").removeClass("active");
-		$("#blockOverlay").removeClass("csspicker");
+		destroyCSSpicker();
 		return false;
 	    });
 	});
 	
-	$(document).add('#config_tree_selector').on('click',".cssblock",function(e){ 
+	$(document).add('#config_tree_selector').add("#csspicker").on('click',".cssblock",function(e){ 
 	    e.preventDefault();
 	    var filePath = CSSTHEMEPATH;
 	    if(ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress)=='page') filePath = CSSPAGEPATH;
@@ -226,7 +234,7 @@ blockAdminCSS.getCSSForCSSpicker = function () {
     var elmt = $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker').get(0);
     var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
     for (var i = 0; i < styleSheets.length; i++){
-	if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib"))){
+	if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.indexOf("iframe.css") == "-1" && styleSheets[i].href.indexOf("/" + window.location.host + BASE_PATH + "lib") == "-1"){
 	    $.each(styleSheets[i].cssRules, function(nbrule) {
 		if(elmt.webkitMatchesSelector(this.selectorText)){
 		    var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
@@ -276,7 +284,7 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
 }
 blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrule) {
     var id = 'idcss' + nbstyle + nbrule;
-    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;width:160px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
+    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;margin-right: 38px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
     + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
     + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
     $("#changecsscode").prepend(code);
