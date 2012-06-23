@@ -152,7 +152,7 @@ function blockAdminBlocks() {
 	    var offsetFrame = $("#parsiframe").offset();
 	    if(ParsimonyAdmin.inProgress != this.id) $("#blockOverlay").css({
 		"display":"block",
-		"top":offset.top + offsetFrame.top + "px",
+		"top":offset.top + "px",
 		"left":offset.left + offsetFrame.left + "px",
 		"width":$(this).outerWidth() + "px",
 		"height":$(this).outerHeight() + "px"

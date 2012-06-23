@@ -176,4 +176,7 @@ else
 ?>
     <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle"></iframe>
 </div>
-<div id="blockOverlay"></div>
+
+<div id="overlays">
+    <div id="blockOverlay"></div>
+</div>

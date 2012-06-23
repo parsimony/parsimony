@@ -52,7 +52,7 @@ function blockAdminCSS() {
 		var offsetFrame = $("#parsiframe").offset();
 		$("#blockOverlay").css({
 		    "display":"block",
-		    "top":offset.top + offsetFrame.top + "px",
+		    "top":offset.top + "px",
 		    "left":offset.left + offsetFrame.left +  "px",
 		    "width":$(this).outerWidth() + "px",
 		    "height":$(this).outerHeight() + "px"
