@@ -98,12 +98,12 @@ class user {
         if (\app::getModule('core')->getEntity('user')->pseudo->validate($login) === FALSE || \app::getModule('core')->getEntity('user')->pass->validate($password) === FALSE) {
             return FALSE;
         } else {
-            $sth = PDOconnection::getDB()->prepare('SELECT pseudo, pass, id_user, core_role.id_role, core_role.state FROM core_user INNER JOIN core_role ON core_user.id_role = core_role.id_role where pseudo = :pseudo');
+            $sth = PDOconnection::getDB()->prepare('SELECT pseudo, pass, id_user, core_role.id_role, core_role.state FROM core_user INNER JOIN core_role ON core_user.id_role = core_role.id_role WHERE pseudo = :pseudo AND core_user.state = 1');
             $sth->execute(array(':pseudo' => $login));
             $obj = $sth->fetch();
             if (is_array($obj)) {
                 $mdp = $obj['pass'];
-                if ((string) $mdp == \sha1($password)) {
+                if ((string) $mdp == \sha1($password.\app::$config['security']['salt'])) {
                     $_SESSION['login'] = $login;
                     $_SESSION['id_user'] = $obj['id_user'];
                     $_SESSION['idr'] = $obj['id_role'];

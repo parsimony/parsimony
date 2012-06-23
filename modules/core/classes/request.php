@@ -237,7 +237,7 @@ class request {
 	$module = app::getModule($this->module);
 	define('MODULE', $module->getName());
 	if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$module->getName()])) {
-	    $token = sha1(THEMETYPE . THEMEMODULE . THEME . $module->getName() . 'salt' . time()); // change salt
+	    $token = sha1(THEMETYPE . THEMEMODULE . THEME . $module->getName() . \app::$config['security']['salt'] . time()); // change salt
 	    $_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $module->getName());
 	    $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$module->getName()] = $token;
 	    define('TOKEN', $token);

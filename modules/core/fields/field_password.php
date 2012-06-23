@@ -46,7 +46,7 @@ class field_password extends \field {
     public function validate($value) {
         if(!$this->required && empty($value))
                 return $value;
-        if(!empty($value)) return sha1($value);
+        if(!empty($value)) return sha1($value.\app::$config['security']['salt']);
         else return '';
     }
 
