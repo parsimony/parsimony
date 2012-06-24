@@ -2,9 +2,7 @@
 
 //General Config
 define('PARSIMONY_VERSION','0.2');
-$base = dirname($_SERVER['PHP_SELF']);
-if($base=='/' || $base=='\\' ) $base = '';
-define('BASE_PATH',$base.'/');
+define('BASE_PATH',str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/'));
 
 //Themes
 $config['THEMEMODULE'] = 'core';
@@ -54,7 +52,7 @@ $config['general']['ajaxnav'] = '0';
 
 //mailing conf
 $config['mail']['adminMail'] = '';
-$config['mail']['type'] = 'smtp';
+$config['mail']['type'] = '';
 $config['mail']['server'] = '';
 $config['mail']['port'] = '25';
 
