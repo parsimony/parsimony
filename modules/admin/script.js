@@ -438,6 +438,8 @@ var ParsimonyAdmin = {
 	},
 	resizeConfBox : function(){
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
+	    
+	    $(".adminzonecontent",doc).css("overflow","initial");
 	    if(doc.location.href != "about:blank"){
 		var bodyIframe = $(doc);
 		$( "#conf_box_content_iframe" ).add("#conf_box_content").css({
@@ -449,6 +451,7 @@ var ParsimonyAdmin = {
 		});
 		$("#conf_box").show();
 	    }
+	    $(".adminzonecontent",doc).css("overflow","auto");
 	},
 	setConfBoxTitle :   function (title){
 	    $("#conf_box_title").html(title);
