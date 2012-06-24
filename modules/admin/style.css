@@ -304,7 +304,7 @@ background-image: linear-gradient(top, #707A84, #505968);
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none} 
-.adminzonecontent{font-size: 12px;vertical-align: top;box-shadow:-6px 0px 5px #555;background:#EEE url(admin/img/concrete_wall_3.png);padding:7px;overflow: auto;min-width:696px;height:600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
+.adminzonecontent{font-size: 12px;vertical-align: top;box-shadow:-6px 0px 5px #555;background:#EEE url(admin/img/concrete_wall_3.png);padding:7px;min-width:696px;height:600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent h2{background: #444;padding: 10px;position:relative;color: white;font-size: 17px;text-transform: capitalize;margin: 7px 0 15px;border-top-left-radius: 15px;border-bottom-left-radius: 15px} 
 /* Model Forms*/
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}

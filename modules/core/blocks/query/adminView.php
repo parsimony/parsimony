@@ -33,7 +33,7 @@ if (!file_exists($this->pathOfViewFile))
 $view = $this->getConfig('view');
 ?>
 <style>
-    .tabs{max-width: 1000px;}
+    .tabs{min-width: 1000px;}
     .queryblock{margin:1px 1px;border-radius:3px;padding:1px;
 	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0  1px  0  #ffffff ;
 	background: #eee;
