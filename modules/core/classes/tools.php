@@ -265,7 +265,7 @@ class tools {
             $mailer->Port = \app::$config['mail']['port'];
         }elseif ( \app::$config['mail']['type']=='sendmail') {
             $mailer->IsSendmail();
-        }elseif ( \app::$config['mail']['type']=='sendmail') {
+        }elseif ( \app::$config['mail']['type']=='qmail') {
             $mailer->IsQmail();
         }
 	
