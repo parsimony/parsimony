@@ -42,5 +42,5 @@ app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
 </div>
 <script>
 	var HTML5editor<?php echo $row->getId()->value; ?> = new wysiwyg();
-	HTML5editor<?php echo $row->getId()->value; ?>.init("#<?php echo $this->name.'_'.$row->getId()->value; ?>",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"]);
+	HTML5editor<?php echo $row->getId()->value; ?>.init("#<?php echo $this->name.'_'.$row->getId()->value; ?>",["<?php echo str_replace(',','","',$this->wysiwygModules); ?>"]);
 </script>

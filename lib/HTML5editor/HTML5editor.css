@@ -79,4 +79,4 @@
 .HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
 .HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}
 
-.HTML5editorEditor{background:#fff;min-height:100px}
+.HTML5Editor{background:#fff;min-height:100px;border: 1px solid #CCC;}
