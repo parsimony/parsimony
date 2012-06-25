@@ -9,67 +9,159 @@
 	  
 */
 
-* { padding: 0; margin: 0; }
+* {
+padding: 0;
+    margin: 0;}
 
 body {
- font-family: Arial, Helvetica, sans-serif;
- font-size: 13px;
-}
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px; 
+    background: #F1F1F1;}
 #wrapper { 
- margin: 0 auto;
- width: 922px;
+    margin: 0 auto;
+    width: 922px;
 }
 #header {
-color : white;
-width : 900px ;
-float : left ;
-padding : 10px ;
-border : 1px solid #ccc ;
-height : 100px ;
-margin : 10px 0px 5px 0px ;
-background : #3B5998;
-position : relative ;
-behavior : url(/lib/csspie/PIE.htc) ;}
+    color : #050101 ;
+    width : 900px ;
+    float : left ;
+    padding : 10px ;
+    border : 1px solid #ccc ;
+    margin : 10px 0px 5px 0px ;
+    position : relative ;
+    behavior : url(/lib/csspie/PIE.htc) ;
+    background-color : #f4f4f4 ;
+}
 #leftcolumn {
-	color : #333 ;
-	border : 1px solid #ccc ;
-	background : #9eadcc ;
-	margin : 0px 5px 5px 0px ;
-	padding : 10px ;
-	height : 350px ;
-	width : 195px ;
-	float : left ;
-	behavior : url(/lib/csspie/PIE.htc) ;
+    color : #333 ;
+    border : 1px solid #ccc ;
+    background : #9eadcc ;
+    margin : 0px 5px 5px 0px ;
+    padding : 10px ;
+    height : 350px ;
+    width : 195px ;
+    float : left ;
+    behavior : url(/lib/csspie/PIE.htc) ;
 }
 #content {
-float : left ;
-color : #333 ;
-border : 1px solid #ccc ;
-background : #ced6e5 ;
-margin : 0px 5px 5px 0px ;
-padding : 10px ;
-height : 350px ;
-width : 456px ;
-display : inline ;
-behavior : url(/lib/csspie/PIE.htc) ;}
+    float : left ;
+    color : #333 ;
+    margin : 0px 5px 5px 0px ;
+    padding : 10px ;
+    width : 675px ;
+    display : inline ;
+    behavior : url(/lib/csspie/PIE.htc) ;
+    position : relative ;}
 #rightcolumn {
 	color : #333 ;
 	border : 1px solid #ccc ;
-	background : #9eadcc ;
 	margin : 0px 0px 5px 0px ;
 	padding : 10px ;
-	height : 350px ;
+	min-height : 350px ;
 	width : 195px ;
 	float : left ;
+	position : relative ;
+	background-color : #ececec ;
+	height : 350px ;
+	top : auto ;
+	left : auto ;
+	-moz-border-radius : 7px ;
+	-webkit-border-radius : 7px ;
+	border-radius : 7px ;
 	behavior : url(/lib/csspie/PIE.htc) ;
 }
 #footer {
-	width : 900px ;
-	clear : both ;
-	color : white ;
-	border : 1px solid #ccc ;
-	background : #1e2d4c ;
-	margin : 0px 0px 10px 0px ;
-	padding : 10px ;
+    width: 900px;
+    clear: both;
+    color:#333;
+    border: 1px solid rgb(204, 204, 204);
+    margin: 0px 0px 10px;
+    padding: 10px;
+    position: relative;
+    float: left;
+    background-color: rgb(244, 244, 244);}
+
+.posts_container .publicationGMT {
+    display:inline-block;
+    vertical-align:top;
+    width:60px;
+    font-size:20px;
+    text-align:center;
+    border-radius:5px;
+    border:1px solid #ccc;
+    margin-right:7px;
+    padding:2px;
+    text-transform:capitalize;
+    background:#f2f2f2;
+    color:#333}
+
+.posts_container .title {
+    margin: 0px 0px 15px;
+    display: inline-block;
+    width: 550px;}
+
+.posts_container  .title a {
+    text-decoration: none;
+    color: rgb(0, 153, 255);
+    font-size: 25px;
+    line-height: 30px;}
+
+.posts_container  .author {
+    margin: 0px 0px 10px 80px;
+    color: rgb(153, 153, 153);
+    font-size: 12px;
+    text-transform: capitalize;
+    padding: 4px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(242, 242, 242);}
+
+.posts_container .content p {
+    color: rgb(56, 56, 56);
+    font-size: 15px;
+    text-indent: 20px;
+    line-height: 25px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(221, 221, 221);
+    padding: 0px 0px 40px 80px;}
+
+#mycategories   a {
+    color:#383838;
+    text-decoration:none;}
+
+#mycategories  li {
+    padding-left:10px;}
+
+#container {
+	margin : 7px auto ;
+	width : 950px ;
+	background : #fff ;
+	position : relative ;
 	behavior : url(/lib/csspie/PIE.htc) ;
 }
+
+#mymenu ul.parsimenu.horizontal {
+    background:#333;}
+
+#mymenu {
+top: -4px;
+left: 0px;
+position: relative;}
+
+#header_html h1 {
+    position : relative ;
+    margin : 0 0 20px ;
+    behavior : url(/lib/csspie/PIE.htc) ;
+    color : #777777 ;
+}
+
+#tagstitle {
+    position : relative ;
+    margin : 15px 0 0 ;
+    behavior : url(/lib/csspie/PIE.htc) ;
+}
+
+#cloudtags a {
+    text-decoration:none;
+    color:#444;}
