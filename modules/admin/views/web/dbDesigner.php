@@ -64,7 +64,7 @@ include_once('modules/core/classes/field.php');
     ._jsPlumb_endpoint{z-index: 50}
     /*._jsPlumb_connector{z-index: 1}*/
     #field_list{margin:0;padding:0;border-radius: 8px;}
-    #field_list .myfield{position:relative;font-size: 12px;color: #222;width: 194px;margin: 2px;cursor: move;text-align: left;padding:5px;background-color: #F1F5F9;background-repeat:no-repeat;padding-left:23px;background-position: 2px 5px ;border: 1px solid #97B2D2;}
+    #field_list .myfield{position:relative;font-size: 12px;color: #222;width: 194px;margin: 2px;cursor: move;text-align: left;padding:5px;background-color: #F1F5F9;background-repeat:no-repeat;padding-left:23px;background-position: 2px 3px ;border: 1px solid #97B2D2;}
     #field_list .myfield:hover{background-color: #CBD8E8;}
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
