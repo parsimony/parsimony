@@ -73,7 +73,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 
 /* Sidebar right */
 #right_sidebar{right:0px;width:230px;/*width: 14.6%;*/background: #777;}
-#right_sidebar.close{top:29px;position:fixed;right: 0px;width:0}
+#right_sidebar.close{top:29px;position:fixed;right: 0px;width:0 !important}
 #right_sidebar .contenttab{box-shadow: -4px 7px 10px #444;border-left: 1px solid #999;min-height: 79px;}
 #right_sidebar .titleTab{line-height: 20px;padding-left: 15px;}
 
