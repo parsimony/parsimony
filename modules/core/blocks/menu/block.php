@@ -97,7 +97,7 @@ class menu extends \block {
 		 $title = $item['title'];
 	     } else{
 		 $page = \app::getModule($item['module'])->getPage($item['page']);
-		 $url = $page->getRegex();
+		 $url = substr($page->getRegex(), 1, -1);
 		 $title = $page->getTitle();
 	     }
             if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) $classes[] = 'current';
@@ -106,7 +106,7 @@ class menu extends \block {
             if(count($classes) > 0) $class = 'class="'.implode(' ',$classes).'"';
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-                <a href="<?php echo substr($url, 1, -1) ?>"><?php echo $title ?></a>
+		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';
