@@ -30,7 +30,7 @@
 namespace core\blocks;
 
 /**
- * Categories Block Class 
+ * Tags Block Class 
  * Manages Categories Block
  */
 class tags extends \block {
