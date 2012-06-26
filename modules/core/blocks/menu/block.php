@@ -106,7 +106,7 @@ class menu extends \block {
             if(count($classes) > 0) $class = 'class="'.implode(' ',$classes).'"';
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
+                <a href="<?php echo substr($url, 1, -1) ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';
