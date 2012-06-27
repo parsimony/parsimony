@@ -125,9 +125,9 @@ class theme extends \core\blocks\container {
      * @param string $themetype
      */
     public static function get($module, $name, $themetype) {
-        $file = PROFILE_PATH . $module . '/themes/' . $name . '/' . $themetype ;
-        if (is_file($file. '.' .\app::$config['dev']['serialization'])) {
-            return \tools::unserialize($file);
+        $file = stream_resolve_include_path($module . '/themes/' . $name . '/' . $themetype. '.' .\app::$config['dev']['serialization']) ;
+        if ($file) {
+            return \tools::unserialize(substr($file,0,-4));
         } else {
             $theme = new theme('container');
             $theme->setName($name);

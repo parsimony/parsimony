@@ -100,20 +100,20 @@ class module {
      * @return module
      */
     public static function get($name) {
-	if (isset(app::$activeModules[$name])) {
-	    if (!class_exists($name . '\\' . $name, false))
-		include('modules/' . str_replace('\\', '/', $name) . '/module.php');
-	    $path = PROFILE_PATH . str_replace('\\', '/', $name) . '/module';
-	    if (is_file($path . '.' . \app::$config['dev']['serialization'])) {
-		return \tools::unserialize($path);
-	    } else {
-		$className = '\\' . $name . '\\' . $name;
-		$module = new $className($name, ucfirst($name));
-		$module->save();
-		return $module;
-	    }
-	} else
-	    throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
+		if (isset(app::$activeModules[$name])) {
+			if (!class_exists($name . '\\' . $name, false))
+				include('modules/' . str_replace('\\', '/', $name) . '/module.php');
+				$path = stream_resolve_include_path(str_replace('\\', '/', $name) . '/module.' .\app::$config['dev']['serialization']);
+				if ($path) {
+					return \tools::unserialize(substr($path,0,-4));
+				} else {
+					$className = '\\' . $name . '\\' . $name;
+					$module = new $className($name, ucfirst($name));
+					$module->save();
+					return $module;
+				}
+		} else
+			throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
     }
 
     /**
@@ -150,10 +150,11 @@ class module {
      * @return page
      */
     public function getPage($id) {
-	if (is_file(PROFILE_PATH . $this->name . '/pages/' . $id . '.' . \app::$config['dev']['serialization']))
-	    return \tools::unserialize(PROFILE_PATH . $this->name . '/pages/' . $id);
-	else
-	    throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
+		$file = stream_resolve_include_path($this->name . '/pages/' . $id .'.' .\app::$config['dev']['serialization']) ;
+		if ($file) 
+				return \tools::unserialize(substr($file,0,-4));
+		else
+			throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
     }
 
     /**

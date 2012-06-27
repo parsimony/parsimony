@@ -29,7 +29,7 @@
 \app::addListener('beforeBuildQuery', array($this, 'process'));
 $view = $this->getConfig('view');
 if ($view != FALSE) {
-    include(PROFILE_PATH .$this->getConfig('pathOfViewFile'));
+    include($this->getConfig('pathOfViewFile'));
 } else {
     echo t('Please check the query configuration');
 }

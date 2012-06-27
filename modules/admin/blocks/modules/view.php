@@ -84,7 +84,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
             </ul>
             <ul class="pages" data-module="<?php echo $moduleobj->getName(); ?>">
                 <?php
-                if (file_exists(PROFILE_PATH . $moduleobj->getName() . '/module' . '.' . \app::$config['dev']['serialization'])) {
+                if (stream_resolve_include_path($moduleobj->getName() . '/module' . '.' . \app::$config['dev']['serialization'])) {
                     foreach ($moduleobj->getPages() as $id_page => $page) {
                         if ($id_page == \app::$request->page->getId() && empty($display))
                             $selected = ' selected';
