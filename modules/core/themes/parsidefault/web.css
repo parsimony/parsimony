@@ -144,7 +144,7 @@ body {
 #mymenu ul.parsimenu.horizontal {
     background:#333;}
 
-#mymenu {
+mymenu {
 top: -4px;
 left: 0px;
 position: relative;}
@@ -165,3 +165,20 @@ position: relative;}
 #cloudtags a {
     text-decoration:none;
     color:#444;}
+
+#mymenu li {
+display:inline-block;}
+
+#mymenu li a {
+padding: 7px;
+display: block;
+color:#fff;
+text-decoration:none;}
+
+#mymenu li a:hover {
+background:#777;}
+
+#myhomeimg {
+	border : 1px solid #444 ;
+	behavior : url(/lib/csspie/PIE.htc) ;
+}
