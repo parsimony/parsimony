@@ -1,0 +1,1 @@
+<h1>My site</h1><div class="clearboth"></div>
