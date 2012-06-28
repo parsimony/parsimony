@@ -70,8 +70,9 @@ class categories extends \block {
 	}
 	if (!empty($subtree))
 	    return $subtree;
-	else
+	elseif(isset($finalTree[0]['children']))
 	    return $finalTree[0]['children'];
+        return '';
     }
 
     protected function drawTree($arr) {
