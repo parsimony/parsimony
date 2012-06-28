@@ -1,1 +1,0 @@
-<h1>Tags</h1><div class="clearboth"></div>
