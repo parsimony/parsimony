@@ -81,18 +81,18 @@ if ($this->getConfig('imgPath') != '') {
         <div id="preview" class="inline-block" style="width: 280px;text-align: center;margin: 7px 10px">
             <div class="title ellipsis"  style="font-weight: bold;font-size: 12px;height:26px">
 		 <?php
-		 if (file_exists(PROFILE_PATH.$this->getConfig('imgPath'))) {
+		 if (stream_resolve_include_path($this->getConfig('imgPath'))) {
 		     echo t('Current Name',FALSE).' : ' . basename($this->getConfig('imgPath'));
 		 }
 		 ?></div>
             <img class="img" title="" style="" 
-                 src="<?php echo BASE_PATH; ?>thumbnail?x=150&y=150&crop=1&path=<?php echo PROFILE_PATH;
+                 src="<?php echo BASE_PATH; ?>thumbnail?x=150&y=150&crop=1&path=<?php
 		 if ($this->getConfig('imgPath') != '') {
-		     echo  $this->getConfig('imgPath');
+		     echo  stream_resolve_include_path($this->getConfig('imgPath'));
 		 }
 		 ?>" alt="" >
             <div id="size">
-<?php $size =  getimagesize( PROFILE_PATH.$this->getConfig('imgPath'));  echo '<label>' . t('Width', false) . ' : </label> <span id="width">' .   $size[0] . 'px' . '</span> ;  <label>' . t('Height', false) . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
+<?php $size =  getimagesize( stream_resolve_include_path($this->getConfig('imgPath')));  echo '<label>' . t('Width', false) . ' : </label> <span id="width">' .   $size[0] . 'px' . '</span> ;  <label>' . t('Height', false) . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
             </div>
         </div>
 

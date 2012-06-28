@@ -595,6 +595,11 @@ while (1) {
             $core->install();
 	    echo '<div style="display:none">';
             $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'state' => '1','id_role' => '1'));
+            $core->getEntity('tag')->insertInto(array('id_tag' => '1', 'name' => 'Article','url' => 'article'));
+            $core->getEntity('tag_post')->insertInto(array('id_tag_post' => '1', 'id_tag' => '1','id_post' => '1'));
+            $core->getEntity('category')->insertInto(array('id_category' => '1', 'name' => 'General','id_parent' => null,'url' => 'general','description' => ''));
+            $core->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1','id_post' => '1'));
+            $core->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'My first Post','url' => 'my-first-post','content' => 'Hello, it`s my first post, you can edit me in edit mode.','excerpt' => '','publicationGMT' => gmdate('Y-m-d H:i:s', time()),'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1','has_comment' => '1','ping_status' => '1'));
 	    echo '</div>';
             $configObj = new \core\classes\config('config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
