@@ -25,7 +25,14 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$this->pathOfViewFile = PROFILE_PATH .$this->getConfig('pathOfViewFile');
+
+/* In case the file isn't in PROFILES/ */
+
+if(!is_file(PROFILE_PATH.$this->getConfig('pathOfViewFile')) && is_file('modules/'.$this->getConfig('pathOfViewFile'))){
+    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathOfViewFile')));
+    copy('modules/'.$this->getConfig('pathOfViewFile'), PROFILE_PATH.$this->getConfig('pathOfViewFile'));
+}
+$this->pathOfViewFile = PROFILE_PATH . $this->getConfig('pathOfViewFile');
 if (!file_exists($this->pathOfViewFile))
     tools::createDirectory(dirname($this->pathOfViewFile));
 if (!file_exists($this->pathOfViewFile))

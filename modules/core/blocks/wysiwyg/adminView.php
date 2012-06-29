@@ -25,6 +25,13 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+/* In case the file isn't in PROFILES/ */
+if(!is_file(PROFILE_PATH.$this->getConfig('path')) && is_file('modules/'.$this->getConfig('path'))){
+    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('path')));
+    copy('modules/'.$this->getConfig('path'), PROFILE_PATH.$this->getConfig('path'));
+}
+
 $path = PROFILE_PATH.$this->getConfig('path');
 include('modules/admin/views/web/editor.php');
 ?>
