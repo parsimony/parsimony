@@ -25,7 +25,6 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 if (!\app::getClass('user')->VerifyConnexion())
     exit;
 if (!isset($_POST['module']))
@@ -47,7 +46,7 @@ include_once('modules/core/classes/field.php');
     var THEMEMODULE = '<?php echo THEMEMODULE ?>';
     var TOKEN = '<?php echo TOKEN ?>';
 </script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.jsPlumb-1.3.3-all.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb-1.3.10.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-core-0.10.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-0.10.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
@@ -102,58 +101,59 @@ include_once('modules/core/classes/field.php');
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
     .connection{color:#2E63A5;text-transform: capitalize;}
-    #popup{border-radius:10px;padding: 5px 10px;width:600px;position:relative;margin:0 auto;top:200px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
-    .question{padding: 5px;border: 1px solid #97B2D2;margin: 11px 0px;background-color: #F1F5F9;line-height: 20px;}
+    #popup{font-family: Arial, Verdana;border-radius:10px;padding: 5px 10px;width:600px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
+    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px 0px;background-color: #F1F5F9;line-height: 20px;}
     .question input{margin-right: 10px;}
+    #conf_box_close{background-image: url(/parsicool/admin/img/icons.png);margin: 5px;position: absolute;top: 2px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
-    #cardinality{background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
+    #cardinality{border-radius: 5px 5px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
     input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
-    </style> 
-<?php    /*
-    <div id="tooltip-field_string" class="none"><h1><?php echo t('String Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
-        <br> Validation : ') ?></div>
-    <div id="tooltip-field_numeric" class="none"><h1><?php echo t('Numeric Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).
-        <br> Validation : ') ?>Display Update Add</div>
-    <div id="tooltip-field_mail" class="none"><h1><?php echo t('Mail Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Mail String is used when the data entered by the user has to be an email id. Validation : ' ?></div>
-    <div id="tooltip-field_password" class="none"><h1><?php echo t('Password Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A password field is used when the data entered by the user has to be a password. It displays a password input type. It is stored in sha-1 hash and composed the password + salt.</div>' ?>
-    <div id="tooltip-field_state" class="none"><h1><?php echo t('State Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A State field manages the status of Entity. The state can contain several values separated by a comma (CSV) '; ?></div>
-    <div id="tooltip-field_date" class="none"><h1><?php echo t('Date Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'When a date field appears on a form, it also displays a calendar button, which lets users select a date easily.'; ?></div>
-    <div id="tooltip-field_publication" class="none"><h1><?php echo t('Publication Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Publication Field manages the display of publication date' ?></div>
-    <div id="tooltip-field_image" class="none"><h1><?php echo t('Image Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display image links. Update Add' ?></div>
-    <div id="tooltip-field_flash" class="none"><h1><?php echo t('Flash Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a Flash content. ' ?></div>
-    <div id="tooltip-field_url" class="none"><h1><?php echo t('URL Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to specify a url.' ?> </div>
-    <div id="tooltip-field_url_rewriting" class="none"><h1><?php echo t('Url rewriting Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'permet de gérer l ur qui permettra d\'accéder à la page qui affiche/contient le contenu<br> Objectif SEO' ?></div>
-    <div id="tooltip-field_wysiwyg" class="none"><h1><?php echo t('WYSIWIG Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a rich content composed text, images, videos ...' ?></div>
-    <div id="tooltip-field_textarea" class="none"><h1><?php echo t('Text Field') ?>Field Text</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'can contain any type of character, but with more text area.' ?></div>
-    <div id="tooltip-field_user" class="none"><h1><?php echo t('User Field') ?>Field User</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony' ?></div>
-    <div id="tooltip-field_formasso" class="none"><h1><?php echo t('N:N Association Form') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship ' ?></div>
-*/ ?>
+</style> 
+<?php /*
+  <div id="tooltip-field_string" class="none"><h1><?php echo t('String Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
+  <br> Validation : ') ?></div>
+  <div id="tooltip-field_numeric" class="none"><h1><?php echo t('Numeric Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).
+  <br> Validation : ') ?>Display Update Add</div>
+  <div id="tooltip-field_mail" class="none"><h1><?php echo t('Mail Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Mail String is used when the data entered by the user has to be an email id. Validation : ' ?></div>
+  <div id="tooltip-field_password" class="none"><h1><?php echo t('Password Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A password field is used when the data entered by the user has to be a password. It displays a password input type. It is stored in sha-1 hash and composed the password + salt.</div>' ?>
+  <div id="tooltip-field_state" class="none"><h1><?php echo t('State Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A State field manages the status of Entity. The state can contain several values separated by a comma (CSV) '; ?></div>
+  <div id="tooltip-field_date" class="none"><h1><?php echo t('Date Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'When a date field appears on a form, it also displays a calendar button, which lets users select a date easily.'; ?></div>
+  <div id="tooltip-field_publication" class="none"><h1><?php echo t('Publication Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Publication Field manages the display of publication date' ?></div>
+  <div id="tooltip-field_image" class="none"><h1><?php echo t('Image Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display image links. Update Add' ?></div>
+  <div id="tooltip-field_flash" class="none"><h1><?php echo t('Flash Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a Flash content. ' ?></div>
+  <div id="tooltip-field_url" class="none"><h1><?php echo t('URL Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to specify a url.' ?> </div>
+  <div id="tooltip-field_url_rewriting" class="none"><h1><?php echo t('Url rewriting Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'permet de gérer l ur qui permettra d\'accéder à la page qui affiche/contient le contenu<br> Objectif SEO' ?></div>
+  <div id="tooltip-field_wysiwyg" class="none"><h1><?php echo t('WYSIWIG Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a rich content composed text, images, videos ...' ?></div>
+  <div id="tooltip-field_textarea" class="none"><h1><?php echo t('Text Field') ?>Field Text</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'can contain any type of character, but with more text area.' ?></div>
+  <div id="tooltip-field_user" class="none"><h1><?php echo t('User Field') ?>Field User</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony' ?></div>
+  <div id="tooltip-field_formasso" class="none"><h1><?php echo t('N:N Association Form') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship ' ?></div>
+ */ ?>
 <div id="toolbar" style="line-height: 23px;">
     <a href="http://parsimony.mobi" target="_blank" style="padding:0;height:28px;">
-        <img src="/admin/img/parsimony.png">
+        <img src="<?php echo BASE_PATH ;?>admin/img/parsimony.png">
     </a>
     <div class="toolbarbonus inline-block">
         <div class="floatleft" style="border-right: 1px solid #D3D5DB;padding-right: 10px">	
-	    <?php echo t('Current Module', FALSE); ?>
+            <?php echo t('Current Module', FALSE); ?>
             <form action="" method="POST" style="display:inline-block">
                 <select style="font-weight: bold;" name="module" onchange="$(this).parent().trigger('submit');">
-		    <?php
-		    foreach (\app::$activeModules as $moduleName => $module) {
-			if ($moduleName == $_POST['module']) {
-			    $selected = 'selected = "selected"';
-			} else {
-			    $selected = '';
-			}
-			echo '<option ' . $selected . '>' . $moduleName . '</option>';
-		    }
-		    ?>
+                    <?php
+                    foreach (\app::$activeModules as $moduleName => $module) {
+                        if ($moduleName == $_POST['module']) {
+                            $selected = 'selected = "selected"';
+                        } else {
+                            $selected = '';
+                        }
+                        echo '<option ' . $selected . '>' . $moduleName . '</option>';
+                    }
+                    ?>
                 </select>  
             </form>
         </div>
 
         <div class="floatleft" style="border-left: 1px solid white;border-right: 1px solid #D3D5DB;padding-left: 10px;padding-right: 10px">
-	    <?php echo t('Add an Entity', FALSE); ?>
+            <?php echo t('Add an Entity', FALSE); ?>
             <form id="add_table" class="inline-block">
                 <input type="text" id="table_name" style="padding:1px;">
                 <input type="submit" style="height: 24px;" value="<?php echo t('Add', FALSE); ?>"> 
@@ -168,58 +168,58 @@ include_once('modules/core/classes/field.php');
 <div id="notify"></div>
 <div id="container_bdd">
     <canvas id="outline" width="150" height="100"></canvas>
-    <div id="conf_box_overlay" class="none">
+    <div id="conf_box_overlay" style="z-index: 99;" class="none">
         <div id="popup">   
             <div id="cardinality"><?php echo t('Cardinality', FALSE); ?>
                 <span id="conf_box_close" class="ui-icon ui-icon-closethick right"></span>
             </div>
-            <div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> "<span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?>"<span class="entity1"></span>" ?</div>
-            <div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> "<span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?>"<span class="entity2"></span>" ?</div>
-            <div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> "<span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?>"<span class="entity2"></span>" ?</div>
+            <div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity1"></span> " ?</div>
+            <div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
+            <div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
         </div>
     </div>
     <div id="leftsidebar">
         <div>
             <h2 data-tooltip="#tooltip-new-fields" class="tooltip"><?php echo t('New Fields', FALSE); ?></h2>
             <div id="field_list">
-		<?php
-		$aliasClasses = array_flip(\app::$aliasClasses);
-		foreach ($aliasClasses AS $class => $alias) {
-		    if (preg_match('#field#', $alias))
-			if (!class_exists($alias))
-			    class_alias($class, $alias);
-		}
-		$classes = get_declared_classes();
-		$html = '';
-		$classes = array_unique($classes);
-		foreach ($classes as $class) {
-		    if (is_subclass_of($class, 'field')) {
-			if (isset($aliasClasses[$class])) {
-			    $class = $aliasClasses[$class];
-			}
-			$field = new $class($_POST['module'], '', '');
-			$args = array();
-			$ssmethod = new ReflectionMethod($class, '__construct');
-			$params = $ssmethod->getParameters();
-			foreach ($params as $ssparam) {
-			    $args[$ssparam->name] = $field->{$ssparam->name};
-			}
-			$args['oldName'] = $field->name;
-			if ($class == 'field_ident' || $class == 'field_foreignkey')
-			    $none = ' style="display:none"';
-			else
-			    $none = '';
-			echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-			echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class=" ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
-			$html .= '<div id="update_' . $class . '">
+                <?php
+                $aliasClasses = array_flip(\app::$aliasClasses);
+                foreach ($aliasClasses AS $class => $alias) {
+                    if (preg_match('#field#', $alias))
+                        if (!class_exists($alias))
+                            class_alias($class, $alias);
+                }
+                $classes = get_declared_classes();
+                $html = '';
+                $classes = array_unique($classes);
+                foreach ($classes as $class) {
+                    if (is_subclass_of($class, 'field')) {
+                        if (isset($aliasClasses[$class])) {
+                            $class = $aliasClasses[$class];
+                        }
+                        $field = new $class($_POST['module'], '', '');
+                        $args = array();
+                        $ssmethod = new ReflectionMethod($class, '__construct');
+                        $params = $ssmethod->getParameters();
+                        foreach ($params as $ssparam) {
+                            $args[$ssparam->name] = $field->{$ssparam->name};
+                        }
+                        $args['oldName'] = $field->name;
+                        if ($class == 'field_ident' || $class == 'field_foreignkey')
+                            $none = ' style="display:none"';
+                        else
+                            $none = '';
+                        echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
+                        echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class=" ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+                        $html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
 <h2 style="margin-top:0"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;"></span>' . t('Field Settings', FALSE) . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
-<label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">'.  ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1 )).'</div>    
+<label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
 <div><h3>' . t('SQL Properties', FALSE) . '</h3>
-	<div class="rightbar"><label class="ellipsis">' . t('Type', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px"><input type="hidden" name="type">'.  $field->type .'</div></div>
+	<div class="rightbar"><label class="ellipsis">' . t('Type', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px"><input type="hidden" name="type">' . $field->type . '</div></div>
 	<div class="rightbar" style="clear: both;"><label class="ellipsis">' . t('Max Characters', FALSE) . ' </label><input type="text" name="characters_max"></div>
 	<div class="rightbar"><label class="ellipsis">' . t('Min Characters', FALSE) . ' </label><input type="text" name="characters_min"></div>
 </div>
@@ -228,7 +228,7 @@ include_once('modules/core/classes/field.php');
 <div class="rightbar"><label class="ellipsis">' . t('Text help', FALSE) . ' </label><input type="text" name="text_help"></div>
 <div class="rightbar"><label class="ellipsis">' . t('Error Message', FALSE) . '</label><input type="text" name="msg_error"></div>
 <div class="rightbar"><label class="ellipsis">' . t('Default Values', FALSE) . '</label><input type="text" name="default"></div>
-<div class="rightbar"><label class="ellipsis">' . t('Required', FALSE) . '</label><select style="font-size:13px;height:26px" name="required"><option value="1">'.t('True').'</option><option value="0">'.t('False').'</option></select></div>
+<div class="rightbar"><label class="ellipsis">' . t('Required', FALSE) . '</label><select style="font-size:13px;height:26px" name="required"><option value="1">' . t('True') . '</option><option value="0">' . t('False') . '</option></select></div>
 <div class="rightbar"><label class="ellipsis">' . t('Regex', FALSE) . '</label><input type="text" name="regex"></div>
 <div class="rightbar" style="padding:5px 10px 10px 10px;">
 <div style="padding:3px 0px;">
@@ -245,48 +245,48 @@ include_once('modules/core/classes/field.php');
 </div>
 </div>
 </div>';
-			if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
-			    $html .= '<fieldset><h3>'.t('Specials properties') .'</h3>';
-			    ob_start();
-			    include('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php');
-			    $html .= ob_get_clean();
-			    $html .= '</fieldset>';
-			}
-			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 0 0 2px 25%;"></div>';
-		    }
-		}
-		?>
+                        if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
+                            $html .= '<fieldset><h3>' . t('Specials properties') . '</h3>';
+                            ob_start();
+                            include('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php');
+                            $html .= ob_get_clean();
+                            $html .= '</fieldset>';
+                        }
+                        $html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 0 0 2px 25%;"></div>';
+                    }
+                }
+                ?>
             </div>
         </div>
     </div>
     <?php
     foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
-	$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
-	$className = $reflect->getShortName();
-	$com = $reflect->getDocComment();
-	preg_match_all("/@(.*) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture the comments
-	$newArray = array();
-	foreach ($matchs as $match) {
-	    $newArray[$match[1]] = $match[2];
-	}
-	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
+        $reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
+        $className = $reflect->getShortName();
+        $com = $reflect->getDocComment();
+        preg_match_all("/@(.*) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture the comments
+        $newArray = array();
+        foreach ($matchs as $match) {
+            $newArray[$match[1]] = $match[2];
+        }
+        $tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
         echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
-	$parameters = $entity->getFields();
-	foreach ($parameters as $propertyName => $field) {
-	    $class = get_class($field);
-	    if (isset($aliasClasses[$class])) {
-		$class = $aliasClasses[$class];
-	    }
-	    $ssmethod = new ReflectionMethod($class, '__construct');
-	    $params = $ssmethod->getParameters();
-	    $args = array();
-	    foreach ($params as $ssparam) {
-		$args [$ssparam->name] = $field->{$ssparam->name};
-	    }
-	    $args['oldName'] = $field->name;
-	    echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
-	}
-	echo '</div>';
+        $parameters = $entity->getFields();
+        foreach ($parameters as $propertyName => $field) {
+            $class = get_class($field);
+            if (isset($aliasClasses[$class])) {
+                $class = $aliasClasses[$class];
+            }
+            $ssmethod = new ReflectionMethod($class, '__construct');
+            $params = $ssmethod->getParameters();
+            $args = array();
+            foreach ($params as $ssparam) {
+                $args [$ssparam->name] = $field->{$ssparam->name};
+            }
+            $args['oldName'] = $field->name;
+            echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+        }
+        echo '</div>';
     }
     ?>
     <div id="rightsidebar" style="z-index:999">
@@ -303,7 +303,7 @@ include_once('modules/core/classes/field.php');
             </div>
         </div>
         <div id="update_field">
-<?php echo $html; ?>
+            <?php echo $html; ?>
         </div>
     </div>
     <span id="deletator" class="ui-icon ui-icon-closethick"></span>
@@ -319,6 +319,7 @@ include_once('modules/core/classes/field.php');
             });
             $('input[name="visibility"]',parent).val(nb);
         });
+        
         var dbadmin = {
             marqueur : false,
             endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
@@ -326,11 +327,12 @@ include_once('modules/core/classes/field.php');
                 isSource:true,
                 reattach:true,
                 maxConnections:100,
+                connector :[ "Bezier", 200 ],
                 dragAllowedWhenFull:true,
                 connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
                 isTarget:false },
             endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
-                paintStyle:{ fillStyle:'rgba(255,255,255,0)' },
+                paintStyle:{ fillStyle: "transparent" },
                 isSource:false,
                 reattach:true,
                 maxConnections:100,
@@ -339,7 +341,7 @@ include_once('modules/core/classes/field.php');
             endpointOptions3 : {endpoint:[ "Dot", { radius:8 } ],
                 paintStyle:{ fillStyle:'#b634af'},
                 isSource:false,
-                connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:6 },
+                connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:6},
                 isTarget:false },
             /*todo décider si on peut faire un lien récursif ou pas
              */
@@ -399,9 +401,9 @@ include_once('modules/core/classes/field.php');
                 }
             },
             init :   function(){
-		/* Tooltip */
-		$(".tooltip").parsimonyTooltip({triangleWidth:5});
-		/* Fracs preview */
+                /* Tooltip */
+                $(".tooltip").parsimonyTooltip({triangleWidth:5});
+                /* Fracs preview */
                 $("#outline").fracs("outline", {
                     crop: true,
                     styles: [{
@@ -421,24 +423,27 @@ include_once('modules/core/classes/field.php');
 
                 document.onselectstart=new Function ("return false");
 		
-		/* JsPlumb */
-                jsPlumb.Defaults.Container = $("body");
-                jsPlumb.Defaults.DragOptions = { cursor: 'pointer', zIndex:2000 };
-                jsPlumb.Defaults.DropOptions = { activeClass:'dragActive'};
-                jsPlumb.Defaults.Endpoints = {connector: new jsPlumb.Connectors.Bezier(200),style:{ width:30, height:30} };
+                /* JsPlumb */
+                jsPlumb.importDefaults({     
+                    Container : $("body"),
+                    DragOptions : { cursor: 'pointer', zIndex:2000 },
+                    
+                    DropOptions : { activeClass:'dragActive' }
+                   
+                });
 
-		/* Filter Table Name */
+                /* Filter Table Name */
                 $(document).on('keyup',"#table_name",function(){
                     $(this).val($(this).val().replace(/[^a-z_]+/,"").replace(" ",""));
                 });
 		
-		/* Open Table Settings */
+                /* Open Table Settings */
                 $('#container_bdd').on('click','.title',function(){
                     $('#update_field > div').hide();
-		    $('#update_table').show();
+                    $('#update_table').show();
                 });
 		
-		/* Delete Table */
+                /* Delete Table */
                 $("#container_bdd").on('click','#deletator',function(){
                     obj = $(this).parent();
                     if(obj.hasClass('table')){
@@ -460,7 +465,7 @@ include_once('modules/core/classes/field.php');
                     }
                 });
 		
-		/* Show delete buttons on fields */
+                /* Show delete buttons on fields */
                 $("#container_bdd").on('mouseover mouseout','.property',function(event) {
                     event.stopPropagation();
                     if (event.type == 'mouseover') {
@@ -470,7 +475,7 @@ include_once('modules/core/classes/field.php');
                     }
                 });
 		
-		/* Show delete buttons on tables */
+                /* Show delete buttons on tables */
                 $("#container_bdd").on('mouseover mouseout','.table',function(event) {
                     if (event.type == 'mouseover') {
                         $("#deletator").show().prependTo($(this));
@@ -479,14 +484,14 @@ include_once('modules/core/classes/field.php');
                     }
                 });
 		
-		$(document).on('click','#conf_box_close',function(){
-		    $('#popup').hide();
+                $(document).on('click','#conf_box_close',function(){
+                    $('#popup').hide();
 		    $('#conf_box_overlay').hide();
-		});
+                });
                 
                 $(document).on('click','.closeformpreview',function(){
-		    $(this).parent().parent().hide();
-		});
+                    $(this).parent().parent().hide();
+                });
 
                 /*
                  *todo in a future version use function link jquery
@@ -495,7 +500,7 @@ include_once('modules/core/classes/field.php');
                 var current_update_field;
                 var current_update_table;
                 
-		/* Open and load field Settings */
+                /* Open and load field Settings */
                 $(document).on('click',".table .property",function(){ 
                     $('#update_field').show();
                     $('#update_table').hide();
@@ -519,8 +524,8 @@ include_once('modules/core/classes/field.php');
                     $('#update_'+ current_update_field.attr('type_class')).show();          
                 });
 		
-		/* Save field settings */
-		$("#update_field").on('click','.save_field',function(){
+                /* Save field settings */
+                $("#update_field").on('click','.save_field',function(){
                     var json = '{';
                     $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
                         json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
@@ -532,7 +537,7 @@ include_once('modules/core/classes/field.php');
                     $(this).parent().hide('slow');
                 });
                 
-		/* Open and load table Settings */
+                /* Open and load table Settings */
                 $(document).on('click',".table",function(){ 
                     current_update_table = $(this);         
                     $(".current_update_table").removeClass("current_update_table");
@@ -540,11 +545,11 @@ include_once('modules/core/classes/field.php');
                     $.each($(this).data("attributs"), function(i,item){
                         $('#update_table input[name=' + i + ']').val(item);
                     });
-		    $("#outline").fracs('outline', 'redraw');
+                    $("#outline").fracs('outline', 'redraw');
                 });
 		
-		/* Save table Settings */
-		$("#update_table").on('click','.save_table',function(){
+                /* Save table Settings */
+                $("#update_table").on('click','.save_table',function(){
                     var json = '{';
                     $("#update_table input[name],#update_table select[name]").each(function(){
                         json +=  '"' +$(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
@@ -556,12 +561,12 @@ include_once('modules/core/classes/field.php');
                     $(this).parent().parent().hide('slow');
                 }); 
 
-		/* Save all models */
+                /* Save all models */
                 $(document).on('click','#save',function(){
                     var propertylist = '[' ;
                     $(".table").each(function(){
                         var recupId = $(".title",this).text();
-			var tableAttrs = $(this).data("attributs");
+                        var tableAttrs = $(this).data("attributs");
                         propertylist += '{"name": "' + enc(recupId) + '","oldName": "' + enc(tableAttrs.oldName) + '","title":"' + enc(tableAttrs.title) + '","behaviorTitle":"' + enc(tableAttrs.behaviorTitle) + '","behaviorDescription":"' + enc(tableAttrs.behaviorDescription) + '","behaviorKeywords":"' + enc(tableAttrs.behaviorKeywords) + '","behaviorImage":"' + enc(tableAttrs.behaviorImage) + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
                         $(".property",$(this)).each(function(){
                             var jsonproperties = $(this).data("attributs");
@@ -575,45 +580,45 @@ include_once('modules/core/classes/field.php');
                     });
                 });
 		
-		/* Choose behavior of the link */
-		$(document).on('click','#popup input',function(){
-		    var source1 = $("#" + $(this).data('sourceid'));
-		    var target1 = $("#" + $(this).data('targetid'));
-		    var entitySource = source1.parent().find('.title').text();
-		    var entityTarget = $('.title',target1).text();
-		    if($(this).attr('id')=='button3'){
-			var t = entitySource +'_'+entityTarget;
-			dbadmin.createTable(t);
-			dbadmin.buildLink(entitySource,t);
-			dbadmin.buildLink(entityTarget,t);
-		    }else{
-			if($(this).attr('id')=='button2'){
-			    source = source1;
-			    target = target1;
-			}else{
-			    source = target1.find("div[type_class='field_ident']");
-			    target = source1.parent();
-			}
-			var entitySource = source.parent().find('.title').text();
-			var entityTarget = $('.title',target).text();
-			dbadmin.buildLink(entitySource,entityTarget);
-		    }
-		    $("#popup").hide();
-		    $('#conf_box_overlay').hide();
-		    dbadmin.reDraw();
-		});
+                /* Choose behavior of the link */
+                $(document).on('click','#popup input',function(){
+                    var source1 = $("#" + $(this).data('sourceid'));
+                    var target1 = $("#" + $(this).data('targetid'));
+                    var entitySource = source1.parent().find('.title').text();
+                    var entityTarget = $('.title',target1).text();
+                    if($(this).attr('id')=='button3'){
+                        var t = entitySource +'_'+entityTarget;
+                        dbadmin.createTable(t);
+                        dbadmin.buildLink(entitySource,t);
+                        dbadmin.buildLink(entityTarget,t);
+                    }else{
+                        if($(this).attr('id')=='button2'){
+                            source = source1;
+                            target = target1;
+                        }else{
+                            source = target1.find("div[type_class='field_ident']");
+                            target = source1.parent();
+                        }
+                        var entitySource = source.parent().find('.title').text();
+                        var entityTarget = $('.title',target).text();
+                        dbadmin.buildLink(entitySource,entityTarget);
+                    }
+                    $("#popup").hide();
+                    $('#conf_box_overlay').hide();
+                    dbadmin.reDraw();
+                });
 		
-		/* Sort properties */
+                /* Sort properties */
                 $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
                 $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
 		
-		/* Add a Table */
+                /* Add a Table */
                 $("#toolbar").on('submit','#add_table',function(e){  
                     e.preventDefault();
                     dbadmin.createTable($("#table_name").val());
                 });
                 
-		dbadmin.reDraw();
+                dbadmin.reDraw();
             },
             //	    updateFormPreview :   function(){
             //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
@@ -621,37 +626,37 @@ include_once('modules/core/classes/field.php');
             //		});
             //	    },
             createAnchor :   function(monid){
-                myEndpoint = jsPlumb.addEndpoint(monid, $.extend({ dynamicAnchors:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions));
+                myEndpoint = jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions));
                 jsPlumb.setDraggable(monid, false);          
             },
             createAnchorForeignKey :   function(monid){
-                jsPlumb.addEndpoint(monid, $.extend({ dynamicAnchors:["BottomRight","TopRight"], uuid:monid+"_uuid" }, dbadmin.endpointOptions2));
+                jsPlumb.addEndpoint(monid, $.extend({ anchor:["BottomRight","TopRight"], uuid:monid+"_uuid" }, dbadmin.endpointOptions2));
             },
             createAnchorNewForeignKey :   function(monid){
-                jsPlumb.addEndpoint(monid, $.extend({ dynamicAnchors:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions3));
+                jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions3));
                 jsPlumb.setDraggable(monid, false);
             },
             reDraw :   function(){
                 jsPlumb.reset();
 		
-		/* Draw Anchor on fields ident */
+                /* Draw Anchor on fields ident */
                 $(".property").each(function(index) {
                     if($(this).attr('type_class') == 'field_ident') dbadmin.createAnchor($(this).attr('id') );
                 });
 
-		/* Draw Anchor on fields foreignKey */
+                /* Draw Anchor on fields foreignKey */
                 $(".table").each(function(){
                     dbadmin.createAnchorForeignKey($(this).attr('id'));
                 });
 		
-		/* Draw connectors between tables */
+                /* Draw connectors between tables */
                 $("#container_bdd div[type_class='field_foreignkey']").not("#field_list div[type_class='field_foreignkey']").each(function(index) {
                     var jsonproperties = $(this).data("attributs");
                     dbadmin.createAnchorNewForeignKey($(this).attr("id"));
                     dbadmin.marqueur = true;
                     jsPlumb.connect({ uuids:[$(this).attr("id")+"_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
                         paintStyle:{lineWidth:10,strokeStyle:'#6fb735'},
-			hoverPaintStyle:{lineWidth:10,strokeStyle:'#999'},
+                        hoverPaintStyle:{lineWidth:10,strokeStyle:'#999'},
                         overlays: [
                             [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
                             [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
@@ -660,13 +665,13 @@ include_once('modules/core/classes/field.php');
                     dbadmin.marqueur = false;
                 });
 		
-		/* Allows to drag tables */
-		$(".table").draggable("destroy");
+                /* Allows to drag tables */
+                $(".table").draggable("destroy");
                 $(".table").draggable({cursor: 'move',handle : 'div.title',containment: '#container_bdd',drag: function(event, ui) {jsPlumb.repaint( $(".property",this).add(this).toArray());$("#outline").fracs('outline', 'redraw'); },stop:function(){jsPlumb.repaint( $(".property",this).add(this).toArray());}});
                 
-		/* Allows to drop fields in table */
-		$(".table").droppable("destroy");
-		$(".table").droppable({
+                /* Allows to drop fields in table */
+                $(".table").droppable("destroy");
+                $(".table").droppable({
                     accept: '#field_list div',
                     activeClass: 'ui-state-hover',
                     hoverClass: 'ombre',
@@ -690,10 +695,10 @@ include_once('modules/core/classes/field.php');
                     }
                 });
 		
-		/* When a connector is linked */
-		jsPlumb.bind("jsPlumbConnection", function(event) {
-                    if(  !dbadmin.marqueur){
-                        jsPlumb.detach(event.sourceId,event.targetId);
+                /* When a connector is linked */
+                jsPlumb.bind("jsPlumbConnection", function(event, originalEvent) {
+                    if(  !dbadmin.marqueur){                       
+                        jsPlumb.detach(event);
                         $("#popup input").data('sourceid',event.sourceId);
                         $("#popup input").data('targetid',event.targetId);
                         $("#popup .entity1").text(event.source.parent().find('.title').text());
@@ -707,17 +712,17 @@ include_once('modules/core/classes/field.php');
                     }
                 });
 		
-		/* When a connector is cliqued*/
+                /* When a connector is cliqued*/
                 jsPlumb.bind("click", function(connection, originalEvent) {
-		    if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
-			jsPlumb.detach(connection);
-			jsPlumb.removeAllEndpoints(connection.sourceId);
-			$("#" + connection.sourceId).remove();
+                    if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
+                        jsPlumb.detach(connection);
+                        jsPlumb.removeAllEndpoints(connection.sourceId);
+                        $("#" + connection.sourceId).remove();
                     }
-		});
+                });
             }
         };
         $(document).ready(function() {
             dbadmin.init();
-	});
+        });
     </script>
