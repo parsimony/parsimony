@@ -290,11 +290,11 @@ abstract class entity implements \Iterator {
                 $columnsValues = array_intersect_key($vars, array_flip($columns));
                 if(isset($vars[$field->name])) $value = $vars[$field->name];
                 if (count($columns) == 1)
-                    $value = $field->validate($value,$val);
+                    $value = $field->validate($value,$val, $vars);
                 else
-                    $value = $field->validate($columnsValues,$val);
+                    $value = $field->validate($columnsValues,$val, $vars);
                 if ($value === FALSE)
-                    return t('Error from field', FALSE).' : '.$field->label . '. ' . $field->msg_error; // return error message
+                    return $field->label . '. ' . $field->msg_error; // return error message
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
                     foreach ($field->getColumns() AS $column)
                         if (count($columns) == 1)

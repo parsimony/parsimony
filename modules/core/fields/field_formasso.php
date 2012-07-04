@@ -94,7 +94,7 @@ class field_formasso extends \field {
             foreach ($vars2 as $idForeign => $value) {
                 if (substr($idForeign,0,3) == 'new') {
                     $foreignEntity->insertInto(array($idNameForeignEntity => '', $foreignEntity->getBehaviorTitle() => trim($value)));
-                    $idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = \'' . trim($value) . '\'')->fetch()->$idNameForeignEntity->value;
+                    $idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = \'' . trim(str_replace("'","\'",$value)) . '\'')->fetch()->$idNameForeignEntity->value;
                 }
                 $assoEntity->insertInto(array($assoEntity->getId()->name => '', $idEntity => $id, $idNameForeignEntity => $idForeign));
             }
