@@ -27,6 +27,7 @@
  */
 
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/blocks/script.js');
+$arrayScript = array();
 ?>
 <ul class="blocks">
     <?php
@@ -56,6 +57,10 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/blocks/script.js');
 			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-tooltip="' . ucfirst($blockName) . '" draggable="true" id="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/img.gif) center center;"></div>';
 			}
 		    }
+                    if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){
+                        \app::$request->page->addJSFile(BASE_PATH . $moduleobj->getName() . '/blocks/' . $blockName . '/script.js');
+                        $arrayScript[] = $blockName;
+                    }
 		}
 	    }
 	}
@@ -68,3 +73,14 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/blocks/script.js');
     }
     ?>
 </ul>
+<script>
+    $(document).ready(function() {
+        var mod = new blockAdminBlocks();
+        mod.setBlock(new block());
+        <?php
+        foreach($arrayScript AS $nameBlock)
+            echo 'mod.setBlock(new block_'.$nameBlock.'());'
+        ?>
+        ParsimonyAdmin.setPlugin(mod);
+    });
+</script>
