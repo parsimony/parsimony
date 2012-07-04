@@ -177,4 +177,6 @@ filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColo
 /* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
 .ui-datepicker-cover {display: none;display/**/: block; position: absolute; z-index: -1;filter: mask(); top: -4px;left: -4px; width: 200px; height: 200px; 
 }
+.spanDND{margin-top: -5px;vertical-align: top;display: inline-block;position: relative;border: #333 solid 2px;border-radius: 5px;cursor: pointer;
+background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}
 
