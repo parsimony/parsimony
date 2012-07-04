@@ -96,7 +96,7 @@ include_once('modules/core/classes/field.php');
     .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;}
     #outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
     h3{margin:10px 0;font-size:16px;padding-left: 5px;}
-    .component{cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
+    .component{font-size: 12px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
     .component:hover{opacity:1}
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
@@ -319,19 +319,19 @@ include_once('modules/core/classes/field.php');
             });
             $('input[name="visibility"]',parent).val(nb);
         });
-        
+
         var dbadmin = {
             marqueur : false,
             endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
-                paintStyle:{ fillStyle:'#346db5'/*6eb634 7ebeab */},
+                paintStyle:{ fillStyle:'#346db5'},
                 isSource:true,
                 reattach:true,
                 maxConnections:100,
-                connector :[ "Bezier", 200 ],
+                connector:[ "Bezier", (200) ],
                 dragAllowedWhenFull:true,
                 connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
                 isTarget:false },
-            endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
+                endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
                 paintStyle:{ fillStyle: "transparent" },
                 isSource:false,
                 reattach:true,
@@ -341,7 +341,7 @@ include_once('modules/core/classes/field.php');
             endpointOptions3 : {endpoint:[ "Dot", { radius:8 } ],
                 paintStyle:{ fillStyle:'#b634af'},
                 isSource:false,
-                connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:6},
+                connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
                 isTarget:false },
             /*todo décider si on peut faire un lien récursif ou pas
              */
@@ -420,16 +420,14 @@ include_once('modules/core/classes/field.php');
                     viewportStyle:{fillStyle:"rgba(104,169,255,0.2)"},
                     viewportDragStyle:{fillStyle:"rgba(104,169,255,0.5)"}
                 });
-
+                
                 document.onselectstart=new Function ("return false");
 		
                 /* JsPlumb */
                 jsPlumb.importDefaults({     
                     Container : $("body"),
-                    DragOptions : { cursor: 'pointer', zIndex:2000 },
-                    
-                    DropOptions : { activeClass:'dragActive' }
-                   
+                    DragOptions : { cursor: 'pointer', zIndex:2000 },                  
+                    DropOptions : { activeClass:'dragActive' } 
                 });
 
                 /* Filter Table Name */
@@ -655,8 +653,8 @@ include_once('modules/core/classes/field.php');
                     dbadmin.createAnchorNewForeignKey($(this).attr("id"));
                     dbadmin.marqueur = true;
                     jsPlumb.connect({ uuids:[$(this).attr("id")+"_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
-                        paintStyle:{lineWidth:10,strokeStyle:'#6fb735'},
-                        hoverPaintStyle:{lineWidth:10,strokeStyle:'#999'},
+                        paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
+                        hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
                         overlays: [
                             [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
                             [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	

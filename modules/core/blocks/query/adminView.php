@@ -275,7 +275,7 @@ $view = $this->getConfig('view');
 		    ?> />
 		</div>
 		<div style="display:inline;width:300px">
-		    <?php echo t('Site Pages show at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+		    <?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
 		</div>
 	    </div>
             <div class="clearboth" id="textdbquery">
@@ -348,7 +348,7 @@ $view = $this->getConfig('view');
 	</div>
     </div>
     <div id="tabs-admin-template" class="panel" style="padding:0px">
-	<div style="padding:9px 0">
+        <div style="padding:9px 0">
 	    <?php echo t('Regenerate the view', FALSE); ?> ? <input type="hidden" value="0" name="regenerateview" /><input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
 	    if ($this->getConfig('regenerateview') == 1)
 		echo ' checked="checked"';
