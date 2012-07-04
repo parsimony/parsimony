@@ -1,7 +1,7 @@
 <?php
 
 //General Config
-define('PARSIMONY_VERSION','0.2');
+define('PARSIMONY_VERSION','0.3');
 define('BASE_PATH',str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/'));
 
 //Themes
@@ -11,8 +11,8 @@ $config['THEME'] = 'parsidefault';
 //BDD
 $config['db']['host'] = 'localhost';
 $config['db']['port'] = '3306';
-$config['db']['dbname'] = '';
-$config['db']['user'] = '';
+$config['db']['dbname'] = 'parsimony';
+$config['db']['user'] = 'root';
 $config['db']['pass'] = '';
 
 
@@ -51,7 +51,7 @@ $config['cache']['active'] = '0';
 $config['general']['ajaxnav'] = '0';
 
 //mailing conf
-$config['mail']['adminMail'] = '';
+$config['mail']['adminMail'] = 'juliodetolosa@free.fr';
 $config['mail']['type'] = '';
 $config['mail']['server'] = '';
 $config['mail']['port'] = '25';

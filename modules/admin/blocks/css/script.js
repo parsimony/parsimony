@@ -95,14 +95,6 @@ function blockAdminCSS() {
 	    });
 	});
 	
-	$(document).add('#config_tree_selector').add("#csspicker").on('click',".cssblock",function(e){ 
-	    e.preventDefault();
-	    var filePath = CSSTHEMEPATH;
-	    if(ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress)=='page') filePath = CSSPAGEPATH;
-	    blockAdminCSS.displayCSSConf(filePath, "#" + ParsimonyAdmin.inProgress);
-	});
-
-	
     }
 }
 

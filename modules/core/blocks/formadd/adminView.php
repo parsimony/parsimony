@@ -39,7 +39,10 @@ $path = PROFILE_PATH .$this->getConfig('pathOfView');
 include('modules/admin/views/web/editor.php');
 ?>
 <script>
-    $(document).on("submit","form",function(){
+    
+    var myForm = $("#entity").closest("form");
+    
+    $(myForm).on("change","select",function(){
 	var db = $("#entity").val().split(" - ");
         if($("#regenerateview").is(":checked")){
             $.post(BASE_PATH+'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:"module=" + db[0] + "&entity=" + db[1]},function(data){

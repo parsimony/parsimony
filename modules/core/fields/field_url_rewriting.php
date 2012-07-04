@@ -45,6 +45,10 @@ class field_url_rewriting extends \field {
     
     public function validate($value) {
 	$args = func_get_args();
+        if(empty($value) && isset($args[2])){
+            $entity = \app::getModule($this->module)->getEntity($this->entity);
+            $value = \tools::sanitizeString($args[2][$entity->getBehaviorTitle()]);
+        }
 	if(isset($this->unique) && $this->unique && isset($args[1])){
             if($args[1] == 'insert') $args[1] = false;
 	    if($this->checkUniqueAction($value, $args[1]) == 0) return FALSE;
