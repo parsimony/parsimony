@@ -346,8 +346,8 @@ background-image: linear-gradient(top, #44C5EC, #259BDB);
 .parsimonyResize.nw{ left: -6px; top: -6px;cursor: nw-resize;}
 .parsimonyResize.ne{ right: -6px; top: -6px;cursor: ne-resize;}
 .parsimonyResize.sw{ left: -6px; bottom: -6px;cursor: sw-resize;}
-.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 18px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
-
+.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
+.parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
 
 /* Overlays */
 #overlays{position:absolute;top:28px;pointer-events: none;width:100%;height:100%}
