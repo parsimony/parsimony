@@ -280,8 +280,8 @@ while (1) {
                 $ok[] = tr('Apache has mod_rewrite.');
             }
 
-            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                $high[] = tr('You are running PHP v ') . PHP_VERSION . tr(', but Parsimony needs at least PHP "5.3.0" to run.');
+            if (version_compare(PHP_VERSION, '5.3.2') < 0) {
+                $high[] = tr('You are running PHP v ') . PHP_VERSION . tr(', but Parsimony needs at least PHP "5.3.2" to run.');
             } else {
                 $ok[] = tr('You are running PHP v ') . PHP_VERSION . '.';
             }
