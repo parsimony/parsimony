@@ -45,7 +45,7 @@ if(isset($tags[0]['nb'])){
         else:
             $size = 'x-large';
         endif;
-        echo '<a href="tag/'.$tag['url'].'"  style="font-size:'.$size.'">'.$tag['name'].'</a>';
+        echo '<a class="tags" href="tag/'.$tag['url'].'"  style="font-size:'.$size.'">'.$tag['name'].'</a>';
     }
 }
 ?>
