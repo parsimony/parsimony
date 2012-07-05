@@ -37,6 +37,6 @@ class recentposts extends \block {
 
     protected $category = 'blog';
 
-}
-
+} 
+ 
 ?>
