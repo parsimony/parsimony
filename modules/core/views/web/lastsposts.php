@@ -8,4 +8,4 @@
 	</div>
 <?php endforeach; ?>
 
-<?php $view->getPagination(); ?>
+<?php echo $view->getPagination(); ?>
