@@ -213,10 +213,6 @@ position: relative;}
     behavior : url(/lib/csspie/PIE.htc) ;
 }
 
-#cloudtags a {
-    text-decoration:none;
-    color:#444;}
-
 #mymenu li {
 display:inline-block;}
 
@@ -236,3 +232,18 @@ color: #5d5d5d}
 	border : 1px solid #444 ;
 	behavior : url(/lib/csspie/PIE.htc) ;
 }
+.recentposts li {
+list-style-position: inside;list-style-type: square;padding-left: 10px;}
+
+.recentposts a {
+text-decoration: none;
+color: #259BDB;
+font-size: 15px;
+overflow: hidden;
+text-overflow: ellipsis;}
+
+.tags a{
+text-decoration: none;
+color: #259BDB;
+font-size: 15px;
+padding: 0 2px;}
