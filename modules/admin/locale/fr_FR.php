@@ -265,5 +265,5 @@ $lang['In which form display the field ?'] = 'Dans quel formulaire afficher le f
 $lang['Containers'] = 'Conteneur';
 $lang['Manage Users'] = 'Gestion des Utilisateurs';
 $lang['Go to form'] = 'Formulaire';
-
+$lang['Dynamic page']= 'Page dynamique';
 ?>

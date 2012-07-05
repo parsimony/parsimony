@@ -93,7 +93,7 @@
                     </div>
 		    <?php if (BEHAVIOR == 2 ): ?>
                     <div style="top: 85px;position: absolute;left: 570px;color: #333;">
-                        <a style="color: #333;" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Advanced', FALSE); ?></a>
+                        <a style="color: #333;" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Dynamic page', FALSE); ?></a>
                     </div>
 		    <?php endif; ?>
                     <script type="text/javascript">
