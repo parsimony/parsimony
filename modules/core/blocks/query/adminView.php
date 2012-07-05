@@ -74,7 +74,7 @@ $view = $this->getConfig('view');
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
     #links{margin-bottom:15px;}
-    #textdbquery{padding: 12px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
+    .textdbquery{padding: 12px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
     #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;min-height:217px}
     .aggregate,.aggregate{width:100%}
@@ -98,7 +98,7 @@ $view = $this->getConfig('view');
         <li><a href="#tabs-admin-template"><?php echo t('View', FALSE); ?></a></li>
     </ul>
     <div class="clearboth panel" id="tabs-admin-query">
-        <div style="padding: 5px;line-height: 28px;color: #666;text-shadow: white 0 1px 0;font-size: 13px;letter-spacing: 1.2px;font-weight: bold;"><?php echo t('Select Properties below', FALSE); ?></div>
+        <div style="padding: 5px;line-height: 28px;color: #666;text-shadow: white 0 1px 0;font-size: 14px;letter-spacing: 1.2px;font-weight: bold;"><?php echo t('Select Properties below', FALSE); ?></div>
         <div id="schema_sql">
 	    <?php
 	    $aliasClasses = array_flip(\app::$aliasClasses);
@@ -267,7 +267,7 @@ $view = $this->getConfig('view');
 	    </div>
 	    <div class="clearboth"></div>
 	    <input type="button" class="none" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
-	    <div class="clearboth" id="textdbquery">
+	    <div class="clearboth textdbquery">
 		<div style="display:inline-block;width:300px">
 		    <?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 		    if ($this->getConfig('pagination') == 1)
@@ -275,10 +275,10 @@ $view = $this->getConfig('view');
 		    ?> />
 		</div>
 		<div style="display:inline;width:300px">
-		    <?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+		    <?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
 		</div>
 	    </div>
-            <div class="clearboth" id="textdbquery">
+            <div class="clearboth textdbquery">
 		<div style="display:inline-block;width:300px">
 		    <?php echo t('Active Filters', FALSE); ?> : <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
 		    if ($this->getConfig('filter') == 1)
@@ -449,7 +449,7 @@ $view = $this->getConfig('view');
 	$("#links").html($("#linkstransit").html());
 	$("#linkstransit").empty();
 	
-	$("#schema_sql .tableCont").hide();
+	if($('#recipiant_sql .queryblock').length > 0) $("#schema_sql .tableCont").hide();
 	$('#recipiant_sql .queryblock').each(function(){
 	    var table = $(".table",this).val();
 	    $('#schema_sql .tableCont[table="' + table + '"]').show();
