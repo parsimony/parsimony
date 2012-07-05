@@ -33,7 +33,7 @@ else $items = 5;
 $recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.title,core_post.url from core_post order by core_post.id_post desc LIMIT 0 , '.$items.'')->fetchAll(\PDO::FETCH_ASSOC);
 
 
-?>
+?> 
 
 <h1><?php echo t('Recent posts',false) ;?></h1>
 <ul>
