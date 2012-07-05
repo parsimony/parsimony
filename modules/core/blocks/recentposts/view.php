@@ -26,26 +26,21 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$tags = \PDOconnection::getDB()->query('SELECT core_tag.name, core_tag.url, COUNT( core_tag.name ) AS nb
-FROM core_tag INNER JOIN core_tag_post ON core_tag.id_tag = core_tag_post.id_tag
-GROUP BY core_tag.name ORDER BY nb DESC LIMIT 0 , 30')->fetchAll(\PDO::FETCH_ASSOC);
+$blocks = $this->getBlocks();
+if($this->getConfig('items'))
+$items = $this->getConfig('items');
+else $items = 5;
+$recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.title,core_post.url from core_post order by core_post.id_post desc LIMIT 0 , '.$items.'')->fetchAll(\PDO::FETCH_ASSOC);
 
-if(isset($tags[0]['nb'])){
-    $nbMax = $tags[0]['nb'];
-    foreach ($tags as $key => $tag) {
-        $percent = floor(($tag['nb'] / $nbMax) * 100);
-        if ($percent < 20):
-            $size = 'x-small';
-        elseif ($percent >= 20 and $percent < 40):
-            $size = 'small';
-        elseif ($percent >= 40 and $percent < 60):
-            $size = 'medium';
-        elseif ($percent >= 60 and $percent < 80):
-            $size = 'large';
-        else:
-            $size = 'x-large';
-        endif;
-        echo '<a class="tags" href="tag/'.$tag['url'].'"  style="font-size:'.$size.'">'.$tag['name'].'</a>';
-    }
-}
-?>
+
+?> 
+
+<h1><?php echo t('Recent posts',false) ;?></h1>
+<ul>
+<?php foreach ($recposts as $key => $recentpost) : ?>
+	<li class="recentposts">
+            <a href="<?php echo BASE_PATH .$recentpost['url'] ?>"  style="overflow: hidden;text-overflow: ellipsis;"><?php echo $recentpost['title'] ?></a>
+	</li>
+<?php endforeach; ?>
+</ul>
+
