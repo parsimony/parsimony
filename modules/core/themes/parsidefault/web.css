@@ -58,7 +58,6 @@ min-height: 350px;
 width: 200px;
 float: left;
 position: relative;
-height: 350px;
 top: auto;
 left: auto;
 behavior: url(/lib/csspie/PIE.htc);
@@ -218,6 +217,7 @@ text-decoration: none;
 color: #259BDB;
 font-size: 15px;
 padding: 0 2px;
+word-wrap: break-word; 
 }
 
 #mymenu li {
@@ -250,5 +250,4 @@ text-decoration: none;
 color: #259BDB;
 font-size: 15px;
 overflow: hidden;
-text-overflow: ellipsis;
 }
