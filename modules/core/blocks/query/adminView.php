@@ -74,7 +74,7 @@ $view = $this->getConfig('view');
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
     #links{margin-bottom:15px;}
-    #textdbquery{padding: 12px 0px 0px 50px;font-size: 15px;letter-spacing: 1px;line-height: 20px;}
+    #textdbquery{padding: 12px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
     #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;min-height:217px}
     .aggregate,.aggregate{width:100%}
@@ -98,7 +98,7 @@ $view = $this->getConfig('view');
         <li><a href="#tabs-admin-template"><?php echo t('View', FALSE); ?></a></li>
     </ul>
     <div class="clearboth panel" id="tabs-admin-query">
-        <div style="padding: 5px;line-height: 28px;color: #666;text-shadow: white 0 1px 0;font-size: 14px;letter-spacing: 1.2px;font-weight: bold;"><?php echo t('Select Properties below', FALSE); ?></div>
+        <div style="padding: 5px;line-height: 28px;color: #666;text-shadow: white 0 1px 0;font-size: 13px;letter-spacing: 1.2px;font-weight: bold;"><?php echo t('Select Properties below', FALSE); ?></div>
         <div id="schema_sql">
 	    <?php
 	    $aliasClasses = array_flip(\app::$aliasClasses);

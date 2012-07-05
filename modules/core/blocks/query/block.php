@@ -79,6 +79,8 @@ class query extends \block {
         else
             $myView = $myView->initFromArray($_POST['properties']);
         if ($this->getConfig('pagination'))
+            $myView->pagination(TRUE);
+        if ($this->getConfig('nbitem') != '')
             $myView->limit($this->getConfig('nbitem'));
         $myView->buildQuery();
         $this->setConfig('view', $myView);
@@ -104,7 +106,7 @@ class query extends \block {
         }
         $view_code .= "\t" . '</div>' . "\n";
         $view_code .= '<?php endforeach; ?>';
-        if($this->getConfig('pagination') || ($pagination == 1)) $view_code .= PHP_EOL.PHP_EOL.'<?php $view->getPagination(); ?>' . PHP_EOL;
+        if($this->getConfig('pagination') || ($pagination == 1)) $view_code .= PHP_EOL.PHP_EOL.'<?php echo $view->getPagination(); ?>' . PHP_EOL;
         return $view_code;
     }
 

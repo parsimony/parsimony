@@ -239,6 +239,16 @@ class view implements \Iterator {
         $this->SQL['limit'] = $limit;
         return $this;
     }
+    
+    /**
+     * Limit the number of result rows
+     * @param integer $limit
+     * @return view object
+     */
+    public function pagination($enable = FALSE) {
+        $this->SQL['pagination'] = $enable;
+        return $this;
+    }
 
     /**
      * Display Pagination
@@ -298,10 +308,12 @@ class view implements \Iterator {
             }
             $query .= ' ORDER BY ' . implode(',', $orders);
         }
-        if (isset($this->SQL['limit'])) {
+        if (isset($this->SQL['pagination']) && $this->SQL['pagination']) {
             $this->SQL['pagination'] = new \pagination($query, $this->SQL['limit']);
             $start = $this->SQL['pagination']->getCurrentPage() * $this->SQL['limit'] - $this->SQL['limit'];
             $query .= ' LIMIT ' . $start . ',' . $this->SQL['limit'];
+        }elseif (isset($this->SQL['limit'])) {
+            $query .= ' LIMIT 0,' . $this->SQL['limit'];
         }
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
