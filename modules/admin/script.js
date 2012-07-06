@@ -655,7 +655,7 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.setCookie("mode","preview",999);
 	},
 	loadBlock: function(id, params, func){
-	    $.post(window.location.toLocaleString(),params , function(data) {
+	    $.get(window.location.toLocaleString(),params , function(data) {
 		$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
 	    },func);
 	//$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");
