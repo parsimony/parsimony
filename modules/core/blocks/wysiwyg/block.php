@@ -58,6 +58,7 @@ class wysiwyg extends \block {
     }
     
     public function saveWYSIWYGAction($html) {
+        if(substr($html,-29) == '<div class="clearboth"></div>') $html = substr($html,0,29);
         if($this->setHTML($html)){
 	    $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
 	}else{
