@@ -610,7 +610,7 @@ var ParsimonyAdmin = {
 	    if(tree!=false) {
 		$("#config_tree_selector").hide().prependTo("#right_sidebar");
 		ParsimonyAdmin.loadBlock('tree');
-		ParsimonyAdmin.loadBlock('tree',function(){
+		ParsimonyAdmin.loadBlock('tree',{}, function(){
 		    if(ParsimonyAdmin.inProgress != "container") $("#treedom_" + ParsimonyAdmin.inProgress).trigger("click");
 		});
                 
@@ -654,8 +654,8 @@ var ParsimonyAdmin = {
 	    $('#switchCreationMode').removeClass("selected");
 	    ParsimonyAdmin.setCookie("mode","preview",999);
 	},
-	loadBlock: function(id,func){
-	    $.get(window.location.toLocaleString(), function(data) {
+	loadBlock: function(id,params, func){
+	    $.get(window.location.toLocaleString(),params , function(data) {
 		$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
 	    },func);
 	//$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");
