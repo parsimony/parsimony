@@ -58,8 +58,8 @@ ul{list-style:none;}
 input:-webkit-autofill {background-color: #fff;}
 .pagination a{
 display:block;
-width: 25px;
-height: 25px;
+width: 20px;
+height: 15px;
 margin:5px;
 float:left;
 background-image: -moz-linear-gradient(top,white,#EFEFEF);
