@@ -145,7 +145,7 @@ include_once('modules/core/classes/field.php');
                         } else {
                             $selected = '';
                         }
-                        echo '<option ' . $selected . '>' . $moduleName . '</option>';
+                        if($moduleName != 'admin') echo '<option ' . $selected . '>' . $moduleName . '</option>';
                     }
                     ?>
                 </select>  
