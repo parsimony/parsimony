@@ -41,6 +41,8 @@ class theme extends \core\blocks\container {
     /** @var string Theme id */
     protected $id = 'container';
     
+    protected $blockName= 'container';
+    
     /**
      * Build a block object
      * @param string $id Block ID 
@@ -48,7 +50,6 @@ class theme extends \core\blocks\container {
      */
     public function __construct($id) {
         $this->setId($id);
-        $this->__wakeup();
         $this->addBlock(new \core\blocks\page('content'));
     }
 
@@ -136,13 +137,6 @@ class theme extends \core\blocks\container {
             $theme->save();
             return $theme;
         }
-    }
-
-    /**
-     * Override __wakeup function in block class
-     */
-    public function __wakeup() {
-        $this->blockName= 'container';
     }
 
 }

@@ -51,7 +51,6 @@ abstract class block {
      */
     public function __construct($id, $init = true) {
         $this->setId($id);
-        $this->__wakeup();
         if(method_exists($this, 'init') && $init) $this->init();
     }
 
@@ -230,11 +229,15 @@ abstract class block {
     public function __toString() {
         $this->display();
     }
-
-    public function __wakeup() {
-        $className = get_class($this);
-        if ($className != 'page')
-            list( $this->module, $block, $this->blockName) = explode("\\", $className);
+    
+    public function __get($property) {
+	if($property == 'module' || $property == 'blockName'){
+	    $className = get_class($this);
+	    if ($className != 'page')
+		list( $module, $block, $blockName) = explode("\\", $className);
+	    return $$property;
+	}
+	return FALSE;
     }
 
     /**

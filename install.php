@@ -427,7 +427,8 @@ while (1) {
 	    include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
             $configObj = new \core\classes\config('config.php', TRUE);
-            $update = array('db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass']));
+	    $base_path = str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/');
+            $update = array('BASE_PATH' => $base_path ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass']));
             $configObj->saveConfig($update);
 
             break;
