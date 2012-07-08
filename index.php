@@ -1,5 +1,5 @@
 <?php
-
+include('install.php');exit;
 /**
  * Parsimony
  *
