@@ -734,10 +734,7 @@ class admin extends \module {
 		$tree = $this->domToArray($body[0]);
                 //print_r($tree);exit;
 		$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));
-		$theme = new \theme('container');
-		$theme->setName($name);
-		$theme->setThemeType('web');
-		$theme->setModule($thememodule);
+		$theme = new \theme('container', $name, 'web', $thememodule);
                 $conts = $structure1->getBlocks();
                 $cont = reset($conts);
 		$theme->setBlocks($cont->getBlocks());
@@ -751,10 +748,7 @@ class admin extends \module {
 		$themeweb->save('web');
 		$thememobile->save('thememobile');
 	    } else {
-		$theme = new \theme('container');
-		$theme->setName($name);
-                $theme->setThemeType('web');
-                $theme->setModule($thememodule);
+		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
 	    }
 	    $this->changeThemeAction($thememodule, $name);

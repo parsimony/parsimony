@@ -41,25 +41,22 @@ class theme extends \core\blocks\container {
     /** @var string Theme id */
     protected $id = 'container';
     
-    protected $blockName= 'container';
+    /** @var string themetype */
+    protected $themetype;
+    
+    /** @var string block type name */
+    protected $blockName = 'container';
     
     /**
      * Build a block object
      * @param string $id Block ID 
-     * 
      */
-    public function __construct($id) {
+    public function __construct($id, $name, $themetype, $module) {
         $this->setId($id);
+	$this->setName($name);
+        $this->setThemeType($themetype);
+        $this->setModule($module);
         $this->addBlock(new \core\blocks\page('content'));
-    }
-
-    /** @var string themetype  
-     * @todo add themetype
-     */
-    protected $themetype;
-
-    public function __toString() {
-        return $this->display();
     }
 
     /**
@@ -88,6 +85,14 @@ class theme extends \core\blocks\container {
      */
     public function getThemeType() {
         return $this->themetype;
+    }
+    
+    /**
+     * Get module
+     * @return string 
+     */
+    public function getModule() {
+        return $this->module;
     }
 
     /**
@@ -130,10 +135,7 @@ class theme extends \core\blocks\container {
         if ($file) {
             return \tools::unserialize(substr($file,0,-4));
         } else {
-            $theme = new theme('container');
-            $theme->setName($name);
-            $theme->setThemeType($themetype);
-            $theme->setModule($module);
+            $theme = new theme('container', $name, $themetype, $module);
             $theme->save();
             return $theme;
         }
