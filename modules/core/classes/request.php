@@ -65,7 +65,7 @@ class request {
 
 	\app::getClass('user'); //fix to enable user
 	/* Init a page */
-	$this->page = new \page(0);
+	$this->page = new \page(0, 'core');
 
 	/* Determine locale */
 	$this->determineLocale();
