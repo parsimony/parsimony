@@ -534,7 +534,7 @@ class module {
 	    include('modules/' . $name . '/module.php');
 	    $name2 = $name . '\\' . $name;
 	    $mod = new $name2();
-	    $page = new \page('1');
+	    $page = new \page('1', $name);
 	    $page->setModule($name);
 	    $page->setTitle('Index ' . $name);
 	    $page->setRegex('@index@');

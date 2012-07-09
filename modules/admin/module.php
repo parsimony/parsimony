@@ -149,7 +149,7 @@ class admin extends \module {
         $block->addBlock($tempBlock, $id_next_block);
         $this->saveAll();
         if ($this->search_block($this->$stop_typecont, $idBlock) != NULL) {
-            \app::$request->page = new \page(999);
+            \app::$request->page = new \page(999, 'core');
 	    $return = array('eval' => $tempBlock->ajaxRefresh('add'), 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
         }else
             $return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
@@ -174,7 +174,7 @@ class admin extends \module {
 	$block->setConfig('tag', $tag);
 	$block->setConfig('allowedModules', $allowedModules);
 	$block->setConfig('ajaxReload', $ajaxReload);
-	\app::$request->page = new \page(999);
+	\app::$request->page = new \page(999, 'core');
         if(isset($_POST['getVars'])){
             parse_str($_POST['getVars'],$outVars);
             array_merge($_GET,$outVars);
