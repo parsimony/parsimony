@@ -35,7 +35,7 @@
                 $cpt++;
                 $url = BASE_PATH.$item['url'];
             ?>
-                    <li<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo ' class="selected"'; ?>><a href="<?php echo $url; ?>" style="background-position:15px -7px;background-image:url(<?php echo BASE_PATH; ?>lib/glyphish/glyphish-<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo 'blue'; else echo 'gray'; ?>/<?php echo $item['icon'] ?>.png)"><?php echo $item['title'] ?></a></li>
+                    <li<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo ' class="selected"'; ?>><a href="<?php echo $url; ?>" style="background-position:center -7px;background-image:url(<?php echo BASE_PATH; ?>lib/glyphish/glyphish-<?php if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) echo 'blue'; else echo 'gray'; ?>/<?php echo $item['icon'] ?>.png)"><?php echo $item['title'] ?></a></li>
             <?php
             }
         }
