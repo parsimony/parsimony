@@ -1,6 +1,5 @@
 <?php
 include('install.php');exit;
-
 /**
  * Parsimony
  *
@@ -27,6 +26,8 @@ include('install.php');exit;
  * @package Parsimony
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+define('PARSIMONY_VERSION','0.3');
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');

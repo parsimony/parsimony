@@ -259,8 +259,8 @@ class admin extends \module {
      */
     protected function savePageAction($module, $id_page, $title, $meta, $regex, array $URLcomponents = array()) {
 	$moduleObj = \app::getModule($module);
-	$page = $moduleObj->getPage($id_page); /* modif */
-        $page->setModule($module);
+	$page = $moduleObj->getPage($id_page, $module);
+	$page->setModule($module);
 	$page->setTitle($title);
 	$page->setMetas($meta);
 	if (isset($URLcomponents))
@@ -301,8 +301,7 @@ class admin extends \module {
 	    $lastPage = array_keys($moduleObj->getPages());
 	    if(!empty($lastPage)) $idPage = max($lastPage) + 1;
             else $idPage = 1;          
-	    $page = new \page($idPage);
-            $page->setModule($module);
+	    $page = new \page($idPage, $module);
 	    $page->setTitle('Page '.$idPage);
 	    $page->setRegex('@page_'.$idPage.'@');
 	    $page->save();
@@ -734,10 +733,7 @@ class admin extends \module {
 		$tree = $this->domToArray($body[0]);
                 //print_r($tree);exit;
 		$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));
-		$theme = new \theme('container');
-		$theme->setName($name);
-		$theme->setThemeType('web');
-		$theme->setModule($thememodule);
+		$theme = new \theme('container', $name, 'web', $thememodule);
                 $conts = $structure1->getBlocks();
                 $cont = reset($conts);
 		$theme->setBlocks($cont->getBlocks());
@@ -751,10 +747,7 @@ class admin extends \module {
 		$themeweb->save('web');
 		$thememobile->save('thememobile');
 	    } else {
-		$theme = new \theme('container');
-		$theme->setName($name);
-                $theme->setThemeType('web');
-                $theme->setModule($thememodule);
+		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
 	    }
 	    $this->changeThemeAction($thememodule, $name);

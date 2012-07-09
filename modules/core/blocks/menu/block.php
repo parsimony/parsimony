@@ -36,14 +36,16 @@ namespace core\blocks;
 class menu extends \block {
 
     public function arbo($items) {
-        foreach ($items AS &$item) {
-            if(isset($_POST['title'][$item['id']])) $item['title'] = $_POST['title'][$item['id']];
-            if(isset($_POST['url'][$item['id']])) $item['url'] = $_POST['url'][$item['id']];
-	    if(isset($_POST['module'][$item['id']])) $item['module'] = $_POST['module'][$item['id']];
-	    if(isset($_POST['page'][$item['id']])) $item['page'] = $_POST['page'][$item['id']];
-            if (isset($item['children']))
-                $item['children'] = $this->arbo($item['children']);
-        }
+	if(!empty($items)){
+	    foreach ($items AS &$item) {
+		if(isset($_POST['title'][$item['id']])) $item['title'] = $_POST['title'][$item['id']];
+		if(isset($_POST['url'][$item['id']])) $item['url'] = $_POST['url'][$item['id']];
+		if(isset($_POST['module'][$item['id']])) $item['module'] = $_POST['module'][$item['id']];
+		if(isset($_POST['page'][$item['id']])) $item['page'] = $_POST['page'][$item['id']];
+		if (isset($item['children']))
+		    $item['children'] = $this->arbo($item['children']);
+	    }
+	}
         return $items;
     }
 

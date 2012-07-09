@@ -41,7 +41,6 @@ class page extends \block {
     protected $blocks = array();
     
     /** @var string module name */
-    // @todo remove optional core
     private $moduleName;
     
     /** @var string Page ID */
@@ -57,7 +56,7 @@ class page extends \block {
     private $URLcomponents = array();
 
     /** @var bool */
-    private $structure = true;
+    private $structure = TRUE;
 
     /** @var array */
     private $metas = array();
@@ -88,8 +87,9 @@ class page extends \block {
      * @param integer $id page id
      * 
      */
-    public function __construct($id) {
+    public function __construct($id, $module) {
         $this->id = $id;
+	$this->moduleName = $module;
     }
 
     /**
@@ -105,7 +105,7 @@ class page extends \block {
      * @param string $regex
      */
     public function setRegex($regex) {
-        $this->regex = $regex;
+        $this->regex = str_replace('@','\@',$regex);
     }
 
     /**
@@ -159,10 +159,6 @@ class page extends \block {
     public function getStructure() {
         return $this->structure && !\app::$request->getParam('nostructure');
     }
-    
-    public function setmod($tt) {
-        return $this->moduleName = $tt;
-    }
 
     /**
      * Set if the page require to display structure or no
@@ -210,14 +206,6 @@ class page extends \block {
     }
 
     /**
-     * Add a new meta tag to the page
-     * @param string $meta
-     */
-    public function addMeta($meta) {
-        $this->metas[] = $meta;
-    }
-
-    /**
      * Add a block
      * @param block $block
      * @param string $idNext optional
@@ -246,7 +234,12 @@ class page extends \block {
      * @param string $idBlock 
      */
     public function rmBlock($idBlock) {
-        unset($this->blocks[THEMETYPE][$idBlock]);
+	if(isset($this->blocks[THEMETYPE][$idBlock])) {
+            unset($this->blocks[THEMETYPE][$idBlock]);
+	    return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
     /**
@@ -276,7 +269,7 @@ class page extends \block {
         if (isset($this->blocks[THEMETYPE][$idBlock]))
             return $this->blocks[THEMETYPE][$idBlock];
         else
-            throw new \Exception(t('This block doesn\'t exist', FALSE));
+            return FALSE;
     }
 
     /**
@@ -337,7 +330,7 @@ class page extends \block {
 	}
         return $html;
     }
-    
+
     /**
      * Set module
      * @param string $module
@@ -345,7 +338,7 @@ class page extends \block {
     public function setModule($module) {
         $this->moduleName = $module;
     }
-
+    
     /**
      * Save the module
      * @return bool
@@ -430,7 +423,7 @@ class page extends \block {
     }
 
     public function __sleep() {
-        return array('id', 'blocks', 'title', 'regex', 'URLcomponents', 'metas', 'rights');
+        return array('id', 'moduleName', 'blocks', 'title', 'regex', 'URLcomponents', 'metas', 'rights');
     }
 
 }

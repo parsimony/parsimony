@@ -78,6 +78,8 @@ namespace core\classes {
             /* Load  general configs */
             include('config.php');
 
+	    define('BASE_PATH',$config['BASE_PATH']);
+	    
             /* Determine the domain www.Domain Name */
             if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
                 set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path

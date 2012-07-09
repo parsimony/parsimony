@@ -633,8 +633,10 @@ abstract class entity implements \Iterator {
      * 
      */
     public function __wakeup() {
-        list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
-        $this->_tableName = $this->_module . '_' . $this->_entityName;
+	if(!isset($this->_tableName)){
+	    list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
+	    $this->_tableName = $this->_module . '_' . $this->_entityName;
+	}
     }
 
     /**

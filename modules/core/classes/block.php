@@ -51,7 +51,6 @@ abstract class block {
      */
     public function __construct($id, $init = true) {
         $this->setId($id);
-        $this->__wakeup();
         if(method_exists($this, 'init') && $init) $this->init();
     }
 
@@ -76,8 +75,8 @@ abstract class block {
     }
     
     /**
-     * Get Block ID 
-     * @return string ID
+     * Get Block Name
+     * @return string Name
      */
     public function getName() {
         if(isset($this->name)) return $this->name;
@@ -126,15 +125,15 @@ abstract class block {
     }
 
     /**
-     * Get a block child 
+     * Get a child block
      * @param string $idBlock
      * @return an block object
      */
     public function getBlock($idBlock) {
-        if(isset($idBlock)) {
+        if(isset($this->blocks[$idBlock])) {
             return $this->blocks[$idBlock];
         } else {
-            throw new Exception(t('This block doesn\'t exist', FALSE));
+            return FALSE;
         }
         
     }
@@ -144,7 +143,7 @@ abstract class block {
      * @param block $block
      * @param string $idNext optional
      */
-    public function addBlock(block $block, $idNext='last') {
+    public function addBlock(block $block, $idNext = 'last') {
         $tempBlocks = array();
         if($this->id == 'container' && count($this->blocks)==1 && isset($this->blocks['content'])) $idNext='content';
         foreach ($this->blocks as $idBlock => $temp_block) {
@@ -163,10 +162,11 @@ abstract class block {
      * @param string $idBlock 
      */
     public function rmBlock($idBlock) {
-        if(isset($idBlock)) {
+        if(isset($this->blocks[$idBlock])) {
             unset($this->blocks[$idBlock]);
+	    return TRUE;
         } else {
-            throw new Exception(t('This block doesn\'t exist', FALSE));
+            return FALSE;
         }
     }
 
@@ -230,11 +230,15 @@ abstract class block {
     public function __toString() {
         $this->display();
     }
-
-    public function __wakeup() {
-        $className = get_class($this);
-        if ($className != 'page')
-            list( $this->module, $block, $this->blockName) = explode("\\", $className);
+    
+    public function __get($property) {
+	if($property == 'module' || $property == 'blockName'){
+	    $className = get_class($this);
+	    if ($className != 'page')
+		list( $module, $block, $blockName) = explode("\\", $className);
+	    return $$property;
+	}
+	return FALSE;
     }
 
     /**
