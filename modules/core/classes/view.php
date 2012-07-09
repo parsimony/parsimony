@@ -419,6 +419,11 @@ class view implements \Iterator {
         else
             return FALSE;
     }
+    
+    public function isEmpty() {
+        $this->buildQuery();
+        return !(bool)$this->SQL['stmt']->fetch();
+    }
 
     /**
      * Return properties in order to serialize it
