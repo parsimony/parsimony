@@ -275,6 +275,7 @@ class view implements \Iterator {
                 $foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
                 $idNameForeignEntity = $foreignEntity->getId()->name;
                 $this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+                $this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
                 $this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
                 $this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
             }elseif (!isset($this->SQL['selects'][$id])) {
@@ -318,10 +319,11 @@ class view implements \Iterator {
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
         if(strstr($query, ':') !== FALSE){
-            preg_match_all("/\:([^\s]*)/", $query, $matches);
+            preg_match_all("/\:([^\s\)]*)/", $query, $matches);
             $vars = array();
             foreach($matches[1] AS $value){
-                $vars[':'.$value] = \app::$request->getParam($value);
+                $param = \app::$request->getParam($value);
+                $vars[':'.$value] = $param > 0 ? $param : 'd ';
             }
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
