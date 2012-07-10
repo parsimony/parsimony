@@ -135,6 +135,15 @@ class request {
     public function setParams(array $params) {
 	$this->params = array_merge($this->params, $params);
     }
+    
+    /**
+     * Set Param
+     * @param string $key
+     * @param string $value
+     */
+    public function setParam($key, $value) {
+	$this->params[$key] =  $value;
+    }
 
     /**
      * Get all Params from current HTTP request (GET,POST,PUT,DELETE)

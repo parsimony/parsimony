@@ -319,11 +319,11 @@ class view implements \Iterator {
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
         if(strstr($query, ':') !== FALSE){
-            preg_match_all("/\:([^\s\)]*)/", $query, $matches);
+            preg_match_all("/\:([^\s,\)]*)/", $query, $matches);
             $vars = array();
             foreach($matches[1] AS $value){
                 $param = \app::$request->getParam($value);
-                $vars[':'.$value] = $param > 0 ? $param : 'd ';
+                $vars[':'.$value] = $param > 0 ? $param : '';
             }
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
