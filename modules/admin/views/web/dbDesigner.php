@@ -588,8 +588,8 @@ include_once('modules/core/classes/field.php');
         <tbody>
             <tr>
                 <td class="clearboth inline-block tooldua">My TAGS e.g.</td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?><?php echo PROFILE_PATH ?>core/files/n-n-relation-add.png"></td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?><?php echo PROFILE_PATH ?>core/files/n-n-relation.png"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation-add.png"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation.png"></td>
             </tr>
         </tbody>
     </table>
