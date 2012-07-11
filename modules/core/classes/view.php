@@ -294,10 +294,32 @@ class view implements \Iterator {
         }
         if (isset($this->SQL['wheres'])) {
             $wheres = array();
+            $vars = array();
             foreach ($this->SQL['wheres'] AS $key => $where) {
-                $wheres[] = $where;
+                if(strstr($where, ':') !== FALSE){
+                    preg_match_all("/\:([^\s\)]*)/", $where, $matches);
+                    foreach($matches[1] AS $param){
+                        $value = \app::$request->getParam($param);
+                        if(!empty($value)){
+                            if(is_array($value)){
+                                $nb = count($value);
+                                $str = array();
+                                for ($i = 0; $i < $nb; $i++) {
+                                    $str[] = ':'.$param.$i;
+                                    $vars[':'.$param.$i] = $value[$i];
+                                }
+                                $where = str_replace(':'.$param, implode(',',$str), $where);
+                            }else{
+                                $vars[':'.$value] = $param > 0 ? $param : '';
+                            }
+                            $wheres[] = $where;
+                        }
+                    }
+                }else{
+                    $wheres[] = $where;
+                }
             }
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
+            if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
         }
         if (isset($this->SQL['groupBys'])) {
             $query .= ' GROUP BY ' . implode(' ,', $this->SQL['groupBys']);
@@ -318,13 +340,7 @@ class view implements \Iterator {
         }
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
-        if(strstr($query, ':') !== FALSE){
-            preg_match_all("/\:([^\s,\)]*)/", $query, $matches);
-            $vars = array();
-            foreach($matches[1] AS $value){
-                $param = \app::$request->getParam($value);
-                $vars[':'.$value] = $param > 0 ? $param : '';
-            }
+        if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
             $this->SQL['stmt']->execute($vars);

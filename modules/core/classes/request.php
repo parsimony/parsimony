@@ -287,41 +287,34 @@ class request {
      */
     protected function initMethod() {
 	/* By default GET */
+        
 	$this->method = 'GET';
 	array_walk_recursive($_GET, function(&$v, &$k) {
-		    $v = str_replace(chr(0), '', $v);
-		});
-	array_walk_recursive($_GET, function(&$v, &$k) {
-		    $v = filter_input(INPUT_GET, $k, FILTER_UNSAFE_RAW);
-		});
+            $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+        });
 	$this->params = $_GET;
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	    $this->method = 'POST';
 	    array_walk_recursive($_POST, function(&$v, &$k) {
-			$v = str_replace(chr(0), '', $v);
-		    });
-	    //array_walk_recursive ($_POST, function(&$v, &$k) { $v = filter_input(INPUT_POST, $k, FILTER_UNSAFE_RAW); });
+                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+            });
 	    $this->params = array_merge($this->params, $_POST);
+            
 	} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
 	    $this->method = 'PUT';
 	    parse_str(file_get_contents("php://input"), $_PUT);
 	    array_walk_recursive($_PUT, function(&$v, &$k) {
-			$v = str_replace(chr(0), '', $v);
-		    });
-	    array_walk_recursive($_PUT, function(&$v, &$k) {
-			$v = filter_var($v, FILTER_UNSAFE_RAW);
-		    });
+                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+            });
 	    $this->params = array_merge($this->params, $_PUT);
+            
 	} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 	    $this->method = 'DELETE';
 	    parse_str(file_get_contents("php://input"), $_DELETE);
 	    array_walk_recursive($_DELETE, function(&$v, &$k) {
-			$v = str_replace(chr(0), '', $v);
-		    });
-	    array_walk_recursive($_DELETE, function(&$v, &$k) {
-			$v = filter_var($v, FILTER_UNSAFE_RAW);
-		    });
+                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+            });
 	    $this->params = array_merge($this->params, $_DELETE);
 	}
     }
