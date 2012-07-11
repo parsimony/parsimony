@@ -1,4 +1,4 @@
-#parsimonyTooltip {position: absolute;display:none;z-index:999999999}
+#parsimonyTooltip {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 10px;position: absolute;display:none;z-index:999999999}
 #parsimonyTooltip .parsimonyTooltipContent{white-space:nowrap;padding: 5px;background: rgba(0, 0, 0, 0.8);color: whiteSmoke;border-radius:5px;text-shadow: 1px 1px 0 
 rgba(0, 0, 0, 0.75);}
 #parsimonyTooltip .tri{width: 0px;height: 0px;position:absolute;border: 7px solid rgba(0, 0, 0, 0.8);}

@@ -35,6 +35,8 @@ namespace core\blocks;
  */
 class tags extends \block {
 
+    protected $title = 'displays the tags of your posts';
+    
     protected $category = 'blog';
 
 }

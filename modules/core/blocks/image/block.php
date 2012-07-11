@@ -34,7 +34,9 @@ namespace core\blocks;
  */
 
 class image extends \block {
-
+    
+    protected $title = 'displays a configurable image in drag n drop';
+    
     public function saveConfigs() {
         
 	if (isset($_POST['imgPath'])) {

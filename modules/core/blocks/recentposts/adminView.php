@@ -28,5 +28,5 @@
 ?>
 
 <h2><?php echo t('Recent posts',false); ?></h2>
-<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="items" value="<?php echo $this->getConfig('items') ?>" /><?php echo ' ' . t('items', FALSE); ?>
+<div><?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="width:40px;" name="items" value="<?php echo $this->getConfig('items') ?>" /><?php echo ' ' . t('items', FALSE); ?>. (<?php echo t('By default items = 5', FALSE) . ' '; ?>)</div>
 

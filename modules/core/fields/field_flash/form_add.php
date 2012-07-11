@@ -54,7 +54,7 @@
 	    stop:function(response){
 		$("#flash_<?php echo $this->name ?>").val(response.name);
 		$("#flash_thumb_<?php echo $this->name ?>").find(".nameIMG").text(response.name);
-		$("#flash_thumb_<?php echo $this->name ?>").find("a").attr("href",response.name);
+		$("#flash_thumb_<?php echo $this->name ?>").find("a").attr("href","<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
 		$("#flash_thumb_<?php echo $this->name ?>").find("embed").attr("src","<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
 		$("#flash_thumb_<?php echo $this->name ?>").show().find('param[name="movie"]').val("<?php echo BASE_PATH.$this->module; ?>/<?php echo $this->path; ?>/" + response.name);
 	    }
