@@ -61,6 +61,7 @@ if (isset($_POST['selector']) || isset($_POST['idBlock'])) {
 
 $selectors = $css->getAllSselectors();
 ?>
+ 
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
     <div style="min-width:230px;position:relative">
         <input type="hidden" name="typeofinput" id="typeofinput" value="code" />
