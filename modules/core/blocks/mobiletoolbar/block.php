@@ -34,7 +34,9 @@ namespace core\blocks;
  */
 
 class mobiletoolbar extends \block {
-
+        
+        protected $title = 'displays a configurable mobile toolbar';
+    
 	public $allowedTypes = array('mobile', 'tablet', 'tv'); 
 
 }

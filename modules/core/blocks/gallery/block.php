@@ -36,6 +36,8 @@ namespace core\blocks;
 
 class gallery extends \block {
 
+    protected $title = 'allows you to build an image gallery in drag n drop';
+    
     public function saveConfigs() {
         $this->setConfig('img', $_POST['img']);
         $this->setConfig('script', $_POST['script']);

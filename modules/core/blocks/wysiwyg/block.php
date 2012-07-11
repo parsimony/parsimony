@@ -36,6 +36,8 @@ namespace core\blocks;
 
 class wysiwyg extends \block {
 
+    protected $title = 'displays a rich text editor';
+    
     public function init() {
         if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme')
             $path =  THEMEMODULE . '/views/' . THEMETYPE . '/' . $this->id . '.php';

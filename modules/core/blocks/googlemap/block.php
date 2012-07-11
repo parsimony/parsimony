@@ -34,7 +34,9 @@ namespace core\blocks;
  */
 
 class googlemap extends \block {
-
+    
+    protected $title = 'displays a configurable google map';
+    
     public function saveConfigs() {
 	    $this->setConfig('adress', $_POST['adress']);
             $this->setConfig('town', $_POST['town']);

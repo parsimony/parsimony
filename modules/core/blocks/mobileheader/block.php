@@ -35,7 +35,9 @@ namespace core\blocks;
  */
 
 class mobileheader extends \block {
-
+    
+    protected $title = 'displays a configurable mobile header';
+    
     public $allowedTypes = array('mobile', 'tablet', 'tv');
 
     public function init() {

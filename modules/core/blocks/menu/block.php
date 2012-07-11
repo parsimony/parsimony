@@ -34,7 +34,9 @@ namespace core\blocks;
  */
 
 class menu extends \block {
-
+    
+    protected $title = 'displays a configurable menu in drag n drop';
+    
     public function arbo($items) {
 	if(!empty($items)){
 	    foreach ($items AS &$item) {
