@@ -483,8 +483,8 @@ include_once('modules/core/classes/field.php');
         <tbody>
             <tr>
                 <td class="clearboth inline-block tooldua">Responsive Design Server Side</td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?><?php echo PROFILE_PATH ?>core/files/wysiwyg.PNG"></td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?><?php echo PROFILE_PATH ?>core/files/wysiwyg-update.PNG"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg.PNG"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg-update.PNG"></td>
             </tr>
         </tbody>
     </table>
