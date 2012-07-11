@@ -52,7 +52,7 @@ class field_user extends \field {
      * @param bool $required by default true
      * @param string $regex by default '[0-9]*'
      */
-    public function __construct($module, $entity, $name, $type = 'INT', $characters_max = '20', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '[0-9]*', $visibility = 1) {
+    public function __construct($module, $entity, $name, $type = 'INT', $characters_max = '11', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '[0-9]*', $visibility = 1) {
         $this->constructor(func_get_args());
     }
     
