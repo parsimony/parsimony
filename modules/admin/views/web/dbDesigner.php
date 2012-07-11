@@ -869,7 +869,7 @@ include_once('modules/core/classes/field.php');
             },
             init :   function(){
                 /* Tooltip */
-                $(".tooltip").parsimonyTooltip({triangleWidth:5});
+                $(".tooltip").parsimonyTooltip({position: 'e',triangleWidth:5});
                 /* Fracs preview */
                 $("#outline").fracs("outline", {
                     crop: true,
