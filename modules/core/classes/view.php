@@ -292,12 +292,12 @@ class view implements \Iterator {
                 $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
             }
         }
-        if (isset($this->SQL['wheres'])) {
+       if (isset($this->SQL['wheres'])) {
             $wheres = array();
             $vars = array();
             foreach ($this->SQL['wheres'] AS $key => $where) {
                 if(strstr($where, ':') !== FALSE){
-                    preg_match_all("/\:([^\s\)]*)/", $where, $matches);
+                    preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
                     foreach($matches[1] AS $param){
                         $value = \app::$request->getParam($param);
                         if(!empty($value)){
@@ -310,7 +310,7 @@ class view implements \Iterator {
                                 }
                                 $where = str_replace(':'.$param, implode(',',$str), $where);
                             }else{
-                                $vars[':'.$value] = $param > 0 ? $param : '';
+                                $vars[':'.$param] = strlen($value) > 0 ? $value : '';
                             }
                             $wheres[] = $where;
                         }
