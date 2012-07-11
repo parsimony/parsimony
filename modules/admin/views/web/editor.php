@@ -116,7 +116,8 @@
 </select>
 <select id="historyfile" style="width:100px">
     <?php
-    foreach (glob('profiles/'.PROFILE.'/backup/' . $path . '-*.bak') as $filename) {
+    $backup = array_reverse(glob('profiles/'.PROFILE.'/backup/' . $path . '-*.bak'));
+    foreach ($backup as $filename) {
         preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
         echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
     }
