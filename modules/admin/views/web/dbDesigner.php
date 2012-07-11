@@ -124,6 +124,10 @@ include_once('modules/core/classes/field.php');
     
 </style> 
 
+<div id="tooltip-new-fields" class="none toolfield">
+    <p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
+</div>
+
 <div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
     <p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
     <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
