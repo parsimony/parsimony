@@ -254,7 +254,7 @@ background-image: linear-gradient(top, #707A84, #505968);
                 background: -moz-linear-gradient(top, #4C4C4E, #282425);
                 background: -o-linear-gradient(top, #4C4C4E, #282425);
                 color: whitesmoke;padding: 10px;border: 0px;font-size: 20px;font-weight: normal;border-radius: 5px 5px 0 0;}
-#conf_box_content_iframe{max-width: 100%;}
+#conf_box_content_iframe{max-width: 100%;height:100%;width: 100%;}
 #conf_box_content {overflow: hidden;max-width: 100%;}
 .dbdesigner{position: absolute;left:2px;top:3px;/*border: #666 solid 1px;border-radius: 5px;*/cursor: alias;}
 #conf_box_close, #conf_box_wpopup, #closemenu{margin:5px;border: #666 solid 2px;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px, whiteSmoke;}
@@ -284,7 +284,7 @@ background-image: linear-gradient(top, #707A84, #505968);
                                      background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                                      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e9ae2', endColorstr='#3570b8');}
 
-.adminzone{ font-family: Helvetica, Arial, Sans-Serif;background:#777;width:100%;min-height:600px;display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
+.adminzone{font-family: Helvetica, Arial, Sans-Serif;background:#777;width:100%;min-height:600px;display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
 .adminzone table{border-color: #99BCE8;}
 .adminzone th,.adminzone thead{border:1px solid #99BCE8;text-align:center;padding-top:8px}
 .adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #99BBE8;background-color: #CBDDF3;}
@@ -309,13 +309,13 @@ background : url('admin/img/savecss.png') no-repeat 3px 2px,linear-gradient(top,
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none} 
-.adminzonecontent{font-size: 12px;vertical-align: top;box-shadow:-6px 0px 5px #555;background:#EEE url(admin/img/concrete_wall_3.png);padding:7px;min-width:696px;height:600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
+.adminzonecontent{overflow-x: hidden;overflow-y: auto;font-size: 12px;vertical-align: top;box-shadow:-6px 0px 5px #555;background:#EEE url(admin/img/concrete_wall_3.png);padding:7px;min-width:696px;height:600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent h2{background: #444;padding: 10px;position:relative;color: white;font-size: 17px;text-transform: capitalize;margin: 7px 0 15px;border-top-left-radius: 15px;border-bottom-left-radius: 15px} 
 /* Model Forms*/
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
 .adminzonecontent .col1 {margin: 0px 26px 0px 0px;min-width:418px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent .col2{min-width:250px;max-width: 350px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
-.adminzonecontent .col2 > div > label{margin: 10px 0px;line-height: 15px;display:block;font-weight: bold;font-size: 16px;text-align: left;border-radius: 4px;text-transform: capitalize;font-size: 15px;padding: 7px;color: white;background: #777;
+.adminzonecontent .col2 > div > label{margin: 10px 7px 10px 0;line-height: 15px;display:block;font-weight: bold;font-size: 16px;text-align: left;border-radius: 4px;text-transform: capitalize;font-size: 15px;padding: 7px;color: white;background: #777;
                               background: -webkit-gradient(linear, left top, left bottom, from(#777), to(#555));
                               background: -moz-linear-gradient(top, #777, #555);
                               background: -o-linear-gradient(top, #777, #555);
