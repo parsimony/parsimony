@@ -35,6 +35,7 @@ namespace core\blocks;
 
 class code extends \block {
     
+    protected $title = 'displays a Code editor (PHP, js, HTML, CSS)';
     /**
      * Initialize the block configs
      * Called when block is created

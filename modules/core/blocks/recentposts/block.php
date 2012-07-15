@@ -34,7 +34,9 @@ namespace core\blocks;
  * Manages Recentposts Block
  */
 class recentposts extends \block {
-
+    
+    protected $title = 'displays your most recent posts';
+    
     protected $category = 'blog';
 
 } 

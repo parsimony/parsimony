@@ -275,6 +275,7 @@ class view implements \Iterator {
                 $foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
                 $idNameForeignEntity = $foreignEntity->getId()->name;
                 $this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+                $this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
                 $this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
                 $this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
             }elseif (!isset($this->SQL['selects'][$id])) {
@@ -291,12 +292,34 @@ class view implements \Iterator {
                 $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
             }
         }
-        if (isset($this->SQL['wheres'])) {
+       if (isset($this->SQL['wheres'])) {
             $wheres = array();
+            $vars = array();
             foreach ($this->SQL['wheres'] AS $key => $where) {
-                $wheres[] = $where;
+                if(strstr($where, ':') !== FALSE){
+                    preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
+                    foreach($matches[1] AS $param){
+                        $value = \app::$request->getParam($param);
+                        if(!empty($value)){
+                            if(is_array($value)){
+                                $nb = count($value);
+                                $str = array();
+                                for ($i = 0; $i < $nb; $i++) {
+                                    $str[] = ':'.$param.$i;
+                                    $vars[':'.$param.$i] = $value[$i];
+                                }
+                                $where = str_replace(':'.$param, implode(',',$str), $where);
+                            }else{
+                                $vars[':'.$param] = strlen($value) > 0 ? $value : '';
+                            }
+                            $wheres[] = $where;
+                        }
+                    }
+                }else{
+                    $wheres[] = $where;
+                }
             }
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
+            if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
         }
         if (isset($this->SQL['groupBys'])) {
             $query .= ' GROUP BY ' . implode(' ,', $this->SQL['groupBys']);
@@ -317,12 +340,7 @@ class view implements \Iterator {
         }
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
-        if(strstr($query, ':') !== FALSE){
-            preg_match_all("/\:([^\s]*)/", $query, $matches);
-            $vars = array();
-            foreach($matches[1] AS $value){
-                $vars[':'.$value] = \app::$request->getParam($value);
-            }
+        if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
             $this->SQL['stmt']->execute($vars);

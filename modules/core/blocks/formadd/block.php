@@ -7,7 +7,9 @@ namespace core\blocks;
  * Manages formadd Block
  */
 class formadd extends \block {
-
+    
+    protected $title = 'displays in one click the add form of db model';
+    
     protected $category = 'query';
     
     public function init() {

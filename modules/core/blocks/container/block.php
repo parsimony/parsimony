@@ -34,7 +34,9 @@ namespace core\blocks;
  * Manages Container Block
  */
 class container extends \block {
-
+    
+    protected $title = 'can contains other blocks and is used to structure the page';
+    
     protected $category = 'containers';
 
     public function display() {

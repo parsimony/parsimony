@@ -35,6 +35,8 @@ namespace core\blocks;
 
 class connexion extends \block {
     
+    protected $title = 'displays a login form';
+    
     public function getAdminView(){
 	return t('No config for this block');
     }

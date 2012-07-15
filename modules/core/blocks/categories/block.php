@@ -34,7 +34,9 @@ namespace core\blocks;
  * Manages Categories Block
  */
 class categories extends \block {
-
+    
+    protected $title = 'displays categories of your articles';
+    
     protected $category = 'blog';
 
     public function saveConfigs() {

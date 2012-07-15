@@ -109,29 +109,499 @@ include_once('modules/core/classes/field.php');
     #cardinality{border-radius: 5px 5px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
     input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
+    .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
+    .toolimg{position: absolute;top:5px;left:15px;}
+    .toolfield{position: relative;}
+    .tooldef{font-size:12px;font-style: italic;margin: 10px 5px;line-height : 15px;width: 250px;white-space: normal;}
+    .tooltype{margin: 0px 5px;}
+    .tooltab{margin: 10px 5px 0;font-size: 10px;font-family: inherit;color: white;border-top: 1px solid whitesmoke;border-left: 1px solid whitesmoke;border-bottom: 1px solid whitesmoke;}
+    .tooltab td{width:60px;height:40px;text-align: center;vertical-align: middle;border-right: 1px solid whitesmoke}
+/*     tbody td:first-child{margin:0 10px}*/
+    .tooltab td input{width: 50px;font-size: inherit;height: 20px;}
+    .tooltab tbody{border-top: 1px solid whitesmoke}
+    .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
+    .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
+    
 </style> 
-<?php /*
-  <div id="tooltip-field_string" class="none"><h1><?php echo t('String Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks).
-  <br> Validation : ') ?></div>
-  <div id="tooltip-field_numeric" class="none"><h1><?php echo t('Numeric Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).
-  <br> Validation : ') ?>Display Update Add</div>
-  <div id="tooltip-field_mail" class="none"><h1><?php echo t('Mail Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Mail String is used when the data entered by the user has to be an email id. Validation : ' ?></div>
-  <div id="tooltip-field_password" class="none"><h1><?php echo t('Password Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A password field is used when the data entered by the user has to be a password. It displays a password input type. It is stored in sha-1 hash and composed the password + salt.</div>' ?>
-  <div id="tooltip-field_state" class="none"><h1><?php echo t('State Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A State field manages the status of Entity. The state can contain several values separated by a comma (CSV) '; ?></div>
-  <div id="tooltip-field_date" class="none"><h1><?php echo t('Date Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'When a date field appears on a form, it also displays a calendar button, which lets users select a date easily.'; ?></div>
-  <div id="tooltip-field_publication" class="none"><h1><?php echo t('Publication Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A Publication Field manages the display of publication date' ?></div>
-  <div id="tooltip-field_image" class="none"><h1><?php echo t('Image Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display image links. Update Add' ?></div>
-  <div id="tooltip-field_flash" class="none"><h1><?php echo t('Flash Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a Flash content. ' ?></div>
-  <div id="tooltip-field_url" class="none"><h1><?php echo t('URL Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to specify a url.' ?> </div>
-  <div id="tooltip-field_url_rewriting" class="none"><h1><?php echo t('Url rewriting Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'permet de gérer l ur qui permettra d\'accéder à la page qui affiche/contient le contenu<br> Objectif SEO' ?></div>
-  <div id="tooltip-field_wysiwyg" class="none"><h1><?php echo t('WYSIWIG Field') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'This field is used to display a rich content composed text, images, videos ...' ?></div>
-  <div id="tooltip-field_textarea" class="none"><h1><?php echo t('Text Field') ?>Field Text</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'can contain any type of character, but with more text area.' ?></div>
-  <div id="tooltip-field_user" class="none"><h1><?php echo t('User Field') ?>Field User</h1><img title="" src="/core/files/thumb.png"><br><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony' ?></div>
-  <div id="tooltip-field_formasso" class="none"><h1><?php echo t('N:N Association Form') ?></h1><img title="" src="/core/files/thumb.png"><br><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship ' ?></div>
- */ ?>
+
+<div id="tooltip-new-fields" class="none toolfield">
+    <p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
+</div>
+
+<div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">eF(_5</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="eF(_5"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="tooltip-field_numeric" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_numeric/icon.png"><span class="tooltitle"><?php echo t('Numeric Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).'); ?></p>
+    <div class="tooltype"> SQL Type : INT 2 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">45</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="45"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> 
+
+<div id="tooltip-field_decimal" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_decimal/icon.png"><span class="tooltitle"><?php echo t('Decimal Field') ?></span></div>    
+    <p class="tooldef ellipsis"> <?php echo t('A Decimal Field is a data field that holds fixed-precision decimal numbers.') ?></p>
+    <div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">45,12</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="45,12"></td>
+            </tr>
+        </tbody>
+    </table>
+</div> 
+
+<div id="tooltip-field_price" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_price/icon.png"><span class="tooltitle"><?php echo t('Price Field') ?></span></div>
+    <p class="tooldef ellipsis"> <?php echo 'A Price Field stores a money value in your entity. ' ?></p>
+    <div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">12,34</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="12,34"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_percent" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_percent/icon.png"><span class="tooltitle"><?php echo t('Percent Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A Percent Field specializes in handling percentage data and displays a value between 0 and 100. ' ?></p>
+    <div class="tooltype"> SQL Type : DECIMAL 3 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">100</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="100"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_mail" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_mail/icon.png"><span class="tooltitle"><?php echo t('Mail Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A Mail Field is used when the data entered by the user has to be an email. ' ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">abcdef@ghi.jk</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="abcdef@ghi.jk"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_password" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_password/icon.png"><span class="tooltitle"><?php echo t('Password Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A password field stores in sha-1 hash the password + a salt. It displays a password input type.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">******</td>
+                <td class="inline-block tooldua"><input type="password"></td>
+                <td class="inline-block tooldua"><input type="password" value="abcdef@ghi"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_state" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_state/icon.png"><span class="tooltitle"><?php echo t('State Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A State field manages the status of an Entity. The state can be used as a Boolean (True / False) or can contain several values (Yes,Perhaps,No) separated by a comma (CSV). '; ?></p>
+    <div class="tooltype"> SQL Type : INT 2 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua"><select type="text"> 
+                    <option value="0">Yes</option>';
+                    <option value="1" selected="selected">No</option>
+                    <option value="2">Perhaps</option>';
+            </select></td>
+                <td class="inline-block tooldua"><select type="text"> 
+                    <option value="0" selected="selected">Yes</option>';
+                    <option value="1">No</option>
+                    <option value="2">Perhaps</option>';
+            </select></td>
+                <td class="inline-block tooldua"><select type="text" name="ping_status"> 
+                    <option value="0">Yes</option>';
+                    <option value="1">No</option>
+                    <option value="2" selected="selected">Perhaps</option>';
+            </select></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_date" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Date Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A date field is a component for presenting date and time.'; ?></p>
+    <div class="tooltype"> SQL Type : DATETIME by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">2012-07-06 09:42:30</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="2012-07-06 09:42:30"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_publication" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Publication Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A Publication Field contains the published or scheduled date. It provides a Visibility Mode (public, private, protected by password) and also a workflow with different status like Pending, Draft and Published. '; ?></p>
+    <div class="tooltype"> SQL Type : DATETIME by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">2012-07-07 11:15:52</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="2012-07-07 11:15:52"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_progress" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_progress/icon.png"><span class="tooltitle"><?php echo t('Progress Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A Progress Field creates a progress bar. '; ?></p>
+    <div class="tooltype"> SQL Type : INT 3 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua"><progress value="22" max="100"></progress></td>
+                <td class="inline-block tooldua"><progress value="" max=""></progress></td>
+                <td class="inline-block tooldua"><progress value="50" max="100"></progress></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_image" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"><span class="tooltitle"><?php echo t('Image Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field is used to store the path and display a configurable image in drag n drop.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua"><img title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"></td>
+                <td class="inline-block tooldua">     
+                    <div class="boxDropImage">
+                        <input style="height: 25px;width: 120px;" type="file">
+                        <label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
+                    </div>
+                </td>
+                <td class="inline-block tooldua" style="width: 145px;">       
+                    <div class="boxDropImage" style="margin-top: 20px">
+                        <input style="height: 25px;width: 120px;" type="file">
+                        <label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
+                    </div>
+                    <img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_flash" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png"><span class="tooltitle"><?php echo t('Flash Field') ?></span></div>
+    <p class="tooldef ellipsis"> <?php echo 'This field allows to add easily flash content (SWF).'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">
+                    <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
+                </td>
+                <td class="inline-block tooldua" style="padding: 0 5px">
+                        <input style="height: 25px;width: 120px;" type="file">    
+
+                </td>
+                <td class="inline-block tooldua" style="width: 155px;padding: 0 5px"> 
+                        <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
+                        <input style="height: 25px;width: 120px;" type="file">    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua" style="margin: 0 3px;width: 70px;">abc.def/ghijk</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua" style=""><input style="margin: 0 5px;width: 70px;" type="text" value="bcdef.gh/ijkl"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_url_rewriting" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url_rewriting/icon.png"><span class="tooltitle"><?php echo t('Url rewriting Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field is a unique identifier of a record for the SEO generated by the title of your record (i.e. This is my article, /this-is-my-article).<br> URL rewriting allows to provide a better search engine optimization.<br> URL\'s appearance is modified to have more relevant links to web pages.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">url.rew/riting</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="url.rew/riting"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_wysiwyg" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_wysiwyg/icon.png"><span class="tooltitle"><?php echo t('WYSIWIG Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field is used to display a rich content such as text, images or videos.'; ?></p>
+    <div class="tooltype"> SQL Type : LONGTEXT by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">Responsive Design Server Side</td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg.png"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg-update.png"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_textarea" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_textarea/icon.png"><span class="tooltitle"><?php echo t('Text Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field holds any type of character with a maximum length of 4,294,967,295.'; ?></p>
+    <div class="tooltype"> SQL Type : LONGTEXT by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">Development on the fly</td>
+                <td class="inline-block tooldua"><textarea></textarea>
+                <td class="inline-block tooldua"><textarea>Development on the fly</textarea>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_user" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_user/icon.png"><span class="tooltitle"><?php echo t('User Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony.'; ?></p>
+    <div class="tooltype"> SQL Type : INT 11 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">1</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="15"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_ip" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_ip/icon.png"><span class="tooltitle"><?php echo t('IP Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field allows to store an IP address.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR 45 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">172.16.254.1</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="172.16.254.1"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_vote" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_vote/icon.png"><span class="tooltitle"><?php echo t('Vote Field') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'This field is under construction.'; ?></p>
+    <div class="tooltype"> SQL Type : FLOAT 20 by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">0,12</td>
+                <td class="inline-block tooldua"><input type="text"></td>
+                <td class="inline-block tooldua"><input type="text" value="2,34"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tooltip-field_formasso" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_formasso/icon.png"><span class="tooltitle"><?php echo t('N:N Association Form') ?></span></div>
+    <p class="tooldef ellipsis"><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship.'; ?></p>
+    <div class="tooltype"> SQL Type : VARCHAR by default</div>
+    <table class="tooltab">
+        <thead>
+            <tr>
+                <td class="inline-block tooldua">Display</td>
+                <td class="inline-block tooldua">Add</td>
+                <td class="inline-block tooldua">Update</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="clearboth inline-block tooldua">My TAGS e.g.</td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation-add.png"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation.png"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <div id="toolbar" style="line-height: 23px;">
     <a href="http://parsimony.mobi" target="_blank" style="padding:0;height:28px;">
-        <img src="<?php echo BASE_PATH ;?>admin/img/parsimony.png">
+        <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
     </a>
     <div class="toolbarbonus inline-block">
         <div class="floatleft" style="border-right: 1px solid #D3D5DB;padding-right: 10px">	
@@ -145,7 +615,8 @@ include_once('modules/core/classes/field.php');
                         } else {
                             $selected = '';
                         }
-                        if($moduleName != 'admin') echo '<option ' . $selected . '>' . $moduleName . '</option>';
+                        if ($moduleName != 'admin')
+                            echo '<option ' . $selected . '>' . $moduleName . '</option>';
                     }
                     ?>
                 </select>  
@@ -210,7 +681,7 @@ include_once('modules/core/classes/field.php');
                         else
                             $none = '';
                         echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-                        echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class=" ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+                        echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
                         $html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
@@ -331,7 +802,7 @@ include_once('modules/core/classes/field.php');
                 dragAllowedWhenFull:true,
                 connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
                 isTarget:false },
-                endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
+            endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
                 paintStyle:{ fillStyle: "transparent" },
                 isSource:false,
                 reattach:true,
@@ -484,7 +955,7 @@ include_once('modules/core/classes/field.php');
 		
                 $(document).on('click','#conf_box_close',function(){
                     $('#popup').hide();
-		    $('#conf_box_overlay').hide();
+                    $('#conf_box_overlay').hide();
                 });
                 
                 $(document).on('click','.closeformpreview',function(){
