@@ -34,8 +34,7 @@ class core extends \module {
     protected $title = 'Parsimony Core';
     protected $name = 'core';
 
-    public function onLoad() {
-
+    public function __wakeup() {
 	//add devices
 	\app::$devices[] = array('name' => 'mobile', 'resolution' => array('360x480' => 'BlackBerry Torch',
 		'480x800' => 'Google Nexus One',

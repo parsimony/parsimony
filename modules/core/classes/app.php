@@ -143,12 +143,7 @@ namespace core\classes {
         protected function launchActiveModules() {
             foreach (self::$activeModules as $moduleName => $type) {
                 if ($type == 1) {
-                    $ClassName = $moduleName . '\\' . $moduleName;
-                    if (!class_exists($ClassName, false)) {
-                        include('modules/' . $moduleName . '/module.php');
-                    }
-                    $mod = new $ClassName();
-                    $mod->onLoad();
+		    self::$modules[$moduleName] = \module::get($moduleName);
                 }
             }
         }
@@ -190,7 +185,7 @@ namespace core\classes {
                 $className = str_replace('\\', '/', $className);
                 if (strstr($className, '/blocks/')) {
                     include('modules/' . $className . '/block.php');
-                } else if (is_file('modules/' . $className . '.php')) {
+                } elseif (is_file('modules/' . $className . '.php')) {
                     include('modules/' . $className . '.php');
                 }
             }

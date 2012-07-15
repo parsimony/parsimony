@@ -100,20 +100,21 @@ class module {
      * @return module
      */
     public static function get($name) {
-		if (isset(app::$activeModules[$name])) {
-			if (!class_exists($name . '\\' . $name, false))
-				include('modules/' . str_replace('\\', '/', $name) . '/module.php');
-				$path = stream_resolve_include_path(str_replace('\\', '/', $name) . '/module.' .\app::$config['dev']['serialization']);
-				if ($path) {
-					return \tools::unserialize(substr($path,0,-4));
-				} else {
-					$className = '\\' . $name . '\\' . $name;
-					$module = new $className($name, ucfirst($name));
-					$module->save();
-					return $module;
-				}
-		} else
-			throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
+	if (isset(app::$activeModules[$name])) {
+	    $pathName = str_replace('\\', '/', $name);
+	    if (!class_exists($name . '\\' . $name, false))
+		include('modules/' . $pathName. '/module.php');
+	    $path = stream_resolve_include_path($pathName . '/module.' . \app::$config['dev']['serialization']);
+	    if ($path) {
+		return unserialize(file_get_contents($path));
+	    } else {
+		$className = '\\' . $name . '\\' . $name;
+		$module = new $className($name, ucfirst($name));
+		$module->save();
+		return $module;
+	    }
+	} else
+	    throw new \Exception(t('Module is disabled', FALSE) . ' : ' . s($name));
     }
 
     /**
