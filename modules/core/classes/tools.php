@@ -199,27 +199,6 @@ class tools {
     }
 
     /**
-     * Convert a string to MP3 with google translate
-     * @static function
-     * @param string $str
-     * @param string $directory optional
-     * @param string $lang optional
-     * @return string
-     */
-    public static function stringToMP3($str, $directory='cache/mp3/', $lang='fr') {
-	if (!is_dir($directory))
-	    mkdir($directory, 0755);
-	$url = 'http://translate.google.fr/translate_tts?q=' . $str . '&tl=' . $lang;
-	$content = urlencode($str);
-	$mp3file = $directory . tools::sanitizeString($content) . '.mp3';
-	if (!file_exists($mp3file)) {
-	    $mp3 = file_get_contents($url);
-	    $obj = file_put_contents($mp3file, $mp3);
-	}
-	return '<div style="display:none"><object type="application/x-shockwave-flash" data="' . BASE_PATH . 'dewplayer.swf" width="200" height="20" id="dewplayer" name="dewplayer"> <param name="wmode" value="transparent" /><param name="movie" value="' . BASE_PATH . 'dewplayer.swf" /> <param name="flashvars" value="mp3=' . BASE_PATH . $mp3file . '&amp;autostart=1&amp;volume=99" /> </object></div>';
-    }
-
-    /**
      * Truncate a string
      * @static function
      * @param string $str
@@ -279,57 +258,6 @@ class tools {
         return $mailer->Send();
         
     }
-
-    /* public static function toxml($obj,$writer, $level=0) {
-      $writer->setIndent($level);
-      if (is_array($obj)) {
-      foreach ($obj AS $key => $value) {
-      if (!is_array($value) && !is_object($value)) {
-      $writer->writeElement($key, urlencode($value));
-      }
-      self::toxml($value,$writer, $level + 2);
-      }
-      } elseif (is_object($obj)) {
-      $reflect = new \ReflectionClass($obj);
-      $props = $reflect->getFields();
-      $writer->startElement('block');
-      $writer->writeAttribute('class', get_class($obj));
-      $writer->writeAttribute('id', $obj->getId());
-      foreach ($props as $prop) {
-      $methodName = 'get' . ucfirst($prop->getName());
-      if ($reflect->hasMethod($methodName)) {
-      $object = call_user_func(array($obj, $methodName));
-      if (!is_array($object) && !is_object($object) && $prop->getName() != 'id')
-      $writer->writeElement($prop->getName(), $object);
-      if (is_array($object) || is_object($object)) {
-      $writer->startElement($prop->getName());
-      }
-      self::toxml($object,$writer, $level + 1);
-      if (is_array($object) || is_object($object)) {
-      $writer->endElement();
-      }
-      }
-      }
-      $writer->endElement();
-      }
-      }
-
-      public static function RecurseXML($xml, $parent="") {
-      global $cont;
-      $bkls = array();
-      foreach ($xml->blocks->block as $key => $value) {
-      $class = (string) $value->attributes()->class;
-      $block = new $class((string) $value->attributes()->id);
-      foreach ((array) $value->configs AS $keyconf => $config) {
-      $block->setConfig($keyconf, urldecode((string) $config));
-      }
-      if ($value->children()) {
-      $block->setBlocks(self::RecurseXML($value->children()));
-      }
-      $bkls[(string) $value->attributes()->id] = $block;
-      }
-      return $bkls;
-      } */
 }
 
 ?>
