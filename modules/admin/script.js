@@ -90,12 +90,12 @@ var ParsimonyAdmin = {
        
 	/* Set initial mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
-	if(initialMode == 'creation'){
-	    $("#switchCreationMode").trigger('click');
-	}else if(initialMode == 'edit'){
+	if(initialMode == 'edit'){
 	    $("#switchEditMode").trigger('click');
 	}else if(initialMode == 'preview'){
 	    $("#switchPreviewMode").trigger('click');
+	}else{
+	    $("#switchCreationMode").trigger('click');
 	}
 
 	//override jQuery ready function to exec them with ajax portions
