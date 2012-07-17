@@ -32,28 +32,27 @@
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.json-2.3.min.js.js" ></script>
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/menu.css">
 <style>
-    fieldset{background: #EDEFF4;}
-    .placeholder {background-color: #fff;border: 1px #ccc dashed}
+    fieldset{background: #F9F9F9;}
+    .placeholdermenu {background-color: #fff;border: 1px #ccc dashed}
     .ui-nestedSortable-error {background:#fbe3e4;color:#8a1f11;}
     ol {margin: 0;padding: 0;padding-left: 30px;}
     ol.sortable, ol.sortable ol {margin: 0 0 0 15px;padding: 0;list-style-type: none;}
+    ol.sortable {margin: 0 5px}
     .sortable li {margin: 7px 0 0 0;padding: 0;}
     .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
     .ui-icon-closethick{margin-top: 7px;}
-    #design-menu{border-radius:8px;color: #174F69;border: 1px solid #99BBE8;box-shadow: #F4F8FD 0 1px 0px 0 inset;font-weight: bold;padding-bottom: 5px;font-size: 13px;}
-    legend{letter-spacing: 1.2px;font-size: 16px;}
-    .parsimenu ul{top: 20px;left: -12px;}
-    #linkmenu{border :1px solid #99BBE8;margin:10px; padding-bottom: 10px;border-radius: 8px;}
+    legend{letter-spacing: 1.2px;font-size: 15px;}
+    #addPageItem li{margin:0 !important}
+    .parsimenu ul{top: 20px;left: -1px;}
+    #linkmenu{border :1px solid #ccc;margin:10px; padding-bottom: 10px;border-radius: 8px;}
     linkmenuAdd{position: relative;top: 0px;margin-left: 25px;margin-top: 10px;margin-bottom: 10px;}
     #addPageItem{margin-left: 25px;background: #EBEBEB -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #addPageItem li{border-right: 1px #CCC solid;text-transform: capitalize;margin: 0 0 0 11px;padding: 4px;font-weight: normal;text-shadow: 0 1px 1px rgba(255, 255, 255, .9);color: #666;}
-    #previewmenu{border :1px solid #99BBE8;margin:10px;border-radius: 8px;}
+    #previewmenu{border :1px solid #ccc;margin:10px;border-radius: 8px;padding-bottom: 10px;}
     .title1{text-align: left;margin: 10px 25px;color: #777;}
     .title2{text-align: left;position: relative;top: 8px;margin-left: 27px;margin-bottom: 15px;border-radius: 8px;color: #777;}
-    .positionMenu{padding:11px 11px 0}
-    .positionMenu{color: #777;}
-    
+
     /* Overridde css for test */
     #linkmenu{padding-left: 15px;}
     #previewmenu legend{margin-left: 15px;}
@@ -65,16 +64,15 @@
     #addPageItem li {cursor: pointer;}
     #addPageItem li li{padding: 0;margin: 0}
     #addPageItem li li a{padding: 4px;}
-    .menutextfix{position: relative;top: -4px;}
     .sortable li > div{
-	border: 1px solid #ccc ;font-weight: bold;color: #222 ;text-shadow: 0  1px  0  #ffffff ;
-	background: #eee url(img/arrow_move.png) no-repeat 7px 6px;
-	background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-gradient(linear, left top, left bottom, from( #ffffff), to( #f1f1f1));
-	background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-linear-gradient( #ffffff, #f1f1f1); 
-	background: url(img/arrow_move.png) no-repeat 7px 6px, -moz-linear-gradient( #ffffff, #f1f1f1);
-	background: url(img/arrow_move.png) no-repeat 7px 6px, -ms-linear-gradient( #ffffff, #f1f1f1);
-	background: url(img/arrow_move.png) no-repeat 7px 6px, -o-linear-gradient( #ffffff, #f1f1f1);
-	background: url(img/arrow_move.png) no-repeat 7px 6px, linear-gradient( #ffffff, #f1f1f1);
+        border: 1px solid #ccc ;font-weight: bold;color: #222 ;text-shadow: 0  1px  0  #ffffff ;
+        background: #eee url(img/arrow_move.png) no-repeat 7px 6px;
+        background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-gradient(linear, left top, left bottom, from( #ffffff), to( #f1f1f1));
+        background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-linear-gradient( #ffffff, #f1f1f1); 
+        background: url(img/arrow_move.png) no-repeat 7px 6px, -moz-linear-gradient( #ffffff, #f1f1f1);
+        background: url(img/arrow_move.png) no-repeat 7px 6px, -ms-linear-gradient( #ffffff, #f1f1f1);
+        background: url(img/arrow_move.png) no-repeat 7px 6px, -o-linear-gradient( #ffffff, #f1f1f1);
+        background: url(img/arrow_move.png) no-repeat 7px 6px, linear-gradient( #ffffff, #f1f1f1);
     }
 </style>
 <div id="item-menu-template" class="none">
@@ -87,9 +85,11 @@
     echo $this->drawAdminMenu(array(array('id' => '', 'module' => '', 'page' => '')));
     ?>
 </div>
-<fieldset id="design-menu">
-    <legend><?php echo t('Menu', FALSE); ?></legend>
-    <div class="positionMenu"><span class="menutextfix"><?php echo t('Menu', FALSE); ?></span> <select name="position"><option value="0">Horizontal</option><option value="1" <?php if ($this->getConfig('position') == 1) echo ' selected="selected"'; ?>>Vertical</option></select></div>
+<div id="design-menu">
+    <div class="placeholder">
+        <label><?php echo t('Menu', FALSE); ?></label>
+        <select name="position"><option value="0">Horizontal</option><option value="1" <?php if ($this->getConfig('position') == 1) echo ' selected="selected"'; ?>>Vertical</option></select>
+    </div>
     <fieldset id="linkmenu">
         <legend><?php echo t('Add Links', FALSE); ?></legend>
         <fieldset id="linkmenuAdd">
@@ -100,53 +100,53 @@
         </fieldset>
         <div class="title2"><?php echo t('Choose An Existing Link', FALSE); ?></div>
         <ul id="addPageItem" class="parsimenu">
-	    <?php
-	    foreach (\app::$activeModules as $module => $mode) {
-		$moduleObj = \app::getModule($module);
-		$pagesMod = $moduleObj->getPages();
-		if (!empty($pagesMod)) {
-		    ?>
-		    <li class="inline-block"><?php echo $module; ?><ul>
-			    <?php
-			    foreach ($moduleObj->getPages() as $key => $page) {
-				if (count($page->getURLcomponents()) == 0)
-				    echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
-			    }
-			    ?>
-			</ul>
-		    </li>
-		    <?php
-		}
-	    }
-	    ?>
+            <?php
+            foreach (\app::$activeModules as $module => $mode) {
+                $moduleObj = \app::getModule($module);
+                $pagesMod = $moduleObj->getPages();
+                if (!empty($pagesMod)) {
+                    ?>
+                    <li class="inline-block"><?php echo $module; ?><ul>
+                            <?php
+                            foreach ($moduleObj->getPages() as $key => $page) {
+                                if (count($page->getURLcomponents()) == 0)
+                                    echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
+                            }
+                            ?>
+                        </ul>
+                    </li>
+                    <?php
+                }
+            }
+            ?>
         </ul>
     </fieldset>
     <fieldset id="previewmenu">
         <legend><?php echo t('Preview Menu', FALSE); ?></legend>
         <ol class="sortable">
-	    <?php
-	    $menu = json_decode($this->getConfig('menu'), true);
-	    if (is_array($menu)) {
-		$this->drawadminmenu($menu);
-	    }
-	    ?>
+            <?php
+            $menu = json_decode($this->getConfig('menu'), true);
+            if (is_array($menu)) {
+                $this->drawadminmenu($menu);
+            }
+            ?>
         </ol>
         <input type="hidden" name="toHierarchy" id="toHierarchy">
     </fieldset>
-</fieldset>
+</div>
 <script>
     function refreshPos(){
         $('#toHierarchy').val($.toJSON($('ol.sortable').nestedSortable('toHierarchy')));
     }
     $(document).ready(function() {
-	function getMaxId(){
-	    var maxnb = 0;
+        function getMaxId(){
+            var maxnb = 0;
             $("ol.sortable li").each(function(i) {
                 var tab = $(this).attr("id").split(/itemlist_/);
                 if(parseInt(tab[1]) > maxnb) maxnb = parseInt(tab[1]);
             });
             return maxnb;
-	}
+        }
         function addLink(title,url){
             var maxnb = getMaxId() + 1;
             var obj = $('#item-menu-template > li').clone().attr("id","itemlist_" + maxnb);
@@ -158,7 +158,7 @@
             $("ol.sortable").append(obj);
             refreshPos();
         }
-	function addPage(module, page, title){
+        function addPage(module, page, title){
             var maxnb = getMaxId() + 1;
             var obj = $('#item-menu-page-template > li').clone().attr("id","itemlist_" + maxnb);
             obj.find(".module").val(module).attr("name","module[" + maxnb + "]");
@@ -167,10 +167,10 @@
             $("ol.sortable").append(obj);
             refreshPos();
         }
-        $("#add-menu-item").click(function(){
+        $("#add-menu-item").on("click",function(){
             addLink($("#input_title").val(),$("#input_url").val());
         });
-        $("#addPageItem a").click(function(){
+        $("#addPageItem a").on("click", function(){
             addPage($(this).data('module'), $(this).data('page'), $(this).data('title'));
             return false;
         });
@@ -180,7 +180,7 @@
             helper:	'clone',
             items: 'li',
             opacity: .6,
-            placeholder: 'placeholder',
+            placeholder: 'placeholdermenu',
             revert: 250,
             tabSize: 25,
             tolerance: 'pointer',
