@@ -112,8 +112,8 @@ var ParsimonyAdmin = {
 	$(ParsimonyAdmin.currentBody).on('click.creation','.traduction', function(e){
 	    e.trad = true;
 	    ParsimonyAdmin.closeParsiadminMenu();
-	    ParsimonyAdmin.addTitleParsiadminMenu("Traduction");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="Gestion des Traductions">Traduct</a>');
+	    ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
+	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="Gestion des Traductions">'+ t('Translate') +'</a>');
 	});
 	
 	$(ParsimonyAdmin.currentBody).on('click.creation','a', function(e){
@@ -121,7 +121,7 @@ var ParsimonyAdmin = {
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu("Link");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;">Go to the link</a>');
+	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;">'+ t('Go to the link') +'</a>');
 	});	
 
 	$(document).on("keypress.creation",'#dialog-id',function(e){
@@ -314,7 +314,7 @@ var ParsimonyAdmin = {
     },
     destroyBlock :   function (){
 	if(ParsimonyAdmin.inProgress != "container"){
-	    if(confirm('Etes-vous sûr de vouloir supprimer le bloc ' + ParsimonyAdmin.inProgress + ' ?')==true){
+	    if(confirm(t('Do you really want to remove the block ') + ParsimonyAdmin.inProgress + ' ?')==true){
 		ParsimonyAdmin.returnToShelter();
 		if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr("id")=="treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
 		else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr('id').replace("treedom_","");
@@ -455,7 +455,7 @@ var ParsimonyAdmin = {
 	},
 	changeBlockPosition : function (blockType,idBlock,idNextBlock,startIdParentBlock,stopIdParentBlock,startTypeCont,stopTypeCont,action){
 	    if(typeof startIdParentBlock == "undefined" || typeof stopIdParentBlock == "undefined"){
-		alert('Error in your DOM, perhaps an HTML tag isn\'t closed.');
+		alert(t('Error in your DOM, perhaps an HTML tag isn\'t closed.'));
 		return false
 		};
 	    if(idNextBlock == undefined || idNextBlock==idBlock) idNextBlock = "last";
@@ -609,8 +609,7 @@ var ParsimonyAdmin = {
 		ParsimonyAdmin.loadBlock('tree');
 		ParsimonyAdmin.loadBlock('tree',{}, function(){
 		    if(ParsimonyAdmin.inProgress != "container") $("#treedom_" + ParsimonyAdmin.inProgress).trigger("click");
-		});
-                
+		});   
 	    }
 	    $(".container",ParsimonyAdmin.currentBody).each(function(){
 		if($(this).find('.block:not("#content")').length==0) {
