@@ -259,7 +259,7 @@ background-image: -ms-linear-gradient(top, white, #ECECEC);
 background-image: -o-linear-gradient(top, white, #ECECEC);
 background-image: linear-gradient(top, white, #ECECEC);
 text-shadow: white 0 1px 0;}
-#conf_box_content_iframe{max-width: 100%;}
+#conf_box_content_iframe{max-width: 100%;height:100%;width: 100%;}
 #conf_box_content {overflow: hidden;max-width: 100%;}
 .dbdesigner{position: absolute;left:2px;top:3px;/*border: #666 solid 1px;border-radius: 5px;*/cursor: alias;}
 #conf_box_close, #conf_box_wpopup, #closemenu{margin:5px;border: #666 solid 2px;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px, whiteSmoke;}
@@ -330,7 +330,7 @@ background : url('admin/img/savecss.png') no-repeat 3px 2px,linear-gradient(top,
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none} 
-.adminzonecontent{position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
+.adminzonecontent{overflow-x: hidden;overflow-y: auto;position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
 padding: 7px;min-width: 696px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent h2{color:#464646;font-size: 23px;padding: 9px 15px 4px 0;line-height: 29px;font-weight: normal;margin: 0;text-shadow: white 0 1px 0;} 
 /* Model Forms*/
@@ -418,6 +418,7 @@ top:0;
 left:0px;
 width:100%;
 text-transform:capitalize;
+margin: 10px 7px 10px 0;
 }
 .adminzonecontent h2 input[type="submit"] {
 border-radius: 4px;
