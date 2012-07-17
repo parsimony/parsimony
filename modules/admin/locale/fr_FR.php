@@ -266,4 +266,5 @@ $lang['Containers'] = 'Conteneur';
 $lang['Manage Users'] = 'Gestion des Utilisateurs';
 $lang['Go to form'] = 'Formulaire';
 $lang['Dynamic page']= 'Page dynamique';
+$lang['Do you really want to remove the block ']= 'Etes-vous sûr de vouloir supprimer le bloc';
 ?>
