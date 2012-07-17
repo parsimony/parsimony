@@ -40,21 +40,15 @@ if (!file_exists($this->pathOfViewFile))
 $view = $this->getConfig('view');
 ?>
 <style>
+    .adminzonecontent{min-width:1040px}
     .tabs{min-width: 1000px;}
     .queryblock{margin:1px 1px;border-radius:3px;padding:1px;
-	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0  1px  0  #ffffff ;
-	background: #eee;
-	background: -webkit-gradient(linear, left top, left bottom, from( #f2f2f2), to( #ddd));
-	background: -webkit-linear-gradient( #f2f2f2, #ddd); 
-	background: -moz-linear-gradient( #f2f2f2, #ddd);
-	background: -ms-linear-gradient( #f2f2f2, #ddd);
-	background: -o-linear-gradient( #f2f2f2, #ddd);
-	background: linear-gradient( #f2f2f2, #ddd);
+	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;background: #F7F7F7;
     }
     .property{padding: 0 4px;cursor:pointer;line-height: 20px;font-family: sans-serif}
     .property:hover{background:#CBDDF3}
-    .caption{width:65px;position: absolute;left:0px;background:white;z-index: 100;float:left;}
-    .caption div{line-height: 27px;padding-left: 7px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
+    .caption{box-shadow: 2px 0 2px #CCC;width:65px;position: absolute;left:0px;background:white;z-index: 100;float:left;}
+    .caption div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 135px;background: transparent;border: none;box-shadow:initial;}
     #recipiant_sql .table{background: transparent;border: none;box-shadow:initial;}
@@ -74,9 +68,9 @@ $view = $this->getConfig('view');
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
     #links{margin-bottom:15px;}
-    .textdbquery{padding: 12px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
+    .textdbquery{padding: 5px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 4px 0px;background: white;margin-top: 5px;min-height:217px}
+    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 1px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
     #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding:3px}
@@ -89,7 +83,7 @@ $view = $this->getConfig('view');
 	       background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
 	       background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
     input.filter,input.sort{margin:3px 0}
-    #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#888 1px solid}
+    #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid}
     .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
 </style>
 <div class="tabs">
@@ -267,6 +261,7 @@ $view = $this->getConfig('view');
 	    </div>
 	    <div class="clearboth"></div>
 	    <input type="button" class="none" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
+            <span style="display: block;margin-top:7px;padding: 4px 0 0px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;"> <?php echo t('Options', FALSE); ?></span>
 	    <div class="clearboth textdbquery">
 		<div style="display:inline-block;width:300px">
 		    <?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
@@ -293,7 +288,7 @@ $view = $this->getConfig('view');
 		</div>
 	    </div>
 	    <br>
-	    <a href="" style="display: block;margin-bottom: 15px;font-weight: bold;color: #333;" onclick="$('#links').slideToggle();return false;"> > <?php echo t('Relationship Management', FALSE); ?></a>
+	    <a href="" style="display: block;padding: 3px 0 14px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;" onclick="$('#links').slideToggle();return false;"> <?php echo t('Relationship Management', FALSE); ?></a>
 	    <div id="links" class="none">
 		<?php
                 if(is_object($view)){ 
@@ -330,7 +325,7 @@ $view = $this->getConfig('view');
 	    </div>
 	    <div id="linkstransit" class="none"></div>
 	</div>
-	<div style="padding: 1px 20px 10px;box-shadow: rgb(119, 119, 119) 2px 1px 13px;">
+	<div style="padding: 1px 20px 10px;box-shadow: #777 1px 1px 4px;">
             <div style="position:relative;"><h3><?php echo t('Result Preview', FALSE); ?></h3> <a href="#" style="position:absolute;top:5px;right:10px;color:#555" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL', FALSE); ?></a></div>
 	    
             <div id="resultpreview">
