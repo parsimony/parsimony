@@ -105,7 +105,7 @@ class page extends \block {
      * @param string $regex
      */
     public function setRegex($regex) {
-        $this->regex = str_replace('@','\@',$regex);
+        $this->regex = $regex;
     }
 
     /**

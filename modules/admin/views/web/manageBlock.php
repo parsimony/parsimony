@@ -77,8 +77,8 @@ if (is_object($block) == NULL) {
 		<div class="placeholder">
 		    <label><?php echo t('Show only in the following modules',FALSE); ?> </label> <input type="text" name="allowedModules" value="<?php echo $block->getConfig('allowedModules') ?>"><br />
 		</div>
-                <div>
-		    <label style="display:inline-block;width:100px;text-decoration: underline;"><?php echo t('HTML5 Tags',FALSE); ?> :</label> <select name="tag" style="width:100px">
+                <div  class="placeholder">
+		    <label><?php echo t('HTML5 Tags',FALSE); ?> :</label> <select name="tag">
 			    <?php if($block->getConfig('tag')!==false)echo '<option value="'.$block->getConfig('tag').'">'.$block->getConfig('tag').'</option>' ?>
 			<option value="div">div</option>
 			<option value="header">header</option>
@@ -91,8 +91,8 @@ if (is_object($block) == NULL) {
 		    </select>
 		</div>
                 <br>
-		<div>
-		    <label style="text-decoration: underline"><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value="0"> <input type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>><br />
+		<div class="placeholder">
+                    <label><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value="0"> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>><br />
 		</div>
 	    </div>
 	    <input type="submit" class="none" id="save_configs" name="save_configs">

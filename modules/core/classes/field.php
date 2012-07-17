@@ -184,7 +184,7 @@ class field {
         include($this->getFieldPath() . '/display.php');
         $html = ob_get_clean();
         /* todo check rights model in module for his ROLE */
-        if(BEHAVIOR > 1 || $_SESSION['id_user'] == $row->getBehaviorAuthor()) $html = '<div class="editinline " spellcheck="false" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">'.$html.'</div>';
+        if(BEHAVIOR > 1 || (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $row->getBehaviorAuthor())) $html = '<div class="editinline " spellcheck="false" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">'.$html.'</div>';
         return $html;
     }
     

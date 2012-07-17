@@ -266,4 +266,11 @@ $lang['Containers'] = 'Conteneur';
 $lang['Manage Users'] = 'Gestion des Utilisateurs';
 $lang['Go to form'] = 'Formulaire';
 $lang['Dynamic page']= 'Page dynamique';
+$lang['Do you really want to remove the block ']= 'Etes-vous sûr de vouloir supprimer le bloc';
+$lang['Translation']= 'Traduction';
+$lang['Translate']= 'Traduire';
+$lang['Go to the link']= 'Allez au lien';
+$lang['Error in your DOM, perhaps an HTML tag isn\'t closed.']= 'Erreur dans votre DOM, une balise HTML n\'est peut-être pas fermée.';
+
+
 ?>
