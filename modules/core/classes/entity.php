@@ -515,6 +515,7 @@ abstract class entity implements \Iterator {
         } else {
             foreach ($this->getFields() as $name => $property) {
                 if (get_class($property) == \app::$aliasClasses['field_string']) {
+                    $this->behaviorTitle = $name;
                     return $name;
                 }
             }
@@ -534,6 +535,7 @@ abstract class entity implements \Iterator {
         } else {
             foreach ($this->getFields() as $name => $property) {
                 if (get_class($property) == \app::$aliasClasses['field_textarea']) {
+                    $this->behaviorDescription = $name;
                     return $name;
                 }
             }
@@ -549,7 +551,8 @@ abstract class entity implements \Iterator {
         if (!empty($this->behaviorKeywords)) {
             return $this->behaviorKeywords;
         } else {
-            return $this->getBehaviorDescription();
+            $this->behaviorKeywords = $this->getBehaviorDescription();
+            return $this->behaviorKeywords;
         }
     }
 
@@ -563,6 +566,25 @@ abstract class entity implements \Iterator {
         } else {
             foreach ($this->getFields() as $name => $property) {
                 if (get_class($property) == \app::$aliasClasses['field_image']) {
+                    $this->behaviorImage = $name;
+                    return $name;
+                }
+            }
+        }
+        return FALSE;
+    }
+
+    /**
+     * Get META Author
+     * @return string|false
+     */
+    public function getBehaviorAuthor() {
+        if (!empty($this->behaviorAuthor)) {
+            return $this->behaviorAuthor;
+        } else {
+            foreach ($this->getFields() as $name => $property) {
+                if (get_class($property) == \app::$aliasClasses['field_user']) {
+                    $this->behaviorAuthor = $name;
                     return $name;
                 }
             }

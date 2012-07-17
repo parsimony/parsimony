@@ -34,6 +34,9 @@ namespace core\classes;
  * Provides the mapping of a SQL property in a PHP object
  */
 class field {
+    
+    /** @var string field name */
+    protected $fieldName;
 
     /** @var string module name */
     protected $module;
@@ -152,6 +155,17 @@ class field {
     }
     
     /**
+     * Get field title
+     * @return string
+     */
+    public function getFieldPath() {
+        if(!isset($this->fieldPath)){
+            $this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
+        }
+        return $this->fieldPath;
+    }
+    
+    /**
      * Convert into String
      * @return string
      */
@@ -164,14 +178,28 @@ class field {
      * @param string &$view
      * @return string
      */
-    public function display(&$row = '') {
+    public function display(&$row = '', $authorEdit = FALSE) {
         ob_start();
-        //$model = \app::getModule($this->module)->getEntity($this->entity);
         $idName = $row->getId()->name;
-        echo '<div class="editinline" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">';
-        include('modules/' . str_replace('\\', '/', get_class($this)) . '/display.php');
-        echo '</div>';
+        include($this->getFieldPath() . '/display.php');
         $html = ob_get_clean();
+        /* todo check rights model in module for his ROLE */
+        if(BEHAVIOR > 1 || $_SESSION['id_user'] == $row->getBehaviorAuthor()) $html = '<div class="editinline " spellcheck="false" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">'.$html.'</div>';
+        return $html;
+    }
+    
+    /**
+     * Display view
+     * @param string &$view
+     * @return string
+     */
+    public function displayEditInline(&$row = '') {
+        ob_start();
+        $idName = $row->getId()->name;
+        $authorName = $row->getBehaviorAuthor()->name;
+        include($this->getFieldPath() . '/display.php');
+        $html = ob_get_clean();
+        if(BEHAVIOR > 1 || $_SESSION['id_user'] == $row->$authorName) $html = '<div class="editinline " spellcheck="false" data-module="' . $this->module . '" data-model="' . $this->entity . '" data-property="' . $this->name . '" data-id="' . $row->{$idName} . '">'.$html.'</div>';
         return $html;
     }
 
@@ -181,7 +209,7 @@ class field {
      */
     public function displayGrid() {
         ob_start();
-        include('modules/' . str_replace('\\', '/', get_class($this)) . '/grid.php');
+        include($this->getFieldPath() . '/grid.php');
         $html = ob_get_clean();
         return $html;
     }
@@ -192,7 +220,7 @@ class field {
      */
     public function displayFilter() {
         ob_start();
-        include('modules/' . str_replace('\\', '/', get_class($this)) . '/form_filter.php');
+        include($this->getFieldPath() . '/form_filter.php');
         $html = ob_get_clean();
         return $html;
     }
@@ -204,7 +232,7 @@ class field {
      */
     public function formUpdate($value,&$row = '') {
         ob_start();
-        include('modules/' . str_replace('\\', '/', get_class($this)) . '/form_update.php');
+        include($this->getFieldPath() . '/form_update.php');
         $html = ob_get_clean();
         return $html;
     }
@@ -215,7 +243,7 @@ class field {
      */
     public function formAdd() {
         ob_start();
-        include('modules/' . str_replace('\\', '/', get_class($this)) . '/form_add.php');
+        include($this->getFieldPath() . '/form_add.php');
         $html = ob_get_clean();
         return $html;
     }

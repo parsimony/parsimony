@@ -115,14 +115,37 @@ class view implements \Iterator {
         return FALSE;
     }
 
-    /**
+        /**
      * Get the property which have the title behavior
      * @return string|false
      */
     public function getBehaviorTitle() {
-        foreach ($this->fields as $name => $field) {
-            if (get_class($field) == \app::$aliasClasses['field_string']) {
-                return $this->fields[$name];
+        if (!empty($this->SQL['behaviorTitle'])) {
+            return $this->SQL['behaviorTitle'];
+        } else {
+            foreach ($this->getFields() as $name => $property) {
+                if (get_class($property) == \app::$aliasClasses['field_string']) {
+                    $this->SQL['behaviorTitle'] = $this->fields[$name];
+                    return $this->SQL['behaviorTitle'];
+                }
+            }
+        }
+        return FALSE;
+    }
+    
+    /**
+     * Get the property which have the author behavior
+     * @return string|false
+     */
+    public function getBehaviorAuthor() {
+        if (!empty($this->SQL['behaviorAuthor'])) {
+            return $this->SQL['behaviorAuthor'];
+        } else {
+            foreach ($this->getFields() as $name => $property) {
+                if (get_class($property) == \app::$aliasClasses['field_user']) {
+                    $this->behaviorAuthor = $this->fields[$name];
+                    return $this->behaviorAuthor;
+                }
             }
         }
         return FALSE;
