@@ -115,7 +115,7 @@ class view implements \Iterator {
         return FALSE;
     }
 
-        /**
+    /**
      * Get the property which have the title behavior
      * @return string|false
      */
