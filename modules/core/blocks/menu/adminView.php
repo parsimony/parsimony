@@ -42,7 +42,22 @@
     .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
     .ui-icon-closethick{margin-top: 7px;}
-    legend{letter-spacing: 1.2px;font-size: 15px;}
+    legend{
+        display: block;
+        text-transform: capitalize;
+        margin: 4px 7px 0px 5px;
+        color: #464646;
+        padding: 3px 7px;
+        font-size: 14px;
+        border: 1px solid #DFDFDF;
+        border-radius: 5px;
+        background-color: #F1F1F1;
+        background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));
+        background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
     #addPageItem li{margin:0 !important}
     .parsimenu ul{top: 20px;left: -1px;}
     #linkmenu{border :1px solid #ccc;margin:10px; padding-bottom: 10px;border-radius: 8px;}
