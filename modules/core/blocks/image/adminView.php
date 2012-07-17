@@ -47,9 +47,9 @@
 <style>
     #imageover {text-overflow: inherit; overflow: visible;white-space: normal;word-wrap: break-word;background-color: white;z-index: 999; border: 1px #CCC dashed;}
     #size{margin: 5px 0px;}
-    .dragndropimage{width: 100%;border: 1px solid #DDD;height: 210px;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px; background: whiteSmoke;}
+    .dragndropimage{width: 100%;border: 1px solid #ccc;height: 210px;border-radius: 8px; background: #f9f9f9;color:#222;}
     .dragndropimageInner{text-align:center;width: 300px; height: 165px;margin: 30px 0 0 35px;border: #CCC 1px solid;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px; background: #D8DFEA;}
-    .boxDropImage{color: black;border: 4px dashed #999;font-size: 15px;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align:center;margin: 10px;padding: 20px;}
+    .boxDropImage{border: 4px dashed #999;font-size: 15px;border-radius: 3px;text-align:center;margin: 10px;padding: 20px;}
     
     /* Overridde CSS for test */
     .dragndropimageInner{
@@ -99,10 +99,10 @@ if ($this->getConfig('imgPath') != '') {
     </div>
     <br><br>
     <h2><?php echo t('Change the image settings', false); ?></h2>
-    <div class="placeholder">
+    <div class="placeholder" style="display: inline-block;width:338px">
         <label><?php echo t('Width', false); ?> (px): </label><input type="text" name="width" value="<?php if ($this->getConfig('width')) echo s($this->getConfig('width')); ?>" />
     </div>
-    <div class="placeholder">
+    <div class="placeholder" style="display: inline-block;width:338px">
         <label><?php echo t('Height', false); ?> (px): </label><input type="text" name="height" value="<?php if ($this->getConfig('height')) echo s($this->getConfig('height')); ?>" />
     </div>
     <div class="placeholder">
