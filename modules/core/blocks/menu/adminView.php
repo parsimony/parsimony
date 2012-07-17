@@ -27,8 +27,9 @@
  */
 ?>
 <SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui-1.8.18.min"><\/script>')</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/nestedSortable/jquery.ui.nestedSortable.js"></script>
-<script type="text/javascript" src="http://jquery-json.googlecode.com/files/jquery.json-2.2.min.js" ></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.json-2.3.min.js.js" ></script>
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/menu.css">
 <style>
     fieldset{background: #EDEFF4;}

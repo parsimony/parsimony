@@ -37,7 +37,7 @@ include_once('modules/core/classes/field.php');
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js" type="text/javascript"></script>
-<script type="text/javascript" src="http://jquery-json.googlecode.com/files/jquery.json-2.3.min.js" ></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.json-2.3.min.js.js" ></script>
 <script type="text/javascript">
     var BASE_PATH = '<?php echo BASE_PATH ?>';
     var MODULE = '<?php echo MODULE ?>';
@@ -487,8 +487,8 @@ include_once('modules/core/classes/field.php');
         <tbody>
             <tr>
                 <td class="clearboth inline-block tooldua">Responsive Design Server Side</td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg.PNG"></td>
-                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg-update.PNG"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg.png"></td>
+                <td class="inline-block tooldua"><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg-update.png"></td>
             </tr>
         </tbody>
     </table>

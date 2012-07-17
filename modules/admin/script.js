@@ -90,12 +90,12 @@ var ParsimonyAdmin = {
        
 	/* Set initial mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
-	if(initialMode == 'creation'){
-	    $("#switchCreationMode").trigger('click');
-	}else if(initialMode == 'edit'){
+	if(initialMode == 'edit'){
 	    $("#switchEditMode").trigger('click');
 	}else if(initialMode == 'preview'){
 	    $("#switchPreviewMode").trigger('click');
+	}else{
+	    $("#switchCreationMode").trigger('click');
 	}
 
 	//override jQuery ready function to exec them with ajax portions
@@ -438,20 +438,17 @@ var ParsimonyAdmin = {
 	},
 	resizeConfBox : function(){
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
-	    
-	    $(".adminzonecontent",doc).css("overflow","initial");
 	    if(doc.location.href != "about:blank"){
-		var bodyIframe = $(doc);
-		$( "#conf_box_content_iframe" ).add("#conf_box_content").css({
-		    "width": bodyIframe.outerWidth() + "px",
-		    "height": bodyIframe.outerHeight() + "px"
+		var bodyIframe = $("body",doc).get(0);
+		$( "#conf_box_content_iframe" ).css({
+		    "width": bodyIframe.scrollWidth + "px",
+		    "height": bodyIframe.scrollHeight + "px"
 		});
 		$( "#conf_box" ).css({
-		    "width": bodyIframe.outerWidth() + "px"
+		    "width": bodyIframe.scrollWidth + "px"
 		});
 		$("#conf_box").show();
 	    }
-	    $(".adminzonecontent",doc).css("overflow","auto");
 	},
 	setConfBoxTitle :   function (title){
 	    $("#conf_box_title").html(title);
