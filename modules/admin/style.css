@@ -332,7 +332,7 @@ background : url('admin/img/savecss.png') no-repeat 3px 2px,linear-gradient(top,
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none} 
-.adminzonecontent{overflow-x: hidden;overflow-y: auto;position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
+.adminzonecontent{color:#555;overflow-x: hidden;overflow-y: auto;position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
 padding: 7px;min-width: 696px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent h2{color:#464646;font-size: 23px;padding: 9px 15px 4px 0;line-height: 29px;font-weight: normal;margin: 0;text-shadow: white 0 1px 0;} 
 /* Model Forms*/

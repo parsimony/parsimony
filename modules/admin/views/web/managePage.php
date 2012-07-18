@@ -82,18 +82,18 @@
                     echo '<input type="hidden" name="module" value="' . s($module->getName()) . '">';
                     ?>
                     <div class="placeholder">
-                        <label for="title"><?php echo t('Title', FALSE); ?> :</label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
+                        <label for="title"><?php echo t('Title', FALSE); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
                     </div>
                     <div class="placeholder">
-                        <label for="title"><?php echo t('URL', FALSE); ?> :</label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr(substr($page->getRegex(), 1), 0, -1)); ?>">
+                        <label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr(substr($page->getRegex(), 1), 0, -1)); ?>">
                     </div>
-                    <div style="top: 111px;position: absolute;left: 40px;text-overflow:ellipsis">
-                        <span for="genereURL" style="font-size:11px"><?php echo t('URL Example', FALSE); ?> :</span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
+                    <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis">
+                        <span for="genereURL" style="font-size:11px"><?php echo t('URL Example', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
                     if ($modulename != 'core') echo $modulename; ?></span><?php if ($modulename != 'core') echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
                     </div>
 		    <?php if (BEHAVIOR == 2 ): ?>
                     <div style="top: 85px;position: absolute;left: 570px;color: #333;">
-                        <a style="color: #333;" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Dynamic page', FALSE); ?></a>
+                        <a style="color: #333;line-height: 15px;text-decoration:none" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Dynamic page', FALSE); ?></a>
                     </div>
 		    <?php endif; ?>
                     <script type="text/javascript">
@@ -302,11 +302,11 @@
                     </div>
                 </div>
                 <div id="tabs-2" class="fields_to_update panel none">
-                    <div class="placeholder"><label for="meta[description]"><?php echo t('Description', FALSE); ?>:</label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords', FALSE); ?>:</label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?>:</label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[category]"><?php echo t('Category', FALSE); ?>:</label><textarea class="cent" name="meta[category]" row="7" cols="50"><?php echo s($page->getMeta('category')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[copyright]"><?php echo t('Copyright', FALSE); ?>:</label><textarea class="cent" name="meta[copyright]" row="7" cols="50"><?php echo s($page->getMeta('copyright')); ?></textarea></div>
+                    <div class="placeholder"><label for="meta[description]"><?php echo t('Description', FALSE); ?></label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
+                    <div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords', FALSE); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
+                    <div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
+                    <div class="placeholder"><label for="meta[category]"><?php echo t('Category', FALSE); ?></label><textarea class="cent" name="meta[category]" row="7" cols="50"><?php echo s($page->getMeta('category')); ?></textarea></div>
+                    <div class="placeholder"><label for="meta[copyright]"><?php echo t('Copyright', FALSE); ?></label><textarea class="cent" name="meta[copyright]" row="7" cols="50"><?php echo s($page->getMeta('copyright')); ?></textarea></div>
                 </div>
                 <input class="none" type="submit" id="sendFormPage">
             </div></form>
