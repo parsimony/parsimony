@@ -86,7 +86,7 @@ text-decoration: none;line-height:25px;
 	$(".firstpanel a").trigger("click");
     });
 </script>
-<div style="background: #ECECEC;" id="admin_themes" class="adminzone">
+<div style="background: #E9E9E9;" id="admin_themes" class="adminzone">
     <div class="adminzonemenu">
         <div class="adminzonetab firstpanel"><a href="#themelist" class="ellipsis"><?php echo t('Existing Themes', FALSE); ?></a></div>
         <div class="adminzonetab secondpanel"><a href="#tabs-2" class="ellipsis"><?php echo t('New theme', FALSE); ?></a></div>
