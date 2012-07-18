@@ -87,8 +87,8 @@
                     <div class="placeholder">
                         <label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr(substr($page->getRegex(), 1), 0, -1)); ?>">
                     </div>
-                    <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis">
-                        <span for="genereURL" style="font-size:11px"><?php echo t('URL Example', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
+                    <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis;font-size:13px">
+                        <span for="genereURL"><?php echo t('URL', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
                     if ($modulename != 'core') echo $modulename; ?></span><?php if ($modulename != 'core') echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
                     </div>
 		    <?php if (BEHAVIOR == 2 ): ?>
