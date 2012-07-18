@@ -94,6 +94,6 @@
     </script>
 
     <div class="fixedzindex"><input type="text" id="<?php echo $this->name; ?>" /><input type="button" value="<?php echo t('Add', FALSE); ?>" id="<?php echo $this->name; ?>_ok" /></div>
-    <div id="log<?php echo $this->name; ?>" style="border-color: #ddd;border-radius:4px;padding:10px;width: 100%; overflow: auto;" class="ui-widget-content"> </div>
+    <div id="log<?php echo $this->name; ?>" style="border-color: #ddd;border-radius:4px;padding-top:7px;width: 100%; overflow: auto;" class="ui-widget-content"> </div>
 </div>
 

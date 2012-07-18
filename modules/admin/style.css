@@ -333,7 +333,7 @@ background : url('admin/img/savecss.png') no-repeat 3px 2px,linear-gradient(top,
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none} 
 .adminzonecontent{color:#555;overflow-x: hidden;overflow-y: auto;position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
-padding: 7px;min-width: 696px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
+padding: 7px;min-width: 731px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent h2{color:#464646;font-size: 23px;padding: 9px 15px 4px 0;line-height: 29px;font-weight: normal;margin: 0;text-shadow: white 0 1px 0;} 
 /* Model Forms*/
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
@@ -386,6 +386,7 @@ position:relative;
 padding-top:40px;
 }
 .adminzonecontent .col2{min-width:250px;max-width: 350px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
+.adminzonecontent .col2 > div > label .ui-icon{position: absolute;right: 5px;top: 6px;}
 .adminzonecontent .col2 > div > label{color: #464646;
 border-bottom-color: #DFDFDF;
 text-shadow: white 0 1px 0;
@@ -420,7 +421,7 @@ top:0;
 left:0px;
 width:100%;
 text-transform:capitalize;
-margin: 10px 7px 10px 0;
+margin: 0px 7px 10px 0;
 }
 .adminzonecontent h2 input[type="submit"] {
 border-radius: 4px;

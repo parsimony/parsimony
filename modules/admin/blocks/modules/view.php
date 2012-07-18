@@ -63,10 +63,10 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
                 if (count($models) > 0) {
                     foreach ($moduleobj->getModel() as $entity) {
                         $entityName = $entity->getName();
-                        $entityTitle = $entity->getTitle();
+                        $entityTitle = s(ucfirst($entity->getTitle()));
                         if ($module != 'core' || ($entityName != 'role' && $entityName != 'user' && !empty($entityTitle))) {
                             ?>
-                            <li class="sublist modelSubList"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php s(ucfirst($entityTitle)); ?>"><?php echo s($entity->getTitle()); ?></a></li>
+                            <li class="sublist modelSubList"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
                             <?php
                         }
                     }

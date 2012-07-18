@@ -95,7 +95,7 @@
     </script>
  
     <div class="fixedzindex<?php echo $this->name.'_'.$row->getId()->value; ?>"><input type="text" id="<?php echo $this->name.'_'.$row->getId()->value; ?>" /><input type="button" id="<?php echo $this->name.'_'.$row->getId()->value; ?>_ok"  value="<?php echo t('Add',FALSE); ?>" /></div>
-    <div id="log<?php echo $this->name.'_'.$row->getId()->value; ?>" style="border-color: #ddd;border-radius:4px;padding:10px;width: 100%; overflow: auto;" class="ui-widget-content">
+    <div id="log<?php echo $this->name.'_'.$row->getId()->value; ?>" style="border-color: #ddd;border-radius:4px;padding-top:7px;width: 100%; overflow: auto;" class="ui-widget-content">
     <?php
     $idNameEntity = $row->getId()->name;
     $foreignEntity = \app::getModule($this->module)->getEntity($this->entity_foreign);
