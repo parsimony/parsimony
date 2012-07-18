@@ -27,12 +27,27 @@
  */
 ?>
 <style>
-    .adminzone{width:100%;background: #444;display:block}
+    .adminzone{width:100%;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#ECECEC');
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #ECECEC));
+background-image: -webkit-linear-gradient(top, white, #ECECEC);
+background-image: -moz-linear-gradient(top, white, #ECECEC);
+background-image: -ms-linear-gradient(top, white, #ECECEC);
+background-image: -o-linear-gradient(top, white, #ECECEC);
+background-image: linear-gradient(top, white, #ECECEC);
+text-shadow: white 0 1px 0;display:block;border-top: 2px solid #443;}
     .adminzone .adminzonemenu{display: block;min-height: initial;width: initial}
     .adminzone .adminzonecontent{display: block;width:100%}
-    .adminzone .adminzonemenu .adminzonetab{float: left;border-left: 1px solid #999;border-right: 1px solid #555;border-top: 1px solid #999;border-bottom: 1px solid #555;}
-    .adminzone .adminzonemenu .adminzonetab a{background: none;line-height:20px;padding-left: 10px;width: none}
-    .adminzone .adminzonemenu .adminzonetab a:hover, .adminzone .adminzonemenu .adminzonetab .active{background: #777;border-bottom: none}
+/*    .adminzone .adminzonemenu .adminzonetab .firstpanel{border-right: 1px solid #D3D5DB;
+}*/
+    .adminzone .adminzonemenu .adminzonetab{border-left: 1px solid white;border-right: 1px solid #D3D5DB;float: left;border-top: none;border-bottom: none;}
+    .adminzone .adminzonemenu .adminzonetab a{padding: 0 10px;color: #777; background: none;border-top: none;
+border-bottom:none;
+color: #464646;
+text-decoration: none;line-height:25px;
+/*width: none*/}
+
+    .adminzone .adminzonemenu .adminzonetab a.active, .adminzonemenu .adminzonetab a:hover{border-top: none;background: #E4E4E4;
+        /*background: #777;border-bottom: none*/}
     .placeholder {position: relative;clear: both;width: 200px;}
     input{width: 90px;}
     #themelist{overflow-x: scroll;overflow-y: hidden;height: 145px;width: 99.5%;}
