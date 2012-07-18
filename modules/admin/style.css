@@ -10,7 +10,7 @@ body{background:url(admin/img/carbon_fibre.png);}
 .sidebar .contenttab{border-bottom: 1px solid #999;}
 .sidebar .block{clear:both}
 
-#themes{bottom: 0px;position:fixed;width: 100%;z-index: 999999;height: 180px;display:none;/*box-shadow: 0 -2px 4px #443;*/}
+#themes{bottom: 0px;position:fixed;width: 100%;z-index: 999999;height: 180px;display:none;/*box-shadow: 0 -2px 4px #443;*/textarea, input[type="text"], input[type="password"], input[type="file"]}
 #infodev{width: 300px;display:none;}
 #infodev div{margin:10px 0;}
 
@@ -566,7 +566,7 @@ select {background-position: center right;background-repeat: no-repeat;border: 1
 textarea, input[type="text"], input[type="password"], input[type="file"] {
 border: 1px solid #EFEFEF;
 border-style: none;
-padding: 5px;
+padding: 4px;
 text-shadow: 0px 1px 0px white;
 outline: none;
 border: 1px solid #C1C1C1;
