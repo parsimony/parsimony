@@ -33,7 +33,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
 	<?php if (BEHAVIOR == 2): ?>
     	<a class="floatleft" href="#"><span class="ui-icon ui-icon-clipboard floatleft tooltip" data-tooltip="#infodev" data-pos="s"></span></a>
 	<?php endif; ?>
-	<a href="#" class="floatleft action tooltip" rel="getViewAdminLanguage" data-tooltip="<?php echo t('Current Language', FALSE); ?>" data-pos="s">
+	<a href="#" class="floatleft action tooltip" rel="getViewAdminLanguage" title="<?php echo t('Current Language', FALSE); ?>" data-tooltip="<?php echo t('Current Language', FALSE); ?>" data-pos="s">
 	    <span class="ui-icon ui-icon-flag floatleft"></span> <?php echo \request::$locales[\app::$request->getLocale()] ?>
 	</a>
 	<a href="#" class="floatleft action tooltip" rel="getViewUserProfile" title="<?php echo t('My Profile',false); ?>" data-tooltip="<?php echo t('My Profile',false); ?>" data-pos="s">
