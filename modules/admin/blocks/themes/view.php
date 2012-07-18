@@ -34,9 +34,9 @@ background-image: -moz-linear-gradient(top, white, #ECECEC);
 background-image: -ms-linear-gradient(top, white, #ECECEC);
 background-image: -o-linear-gradient(top, white, #ECECEC);
 background-image: linear-gradient(top, white, #ECECEC);
-text-shadow: white 0 1px 0;display:block;border-top: 2px solid #443;}
+text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     .adminzone .adminzonemenu{display: block;min-height: initial;width: initial}
-    .adminzone .adminzonecontent{display: block;width:100%}
+    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;}
 /*    .adminzone .adminzonemenu .adminzonetab .firstpanel{border-right: 1px solid #D3D5DB;
 }*/
     .adminzone .adminzonemenu .adminzonetab{border-left: 1px solid white;border-right: 1px solid #D3D5DB;float: left;border-top: none;border-bottom: none;}
@@ -57,7 +57,7 @@ text-decoration: none;line-height:25px;
     #themeFormAdd h4{margin: 0px 5px;border: 1px solid #D3D5DB;line-height: 20px;}
     #themeFormPattern{float:left;border-left: 1px solid whitesmoke;padding-left:10px}
     #duplicatepattern{display:none}
-    #themes span.ui-icon { background-image: url(admin/img/icons_white.png);}
+    #themes span.ui-icon { background-image: url(admin/img/icons.png);}
     .adminzone .adminzonecontent li:last-child {border-right: 0;}
     .adminzone .adminzonecontent li:first-child{border-left: 0;}
     #themes_close{margin-right: 15px;border: #CCC solid 1px;border-radius: 5px;cursor: pointer;margin-top: 2px;}
@@ -86,7 +86,7 @@ text-decoration: none;line-height:25px;
 	$(".firstpanel a").trigger("click");
     });
 </script>
-<div id="admin_themes" class="adminzone">
+<div style="background: #ECECEC;" id="admin_themes" class="adminzone">
     <div class="adminzonemenu">
         <div class="adminzonetab firstpanel"><a href="#themelist" class="ellipsis"><?php echo t('Existing Themes', FALSE); ?></a></div>
         <div class="adminzonetab secondpanel"><a href="#tabs-2" class="ellipsis"><?php echo t('New theme', FALSE); ?></a></div>
