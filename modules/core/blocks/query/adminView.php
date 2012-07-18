@@ -47,7 +47,7 @@ $view = $this->getConfig('view');
     }
     .property{padding: 0 4px;cursor:pointer;line-height: 20px;font-family: sans-serif}
     .property:hover{background:#CBDDF3}
-    .caption{box-shadow: 2px 0 2px #CCC;width:65px;position: absolute;left:0px;background:white;z-index: 100;float:left;}
+    .caption{box-shadow: 2px 0 2px #CCC;width: 72px;position: absolute;left: -5px;background: white;z-index: 100;float: left;}
     .caption div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 135px;background: transparent;border: none;box-shadow:initial;}
@@ -261,7 +261,7 @@ $view = $this->getConfig('view');
 	    </div>
 	    <div class="clearboth"></div>
 	    <input type="button" class="none" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
-            <span style="display: block;margin-top:7px;padding: 4px 0 0px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;"> <?php echo t('Options', FALSE); ?></span>
+            <span style="display: block;line-height: 20px;margin-top: 7px;padding-left: 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) 1px 2px no-repeat;font-weight: bold;color: #333;"> <?php echo t('Options', FALSE); ?></span>
 	    <div class="clearboth textdbquery">
 		<div style="display:inline-block;width:300px">
 		    <?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
