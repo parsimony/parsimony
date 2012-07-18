@@ -46,7 +46,7 @@
 </script>
 <style>
     #imageover {text-overflow: inherit; overflow: visible;white-space: normal;word-wrap: break-word;background-color: white;z-index: 999; border: 1px #CCC dashed;}
-    #size{margin: 5px 0px;}
+    #size{margin: 5px 0px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;}
     .dragndropimage{width: 100%;border: 1px solid #ccc;height: 210px;border-radius: 8px; background: #f9f9f9;color:#222;}
     .dragndropimageInner{text-align:center;width: 300px; height: 165px;margin: 30px 0 0 35px;border: #CCC 1px solid;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px; background: #D8DFEA;}
     .boxDropImage{border: 4px dashed #999;font-size: 15px;border-radius: 3px;text-align:center;margin: 10px;padding: 20px;}
@@ -79,7 +79,7 @@ if ($this->getConfig('imgPath') != '') {
 ?>">
         </div>
         <div id="preview" class="inline-block" style="width: 280px;text-align: center;margin: 7px 10px">
-            <div class="title ellipsis"  style="font-weight: bold;font-size: 12px;height:26px">
+            <div class="title ellipsis"  style="font-weight: bold;font-size: 12px;height:26px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;">
 		 <?php
 		 if (stream_resolve_include_path($this->getConfig('imgPath'))) {
 		     echo t('Current Name',FALSE).' : ' . basename($this->getConfig('imgPath'));
