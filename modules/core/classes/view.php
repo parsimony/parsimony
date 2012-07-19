@@ -143,8 +143,8 @@ class view implements \Iterator {
         } else {
             foreach ($this->getFields() as $name => $property) {
                 if (get_class($property) == \app::$aliasClasses['field_user']) {
-                    $this->behaviorAuthor = $this->fields[$name];
-                    return $this->behaviorAuthor;
+                    $this->SQL['behaviorAuthor'] = $this->fields[$name];
+                    return $this->SQL['behaviorAuthor'];
                 }
             }
         }
