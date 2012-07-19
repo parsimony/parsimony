@@ -47,7 +47,7 @@ $view = $this->getConfig('view');
     }
     .property{padding: 0 4px;cursor:pointer;line-height: 20px;font-family: sans-serif}
     .property:hover{background:#CBDDF3}
-    .caption{box-shadow: 2px 0 2px #CCC;width:65px;position: absolute;left:0px;background:white;z-index: 100;float:left;}
+    .caption{box-shadow: 2px 0 2px #CCC;width: 72px;position: absolute;left: -5px;background: white;z-index: 100;float: left;}
     .caption div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 135px;background: transparent;border: none;box-shadow:initial;}
@@ -70,10 +70,10 @@ $view = $this->getConfig('view');
     #links{margin-bottom:15px;}
     .textdbquery{padding: 5px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 1px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
+    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
-    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding:3px}
+    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 1px 3px 3px 2px;}
     a{text-decoration: none;}
     .propertyJoin{width:250px;line-height:25px;font-weight: bold;font-family: sans-serif}
     .propertyJoinLeft{text-align: right;padding-right: 7px}
@@ -183,7 +183,7 @@ $view = $this->getConfig('view');
 				<a href="#" onclick="$(this).parent('.queryblock').remove();generateLinks();$('#generate_query').trigger('click');" class="floatright">
 				    <span class="removeButton"></span>
 				</a>
-				<div class="bloctitle"><input type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
+				<div class="bloctitle"><input disabled="disabled" type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
 				<div><input type="text" class="table" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][table]" value="<?php echo $selected['table']; ?>"></div>
 
 				<div>
@@ -236,12 +236,12 @@ $view = $this->getConfig('view');
 			    ?>><?php echo t('Descending', FALSE); ?></option>
 				    </select>
 				</div>
-				<div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][display]" class="display" <?php
+                                <div class="align_center" style="padding:4px 0px 2px;"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][display]" class="display" <?php
 					if (isset($selected['display']) && $selected['display']) {
 					    echo ' checked="checked"';
 					}
 			    ?>></div>
-				<div><input type="text" class="where" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][where]" value="<?php echo s($selected['where']); ?>"></div>
+				<div style="padding: 3px 0;"><input type="text" class="where" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][where]" value="<?php echo s($selected['where']); ?>"></div>
 				<div><input type="text" class="or" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][or]" value="<?php echo s($selected['or']); ?>"></div>
                                 <div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][filter]" class="filter" <?php
 					if (isset($selected['filter']) && $selected['filter']) {
@@ -261,7 +261,7 @@ $view = $this->getConfig('view');
 	    </div>
 	    <div class="clearboth"></div>
 	    <input type="button" class="none" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
-            <span style="display: block;margin-top:7px;padding: 4px 0 0px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;"> <?php echo t('Options', FALSE); ?></span>
+            <span style="display: block;line-height: 20px;margin-top: 7px;padding-left: 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) 1px 2px no-repeat;font-weight: bold;color: #333;"> <?php echo t('Options', FALSE); ?></span>
 	    <div class="clearboth textdbquery">
 		<div style="display:inline-block;width:300px">
 		    <?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
