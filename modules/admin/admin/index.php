@@ -203,7 +203,11 @@
 				include_once('modules/'.$module.'/module.php');
 				$name = $module.'\\'.$module;
 				$rc = new ReflectionClass($name);
-				if($rc->hasMethod('onLoad')) $value = '1';
+				/* ---- hasMethod() doesn't work for __wakeup */
+                                foreach($rc->getMethods() AS $method){
+                                    if(isset($method->name)) $value = '1';
+                                }
+                                /* ----  */
 			    }
                             $input = ' 
                             <tr class="trover">
