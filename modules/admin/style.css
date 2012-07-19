@@ -23,8 +23,13 @@ body{background:url(admin/img/carbon_fibre.png);}
 .mainTab:hover,.mainTab.active{background: #777;color: whiteSmoke;border-right: 1px solid #444;border-bottom: 1px solid #444;}
 
 /* Sub Tab */
-.ssTab{position: relative;line-height: 18px;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));float: left;width: 50%;padding: 3px;
-        cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
+.ssTab{position: relative;line-height: 18px;
+background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));
+background-image: -moz-linear-gradient(top, #E5E5E5, white);
+background-image: -ms-linear-gradient(top, #E5E5E5, white);
+background-image: -o-linear-gradient(top, #E5E5E5, white);
+background-image: linear-gradient(top, #E5E5E5, white);color:#333;
+float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
 .ssTab.active,.ssTab div:hover{color:white; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
 #switchtodata{border-radius: 5px 0 0 5px;border-right:0}
 #switchtopages{border-radius: 0 5px 5px 0;}
@@ -275,35 +280,24 @@ text-shadow: white 0 1px 0;}
 /* ###################### Admin Zone In Popup #################"""" */
 
 /* Tabs */
-.tabs ul{border-bottom:1px #C1C1C1 solid;padding-left:10px}
-.tabs ul li{margin: 0 5px;display:inline-block;border: 1px solid #B3B3B3;border-color: #777;border-bottom:0;border-radius: 5px 5px 0 0;
-            text-shadow: 0 1px rgba(0, 0, 0, 0.35);
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));
-background-image: -webkit-linear-gradient(top, #707A84, #505968);
-background-image: -moz-linear-gradient(top, #707A84, #505968);
-background-image: -ms-linear-gradient(top, #707A84, #505968);
-background-image: -o-linear-gradient(top, #707A84, #505968);
-background-image: linear-gradient(top, #707A84, #505968);
-}
-.tabs ul li a{text-align: center;padding: 0 10px;color:white;text-decoration: none;font-weight:bold;line-height:30px;display:block;}
-.tabs ul li a:hover,.tabs ul li.active a{color: #333;}
-.tabs ul li:hover,.tabs ul li.active{border-color: #C1C1C1;text-shadow: white 0 1px 0;
-                                     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));
-            background: -moz-linear-gradient(top, white, #F2F2F2);}
-
+.tabs ul {border-bottom: 1px #777 solid;padding-left: 10px;}
+.tabs ul li{border: 1px solid #777;margin: 0 5px;display: inline-block;border-bottom: 0;border-radius: 5px 5px 0 0;background-color: #F3F3F3;background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E9EF),to(#FEFEFE));}
+.tabs ul li a{text-align: center;padding: 0 10px;color:#333;text-decoration: none;font-weight:bold;line-height:30px;display:block;}
+.tabs ul li a:hover,.tabs ul li.active a{color: white;text-shadow: 0 1px rgba(0, 0, 0, 0.35);}
+.tabs ul li:hover,.tabs ul li.active{
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));
+background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
+background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
+background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
+background-image: linear-gradient(top, #44C5EC, #259BDB);
+font-weight: bold;}
 .adminzone{font-family: Helvetica, Arial, sans-serif;background: #777;width: 100%;min-height: 600px;display: -webkit-box;
 display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
 .adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}
 .adminzone table{border-color: #99BCE8;}
 .adminzone th,.adminzone thead{border:1px solid #DFDFDF;text-align:center;padding-top:8px}
-.adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #DFDFDF;
-color: #464646;
-border-bottom-color: #DFDFDF;
-text-shadow: white 0 1px 0;
--moz-box-shadow: 0 1px 0 #fff;
--webkit-box-shadow: 0 1px 0 white;
-box-shadow: 0 1px 0 white;
-background-color: #F1F1F1;
+.adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #DFDFDF;color: #464646;border-bottom-color: #DFDFDF;text-shadow: white 0 1px 0;
+-moz-box-shadow: 0 1px 0 #fff;-webkit-box-shadow: 0 1px 0 white;box-shadow: 0 1px 0 white;background-color: #F1F1F1;
 background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
@@ -961,3 +955,4 @@ background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
 input[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 50%;font-size: .8em;}
 textarea[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 20%;font-size: .8em;}
+.usereditinline:hover:after{content:"✎";position:relative;color:#555;right: 1%;top: 0%;font-size: .8em;}
