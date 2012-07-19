@@ -220,7 +220,6 @@ class field {
             }
             $this->mark = TRUE;
         }
-        echo $this->getFieldPath() . '/' . $this->displayView.(app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE);
         include($this->getFieldPath() . '/' . $this->displayView);
         $html = ob_get_clean();
         return $html;
