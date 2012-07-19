@@ -70,10 +70,10 @@ $view = $this->getConfig('view');
     #links{margin-bottom:15px;}
     .textdbquery{padding: 5px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 1px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
+    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
-    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding:3px}
+    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 1px 3px 3px 2px;}
     a{text-decoration: none;}
     .propertyJoin{width:250px;line-height:25px;font-weight: bold;font-family: sans-serif}
     .propertyJoinLeft{text-align: right;padding-right: 7px}
@@ -183,7 +183,7 @@ $view = $this->getConfig('view');
 				<a href="#" onclick="$(this).parent('.queryblock').remove();generateLinks();$('#generate_query').trigger('click');" class="floatright">
 				    <span class="removeButton"></span>
 				</a>
-				<div class="bloctitle"><input type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
+				<div class="bloctitle"><input disabled="disabled" type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
 				<div><input type="text" class="table" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][table]" value="<?php echo $selected['table']; ?>"></div>
 
 				<div>
@@ -236,12 +236,12 @@ $view = $this->getConfig('view');
 			    ?>><?php echo t('Descending', FALSE); ?></option>
 				    </select>
 				</div>
-				<div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][display]" class="display" <?php
+                                <div class="align_center" style="padding:4px 0px 2px;"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][display]" class="display" <?php
 					if (isset($selected['display']) && $selected['display']) {
 					    echo ' checked="checked"';
 					}
 			    ?>></div>
-				<div><input type="text" class="where" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][where]" value="<?php echo s($selected['where']); ?>"></div>
+				<div style="padding: 3px 0;"><input type="text" class="where" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][where]" value="<?php echo s($selected['where']); ?>"></div>
 				<div><input type="text" class="or" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][or]" value="<?php echo s($selected['or']); ?>"></div>
                                 <div class="align_center"><input type="checkbox" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][filter]" class="filter" <?php
 					if (isset($selected['filter']) && $selected['filter']) {
