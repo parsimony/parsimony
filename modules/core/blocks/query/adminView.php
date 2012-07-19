@@ -51,6 +51,7 @@ $view = $this->getConfig('view');
     .caption div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 135px;background: transparent;border: none;box-shadow:initial;}
+    #recipiant_sql input.property{pointer-events: none}
     #recipiant_sql .table{background: transparent;border: none;box-shadow:initial;}
     #recipiant_sql .display{text-align:center;top: -2px;}
     #recipiant_sql .selector{width:100%}
@@ -183,7 +184,7 @@ $view = $this->getConfig('view');
 				<a href="#" onclick="$(this).parent('.queryblock').remove();generateLinks();$('#generate_query').trigger('click');" class="floatright">
 				    <span class="removeButton"></span>
 				</a>
-				<div class="bloctitle"><input disabled="disabled" type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
+				<div class="bloctitle"><input type="text" class="property" value="<?php echo $selected['property']; ?>" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][property]"></div>
 				<div><input type="text" class="table" name="properties[<?php echo $selected['table'] . '_' . $selected['property']; ?>][table]" value="<?php echo $selected['table']; ?>"></div>
 
 				<div>

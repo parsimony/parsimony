@@ -82,7 +82,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
                 </li>
 		<?php endif; ?>
             </ul>
-            <ul class="pages" data-module="<?php echo $moduleobj->getName(); ?>"  style="max-height: 300px;overflow-y: scroll">
+            <ul class="pages" data-module="<?php echo $moduleobj->getName(); ?>" style="max-height: 300px;overflow-y: auto">
                 <?php
                 if (stream_resolve_include_path($moduleobj->getName() . '/module' . '.' . \app::$config['dev']['serialization'])) {
                     foreach ($moduleobj->getPages() as $id_page => $page) {
