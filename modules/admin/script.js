@@ -185,11 +185,11 @@ var ParsimonyAdmin = {
 	    }
 	});
 	
-	$(ParsimonyAdmin.currentBody).on('click.edit',".editinline",function(){
+	$(ParsimonyAdmin.currentBody).on('click.edit',".usereditinline",function(){
 	    $(this).attr('contentEditable', true);
 	});
         
-	$(".editinline",ParsimonyAdmin.currentBody).on('blur.edit',function(){
+	$(".usereditinline",ParsimonyAdmin.currentBody).on('blur.edit',function(){
 	    $(this).attr('contentEditable', false);
 	    ParsimonyAdmin.postData(BASE_PATH + "admin/editInLine",{
 		TOKEN: TOKEN,

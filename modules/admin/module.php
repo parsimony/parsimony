@@ -1077,7 +1077,7 @@ class admin extends \module {
     protected function saveRightsAction($type, $modelsrights, $modulerights, $pagesrights) {
         if (is_array($type)) {
 	    foreach ($type as $numRole => $role) {
-		\app::getModule('core')->getEntity('role')->where('id_role = '.$numRole)->update(array('state' => $role ));
+		\app::getModule('core')->getEntity('role')->where('id_role = '.$numRole)->update(array('id_role' => $numRole, 'state' => $role ));
 	    }
 	}
 	if (is_array($modulerights)) {
