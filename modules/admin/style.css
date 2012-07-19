@@ -955,3 +955,4 @@ background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
 input[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 50%;font-size: .8em;}
 textarea[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 20%;font-size: .8em;}
+.usereditinline:hover:after {content: "✎";position: relative;color: #DF4E1E;right: 1%;top: 0%;font-size: .8em;}
