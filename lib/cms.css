@@ -178,5 +178,6 @@ filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColo
 }
 .spanDND{margin-top: -5px;vertical-align: top;display: inline-block;position: relative;border: #333 solid 2px;border-radius: 5px;cursor: pointer;
 background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}
-.usereditinline:hover:after{content:"url(files/editinline.png)";position:relative;color:#555;right: 1%;top: 0%;font-size: .8em;}
+.usereditinline{position: relative}
+.usereditinline:hover:after{content:"...";position:absolute;width: 100%;height: 100%;color:#555;right: 1%;top: 0%;font-size: .8em;background: url(.././files/editinline.png) right no-repeat}
 
