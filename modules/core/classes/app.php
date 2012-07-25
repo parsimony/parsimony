@@ -344,11 +344,13 @@ namespace {
             }
             if (isset(app::$lang[$text])) {
                 if (is_array($modAdmin))
-                    return $before . vprintf(app::$lang[$text], $modAdmin) . $after; else
+                    return $before . vsprintf(app::$lang[$text], $modAdmin) . $after;
+                else
                     return $before . app::$lang[$text] . $after;
             } else {
                 if (is_array($modAdmin))
-                    return $before . vprintf($text, $modAdmin) . $after; else
+                    return $before . vsprintf($text, $modAdmin) . $after;
+                else
                     return $before . $text . $after;
             }
         }
@@ -358,12 +360,12 @@ namespace {
         function t($text, $params = FALSE) {
             if (isset(app::$lang[$text])) {
                 if ($params)
-                    return vprintf(app::$lang[$text], $params);
+                    return vsprintf(app::$lang[$text], $params);
                 else
                     return app::$lang[$text] ;
             }else {
                 if ($params)
-                    return vprintf($text, $params);
+                    return vsprintf($text, $params);
                 else
                     return $text;
             }
