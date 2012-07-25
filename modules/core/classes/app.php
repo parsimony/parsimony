@@ -333,7 +333,7 @@ namespace {
      *  These 2 functions are the only procedural functions of Parsimony 
      *  
      */
-    if (BEHAVIOR == 2) {
+    if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
 
         function t($text, $modAdmin = TRUE) {
             $before = '';
