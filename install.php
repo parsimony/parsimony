@@ -386,7 +386,7 @@ while (1) {
 		    <option value="0"><?php echo tr('No'); ?></option>
 		    <option value="1" <?php if(isset($_POST['multisite']) && $_POST['multisite']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <?php echo tr('Only if you want to manage several subdomains'); ?> (ex: www1.mysite.com,www2.mysite.com)
+                <?php echo tr('Only if you want to manage several subdomains'); ?> (ex: en.mysite.com,fr.mysite.com)
             </div><br>
 	    <div>
                 <label><?php echo tr('Your domain is it a Second Level domain'); ?> (ex : mysite<u>.co.uk</u>)</label>
