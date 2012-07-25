@@ -273,6 +273,7 @@ $lang['Go to the link']= 'Allez au lien';
 $lang['Error in your DOM, perhaps an HTML tag isn\'t closed.']= 'Erreur dans votre DOM, une balise HTML n\'est peut-être pas fermée.';
 $lang['Pattern']= 'Modèle';
 $lang['Enable']= 'Activer';
+$lang['Content']= 'Contenu';
 
 
 ?>

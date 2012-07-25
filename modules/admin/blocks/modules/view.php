@@ -54,7 +54,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
             <div id="datatopages">
                 <div id="switchtodata" rel="pages" class="ssTab ellipsis active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" target="_blank"><?php echo t('Pages', FALSE); ?>                  
                 </div>
-                <div id="switchtopages" rel="models" class="ssTab db ellipsis" target="_blank" title="<?php echo t('Database', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Data', FALSE); ?>
+                <div id="switchtopages" rel="models" class="ssTab db ellipsis" target="_blank" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Content', FALSE); ?>
                 </div> 
             </div>
             <ul class="none models">
