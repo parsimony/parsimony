@@ -333,7 +333,7 @@ namespace {
      *  These 2 functions are the only procedural functions of Parsimony 
      *  
      */
-    if (isset($_SESSION['idr']) && $_SESSION['idr'] == 1) {
+    if (isset($_SESSION['idr']) && BEHAVIOR == 2) {
 
         function t($text, $modAdmin = TRUE) {
             $before = '';
