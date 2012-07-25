@@ -274,6 +274,7 @@ $lang['Error in your DOM, perhaps an HTML tag isn\'t closed.']= 'Erreur dans vot
 $lang['Pattern']= 'Modèle';
 $lang['Enable']= 'Activer';
 $lang['Content']= 'Contenu';
-
+$lang['%s role']='Rôle %s';
+$lang['Enable the %s module for %s role']='Activer le module %s pour le rôle %s';
 
 ?>
