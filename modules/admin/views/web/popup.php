@@ -29,7 +29,7 @@
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
             });
-            $(".adminzonetab a").live('click',function(event){
+            $(document).on('click',".adminzonetab a",function(event){
                 event.preventDefault();
                 $(".adminzonecontent .admintabs").hide();
                 $(".adminzonetab a").removeClass("active");

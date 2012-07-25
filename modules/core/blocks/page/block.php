@@ -37,7 +37,7 @@ namespace core\blocks;
 class page extends \block {
     
     public function getAdminView(){
-	return t('No config for this block');
+	return t('No config for this block').'<script type="text/javascript">$(document).ready(function() {window.setTimeout(\'$(".adminzonetab a[href=#accordionBlockConfigGeneral]").trigger("click");\', 500);});</script>';
     }
 
     public function display() {
