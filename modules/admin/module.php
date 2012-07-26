@@ -701,7 +701,7 @@ class admin extends \module {
      * @param string $url
      * @return false 
      */
-    protected function addThemeAction($thememodule, $name, $patterntype, $template, $url) {
+    protected function addThemeAction($thememodule, $name, $patterntype, $template, $url = '') {
 	if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
             set_time_limit(0);
 	    mkdir(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
