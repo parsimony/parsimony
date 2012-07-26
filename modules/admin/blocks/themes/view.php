@@ -136,13 +136,13 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
                     <div class="placeholder" style="margin: 0px 10px;width: 220px;">
 			<label><?php echo t('Module', FALSE); ?>: </label>
 			<select name="thememodule">
-			    <?php
-			    $modules = glob('modules/*', GLOB_ONLYDIR);
-			    foreach ($modules as $filename) {
-				$moduleName = basename($filename);
-				echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
-			    }
-			    ?>
+                            <?php
+                            $modules = \app::$activeModules;
+                            unset($modules['admin']);
+                            foreach ($modules as $moduleName => $mode) {
+                                echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
+                            }
+                            ?>
 			</select>
 		    </div>
                     <input type="submit" style="width: 220px;margin: 10px 0 0 -10px;" value="<?php echo t('Create Theme', FALSE); ?>"/>
