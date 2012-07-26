@@ -58,7 +58,7 @@ $role = app::getModule('core')->getEntity('role');
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th style="width: 120px;">Anonymous<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The only right of reading content') ;?>"></span></th>
+                                    <th style="width: 120px;">Anonymous<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The only right of reading content and in some offline cases  to add, delete or modify his own content') ;?>"></span></th>
                                     <th style="width: 120px;">Editor<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The right of editing content & pages') ;?>"></span></th>
                                     <th style="width: 120px;">Developer<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('All web development rights : Design, Module, blocks, database & so on') ;?>"></span></th></tr>
                             </thead>
