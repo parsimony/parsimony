@@ -88,7 +88,9 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
         <div id="themelist" class="admintabs fs">
             <ul>
 		<?php
-		foreach (\app::$activeModules as $moduleName => $mode) {
+                $modules = \app::$activeModules;
+                unset($modules['admin']);
+                foreach ($modules as $moduleName => $mode) {
 		    $module = \app::getModule($moduleName);
 		    foreach ($module->getThemes() as $themeName) {
 			if(is_file( PROFILE_PATH . $moduleName . '/themes/' . s($themeName) . '/miniature.jpg')) $imgURL = BASE_PATH . PROFILE_PATH . $moduleName . '/themes/' . s($themeName) . '/miniature.jpg';
