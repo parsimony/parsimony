@@ -331,7 +331,7 @@ padding: 7px;min-width: 731px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1
 .adminzonecontent h2{color:#464646;font-size: 23px;padding: 9px 15px 4px 0;line-height: 29px;font-weight: normal;margin: 0;text-shadow: white 0 1px 0;} 
 /* Model Forms*/
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
-.adminzonecontent .col1 {margin: 0px 26px 0px 0px;min-width:418px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;
+.adminzonecontent .col1 {margin: 0px 22px 0px 0px;min-width:418px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;
 
  background-color: whiteSmoke;
 background-image: -ms-linear-gradient(top,#F9F9F9,whiteSmoke);
@@ -379,7 +379,7 @@ padding: 10px;
 position:relative;
 padding-top:40px;
 }
-.adminzonecontent .col2{min-width:250px;max-width: 350px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
+.adminzonecontent .col2{margin-right: 10px;min-width:250px;max-width: 350px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;}
 .adminzonecontent .col2 > div > label .ui-icon{position: absolute;right: 5px;top: 6px;}
 .adminzonecontent .col2 > div > label{color: #464646;
 border-bottom-color: #DFDFDF;
