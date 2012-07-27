@@ -13,25 +13,13 @@ body{overflow: hidden;}
 .dropInContainerChild{padding: 10px 10px;position: relative;border: 1px dashed #276D7F;text-align: center;margin: 0px 10px;text-shadow: 1px 1px 0px white;
 font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 
-
 /* Outline block */
 .selection-block {outline: rgb(78, 219, 255) solid 2px;}
 .selection-container{outline:4px solid #007BC8;}
 
 /* editinplace */
-*[contentEditable="true"]:hover{outline:1px orange solid;}
-*[contentEditable="true"]:focus{outline:1px orange solid;}
-.editinline{display:inline}
-
-/* CSS Picker */
-.cssPicker{outline : 2px solid #ff00fb}
+.wysiwyg.activeEdit:hover{outline:1px orange solid;}
 
 /* Selection */
-html ::selection {
-background: #00D5FF;
-color: #ffffff;
-}
-html ::-moz-selection {
-background: #00D5FF;
-color: #ffffff;
-}
+html ::selection {background: #00D5FF;color: #ffffff;}
+html ::-moz-selection {background: #00D5FF;color: #ffffff;}

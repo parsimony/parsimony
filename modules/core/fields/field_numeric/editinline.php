@@ -1,1 +1,1 @@
-<div class="ellipsis usereditinline" contenteditable="true" spellcheck="false" data-module="<?php echo $this->module; ?>" data-model="<?php echo $this->entity; ?>" data-property="<?php echo $this->name; ?>" data-id="<?php echo $row->{$idName}; ?>"><?php echo s($this); ?></div>
+<div class="parsieditinline" contenteditable="true" spellcheck="false" data-module="<?php echo $this->module; ?>" data-entity="<?php echo $this->entity; ?>" data-property="<?php echo $this->name; ?>" data-id="<?php echo $row->{$idName}; ?>"><?php echo s($this); ?></div>

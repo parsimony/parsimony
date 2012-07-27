@@ -144,71 +144,54 @@ var ParsimonyAdmin = {
     },
     
     loadEditMode :   function(){
-	if(typeof ParsimonyAdmin.wysiwyg == "string") ParsimonyAdmin.wysiwyg= new wysiwyg();
-	ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
-
-	$(ParsimonyAdmin.currentBody).on('click.edit','a', function(e){
-	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
-		e.preventDefault();
+        $(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
+        $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true");
+	if(typeof ParsimonyAdmin.wysiwyg == "string"){
+            ParsimonyAdmin.wysiwyg= new wysiwyg();
+            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
+        }
+        $(".HTML5editorToolbar").hide();
+        
+	$(ParsimonyAdmin.currentDocument).on('click.edit','a', function(e){
+            e.preventDefault();
+	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://' && $(".usereditinline",this).length == 0){
 		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
 	    }
 	});
-	isGood = true; // yeah
-	$(".HTML5editorToolbar").on('mousedown.edit',function(e){
-	    window['isGood'] = false;
-	});
-	$(".HTML5editorToolbar").on('mouseup.edit',function(e){
-	    window['isGood'] = true;
-	});
 	
-	$(".wysiwyg",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
-	    if (window['isGood']) {
-		var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
-		var theme = ParsimonyAdmin.currentWindow.THEME;
-		var idPage = '';
-		if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
-		    theme = '';
-		    module = ParsimonyAdmin.currentWindow.MODULE;
-		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
-		}
-		$.post(BASE_PATH + module + '/callBlock',{
-		    module:module, 
-		    idPage:idPage,
-		    theme: theme, 
-		    id:this.id, 
-		    method:'saveWYSIWYG', 
-		    args:"html=" + $(this).html()
-		    },function(data){
-		    ParsimonyAdmin.execResult(data);
-		});
-		window['isGood'] = true;
-	    }
-	});
-	
-	$(ParsimonyAdmin.currentBody).on('click.edit',".usereditinline",function(){
-	    $(this).attr('contentEditable', true);
-	});
-        
-	$(".usereditinline",ParsimonyAdmin.currentBody).on('blur.edit',function(){
-	    $(this).attr('contentEditable', false);
-	    ParsimonyAdmin.postData(BASE_PATH + "admin/editInLine",{
-		TOKEN: TOKEN,
-		module: $(this).data('module'),
-		model: $(this).data('model'),
-		property: $(this).data('property'),
-		id: $(this).data('id'),
-		value: $(this).html()
-	    },function(data){
-		ParsimonyAdmin.execResult(data);
-	    });
+	$(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
+            $(".HTML5editorToolbar").hide();
+            var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
+            var theme = ParsimonyAdmin.currentWindow.THEME;
+            var idPage = '';
+            if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
+                theme = '';
+                module = ParsimonyAdmin.currentWindow.MODULE;
+                idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
+            }
+            $.post(BASE_PATH + module + '/callBlock',{
+                module:module, 
+                idPage:idPage,
+                theme: theme, 
+                id:this.id, 
+                method:'saveWYSIWYG', 
+                args:"html=" + $(this).html()
+                },function(data){
+                ParsimonyAdmin.execResult(data);
+            });
 	});
 	
 	this.pluginDispatch("loadEditMode");
     }, 
     
     unloadEditMode :   function(){
-	if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
-	$(ParsimonyAdmin.currentBody).off('.edit');
+	//if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
+	$(ParsimonyAdmin.currentDocument).off('.edit');
+        $(ParsimonyAdmin.currentBody).off('.edit');
+        $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
+        $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
+        $(".wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
+        $(".HTML5editorToolbar").hide();
 	this.pluginDispatch("unloadEditMode");
     },
     loadPreviewMode :   function(){

@@ -190,6 +190,7 @@ class field {
     public function display(&$row = '') {
          if (!isset($this->mark)) {
             if (BEHAVIOR >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
+                \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
             } else {
                 $this->displayView = 'display.php';
@@ -213,7 +214,8 @@ class field {
         $idName = $row->getId()->name;
         /*$authorName = $row->getBehaviorAuthor()->name;*/
         if (!isset($this->mark)) {
-            if (isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE) {
+            if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || BEHAVIOR >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
+                \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
             } else {
                 $this->displayView = 'display.php';
@@ -223,6 +225,24 @@ class field {
         include($this->getFieldPath() . '/' . $this->displayView);
         $html = ob_get_clean();
         return $html;
+    }
+    
+    public function saveEditInlineAction($data, $id) {
+        $data = $this->validate($data);
+        if ($data !== FALSE) {
+            $entityObj = \app::getModule($this->module)->getEntity($this->entity);
+            $res = \PDOconnection::getDB()->exec('UPDATE ' . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = \'' . str_replace("'", "\'", $data) . '\' WHERE ' . $entityObj->getId()->name . '=' . $id);
+          
+            if ($res) {
+                $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
+            }
+        }
+        if(isset($return)) {
+            $return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');
+        }
+        \app::$response->setHeader('X-XSS-Protection', '0');
+        \app::$response->setHeader('Content-type', 'application/json');
+        return json_encode($return);
     }
 
     /**

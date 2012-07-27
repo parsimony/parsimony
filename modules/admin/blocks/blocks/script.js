@@ -142,7 +142,7 @@ function blockAdminBlocks() {
     this.loadEditMode = function () {
         $this = this;
         
-        $(ParsimonyAdmin.currentBody).on('click.creation','.block',function(e){
+        $(ParsimonyAdmin.currentDocument).on('click.edit','.block',function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block'];
             blockInst.onClickEdit.apply(this, [e]);
         });

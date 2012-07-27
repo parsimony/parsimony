@@ -57,7 +57,7 @@ class field_wysiwyg extends \field {
     public function __construct($module, $entity, $name, $type='longtext', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor') {
         $this->constructor(func_get_args());
     }
-
+    
 }
 
 ?>
