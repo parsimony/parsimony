@@ -31,7 +31,7 @@ namespace core;
 
 class core extends \module {
 
-    protected $title = 'Parsimony Core';
+    protected $title = 'Parsimony';
     protected $name = 'core';
 
     public function __wakeup() {

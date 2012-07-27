@@ -33,10 +33,10 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
 	<?php if (BEHAVIOR == 2): ?>
     	<a class="floatleft" href="#"><span class="ui-icon ui-icon-clipboard floatleft tooltip" data-tooltip="#infodev" data-pos="s"></span></a>
 	<?php endif; ?>
-	<a href="#" class="floatleft action tooltip" rel="getViewAdminLanguage" data-tooltip="<?php echo t('Current Language', FALSE); ?>" data-pos="s">
+	<a href="#" class="floatleft action tooltip" rel="getViewAdminLanguage" title="<?php echo t('Current Language', FALSE); ?>" data-tooltip="<?php echo t('Current Language', FALSE); ?>" data-pos="s">
 	    <span class="ui-icon ui-icon-flag floatleft"></span> <?php echo \request::$locales[\app::$request->getLocale()] ?>
 	</a>
-	<a href="#" class="floatleft action tooltip" rel="getViewUserProfile" data-tooltip="<?php echo t('My Profile',false); ?>" data-pos="s">
+	<a href="#" class="floatleft action tooltip" rel="getViewUserProfile" title="<?php echo t('My Profile',false); ?>" data-tooltip="<?php echo t('My Profile',false); ?>" data-pos="s">
 	    <span class="ui-icon ui-icon-locked floatleft"></span><?php echo ucfirst(htmlentities($_SESSION['login'], ENT_QUOTES, "UTF-8")); ?>        
 	</a>
 	<a  href="<?php echo BASE_PATH; ?>logout" class="floatleft tooltip" data-tooltip="<?php echo t('Logout',false); ?>" data-pos="se">
