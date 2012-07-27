@@ -704,7 +704,7 @@ class admin extends \module {
     protected function addThemeAction($thememodule, $name, $patterntype, $template, $url = '') {
 	if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
             set_time_limit(0);
-	    mkdir(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
+	    \tools::createDirectory(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
 	    if ($patterntype == 'url' && !empty($url)) {
 		include('lib/simplehtmldom/simple_html_dom.php');
 		$str = file_get_contents($url);
@@ -767,7 +767,8 @@ class admin extends \module {
     protected function changeThemeAction($THEMEMODULE, $name) {
 	if (isset($_COOKIE['THEME']))
 	    setcookie('THEME', '', time() - 99000, '/');
-	if (is_dir(PROFILE_PATH . $THEMEMODULE . '/themes/' . $name)) {
+        $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name);
+	if (is_dir($path)) {
 	    $configs = file_get_contents('config.php');
 	    $configs = preg_replace('@\$config\[\'THEME\'\] = \'(.*)\';@Ui', "\$config['THEME'] = '" . $name . "';", $configs);
 	    file_put_contents('config.php', $configs);
