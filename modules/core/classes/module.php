@@ -308,7 +308,8 @@ class module {
      */
     public function getThemes() {
 	$themes = array();
-	foreach (glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR) as $filename) {
+        $themelist = array_merge((array)glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR), glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR));
+	foreach ($themelist as $filename) {
 	    $themeName = basename($filename);
 	    $themes[] = $themeName;
 	}
