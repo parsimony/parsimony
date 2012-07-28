@@ -87,7 +87,7 @@ class page extends \block {
      * @param integer $id page id
      * 
      */
-    public function __construct($id, $module) {
+    public function __construct($id, $module = 'core') {
         $this->id = $id;
 	$this->moduleName = $module;
     }
