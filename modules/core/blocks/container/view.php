@@ -28,16 +28,9 @@
 
 $blocks = $this->getBlocks();
 if($this->getConfig('column')){
-    $width = $this->getConfig('with');
-    if(!empty($width)){
-        $width = 'width:'.$width.'px';
-    }
     \app::$request->page->head .= '
     <style>
-        #'.$this->getId().'{text-align: justify;-ms-text-justify: distribute-all-lines;text-justify: distribute-all-lines;}
-        #'.$this->getId().' .clearboth {width: 100%;display: inline-block;font-size: 0;line-height: 0}
-        #'.$this->getId().' .block{text-align: auto;-ms-text-justify: auto;text-justify: auto;'.$width.';font-size:inherit;display:inline-block;vertical-align:top;*display: inline;zoom: 1;
-        -moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+        #'.$this->getId().' .block{float:left}
     </style>';
 }
 ?>

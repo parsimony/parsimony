@@ -30,6 +30,5 @@
 
 ?>
 <h2><?php echo t('Mode'); ?></h2>
-<div><label style="display:inline-block;width:100px"><?php echo t('Ligne'); ?> : </label><input type="radio" name="column" value="0" <?php if(!$this->getConfig('column')) echo 'checked="checked"'; ?>/></div><br>
-<div><label style="display:inline-block;width:100px"><?php echo t('Column'); ?> : </label><input type="radio" name="column" value="1" <?php if($this->getConfig('column')) echo 'checked="checked"'; ?>/>
- ( <?php echo t('Column width'); ?> : <input type="text" name="with" style="width:50px" value="<?php if($this->getConfig('with')) echo $this->getConfig('with'); else echo '100'; ?>" pattern="[0-9]*" /> px ) </div> 
+<div><label style="display:inline-block;width:100px"><?php echo t('Line'); ?> : </label><input type="radio" name="column" value="0" <?php if(!$this->getConfig('column')) echo 'checked="checked"'; ?>/></div><br>
+<div><label style="display:inline-block;width:100px"><?php echo t('Column'); ?> : </label><input type="radio" name="column" value="1" <?php if($this->getConfig('column')) echo 'checked="checked"'; ?>/></div>
