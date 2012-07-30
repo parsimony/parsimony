@@ -139,7 +139,8 @@ var ParsimonyAdmin = {
 	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
 	ParsimonyAdmin.closeParsiadminMenu();
 	$(ParsimonyAdmin.currentBody).off('.creation');
-	if(typeof parsimonyDND == "object") $('.parsimonyDND',ParsimonyAdmin.currentBody).parsimonyDND('destroy');
+	$('.parsimonyDND').parsimonyDND('destroy');
+	$("#colorjack_square").hide();
 	this.pluginDispatch("unloadCreationMode");
     },
     
