@@ -15,7 +15,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 
 /* Outline block */
 .selection-block {outline: rgb(78, 219, 255) solid 2px;}
-.selection-container{outline:4px solid #007BC8;}
+.selection-container{outline:1px solid #007BC8;}
 
 /* editinplace */
 .wysiwyg.activeEdit:hover{outline:1px orange solid;}
