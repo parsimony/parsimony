@@ -20,6 +20,9 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 /* editinplace */
 .wysiwyg.activeEdit:hover{outline:1px orange solid;}
 
+/* CSS Picker */
+.cssPicker{outline : 2px solid #ff00fb}
+
 /* Selection */
 html ::selection {background: #00D5FF;color: #ffffff;}
 html ::-moz-selection {background: #00D5FF;color: #ffffff;}
