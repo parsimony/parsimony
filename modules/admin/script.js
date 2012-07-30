@@ -469,6 +469,7 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.changeDeviceUpdate(device);
 	    $("#info_themetype").text("Version " + device);
 	    $('#parsiframe').attr("src", $('#parsiframe').attr("src"));
+	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
 	changeDeviceUpdate : function () {
 	    var select = '';
