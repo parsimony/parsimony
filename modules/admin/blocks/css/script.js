@@ -66,13 +66,13 @@ function blockAdminCSS() {
 		$(this).addClass("cssPicker");
 		blockAdminCSS.getCSSForCSSpicker();
 		var title = CSSTHEMEPATH;
-		if(this.id != "" && $(".selectorcss[selector='#" + this.id + "']").length == 0) blockAdminCSS.addNewSelectorCSS( title, "#" + this.id)
+		if(this.id.length > 0 && $(".selectorcss[selector='#" + this.id + "']", $("#changecsscode")).length == 0) blockAdminCSS.addNewSelectorCSS( title, "#" + this.id)
 		var forbidClasses = ",selection-block,block,container,selection-container,";
 		$.each(this.classList, function(index, value) {
 		    if($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value+ ",") == "-1"){ blockAdminCSS.addNewSelectorCSS( title, "." + value);}
 		});
 		var good = false;
-		var selectProp = "";//this.tagName.toLowerCase();
+		var selectProp = "";
 		if(this.id == ""){
 		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
 		    $(this).parentsUntil("body").each(function(){
@@ -83,11 +83,12 @@ function blockAdminCSS() {
 			    else{
 				if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
 			    }
-			    selectProp = selectid + selectclass.replace("  ","").replace(".clearboth","") + " " + selectProp;
+			    selectProp = selectid + selectclass.replace(".clearboth","") + " " + selectProp;
 			    if(selectid != "") good = true;
 			}
 		    });
-		    blockAdminCSS.addNewSelectorCSS( title, selectProp);
+		    selectProp = selectProp.replace(/\s\s+/g," ");
+		    if($(".selectorcss[selector='" + selectProp + "']", $("#changecsscode")).length == 0) blockAdminCSS.addNewSelectorCSS( title, selectProp);
 		}
                 
 		destroyCSSpicker();
