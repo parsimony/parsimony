@@ -138,7 +138,7 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 
 /* Panel CSS menu */
 #css_menu{font-size: 10px;height: 45px;border-top: 1px solid #999;position: relative}
-#css_panel{border-top: 1px solid #CCC;}          
+/*#css_panel{border-top: 1px solid #CCC;}*/     
 #css_menu > div{float: left;width: 20%;overflow: hidden;cursor:pointer;text-align: center;line-height:45px;color: white;border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #999;border-left: 1px solid #555;background: #777;}
 #css_menu > div.active,#css_menu > div:hover{color: white;background: #555;border-bottom: 1px solid #555;border-right: 1px solid #555;}
 #panelcss label{display: inline-block;min-width: 50px;color: white;}
@@ -187,7 +187,7 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 
 .border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
 #changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
-#opencssfilepath2{color:#fff;font-size:9px;border-top: 1px #CCC solid;}
+#opencssfilepath2{display:none;/*color:#fff;font-size:9px;border-top: 1px #CCC solid;*/}
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
 #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
 #current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
