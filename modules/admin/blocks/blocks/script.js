@@ -28,19 +28,19 @@ function blockAdminBlocks() {
             
         //destruction of a block
         $(document).add('#config_tree_selector').on('click',".config_destroy",function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block'];
+            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
             blockInst.onDelete.apply(this, [e]);
         });
 	
         //design a block
         $(document).add('#config_tree_selector').on('click',".cssblock",function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block'];
+            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
             blockInst.onDesign.apply(this, [e]);
         });
         
         //configure a block
         $(document).add('#config_tree_selector').on('click',".configure_block",function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block'];
+            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
             blockInst.onConfigure.apply(this, [e]);
         });
 

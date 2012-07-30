@@ -150,7 +150,9 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
 		}
 	    });
 	    if($("#current_stylesheet_nb_rule").val().length == 0){
-		$("#current_stylesheet_nb_rule").val(null);
+		var nbRule = ParsimonyAdmin.currentDocument.styleSheets[i].cssRules.length;
+		if(nbRule > 0) nbrule = ParsimonyAdmin.currentDocument.styleSheets[i].cssRules.length - 1;
+		$("#current_stylesheet_nb_rule").val(nbRule);
 	    }
 	}
     }
