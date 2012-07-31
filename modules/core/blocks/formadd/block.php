@@ -10,7 +10,7 @@ class formadd extends \block {
     
     protected $title = 'displays in one click the add form of db model';
     
-    protected $category = 'query';
+    protected $category = 'database';
     
     public function init() {
         $this->setConfig('regenerateview', 1);

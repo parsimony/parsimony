@@ -35,7 +35,7 @@ namespace core\blocks;
 class query extends \block {
 
     protected $title = 'is a point-and-click interface to build and display SQL Queries'; 
-    protected $category = 'query';
+    protected $category = 'database';
     protected $pathOfViewFile;
 
     public function init() {
