@@ -65,24 +65,6 @@ var ParsimonyAdmin = {
 	$(ParsimonyAdmin.currentBody).append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
 	ParsimonyAdmin.changeDeviceUpdate();
 	
-	/*var x;
-	var y;
-	$(ParsimonyAdmin.currentBody).on('dragstart',function(event){
-	var img = document.createElement("img");
-	event.originalEvent.dataTransfer.setDragImage(img, 128,128);
-	x =  event.originalEvent.clientX;
-	y =  event.originalEvent.clientY;
-	});
-	$(ParsimonyAdmin.currentBody).parent().on('dragover',function(event){
-	$(ParsimonyAdmin.currentBody).css( '-webkit-transform', 'perspective(' + $("#perspective").val() + 'px) rotate(' + $("#rotate").val() + 'deg) rotateX(' + ((event.originalEvent.clientY - y) + parseInt($("#rotatex").val())) + 'deg) rotateY(' + ((event.originalEvent.clientX - x) + parseInt($("#rotatey").val())) + 'deg) translateZ(' + $("#translatez").val() + 'px)' );
-	return false;
-	});
-	$(ParsimonyAdmin.currentBody).parent().on('drop',function(event){
-	$("#rotatey").val(((event.originalEvent.clientX - x) + parseInt($("#rotatey").val())));
-	$("#rotatex").val(((event.originalEvent.clientY - y) + parseInt($("#rotatex").val())));
-	return false;
-	});*/
-	
 	/* Init tooltip */
 	$(".tooltip").parsimonyTooltip({
 	    triangleWidth:5

@@ -69,26 +69,26 @@ $selectors = $css->getAllSselectors();
             <div id="switchtovisuel" class="active">Visuel</div>
             <div id="switchtocode">Code</div>
         </div>
-        <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
-            <option></option>
-            <?php
-            if (!empty($selectors)):
-                foreach ($selectors AS $option):
-                    ?>
-                    <option><?php echo $option; ?></option>
-                <?php endforeach;
-            endif;
-            ?>
-        </select>
+	<div style="position:relative;border-top: 1px solid #c1c1c1">
+	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSSPicker', FALSE); ?>"></div>
+	    <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
+		<option></option>
+		<?php
+		if (!empty($selectors)):
+		    foreach ($selectors AS $option):
+			?>
+			<option><?php echo $option; ?></option>
+		    <?php
+		    endforeach;
+		endif;
+		?>
+	    </select>
+	</div>
         <input type="hidden" id="current_selector_update_prev" />
         <input type="hidden" id="current_stylesheet_nb" />
         <input type="hidden" id="current_stylesheet_nb_rule" />
         <input type="hidden" id="current_stylesheet_rules" />
-        <div id="opencssfilepath2">
-            <select id="changecsspath" style="width: 100%" name="filePath">           
-
-            </select>
-        </div>
+	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>.css" />
         <div id="goeditcss"></div>
 
     </div>

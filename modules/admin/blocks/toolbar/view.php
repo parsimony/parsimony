@@ -54,7 +54,6 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js');
                 <div class="subSidebarOnglet revert" style="cursor: default; display: block; " title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-next"></span></div>
                 <div class="subSidebarOnglet" id="openrightslide" title="<?php echo t('Slide', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-e"></span></div>
                 <div class="subSidebarOnglet" id="resizerightslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w  ui-resizable-handle ui-resizable-w"></span></div>
-                <div class="subSidebarOnglet" id="csspicker"><img src="<?php echo BASE_PATH . 'admin/img/picker.png'; ?>" title="<?php echo t('CSSPicker', FALSE); ?>"/></div>
             </div>
             <div class="contenttab cs">
                 <div>

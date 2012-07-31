@@ -79,7 +79,6 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
-.subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover,#switchtab:hover{background: #777;}
 .contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;} 
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
 .contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
@@ -201,10 +200,9 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 
 .border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
 #changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
-#opencssfilepath2{display:none;/*color:#fff;font-size:9px;border-top: 1px #CCC solid;*/}
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
 #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
-#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
+#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
 #changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
 #changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
 #changecssformcode div.active{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
@@ -472,7 +470,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 .translate{border: 2px solid #6C9;border-style: dotted;}
 
 /* CSSpicker */
-.cssselectorviewer{outline:#FF00FB 2px solid !important}
+#csspicker{z-index: 1;padding: 2px;cursor:pointer;width: 23px;height:28px;position: absolute;top:1px;border-right:1px solid #c1c1c1;background: #f1f1f1 url('admin/img/picker.png') no-repeat 3px 9px;}
 
 /* explorer */
 .explorer{float:right;cursor:pointer;margin-right: 15px;}
