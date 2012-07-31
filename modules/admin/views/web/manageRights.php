@@ -32,7 +32,7 @@ $role = app::getModule('core')->getEntity('role');
     td{padding:4px 2px 7px 7px;text-align: center !important}
     .active{background:#AAA}  
     .modulename{font-size: 13px;color: #777;letter-spacing: 2px;}
-    #enablemodule{margin: 10px 0px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;letter-spacing: 2px;}
+    #enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;letter-spacing: 2px;}
     .firsttd{font-size: 18px;letter-spacing: 2px;vertical-align: middle}
     .secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align:left !important}
 </style>

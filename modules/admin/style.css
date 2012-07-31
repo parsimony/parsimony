@@ -274,8 +274,7 @@ text-shadow: white 0 1px 0;}
 #dialog{width: 300px;background: #EEE url(admin/img/concrete_wall_3.png);}
 
 /* Blocks droppables */
-.admin_core_block{cursor:move;width: 42px;height: 42px;margin: 5px;padding: 0;border-radius: 5px;background: #ccc;box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
-}
+.admin_core_block{cursor:move;width: 42px;height: 42px;margin: 5px;padding: 0;border-radius: 5px;background: #ccc;box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);}
 
 /* ###################### Admin Zone In Popup #################"""" */
 
@@ -332,7 +331,6 @@ padding: 7px;min-width: 731px;height: 600px;-webkit-box-flex: 1;-moz-box-flex: 1
 /* Model Forms*/
 .adminzonecontent .cols{display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;}
 .adminzonecontent .col1 {margin: 0px 22px 0px 0px;min-width:418px;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;
-
  background-color: whiteSmoke;
 background-image: -ms-linear-gradient(top,#F9F9F9,whiteSmoke);
 background-image: -moz-linear-gradient(top,#F9F9F9,whiteSmoke);
@@ -428,6 +426,29 @@ background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
 }
+
+legend{
+        display: block;
+        text-transform: capitalize;
+        margin: 4px 7px 0px 5px;
+        color: #464646;
+        padding: 3px 7px;
+        font-size: 14px;
+        border: 1px solid #DFDFDF;
+        border-radius: 5px;
+        background-color: #F1F1F1;
+        background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));
+        background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
+        background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
+fieldset {
+        border: 1px solid #CCC;
+        border-radius: 8px;
+        padding: 10px;
+        background: #F9F9F9;}
+
 /* Panel */
 .panel{position: relative;}
 

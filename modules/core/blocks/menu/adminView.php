@@ -36,35 +36,18 @@
     .placeholdermenu {background-color: #fff;border: 1px #ccc dashed}
     .ui-nestedSortable-error {background:#fbe3e4;color:#8a1f11;}
     ol {margin: 0;padding: 0;padding-left: 30px;}
-    ol.sortable, ol.sortable ol {margin: 0 0 0 15px;padding: 0;list-style-type: none;}
-    ol.sortable {margin: 0 5px}
+    ol.sortable, ol.sortable ol {padding: 0;list-style-type: none;}
     .sortable li {margin: 7px 0 0 0;padding: 0;}
     .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
     .ui-icon-closethick{margin-top: 7px;}
-    legend{
-        display: block;
-        text-transform: capitalize;
-        margin: 4px 7px 0px 5px;
-        color: #464646;
-        padding: 3px 7px;
-        font-size: 14px;
-        border: 1px solid #DFDFDF;
-        border-radius: 5px;
-        background-color: #F1F1F1;
-        background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
-        background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
-        background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
-        background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));
-        background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
-        background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
     #addPageItem li{margin:0 !important}
     .parsimenu ul{top: 20px;left: -1px;}
-    #linkmenu{border :1px solid #ccc;margin:10px; padding-bottom: 10px;border-radius: 8px;}
+    #linkmenu{border :1px solid #ccc;margin-top:10px; padding-bottom: 10px;border-radius: 8px;}
     linkmenuAdd{position: relative;top: 0px;margin-left: 25px;margin-top: 10px;margin-bottom: 10px;}
     #addPageItem{margin-left: 25px;background: #EBEBEB -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #addPageItem li{border-right: 1px #CCC solid;text-transform: capitalize;margin: 0 0 0 11px;padding: 4px;font-weight: normal;text-shadow: 0 1px 1px rgba(255, 255, 255, .9);color: #666;}
-    #previewmenu{border :1px solid #ccc;margin:10px;border-radius: 8px;padding-bottom: 10px;}
+    #previewmenu{border :1px solid #ccc;margin-top:10px;border-radius: 8px;padding-bottom: 10px;}
     .title1{text-align: left;margin: 10px 25px;color: #777;}
     .title2{text-align: left;position: relative;top: 8px;margin-left: 27px;margin-bottom: 15px;border-radius: 8px;color: #777;}
 
