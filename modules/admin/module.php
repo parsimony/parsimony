@@ -422,10 +422,7 @@ class admin extends \module {
         if ($typeofinput == 'form') {
             if (!is_file(PROFILE_PATH . $filePath) && is_file('modules/' . $filePath))
                 \tools::file_put_contents(PROFILE_PATH . $filePath, file_get_contents('modules/' . $filePath));
-            if (is_file(PROFILE_PATH . $filePath))
-                $filePath2 = PROFILE_PATH . $filePath;
-            else
-                $filePath2 = 'modules/' . $filePath;
+            $filePath2 = PROFILE_PATH . $filePath;
             $css = new \css($filePath2);
             unset($_POST['current_selector_update']);
             unset($_POST['action']);
@@ -438,11 +435,13 @@ class admin extends \module {
                 $css->addSelector($selector);
             }
             unset($_POST['selectors']);
+            $isCSS3 = FALSE;
             foreach ($_POST AS $key => $value) {
                 $value = trim($value);
                 if ($value != '') {
                     if (!$css->propertyExists($selector, $key)) {
                         if (isset($css3[$key])) {
+                            $isCSS3 = TRUE;
                             foreach ($css3[$key] as $property) {
                                 $css->addProperty($selector, $property, $value);
                             }
@@ -450,6 +449,7 @@ class admin extends \module {
                         $css->addProperty($selector, $key, $value);
                     } else {
                         if (isset($css3[$key])) {
+                            $isCSS3 = TRUE;
                             foreach ($css3[$key] as $property) {
                                 $css->updateProperty($selector, $property, $value);
                             }
@@ -458,6 +458,7 @@ class admin extends \module {
                     }
                 } else {
                     if (isset($css3[$key])) {
+                        $isCSS3 = TRUE;
                         foreach ($css3[$key] as $property) {
                             $css->deleteProperty($selector, $property);
                         }
@@ -465,7 +466,7 @@ class admin extends \module {
                     $css->deleteProperty($selector, $key);
                 }
             }
-            if (!$css->propertyExists($selector, 'behavior')) {
+            if (!$css->propertyExists($selector, 'behavior') && $isCSS3) {
                 $css->addProperty($selector, 'behavior', 'url(/lib/csspie/PIE.htc)');
             }
             $css->save();
@@ -473,14 +474,9 @@ class admin extends \module {
             $csstab = array();
             foreach ($selectors AS $css) {
                 if (!isset($csstab[$css['file']])){
-                    if (is_file(PROFILE_PATH . $css['file']))
-                        $filePath = PROFILE_PATH . $css['file'];
-                    elseif(is_file('modules/' . $css['file']))
-                        $filePath = 'modules/' . $css['file'];
-                    else{
-                        \tools::file_put_contents(PROFILE_PATH . $filePath, file_get_contents(PROFILE_PATH . $css['file']));
-                        $filePath = PROFILE_PATH . $css['file'];
-                    }
+                     if (!is_file(PROFILE_PATH . $css['file']) && is_file('modules/' . $css['file']))
+                        \tools::file_put_contents(PROFILE_PATH . $css['file'], file_get_contents('modules/' . $css['file']));
+                    $filePath = PROFILE_PATH . $css['file'];
                     $csstab[$css['file']] = new \css($filePath);
                 }
                 $css['code'] = trim($css['code']);

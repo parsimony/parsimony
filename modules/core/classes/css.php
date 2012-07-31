@@ -51,7 +51,8 @@ class css {
     public function __construct($cssPath) {
         $this->path = $cssPath;
         if (is_file($cssPath)){
-            $this->CSS = file_get_contents($this->path, FILE_USE_INCLUDE_PATH); 
+            if(is_file($this->path)) $this->CSS = file_get_contents($this->path);
+            else $this->CSS = '';
         }
     }
 
@@ -209,7 +210,7 @@ class css {
         $_selector = trim($_selector);
         $code = $selector . ' {' . PHP_EOL;
         $code .= $selectorCode . '}';
-        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@ims', addslashes($code), $this->CSS);
+        $this->CSS = preg_replace('@^' . str_replace(' ', '[\s]*', preg_quote($selector, '@')) . '[\s]*{(?<rules>[^}]*)\}@ims', $code, $this->CSS);
     }
 
     /**
