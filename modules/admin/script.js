@@ -382,36 +382,38 @@ var ParsimonyAdmin = {
 	$( "#conf_box_overlay").hide();
     },
     displayConfBox :   function (url,title,params,modal){
+        $("#conf_box_load").show();
 	$("#conf_box").hide();
 	if(typeof modal == "undefined" || modal == true) ParsimonyAdmin.showOverlay();
 	ParsimonyAdmin.setConfBoxTitle(title);
-	if(url.substring(0,1) != "#"){
-	    ParsimonyAdmin.returnToShelter();
-	    $("#conf_box_form").attr("action",url).empty();
-	    if(typeof params != "undefined"){
-		var vars = params.split(/&/);
-		for (var i=0; i< vars.length; i++) {
-		    var myvar = vars[i].split(/=/);
-			$("#conf_box_form").append('<input type="hidden" name="' + myvar[0]  + '" value="' + myvar[1] + '">');
-		    }
-		}
-		$("#conf_box_form").append('<input type="hidden" name="popup" value="yes">');
-		$("#conf_box_form").trigger("submit");
-		$("#conf_box_content_iframe").show();
-		$("#conf_box_content_inline").hide();
-	    }else{
-		$("#shelter").append($("#conf_box_content_inline").html());
-		$("#conf_box_content_inline").show().append($(url));
-		$("#conf_box_content_iframe").hide();
-		$(url).show();
-		$("#conf_box" ).css({
-		    "display" : "block",
-		    "width" : $(url).outerWidth() + "px"
-		});
-		$("#conf_box_content" ).css({
-		    "height" : $(url).outerHeight() + "px"
-		});
-	    }
+        $("#conf_box,#conf_box_content" ).attr("style","");
+        if(url.substring(0,1) != "#"){
+            ParsimonyAdmin.returnToShelter();
+            $("#conf_box_form").attr("action",url).empty();
+            if(typeof params != "undefined"){
+                var vars = params.split(/&/);
+                for (var i=0; i< vars.length; i++) {
+                    var myvar = vars[i].split(/=/);
+                        $("#conf_box_form").append('<input type="hidden" name="' + myvar[0]  + '" value="' + myvar[1] + '">');
+                    }
+                }
+                $("#conf_box_form").append('<input type="hidden" name="popup" value="yes">');
+                $("#conf_box_form").trigger("submit");
+                $("#conf_box_content_iframe").show();
+                $("#conf_box_content_inline").hide();
+            }else{
+                $("#shelter").append($("#conf_box_content_inline").html());
+                $("#conf_box_content_inline").show().append($(url));
+                $("#conf_box_content_iframe").hide();
+                $(url).show();
+                $("#conf_box" ).css({
+                    "display" : "block",
+                    "width" : $(url).outerWidth() + "px"
+                });
+                $("#conf_box_content" ).css({
+                    "height" : $(url).outerHeight() + "px"
+                });
+            }
 	},
 	closeConfBox :   function (){
 	    $("#conf_box").hide();
@@ -421,6 +423,7 @@ var ParsimonyAdmin = {
             
 	},
 	resizeConfBox : function(){
+            $("#conf_box_load").hide();
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
 	    if(doc.location.href != "about:blank"){
 		var bodyIframe = $("body",doc).get(0);
@@ -429,7 +432,8 @@ var ParsimonyAdmin = {
 		    "height": bodyIframe.scrollHeight + "px"
 		});
 		$( "#conf_box" ).css({
-		    "width": bodyIframe.scrollWidth + "px"
+		    "width": bodyIframe.scrollWidth + "px",
+                    "height": bodyIframe.scrollHeight + "px"
 		});
 		$("#conf_box").show();
 	    }
