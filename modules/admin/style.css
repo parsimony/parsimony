@@ -470,7 +470,10 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 .translate{border: 2px solid #6C9;border-style: dotted;}
 
 /* CSSpicker */
+#selectorcontainer{position:relative;border-top: 1px solid #c1c1c1}
 #csspicker{z-index: 1;padding: 2px;cursor:pointer;width: 23px;height:28px;position: absolute;top:1px;border-right:1px solid #c1c1c1;background: #f1f1f1 url('admin/img/picker.png') no-repeat 3px 9px;}
+#csspicker:hover,#csspicker.active{background-color: #dfdfdf}
+
 
 /* explorer */
 .explorer{float:right;cursor:pointer;margin-right: 15px;}

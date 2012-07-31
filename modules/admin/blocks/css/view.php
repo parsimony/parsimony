@@ -69,7 +69,7 @@ $selectors = $css->getAllSselectors();
             <div id="switchtovisuel" class="active">Visuel</div>
             <div id="switchtocode">Code</div>
         </div>
-	<div style="position:relative;border-top: 1px solid #c1c1c1">
+	<div id="selectorcontainer">
 	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSSPicker', FALSE); ?>"></div>
 	    <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
 		<option></option>

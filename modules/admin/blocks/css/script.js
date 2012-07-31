@@ -13,7 +13,7 @@ function blockAdminCSS() {
 	});
 	
 	
-	$(".subSidebar").on('click',"#csspicker", function(e){
+	$("#panelcss").on('click',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
 	    function destroyCSSpicker(){
