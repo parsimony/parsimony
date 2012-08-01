@@ -58,7 +58,7 @@
     .property:hover{background:#CBDDF3}
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
     .choicebuilder{display:inline-block;vertical-align: top;width:225px;margin:8px 0;padding:7px}
-    .choicetitle{text-align:left;padding: 5px 0px 10px;}
+    .choicetitle{padding: 3px;font-size: 15px;text-align: left;margin: 2px 0px 7px;border-bottom: 1px solid #DDD;}
     </style>
     <div class="adminzone" id="adminformpage">
 
@@ -214,8 +214,8 @@
                                 <fieldset id="tabs-admin-query" style="">
                                     <legend><?php echo t('URL Rewriting', False); ?></legend>
                                     <div><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
-                                    <div id="schema_sql" class="choicebuilder">
-                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span><?php echo t('A SQL property', False); ?> :</div>
+                                    <div id="schema_sql" class="choicebuilder" style="width: 175px;">
+                                        <div class="choicetitle"><?php echo t('A SQL property', False); ?> :</div>
                                         <?php
                                         $models = $module->getModel();
                                         if (count($models) > 0) {
@@ -240,14 +240,14 @@
                                         ?>
                                         <div class="clearboth"></div>
                                     </div>
-                                    <div class="choicebuilder" style="border-left:1px solid #ccc;border-right:1px solid #ccc;">
-                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A textual or numeric parameter controlled with a Regex :', False); ?> </div>
+                                    <div class="choicebuilder" style="width: 285px;border-left:1px solid #ccc;border-right:1px solid #ccc;">
+                                        <div class="choicetitle"><?php echo t('A regex parameter', False); ?> :</div>
                                         <input type="text" style="width:70px" id="paramname">
                                         <select id="paramregex"><option value="(.*)"></span><?php echo t('Text', False); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric', False); ?></option></select>
                                         <input type="button" id="addparam" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
                                     <div class="choicebuilder">
-                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A simple textual parameter :', False); ?></div>
+                                        <div class="choicetitle"><?php echo t('A simple textual parameter :', False); ?></div>
                                         <input type="button" id="addtextcomposant" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
                                     <?php
