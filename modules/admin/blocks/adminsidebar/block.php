@@ -45,7 +45,7 @@ class adminsidebar extends \core\blocks\container {
 	if($this->side == 'right') $classes .= ' creation';
 	if (isset($_COOKIE[$this->side.'ToolbarOpen']) && $_COOKIE[$this->side.'ToolbarOpen'] == 0)
 	    $classes .= ' close';
-	$html = '<div id="' . $this->id . '" class="block sidebar container ' . $classes . ' ' . (string) $this->getConfig('cssClasses') . '" style="' . $style . '">';
+	$html = '<div id="' . $this->id . '" data-side="'.$this->side.'" class="block sidebar container ' . $classes . ' ' . (string) $this->getConfig('cssClasses') . '" style="' . $style . '">';
 	$html .= $this->getView();
 	$html .= '<div class="clearboth"></div></div>';
 	return $html;

@@ -57,12 +57,11 @@ function blockAdminToolbar() {
             }
         });
 	
-	        //Open & Close Panels 
-        $("#right_sidebar").on('click',"#openrightslide",function(){
+        $("#right_sidebar").on('click',".openclose",function(){
             if(!$(this).parent().parent().hasClass("close")) ParsimonyAdmin.closeRightPanel();
             else ParsimonyAdmin.openRightPanel();
         });
-        $("#left_sidebar").on('click',"#openleftslide",function(){
+        $("#left_sidebar").on('click',".openclose",function(){
             if(!$(this).parent().parent().hasClass("close")) ParsimonyAdmin.closeLeftPanel();
             else ParsimonyAdmin.openLeftPanel();
         });

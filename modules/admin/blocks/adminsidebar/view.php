@@ -28,29 +28,23 @@
 ?>
 <div class="subSidebar">
     <div class="subSidebarOnglet handle" style="cursor: move;" title="<?php echo t('Move', FALSE); ?>"><span class="ui-icon ui-icon-arrow-4"></span></div>
-    <?php if ($this->side == 'left'): ?>
-        <div class="subSidebarOnglet revert" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-prev"></span></div>
-        <div class="subSidebarOnglet" id="openleftslide"><span class="ui-icon ui-icon-circle-arrow-w" title="<?php echo t('Slide', FALSE); ?>"></span></div>
-        <div class="subSidebarOnglet" id="resizeleftslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-e"></span></div>
-    <?php else: ?>
-        <div class="subSidebarOnglet revert" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-next"></span></div>
-        <div class="subSidebarOnglet" id="openrightslide" title="<?php echo t('Slide', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-e"></span></div>
-        <div class="subSidebarOnglet" id="resizerightslide" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w  ui-resizable-handle ui-resizable-w"></span></div>
-    <?php endif; ?>
+    <div class="subSidebarOnglet revert" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
+    <div class="subSidebarOnglet openclose" id="openleftslide"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>" title="<?php echo t('Slide', FALSE); ?>"></span></div>
+    <div class="subSidebarOnglet" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
 </div>
 <div class="contenttab cs">
     <div <?php if ($this->side == 'left') echo 'class="creation"'; ?>>
-	<?php foreach ($this->getBlocks() AS $block): ?>
-    	<div class="mainTab <?php echo $block->getId(); ?> ellipsis" rel="<?php echo $block->getId(); ?>">
-		<?php echo t($block->getName(), FALSE); ?>
-    	</div>
-	<?php endforeach; ?>
+        <?php foreach ($this->getBlocks() AS $block): ?>
+            <div class="mainTab <?php echo $block->getId(); ?> ellipsis" rel="<?php echo $block->getId(); ?>">
+                <?php echo t($block->getName(), FALSE); ?>
+            </div>
+        <?php endforeach; ?>
     </div>
     <?php
     if (!empty($this->blocks)) {
-	foreach ($this->blocks as $selected_block) {
-	    echo $selected_block->display() . PHP_EOL;
-	}
+        foreach ($this->blocks as $selected_block) {
+            echo $selected_block->display() . PHP_EOL;
+        }
     }
     ?>
 </div>
