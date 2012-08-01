@@ -45,7 +45,7 @@ function blockAdminBlocks() {
         });
 
         /* HTML5 drag n drop*/
-        $("#modulespages").on('dragstart',".admin_core_block", function( event ){
+        $("#panelblocks").on('dragstart',".admin_core_block", function( event ){
             var evt = event.originalEvent;
             evt.dataTransfer.setDragImage(document.getElementById($(this).attr("id")),15,15);
             evt.dataTransfer.setData("Text", $(this).attr("id"));
