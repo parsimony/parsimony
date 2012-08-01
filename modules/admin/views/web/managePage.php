@@ -42,7 +42,7 @@
 <style>
     table,th,thead,td{text-align:center;padding-top:8px;}
     table{width :100%}
-    td{border: 1px solid #D3D5DB;padding: 13px 6px 0px;}   
+    td{border: 1px solid #D3D5DB;padding: 5px;}   
     #tabs-admin-query{position:relative;text-align: left}
     .ui-icon-closethick{margin: 5px;border: #666 solid 1px;border-radius: 5px;margin: 0px auto}
     .modulecss{padding: 5px;list-style: none;border: 1px solid #99BBE8;background-color: #CBDDF3;text-transform: capitalize;}
@@ -57,12 +57,14 @@
                 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
     .property:hover{background:#CBDDF3}
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
+    .choicebuilder{display:inline-block;vertical-align: top;width:225px;margin:8px 0;padding:7px}
+    .choicetitle{text-align:left;padding: 5px 0px 10px;}
     </style>
     <div class="adminzone" id="adminformpage">
 
     <div id="admin_page" class="adminzonemenu">
         <div id="save_page" class="save"><a href="#" class="ellipsis"><?php echo t('Save', FALSE); ?></a></div>
-        <?php /*<div id="goto_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('See', FALSE); ?></a></div> */ ?>
+        <div id="goto_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('See', FALSE); ?></a></div>
         <div id="delete_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('Delete', FALSE); ?></a></div>   
     </div>
     <div id="contentformpage"  class="adminzonecontent">
@@ -106,17 +108,19 @@
                             }
                         });
                         $(document).on('change keyup','#patternurlregex',function(){
+                            $('#goto_page').hide();
                             $("#patternurl").text(this.value);
                         });
                         $(document).on('click','#save_page',function(e){
                             e.preventDefault();
                             $('#conf_box input[name="action"]').val("savePage");
                             $('#sendFormPage').trigger('click');
+                            $('#goto_page').show();
                         });
-                        /*$(document).on('click','#goto_page',function(e){
+                        $(document).on('click','#goto_page',function(e){
                             e.preventDefault();
                             parent.location = $('#totalurl').text();
-                        });*/
+                        });
                         $(document).on('click','#delete_page',function(e){
                             e.preventDefault();
                             var trad = t('Are you sure to delete this page ?');
@@ -183,6 +187,7 @@
                         });
 
                         function genereregex(){
+                            $('#goto_page').hide();
                             var url = '';
                             var urlRegex = '';
                             $('table tbody tr:not(#abc,#abcd)').each(function(i){
@@ -208,9 +213,9 @@
                             <div id="tabs-admin-querieur" class="none" style="">
                                 <fieldset id="tabs-admin-query" style="">
                                     <legend><?php echo t('URL Rewriting', False); ?></legend>
-                                    <div id="schema_sql" >
-                                        <div><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
-                                        <div style="padding:16px 0px;"><span class="ui-icon ui-icon-plusthick floatleft"></span><?php echo t('A SQL property', False); ?></div>
+                                    <div><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
+                                    <div id="schema_sql" class="choicebuilder">
+                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span><?php echo t('A SQL property', False); ?> :</div>
                                         <?php
                                         $models = $module->getModel();
                                         if (count($models) > 0) {
@@ -235,14 +240,14 @@
                                         ?>
                                         <div class="clearboth"></div>
                                     </div>
-                                    <div style="text-align:left">
-                                        <div style="padding: 6px 0px 10px;"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A textual or numeric parameter controlled with a Regex :', False); ?> </div>
+                                    <div class="choicebuilder" style="border-left:1px solid #ccc;border-right:1px solid #ccc;">
+                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A textual or numeric parameter controlled with a Regex :', False); ?> </div>
                                         <input type="text" style="width:70px" id="paramname">
                                         <select id="paramregex"><option value="(.*)"></span><?php echo t('Text', False); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric', False); ?></option></select>
                                         <input type="button" id="addparam" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
-                                    <div style="text-align:left;padding-bottom: 12px;">
-                                        <div style="padding: 6px 0px 10px;"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A simple textual parameter :', False); ?></div>
+                                    <div class="choicebuilder">
+                                        <div class="choicetitle"><span class="ui-icon ui-icon-plusthick floatleft"></span></span><?php echo t('A simple textual parameter :', False); ?></div>
                                         <input type="button" id="addtextcomposant" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
                                     <?php
