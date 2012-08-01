@@ -1,23 +1,4 @@
 function blockAdminCSS() {
-
-    this.initBefore = function () {
-	
-	/* Open CSS Filepath*/
-	$('#panelcss').on('click','#opencssfilepath',function(){
-	    $('#opencssfilepath2').slideToggle();
-	}); 
-    }
-    
-    this.initIframe = function () {
-	
-	/* Find all CSS files */
-	var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
-	$("#changecsspath").html('');
-	for (var i = 0; i < styleSheets.length; i++){
-	    if(styleSheets[i].href && styleSheets[i].href.match(new RegExp("/" + window.location.host + "/")) && !styleSheets[i].href.match(new RegExp("/" + window.location.host + BASE_PATH + "lib")) && styleSheets[i].href != "http://" + window.location.host + BASE_PATH + 'admin/iframe.css' )
-		$("#changecsspath").append("<option>" + styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length) + "</option>");
-	}
-    }
     
     this.init = function () {
 	
@@ -32,7 +13,7 @@ function blockAdminCSS() {
 	});
 	
 	
-	$(".subSidebar").on('click',"#csspicker", function(e){
+	$("#panelcss").on('click',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
 	    function destroyCSSpicker(){

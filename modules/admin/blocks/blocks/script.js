@@ -250,9 +250,7 @@ function block() {
     
     this.onDesign = function (e) {
         e.preventDefault();
-        var filePath = CSSTHEMEPATH;
-        if(ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress)=='page') filePath = CSSPAGEPATH;
-        blockAdminCSS.displayCSSConf(filePath, "#" + ParsimonyAdmin.inProgress);
+        blockAdminCSS.displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
     }
     
     this.onCreate = function () {

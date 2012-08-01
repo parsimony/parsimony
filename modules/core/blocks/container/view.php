@@ -26,7 +26,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Softwarve License (OSL 3.0)
  */
 
-$blocks = $this->getBlocks();
 if($this->getConfig('column')){
     \app::$request->page->head .= '
     <style>

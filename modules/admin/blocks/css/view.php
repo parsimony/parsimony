@@ -69,26 +69,26 @@ $selectors = $css->getAllSselectors();
             <div id="switchtovisuel" class="active">Visuel</div>
             <div id="switchtocode">Code</div>
         </div>
-        <select placeholder="#Example" name="selector" placeholder="CSS Property" class="autocomplete" id="current_selector_update">
-            <option></option>
-            <?php
-            if (!empty($selectors)):
-                foreach ($selectors AS $option):
-                    ?>
-                    <option><?php echo $option; ?></option>
-                <?php endforeach;
-            endif;
-            ?>
-        </select>
+	<div id="selectorcontainer">
+	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"></div>
+	    <select placeholder="CSS Selector e.g. #selector" name="selector" class="autocomplete" id="current_selector_update">
+		<option></option>
+		<?php
+		if (!empty($selectors)):
+		    foreach ($selectors AS $option):
+			?>
+			<option><?php echo $option; ?></option>
+		    <?php
+		    endforeach;
+		endif;
+		?>
+	    </select>
+	</div>
         <input type="hidden" id="current_selector_update_prev" />
         <input type="hidden" id="current_stylesheet_nb" />
         <input type="hidden" id="current_stylesheet_nb_rule" />
         <input type="hidden" id="current_stylesheet_rules" />
-        <div id="opencssfilepath2">
-            <select id="changecsspath" style="width: 100%" name="filePath">           
-
-            </select>
-        </div>
+	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>.css" />
         <div id="goeditcss"></div>
 
     </div>
@@ -552,7 +552,8 @@ $selectors = $css->getAllSselectors();
             var name="";
             if( typeof $(this).attr('name') != "undefined") var name = 'name="' + $(this).attr('name') + '"';
             if( typeof $(this).attr('css') != "undefined") var css = 'css="' + $(this).attr('css') + '"';
-            $(this).replaceWith('<input type="text" style="position:relative;' + $(this).attr('style') + '" ' + name + ' ' + css + ' id="' + $(this).attr('id') + '" class="' + $(this).attr('class') + '" value="' + $(this).val() + '">');
+	    if( typeof $(this).attr('placeholder') != "undefined") var placeholder = 'placeholder="' + $(this).attr('placeholder') + '"';
+            $(this).replaceWith('<input type="text" style="position:relative;' + $(this).attr('style') + '" ' + name + ' ' + css + ' ' + placeholder + ' id="' + $(this).attr('id') + '" class="' + $(this).attr('class') + '" value="' + $(this).val() + '">');
             $('#' + $(this).attr('id')).autocomplete('destroy');
             if($(this).attr('id') != 'current_selector_update') $('#' + $(this).attr('id')).autocomplete({source: x});
             else $('#' + $(this).attr('id')).autocomplete({

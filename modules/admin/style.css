@@ -1,4 +1,18 @@
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+/* Shorhand styles for admin */
+.floatleft{float:left}
+.floatright{float:right}
+.clearboth{clear:both;}
+.inline{display:inline}
+.inline-block{display:inline-block;vertical-align:top}
+.bold{font-weight: bold;}
+.none{display:none}
+.align_center{text-align:center}
+.align_left{text-align:left}
+.align_right{text-align:right}
+.ellipsis {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}  
+
 body{background:url(admin/img/carbon_fibre.png);}
 #admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;}
 
@@ -65,7 +79,6 @@ text-align: center;border: 0px;background-color: white;margin-top: 28px !importa
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
-.subSidebarOnglet.active,#admdesign:hover,#csspicker.active,#csspicker:hover,#switchtab:hover{background: #777;}
 .contenttab span.panelmodules{background:url(admin/img/module.png) no-repeat 2px;} 
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
 .contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
@@ -187,10 +200,9 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 
 .border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
 #changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
-#opencssfilepath2{display:none;/*color:#fff;font-size:9px;border-top: 1px #CCC solid;*/}
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
 #changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
-#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 4px !important;}
+#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
 #changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
 #changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
 #changecssformcode div.active{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
@@ -463,6 +475,8 @@ fieldset {
 .parsimonyResize.sw{ left: -6px; bottom: -6px;cursor: sw-resize;}
 .parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
 .parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
+.spanDND{margin-top: -5px;vertical-align: top;display: inline-block;position: relative;border: #333 solid 2px;border-radius: 5px;cursor: pointer;
+background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}
 
 /* Overlays */
 #overlays{position:absolute;top:28px;pointer-events: none;width:100%;height:100%}
@@ -477,7 +491,10 @@ fieldset {
 .translate{border: 2px solid #6C9;border-style: dotted;}
 
 /* CSSpicker */
-.cssselectorviewer{outline:#FF00FB 2px solid !important}
+#selectorcontainer{position:relative;border-top: 1px solid #c1c1c1}
+#csspicker{z-index: 1;padding: 2px;cursor:pointer;width: 23px;height:28px;position: absolute;top:1px;border-right:1px solid #c1c1c1;background: #f1f1f1 url('admin/img/picker.png') no-repeat 3px 9px;}
+#csspicker:hover,#csspicker.active{background-color: #dfdfdf}
+
 
 /* explorer */
 .explorer{float:right;cursor:pointer;margin-right: 15px;}
@@ -530,6 +547,35 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 }
 .placeholder input,.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
 .placeholder .tooltip{position: absolute;right: -19px;top: 1px;}
+
+/* Pagination */
+.pagination a{
+    display:block;width: 20px;height: 15px;margin:5px;float:left;
+    background-image: -moz-linear-gradient(top,white,#EFEFEF);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(white),to(#EFEFEF));
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=white,endColorStr=#EFEFEF);
+    border-radius: 3px;
+    background: #F6F6F6 -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
+    border: 1px solid #CCC;text-align:center;color: black;padding: 5px;vertical-align: middle;text-decoration:none;
+}
+.pagination a.active{
+    background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
+    background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
+}
+
+.pagination a:hover{
+    background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,white);
+    background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(white));
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=white);
+    -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
+}
+.pagination a:active {
+    background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
+    background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
+    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
+}
 
 /* Fix wysiwyg */
 #HTML5editorToolbar button{min-width: initial !important;}

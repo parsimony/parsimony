@@ -25,10 +25,12 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+?>
+<?php if($this->getConfig('fancybox') == '1' || $this->getConfig('url')): 
 \app::$request->page->addJSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.js');
 \app::$request->page->addCSSFile(BASE_PATH . 'lib/fancybox/jquery.fancybox-1.3.4.css');
 ?>
-<?php if($this->getConfig('fancybox') == '1' || $this->getConfig('url')): ?>
     <a <?php if($this->getConfig('fancybox')=="1") echo 'class="fancybox"' ?> href="<?php if($this->getConfig('url')){ echo $this->getConfig('url');} else echo PROFILE_PATH.$this->getConfig('imgPath'); ?>">
         <img  title="<?php echo $this->getConfig('title'); ?>" src="<?php echo BASE_PATH.$this->getConfig('imgPath'); ?>" alt="<?php echo $this->getConfig('alt'); ?>" style="box-sizing:border-box;width:<?php if($this->getConfig('width')){echo $this->getConfig('width').'px';}else echo '100%' ?>;<?php if($this->getConfig('height')){echo 'height:'.$this->getConfig('height').'px';}  ?>;" />
     </a>
