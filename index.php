@@ -27,7 +27,7 @@ include('install.php');exit;
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('PARSIMONY_VERSION','0.4');
+define('PARSIMONY_VERSION','0.5');
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
