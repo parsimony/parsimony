@@ -26,7 +26,7 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$blocks = $this->getBlocks();
+
 if($this->getConfig('items'))
 $items = $this->getConfig('items');
 else $items = 5;
