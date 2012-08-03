@@ -23,11 +23,12 @@
         ?>
         <style>body{overflow: hidden;}</style>
         <script>
-            $(window).load(function() {
-                $(".firstpanel a").trigger("click");
-            });
+            /*$(window).load(function() {
+                top.ParsimonyAdmin.resizeConfBox();
+            });*/
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
+                $(".firstpanel a").trigger("click");
             });
             $(document).on('click',".adminzonetab a",function(event){
                 event.preventDefault();

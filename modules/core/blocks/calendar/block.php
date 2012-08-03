@@ -30,8 +30,8 @@
 namespace core\blocks;
 
 /**
- * Recentposts Block Class 
- * Manages Recentposts Block
+ * Calendar Block Class 
+ * Manages Calendar Block
  */
 class calendar extends \block {
     
