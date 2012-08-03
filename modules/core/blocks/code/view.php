@@ -26,5 +26,5 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-include(PROFILE_PATH .$this->getConfig('pathCode'));
+include($this->getConfig('pathCode'));
 ?>
