@@ -81,7 +81,7 @@
 	    foreach ($imgs as $id => $image) {
 		?>
 		<div class="slide"> 
-		    <a href="<?php echo $image['url']; ?>" title="<?php echo $image['title']; ?>" target="_blank"><img class="imgpanel" title=""  src="<?php echo BASE_PATH ?>thumbnail?x=<?php echo $this->getConfig('width'); ?>&y=<?php echo $this->getConfig('height'); ?>&crop=1&path=<?php echo PROFILE_PATH.$this->module . '/files/' . $id ?>" alt=""></a>
+		    <a href="<?php echo $image['url']; ?>" title="<?php echo $image['title']; ?>" target="_blank"><img class="imgpanel" title=""  src="<?php echo BASE_PATH ?>thumbnail?x=<?php echo $this->getConfig('width'); ?>&y=<?php echo $this->getConfig('height'); ?>&crop=1&path=<?php echo stream_resolve_include_path($this->module . '/files/' . $id) ?>" alt=""></a>
 		    <div class="caption">
 			<p><?php echo $image['title']; ?></p>
 		    </div>

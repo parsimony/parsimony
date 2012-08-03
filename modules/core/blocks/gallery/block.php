@@ -46,7 +46,7 @@ class gallery extends \block {
     }
 
     public function init() {
-        $img =  array('Parsimony.png' => array('name' =>'/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
+        $img =  array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
         $this->setConfig('img', $img);
         $this->setConfig('script', 'slides');
         $this->setConfig('width', '200');

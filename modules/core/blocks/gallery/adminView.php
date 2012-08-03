@@ -154,15 +154,15 @@
             <div class="title ellipsis align_center">
 		<?php
 		$firstimage = current($this->getConfig('img'));
-		if (file_exists(PROFILE_PATH . 'core/files/' . $firstimage['name'])) {
+		if (stream_resolve_include_path('core/files/' . $firstimage['name'])) {
 		    echo '<span id="currentname" style="margin-left: 5px;">' . t('Current Name', false) . ' : ' . $firstimage['name'] . '</span><br>';
 		}
 		?></div>
 
-            <img class="img" title="" style="" 
+            <img class="imgf" title="" style="" 
                  src="<?php echo BASE_PATH; ?>thumbnail?x=150&y=150&crop=1&path=<?php
 		if ($firstimage != '') {
-		    echo PROFILE_PATH . 'core/files/' . $firstimage['name'];
+		    echo stream_resolve_include_path( 'core/files/' . $firstimage['name']);
 		}
 		?>" alt="" >
 
@@ -207,10 +207,13 @@
 	$imgs = $this->getConfig('img');
 	if (!empty($imgs)) {
 	    foreach ($this->getConfig('img') as $id => $image) {
+                if(is_file('modules/core/files/'. $id) && !is_file(PROFILE_PATH.'core/files/'. $id)){
+                    copy('modules/core/files/'. $id, PROFILE_PATH.'core/files/'. $id);
+                }
 		?>
 		<div class="template"> 
 		    <span onclick="$(this).parent().remove()" class="deleteimg ui-icon ui-icon-closethick"></span>
-		    <img title="" src="<?php echo BASE_PATH ?>thumbnail?x=100&y=100&crop=1&path=<?php echo PROFILE_PATH ?>core/files/<?php echo $id ?>" alt="">
+		    <img title="" src="<?php echo BASE_PATH ?>thumbnail?x=100&y=100&crop=1&path=<?php echo stream_resolve_include_path('core/files/'. $id) ?>" alt="">
 		    <input type="hidden" name="img[<?php echo $id ?>][name]" class="name" value="<?php echo $id; ?>" />
 		    <input type="hidden" name="img[<?php echo $id ?>][title]" class="title" value="<?php echo $image['title']; ?>" />
 		    <input type="hidden" name="img[<?php echo $id ?>][alt]" class="alt" value="<?php echo $image['alt']; ?>" />
