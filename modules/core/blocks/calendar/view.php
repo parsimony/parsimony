@@ -75,7 +75,7 @@ if (!empty($recposts)) {
 <div style="text-align: center">
     <div class="month"><?php echo t($monthNames[$thisMonth - 1]) . ' ' . $thisYear; ?></div>
     <div>
-        <div style="background: #ccc;font-weight:bold">
+        <div style="font-weight:bold">
             <div class="day">M</div>
             <div class="day">T</div>
             <div class="day">W</div>

@@ -284,7 +284,7 @@ class admin extends \module {
 	$newOrder = array();
 	foreach ($order as $value) {
 	    $id = substr($value,  strpos($value, '_') +1 );
-	    $newOrder[] = $id; 
+	    if(!empty($id)) $newOrder[] = $id; 
 	}
 	return $module->reoderPages($newOrder);
     }

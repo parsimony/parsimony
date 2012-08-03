@@ -280,3 +280,27 @@ overflow: hidden;
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
 }
+
+#mycalendar .day {
+width:28px;
+height:28px;
+line-height:28px;}
+
+#mycalendar .day.hasposts {
+background-color: #f3f3f3 !important;}
+
+#mycalendar .day.hasposts a {
+text-decoration:none;
+color:#259BDB;}
+
+#mycalendar .day.thismonth {
+background:#f9f9f9}
+
+#mycalendar .month {
+color:#484848;
+line-height:28px}
+
+#mycalendar .prev_month {
+color:#484848;
+line-height:28px;
+text-decoration:none}
