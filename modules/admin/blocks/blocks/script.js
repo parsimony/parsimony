@@ -128,6 +128,7 @@ function blockAdminBlocks() {
 	
         $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover.drag','.block,#dropInTree,.tree_selector', function(e) {
             e.stopImmediatePropagation();
+            e.preventDefault(); /* Firefox fix */
             return false;
         });
 
@@ -143,7 +144,7 @@ function blockAdminBlocks() {
         $this = this;
         
         $(ParsimonyAdmin.currentDocument).on('click.edit','.block',function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block'];
+            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
             blockInst.onClickEdit.apply(this, [e]);
         });
     }
@@ -177,6 +178,7 @@ function blockAdminBlocks() {
 	
         $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragover.creation dragenter.creation','.marqueurdragndrop', function(e) {
             e.stopImmediatePropagation();
+            e.preventDefault(); /* Firefox fix */
             return false;
         });
 	
@@ -184,6 +186,7 @@ function blockAdminBlocks() {
             $this.stopDragging();
             event.stopPropagation();
             var evt = event.originalEvent;
+            evt.preventDefault(); /* Firefox fix */
             evt.stopPropagation();
             var elmt = $( "#dropInPage" ,ParsimonyAdmin.currentBody);
             if(elmt.is(':visible')){

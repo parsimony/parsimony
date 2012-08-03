@@ -23,11 +23,7 @@ var ParsimonyAdmin = {
 
 	$("#ajaxhack").on("load",function() {
 	    var elmt = $(this).contents().find('body').text();
-	    ParsimonyAdmin.execResult(elmt);
-	});
-
-	$("#conf_box_content_iframe").on("load",function() {
-	    ParsimonyAdmin.resizeConfBox();
+	    if(elmt != "") ParsimonyAdmin.execResult(elmt); /* Firefox fix */
 	});
 
 	$("#dialog-id").keyup(function(){
@@ -251,7 +247,7 @@ var ParsimonyAdmin = {
     execResult :   function (obj){
 	if (obj.notification == null) 
 	    var obj = jQuery.parseJSON(obj);
-	eval(obj.eval);
+	if(obj.eval != null) eval(obj.eval);
 	var headParsiFrame = $('#parsiframe').contents().find("head");
 	if(obj.jsFiles){
 	    obj.jsFiles = jQuery.parseJSON(obj.jsFiles);
@@ -365,10 +361,9 @@ var ParsimonyAdmin = {
     },
     displayConfBox :   function (url,title,params,modal){
         $("#conf_box_load").show();
-	$("#conf_box").hide();
 	if(typeof modal == "undefined" || modal == true) ParsimonyAdmin.showOverlay();
 	ParsimonyAdmin.setConfBoxTitle(title);
-        $("#conf_box,#conf_box_content" ).attr("style","");
+        $("#conf_box,#conf_box_content" ).removeAttr("style");
         if(url.substring(0,1) != "#"){
             ParsimonyAdmin.returnToShelter();
             $("#conf_box_form").attr("action",url).empty();
@@ -388,13 +383,6 @@ var ParsimonyAdmin = {
                 $("#conf_box_content_inline").show().append($(url));
                 $("#conf_box_content_iframe").hide();
                 $(url).show();
-                $("#conf_box" ).css({
-                    "display" : "block",
-                    "width" : $(url).outerWidth() + "px"
-                });
-                $("#conf_box_content" ).css({
-                    "height" : $(url).outerHeight() + "px"
-                });
             }
 	},
 	closeConfBox :   function (){
@@ -406,18 +394,14 @@ var ParsimonyAdmin = {
 	},
 	resizeConfBox : function(){
             $("#conf_box_load").hide();
+            $( "#conf_box_content_iframe" ).removeAttr("style");
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
 	    if(doc.location.href != "about:blank"){
-		var bodyIframe = $("body",doc).get(0);
 		$( "#conf_box_content_iframe" ).css({
-		    "width": bodyIframe.scrollWidth + "px",
-		    "height": bodyIframe.scrollHeight + "px"
+		    "width": ($(".adminzonecontent",doc).outerWidth() + $(".adminzonemenu",doc).outerWidth()) + "px",
+		    "height": $("body",doc).outerHeight() + "px"
 		});
-		$( "#conf_box" ).css({
-		    "width": bodyIframe.scrollWidth + "px",
-                    "height": bodyIframe.scrollHeight + "px"
-		});
-		$("#conf_box").show();
+                $("#conf_box").show();
 	    }
 	},
 	setConfBoxTitle :   function (title){
@@ -623,7 +607,7 @@ var ParsimonyAdmin = {
 	},
 	loadBlock: function(id, params, func){
             if(!params) params = {};
-	    $.get(window.location.toLocaleString(),params , function(data) {
+	    $.get(window.location.href.toLocaleString(),params , function(data) {
 		$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
 	    },func);
 	//$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");

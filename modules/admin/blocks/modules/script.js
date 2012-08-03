@@ -21,7 +21,7 @@ function blockAdminModules() {
     }
     this.loadCreationMode = function () {
 	//highlight link on list page
-	var src = ParsimonyAdmin.currentWindow.location.toLocaleString().replace("http://","");
+	var src = ParsimonyAdmin.currentWindow.location.href.toLocaleString().replace("http://","");
 	var src = src.substring(src.indexOf(BASE_PATH)).replace("?parsiframe=ok","").replace("parsiframe=ok","");
 	var itemLink = $('.sublist[data-url="' + src + '"]');
 	if(itemLink.length > 0){
