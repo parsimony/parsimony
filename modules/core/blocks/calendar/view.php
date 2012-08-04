@@ -90,20 +90,23 @@ if (!empty($recposts)) {
             $totalDays = $maxday;
             $thismonth = getdate($firstDayOfMonth);
             $startday = $thismonth['wday'];
-            $i = -1;
+	    if($startday == 0) $startday = 7;
             if ($startday > 1) {
                 $totalDays = --$startday + $maxday;
                 for ($i = 1 - $startday; $i <= 0; $i++)
                     echo '<div class="day out">' . date('d', mktime(0, 0, 0, $thisMonth, $i, $thisYear)) . '</div>';
             }
+	    $nb = $startday;
             foreach ($daysOfThisMonth as $day => $nbPosts) {
-                $i++;
-                if ($i % 7 == 0)
+                if ($nb == 7){
                     echo '<div style="clear:both"></div></div><div class="week">';
+		    $nb = 0;
+		}
                 if ($nbPosts > 0)
                     echo '<div class="day thismonth hasposts"><a href="'.BASE_PATH.$thisYear.'/'.sprintf('%02d',$thisMonth).'/'.sprintf('%02d',$day).'">' . $day . '</a></div>';
                 else
                     echo '<div class="day thismonth">' . $day . '</div>';
+		$nb++;
             }
             $bonus = 42 - $totalDays;
             if ($bonus >= 7)
