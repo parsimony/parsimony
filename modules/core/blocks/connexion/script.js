@@ -1,0 +1,24 @@
+function block_connexion() {
+    
+    block.call(this);  
+    
+    this.name = "connexion";
+
+    this.stylableElements = {
+	"My account title":"h3",
+	"user info box":".userInfo",
+	"logout link":".logout",
+	"form":"form",
+	"labels":"label",
+	"login part":".connectLogin",
+	"login input":".connectLogin input",
+	"login label":".connectLogin label",
+	"password part":".connectPassword",
+	"password input":".connectPassword input",
+	"password label":".connectPassword label",
+	"button part":".connectSubmit",
+	"submit button":".connectSubmit input",
+	"error message":".error"
+    }
+    
+}

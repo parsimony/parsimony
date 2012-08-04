@@ -5,7 +5,7 @@ if($this->getConfig('module')){
         if($entity->insertInto($_POST)){
             echo '<div class="notify positive">'.t($this->getConfig('success')).'</div>';
         }else{
-            echo '<div class="notify positive">'.t($this->getConfig('fail')).'</div>';
+            echo '<div class="notify negative">'.t($this->getConfig('fail')).'</div>';
         }
     }
 

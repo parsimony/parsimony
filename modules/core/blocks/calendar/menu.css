@@ -1,0 +1,8 @@
+.calendar{text-align:center}
+.day {float:left;width:28px;height:28px;line-height:28px;}
+.day.hasposts {background-color: #f3f3f3 !important;}
+.day.hasposts a {text-decoration:none;color:#259BDB;}
+.day.thisMonth {background:#f9f9f9}
+.monthTitle {font-weight:bold;color:#484848;line-height:28px}
+.weekTitle {font-weight:bold;}
+.prevMonth {color:#484848;line-height:28px;text-decoration:none}

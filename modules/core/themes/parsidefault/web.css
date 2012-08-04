@@ -275,13 +275,10 @@ overflow: hidden;
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=white);
     -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
 }
-.pagination a:active {
-    background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
-    background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
-}
 
+#mycalendar .calendar{text-align:center}
 #mycalendar .day {
+float:left;
 width:28px;
 height:28px;
 line-height:28px;}
@@ -293,14 +290,24 @@ background-color: #f3f3f3 !important;}
 text-decoration:none;
 color:#259BDB;}
 
-#mycalendar .day.thismonth {
+#mycalendar .day.thisMonth {
 background:#f9f9f9}
 
 #mycalendar .month {
 color:#484848;
 line-height:28px}
 
-#mycalendar .prev_month {
+#mycalendar .prevMonth {
 color:#484848;
 line-height:28px;
 text-decoration:none}
+
+#mycalendar .monthTitle {font-weight:bold;color:#484848;line-height:28px}
+
+#mycalendar .weekTitle {font-weight:bold;}
+
+#cloudtags .xsmall{font-size:x-small}
+#cloudtags .small{font-size:small}
+#cloudtags .medium{font-size:medium}
+#cloudtags .large{font-size:large}
+#cloudtags .xlarge{font-size:x-large}

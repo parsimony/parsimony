@@ -32,10 +32,11 @@ GROUP BY core_tag.name ORDER BY nb DESC LIMIT 0 , 30')->fetchAll(\PDO::FETCH_ASS
 
 if(isset($tags[0]['nb'])){
     $nbMax = $tags[0]['nb'];
+    echo '<ul>';
     foreach ($tags as $key => $tag) {
         $percent = floor(($tag['nb'] / $nbMax) * 100);
         if ($percent < 20):
-            $size = 'x-small';
+            $size = 'xsmall';
         elseif ($percent >= 20 and $percent < 40):
             $size = 'small';
         elseif ($percent >= 40 and $percent < 60):
@@ -43,9 +44,10 @@ if(isset($tags[0]['nb'])){
         elseif ($percent >= 60 and $percent < 80):
             $size = 'large';
         else:
-            $size = 'x-large';
+            $size = 'xlarge';
         endif;
-        echo '<a class="tags" href="tag/'.$tag['url'].'"  style="font-size:'.$size.'">'.$tag['name'].'</a>';
+        echo '<li><a class="'.$size.'" href="tag/'.$tag['url'].'">'.$tag['name'].'</a></li>';
     }
+    echo '</ul>';
 }
 ?>

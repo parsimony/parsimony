@@ -27,32 +27,30 @@
  */
 if (\app::getClass('user')->VerifyConnexion()) :
     ?>
-    <div id="log">
-        <h3 class="account"><?php echo t('My account') ?> :</h3>
-        <div class="connect">
-	    <?php echo t('You are connected') ?> (<a class="logout" href="logout"><?php echo t('Logout') ?></a>)
-        </div>
+    <h3><?php echo t('My account') ?> :</h3>
+    <div class="userInfo">
+	<?php echo t('You are connected') ?> (<a class="logout" href="logout"><?php echo t('Logout') ?></a>)
     </div>
 <?php else : ?>
-    <form method="POST" action="<?php echo BASE_PATH; ?>login" id="connexion">
-	<div class="none error"></div>
-        <div class="connectLogin"><label><?php echo t('User'); ?> : </label><input type="text" name="login" id="login" /></div>
-        <div class="connectPassword"><label><?php echo t('Password'); ?> : </label><input type="password" name="password" id="password" /></div>
-        <div class="connectSubmit"><input type="submit" id="connexion" value="<?php echo t('Login', false); ?>" /></div>
+    <form method="POST" action="<?php echo BASE_PATH; ?>login" class="connexion">
+        <div class="none error"></div>
+        <div class="connectLogin"><label><?php echo t('User'); ?> : </label><input type="text" name="login" class="login" /></div>
+        <div class="connectPassword"><label><?php echo t('Password'); ?> : </label><input type="password" name="password" class="password" /></div>
+        <div class="connectSubmit"><input type="submit" value="<?php echo t('Login', false); ?>" /></div>
     </form>
     <script>
         $(document).ready(function() {
-	    $(document).on("submit","#connexion",function(e){
-		e.preventDefault();
-		$.post("<?php echo BASE_PATH; ?>loginAjax", { login: $("#login").val(), password: $("#password").val() },
-		function(data) {
-		    if(data == 1){
-			window.location.reload();
-		    }else{
-			$("#<?php echo $this->getId(); ?> .error").fadeIn().html("<?php echo t('Login or/and password are invalid'); ?>");
-		    }
-		});
-	    });
+    	$(document).on("submit","#<?php echo $this->getId(); ?> .connexion",function(e){
+    	    e.preventDefault();
+    	    $.post("<?php echo BASE_PATH; ?>loginAjax", { login: $(".login", this).val(), password: $(".password", this).val() },
+    	    function(data) {
+    		if(data == 1){
+    		    window.location.reload();
+    		}else{
+    		    $("#<?php echo $this->getId(); ?> .error").fadeIn().html("<?php echo t('Login or/and password are invalid'); ?>");
+    		}
+    	    });
+    	});
         });
     </script>
 <?php endif; ?>

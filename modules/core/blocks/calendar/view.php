@@ -67,15 +67,10 @@ if (!empty($recposts)) {
     }
 }
 ?>
-
-<style>
-    .day{float:left;}
-    .thismonth{font-weight:bold;}
-</style>
-<div style="text-align: center">
-    <div class="month"><?php echo t($monthNames[$thisMonth - 1]) . ' ' . $thisYear; ?></div>
-    <div>
-        <div style="font-weight:bold">
+<div class="calendar">
+    <div class="monthTitle"><?php echo t($monthNames[$thisMonth - 1]) . ' ' . $thisYear; ?></div>
+    <div class="calendarInner">
+        <div class="weekTitle">
             <div class="day">M</div>
             <div class="day">T</div>
             <div class="day">W</div>
@@ -103,9 +98,9 @@ if (!empty($recposts)) {
 		    $nb = 0;
 		}
                 if ($nbPosts > 0)
-                    echo '<div class="day thismonth hasposts"><a href="'.BASE_PATH.$thisYear.'/'.sprintf('%02d',$thisMonth).'/'.sprintf('%02d',$day).'">' . $day . '</a></div>';
+                    echo '<div class="day thisMonth hasposts"><a href="'.BASE_PATH.$thisYear.'/'.sprintf('%02d',$thisMonth).'/'.sprintf('%02d',$day).'">' . $day . '</a></div>';
                 else
-                    echo '<div class="day thismonth">' . $day . '</div>';
+                    echo '<div class="day thisMonth">' . $day . '</div>';
 		$nb++;
             }
             $bonus = 42 - $totalDays;
@@ -116,10 +111,10 @@ if (!empty($recposts)) {
             ?>
         </div>
     </div>
-    <div style="clear:both">
-        <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prev_month">< <?php echo t($monthNames[$prev_month - 1]) ?></a>
+    <div class="calendarNav">
+        <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prevMonth">< <?php echo t($monthNames[$prev_month - 1]) ?></a>
         <?php if ($next_month <= date('n')): ?>
-            <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="next_month"><?php echo t($monthNames[$next_month - 1]) ?> ></a>
+            <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="nextMonth"><?php echo t($monthNames[$next_month - 1]) ?> ></a>
         <?php endif; ?>
     </div>
 </div>
