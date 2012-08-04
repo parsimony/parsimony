@@ -584,6 +584,9 @@ $selectors = $css->getAllSselectors();
         picker.el.style.top = ($(this).offset().top) + 20 + "px";
         picker.el.style.left = ($(this).offset().left - 200) + "px";
     });
+    $("#panelcss").on('blur','.colorpicker2',function(){
+        picker.el.style.display = "none";
+    });
 
     $("#panelcss").on('change','.representation input:not(".resultcss"),.representation select:not(".resultcss")',function(){
         obj = $(this).closest('.representation');
