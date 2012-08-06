@@ -35,7 +35,6 @@ $recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.t
 
 ?> 
 
-<h1><?php echo t('Recent posts',false) ;?></h1>
 <ul>
 <?php foreach ($recposts as $key => $recentpost) : ?>
 	<li class="recentposts">
