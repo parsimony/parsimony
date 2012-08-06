@@ -170,14 +170,6 @@
 
         <div class="floatleft gradStyle" id="settings">
             <div id="globalsettings"><span class="settings"><?php echo t('Global Settings', false); ?></span><br>
-                <div class="labels">
-                    <label class="ellipsis" style="width: 80px;"><?php echo t('Script', false); ?> : </label>
-                    <select name="script" style="width: 80px;">
-                        <option value="slides">Slides</option>
-                        <option value="swipe"<?php if($this->getConfig('script') == 'swipe') echo 'selected="selected"'; ?>>Swipe</option>
-                       <?php /*<option value=""></option>*/ ?>
-                    </select>    
-                </div>
                 <div class="labels" style="display: inline;">
                     <label style="width: 83px;" class="ellipsis"><?php echo t('Width', false); ?> (px): </label><input style="width: 40px;" type="text" name="width" value="<?php echo $this->getConfig('width'); ?>" />
                 </div>

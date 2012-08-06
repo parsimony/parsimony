@@ -147,7 +147,29 @@ class admin extends \module {
         }
 	$block = $this->search_block($this->$stop_typecont, $parentBlock);
         $block->addBlock($tempBlock, $id_next_block);
+	
+	/* If exists : Add default block CSS in current theme  */
+	if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
+	    $css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
+	    $cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
+	    foreach ($css->getAllSselectors() as $selector) {
+		$newSelector = '#'.$idBlock.' '.$selector;
+		if (!$cssCurrentTheme->selectorExists($newSelector)) {
+		    $cssCurrentTheme->addSelector($newSelector);
+		}
+		foreach ($css->extractSelectorRules($selector) as $property => $value) {
+		    $value = str_replace('BASE_PATH',BASE_PATH,$value);
+		    if (!$cssCurrentTheme->propertyExists($newSelector, $property)) {
+                        $cssCurrentTheme->addProperty($newSelector, $property, $value);
+                    } else {
+                        $cssCurrentTheme->updateProperty($newSelector, $property, $value);
+                    }
+		}
+	    }
+	    $cssCurrentTheme->save();
+	}
         $this->saveAll();
+	
         if ($this->search_block($this->$stop_typecont, $idBlock) != NULL) {
             \app::$request->page = new \page(999, 'core');
 	    $return = array('eval' => $tempBlock->ajaxRefresh('add'), 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');

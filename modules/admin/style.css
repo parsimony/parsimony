@@ -466,12 +466,12 @@ fieldset {
 
 /* Resizable */
 .parsimonyDND{pointer-events:all}
-.parsimonyResize{position: absolute;display:none;z-index: 99999; display: block; width: 12px; height: 12px;background: #444;border-radius:10px;pointer-events:all}
-.parsimonyResize.se{ right: -6px; bottom: -6px;cursor: se-resize;}
-.parsimonyResize.nw{ left: -6px; top: -6px;cursor: nw-resize;}
-.parsimonyResize.ne{ right: -6px; top: -6px;cursor: ne-resize;}
-.parsimonyResize.sw{ left: -6px; bottom: -6px;cursor: sw-resize;}
-.parsimonyResizeInfo{background:rgba(0,0,0,0.7);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
+.parsimonyResize{position: absolute;display:none;z-index: 99999; display: block; width: 10px; height: 10px;background: #00C0F1;border-radius:10px;pointer-events:all}
+.parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
+.parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;}
+.parsimonyResize.ne{ right: -5px; top: -5px;cursor: ne-resize;}
+.parsimonyResize.sw{ left: -5px; bottom: -5px;cursor: sw-resize;}
+.parsimonyResizeInfo{background:rgba(0,0,0,0.9);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
 .parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
 .spanDND{margin-top: -5px;vertical-align: top;display: inline-block;position: relative;border: #333 solid 2px;border-radius: 5px;cursor: pointer;
 background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}
@@ -504,14 +504,23 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 #notify.normal{color:#444;background:#eee;border:solid #333 1px;}
 
 /* Menu link trad */
-#menu{font-style:arial, sans-serif;font-size:13px;position:absolute;border:1px #888 solid;padding:2px;border-radius:5px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: white;background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2');}
+#menu,#menu .CSSProps{font-family: arial;font-size:12px;position:absolute;border:1px #888 solid;padding:2px;border-radius:4px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: #f9f9f9;}
 #menu .option{border-top: white solid 1px;border-bottom: #E0E0E0 solid 1px;padding: 5px;clear:both}
-#menu .option:hover{background:#eee;cursor:pointer}
-#menu h5{padding: 4px 8px;line-height: 16px;font-family: arial;font-size: 13px;color: #fff;letter-spacing: 1.1px;border-radius: 3px;
+#menu .option:last-child{border-bottom:0}
+#menu .option:hover,#menu .CSSProps a:hover{background:#eee;cursor:pointer}
+#menu .ui-icon{position: relative;top:-3px}
+#menu h5{padding: 4px 8px;line-height: 16px;font-family: arial;font-size: 13px;font-weight: normal;color: #fff;letter-spacing: 1.1px;border-radius: 2px;
 background: -webkit-gradient(linear,left bottom,left top,from(#777),to(#828282));
 background: -moz-linear-gradient(bottom,#828282,#777);
 background: -o-linear-gradient(bottom,#828282,#777);}
 #menu a{color: #333;text-decoration: none;display: block;}
+#menu .CSSDesign{position:relative;}
+#menu .CSSProps{position: absolute;left: 100%;top: -7px;background: #F9F9F9;min-width: 250px;}
+#menu .CSSDesign:hover .CSSProps{display:block !important}
+#menu .CSSProps a{line-height:22px;clear:both;border-bottom: #E0E0E0 solid 1px;}
+#menu .CSSProps a:last-child{border-bottom:0}
+#menu .CSSProps .ui-icon{position: relative;top:3px}
+#menu .cssblock{display: inline-block;vertical-align: top;height: 12px;}
 
 /* Transitions */
 .notransition{
