@@ -30,7 +30,7 @@
 <script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui-1.8.18.min.js"><\/script>')</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/nestedSortable/jquery.ui.nestedSortable.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.json-2.3.min.js.js" ></script>
-<link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/menu.css">
+<link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/default.css">
 <style>
     fieldset{background: #F9F9F9;}
     .placeholdermenu {background-color: #fff;border: 1px #ccc dashed}
