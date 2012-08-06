@@ -56,7 +56,7 @@ class formadd extends \block {
         foreach($entity->getFields() AS $name => $field){
             $html .= "\t\t".'<?php echo $entity->'.$name.'->formAdd(); ?>'.PHP_EOL;
         }
-        $html .= "\t".'<input type="submit" value="<?php echo t(\'Save\', FALSE); ?>" name="add">'.PHP_EOL;
+        $html .= "\t".'<input type="submit" value="<?php echo t(\'Save\', FALSE); ?>" name="add" class="submit">'.PHP_EOL;
         $html .= '</form>';
 	return $html;
     }

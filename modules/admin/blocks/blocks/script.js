@@ -230,12 +230,14 @@ function block() {
         if(e.trad != true && e.link != true) ParsimonyAdmin.closeParsiadminMenu();
         ParsimonyAdmin.addTitleParsiadminMenu('#' + ParsimonyAdmin.inProgress);
         ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
-        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="cssblock"><span class="ui-icon ui-icon-pencil floatleft"></span>'+ t('Design') +'</a>');
+	var CSSProps = '';
 	if(typeof me.stylableElements != "undefined"){
 	    $.each(me.stylableElements, function(index, value) { 
-		ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" onclick="blockAdminCSS.displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;"><span class="ui-icon ui-icon-pencil floatleft"></span>'+ t('Design') + ' ' + t(index) + '</a>');
+		CSSProps += '<a href="#" onclick="blockAdminCSS.displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;"><span class="ui-icon ui-icon-pencil floatleft"></span>'+ t('Design') + ' ' + t(index) + '</a>';
 	    });
+	    CSSProps = '<span class="ui-icon ui-icon-carat-1-e floatright"></span><div class="none CSSProps">' + CSSProps + '</a>';
 	}
+	ParsimonyAdmin.addOptionParsiadminMenu('<div class="CSSDesign"><a href="#" class="cssblock"><span class="ui-icon ui-icon-pencil floatleft"></span>' + t('Design') + '</a>' + CSSProps + '</div>');
         if(this.id != "container") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" draggable="true" class="move_block" style="cursor:move"><span class="ui-icon ui-icon-arrow-4 floatleft"></span>'+ t('Move') +'</a>');
         if(this.id != "container" && this.id != "content") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="config_destroy"><span class="ui-icon ui-icon-closethick floatleft"></span>'+ t('Delete') +'</a>');
         ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width()/2),e.pageY || ($(window).height()/2));

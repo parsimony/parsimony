@@ -40,7 +40,6 @@ class gallery extends \block {
     
     public function saveConfigs() {
         $this->setConfig('img', $_POST['img']);
-        $this->setConfig('script', $_POST['script']);
         $this->setConfig('width', $_POST['width']);
         $this->setConfig('height', $_POST['height']);
     }
@@ -48,9 +47,8 @@ class gallery extends \block {
     public function init() {
         $img =  array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
         $this->setConfig('img', $img);
-        $this->setConfig('script', 'slides');
-        $this->setConfig('width', '200');
-        $this->setConfig('height', '200');       
+        $this->setConfig('width', '500');
+        $this->setConfig('height', '250');       
     }
     
     public function ajaxRefresh($type = FALSE) {
