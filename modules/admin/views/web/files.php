@@ -37,7 +37,7 @@ foreach (glob($dirPath . '/*') as $filename) :
         $filename = str_replace('//','/',$filename); //fix
 	?>
 	<div class="explorer_file dir">
-	    <img src="<?php echo BASE_PATH ?>admin/img/icons/DIR.jpg" style="width:60%;height:60%" >
+	    <img src="<?php echo BASE_PATH ?>admin/img/dir.jpg" style="width:60%;height:60%" >
 	    <div class="explorer_file_name" path="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
@@ -45,10 +45,10 @@ foreach (glob($dirPath . '/*') as $filename) :
 	    (empty($extKo) || !in_array(substr(strrchr($filename, '.'), 1), $extKo))) :
 	?>
 	<div class="explorer_file">
-	    <?php if (is_file('modules/admin/img/icons/' . strtoupper(substr($filename, -3)) . '.jpg')): ?>
-	        <img src="<?php echo BASE_PATH . 'admin/img/icons/' . strtoupper(substr($filename, -3)) ?>.jpg" style="width:60%;height:60%" >
+	    <?php if (is_file('modules/admin/img/icons/file.png')): ?>
+	        <img src="<?php echo BASE_PATH ?>admin/img/icons/file.png" style="width:60%;height:60%" >
 	    <?php else: ?>
-	        <img src="<?php echo BASE_PATH ?>admin/img/icons/FILE.jpg" style="width:60%;height:60%" >
+	        <img src="<?php echo BASE_PATH ?>admin/img/file.png" style="width:60%;height:60%" >
 	    <?php endif; ?>
 	    <div class="explorer_file_name" file="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
