@@ -288,7 +288,8 @@
                                                         <tr class="paramdyn">
                                                             <td class="type"><?php echo t('Regex', FALSE); ?></td>
                                                             <td class="parsiname"><input value="<?php echo $component['name']; ?>" name="URLcomponents[<?php echo $idc; ?>][name]" style="width:100px" type="text" ></td>
-                                                            <td class="regex"><input value="<?php echo $component['regex']; ?>" name="URLcomponents[<?php echo $idc; ?>][regex]" type="text" style="width:100px" ><input value="<?php if (isset($component['modelProperty'])) echo $component['modelProperty']; ?>" name="URLcomponents[<?php echo $idc; ?>][modelProperty]" type="hidden"></td>
+                                                            <td class="regex"><input value="<?php echo $component['regex']; ?>" name="URLcomponents[<?php echo $idc; ?>][regex]" type="text" style="width:100px" ></td>
+                                                            <td class="modelProperty" style="display:none"><input value="<?php if (isset($component['modelProperty'])) echo $component['modelProperty']; ?>" name="URLcomponents[<?php echo $idc; ?>][modelProperty]" type="hidden"></td>
                                                             <td class="val"><input value="<?php echo $component['val']; ?>" name="URLcomponents[<?php echo $idc; ?>][val]" type="text" style="width:100px"></td>
                                                             <td style="text-align:center"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></td>
                                                         </tr>
@@ -322,7 +323,7 @@
                     <div class="placeholder"><label for="meta[copyright]"><?php echo t('Copyright', FALSE); ?></label><textarea class="cent" name="meta[copyright]" row="7" cols="50"><?php echo s($page->getMeta('copyright')); ?></textarea></div>
                 </div>
                 <input class="none" type="submit" id="sendFormPage">
-            </div></form>
+            </div>
+        </form>
     </div>
-
 </div>
