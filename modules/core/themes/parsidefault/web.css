@@ -1,14 +1,3 @@
-/*
-      Created by Keith Donegan of Code-Sucks.com
-	  
-	  E-Mail: Keithdonegan@gmail.com
-	  
-	  You can do whatever you want with these layouts,
-	  but it would be greatly appreciated if you gave a link
-	  back to http://www.code-sucks.com
-	  
-*/
-
 * {
 padding: 0;
     margin: 0;}
@@ -163,6 +152,8 @@ text-indent: 20px;
 line-height: 25px;
 padding: 0px 0px 5px 70px;}
 
+#mycategories{margin-top:15px}
+
 #mycategories   a {
     text-decoration:none;
     color: #259BDB;
@@ -306,8 +297,11 @@ text-decoration:none}
 
 #mycalendar .weekTitle {font-weight:bold;}
 
+#cloudtags{margin-top: 15px}
 #cloudtags .xsmall{font-size:x-small}
 #cloudtags .small{font-size:small}
 #cloudtags .medium{font-size:medium}
 #cloudtags .large{font-size:large}
 #cloudtags .xlarge{font-size:x-large}
+
+.parsiTitle{color: #5D5D5D;font-size: 10px;font-weight: 500;letter-spacing: 1.1px;line-height: 25px;text-transform: uppercase;}
