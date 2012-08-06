@@ -64,7 +64,7 @@ function blockAdminCSS() {
 			    else{
 				if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
 			    }
-			    selectProp = selectid + selectclass.replace(".clearboth","") + " " + selectProp;
+			    selectProp = selectid + selectclass.replace(".clearboth","").replace(".parsieditinline","") + " " + selectProp;
 			    if(selectid != "") good = true;
 			}
 		    });
@@ -260,7 +260,7 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
 }
 blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrule) {
     var id = 'idcss' + nbstyle + nbrule;
-    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div style="text-shadow: 0px 1px 0px white;margin-right: 38px;word-break: break-all;"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
+    var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
     + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
     + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
     $("#changecsscode").prepend(code);

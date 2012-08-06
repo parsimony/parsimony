@@ -72,31 +72,32 @@ include_once('modules/core/classes/field.php');
     .table {z-index:60; float: left; margin: 10px;border:1px solid gray;
             position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
             font-size:15px;background-color:white;font-weight:bold;
-            border-radius: 8px;
+            border-radius: 5px;
             box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
             background: linear-gradient(#FFFFFF, #ddd);}
     .table:hover{-webkit-box-shadow: 0px 0px 20px #ccc;}
-    .property{position:relative;cursor: pointer;border-bottom: dashed #CCC 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;}
+    .property{position:relative;cursor: pointer;border-bottom: dashed #CCC 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-family: arial;font-size: 12px;font-weight: normal;}
     .property.current_property,.table .property:hover{background-color: #CBD8E8;}
     .property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
     .property[type_class=field_foreignkey]::before{ content:"#"; }
+    .table .property:last-child{ border-radius: 0 0 3px 3px; }
     .ombre{-webkit-box-shadow: 0px 0px 20px #34afb6;}
     .dragActive { border:4px dotted #b634af; border-radius:50px;}
     label{font-size: 13px;line-height: 26px;width: 140px;display: block;float: left;padding-left: 10px;}
-    h2,.title{text-align:center;font-size: 15px;padding:7px;color: white;
+    h2,.title{text-align:center;font-family: arial;font-size: 12px;padding:7px;color: white;
               border-color: #2E63A5;
               background: #5E9AE2;
               background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
               background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
               filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5E9AE2', endColorstr='#3570B8');}
-    .title{border-top-left-radius: 4px;border-top-right-radius: 4px;text-align: center;/*text-decoration: underline;*/}
+    .title{border-top-left-radius: 2px;border-top-right-radius: 2px;text-align: center;/*text-decoration: underline;*/}
     #leftsidebar{box-shadow: 2px 1px 8px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:28px;background: #EEE;border:1px solid #000000;}
     #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#F1F5F9;right:0;top:28px;}
     #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff}
     .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;}
     #outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
     h3{margin:10px 0;font-size:16px;padding-left: 5px;}
-    .component{font-size: 12px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
+    .component{font-size: 11px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
     .component:hover{opacity:1}
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
@@ -106,7 +107,7 @@ include_once('modules/core/classes/field.php');
     .question input{margin-right: 10px;}
     #conf_box_close{background-image: url(/parsicool/admin/img/icons.png);margin: 5px;position: absolute;top: 2px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
-    #cardinality{border-radius: 5px 5px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
+    #cardinality{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
     input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
     .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
