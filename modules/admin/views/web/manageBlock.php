@@ -65,6 +65,9 @@ if (is_object($block) == NULL) {
 		<input type="hidden" name="action" value="saveBlockConfigs" />
 	    </div>
 	    <div id="accordionBlockConfigGeneral" class="admintabs">
+                <div class="placeholder">
+		    <label> <?php echo t('Header Title',FALSE); ?> </label> <input type="text" name="headerTitle" value="<?php echo $block->getConfig('headerTitle') ?>">
+		</div>
 		<div class="placeholder">
 		    <label> <?php echo t('Cache Seconds',FALSE); ?> </label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
 		</div>

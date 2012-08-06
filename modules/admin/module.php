@@ -190,8 +190,9 @@ class admin extends \module {
      * @param string $cssClasses
      * @return string 
      */
-    protected function saveBlockConfigsAction($typeProgress, $idBlock, $maxAge, $tag, $allowedModules, $ajaxReload, $ajaxLoad, $cssClasses) {
+    protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $allowedModules, $ajaxReload, $ajaxLoad, $cssClasses) {
 	$block = $this->search_block($this->$typeProgress, $idBlock);
+        $block->setConfig('headerTitle', $headerTitle);
 	$block->setConfig('maxAge', $maxAge);
 	$block->setConfig('tag', $tag);
 	$block->setConfig('allowedModules', $allowedModules);

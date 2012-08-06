@@ -212,6 +212,9 @@ abstract class block {
             else
                 $balise = 'div';
             $html = '<' . $balise . ' id="' . $this->id . '" class="block '.$this->blockName.' ' . (string) $this->getConfig('cssClasses') . '">';
+            if ($this->getConfig('headerTitle')) {
+                    $html .= '<h2 class="parsiTitle">'.$this->getConfig('headerTitle').'</h2>';
+            }
             if ($this->getConfig('ajaxReload')) {
                 \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $this->getConfig('ajaxReload') . '000);});</script>';
             }
