@@ -37,7 +37,6 @@ include_once('modules/core/classes/field.php');
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jquery.json-2.3.min.js.js" ></script>
 <script type="text/javascript">
     var BASE_PATH = '<?php echo BASE_PATH ?>';
     var MODULE = '<?php echo MODULE ?>';
@@ -831,7 +830,7 @@ include_once('modules/core/classes/field.php');
                         predictedname += '_'+n;
                     }           
                 }
-                var jsonproperties = jQuery.parseJSON($.toJSON($("#field_list div[type_class='field_foreignkey']").data("attributs")));
+                var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_foreignkey']").data("attributs")));
                 jsonproperties.name = predictedname;
                 jsonproperties.label = predictedname;
                 var linkName = objSource.find(".title").text();
@@ -854,7 +853,7 @@ include_once('modules/core/classes/field.php');
                             $("#container_bdd").prepend('<div id="table_' + tablename + '"data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
                             var monid_champ = "table_" + tablename +  "_id_" + tablename;
                             var table_name = tablename;
-                            var jsonproperties = jQuery.parseJSON($.toJSON($("#field_list div[type_class='field_ident']").data("attributs")));
+                            var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
                             jsonproperties.entity = table_name;
                             jsonproperties.name = "id_" + table_name;
                             jsonproperties.label = "Id " + table_name;
@@ -1040,7 +1039,7 @@ include_once('modules/core/classes/field.php');
                         propertylist += '{"name": "' + enc(recupId) + '","oldName": "' + enc(tableAttrs.oldName) + '","title":"' + enc(tableAttrs.title) + '","behaviorTitle":"' + enc(tableAttrs.behaviorTitle) + '","behaviorDescription":"' + enc(tableAttrs.behaviorDescription) + '","behaviorKeywords":"' + enc(tableAttrs.behaviorKeywords) + '","behaviorImage":"' + enc(tableAttrs.behaviorImage) + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
                         $(".property",$(this)).each(function(){
                             var jsonproperties = $(this).data("attributs");
-                            propertylist += '"' + enc(jsonproperties.name) + ':' + $(this).attr("type_class") + '" :' + $.toJSON(jsonproperties) +' ,';
+                            propertylist += '"' + enc(jsonproperties.name) + ':' + $(this).attr("type_class") + '" :' + JSON.stringify(jsonproperties) +' ,';
                         });
                         propertylist = propertylist.substring(0, propertylist.length-1) + '}},';
                     });
@@ -1150,7 +1149,7 @@ include_once('modules/core/classes/field.php');
                         if(nom_champ){
                             var champ = ui.draggable.clone();
                             champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property");
-                            jsonproperties = jQuery.parseJSON($.toJSON(ui.draggable.data("attributs")));
+                            jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
                             jsonproperties.entity = $(this).find('.title').text();
                             jsonproperties.name = nom_champ;
                             jsonproperties.oldName = nom_champ;
