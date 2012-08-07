@@ -1,8 +1,11 @@
 .calendar{text-align:center}
 .day {float:left;width:28px;height:28px;line-height:28px;}
-.day.hasposts {background-color: #f3f3f3 !important;}
+.day a{display:block;width:100%;height:100%}
 .day.hasposts a {text-decoration:none;color:#259BDB;}
 .day.thisMonth {background:#f9f9f9}
+.day.hasposts {background-color: #f3f3f3;}
 .monthTitle {font-weight:bold;color:#484848;line-height:28px}
 .weekTitle {font-weight:bold;}
-.prevMonth {color:#484848;line-height:28px;text-decoration:none}
+.calendarNav {position: absolute;top: 0;right: 10px;}
+.calendarNav a {color:#484848;line-height:28px;text-decoration:none}
+.calendarNav a span{display:none}
