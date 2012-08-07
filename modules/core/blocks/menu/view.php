@@ -30,7 +30,6 @@
 ?>
 <ul class="parsimenu<?php if($this->getConfig('position')==1) echo ' vertical'; else echo ' horizontal';   ?>">
 <?php
-    //\app::$request->page->addCSSFile(BASE_PATH . 'core/blocks/menu/menu.css');
     $menu = json_decode($this->getConfig('menu'),true);
     if(is_array($menu)) {
 	$this->drawmenu($menu);

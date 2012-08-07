@@ -101,13 +101,32 @@ class menu extends \block {
 		 $title = $item['title'];
 	     } else{
 		 $page = \app::getModule($item['module'])->getPage($item['page']);
-		 $url = substr($page->getRegex(), 1, -1);
-		 $title = $page->getTitle();
+                 $url = substr($page->getRegex(), 1, -1);
+                 if(count($page->getURLcomponents()) == 0){
+                    $title = $page->getTitle();
+                 }else{
+                     $dynamicURL = '';
+                     foreach($page->getURLcomponents() AS $urlRegex){
+                         if(isset($urlRegex['modelProperty'])){
+                            $prop = explode('.',$urlRegex['modelProperty']);
+                            $table = explode('_',$prop[0],2);
+                            $entity = \app::getModule($table[0])->getEntity($table[1]);
+                            $entityTitle = $entity->getBehaviorTitle();
+                            foreach ($entity as $line) {
+                                $dynamicURL .= '<li><a href="'.str_replace('(?<'.$urlRegex['name'].'>'.$urlRegex['regex'].')',$line->$prop[1],$url).'">'.$line->$entityTitle.'</a></li>';
+                            }
+                         }
+                     }
+                 }
 	     }
             if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) $classes[] = 'current';
             if($count == $cpt) $classes[] = 'last';
             if($cpt==1) $classes[] = 'first';
             if(count($classes) > 0) $class = 'class="'.implode(' ',$classes).'"';
+            if(isset($dynamicURL)): 
+                echo $dynamicURL;
+                unset($dynamicURL);
+            else :
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
 		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
@@ -120,6 +139,7 @@ class menu extends \block {
                 ?>
             </li>
             <?php
+            endif;
             $cpt++;
         }
     }

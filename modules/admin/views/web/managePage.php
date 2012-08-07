@@ -113,9 +113,13 @@
                         });
                         $(document).on('click','#save_page',function(e){
                             e.preventDefault();
+                            $('#patternurlregex').prop("disabled", false);
                             $('#conf_box input[name="action"]').val("savePage");
                             $('#sendFormPage').trigger('click');
                             $('#goto_page').show();
+                            if($('table tbody tr:not(#abc,#abcd)').length > 0){
+                                $('#patternurlregex').attr("disabled", "disabled");
+                            }
                         });
                         $(document).on('click','#goto_page',function(e){
                             e.preventDefault();

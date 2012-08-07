@@ -35,7 +35,7 @@
     .placeholdermenu {background-color: #fff;border: 1px #ccc dashed}
     .ui-nestedSortable-error {background:#fbe3e4;color:#8a1f11;}
     ol {margin: 0;padding: 0;padding-left: 30px;}
-    ol.sortable, ol.sortable ol {padding: 0;list-style-type: none;}
+    ol.sortable, ol.sortable ol {padding: 0;list-style-type: none;margin: 0 0 0 15px;}
     .sortable li {margin: 7px 0 0 0;padding: 0;}
     .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
@@ -106,7 +106,11 @@
                     <li class="inline-block"><?php echo $module; ?><ul>
                             <?php
                             foreach ($moduleObj->getPages() as $key => $page) {
-                                if (count($page->getURLcomponents()) == 0)
+                                $nb = 0;
+                                foreach ($page->getURLcomponents() as $tab) {
+                                    if(isset($tab['regex'])) $nb++; 
+                                }
+                                if ($nb <= 1)
                                     echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
                             }
                             ?>
