@@ -267,31 +267,43 @@ overflow: hidden;
     -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
 }
 
-#mycalendar .calendar{text-align:center}
+#mycalendar .calendar{position: relative;text-align:center}
 #mycalendar .day {
 float:left;
 width:28px;
 height:28px;
 line-height:28px;}
 
+#mycalendar .day a{
+display:block;
+width:100%;
+height:100%}
+
+#mycalendar .day.thisMonth {
+background:#f9f9f9}
+
 #mycalendar .day.hasposts {
-background-color: #f3f3f3 !important;}
+background-color: #f3f3f3;}
 
 #mycalendar .day.hasposts a {
 text-decoration:none;
 color:#259BDB;}
 
-#mycalendar .day.thisMonth {
-background:#f9f9f9}
-
 #mycalendar .month {
 color:#484848;
 line-height:28px}
 
-#mycalendar .prevMonth {
+#mycalendar .calendarNav {
+position: absolute;
+top: 0;right: 10px;}
+#mycalendar .calendarNav a {
+position: relative;
 color:#484848;
 line-height:28px;
 text-decoration:none}
+
+#mycalendar .calendarNav a span{
+display:none}
 
 #mycalendar .monthTitle {font-weight:bold;color:#484848;line-height:28px}
 
@@ -303,5 +315,7 @@ text-decoration:none}
 #cloudtags .medium{font-size:medium}
 #cloudtags .large{font-size:large}
 #cloudtags .xlarge{font-size:x-large}
+
+#recentpostscol{margin-top: 15px}
 
 .parsiTitle{color: #5D5D5D;font-size: 10px;font-weight: 500;letter-spacing: 1.1px;line-height: 25px;text-transform: uppercase;}
