@@ -579,7 +579,7 @@ while (1) {
 	);
 	    app::$aliasClasses = $config['aliasClasses'];
             app::$activeModules = $config['activeModules'];
-            define('PROFILE_PATH','profiles/www/modules');
+            define('PROFILE_PATH','profiles/www/modules/');
 	    $toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_vote','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 	    
 	    foreach($config['aliasClasses'] AS $alias => $class){
@@ -634,7 +634,6 @@ $content = ob_get_clean();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Parsimony Install</title>
-        <?php //<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </SCRIPT>  ?>
     </head>
     <body>
         <div id="container">
