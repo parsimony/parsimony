@@ -97,6 +97,7 @@ $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
 $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 
 
+set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
 
 
 if (isset($_POST['step']))
