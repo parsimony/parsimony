@@ -619,7 +619,7 @@ while (1) {
 		//do synchro
 	    }
             ?>
-            <h1><?php echo tr('Congratulations, Parsimony is now ready'); ?></h1>
+            <h1 style="text-align: center;"><?php echo tr('Congratulations, Parsimony is now ready'); ?></h1>
 
             <?php
             break 2;

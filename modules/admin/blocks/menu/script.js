@@ -14,25 +14,20 @@ function blockAdminMenu() {
 		    "width":  "100%",
 		    "height": height + "px"
 		});
-		return true;
-	    }
-	    res = res.split(/x/);
-	    if($("#changeorientation").length == 0 || ($("#changeorientation").val()=='portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
-		$("#parsiframe").css({
-		    "width": res[0] + "px",
-		    "height": res[1] + "px"
-		});
-	    /* $("body").css({
-                    "max-height": res[1] + "px"
-                });*/
-	    }else{ 
-		$("#parsiframe").css({
-		    "width": res[1] + "px",
-		    "height": res[0] + "px"
-		});
-	    /*$("body").css({
-                    "max-height": res[0] + "px"
-                });*/
+		res = "maxam";
+	    }else{
+		res = res.split(/x/);
+		if($("#changeorientation").length == 0 || ($("#changeorientation").val()=='portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
+		    $("#parsiframe").css({
+			"width": res[0] + "px",
+			"height": res[1] + "px"
+		    });
+		}else{ 
+		    $("#parsiframe").css({
+			"width": res[1] + "px",
+			"height": res[0] + "px"
+		    });
+		}
 	    }
 	    ParsimonyAdmin.setCookie("screenX",res[0],999);
 	    ParsimonyAdmin.setCookie("screenY",res[1],999);
