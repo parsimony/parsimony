@@ -429,6 +429,7 @@ var ParsimonyAdmin = {
 	changeDevice : function (device) {
 	    ParsimonyAdmin.setCookie("device",device,999);
 	    THEMETYPE = device;
+	    $('#changeres').val('');// to change res.
 	    ParsimonyAdmin.changeDeviceUpdate(device);
 	    $("#info_themetype").text("Version " + device);
 	    $('#parsiframe').attr("src", $('#parsiframe').attr("src"));
@@ -437,11 +438,13 @@ var ParsimonyAdmin = {
 	changeDeviceUpdate : function () {
 	    var select = '';
 	    var nb = 0;
+	    var changeres = $('#changeres');
 	    $.each($.parseJSON(resultions[THEMETYPE]), function(i,item){
-		if(nb==0) $('#changeres').val(i).trigger('change');
+		if(changeres.get(0).value == "" && nb == 0) changeres.val(i);
 		select += '<li><a href="#" onclick="$(\'#changeres\').val(\'' + i + '\').trigger(\'change\');">' + item + ' (' + i + ')</a></li>';
 		nb++;
 	    });
+	    changeres.trigger('change');
 	    $('#listres').empty().html(select).trigger('change');
 	},
 	changeLocale : function (locale) {

@@ -102,7 +102,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
 </ul>
 
 <div class="toolbarbonus floatleft"> 
-    <input id="changeres" type="hidden">
+    <input id="changeres" type="hidden" value="<?php if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])) echo $_COOKIE['screenX'].'x'.$_COOKIE['screenY']; ?>">
     <script>
         var resultions = new Array();
 <?php
@@ -111,8 +111,8 @@ echo 'resultions["' . $device['name'] . '"] = \'' . json_encode($device['resolut
 }
 ?>
     </script>
-    <img src="<?php echo BASE_PATH . 'admin/img/portrait.png'; ?>" onclick="$('#changeorientation').val('portrait').trigger('change');$('#toolbar .toolbarbonus img').removeClass('active');$(this).addClass('active');" />
-    <img src="<?php echo BASE_PATH . 'admin/img/landscape.png'; ?>" onclick="$('#changeorientation').val('landscape').trigger('change');$('#toolbar .toolbarbonus img').removeClass('active');$(this).addClass('active');" />
+    <img src="<?php echo BASE_PATH . 'admin/img/portrait.png'; ?>" <?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'portrait') echo 'class="active"'; ?> onclick="$('#changeorientation').val('portrait').trigger('change');$('#toolbar .toolbarbonus img').removeClass('active');$(this).addClass('active');" />
+    <img src="<?php echo BASE_PATH . 'admin/img/landscape.png'; ?>" <?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'landscape') echo 'class="active"'; ?> onclick="$('#changeorientation').val('landscape').trigger('change');$('#toolbar .toolbarbonus img').removeClass('active');$(this).addClass('active');" />
     <select id="changeorientation" class="none">
         <option value="portrait"><?php echo t('Portrait', FALSE); ?></option><option value="landscape"<?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape', FALSE); ?></option>
     </select>

@@ -57,7 +57,7 @@ ul.models,ul.pages{padding: 5px;}
 /* Preview frame */
 #parsiframe{transition: all 0.4s;-o-transition: all 0.4s;-webkit-transition: all 0.4s;-moz-transition: all 0.4s ease-in;
 	    background-color: white;margin-top: 28px !important;width: 850px;height: 650px;
-	    border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;border-top: 0;box-sizing: content-box;margin-left: -40px;
+	    border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;border-top: 0;box-sizing: content-box;margin-left: -40px;box-shadow: 0 0 0 1px #999;
 }
 /* Title Tab */
 .titleTab{border-top: 1px solid #999;border-bottom: 1px solid #555;font-size: 15px;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;line-height: 25px;color: white;background: #777;letter-spacing: 1.5px;cursor: pointer;clear:both;
@@ -254,6 +254,14 @@ background-image: linear-gradient(top, #707A84, #505968);
 /* Top Toolbar middle part */
 #toolbar .toolbarbonus{padding-top: 1px;}
 #toolbar .toolbarbonus img{padding: 2px 8px 5px 8px;vertical-align: middle;cursor:pointer}
+#toolbar .toolbarbonus img.active{
+background: -moz-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%, rgba(68,197,236,0.47) 20%, rgba(222,226,229,0) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(37,155,219,0.59)), color-stop(20%,rgba(68,197,236,0.47)), color-stop(100%,rgba(222,226,229,0))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* W3C */
+}
 
 /* ######### Conf box - Inline Popup ############## */
 #conf_box{display:inline-block;position:relative;top:70px;max-width: 85%;max-height: 85%;margin:0 auto;background: #ccc;font-family: arial, sans-serif;font-size: 13px;z-index:1000000;border-radius: 7px 7px 0 0;box-shadow: 0px 0px 50px #222;}
