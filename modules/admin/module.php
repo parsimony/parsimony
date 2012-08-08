@@ -257,12 +257,12 @@ class admin extends \module {
 	$block->rmBlock($idBlock);
 	$test = $this->search_block($this->$typeProgress, $idBlock);
 	if ($test == NULL){
-	    if ($typeProgress === 'theme')
-		$css = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
-	    else
-		$css = new \css(PROFILE_PATH . MODULE . '/style.css');
-	    $css->deleteSelector('#' . $idBlock);
-	    $css->save();
+            $path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
+            if(is_file($path)){
+                $css = new \css($path);
+                $css->deleteSelector('#' . $idBlock);
+                $css->save();
+            }
 	    $this->saveAll();
 	    $return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted', FALSE), 'notificationType' => 'positive');
 	}else
