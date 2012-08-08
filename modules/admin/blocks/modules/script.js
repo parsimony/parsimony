@@ -5,7 +5,7 @@ function blockAdminModules() {
 	$(".modeleajout").click(function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
-	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",t($(this).attr('title')),"TOKEN=" + TOKEN + "&model=" + $(this).attr('rel') + "&action=getViewAdminModel");
+	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",t(($(this).data('title') || $(this).attr('title') || $(this).data('tooltip'))),"TOKEN=" + TOKEN + "&model=" + $(this).attr('rel') + "&action=getViewAdminModel");
 	});
 	
     }
