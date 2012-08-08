@@ -379,15 +379,11 @@ class admin extends \module {
      * @param string $filePath
      * @return string 
      */
-    protected function getCSSSelectorsAction($term,$filePath) {
+    protected function getCSSSelectorsAction($filePath) {
         if(is_file(PROFILE_PATH. $filePath)) $filePath =  PROFILE_PATH. $filePath;
         else $filePath =  'modules/'. $filePath;
         $css = new \css($filePath);
-        $selectors = array();
-        foreach($css->getAllSselectors() AS $selector){
-            if(strstr($selector, $term)) $selectors[] = $selector;
-        }
-        return json_encode($selectors);
+        return json_encode($css->getAllSselectors());
     }
     
     /**

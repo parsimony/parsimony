@@ -96,6 +96,7 @@ echo $admin->display();
 	<span id="closemenu" style="position: absolute;top: -15px;right: -15px;" onclick="ParsimonyAdmin.closeParsiadminMenu()" class="floatright ui-icon ui-icon-closethick"></span>
 	<div class="options"></div>
     </div>
+    <datalist id="parsidatalist"></datalist>
 </div>
 
 <?php

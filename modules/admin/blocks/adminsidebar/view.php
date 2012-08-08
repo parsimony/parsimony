@@ -29,7 +29,7 @@
 <div class="subSidebar">
     <div class="subSidebarOnglet handle" style="cursor: move;" title="<?php echo t('Move', FALSE); ?>"><span class="ui-icon ui-icon-arrow-4"></span></div>
     <div class="subSidebarOnglet revert" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
-    <div class="subSidebarOnglet openclose" id="openleftslide"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>" title="<?php echo t('Slide', FALSE); ?>"></span></div>
+    <div class="subSidebarOnglet openclose"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>" title="<?php echo t('Slide', FALSE); ?>"></span></div>
     <div class="subSidebarOnglet" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
 </div>
 <div class="contenttab cs">

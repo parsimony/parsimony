@@ -45,10 +45,10 @@ background-image: -o-linear-gradient(top, #E5E5E5, white);
 background-image: linear-gradient(top, #E5E5E5, white);color:#333;
 float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
 .ssTab.active,.ssTab div:hover{color:white; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
-#switchtodata{border-radius: 5px 0 0 5px;border-right:0}
-#switchtopages{border-radius: 0 5px 5px 0;}
+.switchtodata{border-radius: 5px 0 0 5px;border-right:0}
+.switchtopages{border-radius: 0 5px 5px 0;}
 ul.models,ul.pages{padding: 5px;}
- #datatopages{height: 40px;padding: 7px;background: whiteSmoke;}
+.datatopages{height: 40px;padding: 7px;background: whiteSmoke;}
  
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
@@ -233,9 +233,9 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 #toolbar ul{margin: 0px;padding-left: 0px;}
 #toolbar ul li{float:left;border-right: 1px solid #D3D5DB;border-left: 1px solid #fff;}
 #toolbar ul li:hover{background:-moz-linear-gradient(bottom,#e3e7ed,#a0a0a0);background:-o-linear-gradient(bottom,#e3e7ed,#a0a0a0);background:-webkit-gradient(linear,left bottom,left top,from(#e3e7ed),to(#a0a0a0));}
+#toolbar ul li:hover ul{display:block}
 #toolbar ul > li.subMenu > a{background: url(admin/img/fleche.png) 95% 11px no-repeat;}
-#toolbar ul > li.subSubMenu ul{position: absolute;top:0px}
-#toolbar ul li a:hover{color:#fff;text-shadow:#666 0 1px 2px;box-shadow: inset 0 1px 4px #484848;}
+#toolbar ul > li:hover > a{color:#fff;text-shadow:#666 0 1px 2px;box-shadow: inset 0 1px 4px #484848;}
 #toolbar ul ul{display:none;z-index:2000;z-index: 1000000;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);background: white;background: rgba(255, 255, 255, 0.97);display: none;position: absolute;border: 1px solid #DFDFDF;border-top: none;float:none}
 #toolbar ul ul li{float:none;border:0;position:relative}
 #toolbar ul ul li:hover {background: #888;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));
@@ -464,13 +464,14 @@ fieldset {
 .parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;}
 .parsimonyResize.ne{ right: -5px; top: -5px;cursor: ne-resize;}
 .parsimonyResize.sw{ left: -5px; bottom: -5px;cursor: sw-resize;}
-.parsimonyResizeInfo{background:rgba(0,0,0,0.9);height: 20px;z-index: 99999;border-radius:7px;position:absolute;min-width:260px;color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
+.parsimonyResizeInfo{white-space: nowrap;background:rgba(0,0,0,0.9);height: 20px;z-index: 99999;border-radius:7px;position:absolute;/*min-width:260px;*/color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
 .parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
-.spanDND{margin-top: -5px;vertical-align: top;display: inline-block;position: relative;border: #333 solid 2px;border-radius: 5px;cursor: pointer;
+.spanDND{margin-top: -4px;vertical-align: top;display: inline-block;position: relative;/*border: #333 solid 2px;*/border-radius: 5px;cursor: pointer;
 background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}
+#resizeinfo{line-height: 9px;display: inline-block;padding-left: 5px;}
 
 /* Overlays */
-#overlays{position:absolute;top:28px;pointer-events: none;width:100%;height:100%}
+#overlays{position:absolute;top:28px;pointer-events: none;width:100%;height:100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;}
 
 /* Block overlay */
 #blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;background-color:rgba(5,178,248,0.25)}

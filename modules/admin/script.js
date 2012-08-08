@@ -203,15 +203,8 @@ var ParsimonyAdmin = {
 		if(inProgress.parent().closest(".container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
 		else parentId = inProgress.parent().closest(".container").attr('id').replace("treedom_","");
 	    }
-	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
+	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
 	    e.preventDefault();
-	});
-
-	$("#toolbar li.subMenu,#toolbar li.subSubMenu").hover(function(){
-	    $("ul:first",this).show();
-	    if($(this).hasClass("subSubMenu")) $("ul:first",this).css("left",$(this).width()-5 + "px");
-	},function(){
-	    $("ul:first",this).hide();
 	});
 
 	/* CTRL-S*/

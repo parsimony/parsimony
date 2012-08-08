@@ -71,18 +71,7 @@ $selectors = $css->getAllSselectors();
         </div>
 	<div id="selectorcontainer">
 	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"></div>
-	    <select placeholder="CSS Selector e.g. #selector" name="selector" class="autocomplete" id="current_selector_update">
-		<option></option>
-		<?php
-		if (!empty($selectors)):
-		    foreach ($selectors AS $option):
-			?>
-			<option><?php echo $option; ?></option>
-		    <?php
-		    endforeach;
-		endif;
-		?>
-	    </select>
+	    <input type="text" placeholder="CSS Selector e.g. #selector" name="selector" data-optionsurl="" class="autocomplete" id="current_selector_update" />
 	</div>
         <input type="hidden" id="current_selector_update_prev" />
         <input type="hidden" id="current_stylesheet_nb" />
@@ -144,7 +133,7 @@ $selectors = $css->getAllSselectors();
                         <option value="table-row-group">table-row-group</option>
                     </select>
                     <label for="positioning_overflow">Overflow</label>
-                    <select class="select liveconfig spinner" id="positioning_overflow" name="overflow" css="overflow"><option value=""><?php echo ucfirst($css->getPropertyValue($selector, 'overflow')) ?></option><option value="visible">visible</option><option value="hidden">hidden</option><option value="scroll">scroll</option><option value="auto">auto</option></select>
+                    <select class="select liveconfig spinner" id="positioning_overflow" name="overflow" css="overflow"><option value=""></option><option value="visible">visible</option><option value="hidden">hidden</option><option value="scroll">scroll</option><option value="auto">auto</option></select>
                     <label for="positioning_zindex">Z-index</label>
                     <input class="liveconfig align_center" type="text" id="positioning_zindex" name="z-index" css="z-index" value="">
                 </div>                
@@ -199,11 +188,11 @@ $selectors = $css->getAllSselectors();
                 </div>
                 <div class="style representation" init="solid" style="width:45px;display:inline-block">
                     <div>Style</div>
-                    <div><select class="resultcss liveconfig autocomplete" css="border-style" id="border_style" onload="$(this).trigger('change')"  name="border-style"><option><?php echo $css->getPropertyValue($selector, 'border-style') ?></option><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option><option value="groove">groove</option><option value="ridge">ridge</option><option value="inset">inset</option><option value="outset">outset</option></select></div>
-                    <div><select class="repr_top autocomplete" css="border-top-style" id="border_style_top"><option></option><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option><option value="groove">groove</option><option value="ridge">ridge</option><option value="inset">inset</option><option value="outset">outset</option></select></div>
-                    <div><select class="repr_left autocomplete" css="border-left-style" id="border_style_left"><option></option><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option><option value="groove">groove</option><option value="ridge">ridge</option><option value="inset">inset</option><option value="outset">outset</option></select></div>
-                    <div><select class="repr_right autocomplete" css="border-right-style" id="border_style_right"><option></option><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option><option value="groove">groove</option><option value="ridge">ridge</option><option value="inset">inset</option><option value="outset">outset</option></select></div>
-                    <div><select class="repr_bottom autocomplete" css="border-bottom-style" id="border_style_bottom"><option></option><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option><option value="groove">groove</option><option value="ridge">ridge</option><option value="inset">inset</option><option value="outset">outset</option></select></div>
+                    <div><input type="text" class="resultcss liveconfig autocomplete" css="border-style" id="border_style" onload="$(this).trigger('change')"  data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' name="border-style"></div>
+                    <div><input type="text" class="repr_top autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-top-style" id="border_style_top" /></div>
+                    <div><input type="text" class="repr_left autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-left-style" id="border_style_left" /></div>
+                    <div><input type="text" class="repr_right autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-right-style" id="border_style_right" /></div>
+                    <div><input type="text" class="repr_bottom autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-bottom-style" id="border_style_bottom" /></div>
                 </div>
                 <div class="radius representation" init="0" style="width:35px;display:inline-block">
                     <div>Radius</div>
@@ -235,7 +224,7 @@ $selectors = $css->getAllSselectors();
                             <input class="colorpicker2" type="text" id="shadow-colorbox">
                         </div>
                     </div>
-                    <input class="liveconfig" name="box-shadow" css="box-shadow" onload="$(this).trigger('change')" id="box-shadow" type="hidden" value="<?php echo $css->getPropertyValue($selector, 'box-shadow') ?>">
+                    <input class="liveconfig" name="box-shadow" css="box-shadow" onload="$(this).trigger('change')" id="box-shadow" type="hidden">
                 </div>
             </div>
 
@@ -254,7 +243,7 @@ $selectors = $css->getAllSselectors();
                 <input class="liveconfig colorpicker2" id="background_color" css="background-color" name="background-color" type="text" value="">
 
                 <label for="background_size">Size</label>
-                <select class="liveconfig autocomplete" id="background_size" css="background-size" name="background-size"><option></option><option value="cover">cover</option><option value="contain">contain</option></select>
+                <input type="text" class="liveconfig autocomplete" id="background_size" data-options='["cover","contain"]' css="background-size" name="background-size" />
 
                 <label for="background_hpos">Position X. Y.</label>
                 <input type="text" class="liveconfig spinner" name="background-position" css="background-position" value="">
@@ -269,29 +258,29 @@ $selectors = $css->getAllSselectors();
                 <select class="liveconfig" id="background_clip" name="background-clip" css="background-clip"><option></option><option value="padding-box">padding-box</option><option value="border-box">border-box</option><option value="content-box">content-box</option></select>
 
                 <label for="background_origin">Origin</label>
-                <select class="liveconfig" id="background-origin" name="background-origin" css="background-origin"><option></option><option value="padding-box">padding-box</option><option value="border-box">border-box</option><option value="content-box">content-box</option></select>
+                <input type="text" class="liveconfig" id="background-origin" name="background-origin" data-options='["fixed","scroll"]' css="background-origin"><option></option><option value="padding-box">padding-box</option><option value="border-box">border-box</option><option value="content-box">content-box</option></select>
 
             </div>
             <div class="panelcss_tab none" id="panelcss_tab_type">
 
                 <label for="text_font">Font</label>
-                <select class="select liveconfig autocomplete" id="text_font" name="font-family" css="font-family"><option value="<?php echo $css->getPropertyValue($selector, 'font-family') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-family')) ?></option><option value="Arial, Helvetica, sans-serif">Arial, Helvetica, sans-serif</option><option value="Times New Roman, Times, serif">Times New Roman, Times, serif</option><option value="Courier New, Courier, mono">Courier New, Courier, mono</option><option value="Times New Roman, Times, serif">Times New Roman, Times, serif</option><option value="Georgia, Times New Roman, Times, serif">Georgia, Times New Roman, Times, serif</option><option value="Verdana, Arial, Helvetica, sans-serif">Verdana, Arial, Helvetica, sans-serif</option><option value="Geneva, Arial, Helvetica, sans-serif">Geneva, Arial, Helvetica, sans-serif</option></select>
+                <input type="text" class="liveconfig autocomplete" id="text_font" name="font-family" data-options='[ "Arial, Helvetica, sans-serif","Times New Roman, Times, serif",Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' css="font-family" />
 
                 <label for="text_size">Size</label>
-                <input class="liveconfig spinner" type="text" name="font-size" css="font-size" value="<?php echo $css->getPropertyValue($selector, 'font-size') ?>">
+                <input class="liveconfig spinner" type="text" name="font-size" css="font-size">
                 <label for="text_color">Color</label>
-                <input class="liveconfig colorpicker2" id="text_color" name="color" css="color" type="text" value="<?php echo $css->getPropertyValue($selector, 'color') ?>">
+                <input class="liveconfig colorpicker2" id="text_color" name="color" css="color" type="text">
                 <label for="text_lineheight">LineHeight</label>
-                <input class="liveconfig spinner" type="text" name="line-height" css="line-height" value="<?php echo $css->getPropertyValue($selector, 'line-height') ?>">
+                <input class="liveconfig spinner" type="text" name="line-height" css="line-height">
                 <label for="text_lineheight">LetterSpace</label>
-                <input class="liveconfig spinner" type="text" name="letter-spacing" css="letter-spacing" value="<?php echo $css->getPropertyValue($selector, 'letter-spacing') ?>">
+                <input class="liveconfig spinner" type="text" name="letter-spacing" css="letter-spacing">
                 <label for="text_lineheight">TextIndent</label>
-                <input class="liveconfig spinner" type="text" name="text-indent" css="text-indent" value="<?php echo $css->getPropertyValue($selector, 'text-indent') ?>">
+                <input class="liveconfig spinner" type="text" name="text-indent" css="text-indent">
 
                 <label for="text_weight">Weight</label>
                 <select class="select liveconfig" id="text_weight" name="font-weight" css="font-weight"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'font-weight') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-weight')) ?></option><option value="normal">normal</option><option value="bold">bold</option><option value="bolder">bolder</option><option value="lighter">lighter</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option><option value="800">800</option><option value="900">900</option></select>
 
-                <input class="liveconfig" name="text-decoration" css="text-decoration" id="css-decoration" type="hidden" value="<?php echo $css->getPropertyValue($selector, 'text-decoration') ?>">
+                <input class="liveconfig" name="text-decoration" css="text-decoration" id="css-decoration" type="hidden">
 
                 <label for="text_case">Case</label>
                 <select class="select liveconfig" id="text_case" name="text-transform" css="text-transform"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'text-transform') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-transform')) ?></option><option value="capitalize">capitalize</option><option value="uppercase">uppercase</option><option value="lowercase">lowercase</option></select>
@@ -306,7 +295,7 @@ $selectors = $css->getAllSselectors();
                 <select class="liveconfig" type="text" name="font-style" css="font-style"><option value="<?php echo $css->getPropertyValue($selector, 'font-style') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-style')) ?></option><option value="normal">normal</option><option value="italic">italic</option><option value="oblique">oblique</option><option value="inherit">inherit</option></select>
 
                 <label for="text_case">Over flow</label>
-                <select class="liveconfig" id="text_overflow" name="text-overflow" css="text-overflow"><option value="<?php echo $css->getPropertyValue($selector, 'text-overflow') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-overflow')) ?></option><option value="ellipsis">ellipsis</option><option value="clip">clip</option><option value="ellipsis-word">ellipsis-word</option></select>
+                <input type="text" class="liveconfig autocomplete" id="text_overflow" name="text-overflow" data-options='["ellipsis","clip","ellipsis-word"]' css="text-overflow">
 
                 <label for="fd-slider-handle-v-offset1">Text wrap</label>
                 <select class="liveconfig" id="text-wrap" name="text-wrap" css="text-wrap"><option value="<?php echo $css->getPropertyValue($selector, 'text-wrap') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-wrap')) ?></option><option value="normal">normal</option><option value="unrestricted">unrestricted</option><option value="suppress">suppress</option></select>
@@ -346,9 +335,7 @@ $selectors = $css->getAllSselectors();
                     <option value=""></option><option value="inside">inside</option><option value="outside">outside</option>
                 </select><br>
                 <label for="list-style-type">Type</label>
-                <select class="select liveconfig" id="list-style-type" name="list-style-type" css="list-style-type">
-                    <option value=""></option><option value="none">none</option><option value="armenian">armenian</option><option value="circle">circle</option><option value="cjk-ideographic">cjk-ideographic</option><option value="decimal">decimal</option><option value="decimal-leading-zero">decimal-leading-zero</option><option value="disc">disc</option><option value="georgian">georgian</option><option value="hebrew">hebrew</option><option value="hiragana">hiragana</option><option value="hiragana-iroha">hiragana-iroha</option><option value="katakana">katakana</option><option value="katakana-iroha">katakana-iroha</option><option value="lower-alpha">lower-alpha</option><option value="lower-greek">lower-greek</option><option value="lower-latin">lower-latin</option><option value="lower-roman">lower-roman</option><option value="square">square</option><option value="upper-alpha">upper-alpha</option><option value="upper-latin">upper-latin</option><option value="upper-roman">upper-roman</option>
-                </select>
+                <input type="text" class="liveconfig autocomplete" id="list-style-type" name="list-style-type" data-options='["none","armenian","circle","cjk-ideographic","decimal","decimal-leading-zero","disc","georgian","hebrew","hiragana","hiragana-iroha","katakana","katakana-iroha","lower-alpha","lower-greek","lower-latin","lower-roman","square","upper-alpha","upper-latin","upper-roman"]' css="list-style-type">
             </div>
             <?php /*
               <div class="panelcss_tab none" id="panelcss_tab_transition">
@@ -543,31 +530,24 @@ $selectors = $css->getAllSselectors();
         function extractLast( term ) {
             return split( term ).pop();
         }
-        $("select.autocomplete").each(function(){
-            $(this).addClass( "ui-autocomplete" );
-            var x = new Array();
-            var obj = $("option", this).each(function(){
-                x.push($(this).val());
-            });
-            var name="";
-            if( typeof $(this).attr('name') != "undefined") var name = 'name="' + $(this).attr('name') + '"';
-            if( typeof $(this).attr('css') != "undefined") var css = 'css="' + $(this).attr('css') + '"';
-	    if( typeof $(this).attr('placeholder') != "undefined") var placeholder = 'placeholder="' + $(this).attr('placeholder') + '"';
-            $(this).replaceWith('<input type="text" style="position:relative;' + $(this).attr('style') + '" ' + name + ' ' + css + ' ' + placeholder + ' id="' + $(this).attr('id') + '" class="' + $(this).attr('class') + '" value="' + $(this).val() + '">');
-            $('#' + $(this).attr('id')).autocomplete('destroy');
-            if($(this).attr('id') != 'current_selector_update') $('#' + $(this).attr('id')).autocomplete({source: x});
-            else $('#' + $(this).attr('id')).autocomplete({
-                source: function( request, response ) {
-                    $.getJSON( "admin/getCSSSelectors?filePath=" + $("#changecsspath").val(), { 
-                        term: extractLast( request.term )
-                    }, response );
-                },
-                select: function(event, ui) {
-                    if($(this).attr("id") == "current_selector_update") {
-                        $("#goeditcss").trigger("click");
-                    }
-                }
-            });
+        $(document).on("click", ".autocomplete",function(){
+            /* We clear datalist */
+            $("#parsidatalist").empty();
+            $(this).attr("list","parsidatalist");
+            if(this.id == "current_selector_update"){
+                $.getJSON( "admin/getCSSSelectors?filePath=" + $("#changecsspath").val(), function(data){
+                    $.each( data, function(i, value){
+                         options += '<option value="' + value + '" />';
+                    });
+                    $("#parsidatalist").html(options);
+                });
+            }else{
+                var options = "";
+                $.each( $(this).data('options'), function(i, value){
+                     options += '<option value="' + value + '" />';
+                });
+                $("#parsidatalist").html(options);
+            }
         });
     });
 
