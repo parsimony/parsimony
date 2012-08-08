@@ -164,7 +164,7 @@ function blockAdminBlocks() {
             if(ParsimonyAdmin.inProgress != this.id) $("#blockOverlay").css({
                 "display":"block",
                 "top":offset.top + "px",
-                "left":offset.left + offsetFrame.left + "px",
+                "left":offset.left + offsetFrame.left + 40 + "px",
                 "width":$(this).outerWidth() + "px",
                 "height":$(this).outerHeight() + "px"
             })
