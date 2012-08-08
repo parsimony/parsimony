@@ -14,11 +14,8 @@ function blockAdminMenu() {
 		    "width":  "100%",
 		    "height": height + "px"
 		});
-                $("#parsiframe").addClass("max");
 		return true;
-	    }else{
-                $("#parsiframe").removeClass("max");
-            }
+	    }
 	    res = res.split(/x/);
 	    if($("#changeorientation").length == 0 || ($("#changeorientation").val()=='portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
 		$("#parsiframe").css({

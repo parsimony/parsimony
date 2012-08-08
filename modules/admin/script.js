@@ -427,11 +427,12 @@ var ParsimonyAdmin = {
 	    $("#dropInTree").prependTo($("#shelter"));
 	},
 	changeDevice : function (device) {
+	    var oldDevice = ParsimonyAdmin.getCookie("device");
 	    ParsimonyAdmin.setCookie("device",device,999);
 	    THEMETYPE = device;
 	    ParsimonyAdmin.changeDeviceUpdate(device);
 	    $("#info_themetype").text("Version " + device);
-	    $('#parsiframe').attr("src", $('#parsiframe').attr("src"));
+	    $('#parsiframe').attr("src", $('#parsiframe').attr("src")).removeClass(oldDevice).addClass(device);
 	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
 	changeDeviceUpdate : function () {
