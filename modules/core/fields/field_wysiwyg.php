@@ -58,6 +58,15 @@ class field_wysiwyg extends \field {
         $this->constructor(func_get_args());
     }
     
+    /**
+     * Validate the value of Field
+     * @param string $value
+     * @return string|false
+     */
+    public function validate($value) {
+        return \tools::sanitize($value, $this->wysiwygModules);
+    }
+    
 }
 
 ?>
