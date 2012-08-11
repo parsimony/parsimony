@@ -258,6 +258,98 @@ class tools {
         return $mailer->Send();
         
     }
+    
+    /**
+     * Sanitize a string come from fied WYSIWYG or block WYSIWYG
+     * @param $str string to sanitize
+     * @param $plugins string list of wysiwyg's plugins separated by comma
+     * @return string sanitized html
+     */
+    public static function sanitize($str, $plugins = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor') {
+    $allowedTags = array('div' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
+	'span' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
+	'p' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
+	'pre' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
+	'br' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'));
+
+    $allowedStyles = array();
+
+    $pluginsConf = array('bold' => array('allowedStyles' => array('font-weight' => '.*')),
+	'underline' => array('allowedStyles' => array('text-decoration' => '.*')),
+	'italic' => array('allowedStyles' => array('font-style' => '.*')),
+	'justifyLeft' => array('allowedStyles' => array('text-align' => '.*')),
+	'justifyCenter' => array('allowedStyles' => array('text-align' => '.*')),
+	'justifyRight' => array('allowedStyles' => array('text-align' => '.*')),
+	'strikeThrough' => array('allowedStyles' => array('text-decoration' => '.*')),
+	'subscript' => array('allowedStyles' => array('vertical-align' => '.*')),
+	'superscript' => array('allowedStyles' => array('vertical-align' => '.*')),
+	'orderedList' => array('allowedTags' => array('ol' => array("id", "class", "style", "dir", "lang", "title")),
+	    'allowedStyles' => array('list-style' => '.*', 'list-style-image' => '.*', 'list-style-position' => '.*', 'list-style-type' => '.*')),
+	'unOrderedList' => array('allowedTags' => array('ul' => array("id", "class", "style", "dir", "lang", "title")),
+	    'allowedStyles' => array('list-style' => '.*', 'list-style-image' => '.*', 'list-style-position' => '.*', 'list-style-type' => '.*')),
+	'outdent' => array('allowedTags' => array('blockquote' => array("id", "class", "style", "dir", "lang", "title")),
+	    'allowedStyles' => array('margin' => '.*', 'border' => '.*', 'padding' => '.*')),
+	'indent' => array('allowedTags' => array('blockquote' => array("id", "class", "style", "dir", "lang", "title")),
+	    'allowedStyles' => array('margin' => '.*', 'border' => '.*', 'padding' => '.*')),
+	'createLink' => array('allowedTags' => array('a' => array("id", "class", "style", "dir", "lang", "title", "accesskey", "tabindex", "charset", "coords", "href", "hreflang", "name", "rel", "rev", "shape", "target"))),
+	'formatBlock' => array('allowedTags' => array('h1' => array("id","class","style","dir","lang","title"),
+							'h2' => array("id","class","style","dir","lang","title"),
+							'h3' => array("id","class","style","dir","lang","title"),
+							'h4' => array("id","class","style","dir","lang","title"),
+							'h5' => array("id","class","style","dir","lang","title"),
+							'h6' => array("id","class","style","dir","lang","title"))),
+	'foreColor' => array('allowedStyles' => array('color' => '.*')),
+	'hiliteColor' => array('allowedStyles' => array('background-color' => '.*'))
+    );
+    $cut = explode(',', $plugins);
+
+    foreach ($cut AS $plug) {
+	if (isset($pluginsConf[$plug]['allowedTags']))
+	    $allowedTags = array_merge($pluginsConf[$plug]['allowedTags'], $allowedTags);
+	if (isset($pluginsConf[$plug]['allowedStyles']))
+	    $allowedStyles = array_merge($pluginsConf[$plug]['allowedStyles'], $allowedStyles);
+    }
+
+    $html = '';
+    $str = preg_replace('/\s+/', ' ', $str);
+    $tab = preg_split('/(<[^>]*>)/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+    foreach ($tab AS $val) {
+	$innerTag = '';
+	$tag = preg_split('/^(<\/?)([^\s]+)[^a-z]/', $val, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+	if (isset($tag[1])) {
+	    $currentTag = $tag[1];
+	    if (!isset($allowedTags[$currentTag])) {
+		$currentTag = 'span';
+	    }
+	    $innerTag = $tag[0] . $currentTag;
+	    if (isset($tag[2])) {
+		$attrs = preg_split('/([\w\-.:]+)\s*=\s*"([^"]*)"/', $tag[2], -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+		for ($i = 0; $i < count($attrs) - 1; $i = $i + 3) {
+		    $name = $attrs[$i];
+		    $value = $attrs[$i + 1];
+		    if (in_array($name, $allowedTags[$currentTag])) {
+			$newValue = '';
+			if ($name == 'style') {
+			    $styles = explode(';', $value);
+			    foreach ($styles AS $style) {
+				$cutStyle = explode(':', $style);
+				if (isset($allowedStyles[trim($cutStyle[0])])) {
+				    $newValue .= trim($style).';';
+				}
+			    }
+			    $value = $newValue;
+			}
+			$innerTag .= ' ' . $name . '="' . $value . '"';
+		    }
+		}
+	    }
+	    $html .= ' ' . $innerTag . '>';
+	} else {
+	    $html .= $val;
+	}
+    }
+    return $html;
+}
 }
 
 ?>

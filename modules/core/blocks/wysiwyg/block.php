@@ -54,7 +54,7 @@ class wysiwyg extends \block {
     
     public function setHTML($html) {
         if (\app::getClass('user')->VerifyConnexion() && ID_ROLE == 1) {
-            return \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),$html);
+            return \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),\tools::sanitize($html));
         }
 	return FALSE;
     }
