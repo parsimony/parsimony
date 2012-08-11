@@ -61,7 +61,7 @@ if (isset($_POST['selector']) || isset($_POST['idBlock'])) {
 
 $selectors = $css->getAllSselectors();
 ?>
- 
+
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
     <div style="min-width:230px;position:relative">
         <input type="hidden" name="typeofinput" id="typeofinput" value="code" />
@@ -80,6 +80,12 @@ $selectors = $css->getAllSselectors();
 	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>.css" />
         <div id="goeditcss"></div>
 
+    </div>
+     <div id="threed" class="none">
+         <div class="align_center">3D</div>
+        X <input type="range" class="ch" id="rotatex" min="-40" max="40" value="0">
+        <div class="clearboth"></div>
+        Y <input type="range" class="ch" id="rotatey" min="-40" max="40" value="0">
     </div>
     <div id="css_panel" style="" class="none">
         <div>
@@ -550,6 +556,13 @@ $selectors = $css->getAllSselectors();
             }
         });
     });
+    
+    /* CSSpicker 3D */
+    $("#threed").on('change','.ch',function(){
+        $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','rotateX(' + $("#rotatex").val() + 'deg) rotateY(' + $("#rotatey").val() + 'deg)');
+        $("*",ParsimonyAdmin.currentBody).css({'-webkit-transform':'rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(300px)',
+                                                'box-shadow': -($("#rotatey").val()/10) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa'});
+    });
 
     /* Color Picker */
     var currentColorPicker = $(".colorpicker2");
@@ -743,24 +756,3 @@ $selectors = $css->getAllSselectors();
         $("#css_panel").hide();
     });
 </script>
-<?php
-/*
-  ?>
-  <a href="#" onclick="ParsimonyAdmin.currentBody.attr('draggable','true');ParsimonyAdmin.currentBody.prepend('<style>' + $('#test').html() + '</style>');return false;" style="font-size:2px">Test</a>
-  <div class="none" id="test">
-  body{-webkit-transform-origin: center center;}
-  html *{
-  -webkit-transform-style: preserve-3d;
-  -webkit-transform: translateZ(20px);
-  outline:1px solid #bbb;
-  }</div>
-  <div class="none">
-  Rotate : <input type="range" class="ch" id="rotate" min=0 max=360>
-  RotateX : <input type="range" class="ch" id="rotatex" min=0 max=360>
-  RotateY : <input type="range" class="ch" id="rotatey" min=0 max=360>
-  perspective : <input type="range" class="ch" id="perspective" min=-2000 max=2000>
-  TranslateZ : <input type="range" class="ch" id="translatez" min=-2000 max=2000>
-  </div>
-  <?php
- */
-?>

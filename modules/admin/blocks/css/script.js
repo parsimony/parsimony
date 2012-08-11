@@ -16,6 +16,7 @@ function blockAdminCSS() {
 	$("#panelcss").on('click',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
+            $("#threed").show();
 	    function destroyCSSpicker(){
 		$('#container',ParsimonyAdmin.currentBody).off(".csspicker");
 		$("#csspicker").removeClass("active");
@@ -43,6 +44,9 @@ function blockAdminCSS() {
 	    $('#container',ParsimonyAdmin.currentBody).on('click.csspicker',"*",function(e){
 		e.preventDefault();
 		e.stopPropagation();
+                $("#threed").hide();
+                $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','initial');
+                $("*",ParsimonyAdmin.currentBody).css({'-webkit-transform':'initial','box-shadow': 'initial'});
 		$(".cssPicker").removeClass("cssPicker");
 		$(this).addClass("cssPicker");
 		blockAdminCSS.getCSSForCSSpicker();

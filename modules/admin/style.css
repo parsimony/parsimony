@@ -28,6 +28,8 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 #infodev{display:none;}
 #infodev div{margin:10px 0;}
 
+#threed{padding:7px;background:whiteSmoke}
+#threed input{width:90%}
 /* Sidebars Tabs */
 
 /* Main Tab */
