@@ -135,7 +135,8 @@ if (isset($_POST['connexion'])) {
                 </div>
             </form> 
         </div> 
-        <script LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+        <script LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"> </script>
+	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.8.0.min.js"><\/script>')</script>
         <script>
             $(document).ready(function () {
                 

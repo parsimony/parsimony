@@ -27,6 +27,7 @@
  */
 \app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js');
 ?>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
 <div>
     <label for="<?php echo $this->name.'_'.$row->getId()->value ?>">
         <?php echo $this->label ?>

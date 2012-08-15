@@ -35,8 +35,10 @@ include_once('modules/core/classes/field.php');
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.8.0.min.js"><\/script>')</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js" type="text/javascript"></script>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
 <script type="text/javascript">
     var BASE_PATH = '<?php echo BASE_PATH ?>';
     var MODULE = '<?php echo MODULE ?>';
@@ -45,9 +47,9 @@ include_once('modules/core/classes/field.php');
     var THEMEMODULE = '<?php echo THEMEMODULE ?>';
     var TOKEN = '<?php echo TOKEN ?>';
 </script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb-1.3.10.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-core-0.10.min.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-0.10.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.12-all-min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-0.11.min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.outline-0.11.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>cache/<?php echo app::$request->getLocale(); ?>-lang.js"></script>
@@ -116,12 +118,12 @@ include_once('modules/core/classes/field.php');
     .tooltype{margin: 0px 5px;}
     .tooltab{margin: 10px 5px 0;font-size: 10px;font-family: inherit;color: white;border-top: 1px solid whitesmoke;border-left: 1px solid whitesmoke;border-bottom: 1px solid whitesmoke;}
     .tooltab td{width:60px;height:40px;text-align: center;vertical-align: middle;border-right: 1px solid whitesmoke}
-/*     tbody td:first-child{margin:0 10px}*/
+    /*     tbody td:first-child{margin:0 10px}*/
     .tooltab td input{width: 50px;font-size: inherit;height: 20px;}
     .tooltab tbody{border-top: 1px solid whitesmoke}
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
     .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-    
+
 </style> 
 
 <div id="tooltip-new-fields" class="none toolfield">
@@ -288,20 +290,20 @@ include_once('modules/core/classes/field.php');
         <tbody>
             <tr>
                 <td class="clearboth inline-block tooldua"><select type="text"> 
-                    <option value="0">Yes</option>';
-                    <option value="1" selected="selected">No</option>
-                    <option value="2">Perhaps</option>';
-            </select></td>
+			<option value="0">Yes</option>';
+			<option value="1" selected="selected">No</option>
+			<option value="2">Perhaps</option>';
+		    </select></td>
                 <td class="inline-block tooldua"><select type="text"> 
-                    <option value="0" selected="selected">Yes</option>';
-                    <option value="1">No</option>
-                    <option value="2">Perhaps</option>';
-            </select></td>
+			<option value="0" selected="selected">Yes</option>';
+			<option value="1">No</option>
+			<option value="2">Perhaps</option>';
+		    </select></td>
                 <td class="inline-block tooldua"><select type="text" name="ping_status"> 
-                    <option value="0">Yes</option>';
-                    <option value="1">No</option>
-                    <option value="2" selected="selected">Perhaps</option>';
-            </select></td>
+			<option value="0">Yes</option>';
+			<option value="1">No</option>
+			<option value="2" selected="selected">Perhaps</option>';
+		    </select></td>
             </tr>
         </tbody>
     </table>
@@ -419,12 +421,12 @@ include_once('modules/core/classes/field.php');
                     <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
                 </td>
                 <td class="inline-block tooldua" style="padding: 0 5px">
-                        <input style="height: 25px;width: 120px;" type="file">    
+		    <input style="height: 25px;width: 120px;" type="file">    
 
                 </td>
                 <td class="inline-block tooldua" style="width: 155px;padding: 0 5px"> 
-                        <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
-                        <input style="height: 25px;width: 120px;" type="file">    
+		    <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
+		    <input style="height: 25px;width: 120px;" type="file">    
                 </td>
             </tr>
         </tbody>
@@ -605,26 +607,26 @@ include_once('modules/core/classes/field.php');
     </a>
     <div class="toolbarbonus inline-block">
         <div class="floatleft" style="border-right: 1px solid #D3D5DB;padding-right: 10px">	
-            <?php echo t('Current Module', FALSE); ?>
+	    <?php echo t('Current Module', FALSE); ?>
             <form action="" method="POST" style="display:inline-block">
                 <select style="font-weight: bold;" name="module" onchange="$(this).parent().trigger('submit');">
-                    <?php
-                    foreach (\app::$activeModules as $moduleName => $module) {
-                        if ($moduleName == $_POST['module']) {
-                            $selected = 'selected = "selected"';
-                        } else {
-                            $selected = '';
-                        }
-                        if ($moduleName != 'admin')
-                            echo '<option ' . $selected . '>' . $moduleName . '</option>';
-                    }
-                    ?>
+		    <?php
+		    foreach (\app::$activeModules as $moduleName => $module) {
+			if ($moduleName == $_POST['module']) {
+			    $selected = 'selected = "selected"';
+			} else {
+			    $selected = '';
+			}
+			if ($moduleName != 'admin')
+			    echo '<option ' . $selected . '>' . $moduleName . '</option>';
+		    }
+		    ?>
                 </select>  
             </form>
         </div>
 
         <div class="floatleft" style="border-left: 1px solid white;border-right: 1px solid #D3D5DB;padding-left: 10px;padding-right: 10px">
-            <?php echo t('Add an Entity', FALSE); ?>
+	    <?php echo t('Add an Entity', FALSE); ?>
             <form id="add_table" class="inline-block">
                 <input type="text" id="table_name" style="padding:1px;">
                 <input type="submit" style="height: 24px;" value="<?php echo t('Add', FALSE); ?>"> 
@@ -653,36 +655,36 @@ include_once('modules/core/classes/field.php');
         <div>
             <h2 data-tooltip="#tooltip-new-fields" class="tooltip"><?php echo t('New Fields', FALSE); ?></h2>
             <div id="field_list">
-                <?php
-                $aliasClasses = array_flip(\app::$aliasClasses);
-                foreach ($aliasClasses AS $class => $alias) {
-                    if (preg_match('#field#', $alias))
-                        if (!class_exists($alias))
-                            class_alias($class, $alias);
-                }
-                $classes = get_declared_classes();
-                $html = '';
-                $classes = array_unique($classes);
-                foreach ($classes as $class) {
-                    if (is_subclass_of($class, 'field')) {
-                        if (isset($aliasClasses[$class])) {
-                            $class = $aliasClasses[$class];
-                        }
-                        $field = new $class($_POST['module'], '', '');
-                        $args = array();
-                        $ssmethod = new ReflectionMethod($class, '__construct');
-                        $params = $ssmethod->getParameters();
-                        foreach ($params as $ssparam) {
-                            $args[$ssparam->name] = $field->{$ssparam->name};
-                        }
-                        $args['oldName'] = $field->name;
-                        if ($class == 'field_ident' || $class == 'field_foreignkey')
-                            $none = ' style="display:none"';
-                        else
-                            $none = '';
-                        echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-                        echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
-                        $html .= '<div id="update_' . $class . '">
+		<?php
+		$aliasClasses = array_flip(\app::$aliasClasses);
+		foreach ($aliasClasses AS $class => $alias) {
+		    if (preg_match('#field#', $alias))
+			if (!class_exists($alias))
+			    class_alias($class, $alias);
+		}
+		$classes = get_declared_classes();
+		$html = '';
+		$classes = array_unique($classes);
+		foreach ($classes as $class) {
+		    if (is_subclass_of($class, 'field')) {
+			if (isset($aliasClasses[$class])) {
+			    $class = $aliasClasses[$class];
+			}
+			$field = new $class($_POST['module'], '', '');
+			$args = array();
+			$ssmethod = new ReflectionMethod($class, '__construct');
+			$params = $ssmethod->getParameters();
+			foreach ($params as $ssparam) {
+			    $args[$ssparam->name] = $field->{$ssparam->name};
+			}
+			$args['oldName'] = $field->name;
+			if ($class == 'field_ident' || $class == 'field_foreignkey')
+			    $none = ' style="display:none"';
+			else
+			    $none = '';
+			echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
+			echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
 <h2 style="margin-top:0"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;"></span>' . t('Field Settings', FALSE) . '</h2>
@@ -716,48 +718,48 @@ include_once('modules/core/classes/field.php');
 </div>
 </div>
 </div>';
-                        if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
-                            $html .= '<fieldset><h3>' . t('Specials properties') . '</h3>';
-                            ob_start();
-                            include('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php');
-                            $html .= ob_get_clean();
-                            $html .= '</fieldset>';
-                        }
-                        $html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 0 0 2px 25%;"></div>';
-                    }
-                }
-                ?>
+			if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
+			    $html .= '<fieldset><h3>' . t('Specials properties') . '</h3>';
+			    ob_start();
+			    include('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php');
+			    $html .= ob_get_clean();
+			    $html .= '</fieldset>';
+			}
+			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 0 0 2px 25%;"></div>';
+		    }
+		}
+		?>
             </div>
         </div>
     </div>
     <?php
     foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
-        $reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
-        $className = $reflect->getShortName();
-        $com = $reflect->getDocComment();
-        preg_match_all("/@(.*) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture the comments
-        $newArray = array();
-        foreach ($matchs as $match) {
-            $newArray[$match[1]] = $match[2];
-        }
-        $tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-        echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
-        $parameters = $entity->getFields();
-        foreach ($parameters as $propertyName => $field) {
-            $class = get_class($field);
-            if (isset($aliasClasses[$class])) {
-                $class = $aliasClasses[$class];
-            }
-            $ssmethod = new ReflectionMethod($class, '__construct');
-            $params = $ssmethod->getParameters();
-            $args = array();
-            foreach ($params as $ssparam) {
-                $args [$ssparam->name] = $field->{$ssparam->name};
-            }
-            $args['oldName'] = $field->name;
-            echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
-        }
-        echo '</div>';
+	$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
+	$className = $reflect->getShortName();
+	$com = $reflect->getDocComment();
+	preg_match_all("/@(.*) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture the comments
+	$newArray = array();
+	foreach ($matchs as $match) {
+	    $newArray[$match[1]] = $match[2];
+	}
+	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
+	echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
+	$parameters = $entity->getFields();
+	foreach ($parameters as $propertyName => $field) {
+	    $class = get_class($field);
+	    if (isset($aliasClasses[$class])) {
+		$class = $aliasClasses[$class];
+	    }
+	    $ssmethod = new ReflectionMethod($class, '__construct');
+	    $params = $ssmethod->getParameters();
+	    $args = array();
+	    foreach ($params as $ssparam) {
+		$args [$ssparam->name] = $field->{$ssparam->name};
+	    }
+	    $args['oldName'] = $field->name;
+	    echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+	}
+	echo '</div>';
     }
     ?>
     <div id="rightsidebar" style="z-index:999">
@@ -774,7 +776,7 @@ include_once('modules/core/classes/field.php');
             </div>
         </div>
         <div id="update_field">
-            <?php echo $html; ?>
+	    <?php echo $html; ?>
         </div>
     </div>
     <span id="deletator" class="ui-icon ui-icon-closethick"></span>
@@ -1134,10 +1136,20 @@ include_once('modules/core/classes/field.php');
                     dbadmin.marqueur = false;
                 });
 		
-                /* Allows to drag tables */
-                $(".table").draggable("destroy");
-                $(".table").draggable({cursor: 'move',handle : 'div.title',containment: '#container_bdd',drag: function(event, ui) {jsPlumb.repaint( $(".property",this).add(this).toArray());$("#outline").fracs('outline', 'redraw'); },stop:function(){jsPlumb.repaint( $(".property",this).add(this).toArray());}});
-                
+		/* Allows to drag tables */
+		$(".table").draggable("destroy");
+		$(".table").draggable({
+		    cursor: 'move',
+		    handle : 'div.title',
+		    containment: '#container_bdd',drag: function(event, ui) {
+			jsPlumb.repaint( $(".property",this).add(this).toArray());
+			$("#outline").fracs('outline', 'redraw');
+		    }
+		    ,stop:function(){
+			jsPlumb.repaint( $(".property",this).add(this).toArray());
+		    }
+		});
+
                 /* Allows to drop fields in table */
                 $(".table").droppable("destroy");
                 $(".table").droppable({

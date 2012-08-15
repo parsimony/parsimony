@@ -1,5 +1,5 @@
 <?php
-app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js');
+app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js');
 app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
@@ -9,7 +9,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/script.js');
 app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale() . '-lang.js');
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js');
 ?>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui-1.8.18.min.js"><\/script>')</script>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
 <script type="text/javascript">
     
     var CSSTHEMEPATH = "<?php echo THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css";

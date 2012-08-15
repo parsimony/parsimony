@@ -27,7 +27,8 @@
  *  Open Software License (OSL 3.0)
  */
 ?>
-<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js"> </SCRIPT>
+<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"> </SCRIPT>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
 <script>
     $(function() {
         $(document).on('click',".tabs li a",function(e){
