@@ -563,8 +563,8 @@ $selectors = $css->getAllSselectors();
     $("#threed").on('change','.ch',function(){
 	if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
         $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','rotateX(' + $("#rotatex").val() + 'deg) rotateY(' + $("#rotatey").val() + 'deg)');
-	ParsimonyAdmin.currentDocument.styleSheets[6].removeRule("0");
-	ParsimonyAdmin.currentDocument.styleSheets[6].insertRule('.threed * {-webkit-transform:rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(' + $("#rotatez").val() + 'px);box-shadow: '+ (-($("#rotatey").val()/10)) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa;background-color:#fff}',"0");
+	blockAdminCSS.iframeStyleSheet.removeRule("0");
+	blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(' + $("#rotatez").val() + 'px);box-shadow: '+ (-($("#rotatey").val()/10)) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa;background-color:#fff}',"0");
     });
 
     /* Color Picker */

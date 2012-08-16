@@ -58,9 +58,12 @@ var ParsimonyAdmin = {
 	ParsimonyAdmin.currentBody = ParsimonyAdmin.currentDocument.body;
 	ParsimonyAdmin.inProgress = "container";
 	ParsimonyAdmin.updateUI();
+        ParsimonyAdmin.changeDeviceUpdate();
+        
+        /* Add Iframe style */
 	$(ParsimonyAdmin.currentBody).append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
-	ParsimonyAdmin.changeDeviceUpdate();
-	
+        blockAdminCSS.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length-1];
+        
 	/* Init tooltip */
 	$(".tooltip").parsimonyTooltip({
 	    triangleWidth:5
