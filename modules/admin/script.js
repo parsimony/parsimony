@@ -177,8 +177,6 @@ var ParsimonyAdmin = {
 	this.pluginDispatch("unloadEditMode");
     },
     loadPreviewMode :   function(){
-	ParsimonyAdmin.closeLeftPanel();
-	ParsimonyAdmin.closeRightPanel();
 	$(ParsimonyAdmin.currentBody).on('click.preview','a', function(e){
 	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
 		e.preventDefault();
