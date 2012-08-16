@@ -27,10 +27,10 @@
  */
 ?>
 <div class="subSidebar">
-    <div class="subSidebarOnglet handle" style="cursor: move;" title="<?php echo t('Move', FALSE); ?>"><span class="ui-icon ui-icon-arrow-4"></span></div>
-    <div class="subSidebarOnglet revert" title="<?php echo t('Return', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
-    <div class="subSidebarOnglet openclose"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>" title="<?php echo t('Slide', FALSE); ?>"></span></div>
-    <div class="subSidebarOnglet" title="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
+    <div class="subSidebarOnglet handle" style="cursor: move;"><span class="ui-icon ui-icon-arrow-4"></span></div>
+    <div class="subSidebarOnglet revert tooltip" data-tooltip="<?php echo t('Pin', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
+    <div class="subSidebarOnglet openclose tooltip" data-tooltip="<?php echo t('Hide / Show sidebar', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>"></span></div>
+    <div class="subSidebarOnglet tooltip" data-tooltip="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
 </div>
 <div class="contenttab cs">
     <div <?php if ($this->side == 'left') echo 'class="creation"'; ?>>

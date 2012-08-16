@@ -392,7 +392,7 @@ abstract class entity implements \Iterator {
         $html .= '<h2>' . t('Record', FALSE) . ' N° ' . $this->getId()->value;
         $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
         if ($this->getRights(ID_ROLE) & DELETE)
-            $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '">';
+            $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';
 
         $html .= '</h2>';
         $html .= '<div class="cols">';
