@@ -32,14 +32,12 @@
     <div class="subSidebarOnglet openclose tooltip" data-tooltip="<?php echo t('Hide / Show sidebar', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>"></span></div>
     <div class="subSidebarOnglet tooltip" data-tooltip="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
 </div>
-<div class="contenttab cs">
-    <div <?php if ($this->side == 'left') echo 'class="creation"'; ?>>
-        <?php foreach ($this->getBlocks() AS $block): ?>
-            <div class="mainTab <?php echo $block->getId(); ?> ellipsis" rel="<?php echo $block->getId(); ?>">
-                <?php echo t($block->getName(), FALSE); ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
+<div class="contenttab">
+    <?php foreach ($this->getBlocks() AS $block): ?>
+        <div class="mainTab <?php echo $block->getId(); ?> ellipsis" rel="<?php echo $block->getId(); ?>">
+            <?php echo t($block->getName(), FALSE); ?>
+        </div>
+    <?php endforeach; ?>
     <?php
     if (!empty($this->blocks)) {
         foreach ($this->blocks as $selected_block) {

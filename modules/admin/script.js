@@ -72,11 +72,11 @@ var ParsimonyAdmin = {
 	/* Set initial mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
 	if(initialMode == 'edit'){
-	    $("#switchEditMode").trigger('click');
+	    $("#editMode").trigger('click');
 	}else if(initialMode == 'preview'){
-	    $("#switchPreviewMode").trigger('click');
+	    $("#previewMode").trigger('click');
 	}else{
-	    $("#switchCreationMode").trigger('click');
+	    $("#creationMode").trigger('click');
 	}
 
 	//override jQuery ready function to exec them with ajax portions
@@ -475,62 +475,6 @@ var ParsimonyAdmin = {
 	notify : function (message,type) {
 	    $("#notify").appendTo("body").attr("class","").addClass(type).html(message).fadeIn("normal").delay(4000).fadeOut("slow");
 	},
-	openLeftPanel : function () {
-	    $("#left_sidebar").removeClass('close');
-	    $("#left_sidebar .contenttab").show();
-	    $("#openleftslide span").removeClass('ui-icon-circle-arrow-e').addClass('ui-icon-circle-arrow-w');
-	    ParsimonyAdmin.setCookie("leftToolbarOpen",1,999);
-	},
-	closeLeftPanel : function () {
-	    $("#left_sidebar").addClass('close');
-	    $("#left_sidebar .contenttab").hide();
-	    $("#openleftslide span").removeClass('ui-icon-circle-arrow-w').addClass('ui-icon-circle-arrow-e');
-	    ParsimonyAdmin.setCookie("leftToolbarOpen",0,999);
-	},
-	openRightPanel : function () {
-	    $("#right_sidebar").removeClass('close');
-	    $("#right_sidebar .contenttab").show();
-	    $("#openrightslide span").removeClass('ui-icon-circle-arrow-w').addClass('ui-icon-circle-arrow-e');
-	    ParsimonyAdmin.setCookie("rightToolbarOpen",1,999);
-	},
-	closeRightPanel : function () {
-	    $("#right_sidebar").addClass('close');
-	    $("#right_sidebar .contenttab").hide();
-	    $("#openrightslide span").removeClass('ui-icon-circle-arrow-e').addClass('ui-icon-circle-arrow-w');
-	    ParsimonyAdmin.setCookie("rightToolbarOpen",0,999);
-	},
-	openRightTreePanel : function () {
-	    ParsimonyAdmin.openRightPanel();
-	    $("#panelcss").hide();
-	    $("#paneltree").show();
-	    $(".paneltree").addClass('active');
-	    $(".panelcss").removeClass('active');
-	    ParsimonyAdmin.setCookie("rightToolbarPanel","paneltree",999);
-	},
-	openRightCSSPanel : function () {
-	    ParsimonyAdmin.openRightPanel();
-	    $(".panelcss").addClass('active');
-	    $(".paneltree").removeClass('active');
-	    $("#paneltree").hide();
-	    $("#panelcss").show();
-	    ParsimonyAdmin.setCookie("rightToolbarPanel","panelcss",999);
-	},
-	openLeftModulesPanel : function () {
-	    ParsimonyAdmin.openLeftPanel();
-	    $("#left_sidebar #panelmodules").show();
-	    $("#left_sidebar #panelblocks").hide();
-	    $(".panelmodules").addClass('active');
-	    $(".panelblocks").removeClass('active');
-	    ParsimonyAdmin.setCookie("leftToolbarPanel","panelmodules",999);
-	},
-	openLeftBlocksPanel : function () {
-	    ParsimonyAdmin.openLeftPanel();
-	    $(".panelmodules").removeClass('active');
-	    $(".panelblocks").addClass('active');
-	    $("#left_sidebar #panelmodules").hide();
-	    $("#left_sidebar #panelblocks").show();
-	    ParsimonyAdmin.setCookie("leftToolbarPanel","panelblocks",999);
-	},
 	openParsiadminMenu : function (x,y) {
 	    var off = $("#parsiframe").offset();
 	    $("#menu").appendTo("body").css({
@@ -575,34 +519,29 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.loadCreationMode();
 	    ParsimonyAdmin.unloadEditMode();
 	    ParsimonyAdmin.unloadPreviewMode();
-	    $('.creation,.panelblocks,#left_sidebar').show();
-	    $('#switchCreationMode').addClass("selected");
-	    $('#switchPreviewMode').removeClass("selected");
-	    $('#switchEditMode').removeClass("selected");
-	    ParsimonyAdmin.setCookie("mode","creation",999);
+	    $('.sidebar,#left_sidebar .mainTab').show();
+	    ParsimonyAdmin.setMode("creation");  
 	},
 	setEditMode :   function (){
 	    ParsimonyAdmin.unloadCreationMode();
 	    ParsimonyAdmin.unloadPreviewMode();
 	    ParsimonyAdmin.loadEditMode();
-	    $('.creation,.panelblocks').hide();
-	    $('#switchEditMode').addClass("selected");
-	    $('#switchCreationMode').removeClass("selected");
-	    $('#switchPreviewMode').removeClass("selected");
-	    $("#left_sidebar #panelmodules,#left_sidebar").show();
-	    $("#left_sidebar #panelblocks").hide();
-	    $(".panelmodules").addClass('active');
-	    ParsimonyAdmin.setCookie("mode","edit",999);
+	    $('#right_sidebar,#left_sidebar .mainTab,#panelblocks').hide();
+	    $("#panelmodules,#left_sidebar").show();
+	    ParsimonyAdmin.setMode("edit");
 	},
 	setPreviewMode :   function (){
 	    ParsimonyAdmin.unloadCreationMode();
 	    ParsimonyAdmin.unloadEditMode();
 	    ParsimonyAdmin.loadPreviewMode();
-	    $('.creation,.panelblocks,#left_sidebar').hide();
-	    $('#switchPreviewMode').addClass("selected");
-	    $('#switchEditMode').removeClass("selected");
-	    $('#switchCreationMode').removeClass("selected");
-	    ParsimonyAdmin.setCookie("mode","preview",999);
+	    $('.sidebar').hide();
+	    ParsimonyAdmin.setMode("preview");
+	},
+        setMode :   function (mode){
+            $("body").removeClass("previewMode modeMode creationMode").addClass(mode + "Mode");
+            $(".switchMode").removeClass("selected");
+            $("#" + mode + "Mode").addClass("selected");
+            ParsimonyAdmin.setCookie("mode",mode,999);
 	},
 	loadBlock: function(id, params, func){
             if(!params) params = {};

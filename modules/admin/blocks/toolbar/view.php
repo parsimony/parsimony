@@ -101,15 +101,15 @@ echo $admin->display();
 
 <?php
 echo '<script> $(document).ready(function() {';
-if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelmodules') {
-    echo '$(".panelmodules").trigger("click");';
-} else {
+if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelblocks') {
     echo '$(".panelblocks").trigger("click");';
-}
-if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'paneltree') {
-    echo '$(".paneltree").trigger("click");';
 } else {
+    echo '$(".panelmodules").trigger("click");';
+}
+if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'panelcss') {
     echo '$(".panelcss").trigger("click");';
+} else {
+    echo '$(".paneltree").trigger("click");';
 }
 echo '}); </script>';
 ?>

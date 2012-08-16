@@ -117,9 +117,9 @@ echo 'resultions["' . $device['name'] . '"] = \'' . json_encode($device['resolut
         <option value="portrait"><?php echo t('Portrait', FALSE); ?></option><option value="landscape"<?php if(isset($_COOKIE['landscape']) &&  $_COOKIE['landscape'] == 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape', FALSE); ?></option>
     </select>
     <?php if (BEHAVIOR == 1 || BEHAVIOR == 2): ?>
-        <a href="#" id="switchPreviewMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();return false;"><?php echo t('Preview') ?></a><?php 
-     ?><a href="#" id="switchEditMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();return false;"><?php echo t('Edit') ?></a><?php 
-        endif; if (BEHAVIOR == 2):?><a href="#" id="switchCreationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;"><?php echo t('Creation') ?></a>
+        <a href="#" id="previewMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();return false;"><?php echo t('Preview') ?></a><?php 
+     ?><a href="#" id="editMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();return false;"><?php echo t('Edit') ?></a><?php 
+        endif; if (BEHAVIOR == 2):?><a href="#" id="creationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();return false;"><?php echo t('Creation') ?></a>
     <?php endif; ?>
 </div>      
 

@@ -56,30 +56,22 @@ function blockAdminToolbar() {
                 ParsimonyAdmin.setCookie("rightToolbarX","230px",999);
             }
         });
-	
-        $("#right_sidebar").on('click',".openclose",function(){
-            if(!$(this).parent().parent().hasClass("close")) ParsimonyAdmin.closeRightPanel();
-            else ParsimonyAdmin.openRightPanel();
-        });
-        $("#left_sidebar").on('click',".openclose",function(){
-            if(!$(this).parent().parent().hasClass("close")) ParsimonyAdmin.closeLeftPanel();
-            else ParsimonyAdmin.openLeftPanel();
+        
+        $(".sidebar").on('click',".openclose",function(){
+            var sidebar = $(this).closest(".sidebar");
+            sidebar.toggleClass("close");
+            ParsimonyAdmin.setCookie(sidebar.data("side") + "ToolbarOpen",( sidebar.hasClass("close") ? "0" : "1"),999);
         });
 			
         /* Tabs */
-        $('.admdesign,.admmodules').addClass('active');
-
-        $('#left_sidebar').on('click','.panelmodules', function(){
-            ParsimonyAdmin.openLeftModulesPanel();
-        });
-        $('#left_sidebar').on('click','.panelblocks',function(){
-            ParsimonyAdmin.openLeftBlocksPanel();
-        });
-        $('#right_sidebar').on('click','.panelcss',function(){
-            ParsimonyAdmin.openRightCSSPanel();
-        });
-        $('#right_sidebar').on('click','.paneltree',function(){
-            ParsimonyAdmin.openRightTreePanel();
+        $('.sidebar').on('click','.mainTab', function(){
+            var rel = $(this).attr("rel");
+            var parent = $(this).closest(".contenttab");
+	    $(".block",parent).hide();
+            $("#" + rel).show();
+            $(".mainTab",parent).removeClass('active');
+	    $(this).addClass('active');
+	    ParsimonyAdmin.setCookie($(this).closest(".sidebar").data("side") + "ToolbarPanel",rel,999);
         });
 	
 		
