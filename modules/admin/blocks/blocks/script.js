@@ -89,7 +89,7 @@ function blockAdminBlocks() {
         var $this = this;
         this.moveBlock = true;
         $(ParsimonyAdmin.currentBody).append($("#dropInPage" ));
-        ParsimonyAdmin.openRightTreePanel(); 
+        $("#right_sidebar").removeClass("close");
         $(ParsimonyAdmin.currentBody).add('#paneltree').on('dragenter.drag','.block,#dropInTree,.tree_selector', function(e) {
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {

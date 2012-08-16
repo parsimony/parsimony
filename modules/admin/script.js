@@ -32,7 +32,7 @@ var ParsimonyAdmin = {
 		
 	$("#conf_box").draggable();
 
-	$(document).on('click','#conf_box_wpopup', function(e){
+	$("#conf_box").on('click','#conf_box_wpopup', function(e){
 	    var action = $("#conf_box_form input[name=action]").val();
 	    $("#conf_box_form").attr('target','conf_box_content_popup' + action);
 	    ParsimonyAdmin.closeConfBox();
@@ -355,9 +355,10 @@ var ParsimonyAdmin = {
     },
     displayConfBox :   function (url,title,params,modal){
         $("#conf_box_load").show();
+        $("#conf_box,#conf_box_content" ).removeAttr("style");
+        $("#conf_box").css("visibility","hidden").show();
 	if(typeof modal == "undefined" || modal == true) ParsimonyAdmin.showOverlay();
 	ParsimonyAdmin.setConfBoxTitle(title);
-        $("#conf_box,#conf_box_content" ).removeAttr("style");
         if(url.substring(0,1) != "#"){
             ParsimonyAdmin.returnToShelter();
             $("#conf_box_form").attr("action",url).empty();
@@ -377,6 +378,7 @@ var ParsimonyAdmin = {
                 $("#conf_box_content_inline").show().append($(url));
                 $("#conf_box_content_iframe").hide();
                 $(url).show();
+                $("#conf_box").css("visibility","visible");
             }
 	},
 	closeConfBox :   function (){
@@ -395,7 +397,7 @@ var ParsimonyAdmin = {
 		    "width": ($(".adminzonecontent",doc).outerWidth() + $(".adminzonemenu",doc).outerWidth()) + "px",
 		    "height": $("body",doc).outerHeight() + "px"
 		});
-                $("#conf_box").show();
+                $("#conf_box").css("visibility","visible");
 	    }
 	},
 	setConfBoxTitle :   function (title){

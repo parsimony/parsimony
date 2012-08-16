@@ -28,7 +28,8 @@
             });*/
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
-                $(".firstpanel a").trigger("click");
+                if( $(".firstpanel").length > 0) $(".firstpanel a").trigger("click");
+                else top.ParsimonyAdmin.resizeConfBox();
             });
             $(document).on('click',".adminzonetab a",function(event){
                 event.preventDefault();
