@@ -34,4 +34,5 @@
     <body>
 	<?php echo $this->body; ?>
     </body>
+    <?php echo app::$request->page->printInclusions('footer') ?>
 </html>

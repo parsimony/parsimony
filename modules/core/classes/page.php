@@ -34,15 +34,14 @@ namespace core\classes;
  * Manages pages
  * 
  */
-
 class page extends \block {
 
     /** @var array of blocks */
     protected $blocks = array();
-    
+
     /** @var string module name */
     private $moduleName;
-    
+
     /** @var string Page ID */
     protected $id;
 
@@ -62,16 +61,7 @@ class page extends \block {
     private $metas = array();
 
     /** @var string */
-    private $CSS_inc = array();
-
-    /** @var array */
-    private $CSS_inc_http = array();
-
-    /** @var array */
-    private $JS_inc = array();
-
-    /** @var array */
-    private $JS_inc_http = array();
+    private $includes = array('header' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
 
     /** @var array */
     private $rights = array();
@@ -89,7 +79,7 @@ class page extends \block {
      */
     public function __construct($id, $module = 'core') {
         $this->id = $id;
-	$this->moduleName = $module;
+        $this->moduleName = $module;
     }
 
     /**
@@ -210,7 +200,7 @@ class page extends \block {
      * @param block $block
      * @param string $idNext optional
      */
-    public function addBlock(block $block, $idNext=false) {
+    public function addBlock(block $block, $idNext = false) {
         if (!isset($this->blocks[THEMETYPE]))
             $this->blocks[THEMETYPE] = array();
         if (!$idNext) {
@@ -234,9 +224,9 @@ class page extends \block {
      * @param string $idBlock 
      */
     public function rmBlock($idBlock) {
-	if(isset($this->blocks[THEMETYPE][$idBlock])) {
+        if (isset($this->blocks[THEMETYPE][$idBlock])) {
             unset($this->blocks[THEMETYPE][$idBlock]);
-	    return TRUE;
+            return TRUE;
         } else {
             return FALSE;
         }
@@ -303,31 +293,33 @@ class page extends \block {
         }
         return $html;
     }
+
     /**
      * Get inclusions
      * @return string
      */
-    public function printInclusions() {
+    public function printInclusions($position = 'header') {
         $html = "\r";
-        if (!empty($this->CSS_inc_http))
-            $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->CSS_inc_http) . '" />';
-	if (!empty($this->CSS_inc)){
-            if(BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&files=' . implode(',', $this->CSS_inc) . '" />';
-	    else{
-		foreach($this->CSS_inc AS $css)
-		     $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' .$css. '" />';
-	    }
-	}
-        if (!empty($this->JS_inc_http))
-            $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->JS_inc_http) . '"> </SCRIPT>';
-        if (!empty($this->JS_inc)){
-            if(BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])){ 
-		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&files=' . implode(',', $this->JS_inc) . '"> </SCRIPT>' . PHP_EOL;
-	    }else{
-		foreach($this->JS_inc AS $css)
-		     $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' .$css. '"> </SCRIPT>';
-	    }
-	}
+        if (!empty($this->includes[$position]['css']['http']))
+            $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
+        if (!empty($this->includes[$position]['css']['local'])) {
+            if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup']))
+                $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&files=' . implode(',', $this->includes[$position]['css']['local']) . '" />';
+            else {
+                foreach ($this->includes[$position]['css']['local'] AS $css)
+                    $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . $css . '" />';
+            }
+        }
+        if (!empty($this->includes[$position]['js']['http']))
+            $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
+        if (!empty($this->includes[$position]['js']['local'])) {
+            if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) {
+                $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&files=' . implode(',', $this->includes[$position]['js']['local']) . '"> </SCRIPT>' . PHP_EOL;
+            } else {
+                foreach ($this->includes[$position]['js']['local'] AS $css)
+                    $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . $css . '"> </SCRIPT>';
+            }
+        }
         return $html;
     }
 
@@ -338,13 +330,13 @@ class page extends \block {
     public function setModule($module) {
         $this->moduleName = $module;
     }
-    
+
     /**
      * Save the module
      * @return bool
      */
     public function save() {
-        return \tools::serialize(PROFILE_PATH . $this->moduleName . '/pages/' . $this->getId() , $this); 
+        return \tools::serialize(PROFILE_PATH . $this->moduleName . '/pages/' . $this->getId(), $this);
     }
 
     /**
@@ -353,7 +345,7 @@ class page extends \block {
      */
     public function display() {
         \app::$request->page->current = TRUE;
-	$html = '';
+        $html = '';
         if (!empty($this->blocks[THEMETYPE])) {
             foreach ($this->blocks[THEMETYPE] as $selected_block) {
                 $html .= $selected_block->display();
@@ -365,42 +357,50 @@ class page extends \block {
 
     /**
      * Add CSS File to includes
+     * @param string $position header or footer
      * @param string $cssFile
-     */ 
-    public function addCSSFile($cssFile) {
-        if (substr($cssFile, 0, 7) == 'http://'){
-            if(!in_array($cssFile,$this->CSS_inc_http)) $this->CSS_inc_http[] = $cssFile;
-	}else{
-            if(!in_array($cssFile,$this->CSS_inc)) $this->CSS_inc[] = $cssFile;
-	}
+     */
+    public function addCSSFile($cssFile, $position = 'header') {
+        if (substr($cssFile, 0, 7) == 'http://') {
+            if (!in_array($cssFile, $this->includes[$position]['css']['http']))
+                $this->includes[$position]['css']['http'][] = $cssFile;
+        }else {
+            if (!in_array($cssFile, $this->includes[$position]['css']['local']))
+                $this->includes[$position]['css']['local'][] = $cssFile;
+        }
     }
-    
+
     /**
      * Get CSS Files included
+     * @param string $position header or footer
      * @return array
      */
-    public function getCSSFiles() {
-        return array_merge($this->CSS_inc_http, $this->CSS_inc);
+    public function getCSSFiles($position = 'header') {
+        return array_merge($this->includes[$position]['css']['http'], $this->includes[$position]['css']['local']);
     }
 
     /**
      * Add Javascript File to includes
+     * @param string $position header or footer
      * @param string $jsFile
      */
-    public function addJSFile($jsFile) {
-        if (substr($jsFile, 0, 7) == 'http://'){
-            if(!in_array($jsFile,$this->JS_inc_http)) $this->JS_inc_http[] = $jsFile;
-	}else{
-            if(!in_array($jsFile,$this->JS_inc)) $this->JS_inc[] = $jsFile;
-	}
+    public function addJSFile($jsFile, $position = 'header') {
+        if (substr($jsFile, 0, 7) == 'http://') {
+            if (!in_array($jsFile, $this->includes[$position]['js']['http']))
+                $this->includes[$position]['js']['http'][] = $jsFile;
+        }else {
+            if (!in_array($jsFile, $this->includes[$position]['js']['local']))
+                $this->includes[$position]['js']['local'][] = $jsFile;
+        }
     }
-    
+
     /**
      * Get Javascript Files included
+     * @param string $position header or footer
      * @return array
      */
-    public function getJSFiles() {
-        return array_merge($this->JS_inc_http, $this->JS_inc);
+    public function getJSFiles($position = 'header') {
+        return array_merge($this->includes[$position]['js']['http'], $this->includes[$position]['js']['local']);
     }
 
     /**
@@ -417,7 +417,7 @@ class page extends \block {
      * @param string $role
      * @return integer
      */
-    public function getRights($role=1) {
+    public function getRights($role = 1) {
         if (isset($this->rights[(String) $role]))
             return $this->rights[(String) $role];
     }
