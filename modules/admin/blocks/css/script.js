@@ -46,7 +46,7 @@ function blockAdminCSS() {
 		e.stopPropagation();
                 $("#threed").hide();
                 $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','initial');
-                $("*",ParsimonyAdmin.currentBody).css({'-webkit-transform':'initial','box-shadow': 'initial'});
+                $(ParsimonyAdmin.currentBody).removeClass("threed");
 		$(".cssPicker").removeClass("cssPicker");
 		$(this).addClass("cssPicker");
 		blockAdminCSS.getCSSForCSSpicker();

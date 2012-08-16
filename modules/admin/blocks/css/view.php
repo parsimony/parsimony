@@ -86,6 +86,8 @@ $selectors = $css->getAllSselectors();
         X <input type="range" class="ch" id="rotatex" min="-40" max="40" value="0">
         <div class="clearboth"></div>
         Y <input type="range" class="ch" id="rotatey" min="-40" max="40" value="0">
+	<div class="clearboth"></div>
+        Z <input type="range" class="ch" id="rotatez" min="0" max="1000" value="300">
     </div>
     <div id="css_panel" style="" class="none">
         <div>
@@ -559,9 +561,10 @@ $selectors = $css->getAllSselectors();
     
     /* CSSpicker 3D */
     $("#threed").on('change','.ch',function(){
+	if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
         $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','rotateX(' + $("#rotatex").val() + 'deg) rotateY(' + $("#rotatey").val() + 'deg)');
-        $("*",ParsimonyAdmin.currentBody).css({'-webkit-transform':'rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(300px)',
-                                                'box-shadow': -($("#rotatey").val()/10) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa'});
+	ParsimonyAdmin.currentDocument.styleSheets[6].removeRule("0");
+	ParsimonyAdmin.currentDocument.styleSheets[6].insertRule('.threed * {-webkit-transform:rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(' + $("#rotatez").val() + 'px);box-shadow: '+ (-($("#rotatey").val()/10)) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa;background-color:#fff}',"0");
     });
 
     /* Color Picker */
