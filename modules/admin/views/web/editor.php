@@ -95,7 +95,7 @@
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .adminzonecontent{min-width:900px}
     .CodeMirror {background: white;width: 870px;margin: 0 15px 0 0;}
-    .CodeMirror-scroll {margin-top: 7px;height: 100%;width: 900px;overflow-y: hidden;overflow-x: auto;}
+    .CodeMirror-scroll {margin-top: 7px;height: 100%;width: 870px;overflow-y: hidden;overflow-x: auto;}
     .activeline {background: rgba(232, 242, 255, 0.33) !important;}
 </style>
 </head>
