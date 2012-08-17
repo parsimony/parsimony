@@ -172,6 +172,10 @@ class core extends \module {
 	echo $this->getView('thumbnail', 'web');
 	return $this->getView('thumbnail', 'web');
     }
+    
+    public function sitemapAction() {
+	return $this->getView('sitemap', 'web');
+    }
 
     public function install() {
 	parent::install();
