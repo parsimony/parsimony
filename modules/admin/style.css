@@ -113,7 +113,7 @@ ul.models,ul.pages{padding: 5px;}
 /* Sidebar right parts */
 
 /* Tree */
-#treelegend2 fieldset{border: 1px solid whiteSmoke; border-radius: 8px;margin: 5px;padding: 5px;}
+#treelegend2 fieldset{border: 1px solid whiteSmoke; border-radius: 8px;margin: 5px;padding: 5px;background: #333;}
 #treelegend2 fieldset span{line-height: 20px;}
 #tree{color:#fff;padding-left:0px;letter-spacing: 1.1px;}
 #tree .tree_selector{position:relative;clear:both;line-height: 18px;}
@@ -138,7 +138,7 @@ ul.models,ul.pages{padding: 5px;}
 #tree span.ui-icon { background-image: url(admin/img/icons_white.png);}
 #tree li.tree_selector{border-top: 0;border-bottom: 0;border-right: 0}
 .parsiblock{background: url(admin/img/parsiblock.png) no-repeat 12px 1px, url(admin/img/hier.png) no-repeat 0px 1px !important;padding-left: 32px;}
-.parsipage{background: url(admin/img/parsipage.png) no-repeat 10px, url(admin/img/backcontenttree.png) repeat-x !important;padding-left: 30px;}
+.parsipage{background: url(admin/img/parsipage.png) no-repeat 10px /*, url(admin/img/backcontenttree.png) repeat-x !important*/;padding-left: 30px;}
 #tree ul ,#tree li {margin-left:0;border-left:0}
 #treedom_container{border-left:0 !important}
 .arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 5px;float:left;display:block;width:16px;height:16px;cursor:pointer}
