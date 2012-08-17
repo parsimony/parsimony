@@ -272,7 +272,7 @@ blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrul
 }
 	
 blockAdminCSS.openCSSForm = function () {
-    ParsimonyAdmin.openRightCSSPanel();
+    $("#right_sidebar").removeClass("close");
     $("#changecssform").removeClass('none');
     $("#changecsscode").addClass('none');
     $("#switchtocode").removeClass('active');
@@ -282,7 +282,7 @@ blockAdminCSS.openCSSForm = function () {
     $("#goeditcss").hide();
 }
 blockAdminCSS.openCSSCode = function () {
-    ParsimonyAdmin.openRightCSSPanel();
+    $("#right_sidebar").removeClass("close");
     $("#changecsscode").removeClass('none');
     $("#changecssform").addClass('none');
     $("#switchtovisuel").removeClass('active');
