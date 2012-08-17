@@ -394,7 +394,7 @@ var ParsimonyAdmin = {
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
 	    if(doc.location.href != "about:blank"){
 		$( "#conf_box_content_iframe" ).css({
-		    "width": ($(".adminzonecontent",doc).outerWidth() + $(".adminzonemenu",doc).outerWidth()) + "px",
+		    "width": $(".adminzone",doc).outerWidth() + "px",
 		    "height": $("body",doc).outerHeight() + "px"
 		});
                 $("#conf_box").css("visibility","visible");
