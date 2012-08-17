@@ -301,8 +301,7 @@ background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
 font-weight: bold;}
-.adminzone{font-family: Helvetica, Arial, sans-serif;background: #777;min-height: 600px;
-           display: table;
+.adminzone{font-family: Helvetica, Arial, sans-serif;min-height: 600px;display: table;
           /* display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/
 }
 .adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}

@@ -77,12 +77,16 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
             </li>
         </ul>
     </li>              
-    <li><a href="#" onclick="$('#themes').slideToggle();return false;" data-title="<?php echo t('Manage Themes', FALSE); ?>"><?php echo t('Themes', FALSE); ?></a>
+    <li>
+        <a href="#" onclick="$('#themes').slideToggle();return false;" data-title="<?php echo t('Manage Themes', FALSE); ?>"><?php echo t('Themes', FALSE); ?></a>
     </li>   
-    <li><a href="#" onclick="$(this).next('form').trigger('submit');return false;" data-title="<?php echo t('Db Modeling', FALSE); ?>"><?php echo t('DB', FALSE); ?></a>        
+    <li>
+        <a href="#" onclick="$(this).next('form').trigger('submit');return false;" data-title="<?php echo t('Db Modeling', FALSE); ?>"><?php echo t('DB', FALSE); ?></a>        
         <form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank"></form>
     </li>
-
+    <li>
+        <a href="#" onclick="ParsimonyAdmin.displayConfBox(BASE_PATH + 'admin/explorer','Explorer');return false;" data-title="<?php echo t('Files Explorer', FALSE); ?>"><?php echo t('Files', FALSE); ?></a>        
+    </li>
     <?php endif; ?>
     <li class="subMenu"><a href="#" id="info_themetype" data-title="<?php echo t('Version', FALSE); ?>"><?php echo t('Version', FALSE); ?> <?php echo str_replace('theme', '', THEMETYPE); ?></a>
         <ul>
@@ -96,7 +100,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
         </ul>
     </li>
     <li style="border-right: 0;background: none;width: 27px;"><img src="<?php echo BASE_PATH . 'admin/img/resolution.png'; ?>" style="position: relative;top: 6px;left: 5px;"/></li>
-    <li style="border-left: 0;" class="subMenu"><a href="#"><span id="currentRes"></span></a>
+    <li style="border-left: 0;" class="subMenu"><a href="#" style="5px 15px 5px 8px;"><span id="currentRes"></span></a>
         <ul id="listres"></ul>
     </li>
 </ul>

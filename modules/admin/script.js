@@ -220,8 +220,13 @@ var ParsimonyAdmin = {
 	    if(e.ctrlKey) isCtrl = false;
 	});
 
-	$(document).on('click',".explorer",function(event){
-	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/explorer","Explorer","idelmt=" + $(this).attr('rel'));
+	$("#panelcss").on('click',".explorer",function(event){
+            window.callbackExplorerID = $(this).attr('rel');
+            window.callbackExplorer = function (file){
+                $("#" + window.callbackExplorerID).val("url( " + file + ")");
+                $("#" + window.callbackExplorerID).trigger('keyup');
+            }
+            ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/explorer","Explorer");
 	});
 	
 	ParsimonyAdmin.hideOverlay();

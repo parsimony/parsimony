@@ -23,9 +23,6 @@
         ?>
         <style>body{overflow: hidden;}</style>
         <script>
-            /*$(window).load(function() {
-                top.ParsimonyAdmin.resizeConfBox();
-            });*/
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
                 if( $(".firstpanel").length > 0) $(".firstpanel a").trigger("click");
