@@ -15,8 +15,6 @@ function blockAdminBlocks() {
         $(document).on('mouseover',"#admin", function(e) {
             if(ParsimonyAdmin.moveBlock) ParsimonyAdmin.returnToShelter();
         });
-	
-        document.getElementById('admintoolbar').onselectstart = new Function ("return false");
     }
     
     this.initIframe = function () {
@@ -26,22 +24,10 @@ function blockAdminBlocks() {
     this.init = function () {
         var $this = this;
             
-        //destruction of a block
-        $(document).add('#config_tree_selector').on('click',".config_destroy",function(e){
+        //Dispatch menu action event : configure / design / delete
+        $(document).add('#config_tree_selector').on('click',".config_destroy, .cssblock, .configure_block",function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            blockInst.onDelete.apply(this, [e]);
-        });
-	
-        //design a block
-        $(document).add('#config_tree_selector').on('click',".cssblock",function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            blockInst.onDesign.apply(this, [e]);
-        });
-        
-        //configure a block
-        $(document).add('#config_tree_selector').on('click',".configure_block",function(e){
-            var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            blockInst.onConfigure.apply(this, [e]);
+            eval("blockInst." + $(this).attr("rel") + ".apply(this, [e]);");
         });
 
         /* HTML5 drag n drop*/
@@ -229,7 +215,7 @@ function block() {
 
         if(e.trad != true && e.link != true) ParsimonyAdmin.closeParsiadminMenu();
         ParsimonyAdmin.addTitleParsiadminMenu('#' + ParsimonyAdmin.inProgress);
-        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
+        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="onConfigure" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
 	var CSSProps = '';
 	if(typeof me.stylableElements != "undefined"){
 	    $.each(me.stylableElements, function(index, value) { 
@@ -237,9 +223,9 @@ function block() {
 	    });
 	    CSSProps = '<span class="ui-icon ui-icon-carat-1-e floatright"></span><div class="none CSSProps">' + CSSProps + '</a>';
 	}
-	ParsimonyAdmin.addOptionParsiadminMenu('<div class="CSSDesign"><a href="#" class="cssblock"><span class="ui-icon ui-icon-pencil floatleft"></span>' + t('Design') + '</a>' + CSSProps + '</div>');
+	ParsimonyAdmin.addOptionParsiadminMenu('<div class="CSSDesign"><a href="#" class="cssblock" rel="onDesign"><span class="ui-icon ui-icon-pencil floatleft"></span>' + t('Design') + '</a>' + CSSProps + '</div>');
         if(this.id != "container") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" draggable="true" class="move_block" style="cursor:move"><span class="ui-icon ui-icon-arrow-4 floatleft"></span>'+ t('Move') +'</a>');
-        if(this.id != "container" && this.id != "content") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="config_destroy"><span class="ui-icon ui-icon-closethick floatleft"></span>'+ t('Delete') +'</a>');
+        if(this.id != "container" && this.id != "content") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="config_destroy" rel="onDelete"><span class="ui-icon ui-icon-closethick floatleft"></span>'+ t('Delete') +'</a>');
         ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width()/2),e.pageY || ($(window).height()/2));
     }
     
@@ -255,6 +241,7 @@ function block() {
     
     this.onDesign = function (e) {
         e.preventDefault();
+	ParsimonyAdmin.selectBlock(ParsimonyAdmin.inProgress);
         blockAdminCSS.displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
     }
     

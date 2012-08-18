@@ -14,7 +14,7 @@
 .ellipsis {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}  
 
 body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
-#admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;}
+#admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 
 /*############## SideBars ################# */
 
@@ -40,6 +40,7 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 .mainTab:hover,.mainTab.active{background: #777;color: whiteSmoke;border-right: 1px solid #444;border-bottom: 1px solid #444;}
 
 /* Sub Tab */
+.subTabsContainer{height: 42px;padding: 9px;background: whiteSmoke;}
 .ssTab{position: relative;line-height: 18px;
 background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));
 background-image: -moz-linear-gradient(top, #E5E5E5, white);
@@ -48,10 +49,9 @@ background-image: -o-linear-gradient(top, #E5E5E5, white);
 background-image: linear-gradient(top, #E5E5E5, white);color:#333;
 float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
 .ssTab.active,.ssTab div:hover{color:white; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
-.switchtodata{border-radius: 5px 0 0 5px;border-right:0}
-.switchtopages{border-radius: 0 5px 5px 0;}
+.ssTab:first-child{border-radius: 5px 0 0 5px;border-right:0 !important;}
+.ssTab:last-child{border-radius: 0 5px 5px 0;}
 ul.models,ul.pages{padding: 5px;}
-.datatopages{height: 40px;padding: 7px;background: whiteSmoke;}
  
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
@@ -145,13 +145,8 @@ ul.models,ul.pages{padding: 5px;}
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
 
 /* Panel CSS */         	  
-#panelcss{clear:both}
-
-
-/* Panel CSS menu */
-#css_menu{font-size: 10px;height: 45px;border-top: 1px solid #999;position: relative}    
-#css_menu > div{float: left;width: 20%;overflow: hidden;cursor:pointer;text-align: center;line-height:45px;color: white;border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #999;border-left: 1px solid #555;background: #777;}
-#css_menu > div.active,#css_menu > div:hover{color: white;background: #555;border-bottom: 1px solid #555;border-right: 1px solid #555;}
+#savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
+#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
 #panelcss label{display: inline-block;min-width: 50px;color: white;}
 #panelcss select{width: 60px;height: 14px;border:0;font-size:10px}
 #panelcss th{font-weight: bold;}
@@ -172,6 +167,31 @@ ul.models,ul.pages{padding: 5px;}
 .adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;                
 background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F2F2));background: -moz-linear-gradient(top, white, #F2F2F2);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#F2F2F2');padding: 4px;
 }
+
+/* Panel CSS menu */
+#css_menu{font-size: 10px;height: 45px;border-top: 1px solid #999;position: relative}    
+#css_menu > div{float: left;width: 20%;overflow: hidden;cursor:pointer;text-align: center;line-height:45px;color: white;border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #999;border-left: 1px solid #555;background: #777;}
+#css_menu > div.active,#css_menu > div:hover{color: white;background: #555;border-bottom: 1px solid #555;border-right: 1px solid #555;}
+.panelcss_tab.hiddenTab{display: none; }
+
+/* When CSS panel is in code OR form mode */
+.CSSCode #css_panel, .CSSCode #goeditcss, .CSSForm #css_panel, .CSSForm #goeditcss{display:block}
+#panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
+
+/* When CSS panel is in code mode */
+.CSSCode #changecsscode{display:block}
+.CSSCode #changecssform{display:none}
+.CSSCode #goeditcss, .CSSForm #goeditcss{display:none}
+#changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 16px;}
+#changecsscode .selectorTitle{text-shadow: 0px 1px 0px white;margin-right: 39px;}
+#changecsscode .gotoform{background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));border-bottom: 1px solid #7F7F7F;position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;border-radius: 0 0 0 3px;font-size: 10px;color: #FAFAFA;}
+#changecsscode .gotoform:hover{background:#777;color:white}
+#changecsscode .selectorcss b{overflow:hidden}
+#changecsscode .activebtn{cursor:pointer}
+#changecsscode .activebtn:hover{color:#444;}
+#changecsscode .csscode{display:none;}
+
+/* --> code editor on code mode  */
 #panelcss .CodeMirror {border: 1px solid #eee;}
 #panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}
 #panelcss .CodeMirror-lines > div{margin-left: 15px !important;}
@@ -182,25 +202,14 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 #panelcss .activeline {background: #e8f2ff !important;}
 #panelcss .CodeMirror-gutter-text pre{border-radius: 2px;max-width: 10px;background: #f1f1f1;max-height: 9px;line-height: 8px;margin-top: 2px;border: 1px solid #BBB;text-align: right;padding: 0em .1em 0.1em .1em;white-space: pre !important;}
 
-#changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 16px;}
-#changecsscode .selectorTitle{text-shadow: 0px 1px 0px white;margin-right: 39px;}
-#changecsscode .gotoform{background-image: -webkit-gradient(linear,left bottom,left top,from(#818181),to(#A4A4A4));border-bottom: 1px solid #7F7F7F;position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;border-radius: 0 0 0 3px;font-size: 10px;color: #FAFAFA;}
-#changecsscode .gotoform:hover{background:#777;color:white}
-#changecsscode .selectorcss b{overflow:hidden}
-#changecsscode .activebtn{cursor:pointer}
-#changecsscode .activebtn:hover{color:#444;}
-#changecsscode .csscode{display:none;}
+/* When CSS panel is in form mode */
+.CSSForm #changecssform{display:block}
+.CSSForm #changecsscode{display:none}
+#changecssform{position: relative;width:100%;font-size: 11px;font-family: arial, sans-serif;}
 
-.border{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
-#changecsspath{width: 228px;height:19px;border-top: 1px solid #CCC;}
-#savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
-#changecssform{width:100%;font-size: 11px;font-family: arial, sans-serif;}
-#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
-#changecssformcode{height: 42px;padding: 9px;background:whitesmoke;}
-#changecssformcode div{float:left;width:50%;padding:5px;cursor: pointer;border: 1px solid #555;text-align:center;background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E5E5),to(white));}
-#changecssformcode div.active{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
-#switchtovisuel{border-radius: 5px 0 0 5px;border-right: 0 !important;}
-#switchtocode{border-radius: 0 5px 5px 0;}
+/* When searching a selector */
+.CSSSearch #css_panel{display:none}
+.CSSSearch #goeditcss{display:block}
 
 /* CSS Color Picker*/
 #panelcss .colorpicker{z-index: 9999999999999;}
@@ -213,6 +222,7 @@ background: -webkit-gradient(linear, left top, left bottom, from(white), to(#F2F
 #panelcss #metrics .margin {display: inline-block;text-align: center;vertical-align: middle;margin: 11px;float: left;padding: 3px;}
 #panelcss #metrics .padding {border: 1px white dashed;display: inline-block;text-align: center;vertical-align: middle;padding: 3px; margin: 3px;}
 #panelcss input[type='text']{width: 35px; height: 15px;padding: 0;border-radius: 3px;}
+#panelcss .graph .representation{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
 
 /* CSS TOOL Typography */
 #panelcss_tab_type label,  #panelcss_tab_lists label {margin: 3px 10px;position: relative;width: 70px;}

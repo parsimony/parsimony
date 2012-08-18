@@ -51,7 +51,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
             $display = 'none';
         ?>  
         <div id="page_<?php echo $moduleobj->getName(); ?>" class="<?php echo $display; ?>">
-            <div class="datatopages">
+            <div class="datatopages subTabsContainer">
                 <div rel="pages" class="ssTab ellipsis switchtodata active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" target="_blank"><?php echo t('Pages', FALSE); ?>                  
                 </div>
                 <div rel="models" class="ssTab db ellipsis switchtopages" target="_blank" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Content', FALSE); ?>
@@ -122,11 +122,13 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
     <?php endif; ?>
 </div>
 <script>
-    $( ".pages" ).sortable({
-        update: function(event, ui) {
-            $.post(BASE_PATH + "admin/reorderPages", {module: $(this).data("module"), order : $( this ).sortable( "toArray")}, function(data) {
-                ParsimonyAdmin.notify(t("The changes have been saved"),"positive");
-            });
-        }
+    $(document).ready(function(){
+	$( ".pages" ).sortable({
+	    update: function(event, ui) {
+		$.post(BASE_PATH + "admin/reorderPages", {module: $(this).data("module"), order : $( this ).sortable( "toArray")}, function(data) {
+		    ParsimonyAdmin.notify(t("The changes have been saved"),"positive");
+		});
+	    }
+	});
     });
 </script>

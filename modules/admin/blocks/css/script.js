@@ -123,7 +123,6 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
     document.getElementById("typeofinput").value = "form";
     document.getElementById("current_stylesheet_rules").value = "";
     document.getElementById("current_stylesheet_nb_rule").value = "";
-    $("#changecssformcode").removeClass("none");
             
     var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
     for (var i = 0; i < styleSheets.length; i++){
@@ -273,23 +272,15 @@ blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrul
 	
 blockAdminCSS.openCSSForm = function () {
     $("#right_sidebar").removeClass("close");
-    $("#changecssform").removeClass('none');
-    $("#changecsscode").addClass('none');
-    $("#switchtocode").removeClass('active');
-    $("#switchtovisuel").addClass('active');
+    $("#panelcss").removeClass("CSSCode CSSSearch");
+    $("#panelcss").addClass("CSSForm");
     $("#typeofinput").val("form");
-    $('#css_panel').show();
-    $("#goeditcss").hide();
 }
 blockAdminCSS.openCSSCode = function () {
     $("#right_sidebar").removeClass("close");
-    $("#changecsscode").removeClass('none');
-    $("#changecssform").addClass('none');
-    $("#switchtovisuel").removeClass('active');
-    $("#switchtocode").addClass('active');
+    $("#panelcss").removeClass("CSSForm CSSSearch");
+    $("#panelcss").addClass("CSSCode");
     $("#typeofinput").val("code");
-    $('#css_panel').show();
-    $("#goeditcss").hide();
     $("#changecsscode").empty();
     $.each(blockAdminCSS.csseditors,function(i, el){
 	blockAdminCSS.csseditors.splice(i,i+1);

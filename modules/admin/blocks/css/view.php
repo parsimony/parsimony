@@ -65,9 +65,9 @@ $selectors = $css->getAllSselectors();
 <form method="POST" id="form_css" action="<?php echo BASE_PATH; ?>admin/saveCSS" target="ajaxhack">
     <div style="min-width:230px;position:relative">
         <input type="hidden" name="typeofinput" id="typeofinput" value="code" />
-        <div id="changecssformcode">
-            <div id="switchtovisuel" class="active">Visuel</div>
-            <div id="switchtocode">Code</div>
+        <div id="changecssformcode" class="subTabsContainer">
+            <div id="switchtovisuel" class="ssTab">Visuel</div>
+            <div id="switchtocode" class="ssTab">Code</div>
         </div>
 	<div id="selectorcontainer">
 	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"></div>
@@ -170,7 +170,7 @@ $selectors = $css->getAllSselectors();
                     </div>
                 </div>
             </div>
-            <div class="panelcss_tab none" id="panelcss_tab_border">                   
+            <div class="panelcss_tab hiddenTab" id="panelcss_tab_border">                   
                 <div class="labels" style="width:38px;display:inline-block">
                     <div>All</div>
                     <div>Top</div>
@@ -236,7 +236,7 @@ $selectors = $css->getAllSselectors();
                 </div>
             </div>
 
-            <div class="panelcss_tab none" id="panelcss_tab_background">
+            <div class="panelcss_tab hiddenTab" id="panelcss_tab_background">
 
                 <label for="background">Background</label>
                 <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background" type="text" name="background" css="background" value="">
@@ -269,7 +269,7 @@ $selectors = $css->getAllSselectors();
                 <input type="text" class="liveconfig" id="background-origin" name="background-origin" data-options='["fixed","scroll"]' css="background-origin"><option></option><option value="padding-box">padding-box</option><option value="border-box">border-box</option><option value="content-box">content-box</option></select>
 
             </div>
-            <div class="panelcss_tab none" id="panelcss_tab_type">
+            <div class="panelcss_tab hiddenTab" id="panelcss_tab_type">
 
                 <label for="text_font">Font</label>
                 <input type="text" class="liveconfig autocomplete" id="text_font" name="font-family" data-options='[ "Arial, Helvetica, sans-serif","Times New Roman, Times, serif",Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' css="font-family" />
@@ -335,7 +335,7 @@ $selectors = $css->getAllSselectors();
                 <input class="liveconfig align_center" name="text-shadow" css="text-shadow" id="text-shadow" onload="$(this).trigger('change')" type="hidden" value="">
             </div>
 
-            <div class="panelcss_tab none" id="panelcss_tab_lists">
+            <div class="panelcss_tab hiddenTab" id="panelcss_tab_lists">
                 <label for="list-style-image">Image</label>
                 <input class="liveconfig spinner" type="text" name="list-style-image" css="list-style-image" value=""><br>
                 <label for="position">Position</label>
@@ -346,7 +346,7 @@ $selectors = $css->getAllSselectors();
                 <input type="text" class="liveconfig autocomplete" id="list-style-type" name="list-style-type" data-options='["none","armenian","circle","cjk-ideographic","decimal","decimal-leading-zero","disc","georgian","hebrew","hiragana","hiragana-iroha","katakana","katakana-iroha","lower-alpha","lower-greek","lower-latin","lower-roman","square","upper-alpha","upper-latin","upper-roman"]' css="list-style-type">
             </div>
             <?php /*
-              <div class="panelcss_tab none" id="panelcss_tab_transition">
+              <div class="panelcss_tab hiddenTab" id="panelcss_tab_transition">
               <label for="transition">Transition (property duration timing-function delay)</label>
               <input class="liveconfig spinner" type="text" name="transition" value="<?php echo $css->getPropertyValue($selector, 'transition') ?>"><br>
               <label for="transition-property">Transition Property</label>
@@ -366,7 +366,7 @@ $selectors = $css->getAllSselectors();
               <label for="transition-delay">Transition Delay</label>
               <input class="liveconfig spinner" type="text" name="transition-delay" value="<?php echo $css->getPropertyValue($selector, 'transition-delay') ?>"><br>
               </div>
-              <div class="panelcss_tab none" id="panelcss_tab_transform">
+              <div class="panelcss_tab hiddenTab" id="panelcss_tab_transform">
               <select class="select liveconfig autocomplete" id="transform" name="transform">
               <option value="<?php echo $css->getPropertyValue($selector, 'transition-timing-function') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'transition-timing-function')) ?></option>
               <option value="none">none</option>
@@ -413,7 +413,7 @@ $selectors = $css->getAllSselectors();
               <option value="hidden">hidden</option>
               </select><br>
               </div>
-              <div class="panelcss_tab none" id="panelcss_tab_animation">
+              <div class="panelcss_tab hiddenTab" id="panelcss_tab_animation">
 
               <label for="@keyframes">@keyframes { animationname keyframes-selector {css-styles;} }</label>
               <label for="Start">Start</label>
@@ -517,10 +517,10 @@ $selectors = $css->getAllSselectors();
         });
 
         $("#panelcss").on('click','#css_menu > div',function(){
-            $(".panelcss_tab").hide();
-            $("#css_menu > div.active").removeClass("active");
+            $("#css_menu > .active").removeClass("active");
             $(this).addClass("active");
-            $("#" + $(this).attr("rel")).show();
+	    $(".panelcss_tab").addClass("hiddenTab");
+            $("#" + $(this).attr("rel")).removeClass("hiddenTab");
         });
         
         $("#panelcss").on('click','#savemycss',function(){
@@ -532,12 +532,6 @@ $selectors = $css->getAllSselectors();
             $(this).closest('form').trigger('submit');
         });
         
-        function split( val ) {
-            return val.split( /,\s*/ );
-        }
-        function extractLast( term ) {
-            return split( term ).pop();
-        }
         $(document).on("click", ".autocomplete",function(){
             /* We clear datalist */
             $("#parsidatalist").empty();
@@ -666,8 +660,8 @@ $selectors = $css->getAllSselectors();
         $("#v-offsetbox").val(params[1]);
         $("#blurbox").val(params[2]);
         $("#shadow-colorbox").val(params[3]);
-        $('.box-shadow input').die('change');
-        $('.box-shadow input').live("change",function(){
+        $('.box-shadow').off('change', "input");
+        $('.box-shadow').on("change", "input",function(){
             var box = '';
             box = $('#h-offsetbox').val() +' '+ $('#v-offsetbox').val() +' '+ $('#blurbox').val() +' '+ $('#shadow-colorbox').val();
             box = box.replace(/[\s]{2,}/g,' ');
@@ -682,7 +676,7 @@ $selectors = $css->getAllSselectors();
         $("#v-offsettext").val(params[1]);
         $("#blurtext").val(params[2]);
         $("#shadow-colortext").val(params[3]);
-        $('.text-shadow input').live("change",function(){
+        $('.text-shadow').on("change", "input", function(){
             var text = '';
             text = $('#h-offsettext').val() + ' ' + $('#v-offsettext').val() + ' ' + $('#blurtext').val() + ' ' + $('#shadow-colortext').val();
             text = text.replace(/[\s]{2,}/g,' ');
@@ -719,12 +713,8 @@ $selectors = $css->getAllSselectors();
             if (event.type == 'keyup') {
                 $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker');
                 $("#container " + $('#current_selector_update').val(),ParsimonyAdmin.currentBody).addClass('cssPicker');
-            }else {
-                $('#goeditcss').show();
-                $("#css_panel").hide();
             }
-            $("#css_panel").hide();
-            $("#goeditcss").show();
+	    $("#panelcss").addClass("CSSSearch");
         }
     });
     $( "#css_panel" ).on('change','#slider-range-max', function( event, ui ) {
@@ -732,8 +722,8 @@ $selectors = $css->getAllSselectors();
         if(val==1) val = '';
         $( "#positioning_opacity" ).val( val ).trigger("change").trigger("keyup");
     });    
-    $('div.titleTab').die('click');
-    $('div.titleTab').live('click',function(){
+    $('div.titleTab').off('click');
+    $('div.titleTab').on('click',function(){
         var next = $(this).next();	
         if(next.is('ul')) $(this).next().slideToggle();       
     });
@@ -754,8 +744,5 @@ $selectors = $css->getAllSselectors();
             $(this).trigger("change");
         }
     });
-    
-    $("#panelcss").on('click','#closepanelcss', function(){
-        $("#css_panel").hide();
-    });
+
 </script>

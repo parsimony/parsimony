@@ -16,7 +16,7 @@ body{overflow: hidden;}
 font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 
 /* Outline block */
-.selection-block {outline: rgb(78, 219, 255) solid 2px;}
+.selection-block,.parsimonyDND {outline: rgb(78, 219, 255) solid 2px;}
 .selection-container{outline:1px solid #007BC8;}
 
 /* editinplace */
