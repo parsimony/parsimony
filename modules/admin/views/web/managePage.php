@@ -190,6 +190,13 @@
                             $('#abcd').clone().removeAttr("id").appendTo('table tbody').show();
                             genereregex();
                         });
+			$(document).on('click','.robotsOptions', function(){
+			    var robots = "";
+			    $('.robotsOptions:checked').each(function(){
+				robots += $(this).data("option") + ",";
+			    });
+                            $('#SEOrobots').val(robots.substring(0,robots.length-1));
+                        });
 
                         function genereregex(){
                             $('#goto_page').hide();
@@ -326,7 +333,13 @@
                     <div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
                     <div class="placeholder"><label for="meta[category]"><?php echo t('Category', FALSE); ?></label><textarea class="cent" name="meta[category]" row="7" cols="50"><?php echo s($page->getMeta('category')); ?></textarea></div>
                     <div class="placeholder"><label for="meta[copyright]"><?php echo t('Copyright', FALSE); ?></label><textarea class="cent" name="meta[copyright]" row="7" cols="50"><?php echo s($page->getMeta('copyright')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[noindex]"><?php echo t('No index', FALSE); ?></label><input type="checkbox" name="meta[noindex]" style="margin-left: 100px;margin-top: 3px;" <?php if($page->getMeta('noindex') == 'on') echo ' checked="checked"'; ?> /></div>
+                    <div class="placeholder">
+			<label><?php echo t('Robots', FALSE); ?></label>
+			<input type="hidden" name="meta[robots]" id="SEOrobots" value="<?php echo s($page->getMeta('robots')); ?>" /><br><br>
+			<div>No index : <input type="checkbox" class="robotsOptions" data-option="noindex" <?php if(strstr($page->getMeta('robots'), 'noindex')) echo ' checked="checked"'; ?> />
+			No follow : <input type="checkbox" class="robotsOptions" data-option="nofollow" <?php if(strstr($page->getMeta('robots'), 'nofollow')) echo ' checked="checked"'; ?> />
+			No archive : <input type="checkbox" class="robotsOptions" data-option="noarchive" <?php if(strstr($page->getMeta('robots'), 'noarchive')) echo ' checked="checked"'; ?> /></div>
+		    </div>
                 </div>
                 <input class="none" type="submit" id="sendFormPage">
             </div>

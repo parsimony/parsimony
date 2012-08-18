@@ -28,29 +28,31 @@
 $urls = array();
 foreach (\app::$activeModules AS $module => $type) {
     foreach (\app::getModule($module)->getPages() AS $page) {
-        if (count($page->getURLcomponents()) == 0) {
-            $urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $page->getURL();
-        } else {
-            $nb = 0;
-            foreach ($page->getURLcomponents() AS $urlRegex)
-                if (isset($urlRegex['modelProperty']))
-                    $nb++;
-            if($nb == 1) {
-                foreach ($page->getURLcomponents() AS $urlRegex) {
-                    if (isset($urlRegex['modelProperty'])) {
-                        $prop = explode('.', $urlRegex['modelProperty']);
-                        $table = explode('_', $prop[0], 2);
-                        $entity = \app::getModule($table[0])->getEntity($table[1]);
+	if(!strstr($page->getMeta('robots'), 'noindex')){
+	    if (count($page->getURLcomponents()) == 0) {
+		$urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $page->getURL();
+	    } else {
+		$nb = 0;
+		foreach ($page->getURLcomponents() AS $urlRegex)
+		    if (isset($urlRegex['modelProperty']))
+			$nb++;
+		if($nb == 1) {
+		    foreach ($page->getURLcomponents() AS $urlRegex) {
+			if (isset($urlRegex['modelProperty'])) {
+			    $prop = explode('.', $urlRegex['modelProperty']);
+			    $table = explode('_', $prop[0], 2);
+			    $entity = \app::getModule($table[0])->getEntity($table[1]);
 
-                        foreach ($entity as $line) {
-                            $url = $page->getRegex();
-                            $url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], substr($page->getRegex(), 1, -1));
-                            $urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $url;
-                        }
-                    }
-                }
-            }
-        }
+			    foreach ($entity as $line) {
+				$url = $page->getRegex();
+				$url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], substr($page->getRegex(), 1, -1));
+				$urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $url;
+			    }
+			}
+		    }
+		}
+	    }
+	}
     }
 }
 ?><? xml version = "1.0" encoding = "UTF-8" ?>
