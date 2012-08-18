@@ -408,28 +408,6 @@ var ParsimonyAdmin = {
 	setConfBoxTitle :   function (title){
 	    $("#conf_box_title").html(title);
 	},
-	changeBlockPosition : function (blockType,idBlock,idNextBlock,startIdParentBlock,stopIdParentBlock,startTypeCont,stopTypeCont,action){
-	    if(typeof startIdParentBlock == "undefined" || typeof stopIdParentBlock == "undefined"){
-		alert(t('Error in your DOM, perhaps an HTML tag isn\'t closed.'));
-		return false
-		};
-	    if(idNextBlock == undefined || idNextBlock==idBlock) idNextBlock = "last";
-	    ParsimonyAdmin.postData(BASE_PATH + "admin/" + action,{
-		TOKEN: TOKEN ,
-		popBlock: blockType ,
-		idBlock: idBlock,
-		id_next_block:idNextBlock ,
-		startParentBlock: startIdParentBlock ,
-		parentBlock:stopIdParentBlock ,
-		start_typecont:startTypeCont ,
-		stop_typecont:stopTypeCont ,
-		IDPage: $(".container_page",ParsimonyAdmin.currentBody).data('page')
-	    },function(data){
-		ParsimonyAdmin.execResult(data);
-		ParsimonyAdmin.returnToShelter();
-		ParsimonyAdmin.updateUI();
-	    });
-	},
 	returnToShelter : function () {
 	    $("#dropInPage",ParsimonyAdmin.currentBody).prependTo($("#shelter"));
 	    $("#dropInTree").prependTo($("#shelter"));
