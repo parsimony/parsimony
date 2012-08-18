@@ -8,7 +8,7 @@ body{overflow: hidden;}
 .traduction:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
 
 /* Marker drag n drop blocks */
-#container #dropInPage{position:relative;z-index:999995;height: 0px;}
+#container #dropInPage{position:relative;z-index:999995;height: 0px;pointer-events:none}
 #container #dropInPage #dropInPageChild{position: absolute;border-radius: 3px;border: 1px solid #96005b;background: #c8007a;width: 100%;height: 8px;top: -4px;}
 #container #dropInPage.floatleft{float:left;width: 20px;}
 .dropInContainer{padding: 10px 0px;}

@@ -52,8 +52,8 @@ class wysiwyg extends \block {
         \tools::file_put_contents( PROFILE_PATH .$this->getConfig('path'), $_POST['editor']);
     }
     
-    public function setHTML($html) {
-        if (\app::getClass('user')->VerifyConnexion() && ID_ROLE == 1) {
+    public function setContent($html) {
+        if (\app::getClass('user')->VerifyConnexion() && BEHAVIOR == 2) {
             return \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),\tools::sanitize($html));
         }
 	return FALSE;
@@ -61,7 +61,7 @@ class wysiwyg extends \block {
     
     public function saveWYSIWYGAction($html) {
         if(substr($html,-29) == '<div class="clearboth"></div>') $html = substr($html,0,-29);
-        if($this->setHTML($html)){
+        if($this->setContent($html)){
 	    $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
 	}else{
 	    $return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');

@@ -139,9 +139,10 @@ class admin extends \module {
      * @param string $stop_typecont
      * @return string 
      */
-    protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont) {
+    protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content) {
         $tempBlock = new $popBlock($idBlock);
-        $idBlock = $tempBlock->getId();
+	if(!empty($content) &&  method_exists($tempBlock, 'setContent')) $tempBlock->setContent($content); /* external DND */
+        $idBlock = $tempBlock->getId(); /* In case of sanitizing */
         if ($this->checkIfIdExists($idBlock)) {
             return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
         }
@@ -677,7 +678,7 @@ class admin extends \module {
 	    }
 	} else {
 	    $block = new \core\blocks\wysiwyg($id);
-	    $block->setHTML(utf8_encode($node));
+	    $block->setContent(utf8_encode($node));
 	    if(isset($node['class'])) $block->setConfig('css_classes',$node['class']);
 	}
 	return $block;
