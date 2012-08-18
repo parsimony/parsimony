@@ -27,7 +27,7 @@ function blockAdminBlocks() {
         //Dispatch menu action event : configure / design / delete
         $(document).add('#config_tree_selector').on('click',".config_destroy, .cssblock, .configure_block",function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            eval("blockInst." + $(this).attr("rel") + ".apply(this, [e]);");
+            eval("blockInst." + $(this).data("action") + ".apply(this, [e]);");
         });
 
         /* HTML5 drag n drop*/
@@ -215,7 +215,7 @@ function block() {
 
         if(e.trad != true && e.link != true) ParsimonyAdmin.closeParsiadminMenu();
         ParsimonyAdmin.addTitleParsiadminMenu('#' + ParsimonyAdmin.inProgress);
-        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="onConfigure" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
+        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
 	var CSSProps = '';
 	if(typeof me.stylableElements != "undefined"){
 	    $.each(me.stylableElements, function(index, value) { 
@@ -223,9 +223,9 @@ function block() {
 	    });
 	    CSSProps = '<span class="ui-icon ui-icon-carat-1-e floatright"></span><div class="none CSSProps">' + CSSProps + '</a>';
 	}
-	ParsimonyAdmin.addOptionParsiadminMenu('<div class="CSSDesign"><a href="#" class="cssblock" rel="onDesign"><span class="ui-icon ui-icon-pencil floatleft"></span>' + t('Design') + '</a>' + CSSProps + '</div>');
+	ParsimonyAdmin.addOptionParsiadminMenu('<div class="CSSDesign"><a href="#" class="cssblock" data-action="onDesign"><span class="ui-icon ui-icon-pencil floatleft"></span>' + t('Design') + '</a>' + CSSProps + '</div>');
         if(this.id != "container") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" draggable="true" class="move_block" style="cursor:move"><span class="ui-icon ui-icon-arrow-4 floatleft"></span>'+ t('Move') +'</a>');
-        if(this.id != "container" && this.id != "content") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="config_destroy" rel="onDelete"><span class="ui-icon ui-icon-closethick floatleft"></span>'+ t('Delete') +'</a>');
+        if(this.id != "container" && this.id != "content") ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="config_destroy" data-action="onDelete"><span class="ui-icon ui-icon-closethick floatleft"></span>'+ t('Delete') +'</a>');
         ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width()/2),e.pageY || ($(window).height()/2));
     }
     
