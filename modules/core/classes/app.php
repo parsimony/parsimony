@@ -314,7 +314,7 @@ namespace core\classes {
             self::dispatchEvent('error', array($code, $file, $line, $message));
             if (!isset($_SESSION['idr']) || $_SESSION['idr'] == 1) {
                 if (isset($_POST['action'])) {
-                    ob_clean();
+                    if (ob_get_level()) ob_clean();
                     echo json_encode(array('notification' => $file . ' : ' . $message . ' in line ' . $line, 'notificationType' => 'negative'));
                 } else {
                     include($root . 'modules/core/views/web/error.php');

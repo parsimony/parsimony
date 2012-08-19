@@ -326,7 +326,7 @@ while (1) {
                 $ok[] = '<span>date.timezone</span> '.tr('is set');
             }
 
-            if (ini_get('magic_quotes_gpc')) {
+            if (get_magic_quotes_gpc()) {
                 $low[] = tr('Set').' <span>magic_quotes_gpc</span> '.tr(' to <span>off</span> in php.ini.');
             } else {
                 $ok[] = '<span>magic_quotes_gpc</span> '.tr('is off');

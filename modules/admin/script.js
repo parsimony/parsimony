@@ -27,7 +27,7 @@ var ParsimonyAdmin = {
 	});
 
 	$("#dialog-id").keyup(function(){
-	    $(this).val($(this).val().replace(/[^a-z_]+/,"").replace(" ",""));
+	    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
 	});
 		
 	$("#conf_box").draggable();

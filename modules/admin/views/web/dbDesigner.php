@@ -103,10 +103,10 @@ include_once('modules/core/classes/field.php');
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
     .connection{color:#2E63A5;text-transform: capitalize;}
-    #popup{font-family: Arial, Verdana;border-radius:10px;padding: 5px 10px;width:600px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
+    #popup{font-family: Arial, Verdana;text-align: left;border-radius:10px;padding: 5px 10px;width:700px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
     .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px 0px;background-color: #F1F5F9;line-height: 20px;}
     .question input{margin-right: 10px;}
-    #conf_box_close{background-image: url(/parsicool/admin/img/icons.png);margin: 5px;position: absolute;top: 2px;right: 0px;color: white;cursor: pointer;}
+    #conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);margin: 2px 5px;position: absolute;top: 2px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
     #cardinality{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
@@ -905,7 +905,7 @@ include_once('modules/core/classes/field.php');
 
                 /* Filter Table Name */
                 $(document).on('keyup',"#table_name",function(){
-                    $(this).val($(this).val().replace(/[^a-z_]+/,"").replace(" ",""));
+                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
                 });
 		
                 /* Open Table Settings */
