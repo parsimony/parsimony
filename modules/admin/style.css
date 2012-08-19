@@ -105,7 +105,7 @@ ul.models,ul.pages{padding: 5px;}
 #right_sidebar.close .openclose span{background-position: -144px -192px;}
 
 /* Top toolbar */
-#toolbar{position: fixed;overflow: hidden;min-width: 1250px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe); background-image: -webkit-gradient(linear,left bottom,left top,from(#e5e9ef),to(#fefefe));
+#toolbar{position: fixed;min-width: 1250px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe); background-image: -webkit-gradient(linear,left bottom,left top,from(#e5e9ef),to(#fefefe));
          box-shadow: 0 2px 6px #443;}
 #toolbar ul li:nth-child(2){border-left:0;}
 /* Sidebars parts */
@@ -886,6 +886,9 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-seek-prev { background-position: -48px -160px; }
 .ui-icon-circle-arrow-e { background-position: -112px -192px; }
 .ui-icon-circle-arrow-w { background-position: -144px -192px; }
+.ui-icon-closethick {background-position: -96px -128px;}
+.ui-icon-wrench {background-position: -176px -112px;}
+.ui-icon-pencil {background-position: -64px -112px;}
 
 .ui-resizable-helper { border: 1px dotted red;z-index: 99999999; }
 a#previewMode{border-radius: 10px 0 0 10px;margin-left: 10px;}

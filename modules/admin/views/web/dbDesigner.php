@@ -123,7 +123,7 @@ include_once('modules/core/classes/field.php');
     .tooltab tbody{border-top: 1px solid whitesmoke}
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
     .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-
+    #toolbar{font-weight: normal;line-height: 25px}
 </style> 
 
 <div id="tooltip-new-fields" class="none toolfield">
@@ -601,7 +601,7 @@ include_once('modules/core/classes/field.php');
     </table>
 </div>
 
-<div id="toolbar" style="line-height: 23px;">
+<div id="toolbar">
     <a href="http://parsimony.mobi" target="_blank" style="padding:0;height:28px;">
         <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
     </a>
@@ -633,7 +633,7 @@ include_once('modules/core/classes/field.php');
             </form>
         </div>
         <div class="floatleft inline-block" style="border-left: 1px solid white;padding-left: 10px">
-            <input type="button" id="save" value="<?php echo t('Save', FALSE); ?>" style="height: 24px;" />
+            <input type="button" id="save" value="<?php echo t('Save', FALSE); ?>" style="height: 24px;margin-top: 1px;" />
         </div>
 
     </div>
