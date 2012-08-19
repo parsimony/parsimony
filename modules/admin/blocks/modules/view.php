@@ -38,14 +38,14 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
         if (is_file('modules/' . $module . '/icon.png'))
             $icon = 'background:url(' . BASE_PATH . $module . '/icon.png)';
         else
-            $icon = 'background:url(admin/img/module.png) no-repeat';
+            $icon = 'background: url(admin/img/defaultsprite.png) -54px -55px no-repeat';
         $adminHTML = $moduleobj->displayAdmin();
         if ($adminHTML == FALSE)
             $htmlConfig = '';
         else
             $htmlConfig = '<div class="action floatright" style="margin:3px; line-height:0;" rel="getViewModuleAdmin" params="module=' . $moduleobj->getName() . '" title="' . t('Administration Module', FALSE) . ' ' . ucfirst($moduleobj->getTitle()) . '"><img src="' . BASE_PATH . 'admin/img/config.png"/></div>';
         if ($module != 'admin')
-            echo '<div class="titleTab ellipsis"><span style="margin: 7px 7px 0px 7px;' . $icon . '" class="ui-icon floatleft"></span> ' . ucfirst($moduleobj->getTitle()) . $htmlConfig . '</div>';
+            echo '<div class="titleTab ellipsis"><span style="margin: 5px 7px 0px 7px;' . $icon . '" class="ui-icon floatleft"></span> ' . ucfirst($moduleobj->getTitle()) . $htmlConfig . '</div>';
         $display = '';
         if ($module != MODULE)
             $display = 'none';
@@ -118,7 +118,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
     }
     if (BEHAVIOR == 2 ):
     ?>		
-    <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon floatleft panelmodules" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
+    <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="sprite sprite-module floatleft" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
     <?php endif; ?>
 </div>
 <script>

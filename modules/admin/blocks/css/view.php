@@ -70,7 +70,7 @@ $selectors = $css->getAllSselectors();
             <div id="switchtocode" class="ssTab">Code</div>
         </div>
 	<div id="selectorcontainer">
-	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"></div>
+	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
 	    <input type="text" placeholder="CSS Selector e.g. #selector" name="selector" data-optionsurl="" class="autocomplete" id="current_selector_update" />
 	</div>
         <input type="hidden" id="current_selector_update_prev" />
@@ -91,7 +91,7 @@ $selectors = $css->getAllSselectors();
     </div>
     <div id="css_panel" style="" class="none">
         <div>
-            <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><img src="<?php echo BASE_PATH; ?>admin/img/savecss.png" style="margin:0px auto;vertical-align: middle;">  <?php echo t('Save'); ?></div>
+            <div id="savemycss" onclick="$(this).closest('form').trigger('submit')" class="adminbtnrightslide"><span class="sprite sprite-savecss" style="margin:0px auto;vertical-align: middle;"></span>  <?php echo t('Save'); ?></div>
         </div>
         <div id="changecssform" class="clearboth none swicthcsscode">
             <div id="css_menu" class="clearboth">

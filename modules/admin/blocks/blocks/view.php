@@ -67,7 +67,7 @@ $arrayScript = array();
 	}
     }
     foreach ($blocksCat as $title => $blocks) {
-	echo '<div class="titleTab ellipsis" style="background: url('.BASE_PATH.'admin/img/bloc.png) no-repeat 7px #777;padding-left: 35px;"></span> ' . t(ucfirst($title),FALSE) . '</div>';
+	echo '<div class="titleTab ellipsis"><span class="sprite sprite-bloc"></span> ' . t(ucfirst($title),FALSE) . '</div>';
 	echo '<div id="blocks_' . $title . '" style="padding:0px;">';
 	echo $blocks;
 	echo '</div>';
