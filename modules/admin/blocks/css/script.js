@@ -217,7 +217,7 @@ blockAdminCSS.getCSSForCSSpicker = function () {
 	    $.each(styleSheets[i].cssRules, function(nbrule) {
 		if(elmt.webkitMatchesSelector(this.selectorText)){
 		    var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
-		    blockAdminCSS.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-z\-]/g, ";\n"), i , nbrule);
+		    blockAdminCSS.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-zA-Z\-]+/gm, ";\n"), i , nbrule);
 		    json += '{"nbstyle":"' + i + '","nbrule":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
 		}
 	    });

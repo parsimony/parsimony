@@ -395,16 +395,12 @@ class admin extends \module {
     protected function getCSSSelectorsRulesAction($json) {
         $selectors = json_decode($json);
         $res = array();
+	$selectorText = '';
         foreach($selectors AS $selector){
             if(is_file(PROFILE_PATH.  $selector->url)) $filePath2 =  PROFILE_PATH. $selector->url;
             else $filePath2 =  'modules/'.  $selector->url;
             $css = new \css($filePath2);
-            $selectorText = str_replace("\t", '', trim($css->selectorExists($selector->selector)));
-            if (!$selectorText) $selectorText = '';
-	    else{
-		$selectorText = str_replace(array("\r\n", "\r", "\n", "\t"), '', $selectorText);
-		$selectorText = str_replace(';', ";\n", $selectorText);
-	    }
+            $selectorText =  preg_replace('@;[^a-zA-Z\-]+@m',';'.PHP_EOL, trim($css->selectorExists($selector->selector)));
             $res[] = array('selector' => $selector, 'filePath' => $selector->url, 'nbstyle' => $selector->nbstyle, 'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
         }
         \app::$response->setHeader('X-XSS-Protection', '0');
