@@ -58,8 +58,8 @@
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
         <div class="save"><a href="#" class="ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save', FALSE); ?></a></div>
-        <div class="adminzonetab firstpanel"><a href="#tabsb-0" class="ellipsis"><?php echo t('General', FALSE); ?></a></div>
-	<div class="adminzonetab"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
+        
+	<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
         <?php if (PROFILE == 'www'): ?>
             <div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
         <?php endif; ?>
@@ -69,6 +69,7 @@
         <div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security', FALSE); ?></a></div>
 	<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
+        <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Other', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
         <form action="" method="POST" target="ajaxhack">

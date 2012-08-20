@@ -30,6 +30,7 @@
 	<?php echo app::$request->page->printMetas() ?>
         <?php echo app::$request->page->printInclusions() ?>
 	<?php echo app::$request->page->head ?>
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php echo BASE_PATH ?>sitemap" />
     </head>
     <body>
 	<?php echo $this->body; ?>
