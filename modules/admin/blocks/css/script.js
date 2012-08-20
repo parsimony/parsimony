@@ -100,7 +100,7 @@ blockAdminCSS.setCss = function (nbstyle, nbrule, rule) {
 	nbRule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length;
 	if(nbRule > 0) nbrule = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules.length - 1;
     }
-    if(typeof ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule] != "undefined") ParsimonyAdmin.currentDocument.styleSheets[nbstyle].removeRule(nbrule);
+    if(typeof ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule] != "undefined") ParsimonyAdmin.currentDocument.styleSheets[nbstyle].deleteRule(nbrule);
     ParsimonyAdmin.currentDocument.styleSheets[nbstyle].insertRule(rule,nbrule);
 }
     
@@ -215,7 +215,7 @@ blockAdminCSS.getCSSForCSSpicker = function () {
     for (var i = 0; i < styleSheets.length; i++){
 	if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.indexOf("iframe.css") == "-1" && styleSheets[i].href.indexOf("/" + window.location.host + BASE_PATH + "lib") == "-1"){
 	    $.each(styleSheets[i].cssRules, function(nbrule) {
-		if(elmt.webkitMatchesSelector(this.selectorText)){
+		if(( document.documentElement.webkitMatchesSelector && elmt.webkitMatchesSelector(this.selectorText)) || (document.documentElement.mozMatchesSelector && elmt.mozMatchesSelector(this.selectorText))){
 		    var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
 		    blockAdminCSS.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-zA-Z\-]+/gm, ";\n"), i , nbrule);
 		    json += '{"nbstyle":"' + i + '","nbrule":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';

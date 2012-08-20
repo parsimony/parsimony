@@ -41,14 +41,6 @@ var ParsimonyAdmin = {
 	    $("#conf_box_form").attr('target','conf_box_content_iframe');
 	});
 	
-	var timer=setInterval(function resizeIframe() {
-	    if(document.getElementById("changeres").value == "max"){
-		var height = ParsimonyAdmin.currentDocument.body.offsetHeight;
-		if(screen.height > height) height = screen.height - 28;
-		document.getElementById("parsiframe").style.height = height + "px"
-	    }
-	}, 1000);
-	
 	this.pluginDispatch("initBefore");
     },
 
@@ -68,6 +60,14 @@ var ParsimonyAdmin = {
 	$(".tooltip").parsimonyTooltip({
 	    triangleWidth:5
 	});
+	
+	var timer=setInterval(function resizeIframe() {
+	    if(document.getElementById("changeres").value == "max"){
+		var height = ParsimonyAdmin.currentDocument.body.offsetHeight;
+		if(screen.height > height) height = screen.height - 28;
+		document.getElementById("parsiframe").style.height = height + "px"
+	    }
+	}, 1000);
        
 	/* Set initial mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
@@ -86,6 +86,7 @@ var ParsimonyAdmin = {
     //document.getElementById("parsiframe").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("parsiframe").contentWindow);}
     
 	this.pluginDispatch("initIframe");
+	
     }
     ,
     loadCreationMode :   function(){
