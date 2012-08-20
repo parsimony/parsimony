@@ -607,12 +607,17 @@ while (1) {
             $update = array('sitename' => $_POST['name']);
             $configObj->saveConfig($update);
 	    
-	    //unloack site
+	    //unlock site
 	    $index = file('index.php');
 	    if(trim($index[1]) == 'include(\'install.php\');exit;'){
 		unset($index[1]);
 		file_put_contents('index.php', implode('',$index));
 	    }
+	    
+	    //lock install
+	    $install = file('index.php');
+	    $install[0] = '<?php exit';
+	    file_put_contents('install.php',  implode('',$install));
 	    
 	    //synchronize with parsimony.mobi
 	    if(isset($_POST['synchro'])){
