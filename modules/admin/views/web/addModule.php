@@ -28,7 +28,7 @@
 ?>
 <div id="addmodule" class="adminzone">
     <div class="adminzonemenu">
-        <div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download', FALSE); ?></a></div>
+        <?php /*<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download', FALSE); ?></a></div>*/ ?>
         <div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Create Module', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">

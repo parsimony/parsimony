@@ -29,55 +29,65 @@
 <table class="datagrid">
     <thead>
         <tr>
-            <?php
-            foreach ($obj->getFields() as $field) :
-                if (get_class($field) != 'core\fields\field_formasso') :
-                    if ($field->visibility & DISPLAY) :
-                        ?>
-                        <th><?php echo ucfirst(str_replace(' ', '', $field->label)); ?></th>
-                        <?php
-                    endif;
-                endif;
-            endforeach;
-            ?>
+	    <?php
+	    foreach ($obj->getFields() as $field) :
+		if (get_class($field) != 'core\fields\field_formasso') :
+		    if ($field->visibility & DISPLAY) :
+			?>
+	    	    <th><?php echo ucfirst(str_replace(' ', '', $field->label)); ?></th>
+			<?php
+		    endif;
+		endif;
+	    endforeach;
+	    if (isset($modifModel)):
+		?>
+    	    <th><span class="ui-icon ui-icon-pencil"></span></th>
+		<?php
+	    endif;
+	    ?>
         </tr>
     </thead>
     <tbody>
-        <?php
-        if ($obj != FALSE) :
-            $id = $obj->getId();
-            if (is_object($id))
-                $id = $id->name;
-            $title = $obj->getBehaviorTitle();
-            if (is_object($title))
-                $title = $title->name;
-            foreach ($obj as $key => $line) :
-                ?>
-                <tr class="line">
-                    <?php
-                    foreach ($obj->getFields() as $field) :
-                        if ($field->visibility & DISPLAY) :
-                            $fieldName = $field->name;
-                            $class = '';
-                            if ($fieldName == $id) {
-                                $class = ' datagrid_id';
-                            }
-                            if ($fieldName == $title) {
-                                $class .= ' datagrid_title';
-                            }
-                            if (get_class($field) != 'core\fields\field_formasso') :
-                                ?>
-                                <td class="column<?php echo $class; ?>"><?php echo $line->{$field->name}->displayGrid(); ?></td>
-                                <?php
-                            endif;
-                        endif;
-                    endforeach;
-                    ?>
-                </tr>
-                <?php
-            endforeach;
-        endif;
-        ?>
+	<?php
+	if ($obj != FALSE) :
+	    $id = $obj->getId();
+	    if (is_object($id))
+		$id = $id->name;
+	    $title = $obj->getBehaviorTitle();
+	    if (is_object($title))
+		$title = $title->name;
+	    foreach ($obj as $key => $line) :
+		?>
+		<tr class="line">
+		    <?php
+		    foreach ($obj->getFields() as $field) :
+			if ($field->visibility & DISPLAY) :
+			    $fieldName = $field->name;
+			    $class = '';
+			    if ($fieldName == $id) {
+				$class = ' datagrid_id';
+			    }
+			    if ($fieldName == $title) {
+				$class .= ' datagrid_title';
+			    }
+			    if (get_class($field) != 'core\fields\field_formasso') :
+				?>
+		    	    <td class="column<?php echo $class; ?>"><?php echo $line->{$field->name}->displayGrid(); ?></td>
+				<?php
+			    endif;
+			endif;
+		    endforeach;
+		    if (isset($modifModel)):
+			?>
+	    	    <td class="updateBTN"><span class="ui-icon ui-icon-pencil"></span></td>
+			<?php
+		    endif;
+		    ?>
+		</tr>
+		<?php
+	    endforeach;
+	endif;
+	?>
     </tbody>
 </table>
 <?php echo $obj->getPagination(); ?>

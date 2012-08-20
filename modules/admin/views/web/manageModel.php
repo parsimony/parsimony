@@ -36,40 +36,41 @@
                 });
             }
         });
-        $(".pagination a").live('click',function(e){
+        $(document).on('click',".pagination a",function(e){
             e.preventDefault();
             $this = $(this);
             $.post(window.location,"TOKEN=" + TOKEN + "&module=<?php echo $module ?>&entity=<?php echo $model ?>&page=" + $(this).data('page') + "&action=datagrid",function(data){
                 $this.closest(".admintabs").html(data);
             });
         });
-        $(".datagrid tr").die('click');
-        $(".datagrid tr").live('click',function(e){
-            var ide = parseInt($(".datagrid_id",this).html(),10);
+        $(document).off('click',".datagrid tr");
+        $(document).on('click',".datagrid td.updateBTN",function(e){
+            var ide = parseInt($(".datagrid_id",$(this).parent()).html(),10);
             if($('#modifmodel3 > div[title="' + ide + '"]').length==0){
-                $( "#modifmodel3" ).append("<div title=\"" + ide + "\" class=\"adminzonetab\"><a href=\"#tabsamodifmodel-" + ide +"\">" + '<span class="floatright ui-icon ui-icon-closethick"></span>' + $(".datagrid_title",this).text() + "</a></div>");
+                $( "#modifmodel3" ).append("<div title=\"" + ide + "\" class=\"adminzonetab\"><a href=\"#tabsamodifmodel-" + ide +"\">" + '<span class="floatright ui-icon ui-icon-closethick"></span>' + $(".datagrid_title",$(this).parent()).text() + "</a></div>");
                 if($( "#tabsamodifmodel-" + ide ).length == 0){
                     $.post(window.location,"TOKEN=" + TOKEN + "&module=<?php echo $module ?>&entity=<?php echo $model ?>&id=" + ide + "&action=getViewUpdateForm",function(data){
                         $( "#contentajax" ).append("<div id=\"tabsamodifmodel-" + ide +"\" class=\"admintabs none\">" + data + "</div>");
+			$('#modifmodel3 > div[title="' + ide + '"]').trigger("click");
+			top.ParsimonyAdmin.resizeConfBox();
                     });
                 }
                 $('.selections_search').show();
-            }
+            }else{
+		$('#modifmodel3 > div[title="' + ide + '"]').trigger("click");
+	    }
+	    top.ParsimonyAdmin.resizeConfBox();
         });
-        $( "#modifmodel3 > div" ).live('click',function(){
+        $(document).on('click',"#modifmodel3 > div", function(){
             $('#contentajax > div').hide();
             $('#tabsamodifmodel-' + $(this).attr('title')).show();
             
         });
-        $('tbody tr').live('toggle',function(){           
-            $(this).removeClass('selecttr');
-        },function () {
-            $(this).addClass('selecttr');
-        });
+
         $(document).on('click', 'span.ui-icon-closethick',function(e){
             $(this).parent().parent().remove();
         });
-        $(".adminzonetab a").live('click',function(event){
+        $(document).on('click',".adminzonetab a",function(event){
             event.preventDefault();
             if($(this).attr("href")!='#'){
                 $(".adminzonecontent .admintabs").hide();
@@ -83,10 +84,11 @@
 </script>
 <style>
     #modifmodel3 a{line-height: 16px;padding-left: 8px;padding-right: 8px;font-size: 12px;padding-top: 2px;padding-bottom: 2px;background: none;}
-     #modifmodel3 .adminzonetab a{color: white;background: #666;}
+    #modifmodel3 .adminzonetab a{color: white;background: #666;}
     #modifmodel3 .adminzonetab:hover span.ui-icon-closethick {display: block;margin: -1px 2px 0px 0px;border: #666 solid 1px;border-radius: 5px;cursor: pointer;}
     #modifmodel3 span.ui-icon-closethick {display: none;}
     #modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
+    .updateBTN{text-align: center;width: 20px;padding:2px}
 </style>
 <div class="adminzone">
     <div class="adminzonemenu">
@@ -101,6 +103,7 @@
     <div id="contentajax" class="adminzonecontent">
         <div id="datagridajax" class="admintabs">
             <?php
+	    $modifModel = TRUE;
             include('modules/admin/views/web/datagrid.php');
             ?>
         </div>
