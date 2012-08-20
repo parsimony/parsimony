@@ -32,5 +32,6 @@ if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$th
     copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
 }
 $path = PROFILE_PATH.$this->getConfig('pathCode');
+$editorMode = 'application/x-httpd-php';
 include('modules/admin/views/web/editor.php');
 ?>

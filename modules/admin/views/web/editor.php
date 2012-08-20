@@ -1,43 +1,45 @@
+<?php if(!isset($editorMode)) $editorMode = 'text/html'; ?>
 <script>
-    var editor;
+    codeEditor = "";
     $(document).on("change","#historyfile",function(){
         $.post("getBackUp",{
             replace: $(this).val(),
             file: "<?php echo s($path); ?>",
-            content: editor.getValue().replace('"','\"')
+            content: codeEditor.getValue().replace('"','\"')
         },function(data){
-            editor.setValue(data);
-            editor.save();
+            codeEditor.setValue(data);
+            codeEditor.save();
         });
     });
     window.onload = function() {
-        editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+        codeEditor = CodeMirror.fromTextArea(document.getElementById("editor"), {
             lineNumbers: true,
             matchBrackets: true,
-            mode: "application/x-httpd-php",
+            mode: "<?php echo $editorMode; ?>",
             indentUnit: 4,
             indentWithTabs: true,
             enterMode: "keep",
             tabMode: "shift",
 	    lineWrapping: true,
 	    onCursorActivity: function() {
-		editor.setLineClass(hlLine, null, null);
-		hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+		codeEditor.setLineClass(hlLine, null, null);
+		hlLine = codeEditor.setLineClass(codeEditor.getCursor().line, "activeline");
 	    },
             extraKeys: {"Ctrl-S": function() {$(".save a").trigger("click");return false; }},
-            onBlur: function(){editor.save();},
-	    onChange: function(){editorChange();}
+            onBlur: function(){codeEditor.save();},
+	    onChange: function(){if(typeof editorChange == "function") editorChange();}
         });
-	var hlLine = editor.setLineClass(0, "activeline");
+	var hlLine = codeEditor.setLineClass(0, "activeline");
+	$("#changeModeid").val('<?php echo $editorMode; ?>');
     };
     var lastPos = null, lastQuery = null, marked = [];
     function changeTheme(theme) {
-        editor.setOption('theme', theme);
+        codeEditor.setOption('theme', theme);
 	$('<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/CodeMirror/theme/' + theme + '.css">').appendTo("body");
     }
     function changeMode(mode) {
-        editor.setOption('mode', mode);
-    }   
+        codeEditor.setOption('mode', mode);
+    }
     function unmark() {
         for (var i = 0; i < marked.length; ++i) marked[i].clear();
         marked.length = 0;
@@ -47,16 +49,16 @@
         unmark();                     
         var text = document.getElementById("query").value;
         if (!text) return;
-        for (var cursor = editor.getSearchCursor(text); cursor.findNext();)
-            marked.push(editor.markText(cursor.from(), cursor.to(), "searched"));
+        for (var cursor = codeEditor.getSearchCursor(text); cursor.findNext();)
+            marked.push(codeEditor.markText(cursor.from(), cursor.to(), "searched"));
 
         if (lastQuery != text) lastPos = null;
-        var cursor = editor.getSearchCursor(text, lastPos || editor.getCursor());
+        var cursor = codeEditor.getSearchCursor(text, lastPos || codeEditor.getCursor());
         if (!cursor.findNext()) {
-            cursor = editor.getSearchCursor(text);
+            cursor = codeEditor.getSearchCursor(text);
             if (!cursor.findNext()) return;
         }
-        editor.setSelection(cursor.from(), cursor.to());
+        codeEditor.setSelection(cursor.from(), cursor.to());
         lastQuery = text; lastPos = cursor.to();
     }
 
@@ -66,32 +68,29 @@
         replace = document.getElementById("replace").value;
         if (!text) return;
         
-        for (var cursor = editor.getSearchCursor(text); cursor.findNext();)
+        for (var cursor = codeEditor.getSearchCursor(text); cursor.findNext();)
             cursor.replace(replace);
     }
     
 </script>
 <style>.location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}</style>
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/codemirror.css">
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/codemirror.js"></script>
-
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/CodeMirror/theme/default.css">
-
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/xml/xml.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/css/css.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/javascript/javascript.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/php/php.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/mode/clike/clike.js"></script>
-<?php /*
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/util/dialog.js"></script>
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/util/dialog.css">
-*/ ?>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/util/searchcursor.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/CodeMirror/lib/util/search.js"></script>
+<?php
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/javascript/javascript.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/php/php.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/clike/clike.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/searchcursor.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/search.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.js');
+?>
 
 <style type="text/css" media="screen">
-    #editor { margin: 0;position: absolute;top: 0;bottom: 0;left: 0;right: 0;}
+    #codeeditor { margin: 0;position: absolute;top: 0;bottom: 0;left: 0;right: 0;}
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .adminzonecontent{min-width:900px}
     .CodeMirror {background: white;width: 870px;margin: 0 15px 0 0;}
@@ -99,14 +98,20 @@
     .activeline {background: rgba(232, 242, 255, 0.33) !important;}
 </style>
 </head>
-<select onchange="changeMode(this.value);">
-    <option value="text/x-php">PHP</option>
+<select id="changeModeid" onchange="changeMode(this.value);">
     <option value="text/html">HTML</option>
+    <option value="application/x-httpd-php">PHP</option>
     <option value="text/css">CSS</option>
     <option value="text/javascript">JS</option>
 </select>
 <select title="theme" onchange="changeTheme(this.value);">
     <option selected>default</option>
+    <option>ambiance</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>elegant</option>
+    <option>vibrant-ink</option>
+    <option>xq-dark</option>
     <option>night</option>
     <option>monokai</option>
     <option>neat</option>
@@ -124,6 +129,7 @@
     }
     ?>
 </select>
+<input type="button" onclick="if($('#changeModeid').val() == 'application/x-httpd-php'){alert('PHP mode formatting is not available.');} codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
 <input type="button" onclick="$(this).next().slideToggle();" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
 <div style="display:none;padding-top: 5px;padding-left: 5px;">
     <input type="text" id="query" >
