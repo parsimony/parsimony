@@ -93,11 +93,12 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
                 foreach ($modules as $moduleName => $mode) {
 		    $module = \app::getModule($moduleName);
 		    foreach ($module->getThemes() as $themeName) {
-			if(is_file( PROFILE_PATH . $moduleName . '/themes/' . s($themeName) . '/miniature.jpg')) $imgURL = BASE_PATH . PROFILE_PATH . $moduleName . '/themes/' . s($themeName) . '/miniature.jpg';
+			$imgURL = stream_resolve_include_path($moduleName . '/themes/' . s($themeName) . '/thumb.png');
+			if($imgURL)  $imgURL = BASE_PATH.  strstr(str_replace('\\','/',$imgURL),'modules/');
 			else $imgURL = BASE_PATH.'admin/img/defaulttheme.jpg';
 			?>
 			<li id="theme_<?php echo s($themeName); ?>" style="padding-top: 15px;">
-			    <div class="contimg" style="background:url(<?php echo $imgURL; ?>)" class="floatleft">
+			    <div class="contimg" style="background:url(<?php echo $imgURL; ?>) center" class="floatleft">
 				<div class="preview ellipsis" onclick="top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
 			    </div>
 			    <div style="text-align: center">
