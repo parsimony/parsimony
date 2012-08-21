@@ -49,7 +49,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
     </li>
     <?php if (\app::$config['domain']['multisite']): ?>
     <li class="subMenu" >
-        <a href="#" data-title="<?php echo t('My domains', FALSE); ?>"><span class="sprite sprite-multi" style="position: relative;top: 5px;left: 5px;"></span> </a>
+        <a href="#" data-title="<?php echo t('My domains', FALSE); ?>" style="background: none;"><span class="sprite sprite-multi" style="position: relative;top: 5px;left: 5px;"></span> </a>
         <ul>
             <?php foreach(glob('profiles/*', GLOB_ONLYDIR) AS $domainPath):
                 $basen = basename($domainPath);
