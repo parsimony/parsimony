@@ -131,7 +131,7 @@ var ParsimonyAdmin = {
         $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true");
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
             ParsimonyAdmin.wysiwyg= new wysiwyg();
-            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","undo","redo","copy","paste","cut","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"], document, ParsimonyAdmin.currentDocument);
+            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage","undo","redo"], document, ParsimonyAdmin.currentDocument);
         }
         $(".HTML5editorToolbar").hide();
         
@@ -142,26 +142,32 @@ var ParsimonyAdmin = {
 	    }
 	});
 	
+	$(".bloc",ParsimonyAdmin.currentBody).on('click.edit',function(e){
+	    e.stopPropagation();
+	    if(!$(this).hasClass("wysiwyg")) $(".HTML5editorToolbar").hide();
+	});
 	$(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
-            $(".HTML5editorToolbar").hide();
-            var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
-            var theme = ParsimonyAdmin.currentWindow.THEME;
-            var idPage = '';
-            if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
-                theme = '';
-                module = ParsimonyAdmin.currentWindow.MODULE;
-                idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
-            }
-            $.post(BASE_PATH + module + '/callBlock',{
-                module:module, 
-                idPage:idPage,
-                theme: theme, 
-                id:this.id, 
-                method:'saveWYSIWYG', 
-                args:"html=" + $(this).html()
-                },function(data){
-                ParsimonyAdmin.execResult(data);
-            });
+	    if( $(this).attr("data-changed") == "1"){
+		var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
+		var theme = ParsimonyAdmin.currentWindow.THEME;
+		var idPage = '';
+		if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
+		    theme = '';
+		    module = ParsimonyAdmin.currentWindow.MODULE;
+		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
+		}
+		$.post(BASE_PATH + module + '/callBlock',{
+		    module:module, 
+		    idPage:idPage,
+		    theme: theme, 
+		    id:this.id, 
+		    method:'saveWYSIWYG', 
+		    args:"html=" + $(this).html()
+		    },function(data){
+		    ParsimonyAdmin.execResult(data);
+		});
+		$(this).attr("data-changed","0");
+	    }
 	});
 	
 	this.pluginDispatch("loadEditMode");

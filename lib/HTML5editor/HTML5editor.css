@@ -1,82 +1,57 @@
 .HTML5editorToolbar{min-width:400px;}
 .HTML5editorToolbar.multiple{max-width:600px;min-width:400px;position:absolute;transition: all 0.3s;-o-transition: all 0.3s;-webkit-transition: all 0.3s;}
-.HTML5editorToolbar .btn{display: inline-block;vertical-align: top;width:25px;height:25px;border-right: 1px solid #f9f9f9;
+.HTML5editorToolbar .btn{display: inline-block;vertical-align: top;height:25px;border-right: 1px solid #f9f9f9;
 border-left: 1px solid #cacaca;border-top: 1px solid #d1d1d1;border-bottom: 1px solid #d6d6d6;background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fafafa),color-stop(100%,#eeeeef));
     border-radius:1px;background-position: center;margin-top:2px}
 .HTML5editorToolbar .btn:hover{border-color:#ccc}
 .HTML5editorToolbar .btn.active{background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#d3d3d3),color-stop(100%,#eaeaea));box-shadow: inset 1px 1px 1px #AAA;}
-.HTML5editorToolbar .btn.inactive{opacity: 0.3;pointer-events: none}
-.HTML5editorToolbar .btn > button,.HTML5editorToolbar .btn > div{cursor:pointer;min-width: initial;}
+.HTML5editorToolbar .btn.inactive{display:none}
+.HTML5editorToolbar .btn > button,.HTML5editorToolbar .btn > div{cursor:pointer;min-width: 0;}
+.HTML5editorToolbar .btn:last-child{border-right:1px solid #cacaca}
 .HTML5editorToolbar .commands > div{display:none;padding:0 2px 2px 2px}
-.HTML5editorToolbar .commands{
-    clear: both;background: whiteSmoke;
-    position: relative;
-    z-index: 2;
-    border-radius: 0 2px 2px 2px;
-    /*-moz-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
-    box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);*/
-    border: 1px solid #ccc;
-}
-.HTML5editorToolbar .tabs .current {background: whiteSmoke;z-index: 3;top: 1px;box-shadow: initial;-webkit-box-shadow: initial;
-			 border-left: 1px solid #CCC;border-top: 1px solid #CCC;}
+.HTML5editorToolbar .commands{clear: both;position: relative;z-index: 2;border-radius: 0 2px 2px 2px;border: 1px solid #ccc;
+    background-image: -webkit-linear-gradient(bottom,#E5E9EF,#FEFEFE);
+    background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);
+    background-image: -ms-linear-gradient(bottom,#E5E9EF,#FEFEFE);
+    background-image: -o-linear-gradient(bottom,#E5E9EF,#FEFEFE);
+    background-image: linear-gradient(bottom,#E5E9EF,#FEFEFE);}
+.HTML5editorToolbar .tabs .current {background: whiteSmoke;z-index: 3;top: 1px;box-shadow: none;border-left: 1px solid #CCC;border-top: 1px solid #CCC;}
 .HTML5editorToolbar .tabs a {
-    position: relative;
-    top: 1px;
-    background: #DDD;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f0f0), to(#DDD));
+    position: relative;top: 1px;background: #DDD;
     background-image: -webkit-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -moz-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -ms-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -o-linear-gradient(top, #f1f0f0, #DDD);
     background-image: linear-gradient(to bottom, #f1f0f0, #DDD);
-    padding: 1px 15px;
-    float: left;
-    text-decoration: none;
-    color: #444;
+    padding: 1px 15px;float: left;text-decoration: none;color: #444;
     text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
-    -webkit-border-radius: 5px 0 0 0;
-    -moz-border-radius: 5px 0 0 0;
     border-radius: 5px 0 0 0;
-    -moz-box-shadow: 0 2px 2px rgba(0,0,0,.4);
-    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
     box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
     text-transform: capitalize;
-    font-family: arial, sans-serif;
-    font-size: 11px;
+    font-family: arial, sans-serif;font-size: 11px;
 }
-.HTML5editorToolbar .tabs .current::after {background: whitesmoke;z-index: 3;box-shadow: initial;-webkit-box-shadow: initial;
-				border-right: 1px solid #CCC;}
+.HTML5editorToolbar .tabs .current::after {background: whitesmoke;z-index: 3;box-shadow: none;border-right: 1px solid #CCC;}
 .HTML5editorToolbar .tabs a::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: -.5em;
-    bottom: 0;
-    width: 1em;
-    background: #DDD;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f0f0), to(#DDD));
+    content: '';position: absolute;z-index: 1;top: 0;right: -3px;bottom: 0;width: 5px;background: #DDD;
+    background-image: -webkit-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -webkit-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -moz-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -ms-linear-gradient(top, #f1f0f0, #DDD);
     background-image: -o-linear-gradient(top, #f1f0f0, #DDD);
     background-image: linear-gradient(to bottom, #f1f0f0, #DDD);
-    -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.4);
-    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);border-radius: 0 5px 0 0;
     -webkit-transform: skew(10deg);
     -moz-transform: skew(10deg);
     -ms-transform: skew(10deg);
     -o-transform: skew(10deg);
     transform: skew(10deg);
-    -webkit-border-radius: 0 5px 0 0;
-    -moz-border-radius: 0 5px 0 0;
-    border-radius: 0 5px 0 0;
 }
 .HTML5editorToolbar .tabs a:hover, .HTML5editorToolbar .tabs a:hover::after, .HTML5editorToolbar .tabs a:focus, .HTML5editorToolbar .tabs a:focus::after {background: whiteSmoke;}
-.HTML5editorToolbar .tabs {padding: 0;list-style: none;}
+.HTML5editorToolbar .tabs {padding: 0 0 0 1px;list-style: none;}
 .HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
 .HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}
-
 .HTML5Editor{background:#fff;min-height:100px;border: 1px solid #CCC;}
+#popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;}
+.HTML5editorAction .temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
+.HTML5editorAction .temoinSelect{background: white;border-right: 1px solid #CCC;display: block;margin-right: 12px;}
+.HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat 107% 8px;}

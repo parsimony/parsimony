@@ -265,7 +265,7 @@ class tools {
      * @param $plugins string list of wysiwyg's plugins separated by comma
      * @return string sanitized html
      */
-    public static function sanitize($str, $plugins = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor') {
+    public static function sanitize($str, $plugins = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,fontName,fontSize,createLink,unlink,formatBlock,foreColor,hiliteColor,insertImage') {
     $allowedTags = array('div' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
 	'span' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
 	'p' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
@@ -299,7 +299,10 @@ class tools {
 							'h5' => array("id","class","style","dir","lang","title"),
 							'h6' => array("id","class","style","dir","lang","title"))),
 	'foreColor' => array('allowedStyles' => array('color' => '.*')),
-	'hiliteColor' => array('allowedStyles' => array('background-color' => '.*'))
+	'hiliteColor' => array('allowedStyles' => array('background-color' => '.*')),
+	'fontName' => array('allowedStyles' => array('font-family' => '.*')),
+	'fontSize' => array('allowedStyles' => array('font-size' => '.*')),
+	'insertImage' => array('allowedTags' => array('img' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title")),'allowedStyles' => array('color' => '.*'))
     );
     $cut = explode(',', $plugins);
 
