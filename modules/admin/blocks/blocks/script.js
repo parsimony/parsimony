@@ -49,8 +49,9 @@ function blockAdminBlocks() {
             return false;
         });
 	
-	$(document).on('dragend',"#admintoolbar", function(e) {
-            ParsimonyAdmin.returnToShelter();
+	$(document).on('dragenter',"#admintoolbar", function(e) {
+	    e.stopPropagation();
+	    ParsimonyAdmin.returnToShelter();
         });
 	
     }
@@ -183,7 +184,7 @@ function blockAdminBlocks() {
             evt.preventDefault(); /* Firefox fix */
             evt.stopPropagation();
             var elmt = $( "#dropInPage" ,ParsimonyAdmin.currentBody);
-            if(elmt.is(':visible')){
+            if(elmt.length > 0){
 		var stopIdParentBlock = "";
                 if(elmt.closest(".container").hasClass("container_page")) stopIdParentBlock = elmt.closest(".container").data('page');
                 else stopIdParentBlock = elmt.closest(".container").attr('id');

@@ -489,6 +489,7 @@ class admin extends \module {
         } elseif ($typeofinput == 'code') {
             $csstab = array();
             foreach ($selectors AS $css) {
+		$css['selector'] = urldecode($css['selector']);
                 if (!isset($csstab[$css['file']])){
                      if (!is_file(PROFILE_PATH . $css['file']) && is_file('modules/' . $css['file']))
                         \tools::file_put_contents(PROFILE_PATH . $css['file'], file_get_contents('modules/' . $css['file']));

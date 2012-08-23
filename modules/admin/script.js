@@ -65,7 +65,8 @@ var ParsimonyAdmin = {
 	    if(document.getElementById("changeres").value == "max"){
 		var height = ParsimonyAdmin.currentDocument.body.offsetHeight;
 		if(screen.height > height) height = screen.height - 28;
-		document.getElementById("parsiframe").style.height = height + "px"
+		document.getElementById("parsiframe").style.height = height + "px";
+		document.getElementById("overlays").style.height = height + "px";
 	    }
 	}, 1000);
        
@@ -305,7 +306,7 @@ var ParsimonyAdmin = {
 	    $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after(contentBlock);
 	    ParsimonyAdmin.returnToShelter();
 	}else {
-	    var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().parent().parent();
+	    var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).closest(".container");
 	    ParsimonyAdmin.returnToShelter();
 	    $(".dropInContainer:first",block).remove();
 	    if(block.get(0).id == 'container' && block.children(".block").length==1) block.prepend(contentBlock);

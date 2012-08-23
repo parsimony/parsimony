@@ -71,7 +71,7 @@ $view = $this->getConfig('view');
     #links{margin-bottom:15px;}
     .textdbquery{padding: 5px 0px 0px 50px;font-size: 12px;letter-spacing: 1px;line-height: 20px;}
     #resultpreview .pagination{display:none}
-    #recipiant_sql_cont{position:relative;width: 100%;overflow-x: scroll;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
+    #recipiant_sql_cont{position:relative;width: 1000px;overflow-x: scroll;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:217px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
     #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 1px 3px 3px 2px;}

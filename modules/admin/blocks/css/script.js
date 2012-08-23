@@ -89,7 +89,7 @@ blockAdminCSS.csseditors = [];
 blockAdminCSS.updateCSSUI = function (cssprop) {
     $("#current_selector_update,#current_selector_update_prev").val(cssprop.selector);
     $("#changecsspath").val(cssprop.filePath);
-    $("#panelcss *[data-initial]").val('');
+    $("#changecssform input,select").val('');
     $.each(cssprop.values, function(i,item){
 	$("#panelcss [css=" + i + "]").val(item);
     });
@@ -146,12 +146,20 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
 	$(selector,ParsimonyAdmin.currentBody).parsimonyDND('destroy');
 	$(selector,ParsimonyAdmin.currentBody).parsimonyDND({
 	    stopResizable : function(event, ui) {
+		if(ui.css('position')=="static" && ui.css('display') != "table-cell"){
+                    ui.css('position','relative');
+                    $('#form_css select[name="position"]').val('relative');
+                }
 		$("#form_css input[css=width]").val(ui.width() + "px");
 		$("#form_css input[css=height]").val(ui.height() + "px");
 		$("#form_css input[css=left]").val(ui.css('left'));
 		$("#form_css input[css=top]").val(ui.css('top'));
 	    },
 	    stopDraggable: function(event, ui) {
+		if(ui.css('position')=="static" && ui.css('display') != "table-cell"){
+                    ui.css('position','relative');
+                    $('#form_css select[name="position"]').val('relative');
+                }
 		$("#form_css input[css=left]").val(ui.css('left'));
 		$("#form_css input[css=top]").val(ui.css('top'));
 	    }
@@ -182,7 +190,7 @@ blockAdminCSS.CSSeditor = function (id) {
 	    var textarea = document.getElementById(c.id);
 	    var nbstyle = textarea.getAttribute('data-nbstyle');
 	    var nbrule = textarea.getAttribute('data-nbrule');
-	    var selector = textarea.getAttribute('data-selector');
+	    var selector = decodeURIComponent(textarea.getAttribute('data-selector'));
 	    var code = selector + '{';
 	    for(var i = 0;i < c.lineCount(); i++){
 		if(c.lineInfo(i).lineClass != "barre") code += c.getLine(i);
@@ -208,6 +216,7 @@ blockAdminCSS.CSSeditor = function (id) {
     blockAdminCSS.csseditors.push(editor);
 }
 blockAdminCSS.getCSSForCSSpicker = function () {
+    var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.oMatchesSelector || document.documentElement.matchesSelector);
     var json = '[';
     this.openCSSCode();
     var elmt = $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker').get(0);
@@ -215,7 +224,7 @@ blockAdminCSS.getCSSForCSSpicker = function () {
     for (var i = 0; i < styleSheets.length; i++){
 	if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.indexOf("iframe.css") == "-1" && styleSheets[i].href.indexOf("/" + window.location.host + BASE_PATH + "lib") == "-1"){
 	    $.each(styleSheets[i].cssRules, function(nbrule) {
-		if(( document.documentElement.webkitMatchesSelector && elmt.webkitMatchesSelector(this.selectorText)) || (document.documentElement.mozMatchesSelector && elmt.mozMatchesSelector(this.selectorText))){
+		if(matchesSelector.call(elmt,this.selectorText)){
 		    var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
 		    blockAdminCSS.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-zA-Z\-]+/gm, ";\n"), i , nbrule);
 		    json += '{"nbstyle":"' + i + '","nbrule":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
@@ -264,8 +273,8 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
 blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrule) {
     var id = 'idcss' + nbstyle + nbrule;
     var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>'
-    + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + selector + '">'
-    + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + selector + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
+    + '<input type="hidden" name="selectors[' + id + '][file]" value="' + url + '"><input type="hidden" name="selectors[' + id + '][selector]" value="' + encodeURIComponent(selector) + '">'
+    + '<textarea  class="csscode" id="' + id + '" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-selector="' + encodeURIComponent(selector) + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
     $("#changecsscode").prepend(code);
     this.CSSeditor(id);
 }

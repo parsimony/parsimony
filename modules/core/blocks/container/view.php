@@ -29,7 +29,7 @@
 if($this->getConfig('column')){
     \app::$request->page->head .= '
     <style>
-        #'.$this->getId().' .block{float:left}
+        #'.$this->getId().'{display:table;} #'.$this->getId().' .block{display:table-cell;*float:left}
     </style>';
 }
 ?>
