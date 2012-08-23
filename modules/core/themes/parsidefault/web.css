@@ -17,7 +17,6 @@ body {
     padding : 10px ;
     margin : 10px 0px 5px 0px ;
     position : relative ;
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 #leftcolumn {
     color : #333 ;
@@ -28,7 +27,6 @@ body {
     height : 350px ;
     width : 195px ;
     float : left ;
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 #content {
     float : left ;
@@ -37,7 +35,6 @@ body {
     padding : 10px ;
     width : 675px ;
     display : inline ;
-    behavior : url(/lib/csspie/PIE.htc) ;
     position : relative ;}
 #rightcolumn {
 color: #333;
@@ -49,7 +46,6 @@ float: left;
 position: relative;
 top: auto;
 left: auto;
-behavior: url(/lib/csspie/PIE.htc);
 }
 
 #rightcolumn h1 {
@@ -59,7 +55,6 @@ font-weight: 500;
 letter-spacing: 1.1px;
 line-height: 25px;
 text-transform: uppercase;
-behavior: url(/lib/csspie/PIE.htc);
 }
 
 #footer {
@@ -74,7 +69,6 @@ float: left;
 background-color: #F1F1F1;}
 
 #footergrid h1 {
-behavior: url(/lib/csspie/PIE.htc);
 margin-bottom: 15px;
 border-bottom: 2px solid #C2C2C2;
 padding: 10px 0 0 20px;
@@ -96,17 +90,6 @@ text-align: left;
 
 #footergrid .block {
 padding: 0 5px;
-text-align: auto;
--ms-text-justify: auto;
-text-justify: auto;
-width: 280px;
-font-size: inherit;
-display: inline-block;
-vertical-align: top;
-zoom: 1;
--moz-box-sizing: border-box;
--webkit-box-sizing: border-box;
-box-sizing: border-box;
 }
 .posts_container .publicationGMT {
 box-shadow: inset -1px -1px 1px white, inset 1px 1px 1px white;
@@ -169,7 +152,6 @@ padding: 0px 0px 5px 70px;}
 	width : 950px ;
 	background : #fff ;
 	position : relative ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #mymenu ul.parsimenu.horizontal {
@@ -185,7 +167,6 @@ position: relative;}
 #header_html h1 {
     position : relative ;
     margin : 0 0 10px ;
-    behavior : url(/lib/csspie/PIE.htc) ;
     color : #777777 ;
 }
 
@@ -193,14 +174,12 @@ position: relative;}
     position : relative ;
     margin : 0 0 20px ;
     font-size: 15px;
-    behavior : url(/lib/csspie/PIE.htc) ;
     color : #999 ;
 }
 
 #tagstitle {
     position : relative ;
     margin : 15px 0 0 ;
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 .tags a {
@@ -228,7 +207,6 @@ color: #5d5d5d}
 
 #myhomeimg {
 	border : 1px solid #444 ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 .recentposts li {
@@ -253,11 +231,13 @@ overflow: hidden;
     background: #F6F6F6 -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
     border: 1px solid #CCC;text-align:center;color: black;padding: 5px;vertical-align: middle;text-decoration:none;
+    behavior : url(/lib/csspie/PIE.htc) ;
 }
 .pagination a.active{
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
+    behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 .pagination a:hover{
@@ -265,6 +245,7 @@ overflow: hidden;
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(white));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=white);
     -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
+    behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #mycalendar .calendar{position: relative;text-align:center}
@@ -319,3 +300,13 @@ display:none}
 #recentpostscol{margin-top: 15px}
 
 .parsiTitle{color: #5D5D5D;font-size: 10px;font-weight: 500;letter-spacing: 1.1px;line-height: 25px;text-transform: uppercase;}
+
+#about {
+	width : 280px ;
+	height : 226px ;
+}
+
+#credit {
+	width : 312px ;
+	height : 226px ;
+}
