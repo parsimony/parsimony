@@ -113,6 +113,7 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
     } ,function(data){
 	$("#css_panel input[type!=\"hidden\"]").val("");
 	blockAdminCSS.updateCSSUI($.parseJSON(data));
+	
     });
     var selectorPrev = $("#current_selector_update_prev").val();
     if(selectorPrev.length > 0){
@@ -146,22 +147,14 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
 	$(selector,ParsimonyAdmin.currentBody).parsimonyDND('destroy');
 	$(selector,ParsimonyAdmin.currentBody).parsimonyDND({
 	    stopResizable : function(event, ui) {
-		if(ui.css('position')=="static" && ui.css('display') != "table-cell"){
-                    ui.css('position','relative');
-                    $('#form_css select[name="position"]').val('relative');
-                }
-		$("#form_css input[css=width]").val(ui.width() + "px");
-		$("#form_css input[css=height]").val(ui.height() + "px");
-		$("#form_css input[css=left]").val(ui.css('left'));
-		$("#form_css input[css=top]").val(ui.css('top'));
+		$("#form_css input[css=width]").val((ui.width() != 'auto' ? ui.width() : '') + "px");
+		$("#form_css input[css=height]").val((ui.height() != 'auto' ? ui.height() : '') + "px");
+		$("#form_css input[css=left]").val((ui.css('left') != 'auto' ? ui.css('left') : ''));
+		$("#form_css input[css=top]").val((ui.css('top') != 'auto' ? ui.css('top')  : ''));
 	    },
 	    stopDraggable: function(event, ui) {
-		if(ui.css('position')=="static" && ui.css('display') != "table-cell"){
-                    ui.css('position','relative');
-                    $('#form_css select[name="position"]').val('relative');
-                }
-		$("#form_css input[css=left]").val(ui.css('left'));
-		$("#form_css input[css=top]").val(ui.css('top'));
+		$("#form_css input[css=left]").val((ui.css('left') != 'auto' ? ui.css('left')  : ''));
+		$("#form_css input[css=top]").val((ui.css('top') != 'auto' ? ui.css('top')  : ''));
 	    }
 	});
     }

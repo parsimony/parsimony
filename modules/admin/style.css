@@ -538,7 +538,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 background: -webkit-linear-gradient(bottom,#828282,#777);
 background: -moz-linear-gradient(bottom,#828282,#777);
 background: -o-linear-gradient(bottom,#828282,#777);}
-#menu a{color: #333;text-decoration: none;display: block;}
+#menu a{color: #333;text-decoration: none;display: block;width: 100%;}
 #menu .CSSDesign{position:relative;}
 #menu .CSSProps{position: absolute;left: 100%;top: -7px;background: #F9F9F9;min-width: 250px;}
 #menu .CSSDesign:hover .CSSProps{display:block !important}
