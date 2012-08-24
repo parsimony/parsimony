@@ -53,13 +53,17 @@ class container extends \block {
 		$tag = $this->getConfig('tag');
 	    else
 		$tag = 'div';
-	    $html = '<' . $tag . ' id="' . $this->id . '" class="block container' . (string) $this->getConfig('cssClasses') . '">';
+	    $classes = $this->getConfig('cssClasses');
+	    if($this->getConfig('column')) {
+		\app::$request->page->head .= '<style> #'.$this->getId().' .block{float:left} </style>';
+		$classes .= ' column';
+	    }
+	    $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
 	    if (!empty($this->blocks)) {
 		foreach ($this->blocks as $selected_block) {
 		    $html .= $selected_block->display() . PHP_EOL;
 		}
 	    }
-	    $html .= $this->getView();
 	    $html .= '<div class="clearboth"></div></' . $tag . ' >';
 	    if ($maxage > 0)
 		\tools::file_put_contents($cacheFile, $html);

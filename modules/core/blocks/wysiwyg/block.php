@@ -47,6 +47,13 @@ class wysiwyg extends \block {
             \tools::file_put_contents(PROFILE_PATH .$path, '<h1>' .t('Put your content in this area',false).'</h1>');
         $this->setConfig('path', $path);
     }
+    
+        
+    public function getView() {
+	ob_start();
+	include($this->getConfig('path'));
+	return ob_get_clean();
+    }
 
     public function saveConfigs() {
         \tools::file_put_contents( PROFILE_PATH .$this->getConfig('path'), $_POST['editor']);

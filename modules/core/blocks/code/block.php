@@ -46,6 +46,12 @@ class code extends \block {
 	if(!is_file(PROFILE_PATH.$path)) \tools::file_put_contents(PROFILE_PATH.$path,'<h1>' .t('Start programming in this area',false).'</h1>');
 	$this->setConfig('pathCode',$path);
     }
+    
+    public function getView() {
+	ob_start();
+	include($this->getConfig('pathCode'));
+	return ob_get_clean();
+    }
 
     /**
      * Save the block configs
