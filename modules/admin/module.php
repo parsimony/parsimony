@@ -744,7 +744,6 @@ class admin extends \module {
 		file_put_contents(PROFILE_PATH . $thememodule . '/themes/' . $name . '/web.css', utf8_encode($allCSS));
 		$body = $html->find('body');
 		$tree = $this->domToArray($body[0]);
-                //print_r($tree);exit;
 		$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));
 		$theme = new \theme('container', $name, 'web', $thememodule);
                 $conts = $structure1->getBlocks();
@@ -763,7 +762,9 @@ class admin extends \module {
 		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
 	    }
-	    $this->changeThemeAction($thememodule, $name);
+	    /* Set theme in preview mode */
+	    setcookie('THEMEMODULE', $thememodule, time()+60*60*24*30, '/');
+	    setcookie('THEME', $name, time()+60*60*24*30, '/');
 	    $return = array('eval' => 'top.window.location.reload()', 'notification' => t('The Theme has been created', FALSE), 'notificationType' => 'positive');
 	} else {
 	    $return = array('eval' => '', 'notification' => t('The Theme has not been created, theme already exists', FALSE), 'notificationType' => 'negative');
@@ -876,6 +877,7 @@ class admin extends \module {
 	    $sql .= ' ' . $field->name . ' like \'%' . addslashes($search) . '%\' OR';
 	}
 	$obj = $obj->where(substr($sql, 0, -3))->limit($limit);
+	$modifModel = TRUE; /* To enable edit link */
 	ob_start();
 	require('modules/admin/views/web/datagrid.php');
 	return ob_get_clean();
@@ -890,6 +892,7 @@ class admin extends \module {
      */
     protected function datagridAction($module, $entity, $page, $limit = 10) {
 	$obj = \app::getModule($module)->getEntity($entity)->limit((($page - 1) * $limit) . ','.$limit);
+	$modifModel = TRUE; /* To enable edit link */
 	ob_start();
 	require('modules/admin/views/web/datagrid.php');
 	return ob_get_clean();

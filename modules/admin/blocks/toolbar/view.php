@@ -1,5 +1,5 @@
 <?php
-app::$request->page->addJSFile(BASE_PATH . 'lib/jquery-ui/jquery-ui-1.8.23.min.js','footer');
+app::$request->page->addJSFile(BASE_PATH . 'lib/jquery-ui/jquery-ui-1.8.23.custom.min.js','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css','footer');

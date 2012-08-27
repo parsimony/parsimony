@@ -45,6 +45,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     #themelist{overflow-x: scroll;overflow-y: hidden;height: 145px;width: 99.5%;}
     #themelist ul{width: 4000px;}
     #themelist h4{width: 90px;border: 1px solid #D3D5DB;line-height: 20px;margin: 0px auto;}
+    #themelist li.active{background: #C9C9C9;border-radius: 5px;}
     #themeFormAdd{float:left;text-align: center;width:255px;border-right: 1px solid #CCC;}
     #themeFormAdd h4{margin: 0px 5px;border: 1px solid #D3D5DB;line-height: 20px;}
     #themeFormPattern{float:left;border-left: 1px solid whitesmoke;padding-left:10px}
@@ -56,7 +57,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     .contimg{position:relative;display:block;width:97px;height:97px;float: left;}
     .contimg:hover .preview{display:block}
     .preview{position:absolute;width:100%;height:100%;background:rgba(0,0,0,.75);display:none;text-align: center;font-size:25px;padding-top:40%;color:#fff;cursor:pointer;font-family:sans-serif}
-    .adminzone .adminzonecontent li{width: 220px;padding-right: 10px;padding-left:10px;border-right: 1px solid #CCC;border-left: 1px solid whitesmoke;float: left}
+    .adminzone .adminzonecontent li{width: 220px;height: 125px;padding-right: 10px;padding-left:10px;border-right: 1px solid #CCC;border-left: 1px solid whitesmoke;float: left}
 </style>
 <script type="text/javascript">
     $(document).on('click',".adminzonetab a", function(event){
@@ -97,14 +98,14 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
 			if($imgURL)  $imgURL = BASE_PATH.  strstr(str_replace('\\','/',$imgURL),'modules/');
 			else $imgURL = BASE_PATH.'admin/img/defaulttheme.jpg';
 			?>
-			<li id="theme_<?php echo s($themeName); ?>" style="padding-top: 15px;">
+			<li id="theme_<?php echo s($themeName); ?>" <?php if($themeName == THEME) echo ' class="active"'; ?> style="padding-top: 15px;">
 			    <div class="contimg" style="background:url(<?php echo $imgURL; ?>) center" class="floatleft">
-				<div class="preview ellipsis" onclick="top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
+				<div class="preview ellipsis" onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
 			    </div>
 			    <div style="text-align: center">
 				<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 				<input class="button duplicate" data-themename="<?php echo s($themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
-				<?php if($themeName != THEME): ?>
+				<?php if($themeName != app::$config['THEME']): ?>
                                 <form method="POST" style="" action="admin/changeTheme" target="ajaxhack">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo THEMEMODULE; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />

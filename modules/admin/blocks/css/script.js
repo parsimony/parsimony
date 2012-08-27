@@ -274,8 +274,9 @@ blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrul
 	
 blockAdminCSS.openCSSForm = function () {
     $("#right_sidebar").removeClass("close");
+    $("#paneltree").hide();
     $("#panelcss").removeClass("CSSCode CSSSearch");
-    $("#panelcss").addClass("CSSForm");
+    $("#panelcss").addClass("CSSForm").show();
     $("#typeofinput").val("form");
 }
 blockAdminCSS.openCSSCode = function () {

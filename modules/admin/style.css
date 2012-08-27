@@ -18,14 +18,14 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 
 /*############## SideBars ################# */
 
-.sidebar{opacity:0.85;position:fixed;top: 28px;z-index: 99;
+.sidebar{opacity:0.9;position:fixed;top: 28px;z-index: 99;
          transition: all 0.1s;-o-transition: all 0.1s;-webkit-transition: all 0.1s;-moz-transition: all 0.1s ease-in;transform-origin: 0 0;}
 .sidebar:hover{opacity:1}
 .sidebar .contenttab{border-bottom: 1px solid #999;}
 .sidebar.close .contenttab{display:none}
 .sidebar .block{clear:both}
 
-#themes{bottom: 0px;position:fixed;width: 100%;z-index: 999999;height: 180px;display:none;/*box-shadow: 0 -2px 4px #443;*/textarea, input[type="text"], input[type="password"], input[type="file"]}
+#themes{bottom: 0px;position:fixed;width: 100%;z-index: 999999;height: 180px;display:none;/*box-shadow: 0 -2px 4px #443;*/}
 #infodev{display:none;}
 #infodev div{margin:10px 0;}
 
@@ -288,7 +288,7 @@ background: radial-gradient(ellipse at center,  rgba(37,155,219,0.59) 0%,rgba(68
 
 /* ######### Conf box - Inline Popup ############## */
 #conf_box{display:inline-block;visibility: hidden;position:relative;top:70px;max-width: 85%;max-height: 85%;margin:0 auto;background: #ccc;z-index:1000000;border-radius: 7px 7px 0 0;box-shadow: 0px 0px 50px #222;}
-#conf_box_overlay{text-align: center;position: fixed;width:100%;height:100%;background:  rgba(0, 0, 0, 0.7);}
+#conf_box_overlay{text-align: center;position: fixed;width:100%;height:100%;background:  rgba(0, 0, 0, 0.7);z-index: 10;}
 #conf_box_load{position:relative;top:150px;margin:0 auto;width:220px;height:19px;background:url(admin/img/load.gif) no-repeat}
 #conf_box_title{text-align: left;box-shadow: inset 0px -1px 0px #AAA;
 color: #777;padding: 10px;border: 0px;font-size: 20px;font-weight: normal;border-radius: 5px 5px 0 0;
@@ -490,12 +490,12 @@ fieldset {
 
 /* Resizable */
 .parsimonyDND{pointer-events:all}
-.parsimonyResize{position: absolute;display:none;z-index: 99999; display: block; width: 10px; height: 10px;background: #00C0F1;border-radius:10px;pointer-events:all}
+.parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;background: #00C0F1;border-radius:10px;pointer-events:all}
 .parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
 .parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;}
 .parsimonyResize.ne{ right: -5px; top: -5px;cursor: ne-resize;}
 .parsimonyResize.sw{ left: -5px; bottom: -5px;cursor: sw-resize;}
-.parsimonyResizeInfo{white-space: nowrap;background:rgba(0,0,0,0.9);height: 20px;z-index: 99999;border-radius:7px;position:absolute;/*min-width:260px;*/color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
+.parsimonyResizeInfo{white-space: nowrap;background:rgba(0,0,0,0.9);height: 20px;border-radius:7px;position:absolute;/*min-width:260px;*/color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
 .parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
 .spanDND{margin-top: -4px;vertical-align: top;display: inline-block;position: relative;/*border: #333 solid 2px;*/border-radius: 5px;cursor: pointer;
 background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px;width: 16px;height: 16px;overflow: hidden;}

@@ -79,6 +79,7 @@ class request {
 	    $this->determineDevice();
 
 	    /* Define THEME */	    
+	    //print_r($_COOKIE);
             if(isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
                 define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
                 define('THEME', $_COOKIE['THEME']);
