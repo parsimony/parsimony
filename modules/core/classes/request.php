@@ -78,9 +78,14 @@ class request {
 	    /* determine device where we are */
 	    $this->determineDevice();
 
-	    /* Define THEME */
-	    define('THEMEMODULE', app::$config['THEMEMODULE']);
-	    define('THEME', app::$config['THEME']);
+	    /* Define THEME */	    
+            if(isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+                define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
+                define('THEME', $_COOKIE['THEME']);
+	    }else{
+                define('THEMEMODULE', app::$config['THEMEMODULE']);
+                define('THEME', app::$config['THEME']);
+            }
 
 	    /* CRSF + TOKEN */
 	    $this->createNewToken();

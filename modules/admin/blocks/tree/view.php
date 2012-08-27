@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package admin
@@ -38,9 +38,9 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/tree/script.js');
 </div>  
 <div id="config_tree_selector" class="none">
     <span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
-    <span class="floatleft ui-icon ui-icon-wrench action" rel="getViewConfigBlock" title="<?php echo t('Configuration', FALSE); ?>"></span>
-    <span class="ui-icon ui-icon-pencil cssblock floatleft"></span>
-    <span class="ui-icon ui-icon-closethick config_destroy floatleft"></span>
+    <span class="floatleft ui-icon ui-icon-wrench action" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration', FALSE); ?>"></span>
+    <span class="ui-icon ui-icon-pencil cssblock floatleft" data-action="onDesign"></span>
+    <span class="ui-icon ui-icon-closethick config_destroy floatleft" data-action="onDelete"></span>
 </div>
 <div id="tree"> 
     <?php

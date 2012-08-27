@@ -88,10 +88,7 @@ class response {
             \app::dispatchEvent('pageLoad');
 
             /* THEME */
-	    if(BEHAVIOR == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
-		$this->theme = \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
-	    }else
-		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
+            $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
             $structure = $body->getStructure();
             if (defined('PARSI_ADMIN')) {
                 $adm = new \admin\blocks\toolbar("admintoolbar");
