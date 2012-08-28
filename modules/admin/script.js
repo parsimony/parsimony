@@ -96,7 +96,7 @@ var ParsimonyAdmin = {
 	    e.trad = true;
 	    ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
-	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="Gestion des Traductions">'+ t('Translate') +'</a>');
+	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="'+ t('Translation') +'">'+ t('Translate') +'</a>');
 	});
 	
 	$(ParsimonyAdmin.currentBody).on('click.creation','a', function(e){
