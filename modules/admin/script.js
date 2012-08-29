@@ -102,7 +102,7 @@ var ParsimonyAdmin = {
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu("Link");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;">'+ t('Go to the link') +'</a>');
+	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');">'+ t('Go to the link') +'</a>');
 	});	
 
 	$(document).on("keypress.creation",'#dialog-id',function(e){
@@ -243,9 +243,10 @@ var ParsimonyAdmin = {
     goToPage :   function (pageTitle,pageUrl, isHistory){
 	ParsimonyAdmin.unloadCreationMode();
 	ParsimonyAdmin.unloadPreviewMode();
-	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH) pageUrl = BASE_PATH + pageUrl;
+	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH && pageUrl.substring(0,7) != "http://") pageUrl = BASE_PATH + pageUrl;
 	pageUrl = $.trim(pageUrl);
 	if(pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '?parsiframe=ok';
+        ParsimonyAdmin.currentDocument.title = pageTitle;
 	$('#parsiframe').attr('src', pageUrl);
 	return false;
     },
