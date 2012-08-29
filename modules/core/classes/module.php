@@ -184,10 +184,10 @@ class module {
      */
     public function callBlockAction($module, $idPage, $theme, $id, $method, $args) {
 	if(empty($theme)){
-	    $blockObj = \app::getModule($module)->getPage($idPage)->getBlock($id);
+	    $blockObj = & \app::getModule($module)->getPage($idPage)->search_block($id);
 	}else{
 	    $theme = \theme::get($module, $theme, THEMETYPE);
-	    $blockObj = $theme->search_block($theme, $id);
+	    $blockObj = $theme->search_block($id, $theme);
 	}
 	$params = array();
 	parse_str($args, $params);

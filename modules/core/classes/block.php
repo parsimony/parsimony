@@ -292,7 +292,8 @@ abstract class block {
      * @param string $ident
      * @return block reference
      */
-    public function &search_block($container, $ident) {
+    public function &search_block($ident, $container = FALSE) {
+        if($container === FALSE) $container = $this;
 	if ($container->getId() === $ident || (is_numeric($ident) && $container->getId() === (int) $ident))
 	    return $container;
 	$blocks = $container->getBlocks();
@@ -301,7 +302,7 @@ abstract class block {
 		if ($id === $ident) {
 		    return $block;
 		} else {
-		    $rbloc = & $this->search_block($block, $ident);
+		    $rbloc = & $this->search_block($ident, $block);
 		    if (isset($rbloc))
 			return $rbloc;
 		}

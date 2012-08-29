@@ -498,9 +498,9 @@ $view = $this->getConfig('view');
 	});
 	if($("#regenerateview").is(":checked")){
 	    $.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
-		editor.setValue(data);
+		codeEditor.setValue(data);
 		$("#regenerateview").attr("checked","checked");
-		editor.refresh();
+		codeEditor.refresh();
 	    });
 	}
     });
