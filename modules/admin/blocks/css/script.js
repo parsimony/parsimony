@@ -52,7 +52,7 @@ function blockAdminCSS() {
 		if(this.id.length > 0 && $(".selectorcss[selector='#" + this.id + "']", $("#changecsscode")).length == 0) blockAdminCSS.addNewSelectorCSS( title, "#" + this.id)
 		var forbidClasses = ",selection-block,block,container,selection-container,";
 		$.each(this.classList, function(index, value) {
-		    if($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value+ ",") == "-1"){ blockAdminCSS.addNewSelectorCSS( title, "." + value);}
+		    if($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value+ ",") == "-1" && value != "parsieditinline"){ blockAdminCSS.addNewSelectorCSS( title, "." + value);}
 		});
 		var good = false;
 		var selectProp = "";
@@ -142,8 +142,7 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
     }
 
     if($(selector,ParsimonyAdmin.currentBody).length == 1){
-	$(selector,ParsimonyAdmin.currentBody).parsimonyDND('destroy');
-	$(selector,ParsimonyAdmin.currentBody).parsimonyDND({
+	$(selector,ParsimonyAdmin.currentBody).parsimonyDND('destroy').parsimonyDND({
 	    stopResizable : function(event, ui) {
 		$("#form_css input[css=width]").val((ui.width() != 'auto' ? ui.width() : '') + "px");
 		$("#form_css input[css=height]").val((ui.height() != 'auto' ? ui.height() : '') + "px");
