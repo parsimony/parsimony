@@ -30,9 +30,8 @@ var ParsimonyAdmin = {
 	    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
 	});
 		
-	$("#conf_box").draggable();
-
-	$("#conf_box").on('click','#conf_box_wpopup', function(e){
+	$("#conf_box").draggable()
+	.on('click','#conf_box_wpopup', function(e){
 	    var action = $("#conf_box_form input[name=action]").val();
 	    $("#conf_box_form").attr('target','conf_box_content_popup' + action);
 	    ParsimonyAdmin.closeConfBox();
@@ -97,9 +96,8 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
 	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="'+ t('Translation') +'">'+ t('Translate') +'</a>');
-	});
-	
-	$(ParsimonyAdmin.currentBody).on('click.creation','a', function(e){
+	})
+	.on('click.creation','a', function(e){
 	    e.link = true;
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
@@ -122,7 +120,7 @@ var ParsimonyAdmin = {
 	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
 	ParsimonyAdmin.closeParsiadminMenu();
 	$(ParsimonyAdmin.currentBody).off('.creation');
-	$('.parsimonyDND').parsimonyDND('destroy');
+	$('.parsimonyDND',ParsimonyAdmin.currentDocument).parsimonyDND('destroy');
 	$("#colorjack_square").hide();
 	this.pluginDispatch("unloadCreationMode");
     },
@@ -176,8 +174,7 @@ var ParsimonyAdmin = {
     
     unloadEditMode :   function(){
 	//if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
-	$(ParsimonyAdmin.currentDocument).off('.edit');
-        $(ParsimonyAdmin.currentBody).off('.edit');
+	$(ParsimonyAdmin.currentDocument).add(ParsimonyAdmin.currentBody).off('.edit');
         $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
         $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
         $(".wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
@@ -191,6 +188,7 @@ var ParsimonyAdmin = {
 		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
 	    }
 	});
+	ParsimonyAdmin.closeConfBox();
 	this.pluginDispatch("loadPreviewMode");
     },
     unloadPreviewMode :   function(){

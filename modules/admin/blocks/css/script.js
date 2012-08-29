@@ -10,10 +10,8 @@ function blockAdminCSS() {
 	    if(typeof stylesh != "undefined") var rules = stylesh.style.cssText + this.getAttribute("name") + ": " + this.value + ";";
 	    else rules = this.getAttribute("name") + ": " + this.value + ";";
 	    blockAdminCSS.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
-	});
-	
-	
-	$("#panelcss").on('click',"#csspicker", function(e){
+	})
+	.on('click',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
             $("#threed").show();
@@ -59,7 +57,7 @@ function blockAdminCSS() {
 		var good = false;
 		var selectProp = "";
 		if(this.id == ""){
-		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = ("." + $(this).attr("class").replace(" ",".")).replace(".cssPicker","");
+		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = ("." + $(this).attr("class").replace(" ","."));
 		    $(this).parentsUntil("body").each(function(){
 			if(!good){
 			    var selectid = "";
@@ -68,11 +66,11 @@ function blockAdminCSS() {
 			    else{
 				if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
 			    }
-			    selectProp = selectid + selectclass.replace(".clearboth","").replace(".parsieditinline","") + " " + selectProp;
+			    selectProp = selectid + selectclass + " " + selectProp;
 			    if(selectid != "") good = true;
 			}
 		    });
-		    selectProp = selectProp.replace(/\s\s+/g," ");
+		    selectProp = selectProp.replace(".cssPicker","").replace(".clearboth","").replace(".parsieditinline","").replace(/\s\s+/g," ");
 		    if($(".selectorcss[selector='" + selectProp + "']", $("#changecsscode")).length == 0) blockAdminCSS.addNewSelectorCSS( title, selectProp);
 		}
                 

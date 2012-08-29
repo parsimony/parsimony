@@ -278,12 +278,12 @@ background-image: linear-gradient(top, #707A84, #505968);
 #toolbar .toolbarbonus{padding-top: 1px;}
 #toolbar .toolbarbonus > span{padding: 2px 8px 5px 8px;cursor:pointer}
 #toolbar .toolbarbonus > span.active{
-background: -moz-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%, rgba(68,197,236,0.47) 20%, rgba(222,226,229,0) 100%); /* FF3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(37,155,219,0.59)), color-stop(20%,rgba(68,197,236,0.47)), color-stop(100%,rgba(222,226,229,0))); /* Chrome,Safari4+ */
-background: -webkit-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* Opera 12+ */
-background: -ms-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* IE10+ */
-background: radial-gradient(ellipse at center,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 100%); /* W3C */
+background: -moz-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%, rgba(68,197,236,0.47) 20%, rgba(222,226,229,0) 90%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 90%, color-stop(0%,rgba(37,155,219,0.59)), color-stop(20%,rgba(68,197,236,0.47)), color-stop(90%,rgba(222,226,229,0))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 90%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 90%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 90%); /* IE10+ */
+background: radial-gradient(ellipse at center,  rgba(37,155,219,0.59) 0%,rgba(68,197,236,0.47) 20%,rgba(222,226,229,0) 90%); /* W3C */
 }
 
 /* ######### Conf box - Inline Popup ############## */
