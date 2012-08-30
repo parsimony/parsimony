@@ -213,13 +213,14 @@ blockAdminCSS.getCSSForCSSpicker = function () {
     var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
     for (var i = 0; i < styleSheets.length; i++){
 	if(styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.indexOf("iframe.css") == "-1" && styleSheets[i].href.indexOf("/" + window.location.host + BASE_PATH + "lib") == "-1"){
-	    $.each(styleSheets[i].cssRules, function(nbrule) {
-		if(matchesSelector.call(elmt,this.selectorText)){
+            for(j=0; j < styleSheets[i].cssRules.length;j++) {
+                var rule = styleSheets[i].cssRules[j];
+		if(matchesSelector.call(elmt,rule.selectorText)){
 		    var url = styleSheets[i].href.replace("http://" + window.location.host,"").substring(BASE_PATH.length);
-		    blockAdminCSS.addSelectorCSS(url, this.selectorText, this.style.cssText.replace(/;[^a-zA-Z\-]+/gm, ";\n"), i , nbrule);
-		    json += '{"nbstyle":"' + i + '","nbrule":"' + nbrule + '","url":"' + url + '","selector":"' + this.selectorText + '"},';
+		    blockAdminCSS.addSelectorCSS(url, rule.selectorText, rule.style.cssText.replace(/;[^a-zA-Z\-]+/gm, ";\n"), i , j);
+		    json += '{"nbstyle":"' + i + '","nbrule":"' + j + '","url":"' + url + '","selector":"' + rule.selectorText + '"},';
 		}
-	    });
+	    }
 	}
     }
     if(json.length > 1){

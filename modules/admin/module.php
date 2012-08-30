@@ -84,41 +84,17 @@ class admin extends \module {
     }
 
     /**
-     * Search Block
-     * @param string $container
-     * @param string $identifiant
-     * @return string 
-     */
-    private function &search_block($container, $identifiant) {
-	if ($container->getId() === $identifiant || (is_numeric($identifiant) && $container->getId() === (int) $identifiant))
-	    return $container;
-	$blocks = $container->getBlocks();
-	if (!empty($blocks)) {
-	    foreach ($blocks AS $id => $block) {
-		if ($id === $identifiant) {
-		    return $block;
-		} else {
-		    $rbloc = & $this->search_block($block, $identifiant);
-		    if (isset($rbloc))
-			return $rbloc;
-		}
-	    }
-	}
-	return $rbloc;
-    }
-
-    /**
      * Check If Id Exists 
      * @param string $id
      * @return bool 
      */
     private function checkIfIdExists($id) {
-	if ($this->search_block($this->theme, $id) != NULL)
+	if ($this->theme->search_block($id) != NULL)
 	    return TRUE;
 	foreach (\app::$activeModules as $module => $type) {
 	    $moduleObj = \app::getModule($module);
 	    foreach ($moduleObj->getPages() as $key => $page) {
-		$block = $this->search_block($page, $id);
+		$block = $page->search_block($id);
 		if ($block != NULL)
 		    return TRUE;
 	    }
@@ -146,7 +122,7 @@ class admin extends \module {
         if ($this->checkIfIdExists($idBlock)) {
             return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
         }
-	$block = $this->search_block($this->$stop_typecont, $parentBlock);
+	$block = $this->$stop_typecont->search_block($parentBlock);
         $block->addBlock($tempBlock, $id_next_block);
 	
 	/* If exists : Add default block CSS in current theme  */
@@ -171,7 +147,7 @@ class admin extends \module {
 	}
         $this->saveAll();
 	
-        if ($this->search_block($this->$stop_typecont, $idBlock) != NULL) {
+        if ($this->$stop_typecont->search_block($idBlock) != NULL) {
             \app::$request->page = new \page(999, 'core');
 	    $return = array('eval' => $tempBlock->ajaxRefresh('add'), 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
         }else
@@ -192,7 +168,7 @@ class admin extends \module {
      * @return string 
      */
     protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $allowedModules, $ajaxReload, $ajaxLoad, $cssClasses) {
-	$block = $this->search_block($this->$typeProgress, $idBlock);
+	$block = $this->$typeProgress->search_block($idBlock);
         $block->setConfig('headerTitle', $headerTitle);
 	$block->setConfig('maxAge', $maxAge);
 	$block->setConfig('tag', $tag);
@@ -254,9 +230,9 @@ class admin extends \module {
      * @return string
      */
     protected function removeBlockAction($typeProgress, $parentBlock, $idBlock) {
-	$block = $this->search_block($this->$typeProgress, $parentBlock);
+	$block = $this->$typeProgress->search_block($parentBlock);
 	$block->rmBlock($idBlock);
-	$test = $this->search_block($this->$typeProgress, $idBlock);
+	$test = $this->$typeProgress->search_block($idBlock);
 	if ($test == NULL){
             $path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
             if(is_file($path)){
@@ -529,8 +505,8 @@ class admin extends \module {
 	    $temp = substr($popBlock, 0, -10);
 	    $newblock = new $temp($idBlock);
 	} else {
-	    $block = $this->search_block($this->$start_typecont, $idBlock);
-	    $blockparent = $this->search_block($this->$start_typecont, $startParentBlock);
+	    $block = $this->$start_typecont->search_block($idBlock);
+	    $blockparent = $this->$start_typecont->search_block($startParentBlock);
 	    $blockparent->rmBlock($idBlock);
 	    $this->saveAll();
 	    $newblock = $block;
@@ -538,10 +514,10 @@ class admin extends \module {
 	//arrivée
 	if ($id_next_block === '' || $id_next_block === 'undefined')
 	    $id_next_block = FALSE;
-	$block2 = $this->search_block($this->$stop_typecont, $parentBlock);
+	$block2 = $this->$stop_typecont->search_block($parentBlock);
 	$block2->addBlock($newblock, $id_next_block);
 	$this->saveAll();
-	if ($this->search_block($this->$stop_typecont, $idBlock) != NULL)
+	if ($this->$stop_typecont->search_block($idBlock) != NULL)
 	    $return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","dropInPage");', 'notification' => t('The move has been saved', FALSE), 'notificationType' => 'positive');
 	else
 	    $return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
@@ -556,7 +532,7 @@ class admin extends \module {
      * @return string|false
      */
     protected function getViewConfigBlockAction($typeProgress, $idBlock, $parentBlock) {
-	$block = $this->search_block($this->$typeProgress, $idBlock);
+	$block = $this->$typeProgress->search_block($idBlock);
 	ob_start();
 	require('modules/admin/views/web/manageBlock.php');
 	return ob_get_clean();

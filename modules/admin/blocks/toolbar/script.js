@@ -1,10 +1,6 @@
 function blockAdminToolbar() {
 
     this.initBefore = function () {
-	$("#toolbars").live('change',function(){
-            var style = $('#toolbars option:selected').attr('style');
-            $("#toolbars").attr('style',style);
-        });
 
         $('.sidebar').draggable({
             handle: ".handle",
@@ -22,8 +18,8 @@ function blockAdminToolbar() {
                 ParsimonyAdmin.setCookie("rightToolbarCoordX",$("#right_sidebar").css('left'),999);
                 ParsimonyAdmin.setCookie("rightToolbarCoordY",$("#right_sidebar").css('top'),999);
             }
-        });
-        $( '.sidebar' ).resizable({
+        })
+        .resizable({
             start:function(event, ui){
                 ParsimonyAdmin.showOverlay(0);
                 $(this).addClass('notransition');
@@ -41,6 +37,22 @@ function blockAdminToolbar() {
                 ParsimonyAdmin.setCookie("leftToolbarX",$("#left_sidebar").css('width'),999);
                 ParsimonyAdmin.setCookie("rightToolbarX",$("#right_sidebar").css('width'),999);
             }
+        })
+        .on('click',".openclose",function(){
+            var sidebar = $(this).closest(".sidebar");
+            sidebar.toggleClass("close");
+            ParsimonyAdmin.setCookie(sidebar.data("side") + "ToolbarOpen",( sidebar.hasClass("close") ? "0" : "1"),999);
+        })
+		
+        /* Tabs */
+        .on('click','.mainTab', function(){
+            var rel = $(this).attr("rel");
+            var parent = $(this).closest(".contenttab");
+	    $(".block",parent).hide();
+            $("#" + rel).show();
+            $(".mainTab",parent).removeClass('active');
+	    $(this).addClass('active');
+	    ParsimonyAdmin.setCookie($(this).closest(".sidebar").data("side") + "ToolbarPanel",rel,999);
         });
         
         $('#admin').on('click',".revert",function () {
@@ -55,32 +67,14 @@ function blockAdminToolbar() {
                 ParsimonyAdmin.setCookie("rightToolbarCoordY","0",999);
                 ParsimonyAdmin.setCookie("rightToolbarX","230px",999);
             }
-        });
-        
-        $(".sidebar").on('click',".openclose",function(){
-            var sidebar = $(this).closest(".sidebar");
-            sidebar.toggleClass("close");
-            ParsimonyAdmin.setCookie(sidebar.data("side") + "ToolbarOpen",( sidebar.hasClass("close") ? "0" : "1"),999);
-        });
-			
-        /* Tabs */
-        $('.sidebar').on('click','.mainTab', function(){
-            var rel = $(this).attr("rel");
-            var parent = $(this).closest(".contenttab");
-	    $(".block",parent).hide();
-            $("#" + rel).show();
-            $(".mainTab",parent).removeClass('active');
-	    $(this).addClass('active');
-	    ParsimonyAdmin.setCookie($(this).closest(".sidebar").data("side") + "ToolbarPanel",rel,999);
-        });
-	
-		
-        $('#admin').on('click','.ssTab',function(){
+        })
+        .on('click','.ssTab',function(){
             $(this).parent().parent().find("ul").hide();
             $(this).parent().parent().find("." + $(this).attr('rel')).show();
             $(this).parent().parent().find(".ssTab").removeClass('active');
             $(this).addClass('active');
         });
+
     }
     
 }

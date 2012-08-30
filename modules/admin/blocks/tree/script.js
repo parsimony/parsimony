@@ -5,8 +5,7 @@ function blockAdminTree() {
 	/* Help on Tree*/
 	$('#right_sidebar').on('click','#treelegend',function(){
 	    $('#treelegend2').slideToggle();
-	});
-	$('#right_sidebar').on('click','.arrow_tree',function(event){
+	}).on('click','.arrow_tree',function(event){
 	    event.stopPropagation();
 	    $(this).toggleClass('down');
 	    $(this).nextAll('ul,li').toggleClass('none');
@@ -31,9 +30,7 @@ function blockAdminTree() {
 		    scrollTop : $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).offset().top -50
 		},"fast");
 	    }
-	});
-	
-	$('#right_sidebar').on('mouseenter','.tree_selector', function(event){
+	}).on('mouseenter','.tree_selector', function(event){
 	    event.stopPropagation();
 	    var ids = this.id.split("treedom_")[1];
 	    $(".selection-block:not(#" + ParsimonyAdmin.inProgress + ")",ParsimonyAdmin.currentBody).removeClass("selection-block");

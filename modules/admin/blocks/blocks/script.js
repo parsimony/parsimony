@@ -53,7 +53,7 @@ function blockAdminBlocks() {
     }
     
     this.startDragging = function () {
-        $(ParsimonyAdmin.currentBody).append($("#dropInPage" ));
+        ParsimonyAdmin.$currentBody.append($("#dropInPage" ));
         $("#right_sidebar").removeClass("close");
 	$(".mainTab.paneltree").trigger("click");
     }
@@ -87,7 +87,7 @@ function blockAdminBlocks() {
     this.loadEditMode = function () {
         $this = this;
         
-        $(ParsimonyAdmin.currentDocument).on('click.edit','.block',function(e){
+        ParsimonyAdmin.$currentDocument.on('click.edit','.block',function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
             blockInst.onClickEdit.apply(this, [e]);
         });
@@ -96,7 +96,7 @@ function blockAdminBlocks() {
     this.loadCreationMode = function () {
         $this = this;
 	
-        $(ParsimonyAdmin.currentBody).on('click.creation','.block',function(e){
+        ParsimonyAdmin.$currentBody.on('click.creation','.block',function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
 	    blockInst.onClickCreation.apply(this, [e]);
         }).on('mouseover.creation',".block", function(event) {
@@ -121,7 +121,7 @@ function blockAdminBlocks() {
 	    ParsimonyAdmin.returnToShelter();
         });
 	
-	$(ParsimonyAdmin.currentBody).add('#paneltree')
+	ParsimonyAdmin.$currentBody.add('#paneltree')
 	.on('dragenter.creation','.block,.tree_selector', function(e) {
             e.stopImmediatePropagation();
             //if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
