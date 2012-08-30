@@ -118,8 +118,11 @@ echo '}); </script>';
 	$frameUrl = $_SERVER['REQUEST_URI'];
     else
 	$frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
+    $style = 'width: 100%; height: 100%;';
+    if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY']))
+	$style = 'width: '.$_COOKIE['screenX'].'px; height: '.$_COOKIE['screenY'].'px;';
     ?>
-    <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle"></iframe>
+    <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle" style="<?php echo $style; ?>"></iframe>
 </div>
 
 <div id="overlays">

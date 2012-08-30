@@ -4,26 +4,26 @@ function blockAdminMenu() {
 	
 	/* Orientation and resolution */
 	$("#toolbar").on('change','#changeres', function(e) {
-	    var bodyIframe = ParsimonyAdmin.currentDocument.body;
-	    var res = $(this).val();
+	    var bodyIframe = ParsimonyAdmin.currentBody;
+	    var res = this.value;
 	    $("#currentRes").text(res);
-	    if(res=='max'){
+	    if(res == 'max'){
 		var height = bodyIframe.offsetHeight + 250;
 		if(screen.height > height) height = screen.height - 28;
-		$("#parsiframe").css({
+		ParsimonyAdmin.$iframe.css({
 		    "width":  "100%",
 		    "height": height + "px"
 		});
-		res = "maxam";
+		res = ["max","max"];
 	    }else{
 		res = res.split(/x/);
 		if($("#changeorientation").length == 0 || ($("#changeorientation").val()=='portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
-		    $("#parsiframe").css({
+		    ParsimonyAdmin.$iframe.css({
 			"width": res[0] + "px",
 			"height": res[1] + "px"
 		    });
 		}else{ 
-		    $("#parsiframe").css({
+		    ParsimonyAdmin.$iframe.css({
 			"width": res[1] + "px",
 			"height": res[0] + "px"
 		    });
@@ -32,12 +32,10 @@ function blockAdminMenu() {
 	    ParsimonyAdmin.setCookie("screenX",res[0],999);
 	    ParsimonyAdmin.setCookie("screenY",res[1],999);
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
-	    $(bodyIframe).removeClass("landscape").removeClass("portrait");
-	    $(bodyIframe).addClass($("#changeorientation").val());
+	    ParsimonyAdmin.$currentBody.removeClass("landscape portrait").addClass($("#changeorientation").val());
 	    
-	});
-	
-	$("#toolbar").on('change','#changeorientation', function(e) {
+	})
+	.on('change','#changeorientation', function(e) {
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
 	    $("#changeres").trigger("change");
 	});

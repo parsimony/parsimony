@@ -3,6 +3,7 @@ var ParsimonyAdmin = {
     currentWindow : "",
     currentDocument : "",
     currentBody : "",
+    currentMode : "",
     inProgress :  "",
     typeProgress : "",
     wysiwyg : "",
@@ -36,8 +37,7 @@ var ParsimonyAdmin = {
 	    $("#conf_box_form").attr('target','conf_box_content_popup' + action);
 	    ParsimonyAdmin.closeConfBox();
 	    window.open ($("#conf_box_content_iframe").attr('src'),'conf_box_content_popup' + action,"width=" + $("#conf_box_content_iframe").width() + ",height=" + $("#conf_box_content_iframe").height());
-	    $("#conf_box_form").trigger("submit");
-	    $("#conf_box_form").attr('target','conf_box_content_iframe');
+	    $("#conf_box_form").trigger("submit").attr('target','conf_box_content_iframe');
 	});
 	
 	this.pluginDispatch("initBefore");
@@ -206,9 +206,8 @@ var ParsimonyAdmin = {
 
 	$(document).on('click','#menu a',function(e){
 	    ParsimonyAdmin.closeParsiadminMenu();
-	});
-
-	$(document).add('#config_tree_selector').on('click',".action", function(e){
+	})
+	.add('#config_tree_selector').on('click',".action", function(e){
 	    var parentId = '';
 	    var inProgress = $("#treedom_" + ParsimonyAdmin.inProgress);
 	    if(inProgress.length > 0){
@@ -343,9 +342,9 @@ var ParsimonyAdmin = {
 	$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).addClass("selection-block").parent(".container").addClass("selection-container");
 
 	blockTreeObj.css('background','#999');
-	if(idBlock=="container" || blockObj.hasClass('container_page')) $("#right_sidebar #config_tree_selector").addClass("restrict");
-	else $("#right_sidebar #config_tree_selector").removeClass("restrict");
-	blockTreeObj.prepend($("#right_sidebar #config_tree_selector").show());
+	if(idBlock=="container" || blockObj.hasClass('container_page')) $("#config_tree_selector").addClass("restrict");
+	else $("#config_tree_selector").removeClass("restrict");
+	blockTreeObj.prepend($("#config_tree_selector").show());
         
     },
     whereIAm :   function (idBlock){
@@ -386,8 +385,7 @@ var ParsimonyAdmin = {
                         $("#conf_box_form").append('<input type="hidden" name="' + myvar[0]  + '" value="' + myvar[1] + '">');
                     }
                 }
-                $("#conf_box_form").append('<input type="hidden" name="popup" value="yes">');
-                $("#conf_box_form").trigger("submit");
+                $("#conf_box_form").append('<input type="hidden" name="popup" value="yes">').trigger("submit");
                 $("#conf_box_content_iframe").show();
                 $("#conf_box_content_inline").hide();
             }else{
@@ -407,7 +405,7 @@ var ParsimonyAdmin = {
 	},
 	resizeConfBox : function(){
             $("#conf_box_load").hide();
-            $( "#conf_box_content_iframe" ).removeAttr("style");
+            $("#conf_box_content_iframe").removeAttr("style");
 	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
 	    if(doc.location.href != "about:blank"){
 		$( "#conf_box_content_iframe" ).css({
@@ -486,9 +484,6 @@ var ParsimonyAdmin = {
 	addOptionParsiadminMenu : function (option) {
 	    $("#menu .options").append('<div class="option">' + option + '</div>');
 	},
-	trigger : function (selector,evt){
-	    $(selector).trigger(evt);
-	},
 	reloadIframe : function (){
 	    $.get("index.html?parsiframe=ok",
 		function(data){
@@ -511,24 +506,15 @@ var ParsimonyAdmin = {
 	    });
 	},
 	setCreationMode :   function (){
-	    ParsimonyAdmin.loadCreationMode();
-	    ParsimonyAdmin.unloadEditMode();
-	    ParsimonyAdmin.unloadPreviewMode();
 	    $('.sidebar,#left_sidebar .mainTab').show();
 	    ParsimonyAdmin.setMode("creation");  
 	},
 	setEditMode :   function (){
-	    ParsimonyAdmin.unloadCreationMode();
-	    ParsimonyAdmin.unloadPreviewMode();
-	    ParsimonyAdmin.loadEditMode();
 	    $('#right_sidebar,#left_sidebar .mainTab,#panelblocks').hide();
 	    $("#panelmodules,#left_sidebar").show();
 	    ParsimonyAdmin.setMode("edit");
 	},
 	setPreviewMode :   function (){
-	    ParsimonyAdmin.unloadCreationMode();
-	    ParsimonyAdmin.unloadEditMode();
-	    ParsimonyAdmin.loadPreviewMode();
 	    $('.sidebar').hide();
 	    ParsimonyAdmin.setMode("preview");
 	},
@@ -536,6 +522,15 @@ var ParsimonyAdmin = {
             $("body").removeClass("previewMode modeMode creationMode").addClass(mode + "Mode");
             $(".switchMode").removeClass("selected");
             $("#" + mode + "Mode").addClass("selected");
+	    /* Unload current mode if exists */
+	    if(ParsimonyAdmin.currentMode.length > 0){
+		var captitalizeOldMode = ParsimonyAdmin.currentMode[0].toUpperCase() + ParsimonyAdmin.currentMode.substring(1);
+		ParsimonyAdmin["unload" + captitalizeOldMode + "Mode"]();
+	    }
+	    ParsimonyAdmin.currentMode = mode;
+	    var captitalizeNewMode = mode[0].toUpperCase() + mode.substring(1);
+	    /* Load new mode */
+	    ParsimonyAdmin["load" + captitalizeNewMode + "Mode"]();
             ParsimonyAdmin.setCookie("mode",mode,999);
 	},
 	loadBlock: function(id, params, func){
@@ -548,19 +543,19 @@ var ParsimonyAdmin = {
 	removeEmptyTextNodes: function(elem){
 	    var children = elem.childNodes;
 	    var child;
-	    var lent = children.length;
+	    var len = children.length;
 	    var i = 0;
 	    var whitespace = /^\s*$/;
-	    for(; i < lent; i++){
+	    for(; i < len; i++){
 		child = children[i];
 		if(child.nodeType == 3){
 		    if(whitespace.test(child.nodeValue)){
 			elem.removeChild(child);
 			i--;
-			lent--;
+			len--;
 		    }
 		}else if(child.nodeType == 1){
-		    ParsimonyAdmin.removeEmptyTextNodes(child);
+		    this.removeEmptyTextNodes(child);
 		}
 	    }
 	}
