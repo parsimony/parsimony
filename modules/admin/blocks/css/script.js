@@ -1,9 +1,9 @@
 function blockAdminCSS() {
     
-    this.init = function () {
+    this.loadCreationMode = function () {
 	
 	//ui update
-	$("#panelcss").on("keyup change",".liveconfig", function(event){
+	$("#panelcss").on("keyup.creation change.creation",".liveconfig", function(event){
 	    var nbstyle = document.getElementById("current_stylesheet_nb").value;
 	    var nbrule = document.getElementById("current_stylesheet_nb_rule").value;
 	    var stylesh = ParsimonyAdmin.currentDocument.styleSheets[nbstyle].cssRules[nbrule];
@@ -11,7 +11,15 @@ function blockAdminCSS() {
 	    else rules = this.getAttribute("name") + ": " + this.value + ";";
 	    blockAdminCSS.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
 	})
-	.on('click',"#csspicker", function(e){
+	.on('click.creation',".explorer",function(event){
+            window.callbackExplorerID = $(this).attr('rel');
+            window.callbackExplorer = function (file){
+                $("#" + window.callbackExplorerID).val("url( " + file + ")");
+                $("#" + window.callbackExplorerID).trigger('keyup');
+            }
+            ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/explorer","Explorer");
+	})
+	.on('click.creation',"#csspicker", function(e){
 	    e.preventDefault();
 	    e.stopPropagation();
             $("#threed").show();
@@ -79,6 +87,10 @@ function blockAdminCSS() {
 	    });
 	});
 	
+    }
+    
+    this.unloadCreationMode = function(){
+	$("#panelcss").off('.creation');
     }
 }
 

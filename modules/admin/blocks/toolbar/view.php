@@ -30,16 +30,28 @@ $admin = new \core\blocks\container("admin");
 $menutop = new \admin\blocks\menu("toolbar");
 $admin->addBlock($menutop);
 
+/* Define active panels */
+$leftPan = 'panelmodules';
+if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelblocks') {
+    $leftPan = 'panelblocks';
+}
+$rightPan = 'paneltree';
+if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'panelcss') {
+    $rightPan = 'panelcss';
+}
+
 /* Sidebar Left */
 $leftSidebar = new \admin\blocks\adminsidebar("left_sidebar");
 
 /* Modules */
 $block = new \admin\blocks\modules("panelmodules");
+if($leftPan != 'panelmodules') $block->setConfig('cssClasses','none');
 $leftSidebar->addBlock($block);
 
 if (BEHAVIOR == 2):
     /* Blocks */
     $block = new \admin\blocks\blocks("panelblocks");
+    if($leftPan != 'panelblocks') $block->setConfig('cssClasses','none');
     $leftSidebar->addBlock($block);
 
     $admin->addBlock($leftSidebar);
@@ -50,10 +62,12 @@ if (BEHAVIOR == 2):
 
     /* Tree */
     $block = new \admin\blocks\tree("paneltree");
+    if($rightPan != 'paneltree') $block->setConfig('cssClasses','none');
     $rightSidebar->addBlock($block);
 
     /* CSS */
     $block = new \admin\blocks\css("panelcss");
+    if($rightPan != 'panelcss') $block->setConfig('cssClasses','none');
     $rightSidebar->addBlock($block);
     $admin->addBlock($rightSidebar);
 endif;
@@ -97,21 +111,6 @@ echo $admin->display();
     </div>
     <datalist id="parsidatalist"></datalist>
 </div>
-
-<?php
-echo '<script> $(document).ready(function() {';
-if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelblocks') {
-    echo '$(".panelblocks").trigger("click");';
-} else {
-    echo '$(".panelmodules").trigger("click");';
-}
-if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'panelcss') {
-    echo '$(".panelcss").trigger("click");';
-} else {
-    echo '$(".paneltree").trigger("click");';
-}
-echo '}); </script>';
-?>
 <div class="align_center" style="min-height: 600px;">
     <?php
     if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
@@ -119,8 +118,13 @@ echo '}); </script>';
     else
 	$frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
     $style = 'width: 100%; height: 100%;';
-    if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY']))
-	$style = 'width: '.$_COOKIE['screenX'].'px; height: '.$_COOKIE['screenY'].'px;';
+    if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])){
+	if(isset($_COOKIE['landscape']) && $_COOKIE['landscape'] == 'landscape'){
+	    $style = 'width: '.$_COOKIE['screenY'].'px; height: '.$_COOKIE['screenX'].'px;';
+	}else{
+	    $style = 'width: '.$_COOKIE['screenX'].'px; height: '.$_COOKIE['screenY'].'px;';
+	}
+    }
     ?>
     <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle" style="<?php echo $style; ?>"></iframe>
 </div>

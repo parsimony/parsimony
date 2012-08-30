@@ -4,11 +4,10 @@ function blockAdminMenu() {
 	
 	/* Orientation and resolution */
 	$("#toolbar").on('change','#changeres', function(e) {
-	    var bodyIframe = ParsimonyAdmin.currentBody;
 	    var res = this.value;
 	    $("#currentRes").text(res);
 	    if(res == 'max'){
-		var height = bodyIframe.offsetHeight + 250;
+		var height = ParsimonyAdmin.currentBody.offsetHeight + 250;
 		if(screen.height > height) height = screen.height - 28;
 		ParsimonyAdmin.$iframe.css({
 		    "width":  "100%",
@@ -17,7 +16,7 @@ function blockAdminMenu() {
 		res = ["max","max"];
 	    }else{
 		res = res.split(/x/);
-		if($("#changeorientation").length == 0 || ($("#changeorientation").val()=='portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
+		if($("#changeorientation").length == 0 || ($("#changeorientation").val() == 'portrait' && ParsimonyAdmin.getCookie("landscape") == 'portrait')){
 		    ParsimonyAdmin.$iframe.css({
 			"width": res[0] + "px",
 			"height": res[1] + "px"

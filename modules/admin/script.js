@@ -229,15 +229,6 @@ var ParsimonyAdmin = {
 	}).keyup(function(e) {
 	    if(e.ctrlKey) isCtrl = false;
 	});
-
-	$("#panelcss").on('click',".explorer",function(event){
-            window.callbackExplorerID = $(this).attr('rel');
-            window.callbackExplorer = function (file){
-                $("#" + window.callbackExplorerID).val("url( " + file + ")");
-                $("#" + window.callbackExplorerID).trigger('keyup');
-            }
-            ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/explorer","Explorer");
-	});
 	
 	ParsimonyAdmin.hideOverlay();
 	ParsimonyAdmin.removeEmptyTextNodes(document.body);
@@ -246,6 +237,7 @@ var ParsimonyAdmin = {
     ,
     goToPage :   function (pageTitle,pageUrl, isHistory){
 	ParsimonyAdmin.unloadCreationMode();
+	ParsimonyAdmin.unloadEditMode();
 	ParsimonyAdmin.unloadPreviewMode();
 	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH && pageUrl.substring(0,7) != "http://") pageUrl = BASE_PATH + pageUrl;
 	pageUrl = $.trim(pageUrl);
@@ -428,7 +420,7 @@ var ParsimonyAdmin = {
 	    $('#changeres').val('');// to change res.
 	    ParsimonyAdmin.changeDeviceUpdate(device);
 	    $("#info_themetype").text("Version " + device);
-	    ParsimonyAdmin.$iframe.attr("src", $('#parsiframe').attr("src"));
+	    ParsimonyAdmin.$iframe.attr("src", ParsimonyAdmin.$iframe.attr("src"));
 	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
 	changeDeviceUpdate : function () {
@@ -436,12 +428,12 @@ var ParsimonyAdmin = {
 	    var nb = 0;
 	    var changeres = $('#changeres');
 	    $.each($.parseJSON(resultions[THEMETYPE]), function(i,item){
-		if(changeres.get(0).value == "" && nb == 0) changeres.val(i);
+		if(changeres[0].value == "" && nb == 0) changeres.val(i).trigger('change');
 		select += '<li><a href="#" onclick="$(\'#changeres\').val(\'' + i + '\').trigger(\'change\');">' + item + ' (' + i + ')</a></li>';
 		nb++;
 	    });
-	    changeres.trigger('change');
-	    $('#listres').empty().html(select).trigger('change');
+	    $("#currentRes").text(changeres[0].value);
+	    $('#listres').html(select);
 	},
 	changeLocale : function (locale) {
 	    ParsimonyAdmin.setCookie("locale",locale,999);

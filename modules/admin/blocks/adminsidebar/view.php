@@ -34,7 +34,7 @@
 </div>
 <div class="contenttab">
     <?php foreach ($this->getBlocks() AS $block): ?>
-        <div class="mainTab <?php echo $block->getId(); ?> ellipsis" rel="<?php echo $block->getId(); ?>">
+        <div class="mainTab <?php echo $block->getId(); ?> ellipsis <?php if($block->getConfig('cssClasses') != 'none') echo 'active'; ?>" rel="<?php echo $block->getId(); ?>">
             <?php echo t($block->getName(), FALSE); ?>
         </div>
     <?php endforeach; ?>
