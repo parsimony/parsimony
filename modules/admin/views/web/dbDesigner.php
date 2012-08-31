@@ -124,6 +124,7 @@ include_once('modules/core/classes/field.php');
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
     .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
     #toolbar{font-weight: normal;line-height: 25px}
+    .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
 </style> 
 
 <div id="tooltip-new-fields" class="none toolfield">
@@ -719,7 +720,7 @@ include_once('modules/core/classes/field.php');
 </div>
 </div>';
 			if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
-			    $html .= '<fieldset><h3>' . t('Specials properties') . '</h3>';
+			    $html .= '<fieldset class="specialprop"><h3>' . t('Specials properties') . '</h3>';
 			    ob_start();
 			    include('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php');
 			    $html .= ob_get_clean();
