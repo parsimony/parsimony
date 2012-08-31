@@ -26,5 +26,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-echo $this->drawTree($this->getCategories());
+$categories = $this->getCategories();
+$category = current($categories);
+if(isset($category['children']))
+    $categories = $category['children'];
+echo $this->drawTree($categories);
 ?>
