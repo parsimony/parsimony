@@ -52,7 +52,7 @@ class field_textarea extends \field {
      * @param bool $required by default true
      * @param string $regex by default '.*'
      */
-    public function __construct($module, $entity, $name, $type='longtext', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7) {
+    public function __construct($module, $entity, $name, $type='longtext', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $mode = 'textarea') {
         $this->constructor(func_get_args());
     }
 

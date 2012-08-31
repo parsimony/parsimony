@@ -26,16 +26,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-        <?php if (isset($this->mode) && $this->mode == 'text'): ?>
-            <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $this->default ?>" />
-        <?php else: ?>
-            <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $this->default ?></textarea>
-        <?php endif; ?>
+
+<div><label><?php echo t('Mode',False) ; ?> </label><select type="text" name="mode">
+        <option>textarea</option>
+        <option<?php if(isset($this->mode) && $this->mode == 'text') echo ' selected="selected"' ?>>text</option>
+    </select>
 </div>

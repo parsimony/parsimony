@@ -33,5 +33,9 @@
 	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	    <?php endif; ?>
 	</label>
-	<textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $this->value ?></textarea>
+        <?php if (isset($this->mode) && $this->mode == 'text'): ?>
+            <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $this->value ?>" />
+        <?php else: ?>
+            <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $this->value ?></textarea>
+        <?php endif; ?>
 </div>
