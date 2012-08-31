@@ -69,7 +69,7 @@
         <div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security', FALSE); ?></a></div>
 	<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
-        <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Other', FALSE); ?></a></div>
+        <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
         <form action="" method="POST" target="ajaxhack">
@@ -77,7 +77,7 @@
             <input type="hidden" name="action" value="saveConfig">
             <div id="tabsconfig" style="min-width:465px;">
 		<div id="tabsb-0" class="admintabs">
-		    <h2><?php echo t('General', FALSE); ?></h2>
+		    <h2><?php echo t('Ajax', FALSE); ?></h2>
 		    <div class="placeholder">
 			<label class="label"><?php echo t('Ajax navigation', FALSE); ?></label>
 			<select name="config[general][ajaxnav]">
