@@ -331,7 +331,7 @@ font-weight: bold;}
 .adminzone table{border-color: #99BCE8;}
 .adminzone th,.adminzone thead{border:1px solid #DFDFDF;text-align:center;padding-top:8px}
 .adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #DFDFDF;color: #464646;border-bottom-color: #DFDFDF;text-shadow: white 0 1px 0;
--moz-box-shadow: 0 1px 0 #fff;-webkit-box-shadow: 0 1px 0 white;box-shadow: 0 1px 0 white;background-color: #F1F1F1;
+box-shadow: 0 1px 0 white;background-color: #F1F1F1;
 background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
@@ -373,10 +373,7 @@ background-image: -webkit-linear-gradient(top,#F9F9F9,whiteSmoke);
 background-image: -webkit-linear-gradient(top,#F9F9F9,whiteSmoke);
 background-image: linear-gradient(top,#F9F9F9,whiteSmoke);
 border-color: #DFDFDF;
--moz-box-shadow: inset 0 1px 0 #fff;
--webkit-box-shadow: inset 0 1px 0 white;
 box-shadow: inset 0 1px 0 white;
--webkit-border-radius: 3px;
 border-radius: 3px;
 position: relative;
 margin-bottom: 20px;
@@ -396,10 +393,7 @@ background-image: -webkit-linear-gradient(top,#F9F9F9,whiteSmoke);
 background-image: -webkit-linear-gradient(top,#F9F9F9,whiteSmoke);
 background-image: linear-gradient(top,#F9F9F9,whiteSmoke);
 border-color: #DFDFDF;
--moz-box-shadow: inset 0 1px 0 #fff;
--webkit-box-shadow: inset 0 1px 0 white;
 box-shadow: inset 0 1px 0 white;
--webkit-border-radius: 3px;
 border-radius: 3px;
 position: relative;
 min-width: 255px;
@@ -416,8 +410,6 @@ padding-top:40px;
 .adminzonecontent .col2 > div > label{color: #464646;
 border-bottom-color: #DFDFDF;
 text-shadow: white 0 1px 0;
--moz-box-shadow: 0 1px 0 #fff;
--webkit-box-shadow: 0 1px 0 white;
 box-shadow: 0 1px 0 white;
 background-color: #F1F1F1;
 background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
@@ -439,8 +431,6 @@ border-top-right-radius: 3px;
 display: block;
 border-bottom-color: #DFDFDF;
 text-shadow: white 0 1px 0;
--moz-box-shadow: 0 1px 0 #fff;
--webkit-box-shadow: 0 1px 0 white;
 box-shadow: 0 1px 0 white;
 position:absolute;
 top:0;
@@ -542,6 +532,7 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 #menu .CSSDesign{position:relative;}
 #menu .CSSProps{position: absolute;left: 100%;top: -7px;background: #F9F9F9;min-width: 250px;}
 #menu .CSSDesign:hover .CSSProps{display:block !important}
+#menu .CSSDesign .ui-icon-carat-1-e{position: absolute;right: -6px;}
 #menu .CSSProps a{line-height:22px;clear:both;border-bottom: #E0E0E0 solid 1px;}
 #menu .CSSProps a:last-child{border-bottom:0}
 #menu .CSSProps .ui-icon{position: relative;top:3px}
@@ -596,7 +587,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 .pagination a:hover{
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,white);
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(white));
-    -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
+    box-shadow: 0 0 3px #999;
 }
 .pagination a:active {
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
@@ -659,8 +650,6 @@ text-shadow: 0px 1px 0px white;
 outline: none;
 border: 1px solid #C1C1C1;
 color: #333;
--webkit-border-radius: 3px;
--moz-border-radius: 3px;
 border-radius: 3px;background: white;
 /*background: whiteSmoke;
 background: -webkit-gradient(linear, left top, left bottom, from(whiteSmoke), to(white));

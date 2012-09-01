@@ -91,6 +91,8 @@ function blockAdminCSS() {
     
     this.unloadCreationMode = function(){
 	$("#panelcss").off('.creation');
+	$('.parsimonyDND',ParsimonyAdmin.currentDocument).parsimonyDND('destroy');
+	$("#colorjack_square").hide();
     }
 }
 
