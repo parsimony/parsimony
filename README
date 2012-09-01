@@ -1,4 +1,4 @@
-To access the administration of Parsimony, go to this url : http://yoursite.tld/connect
+To access the administration of Parsimony,  go to your sitename + /connect (e.g. http://yoursite.tld/connect)
 
 Parsimony is an open source CMS of New Generation available on the website http://parsimony.mobi/.
 
@@ -12,7 +12,7 @@ The objective of Parsimony is to support you in an even more effective digital c
 For this, we offer a unique development solution!
 
 Parsimony is:
-- Multiplatform
+- Multiplatform - Server-Side Responsive Design
 You develop from a single project a web application (HTML5 and CSS3) either on the PC, tablet, mobile, connected TV.
  
 - Multi-application
