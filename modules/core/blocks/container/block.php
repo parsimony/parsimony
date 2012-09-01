@@ -55,7 +55,7 @@ class container extends \block {
 		$tag = 'div';
 	    $classes = $this->getConfig('cssClasses');
 	    if($this->getConfig('column')) {
-		\app::$request->page->head .= '<style> #'.$this->getId().' .block{float:left} </style>';
+		\app::$request->page->head .= '<style> #'.$this->getId().' > .block{float:left} </style>';
 		$classes .= ' column';
 	    }
 	    $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
