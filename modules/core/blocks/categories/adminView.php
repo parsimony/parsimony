@@ -40,3 +40,7 @@
 	<?php echo $this->drawTreeAdmin($this->getCategories(TRUE), 'exclude'); ?>
     </select>
 </div>
+<div class="placeholder">
+    <label><?php echo t('URL Pattern') ?></label>
+    <input type="text" name="URLpattern" value="<?php if($this->getConfig('URLpattern')) echo s($this->getConfig('URLpattern')); else echo s('category/%url%'); ?>" />
+</div>

@@ -41,6 +41,7 @@ class categories extends \block {
 
     public function saveConfigs() {
 	$this->setConfig('display', $_POST['display']);
+	$this->setConfig('URLpattern', $_POST['URLpattern']);
 	if (isset($_POST['exclude']) && is_array($_POST['exclude']))
 	    $this->setConfig('exclude', $_POST['exclude']);
 	else
@@ -80,15 +81,18 @@ class categories extends \block {
     protected function drawTree($arr) {
 	$html = '';
 	if (is_array($arr)) {
-	    $html .= '<ul class="">' . PHP_EOL;
+	    $html .= '<ul>';
 	    foreach ($arr as $child) {
-		$html .= '<li><a href="'.BASE_PATH.'category/' . $child['url'] . '">' . $child['name'] . '</a>';
+		$url = str_replace('%url%',$child['url'],$this->getConfig('URLpattern'));
+		$classe = '';
+		if(isset($_GET[0]) && $_GET[0] == $url) $classe = ' class="current"';
+		$html .= '<li><a href="'.BASE_PATH. $url . '"'.$classe.'>' . $child['name'] . '</a>';
 		if (isset($child['children'])) {
 		    $html .= $this->drawTree($child['children']);
 		}
-		$html .= '</li>' . PHP_EOL;
+		$html .= '</li>';
 	    }
-	    $html .= '</ul>' . PHP_EOL;
+	    $html .= '</ul>';
 	}
 	return $html;
     }
