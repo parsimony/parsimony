@@ -48,13 +48,12 @@
         });
     });
 </script>
-<div class="placeholder">
-    <label for="<?php echo $this->name ?>">
-        <?php echo $this->label ?>
-        <?php if (!empty($this->text_help)): ?>
-            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-        <?php endif; ?>
-    </label>
+<style>
+     #insert_<?php echo $this->name ?>{border: 0;background: none;width: 90%;box-shadow: none;height: 21px;line-height: 1px;margin: 7px 0;color: #555;}
+     #insert_<?php echo $this->name ?>:focus{background: #fff;}
+</style>
+<div>
+    <label><?php echo ucfirst($this->label) ?> : </label>
     <input type="text" autocomplete="off" name="<?php echo $this->name ?>" id="insert_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo $this->default ?>" <?php
         if (!empty($this->regex))
             echo 'pattern="' . $this->regex . '"'

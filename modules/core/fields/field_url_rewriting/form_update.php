@@ -52,13 +52,12 @@ endif;
         }
     });
 </script>
-<div class="placeholder">
-    <label for="<?php echo $this->name ?>">
-        <?php echo $this->label ?>
-        <?php if (!empty($this->text_help)): ?>
-            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-        <?php endif; ?>
-    </label>
+<style>
+     #<?php echo $this->name . '_' . $row->getId()->value ?>{border: 0;background: none;width: 90%;box-shadow: none;height: 21px;line-height: 1px;margin: 7px 0;color: #555;}
+     #<?php echo $this->name . '_' . $row->getId()->value ?>:focus{background: #fff;}
+</style>
+<div>
+    <label><?php echo ucfirst($this->label) ?> : </label>
     <input type="text" autocomplete="off" id="<?php echo $this->name . '_' . $row->getId()->value ?>" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
     <?php if (isset($this->unique) && $this->unique): ?>
         <div class="infoUnique info_<?php echo $this->name . '_' . $row->getId()->value ?>"></div>
