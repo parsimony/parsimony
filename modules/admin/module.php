@@ -265,7 +265,7 @@ class admin extends \module {
 	$page->setMetas($meta);
 	if (isset($URLcomponents))
 	    $page->setURLcomponents($URLcomponents);
-	$page->setRegex('@' . $regex . '@');
+	$page->setRegex('@^' . $regex . '$@');
 	$moduleObj->updatePage($page); //modif
 	if (\tools::serialize(PROFILE_PATH . $module . '/module', $moduleObj)) {
 	    $return = array('eval' => 'ParsimonyAdmin.loadBlock(\'panelmodules\');', 'notification' => t('The page has been saved', FALSE), 'notificationType' => 'positive');
@@ -303,7 +303,7 @@ class admin extends \module {
             else $idPage = 1;          
 	    $page = new \page($idPage, $module);
 	    $page->setTitle('Page '.$idPage);
-	    $page->setRegex('@page_'.$idPage.'@');
+	    $page->setRegex('@^page_'.$idPage.'$@');
 	    $page->save();
 	    $moduleObj->addPage($page); //modif
 	} else {

@@ -276,7 +276,7 @@ class page extends \block {
                     $url .= $component['val'];
             }
         }else {
-            $url = substr(substr($this->getRegex(), 1), 0, -1);
+            $url = substr($this->getRegex(), 2,-2);
         }
         return $url;
     }

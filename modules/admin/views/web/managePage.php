@@ -87,7 +87,7 @@
                         <label for="title"><?php echo t('Title', FALSE); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
                     </div>
                     <div class="placeholder inputregex">
-                        <label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr(substr($page->getRegex(), 1), 0, -1)); ?>">
+                        <label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr($page->getRegex(), 2,-2)); ?>">
                     </div>
                     <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis;font-size:13px">
                         <span for="genereURL"><?php echo t('URL', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
