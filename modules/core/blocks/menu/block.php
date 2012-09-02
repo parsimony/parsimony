@@ -113,7 +113,7 @@ class menu extends \block {
                             $entity = \app::getModule($table[0])->getEntity($table[1]);
                             $entityTitle = $entity->getBehaviorTitle();
                             foreach ($entity as $line) {
-                                $dynamicURL .= '<li><a href="'.str_replace('(?<'.$urlRegex['name'].'>'.$urlRegex['regex'].')',$line->$prop[1],$url).'">'.$line->$entityTitle.'</a></li>';
+                                $dynamicURL .= '<li><a href="'.BASE_PATH.str_replace('(?<'.$urlRegex['name'].'>'.$urlRegex['regex'].')',$line->$prop[1],$url).'">'.$line->$entityTitle.'</a></li>';
                             }
                          }
                      }
@@ -129,7 +129,7 @@ class menu extends \block {
             else :
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
+		    <a href="<?php echo BASE_PATH.$url ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';
