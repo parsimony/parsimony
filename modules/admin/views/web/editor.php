@@ -1,15 +1,17 @@
-<?php if(!isset($editorMode)) $editorMode = 'text/html'; ?>
+<?php if (!isset($editorMode)) $editorMode = 'text/html'; ?>
 <script>
     codeEditor = "";
     $(document).on("change","#historyfile",function(){
-        $.post("getBackUp",{
-            replace: $(this).val(),
-            file: "<?php echo s($path); ?>",
-            content: codeEditor.getValue().replace('"','\"')
-        },function(data){
-            codeEditor.setValue(data);
-            codeEditor.save();
-        });
+	if(this.value != "none"){
+	    $.post("getBackUp",{
+		replace: this.value,
+		file: "<?php echo s($path); ?>",
+		content: codeEditor.getValue().replace('"','\"')
+	    },function(data){
+		codeEditor.setValue(data);
+		codeEditor.save();
+	    });
+	}
     });
     window.onload = function() {
         codeEditor = CodeMirror.fromTextArea(document.getElementById("editor"), {
@@ -94,55 +96,60 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .adminzonecontent{min-width:900px}
     .CodeMirror {background: white;width: 870px;margin: 0 15px 0 0;font-size: 13px;}
-    .CodeMirror-scroll {margin-top: 7px;height: 100%;width: 870px;overflow-y: hidden;overflow-x: auto;}
+    .CodeMirror-scroll {height: 100%;width: 870px;overflow-y: hidden;overflow-x: auto;}
     .activeline {background: rgba(232, 242, 255, 0.33) !important;}
+    .toolbarEditor{background: #F8F8F8;padding: 5px;position: relative;z-index: 999;box-shadow: 1px 1px 4px #BBB;}
+    .subToolbarEditor{display:none;padding-top: 5px;width: 100%;text-align: right;}
+    .subToolbarEditor input{height: 20px}
+    .subToolbarEditor input[type="button"]{padding: 2px 12px 3px 12px;}
 </style>
-</head>
-<select id="changeModeid" onchange="changeMode(this.value);">
-    <option value="text/html">HTML</option>
-    <option value="application/x-httpd-php">PHP</option>
-    <option value="text/css">CSS</option>
-    <option value="text/javascript">JS</option>
-</select>
-<select title="theme" onchange="changeTheme(this.value);">
-    <option selected>default</option>
-    <option>ambiance</option>
-    <option>blackboard</option>
-    <option>cobalt</option>
-    <option>elegant</option>
-    <option>vibrant-ink</option>
-    <option>xq-dark</option>
-    <option>night</option>
-    <option>monokai</option>
-    <option>neat</option>
-    <option>elegant</option>
-    <option>cobalt</option>
-    <option>eclipse</option>
-    <option>rubyblue</option>
-</select>
-<select id="historyfile" style="width:100px">
-    <?php
-    $backup = array_reverse(glob('profiles/'.PROFILE.'/backup/' . $path . '-*.bak'));
-    foreach ($backup as $filename) {
-        preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
-        echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
-    }
-    ?>
-</select>
-<input type="button" onclick="if($('#changeModeid').val() == 'application/x-httpd-php'){alert('PHP mode formatting is not available.');} codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
-<input type="button" onclick="$(this).next().slideToggle();" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
-<div style="display:none;padding-top: 5px;padding-left: 5px;">
-    <input type="text" id="query" >
-    <input type="button" onclick="search()" value="Search" />
-    <input type="text" id="replace">
-    <input type="button" onclick="replaces()" value="Replace" />
+<div class="toolbarEditor">
+    <select id="changeModeid" onchange="changeMode(this.value);">
+	<option value="text/html">HTML</option>
+	<option value="application/x-httpd-php">PHP</option>
+	<option value="text/css">CSS</option>
+	<option value="text/javascript">JS</option>
+    </select>
+    <select title="theme" onchange="changeTheme(this.value);">
+	<option selected>default</option>
+	<option>ambiance</option>
+	<option>blackboard</option>
+	<option>cobalt</option>
+	<option>elegant</option>
+	<option>vibrant-ink</option>
+	<option>xq-dark</option>
+	<option>night</option>
+	<option>monokai</option>
+	<option>neat</option>
+	<option>elegant</option>
+	<option>cobalt</option>
+	<option>eclipse</option>
+	<option>rubyblue</option>
+    </select>
+    <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
+	<?php
+	$backup = array_reverse(glob('profiles/' . PROFILE . '/backup/' . $path . '-*.bak'));
+	foreach ($backup as $filename) {
+	    preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
+	    echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
+	}
+	?>
+    </select>
+    <input type="button" onclick="if($('#changeModeid').val() == 'application/x-httpd-php'){alert('PHP mode formatting is not available.');} codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
+    <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
+    <div class="subToolbarEditor">
+	<input type="text" id="query" >
+	<input type="button" onclick="search()" value="<?php echo t('Search', FALSE); ?>" />
+	<input type="text" id="replace">
+	<input type="button" onclick="replaces()" value="<?php echo t('Replace', FALSE); ?>" />
+    </div>
 </div>
 <div style="clear:both"></div>
 <textarea id="editor" name="editor"><?php
-    $code = '';
-    if (file_exists($path))
-        $code = file_get_contents($path);
-    $code = preg_replace('#.*<\?php __halt_compiler\(\); \?>#Usi', '', $code);
-    echo s($code);
-    ?></textarea>
+	$code = '';
+	if (file_exists($path))
+	    $code = file_get_contents($path);
+	$code = preg_replace('#.*<\?php __halt_compiler\(\); \?>#Usi', '', $code);
+	echo s($code);
+	?></textarea>
 <div class="location">Location : <?php echo $path; ?></div>
