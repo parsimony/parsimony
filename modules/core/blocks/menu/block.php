@@ -101,7 +101,7 @@ class menu extends \block {
 		 $title = $item['title'];
 	     } else{
 		 $page = \app::getModule($item['module'])->getPage($item['page']);
-                 $url = substr($page->getRegex(), 1, -1);
+                 $url = BASE_PATH.substr($page->getRegex(), 2, -2);
                  if(count($page->getURLcomponents()) == 0){
                     $title = $page->getTitle();
                  }else{
@@ -129,7 +129,7 @@ class menu extends \block {
             else :
             ?>
             <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-		    <a href="<?php echo BASE_PATH.$url ?>"><?php echo $title ?></a>
+		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';
