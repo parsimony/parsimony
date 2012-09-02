@@ -267,12 +267,8 @@ class request {
      */
     public function dispatch() {
 	if (app::getModule($this->module)->{'controller' . $this->method}($this->secondPartURL) === FALSE) {
-	    //if no page found load a 404 page
-	    $page = new \core\classes\page(404, 'core');
-	    $block = new \core\blocks\code('error_404', FALSE);
-	    $block->setConfig('pathCode', 'modules/core/views/web/error_404.php');
-	    $page->addBlock($block);
-	    return app::$response->setContent($page, 404);
+	    //if no page found
+	    return app::$response->setContent('<h1>Not Found</h1>', 404);
 	}
     }
 
