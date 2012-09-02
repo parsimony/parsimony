@@ -311,7 +311,7 @@ class module {
         $themelist = array_merge((array)glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR), glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR));
 	foreach ($themelist as $filename) {
 	    $themeName = basename($filename);
-	    $themes[] = $themeName;
+	    $themes[$themeName] = $themeName;
 	}
 	return $themes;
     }
@@ -329,7 +329,7 @@ class module {
      * @return string|false
      */
     public function displayAdmin() {
-	if (file_exists('modules/' . $this->name . '/admin/index.php')) {
+	if (is_file('modules/' . $this->name . '/admin/index.php')) {
 	    ob_start();
 	    require('modules/' . $this->name . '/admin/index.php');
 	    return ob_get_clean();
