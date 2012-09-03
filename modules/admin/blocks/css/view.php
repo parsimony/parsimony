@@ -555,10 +555,14 @@ $selectors = $css->getAllSselectors();
     
     /* CSSpicker 3D */
     $("#threed").on('change','.ch',function(){
+        var x  = document.getElementById("rotatex").value;
+        var y = document.getElementById("rotatey").value;
+        var z = document.getElementById("rotatez").value;
 	if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
-        $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','rotateX(' + $("#rotatex").val() + 'deg) rotateY(' + $("#rotatey").val() + 'deg) perspective(1000px)');
+        var transf = (ParsimonyAdmin.currentBody.style.webkitTransform || ParsimonyAdmin.currentBody.style.mozTransform);
+        transf = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
 	blockAdminCSS.iframeStyleSheet.deleteRule("0");
-	blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:rotateX(' + $("#rotatex").val()/10 + 'deg) rotateY(' + $("#rotatey").val()/10 + 'deg) translateZ(' + $("#rotatez").val() + 'px);box-shadow: '+ (-($("#rotatey").val()/10)) + 'px ' + ($("#rotatex").val()/10) + 'px 3px #aaa;background-color:#fff}',"0");
+	blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff}',"0");
     });
 
     /* Color Picker */

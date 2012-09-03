@@ -499,7 +499,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 
 /* Block overlay */
 #blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;background-color:rgba(5,178,248,0.25)}
-#blockOverlay.csspicker{background-color:rgba(204,10,71,0.25)}
+/*#blockOverlay.csspicker{background-color:rgba(204,10,71,0.25)}*/
 /* Shelter for unused div*/
 #shelter > div{display:none;}
 

@@ -26,33 +26,24 @@ function blockAdminCSS() {
 	    function destroyCSSpicker(){
 		$('#container',ParsimonyAdmin.currentBody).off(".csspicker");
 		$("#csspicker").removeClass("active");
-		$("#blockOverlay").removeClass("csspicker");
 	    }
 	    if($(this).hasClass("active")){
 		destroyCSSpicker();
 		return false;
 	    }
 	    ParsimonyAdmin.closeParsiadminMenu();
-	    $("#blockOverlay").addClass("csspicker");
 	    $('#container',ParsimonyAdmin.currentBody).on('mouseover.csspicker',"*", function(event) {
 		event.stopPropagation();
-		var offset = $(this).offset();
-		var offsetFrame = $("#parsiframe").offset();
-		$("#blockOverlay").css({
-		    "display":"block",
-		    "top":offset.top + "px",
-		    "left":offset.left + offsetFrame.left + 40 +  "px",
-		    "width":$(this).outerWidth() + "px",
-		    "height":$(this).outerHeight() + "px"
-		});
+                $(".cssPicker",ParsimonyAdmin.currentBody).removeClass("cssPicker");
+                this.classList.add("cssPicker");
 	    });
 	    $("#csspicker").addClass("active");
 	    $('#container',ParsimonyAdmin.currentBody).on('click.csspicker',"*",function(e){
 		e.preventDefault();
 		e.stopPropagation();
                 $("#threed").hide();
-                $(ParsimonyAdmin.currentBody).add("#blockOverlay").css('-webkit-transform','initial');
-                $(ParsimonyAdmin.currentBody).removeClass("threed");
+                ParsimonyAdmin.$currentBody.css('-webkit-transform','initial');
+                ParsimonyAdmin.$currentBody.removeClass("threed");
 		$(".cssPicker").removeClass("cssPicker");
 		$(this).addClass("cssPicker");
 		blockAdminCSS.getCSSForCSSpicker();
