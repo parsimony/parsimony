@@ -78,7 +78,7 @@ if (is_object($block) == NULL) {
 		    <label><?php echo t('CSS Classes',FALSE); ?> </label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>"><br />
 		</div>
 		<div class="placeholder">
-		    <label><?php echo t('Display only in the following modules',FALSE); ?> </label> <input type="text" name="allowedModules" value="<?php echo $block->getConfig('allowedModules') ?>"><br />
+		    <label><?php echo t('Show only in the following modules',FALSE); ?> </label> <input type="text" name="allowedModules" value="<?php echo $block->getConfig('allowedModules') ?>"><br />
 		</div>
                 <div  class="placeholder">
 		    <label><?php echo t('HTML5 Tags',FALSE); ?> :</label> <select name="tag">
