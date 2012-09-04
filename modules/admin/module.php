@@ -500,18 +500,20 @@ class admin extends \module {
      * @return string 
      */
     protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
-	//depart
+	//start
 	if (empty($start_typecont)) {
 	    $temp = substr($popBlock, 0, -10);
 	    $newblock = new $temp($idBlock);
 	} else {
-	    $block = $this->$start_typecont->search_block($idBlock);
-	    $blockparent = $this->$start_typecont->search_block($startParentBlock);
+	    if($start_typecont == 'page') $parent = $this->module->getPage($startParentBlock);
+            else $parent = $this->theme->search_block($idBlock);
+            $block = $parent->search_block($idBlock);
+	    $blockparent = $parent->search_block($startParentBlock);
 	    $blockparent->rmBlock($idBlock);
 	    $this->saveAll();
 	    $newblock = $block;
 	}
-	//arrivée
+	//stop
 	if ($id_next_block === '' || $id_next_block === 'undefined')
 	    $id_next_block = FALSE;
 	$block2 = $this->$stop_typecont->search_block($parentBlock);

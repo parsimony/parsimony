@@ -523,7 +523,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 
 /* Menu link trad */
 #menu,#menu .CSSProps{font-family: arial;font-size:12px;position:absolute;border:1px #888 solid;padding:2px;border-radius:4px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: #f9f9f9;}
-#menu .option{border-top: white solid 1px;border-bottom: #E0E0E0 solid 1px;padding: 5px;clear:both}
+#menu .option{border-top: white solid 1px;border-bottom: #E0E0E0 solid 1px;padding: 5px;clear:both;white-space: nowrap;}
 #menu .option:last-child{border-bottom:0}
 #menu .option:hover,#menu .CSSProps a:hover{background:#eee;cursor:pointer}
 #menu .ui-icon{position: relative;top:-3px}

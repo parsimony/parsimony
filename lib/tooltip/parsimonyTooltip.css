@@ -2,7 +2,7 @@
 #parsimonyTooltip .parsimonyTooltipContent{white-space:nowrap;padding: 5px;background: rgba(0, 0, 0, 0.8);color: whiteSmoke;border-radius:5px;text-shadow: 1px 1px 0 
 rgba(0, 0, 0, 0.75);}
 #parsimonyTooltip .tri{width: 0px;height: 0px;position:absolute;border: 7px solid rgba(0, 0, 0, 0.8);}
-#parsimonyTooltip .tri-n{ border-bottom: initial;border-left-color:transparent;border-right-color:transparent;bottom: 0;}
-#parsimonyTooltip .tri-s{ border-top: initial;border-left-color:transparent;border-right-color:transparent;top:0}
-#parsimonyTooltip .tri-e{border-left: initial;border-top-color:transparent;border-bottom-color:transparent;left:0}
-#parsimonyTooltip .tri-w{border-right: initial;border-top-color:transparent;border-bottom-color:transparent;right:0}
+#parsimonyTooltip .tri-n{ border-bottom: none;border-left-color:transparent;border-right-color:transparent;bottom: 0;}
+#parsimonyTooltip .tri-s{ border-top: none;border-left-color:transparent;border-right-color:transparent;top:0}
+#parsimonyTooltip .tri-e{border-left: none;border-top-color:transparent;border-bottom-color:transparent;left:0}
+#parsimonyTooltip .tri-w{border-right: none;border-top-color:transparent;border-bottom-color:transparent;right:0}
