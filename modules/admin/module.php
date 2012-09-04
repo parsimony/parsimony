@@ -505,10 +505,8 @@ class admin extends \module {
 	    $temp = substr($popBlock, 0, -10);
 	    $newblock = new $temp($idBlock);
 	} else {
-	    if($start_typecont == 'page') $parent = $this->module->getPage($startParentBlock);
-            else $parent = $this->theme->search_block($idBlock);
-            $block = $parent->search_block($idBlock);
-	    $blockparent = $parent->search_block($startParentBlock);
+	    $block = $this->$start_typecont->search_block($idBlock);  	
+            $blockparent = $this->$start_typecont->search_block($startParentBlock);
 	    $blockparent->rmBlock($idBlock);
 	    $this->saveAll();
 	    $newblock = $block;
