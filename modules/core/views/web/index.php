@@ -32,7 +32,7 @@
 	<?php echo app::$request->page->head ?>
         <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php echo BASE_PATH ?>sitemap" />
     </head>
-    <body>
+    <body class="module-<?php echo MODULE; ?> page-<?php echo app::$request->page->getId(); ?>">
 	<?php echo $this->body; ?>
     </body>
     <?php echo app::$request->page->printInclusions('footer') ?>
