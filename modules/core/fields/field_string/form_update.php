@@ -45,7 +45,7 @@ if(isset($this->unique) && $this->unique):
 endif;
 ?>
 <div class="placeholder">
-    <label for="<?php echo $this->name ?>">
+    <label for="<?php echo $this->name.'_'.$row->getId()->value ?>">
 	<?php echo $this->label ?>
 	<?php if (!empty($this->text_help)): ?>
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>

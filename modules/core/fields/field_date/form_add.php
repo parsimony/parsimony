@@ -46,7 +46,7 @@ $stamp = time();
 
 <div id="mydate">
     <?php if ($this->use == 'normal') : ?>
-        <label for="<?php echo $this->name ?>">
+        <label>
 	    <?php echo $this->label ?>
 	    <?php if (!empty($this->text_help)): ?>
 		<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>

@@ -4,14 +4,7 @@
         <!--[if ie]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <script type="text/javascript">
-        document.createElement('header');
-        document.createElement('hgroup');
-        document.createElement('nav');
-        document.createElement('menu');
-        document.createElement('section');
-        document.createElement('article');
-        document.createElement('aside');
-        document.createElement('footer');
+        'article aside footer header nav section time'.replace(/\w+/g,function(n){document.createElement(n)})
         </script>
         <![endif]-->
         <meta charset="utf-8">
@@ -30,10 +23,9 @@
 	<?php echo app::$request->page->printMetas() ?>
         <?php echo app::$request->page->printInclusions() ?>
 	<?php echo app::$request->page->head ?>
-        <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php echo BASE_PATH ?>sitemap" />
     </head>
     <body class="module-<?php echo MODULE; ?> page-<?php echo app::$request->page->getId(); ?>">
 	<?php echo $this->body; ?>
+	<?php echo app::$request->page->printInclusions('footer') ?>
     </body>
-    <?php echo app::$request->page->printInclusions('footer') ?>
 </html>

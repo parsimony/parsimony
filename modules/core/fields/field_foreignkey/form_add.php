@@ -28,7 +28,7 @@
 ?>
 
 <div>
-    <label for="<?php echo $this->name ?>">
+    <label for="insert_<?php echo $this->name ?>">
 	<?php echo $this->link ?>
 	<?php if (!empty($this->text_help)): ?>
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
@@ -36,7 +36,7 @@
     </label>
 <?php
 $obj2 = \app::getModule($this->module)->getEntity($this->link);
-echo '<select name="'.$this->name.'"><option></option>';
+echo '<select name="'.$this->name.'" id="insert_'.$this->name.'"><option></option>';
 $properties = $obj2->getFields();
 foreach ($obj2->select() as $key => $line) {
     $text = $this->templatelink;
