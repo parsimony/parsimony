@@ -244,5 +244,7 @@ $lang['Show / Hide']='Afficher / Cacher';
 $lang['Pin']='Epingler';
 $lang['Resize']='Redimensionner';
 $lang['Files Explorer']='Explorateur de fichiers';
+$lang['Files']='Fichiers';
+$lang['Explorer']='Explorateur';
 $lang['Other'] = 'Autre';
 $lang['Fonts'] = 'Polices de caractères';
