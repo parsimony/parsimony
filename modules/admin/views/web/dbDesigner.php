@@ -1141,6 +1141,7 @@ include_once('modules/core/classes/field.php');
 		$(".table").draggable("destroy");
 		$(".table").draggable({
 		    cursor: 'move',
+                    scroll: false ,
 		    handle : 'div.title',
 		    containment: '#container_bdd',drag: function(event, ui) {
 			jsPlumb.repaint( $(".property",this).add(this).toArray());
