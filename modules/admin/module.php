@@ -729,11 +729,17 @@ class admin extends \module {
 	    } else if ($patterntype == 'template' && !empty($template)) {
 		$themeweb = \theme::get($thememodule, $template, 'web');
 		$themeweb->setName($name);
-		$thememobile = \theme::get($thememodule, $template, 'thememobile');
+		$thememobile = \theme::get($thememodule, $template, 'mobile');
 		$thememobile->setName($name);
+                $themetablet = \theme::get($thememodule, $template, 'tablet');
+		$themetablet->setName($name);
+                $themetv = \theme::get($thememodule, $template, 'tv');
+		$themetv->setName($name);
 		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $template . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
-		$themeweb->save('web');
-		$thememobile->save('thememobile');
+		$themeweb->save();
+		$thememobile->save();
+                $themetablet->save();
+                $themetv->save();
 	    } else {
 		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
