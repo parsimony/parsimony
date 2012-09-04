@@ -727,19 +727,17 @@ class admin extends \module {
 		$theme->setBlocks($cont->getBlocks());
 		$theme->save();
 	    } else if ($patterntype == 'template' && !empty($template)) {
-		$themeweb = \theme::get($thememodule, $template, 'web');
-		$themeweb->setName($name);
-		$thememobile = \theme::get($thememodule, $template, 'mobile');
-		$thememobile->setName($name);
-                $themetablet = \theme::get($thememodule, $template, 'tablet');
-		$themetablet->setName($name);
-                $themetv = \theme::get($thememodule, $template, 'tv');
-		$themetv->setName($name);
-		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $template . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
-		$themeweb->save();
-		$thememobile->save();
-                $themetablet->save();
-                $themetv->save();
+                list($oldModule, $oldName) = explode(';',$template);
+                $theme = array();
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']] = \theme::get($oldModule, $oldName, $device['name']);
+                    $theme[$device['name']]->setModule($thememodule);
+                    $theme[$device['name']]->setName($name);
+                }
+		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']]->save();
+                }
 	    } else {
 		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
@@ -1304,16 +1302,6 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	}
 	return $this->returnResult($return);
     }
-
-    /**
-     * Display the view to modify block
-     * @return string|false
-     *//*
-      private function displayModifyBlock() {
-      ob_start();
-      require('modules/admin/views/web/modifyBlock.php');
-      return ob_get_clean();
-      } */
 
     /**
      * Wrap result of an action in an instance of Page in order to display it in a popup

@@ -73,7 +73,7 @@ class theme extends \core\blocks\container {
      */
     public function setName($name) {
         if (!empty($name)) {
-            $this->name = $name;
+            $this->name = \tools::sanitizeTechString($name);
         } else {
             throw new Exception(t('Name can\'t be empty', FALSE));
         }
