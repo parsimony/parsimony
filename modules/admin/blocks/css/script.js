@@ -10,7 +10,8 @@ function blockAdminCSS() {
 	    if(typeof stylesh != "undefined") var rules = stylesh.style.cssText + this.getAttribute("name") + ": " + this.value + ";";
 	    else rules = this.getAttribute("name") + ": " + this.value + ";";
 	    blockAdminCSS.setCss(nbstyle, nbrule, document.getElementById("current_selector_update").value + "{" + rules + "}");
-	})
+            ParsimonyAdmin.$currentDocument.find(".parsimonyDND").parsimonyDND("updatePosition");
+        })
 	.on('click.creation',".explorer",function(event){
             window.callbackExplorerID = $(this).attr('rel');
             window.callbackExplorer = function (file){

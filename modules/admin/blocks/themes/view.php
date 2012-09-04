@@ -60,6 +60,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     .preview{position:absolute;width:100%;height:100%;background:rgba(0,0,0,.75);display:none;text-align: center;font-size:25px;padding-top:40%;color:#fff;cursor:pointer;font-family:sans-serif}
     .themeOptions{display:none;text-align: center;position: absolute;top: 0;width: 120px;height: 125px;left: 137px;z-index: 999;background-color: inherit;border-radius: 0 5px 5px 0;padding-top: 17px;}
     .themeItem:hover .themeOptions{display:block}
+     #patternName{float: left;line-height: 27px;}
     .themeItem{position: relative;width: 140px;height: 125px;padding-right: 10px;padding-left:10px;border-right: 1px solid #CCC;border-left: 1px solid whitesmoke;float: left}
 </style>
 <script type="text/javascript">
@@ -73,7 +74,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     $(document).on("click",".duplicate",function(){
 	$('#duplicatepattern').show();
 	$('#admin_themes .secondpanel a').trigger('click');
-	$('#patternName').text($(this).data("themename"));
+	$('#patternName').text($(this).data("themename").split(";")[1]);
 	$('#themeFormPattern input[name="template"]').val($(this).data("themename"));
 	$('#patternIMG').attr("src",($(this).data("imgurl")));
 	$('input[value="template"]').attr('checked', true)
@@ -107,7 +108,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
 				<div class="preview ellipsis" onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
 			    </div>
 			    <div class="themeOptions">
-				<input class="button duplicate" data-themename="<?php echo s($themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
+				<input class="button duplicate" data-themename="<?php echo s(MODULE.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
 				<?php if($themeName != app::$config['THEME']): ?>
                                 <form method="POST" style="" action="admin/changeTheme" target="ajaxhack">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo THEMEMODULE; ?>" />
@@ -131,7 +132,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
             </ul>	
         </div> 
         <div id="tabs-2" class="admintabs">
-            <form method="POST" target="ajaxhack" action="admin/addTheme">
+            <form method="POST" target="ajaxhack" action="<?php echo BASE_PATH; ?>admin/addTheme">
                 <div id="themeFormAdd">
                     <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
                     <div class="placeholder" style="margin: 0px 10px;">

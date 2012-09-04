@@ -500,18 +500,18 @@ class admin extends \module {
      * @return string 
      */
     protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
-	//depart
+	//start
 	if (empty($start_typecont)) {
 	    $temp = substr($popBlock, 0, -10);
 	    $newblock = new $temp($idBlock);
 	} else {
-	    $block = $this->$start_typecont->search_block($idBlock);
-	    $blockparent = $this->$start_typecont->search_block($startParentBlock);
+	    $block = $this->$start_typecont->search_block($idBlock);  	
+            $blockparent = $this->$start_typecont->search_block($startParentBlock);
 	    $blockparent->rmBlock($idBlock);
 	    $this->saveAll();
 	    $newblock = $block;
 	}
-	//arrivée
+	//stop
 	if ($id_next_block === '' || $id_next_block === 'undefined')
 	    $id_next_block = FALSE;
 	$block2 = $this->$stop_typecont->search_block($parentBlock);
@@ -727,13 +727,17 @@ class admin extends \module {
 		$theme->setBlocks($cont->getBlocks());
 		$theme->save();
 	    } else if ($patterntype == 'template' && !empty($template)) {
-		$themeweb = \theme::get($thememodule, $template, 'web');
-		$themeweb->setName($name);
-		$thememobile = \theme::get($thememodule, $template, 'thememobile');
-		$thememobile->setName($name);
-		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $template . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
-		$themeweb->save('web');
-		$thememobile->save('thememobile');
+                list($oldModule, $oldName) = explode(';',$template);
+                $theme = array();
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']] = \theme::get($oldModule, $oldName, $device['name']);
+                    $theme[$device['name']]->setModule($thememodule);
+                    $theme[$device['name']]->setName($name);
+                }
+		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']]->save();
+                }
 	    } else {
 		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
@@ -1298,16 +1302,6 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	}
 	return $this->returnResult($return);
     }
-
-    /**
-     * Display the view to modify block
-     * @return string|false
-     *//*
-      private function displayModifyBlock() {
-      ob_start();
-      require('modules/admin/views/web/modifyBlock.php');
-      return ob_get_clean();
-      } */
 
     /**
      * Wrap result of an action in an instance of Page in order to display it in a popup
