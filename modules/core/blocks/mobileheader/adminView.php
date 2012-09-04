@@ -37,7 +37,7 @@
 	  text-shadow: 0px 1px 0px #ccc;
 	  font-size: 15px;
 	  letter-spacing: 1.5px;display: inline-block;
-	  width: 140px;
+	  width: 180px;
 	  text-align: left;
 	  margin: 15px 0 4px 80px;}
     .title{padding-left: 10px;
