@@ -331,8 +331,6 @@
                     <div class="placeholder"><label for="meta[description]"><?php echo t('Description', FALSE); ?></label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
                     <div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords', FALSE); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
                     <div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[category]"><?php echo t('Category', FALSE); ?></label><textarea class="cent" name="meta[category]" row="7" cols="50"><?php echo s($page->getMeta('category')); ?></textarea></div>
-                    <div class="placeholder"><label for="meta[copyright]"><?php echo t('Copyright', FALSE); ?></label><textarea class="cent" name="meta[copyright]" row="7" cols="50"><?php echo s($page->getMeta('copyright')); ?></textarea></div>
                     <div class="placeholder">
 			<label><?php echo t('Robots', FALSE); ?></label>
 			<input type="hidden" name="meta[robots]" id="SEOrobots" value="<?php echo s($page->getMeta('robots')); ?>" /><br><br>

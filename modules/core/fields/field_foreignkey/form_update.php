@@ -28,7 +28,7 @@
 ?>
 
 <div>
-    <label for="<?php echo $this->name ?>">
+    <label for="update_<?php echo $this->name ?>">
 	<?php echo $this->link ?>
 	<?php if (!empty($this->text_help)): ?>
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
@@ -37,7 +37,7 @@
 <?php
 $foreignID = $this->value;
 $obj3 = app::getModule($this->module)->getEntity($this->link);
-echo '<select name="'.$this->name.'"><option></option>';
+echo '<select name="'.$this->name.'" id="update_'.$this->name.'"><option></option>';
 $properties = $obj3->getFields();
 foreach ($obj3->select() as $key => $line) {
     $text = $this->templatelink;
