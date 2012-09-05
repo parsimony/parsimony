@@ -108,16 +108,16 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
 				<div class="preview ellipsis" onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
 			    </div>
 			    <div class="themeOptions">
-				<input class="button duplicate" data-themename="<?php echo s(MODULE.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
+				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
 				<?php if($themeName != app::$config['THEME']): ?>
-                                <form method="POST" style="" action="admin/changeTheme" target="ajaxhack">
-				    <input type="hidden" name="THEMEMODULE" value="<?php echo THEMEMODULE; ?>" />
+                                <form method="POST" style="" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="ajaxhack">
+				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
 				    <input class="input" type="submit" value="<?php echo t('Choose', FALSE) ?>" />
 				</form>
 				<form method="POST" style="" action="admin/deleteTheme" target="ajaxhack">
-				    <input type="hidden" name="THEMEMODULE" value="<?php echo THEMEMODULE; ?>" />
+				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
 				    <input class="input" type="submit" value="<?php echo t('Delete', FALSE) ?>" />

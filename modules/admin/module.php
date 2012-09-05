@@ -759,16 +759,16 @@ class admin extends \module {
      * @return string 
      */
     protected function changeThemeAction($THEMEMODULE, $name) {
-	if (isset($_COOKIE['THEME']))
-	    setcookie('THEME', '', time() - 99000, '/');
-        $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name);
-	if (is_dir($path)) {
-	    $configs = file_get_contents('config.php');
-	    $configs = preg_replace('@\$config\[\'THEME\'\] = \'(.*)\';@Ui', "\$config['THEME'] = '" . $name . "';", $configs);
-	    file_put_contents('config.php', $configs);
+        $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/web.' .\app::$config['dev']['serialization']);
+	if ($path) {
+            $configObj = new \core\classes\config('config.php', TRUE);
+            $update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);
+            $configObj->saveConfig($update);
+            setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
+	    setcookie('THEME', $name, time()+60*60*24*30, '/');
 	    $return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'positive');
 	} else {
-	    $return = array('eval' => '', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'negative');
+	    $return = array('eval' => '', 'notification' => t('The Theme has\'nt been changed', FALSE), 'notificationType' => 'negative');
 	}
 	return $this->returnResult($return);
     }
