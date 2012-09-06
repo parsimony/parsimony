@@ -28,7 +28,7 @@
 ?>
 
 <div>
-    <label for="update_<?php echo $this->name ?>">
+    <label for="<?php echo $this->name ?>">
 	<?php echo $this->link ?>
 	<?php if (!empty($this->text_help)): ?>
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
@@ -36,18 +36,21 @@
     </label>
 <?php
 $foreignID = $this->value;
-$obj3 = app::getModule($this->module)->getEntity($this->link);
-echo '<select name="'.$this->name.'" id="update_'.$this->name.'"><option></option>';
-$properties = $obj3->getFields();
-foreach ($obj3->select() as $key => $line) {
-    $text = $this->templatelink;
-    foreach ($properties as $key => $field) {
-        if(get_class($field)==\app::$aliasClasses['field_ident']) $id = $key;
-        $text = str_replace('%'.$key.'%',$line->$key, $text);
-    } echo $line->$id->value .' - '. $this->value;
-    if($line->$id->value == $foreignID) $selected = ' selected="selected"';
-    else $selected = '';
-    echo  '<option value="'.$line->$id->value.'"'.$selected.'>'.$text.'</option>';
+$sth = PDOconnection::getDB()->query('SELECT * FROM '.$this->module.'_'.$this->link); // used ->getEntity() but there was interference because of cache
+$sth->setFetchMode(PDO::FETCH_OBJ);
+if(is_object($sth)){
+    echo '<select name="'.$this->name.'"><option></option>';
+    $properties = app::getModule($this->module)->getEntity($this->link)->getFields();
+    foreach ($sth as $key => $line) {
+        $text = $this->templatelink;
+        foreach ($properties as $key => $field) {
+            if(get_class($field)==\app::$aliasClasses['field_ident']) $id = $key;
+            $text = str_replace('%'.$key.'%',$line->$key, $text);
+        } echo $line->$id .' - '. $foreignID;
+        if($line->$id == $foreignID) $selected = ' selected="selected"';
+        else $selected = '';
+        echo  '<option value="'.$line->$id.'"'.$selected.'>'.$text.'</option>';
+    }
+    echo '</select>';
 }
-echo '</select>';
 ?></div>
