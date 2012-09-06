@@ -35,7 +35,9 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/colorpicker/colorpicker.css');
 app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/css/script.js');
-
+if(strlen(strstr($_SERVER['HTTP_USER_AGENT'],"Firefox")) > 0 ){ 
+    app::$request->page->addJSFile(BASE_PATH . 'lib/firefoxCompatibility/html5slider.js');
+}
 if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme') {
     $filePath = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
     $filePath2 = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
@@ -559,10 +561,17 @@ $selectors = $css->getAllSselectors();
         var y = document.getElementById("rotatey").value;
         var z = document.getElementById("rotatez").value;
 	if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
-        var transf = (ParsimonyAdmin.currentBody.style.webkitTransform || ParsimonyAdmin.currentBody.style.mozTransform);
-        transf = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
-	blockAdminCSS.iframeStyleSheet.deleteRule("0");
-	blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff}',"0");
+        var style = 'rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff';
+        if(typeof ParsimonyAdmin.currentBody.style.MozTransform != "undefined"){
+           ParsimonyAdmin.currentBody.style['MozTransform'] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+           blockAdminCSS.iframeStyleSheet.deleteRule("0");
+           blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-moz-transform:' + style + ';}',"0"); 
+        }else{
+           ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+           blockAdminCSS.iframeStyleSheet.deleteRule("0");
+           blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';}',"0"); 
+        }
+        
     });
 
     /* Color Picker */
