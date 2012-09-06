@@ -81,7 +81,7 @@ $lang['fr']['Apache has mod_rewrite.'] = 'Le module d\'Apache  <span>Mod_Rewrite
 $lang['fr'][', but Parsimony needs at least PHP "5.3.0" to run.'] = ', mais Parsimony a besoin au minimum de PHP "5.3.0" pour s\'executer';
 $lang['fr']['Enable Multi-Site'] = 'Activer le Multi-Site';
 $lang['fr']['Only if you want to manage several subdomains'] = 'Seulement si vous souhaitez gérer plusieurs sous-domaines';
-$lang['fr']['Your domain is it a Second Level domain'] = 'Le nom de domaine est t\'il de second niveau';
+$lang['fr']['Is your domain a Second Level domain'] = 'Le nom de domaine est t\'il de second niveau';
 $lang['fr']['Yes'] = 'Oui';
 $lang['fr']['No'] = 'Non';
 $lang['fr']['What is it ?'] = 'Qu\'est ce que c\'est ?';
@@ -387,10 +387,10 @@ while (1) {
 		    <option value="0"><?php echo tr('No'); ?></option>
 		    <option value="1" <?php if(isset($_POST['multisite']) && $_POST['multisite']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
 		</select><br>
-                <?php echo tr('Only if you want to manage several subdomains'); ?> (ex: en.mysite.com,fr.mysite.com)
+                <?php echo tr('Only if you want to manage several subdomains'); ?>(ex: en.mysite.com,fr.mysite.com)
             </div><br>
 	    <div>
-                <label><?php echo tr('Your domain is it a Second Level domain'); ?> (ex : mysite<u>.co.uk</u>)</label>
+                <label class="nocapital"><?php echo tr('Is your domain a Second Level domain'); ?>(ex : mysite<u>.co.uk</u>)</span></label>
                 <select name="sld">
 		    <option value="2"><?php echo tr('No'); ?></option>
 		    <option value="3" <?php if(isset($_POST['sld']) && $_POST['sld']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
@@ -890,6 +890,7 @@ $content = ob_get_clean();
 
             .containerNext{float:left}
             .btns{margin:0 auto;float:none;width:275px}
+            label.nocapital{text-transform: none;}
         </style>
     </body>
 </html>
