@@ -151,7 +151,7 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
                             ?>
 			</select>
 		    </div>
-                    <input type="submit" style="width: 220px;margin: 10px 0 0 -10px;" value="<?php echo t('Create Theme', FALSE); ?>"/>
+                    <input type="submit" style="width: 220px;margin: 4px 0 0 -15px;" value="<?php echo t('Create Theme', FALSE); ?>"/>
                 </div>
                 <div id="themeFormPattern">
 		    <h4><?php echo t('Pattern', FALSE) . ' : ' ?></h4>

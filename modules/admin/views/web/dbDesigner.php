@@ -903,20 +903,41 @@ include_once('modules/core/classes/field.php');
                     DragOptions : { cursor: 'pointer', zIndex:2000 },                  
                     DropOptions : { activeClass:'dragActive' } 
                 });
-
-                /* Filter Table Name */
-                $(document).on('keyup',"#table_name",function(){
-                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
+                		
+                /* Save field settings */
+                $("#update_field").on('click','.save_field',function(){
+                    var json = '{';
+                    $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
+                        json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
+                    });
+                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
+                    current_update_field.data("attributs",obj);
+                    $("#deletator").prependTo($("body"));
+                    current_update_field.text(obj.name);
+                    $(this).parent().hide('slow');
                 });
+                
+                /* Save table Settings */
+                $("#update_table").on('click','.save_table',function(){
+                    var json = '{';
+                    $("#update_table input[name],#update_table select[name]").each(function(){
+                        json +=  '"' +$(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
+                    });
+                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
+                    current_update_table.data("attributs",obj);
+                    $("#deletator").prependTo($("body"));
+                    current_update_table.find(".title").text(obj.name);
+                    $(this).parent().parent().hide('slow');
+                }); 
 		
                 /* Open Table Settings */
                 $('#container_bdd').on('click','.title',function(){
                     $('#update_field > div').hide();
                     $('#update_table').show();
-                });
+                })
 		
                 /* Delete Table */
-                $("#container_bdd").on('click','#deletator',function(){
+                .on('click','#deletator',function(){
                     obj = $(this).parent();
                     if(obj.hasClass('table')){
                         if(confirm(t('Are you sure to delete this entity ?'))){
@@ -935,45 +956,43 @@ include_once('modules/core/classes/field.php');
                             obj.remove();
                         }
                     }
-                });
+                })
 		
                 /* Show delete buttons on fields */
-                $("#container_bdd").on('mouseover mouseout','.property',function(event) {
+                .on('mouseover mouseout','.property',function(event) {
                     event.stopPropagation();
                     if (event.type == 'mouseover') {
                         if($(this).attr('type_class') != 'field_ident') $("#deletator").show().prependTo($(this));
                     } else {
                         $("#deletator").hide();
                     }
-                });
+                })
 		
                 /* Show delete buttons on tables */
-                $("#container_bdd").on('mouseover mouseout','.table',function(event) {
+                .on('mouseover mouseout','.table',function(event) {
                     if (event.type == 'mouseover') {
                         $("#deletator").show().prependTo($(this));
                     } else {
                         $("#deletator").hide();
                     }
                 });
-		
+                
+		var current_update_field;
+                var current_update_table;
+                
                 $(document).on('click','#conf_box_close',function(){
                     $('#popup').hide();
                     $('#conf_box_overlay').hide();
-                });
-                
-                $(document).on('click','.closeformpreview',function(){
+                })
+                .on('click','.closeformpreview',function(){
                     $(this).parent().parent().hide();
-                });
-
-                /*
-                 *todo in a future version use function link jquery
-                 */
-		
-                var current_update_field;
-                var current_update_table;
-                
+                })
+                /* Filter Table Name */
+                .on('keyup',"#table_name",function(){
+                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
+                })
                 /* Open and load field Settings */
-                $(document).on('click',".table .property",function(){ 
+                .on('click',".table .property",function(){ 
                     $('#update_field').show();
                     $('#update_table').hide();
                     current_update_field = $(this);
@@ -994,23 +1013,11 @@ include_once('modules/core/classes/field.php');
                     });
                     $('#update_field > div').hide();
                     $('#update_'+ current_update_field.attr('type_class')).show();          
-                });
-		
-                /* Save field settings */
-                $("#update_field").on('click','.save_field',function(){
-                    var json = '{';
-                    $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
-                        json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
-                    });
-                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
-                    current_update_field.data("attributs",obj);
-                    $("#deletator").prependTo($("body"));
-                    current_update_field.text(obj.name);
-                    $(this).parent().hide('slow');
-                });
+                })
+
                 
                 /* Open and load table Settings */
-                $(document).on('click',".table",function(){ 
+                .on('click',".table",function(){ 
                     current_update_table = $(this);         
                     $(".current_update_table").removeClass("current_update_table");
                     current_update_table.addClass("current_update_table");
@@ -1018,23 +1025,9 @@ include_once('modules/core/classes/field.php');
                         $('#update_table input[name=' + i + ']').val(item);
                     });
                     $("#outline").fracs('outline', 'redraw');
-                });
-		
-                /* Save table Settings */
-                $("#update_table").on('click','.save_table',function(){
-                    var json = '{';
-                    $("#update_table input[name],#update_table select[name]").each(function(){
-                        json +=  '"' +$(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
-                    });
-                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
-                    current_update_table.data("attributs",obj);
-                    $("#deletator").prependTo($("body"));
-                    current_update_table.find(".title").text(obj.name);
-                    $(this).parent().parent().hide('slow');
-                }); 
-
+                })
                 /* Save all models */
-                $(document).on('click','#save',function(){
+                .on('click','#save',function(){
                     var propertylist = '[' ;
                     $(".table").each(function(){
                         var recupId = $(".title",this).text();
@@ -1050,10 +1043,9 @@ include_once('modules/core/classes/field.php');
                     $.post('saveModel', {  module : '<?php echo $_POST['module'] ?>', list : propertylist },function(data){
                         ParsimonyAdmin.notify(t('New Data Model has been Saved') + data,"positive");
                     });
-                });
-		
+                })
                 /* Choose behavior of the link */
-                $(document).on('click','#popup input',function(){
+                .on('click','#popup input',function(){
                     var source1 = $("#" + $(this).data('sourceid'));
                     var target1 = $("#" + $(this).data('targetid'));
                     var entitySource = source1.parent().find('.title').text();
@@ -1078,6 +1070,10 @@ include_once('modules/core/classes/field.php');
                     $("#popup").hide();
                     $('#conf_box_overlay').hide();
                     dbadmin.reDraw();
+                })
+                /* Filter Table Name */
+                .on('keyup',"#table_name",function(){
+                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/g,""));
                 });
 		
                 /* Sort properties */
@@ -1138,8 +1134,7 @@ include_once('modules/core/classes/field.php');
                 });
 		
 		/* Allows to drag tables */
-		$(".table").draggable("destroy");
-		$(".table").draggable({
+		$(".table").draggable("destroy").draggable({
 		    cursor: 'move',
                     scroll: false ,
 		    handle : 'div.title',
@@ -1153,13 +1148,13 @@ include_once('modules/core/classes/field.php');
 		});
 
                 /* Allows to drop fields in table */
-                $(".table").droppable("destroy");
-                $(".table").droppable({
+                $(".table").droppable("destroy").droppable({
                     accept: '#field_list div',
                     activeClass: 'ui-state-hover',
                     hoverClass: 'ombre',
                     drop: function(event, ui) {
                         var nom_champ = prompt(t('Please enter a field name') + ' ?');
+                        nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
                         if(nom_champ){
                             var champ = ui.draggable.clone();
                             champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property");
@@ -1172,8 +1167,7 @@ include_once('modules/core/classes/field.php');
                             champ.text(nom_champ);
                             champ.appendTo(this);
 			    
-                            $("#container_bdd .table").sortable('destroy');
-                            $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
+                            $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
                         }
                     }
                 });

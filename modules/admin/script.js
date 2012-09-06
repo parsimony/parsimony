@@ -59,8 +59,7 @@ var ParsimonyAdmin = {
 	    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
 	});
 		
-	$("#conf_box").draggable()
-	.on('click','#conf_box_wpopup', function(e){
+	$("#conf_box").on('click','#conf_box_wpopup', function(e){
 	    var action = $("#conf_box_form input[name=action]").val();
 	    $("#conf_box_form").attr('target','conf_box_content_popup' + action);
 	    ParsimonyAdmin.closeConfBox();
