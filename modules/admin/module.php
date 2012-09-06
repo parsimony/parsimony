@@ -691,6 +691,7 @@ class admin extends \module {
      * @return false 
      */
     protected function addThemeAction($thememodule, $name, $patterntype, $template, $url = '') {
+        $name = \tools::sanitizeTechString($name);
 	if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
             set_time_limit(0);
 	    \tools::createDirectory(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);

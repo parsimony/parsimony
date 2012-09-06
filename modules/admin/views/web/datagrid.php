@@ -34,7 +34,7 @@
 		if (get_class($field) != 'core\fields\field_formasso') :
 		    if ($field->visibility & DISPLAY) :
 			?>
-	    	    <th><?php echo ucfirst(str_replace(' ', '', $field->label)); ?></th>
+	    	    <th><?php echo t(ucfirst(trim($field->label))); ?></th>
 			<?php
 		    endif;
 		endif;
