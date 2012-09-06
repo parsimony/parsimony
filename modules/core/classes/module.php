@@ -539,7 +539,7 @@ class module {
 	    $page = new \page('1', $name);
 	    $page->setModule($name);
 	    $page->setTitle('Index ' . $name);
-	    $page->setRegex('@index@');
+	    $page->setRegex('@^index$@');
 	    $mod->addPage($page);
 	    $mod->save();
 	    if (PROFILE == 'www')

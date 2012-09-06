@@ -296,7 +296,7 @@ class field {
      * @return string|false
      */
     public function validate($value) {
-        return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
+        return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
     }
 
     /**

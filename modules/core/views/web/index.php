@@ -4,14 +4,7 @@
         <!--[if ie]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <script type="text/javascript">
-        document.createElement('header');
-        document.createElement('hgroup');
-        document.createElement('nav');
-        document.createElement('menu');
-        document.createElement('section');
-        document.createElement('article');
-        document.createElement('aside');
-        document.createElement('footer');
+        'article aside footer header nav section time'.replace(/\w+/g,function(n){document.createElement(n)})
         </script>
         <![endif]-->
         <meta charset="utf-8">
@@ -24,16 +17,15 @@
 	    var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 	    var TOKEN = '<?php echo TOKEN ?>';
 	</script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.8.0.min.js"><\/script>')</script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
         <meta name="generator" content="Parsimony">
 	<?php echo app::$request->page->printMetas() ?>
         <?php echo app::$request->page->printInclusions() ?>
 	<?php echo app::$request->page->head ?>
-        <link rel="sitemap" type="application/xml" title="Sitemap" href="<?php echo BASE_PATH ?>sitemap" />
     </head>
     <body class="module-<?php echo MODULE; ?> page-<?php echo app::$request->page->getId(); ?>">
 	<?php echo $this->body; ?>
+	<?php echo app::$request->page->printInclusions('footer') ?>
     </body>
-    <?php echo app::$request->page->printInclusions('footer') ?>
 </html>

@@ -28,7 +28,7 @@
 ?>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <div class="placeholder" id="upload_flash_<?php echo $this->name . '_' . $row->getId()->value ?>">
-    <label for="<?php echo $this->name ?>">
+    <label>
 	<?php echo $this->label ?>
 	<?php if (!empty($this->text_help)): ?>
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>

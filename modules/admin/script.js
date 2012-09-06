@@ -135,7 +135,7 @@ var ParsimonyAdmin = {
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu("Link");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-extlink floatleft"></span><a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');">'+ t('Go to the link') +'</a>');
+	    ParsimonyAdmin.addOptionParsiadminMenu('<a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');"><span class="ui-icon ui-icon-extlink floatleft"></span>'+ t('Go to the link') +'</a>');
 	});	
 
 	$(document).on("keypress.creation",'#dialog-id',function(e){

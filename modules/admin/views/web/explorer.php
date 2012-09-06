@@ -34,7 +34,8 @@
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
-<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"> </SCRIPT>
+<SCRIPT LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"> </SCRIPT>
+<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <style>
     body{min-width: 870px;background: #fff;}

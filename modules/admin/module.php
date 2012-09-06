@@ -505,10 +505,8 @@ class admin extends \module {
 	    $temp = substr($popBlock, 0, -10);
 	    $newblock = new $temp($idBlock);
 	} else {
-	    if($start_typecont == 'page') $parent = $this->module->getPage($startParentBlock);
-            else $parent = $this->theme->search_block($idBlock);
-            $block = $parent->search_block($idBlock);
-	    $blockparent = $parent->search_block($startParentBlock);
+	    $block = $this->$start_typecont->search_block($idBlock);  	
+            $blockparent = $this->$start_typecont->search_block($startParentBlock);
 	    $blockparent->rmBlock($idBlock);
 	    $this->saveAll();
 	    $newblock = $block;
@@ -729,13 +727,17 @@ class admin extends \module {
 		$theme->setBlocks($cont->getBlocks());
 		$theme->save();
 	    } else if ($patterntype == 'template' && !empty($template)) {
-		$themeweb = \theme::get($thememodule, $template, 'web');
-		$themeweb->setName($name);
-		$thememobile = \theme::get($thememodule, $template, 'thememobile');
-		$thememobile->setName($name);
-		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $template . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
-		$themeweb->save('web');
-		$thememobile->save('thememobile');
+                list($oldModule, $oldName) = explode(';',$template);
+                $theme = array();
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']] = \theme::get($oldModule, $oldName, $device['name']);
+                    $theme[$device['name']]->setModule($thememodule);
+                    $theme[$device['name']]->setName($name);
+                }
+		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+                foreach (\app::$devices AS $device) {
+                    $theme[$device['name']]->save();
+                }
 	    } else {
 		$theme = new \theme('container', $name, 'web', $thememodule);
 		$theme->save();
@@ -757,16 +759,16 @@ class admin extends \module {
      * @return string 
      */
     protected function changeThemeAction($THEMEMODULE, $name) {
-	if (isset($_COOKIE['THEME']))
-	    setcookie('THEME', '', time() - 99000, '/');
-        $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name);
-	if (is_dir($path)) {
-	    $configs = file_get_contents('config.php');
-	    $configs = preg_replace('@\$config\[\'THEME\'\] = \'(.*)\';@Ui', "\$config['THEME'] = '" . $name . "';", $configs);
-	    file_put_contents('config.php', $configs);
+        $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/web.' .\app::$config['dev']['serialization']);
+	if ($path) {
+            $configObj = new \core\classes\config('config.php', TRUE);
+            $update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);
+            $configObj->saveConfig($update);
+            setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
+	    setcookie('THEME', $name, time()+60*60*24*30, '/');
 	    $return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'positive');
 	} else {
-	    $return = array('eval' => '', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'negative');
+	    $return = array('eval' => '', 'notification' => t('The Theme has\'nt been changed', FALSE), 'notificationType' => 'negative');
 	}
 	return $this->returnResult($return);
     }
@@ -1300,16 +1302,6 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	}
 	return $this->returnResult($return);
     }
-
-    /**
-     * Display the view to modify block
-     * @return string|false
-     *//*
-      private function displayModifyBlock() {
-      ob_start();
-      require('modules/admin/views/web/modifyBlock.php');
-      return ob_get_clean();
-      } */
 
     /**
      * Wrap result of an action in an instance of Page in order to display it in a popup
