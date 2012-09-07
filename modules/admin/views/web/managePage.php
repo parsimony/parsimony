@@ -232,7 +232,7 @@
                                         $models = $module->getModel();
                                         if (count($models) > 0) {
                                             echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
-                                            <li class="ui-state-default ui-corner-top modulecss"><a href="#" onclick="return false">' . $module->getName() . '</a></li><div class="details"><div class="detailsCont">';
+                                            <li class="ui-state-default ui-corner-top modulecss">' . $module->getName() . '</li><div class="details"><div class="detailsCont">';
                                             foreach ($models as $modelName => $model) {
 
                                                 echo '<div class="inline-block entity" table="' . $module->getName() . '_' . $modelName . '">
