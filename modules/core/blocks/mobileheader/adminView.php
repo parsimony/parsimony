@@ -52,6 +52,9 @@
     <label><?php echo t('Title') ?></label><input type="text" name="text" value="<?php echo $this->getConfig('text'); ?>">
 </div>
 <div class="boxes">
+    <label><?php echo t('Color') ?></label><input type="color" name="color" value="<?php if($this->getConfig('color')) echo $this->getConfig('color'); else echo '#7C8DB6'; ?>">
+</div>
+<div class="boxes">
     <div class="title"><?php echo t('Left Button') ?></div>
     <label><?php echo t('URL') ?></label><input type="text" name="lefturl" value="<?php echo $this->getConfig('lefturl'); ?>">
 

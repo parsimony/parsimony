@@ -63,16 +63,16 @@
     }
     .tab_bar li a{
         display: block;
-        height:100%;
+        height: 100%;
         font-size: 14px;
-        color: #ccc;
-        text-shadow: 0 1px 1px black;
-        font-weight: bold;
+        color: #CCC;
         text-decoration: none;
         background-repeat: no-repeat;
-        background-position: center -9px;
         line-height: 77px;
-        white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: arial;
     }
     .tab_bar li a img{
         display: block;

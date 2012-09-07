@@ -44,9 +44,13 @@
 		border-bottom-color: #22374A;
 		border-right: 0;
 		border-left: 0;
-		background: -webkit-gradient(linear, left top, left bottom, from(#AFBBCB), to(#6E86A4), color-stop(0.48, #8B9DB5), color-stop(0.5, #8195AF));
 		border-image: initial;
 		text-align: center;
+                background: <?php echo $this->getConfig('color') ?>;
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .1)), color-stop(.5, transparent), to(transparent));
+                background-image: -moz-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
+                background-image: -o-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
+                background-image: linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
     }
     .viewtitle h1 {
         font-size: 20px;
@@ -77,7 +81,11 @@
         border: 1px solid rgba(0, 0, 0, 0.4);
         -webkit-box-shadow: 0 1px 0 rgba(255,255,255, 0.35), inset 0 1px 1px rgba(0,0,0, 0.25);
         -webkit-border-radius: 5px;
-        background: -webkit-gradient(linear, left top, left bottom, from(#9FB3CC), to(#5B80AB), color-stop(0.5, #6B8BB2), color-stop(0.51, #597EAA));
+        background: <?php echo $this->getConfig('color') ?>;
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .1)), color-stop(.5, transparent), to(transparent));
+                background-image: -moz-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
+                background-image: -o-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
+                background-image: linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
         border-image: initial;
     }
 </style>

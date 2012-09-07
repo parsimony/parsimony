@@ -46,6 +46,7 @@ class mobileheader extends \block {
         $this->setConfig('leftbutton', 'Edit');
         $this->setConfig('righturl', '#');
         $this->setConfig('rightbutton', '+');
+        $this->setConfig('color', '#7C8DB6');
         
     }
 
