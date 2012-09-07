@@ -55,7 +55,7 @@ $arrayScript = array();
 			    if (!isset($blocksCat[$categBlock]))
 				$blocksCat[$categBlock] = '';
                             if(isset($props['title'])) $title = $props['title'];
-			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-tooltip="' . ucfirst($blockName).' '.$title. '" draggable="true" id="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/img.gif) center center;"></div>';
+			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-tooltip="' . ucfirst($blockName).' '.$title. '" draggable="true" id="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center;"></div>';
 			}
 		    }
                     if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){
