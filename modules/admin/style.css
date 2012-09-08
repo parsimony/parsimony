@@ -483,7 +483,7 @@ fieldset {
 
 /* Resizable */
 .parsimonyDND{pointer-events:all}
-.parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;background: #00C0F1;border-radius:10px;pointer-events:all}
+.parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;background: #00aaff;border-radius:10px;pointer-events:all}
 .parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
 .parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;}
 .parsimonyResize.ne{ right: -5px; top: -5px;cursor: ne-resize;}

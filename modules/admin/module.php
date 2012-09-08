@@ -88,9 +88,10 @@ class admin extends \module {
      * @param string $id
      * @return bool 
      */
-    private function checkIfIdExists($id) {
+    private function checkIfIdExists($id,$themetype = 'web') {
 	if ($this->theme->search_block($id) != NULL)
 	    return TRUE;
+	
 	foreach (\app::$activeModules as $module => $type) {
 	    $moduleObj = \app::getModule($module);
 	    foreach ($moduleObj->getPages() as $key => $page) {
@@ -98,10 +99,10 @@ class admin extends \module {
 		if ($block != NULL)
 		    return TRUE;
 	    }
-	    if (is_file('modules/' . $module . '/views/web/' . $id . '.php'))
+	    /*if (is_file('modules/' . $module . '/views/web/' . $id . '.php'))
+		return TRUE;echo 'coucou';exit;*/
+            if (is_file(PROFILE_PATH . $module . '/views/'.$themetype.'/' . $id . '.php'))
 		return TRUE;
-            /*if (is_file(PROFILE_PATH . $module . '/views/web/' . $id . '.php'))
-		return TRUE;*/
 	}
 	return FALSE;
     }
@@ -119,7 +120,7 @@ class admin extends \module {
         $tempBlock = new $popBlock($idBlock);
 	if(!empty($content) &&  method_exists($tempBlock, 'setContent')) $tempBlock->setContent($content); /* external DND */
         $idBlock = $tempBlock->getId(); /* In case of sanitizing */
-        if ($this->checkIfIdExists($idBlock)) {
+        if ($this->checkIfIdExists($idBlock,$stop_typecont)) {
             return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
         }
 	$block = $this->$stop_typecont->search_block($parentBlock);
