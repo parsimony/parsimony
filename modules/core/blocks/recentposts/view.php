@@ -30,9 +30,9 @@
 if($this->getConfig('items'))
 $items = $this->getConfig('items');
 else $items = 5;
-$recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.title,core_post.url from core_post order by core_post.id_post desc LIMIT 0 , '.$items.'')->fetchAll(\PDO::FETCH_ASSOC);
-
-
+$recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.title,core_post.url from core_post order by core_post.id_post desc LIMIT 0 , '.$items.'');
+if(is_object($recposts)):
+    $recposts = $recposts->fetchAll(\PDO::FETCH_ASSOC);
 ?> 
 
 <ul>
@@ -43,3 +43,4 @@ $recposts = \PDOconnection::getDB()->query('select core_post.id_post,core_post.t
 <?php endforeach; ?>
 </ul>
 
+<?php endif; ?>
