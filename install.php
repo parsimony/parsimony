@@ -614,8 +614,8 @@ while (1) {
 	    }
 	    
 	    //lock install
-	    $install = file('index.php');
-	    $install[0] = '<?php exit';
+	    $install = file('install.php');
+	    $install[0] = '<?php exit; ';
 	    file_put_contents('install.php',  implode('',$install));
 	    
 	    //synchronize with parsimony.mobi
@@ -726,8 +726,6 @@ $content = ob_get_clean();
                 outline: none;
                 border: 1px solid #C1C1C1;
                 color: #333;
-                -webkit-border-radius: 3px;
-                -moz-border-radius: 3px;
                 border-radius: 3px;
                 background: #EFF0F0;
                 background: -webkit-gradient(linear, left top, left bottom, from(#EDEFF0), to(white));
@@ -735,10 +733,11 @@ $content = ob_get_clean();
                 background: -o-linear-gradient(top, #EDEFF0, white);
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#edeff0', endColorstr='#ffffff');
                 margin-right: 40px;
+		padding-left: 5px;
             }
             input[type="button"], input[type="submit"] {
-                -webkit-border-radius: 2px;
-                -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+                border-radius: 2px;
+                box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
                 -webkit-user-select: none;
                 background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
 		background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
