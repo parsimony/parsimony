@@ -98,7 +98,7 @@ $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 
 
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
-define('BASE_PATH',str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/'));
+define('BASE_PATH',str_replace('//','/',str_replace('\\','/',dirname($_SERVER['PHP_SELF']).'/')));
 
 if (isset($_POST['step']))
     $step = $_POST['step'];
