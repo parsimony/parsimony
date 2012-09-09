@@ -27,8 +27,8 @@
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
                 if( $(".firstpanel").length > 0) $(".firstpanel a").trigger("click");
                 else top.ParsimonyAdmin.resizeConfBox();
-            });
-            $(document).on('click',".adminzonetab a",function(event){
+		if($.browser.mozilla) $('.adminzonecontent').wrapInner('<div style="width:100%;overflow-y:scroll" />'); // firefox hack
+            }).on('click',".adminzonetab a",function(event){
                 event.preventDefault();
                 $(".adminzonecontent .admintabs").hide();
                 $(".adminzonetab a").removeClass("active");

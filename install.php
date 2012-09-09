@@ -98,7 +98,7 @@ $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 
 
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
-
+define('BASE_PATH',str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/'));
 
 if (isset($_POST['step']))
     $step = $_POST['step'];
@@ -428,8 +428,7 @@ while (1) {
 	    include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
             $configObj = new \core\classes\config('config.php', TRUE);
-	    $base_path = str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/');
-            $update = array('BASE_PATH' => $base_path ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass']));
+            $update = array('BASE_PATH' => BASE_PATH ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass']));
             $configObj->saveConfig($update);
 
             break;
@@ -677,7 +676,7 @@ $content = ob_get_clean();
             </div>
         </div>
         <style>
-            body{color:#484848;background: url(http://parsimony.mobi/admin/img/concrete_wall_3.png)}
+            body{color:#484848;background: url(http://parsimony.mobi/admin/img/concrete_wall_3.png);font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;}
 
             #container{width:700px;margin:70px auto;}
             #container h1{font-family: sans-serif;font-size: 21px;text-align: right;text-shadow: -2px -2px 0px #303030;color: rgba(191, 230, 255, 0.25);font-weight: bold;}
@@ -721,7 +720,7 @@ $content = ob_get_clean();
                 border: solid 1px #888;
                 border: none!important;
                 border-style: none;
-                box-shadow: 0 -1px 0 rgba(0, 0, 0, .3),inset 0 1px 2px rgba(0, 0, 0, .2);
+                box-shadow: 0 0px 2px rgba(0, 0, 0, .3),inset 0 1px 2px rgba(0, 0, 0, .2)
                 padding: 5px 0;
                 text-shadow: 0px 1px 0px white;
                 outline: none;
@@ -742,6 +741,7 @@ $content = ob_get_clean();
                 -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
                 -webkit-user-select: none;
                 background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+		background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
                 border: 1px solid #AAA;
                 color: #444;
                 font-size: inherit;
@@ -888,9 +888,23 @@ $content = ob_get_clean();
                 border-right-color: #86F024;
             }
 
-            .containerNext{float:left}
+            .containerNext{display: inline-block;}
             .btns{margin:0 auto;float:none;width:275px}
             label.nocapital{text-transform: none;}
+	    
+	    /* Select webkit */
+	    select:enabled:hover {box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);color: #333;background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
+	    select {background-position: center right;background-repeat: no-repeat;border: 1px solid #AAA;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+		    -webkit-appearance: button;-moz-appearance:button;appearance:button;
+		    border-radius: 2px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		    -webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;
+		    -moz-user-select: none;-o-user-select: none;-webkit-user-select: none;user-select: none;
+		    background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+		    background-image:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+		    background-image:-o-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+		    font-size: 13px;
+		    margin: 0 7px 4px 0;
+	    }
         </style>
     </body>
 </html>
