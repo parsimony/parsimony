@@ -98,7 +98,7 @@ $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 
 
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
-define('BASE_PATH',str_replace('//','/',str_replace('\\','/',dirname($_SERVER['PHP_SELF']).'/')));
+define('BASE_PATH',str_replace('//','/',dirname($_SERVER['PHP_SELF']).'/'));
 
 if (isset($_POST['step']))
     $step = $_POST['step'];
@@ -898,7 +898,7 @@ $content = ob_get_clean();
 		    border-radius: 2px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		    -webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;
 		    -moz-user-select: none;-o-user-select: none;-webkit-user-select: none;user-select: none;
-		    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9");
+		    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    background-image:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    background-image:-o-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    font-size: 13px;
