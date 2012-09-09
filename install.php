@@ -720,7 +720,7 @@ $content = ob_get_clean();
                 border: solid 1px #888;
                 border: none!important;
                 border-style: none;
-                box-shadow: 0 0px 2px rgba(0, 0, 0, .3),inset 0 1px 2px rgba(0, 0, 0, .2)
+                box-shadow: 0 0px 2px rgba(0, 0, 0, .3),inset 0 1px 2px rgba(0, 0, 0, .2);
                 padding: 5px 0;
                 text-shadow: 0px 1px 0px white;
                 outline: none;
@@ -889,17 +889,17 @@ $content = ob_get_clean();
             }
 
             .containerNext{display: inline-block;}
-            .btns{margin:0 auto;float:none;width:275px}
+            .btns{margin:0 auto;float:none;width:240px}
             label.nocapital{text-transform: none;}
 	    
 	    /* Select webkit */
-	    select:enabled:hover {box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);color: #333;background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
+	    select:enabled:hover {box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);color: #333;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
 	    select {background-position: center right;background-repeat: no-repeat;border: 1px solid #AAA;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
 		    -webkit-appearance: button;-moz-appearance:button;appearance:button;
 		    border-radius: 2px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		    -webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;
 		    -moz-user-select: none;-o-user-select: none;-webkit-user-select: none;user-select: none;
-		    background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
+		    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9");
 		    background-image:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    background-image:-o-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    font-size: 13px;
