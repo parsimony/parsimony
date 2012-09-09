@@ -109,17 +109,17 @@ $selectors = $css->getAllSselectors();
             <div class="panelcss_tab" id="panelcss_tab_general">
                 <div class="leftpart"  style="display:inline-block;vertical-align:top;width: 95px;">
                     <label for="box_width">Width</label>
-                    <input class="liveconfig spinner align_center" name="width" css="width" type="text" value="">
+                    <input class="liveconfig spinner align_center" name="width" id="box_width" css="width" type="text" value="">
                     <label for="box_height">Height</label>
-                    <input class="liveconfig spinner align_center" name="height" css="height" type="text" value="">
-                    <label for="box_width">Top</label>
-                    <input class="liveconfig spinner align_center" name="top" css="top" type="text" value="">
-                    <label for="box_width">Bottom</label>
-                    <input class="liveconfig spinner align_center" name="bottom" css="bottom" type="text" value="">
-                    <label for="box_width">Right</label>
-                    <input class="liveconfig spinner align_center" name="right" css="right" type="text" value="">
-                    <label for="box_width">Left</label>
-                    <input class="liveconfig spinner align_center" name="left" css="left" type="text" value="">
+                    <input class="liveconfig spinner align_center" name="height" id="box_height" css="height" type="text" value="">
+                    <label for="box_top">Top</label>
+                    <input class="liveconfig spinner align_center" name="top" id="box_top" css="top" type="text" value="">
+                    <label for="box_bottom">Bottom</label>
+                    <input class="liveconfig spinner align_center" name="bottom" id="box_bottom" css="bottom" type="text" value="">
+                    <label for="box_right">Right</label>
+                    <input class="liveconfig spinner align_center" name="right" id="box_right" css="right" type="text" value="">
+                    <label for="box_left">Left</label>
+                    <input class="liveconfig spinner align_center" name="left" id="box_left" css="left" type="text" value="">
                     <label for="positioning_opacity">Opacity</label>
                     <input class="liveconfig align_center" type="text" id="positioning_opacity" name="opacity" css="opacity" value="">
                     <br><input type="range" id="slider-range-max" style="width: 88px;" min="0" max="1" step="0.05" css="opacity" value="1">
