@@ -223,7 +223,7 @@ function block() {
 
         if(e.trad != true && e.link != true) ParsimonyAdmin.closeParsiadminMenu();
         ParsimonyAdmin.addTitleParsiadminMenu('#' + ParsimonyAdmin.inProgress);
-        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
+        ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration' + ' #' + ParsimonyAdmin.inProgress + '"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
 	var CSSProps = '';
 	if(typeof me.stylableElements != "undefined"){
 	    $.each(me.stylableElements, function(index, value) { 
