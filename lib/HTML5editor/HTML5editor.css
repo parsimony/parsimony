@@ -50,7 +50,7 @@ border-left: 1px solid #cacaca;border-top: 1px solid #d1d1d1;border-bottom: 1px 
 .HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
 .HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}
 .HTML5Editor{background:#fff;min-height:100px;border: 1px solid #CCC;}
-#popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;}
+.popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;}
 .HTML5editorAction .temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
 .HTML5editorAction .temoinSelect{background: white;border-right: 1px solid #CCC;display: block;margin-right: 12px;}
 .HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat 107% 8px;}
