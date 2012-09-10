@@ -107,24 +107,24 @@ $selectors = $css->getAllSselectors();
                   <div class="button" rel="panelcss_tab_animation">Animation</div> */ ?>
             </div>
             <div class="panelcss_tab" id="panelcss_tab_general">
-                <div class="leftpart"  style="display:inline-block;vertical-align:top;width: 86px;">
+                <div class="leftpart"  style="display:inline-block;vertical-align:top;width: 95px;">
                     <label for="box_width">Width</label>
-                    <input class="liveconfig spinner align_center" name="width" css="width" type="text" value="">
+                    <input class="liveconfig spinner align_center" name="width" id="box_width" css="width" type="text" value="">
                     <label for="box_height">Height</label>
-                    <input class="liveconfig spinner align_center" name="height" css="height" type="text" value="">
-                    <label for="box_width">Top</label>
-                    <input class="liveconfig spinner align_center" name="top" css="top" type="text" value="">
-                    <label for="box_width">Bottom</label>
-                    <input class="liveconfig spinner align_center" name="bottom" css="bottom" type="text" value="">
-                    <label for="box_width">Right</label>
-                    <input class="liveconfig spinner align_center" name="right" css="right" type="text" value="">
-                    <label for="box_width">Left</label>
-                    <input class="liveconfig spinner align_center" name="left" css="left" type="text" value="">
+                    <input class="liveconfig spinner align_center" name="height" id="box_height" css="height" type="text" value="">
+                    <label for="box_top">Top</label>
+                    <input class="liveconfig spinner align_center" name="top" id="box_top" css="top" type="text" value="">
+                    <label for="box_bottom">Bottom</label>
+                    <input class="liveconfig spinner align_center" name="bottom" id="box_bottom" css="bottom" type="text" value="">
+                    <label for="box_right">Right</label>
+                    <input class="liveconfig spinner align_center" name="right" id="box_right" css="right" type="text" value="">
+                    <label for="box_left">Left</label>
+                    <input class="liveconfig spinner align_center" name="left" id="box_left" css="left" type="text" value="">
                     <label for="positioning_opacity">Opacity</label>
                     <input class="liveconfig align_center" type="text" id="positioning_opacity" name="opacity" css="opacity" value="">
                     <br><input type="range" id="slider-range-max" style="width: 88px;" min="0" max="1" step="0.05" css="opacity" value="1">
                 </div>
-                <div class="rightpart" style="display: inline-block;border-left: solid #999 1px;margin-left: 2px;width: 123px;padding-left: 5px;">
+                <div class="rightpart" style="display: inline-block;border-left: solid #777 1px;margin-left: 2px;width: 123px;padding-left: 5px;">
                     <label for="positioning_type">Position</label>
                     <select class="" id="positioning_type" name="position" css="position"><option value=""></option><option value="absolute">absolute</option><option value="relative">relative</option><option value="fixed">fixed</option><option value="static">static</option></select>
                     <label for="float">Float</label>
@@ -153,21 +153,21 @@ $selectors = $css->getAllSselectors();
                         <label style="float:none;display:block;text-align: left;padding-left: 4px;">Padding</label>
                     </div>
                     <div class="graph" style="position:relative">
-                        <div class="margin representation border" init="0" style="position:relative;width:180px;height:130px;">
+                        <div class="margin representation border" init="0" style="position:relative;width:197px;height:138px;margin-top:5px">
                             <label>Margin</label>
                             <div style="position: absolute;left: 75px;top: 7px;"><input class="spinner repr_top" type="text"></div>
                             <div style="position: absolute;left: 8px;top: 61px;"><input class="spinner repr_left" css="margin-left" type="text"></div>
                             <div style="position: absolute;left: 149px;top: 60px;"><input class="spinner repr_right" css="margin-right" type="text"></div>
                             <div style="position: absolute;left: 76px;top: 113px;"><input class="spinner repr_bottom" css="margin-bottom" type="text"></div>
-                            <input class="resultcss liveconfig" css="margin" style="position:absolute;left: 50px;top: -62px;width: 140px;" onload="$(this).trigger('change')" name="margin" type="text" value="">
+                            <input class="resultcss liveconfig" css="margin" style="position:absolute;left: 50px;top: -51px;width: 140px;" onload="$(this).trigger('change')" name="margin" type="text" value="">
                         </div>
-                        <div class="padding representation border" init="0" style="position:absolute;top:40px;left:54px;width:90px;height:70px;">
+                        <div class="padding representation border" init="0" style="position:absolute;top: 36px;left: 54px;width: 96px;height: 75px;">
                             <label>Padding</label>
                             <div style="position: absolute;left: 30px;top: 6px;"><input class="spinner repr_top" css="padding-top" type="text"></div>
                             <div style="position: absolute;left: 4px;top: 28px;"><input class="spinner repr_left" css="padding-left" type="text"></div>
                             <div style="position: absolute;left: 56px;top: 28px;"><input class="spinner repr_right" css="padding-right" type="text"></div>
                             <div style="position: absolute;left: 30px;top: 50px;"><input class="spinner repr_bottom" css="padding-bottom" type="text"></div>
-                            <input class="resultcss liveconfig" css="padding" style="position:absolute;left: 4px;top: -74px;width: 140px;" onload="$(this).trigger('change')" type="text" name="padding" value="">
+                            <input class="resultcss liveconfig" css="padding" style="position:absolute;left: 4px;top: -68px;width: 140px;" onload="$(this).trigger('change')" type="text" name="padding" value="">
                         </div>
                     </div>
                 </div>
@@ -182,35 +182,35 @@ $selectors = $css->getAllSselectors();
                 </div>
                 <div class="color representation" init="0" style="width:35px;display:inline-block">
                     <div>Width</div>
-                    <div><input class="resultcss liveconfig spinner" name="border-width" css="border-width" onload="$(this).trigger('change')" type="text" value=""></div>
-                    <div><input class="repr_top spinner" type="text" css="border-top-width"/></div>
-                    <div><input class="repr_left spinner" type="text" css="border-left-width"/></div>
-                    <div><input class="repr_right spinner" type="text" css="border-right-width"/></div>
-                    <div><input class="repr_bottom spinner" type="text" css="border-bottom-width"/></div>
+                    <input class="resultcss liveconfig spinner" name="border-width" css="border-width" onload="$(this).trigger('change')" type="text" value="">
+                    <input class="repr_top spinner" type="text" css="border-top-width"/>
+                    <input class="repr_left spinner" type="text" css="border-left-width"/>
+                    <input class="repr_right spinner" type="text" css="border-right-width"/>
+                    <input class="repr_bottom spinner" type="text" css="border-bottom-width"/>
                 </div>
                 <div class="width representation" init="#000" style="width:35px;display:inline-block">
                     <div>Color</div>
-                    <div><input class="resultcss liveconfig colorpicker2" name="border-color" css="border-color" onload="$(this).trigger('change')" type="text" value=""></div>
-                    <div><input class="repr_top colorpicker2" css="border-top-color" type="text" /></div>
-                    <div><input class="repr_left colorpicker2" css="border-left-color" type="text" /></div>
-                    <div><input class="repr_right colorpicker2" css="border-right-color" type="text" /></div>
-                    <div><input class="repr_bottom colorpicker2" css="border-bottom-color" type="text" /></div>
+                    <input class="resultcss liveconfig colorpicker2" name="border-color" css="border-color" onload="$(this).trigger('change')" type="text" value="">
+                    <input class="repr_top colorpicker2" css="border-top-color" type="text" />
+                    <input class="repr_left colorpicker2" css="border-left-color" type="text" />
+                    <input class="repr_right colorpicker2" css="border-right-color" type="text" />
+                    <input class="repr_bottom colorpicker2" css="border-bottom-color" type="text" />
                 </div>
                 <div class="style representation" init="solid" style="width:45px;display:inline-block">
                     <div>Style</div>
-                    <div><input type="text" class="resultcss liveconfig autocomplete" css="border-style" id="border_style" onload="$(this).trigger('change')"  data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' name="border-style"></div>
-                    <div><input type="text" class="repr_top autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-top-style" id="border_style_top" /></div>
-                    <div><input type="text" class="repr_left autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-left-style" id="border_style_left" /></div>
-                    <div><input type="text" class="repr_right autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-right-style" id="border_style_right" /></div>
-                    <div><input type="text" class="repr_bottom autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-bottom-style" id="border_style_bottom" /></div>
+                    <input type="text" class="resultcss liveconfig autocomplete" css="border-style" id="border_style" onload="$(this).trigger('change')"  data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' name="border-style">
+                    <input type="text" class="repr_top autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-top-style" id="border_style_top" />
+                    <input type="text" class="repr_left autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-left-style" id="border_style_left" />
+                    <input type="text" class="repr_right autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-right-style" id="border_style_right" />
+                    <input type="text" class="repr_bottom autocomplete" data-options='["none","solid","dashed","dotted","double","groove","ridge", "inset", "outset"]' css="border-bottom-style" id="border_style_bottom" />
                 </div>
                 <div class="radius representation" init="0" style="width:35px;display:inline-block">
                     <div>Radius</div>
-                    <div><input class="resultcss liveconfig" name="border-radius" css="border-radius" onload="$(this).trigger('change')" type="text" value=""></div>
-                    <div><input class="repr_top" type="text" css="border-top-radius"/></div>
-                    <div><input class="repr_left" type="text" css="border-left-radius"/></div>
-                    <div><input class="repr_right" type="text" css="border-right-radius"/></div>
-                    <div><input class="repr_bottom" type="text" css="border-bottom-radius"/></div>
+                    <input class="resultcss liveconfig" name="border-radius" css="border-radius" onload="$(this).trigger('change')" type="text" value="">
+                    <input class="repr_top" type="text" css="border-top-radius"/>
+                    <input class="repr_left" type="text" css="border-left-radius"/>
+                    <input class="repr_right" type="text" css="border-right-radius"/>
+                    <input class="repr_bottom" type="text" css="border-bottom-radius"/>
                 </div>  
                 <div>
                     <div style="margin-top:20px; color: white;">Box Shadow :</div>
@@ -224,7 +224,7 @@ $selectors = $css->getAllSselectors();
                             <input type="text" id="v-offsetbox" class="spinner">
                         </div>
                     </div>
-                    <div class="box-shadow" style="display:inline-block;vertical-align:top;border-left: solid #999 1px;margin-left: 5px;padding-left: 5px;">
+                    <div class="box-shadow" style="display:inline-block;vertical-align:top;border-left: solid #777 1px;margin-left: 5px;padding-left: 5px;">
                         <div style="margin-top:10px">
                             <label style="padding-top: 5px;" for="fd-slider-handle-blur1" id="blur1_label">Blur</label>
                             <input type="text" id="blurbox" class="spinner">
@@ -241,12 +241,12 @@ $selectors = $css->getAllSselectors();
             <div class="panelcss_tab hiddenTab" id="panelcss_tab_background">
 
                 <label for="background">Background</label>
-                <input class="liveconfig input" style="margin-left:10px;width: 185px;position: relative;height: 20px;" id="background" type="text" name="background" css="background" value="">
+                <input class="liveconfig input" style="margin-left:10px;width: 201px;position: relative;height: 17px;" id="background" type="text" name="background" css="background" value="">
 
                 <label for="background_image">Image</label>
-                <div padding-left: 13px;>
+                <div>
                     <span class="ui-icon ui-icon-folder-open explorer" rel="background_image" style="float:left;margin-right:5px;"></span>
-                    <input class="liveconfig input" style="width: 160px;float:left;height: 20px;" id="background_image" type="text" name="background-image" css="background-image" value="">
+                    <input class="liveconfig input" style="width: 190px;float:left;height: 17px;margin-bottom: 5px;" id="background_image" type="text" name="background-image" css="background-image" value="">
                 </div>
 
                 <label for="background_color">Color</label>
@@ -274,43 +274,44 @@ $selectors = $css->getAllSselectors();
             <div class="panelcss_tab hiddenTab" id="panelcss_tab_type">
 
                 <label for="text_font">Font</label>
-                <input type="text" class="liveconfig autocomplete" id="text_font" name="font-family" data-options='[ "Arial, Helvetica, sans-serif","Times New Roman, Times, serif",Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' css="font-family" />
+                <input type="text" style="margin-left:10px;width: 201px;position: relative;height: 17px;margin-bottom: 5px;" class="liveconfig autocomplete" id="text_font" name="font-family" data-options='[ "Arial, Helvetica, sans-serif","Times New Roman, Times, serif",Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' css="font-family" />
+		<div class="leftpart"  style="display:inline-block;vertical-align:top;width: 95px;">
+		    <label for="text_size">Size</label>
+		    <input class="liveconfig spinner" type="text" name="font-size" css="font-size">
+		    <label for="text_color">Color</label>
+		    <input class="liveconfig colorpicker2" id="text_color" name="color" css="color" type="text">
+		    <label for="text_lineheight" title="Line-Height">Height</label>
+		    <input class="liveconfig spinner" type="text" name="line-height" css="line-height">
+		    <label for="text_lineheight" title="Letter-Space">Space</label>
+		    <input class="liveconfig spinner" type="text" name="letter-spacing" css="letter-spacing">
+		    <label for="text_case">Overflow</label>
+		    <input type="text" class="liveconfig autocomplete" id="text_overflow" name="text-overflow" data-options='["ellipsis","clip","ellipsis-word"]' css="text-overflow">
+		    <label for="text_lineheight" title="Text-Indent">Indent</label>
+		    <input class="liveconfig spinner" type="text" name="text-indent" css="text-indent">
+		</div>
+		
+		<div class="rightpart" style="display: inline-block;border-left: solid #777 1px;margin-left: 2px;width: 123px;padding-left: 5px;">
+		    <label for="text_align">Align</label>
+		    <select class="liveconfig" id="text_align" name="text-align" css="text-align"><option value="<?php echo $css->getPropertyValue($selector, 'text-align') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-align')) ?></option><option value="center">Center</option><option value="right">Right</option><option value="left">Left</option><option value="justify">Justify</option></select>
+		    <label for="text_weight">Weight</label>
+		    <select class="select liveconfig" id="text_weight" name="font-weight" css="font-weight"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'font-weight') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-weight')) ?></option><option value="normal">normal</option><option value="bold">bold</option><option value="bolder">bolder</option><option value="lighter">lighter</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option><option value="800">800</option><option value="900">900</option></select>
 
-                <label for="text_size">Size</label>
-                <input class="liveconfig spinner" type="text" name="font-size" css="font-size">
-                <label for="text_color">Color</label>
-                <input class="liveconfig colorpicker2" id="text_color" name="color" css="color" type="text">
-                <label for="text_lineheight">LineHeight</label>
-                <input class="liveconfig spinner" type="text" name="line-height" css="line-height">
-                <label for="text_lineheight">LetterSpace</label>
-                <input class="liveconfig spinner" type="text" name="letter-spacing" css="letter-spacing">
-                <label for="text_lineheight">TextIndent</label>
-                <input class="liveconfig spinner" type="text" name="text-indent" css="text-indent">
+		    <label for="text_case">Case</label>
+		    <select class="select liveconfig" id="text_case" name="text-transform" css="text-transform"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'text-transform') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-transform')) ?></option><option value="capitalize">capitalize</option><option value="uppercase">uppercase</option><option value="lowercase">lowercase</option></select>
 
-                <label for="text_weight">Weight</label>
-                <select class="select liveconfig" id="text_weight" name="font-weight" css="font-weight"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'font-weight') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-weight')) ?></option><option value="normal">normal</option><option value="bold">bold</option><option value="bolder">bolder</option><option value="lighter">lighter</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option><option value="800">800</option><option value="900">900</option></select>
+		    <label for="word-wrap" title="Word Wrap">W. wrap</label>
+		    <select class="liveconfig select" id="word-wrap" name="word-wrap" css="word-wrap"><option></option><option value="normal">normal</option><option value="break-word">break-word</option></select>
 
+		    <label for="text-wrap" title="Text Wrap">T. wrap</label>
+		    <select class="liveconfig" id="text-wrap" name="text-wrap" css="text-wrap"><option value="<?php echo $css->getPropertyValue($selector, 'text-wrap') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-wrap')) ?></option><option value="normal">normal</option><option value="unrestricted">unrestricted</option><option value="suppress">suppress</option></select>
+
+		    <label for="text_style">Style</label>
+		    <select class="liveconfig" type="text" name="font-style" css="font-style"><option value="<?php echo $css->getPropertyValue($selector, 'font-style') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-style')) ?></option><option value="normal">normal</option><option value="italic">italic</option><option value="oblique">oblique</option><option value="inherit">inherit</option></select>
+
+		</div>
                 <input class="liveconfig" name="text-decoration" css="text-decoration" id="css-decoration" type="hidden">
-
-                <label for="text_case">Case</label>
-                <select class="select liveconfig" id="text_case" name="text-transform" css="text-transform"><option></option><option value="<?php echo $css->getPropertyValue($selector, 'text-transform') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-transform')) ?></option><option value="capitalize">capitalize</option><option value="uppercase">uppercase</option><option value="lowercase">lowercase</option></select>
-
-                <label for="">Word wrap</label>
-                <select class="liveconfig select" id="word-wrap" name="word-wrap" css="word-wrap"><option></option><option value="normal">normal</option><option value="break-word">break-word</option></select>
-
-                <label for="text_align">Align</label>
-                <select class="liveconfig" id="text_align" name="text-align" css="text-align"><option value="<?php echo $css->getPropertyValue($selector, 'text-align') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-align')) ?></option><option value="center">Center</option><option value="right">Right</option><option value="left">Left</option><option value="justify">Justify</option></select>
-
-                <label for="text_style">Style</label>
-                <select class="liveconfig" type="text" name="font-style" css="font-style"><option value="<?php echo $css->getPropertyValue($selector, 'font-style') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'font-style')) ?></option><option value="normal">normal</option><option value="italic">italic</option><option value="oblique">oblique</option><option value="inherit">inherit</option></select>
-
-                <label for="text_case">Over flow</label>
-                <input type="text" class="liveconfig autocomplete" id="text_overflow" name="text-overflow" data-options='["ellipsis","clip","ellipsis-word"]' css="text-overflow">
-
-                <label for="fd-slider-handle-v-offset1">Text wrap</label>
-                <select class="liveconfig" id="text-wrap" name="text-wrap" css="text-wrap"><option value="<?php echo $css->getPropertyValue($selector, 'text-wrap') ?>"><?php echo ucfirst($css->getPropertyValue($selector, 'text-wrap')) ?></option><option value="normal">normal</option><option value="unrestricted">unrestricted</option><option value="suppress">suppress</option></select>
-
                 <div class="decoration">
+		   
                     <div style="display: inline-block;margin-left: 2px;">
                         <input style="margin-left: 6px;" id="text_underline" data-css="underline" class="option" type="checkbox"><label style="padding-top: 5px;margin: 3px 0px;" for="text_underline">Underline</label>
                         <input id="text_overline" data-css="overline" class="option" type="checkbox"><label style="padding-top: 5px;margin: 3px 0px;" for="text_overline">Overline</label>
@@ -320,15 +321,15 @@ $selectors = $css->getAllSselectors();
                         <input data-css="none" class="option" type="checkbox"><label style="padding-top: 5px;margin: 3px 0px;" for="text_linethrough">None</label>
                     </div>
                 </div>
-
-                <div style="padding-top: 5px;" class="clearboth text-shadow" >
-                    <div style="color:white;padding-left: 6px;">Shadow</div>               
+		    
+		<div style="margin-top:20px; color: white;">Text Shadow :</div>
+                <div class="text-shadow" style="display: inline-block;vertical-align: top;margin-left: 5px;" class="clearboth text-shadow" >             
                     <label for="fd-slider-handle-h-offset1">X</label>
                     <input type="text" id="h-offsettext" class="spinner">
                     <label for="fd-slider-handle-v-offset1">Y</label>
                     <input type="text" id="v-offsettext" class="spinner">
                 </div>
-                <div class="text-shadow">        
+                <div class="text-shadow" style="display: inline-block;vertical-align: top;margin-left: 5px;">        
                     <label for="fd-slider-handle-blur1">Blur</label>
                     <input type="text" id="blurtext" class="spinner">
                     <label for="shadow-color1">Color</label> 

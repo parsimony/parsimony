@@ -28,26 +28,28 @@
  */
 $tags = \PDOconnection::getDB()->query('SELECT core_tag.name, core_tag.url, COUNT( core_tag.name ) AS nb
 FROM core_tag INNER JOIN core_tag_post ON core_tag.id_tag = core_tag_post.id_tag
-GROUP BY core_tag.name ORDER BY nb DESC LIMIT 0 , 30')->fetchAll(\PDO::FETCH_ASSOC);
-
-if(isset($tags[0]['nb'])){
-    $nbMax = $tags[0]['nb'];
-    echo '<ul>';
-    foreach ($tags as $key => $tag) {
-        $percent = floor(($tag['nb'] / $nbMax) * 100);
-        if ($percent < 20):
-            $size = 'xsmall';
-        elseif ($percent >= 20 and $percent < 40):
-            $size = 'small';
-        elseif ($percent >= 40 and $percent < 60):
-            $size = 'medium';
-        elseif ($percent >= 60 and $percent < 80):
-            $size = 'large';
-        else:
-            $size = 'xlarge';
-        endif;
-        echo '<li><a class="'.$size.'" href="tag/'.$tag['url'].'">'.$tag['name'].'</a></li>';
+GROUP BY core_tag.name ORDER BY nb DESC LIMIT 0 , 30');
+if(is_object($tags)){
+    $tags = $tags->fetchAll(\PDO::FETCH_ASSOC);
+    if(isset($tags[0]['nb'])){
+	$nbMax = $tags[0]['nb'];
+	echo '<ul>';
+	foreach ($tags as $key => $tag) {
+	    $percent = floor(($tag['nb'] / $nbMax) * 100);
+	    if ($percent < 20):
+		$size = 'xsmall';
+	    elseif ($percent >= 20 and $percent < 40):
+		$size = 'small';
+	    elseif ($percent >= 40 and $percent < 60):
+		$size = 'medium';
+	    elseif ($percent >= 60 and $percent < 80):
+		$size = 'large';
+	    else:
+		$size = 'xlarge';
+	    endif;
+	    echo '<li><a class="'.$size.'" href="tag/'.$tag['url'].'">'.$tag['name'].'</a></li>';
+	}
+	echo '</ul>';
     }
-    echo '</ul>';
 }
 ?>

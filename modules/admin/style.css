@@ -158,7 +158,7 @@ ul.models,ul.pages{padding: 5px;}
 
 /* Panel CSS */         	  
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
-#current_selector_update{width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
+#current_selector_update{border: 1px solid #C1C1C1 !important;width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
 #panelcss label{display: inline-block;min-width: 50px;color: white;}
 #panelcss select{width: 60px;height: 14px;border:0;font-size:10px}
 #panelcss th{font-weight: bold;}
@@ -167,8 +167,8 @@ ul.models,ul.pages{padding: 5px;}
 #panelcss .panelcss_tab{padding:5px;background: #555;width: 230px;margin-top: 2px;border-bottom: 1px solid #999;border-top: 1px solid #555;}
 #panelcss #changecssform select{padding-top: 0px;}
 #panelcss_tab_general label{margin: 9px 0;top: -6px;position: relative;}
-#panelcss_tab_general .leftpart label{min-width: 45px;margin: 4px 0;position: relative;top: 1px;}
-#panelcss_tab_general .rightpart label{min-width:45px;margin: 4px 0;position: relative;top: 1px;} 
+#panelcss_tab_general .leftpart label{min-width: 45px;margin: 5px 0;position: relative;top: 1px;}
+#panelcss_tab_general .rightpart label{min-width:50px;margin: 5px 0;position: relative;top: 1px;} 
 #panelcss_tab_general .rightpart select{position: relative;top: 1px;}
 #panelcss_tab_general input{margin: 2px 0;}
 #panelcss_tab_general select{position: relative;top: -4px;}
@@ -232,18 +232,22 @@ border: 1px solid #BBB;text-align: center;padding: 0 1px 1px 1px;white-space: pr
 #panelcss .colorpicker input{background: transparent !important;}
 
 /* CSS TOOL Metrics : margin, padding */
-#panelcss #metrics {font-size: 10px;text-align: center;white-space: nowrap;height: 191px;margin-top: 25px;}
-#panelcss #metrics input{position:absolute}
-#panelcss #metrics .graph label {position: absolute;margin-top: 1px;font-size: 9px;line-height: 9px;color: grey;background-color: white;margin-left: 3px;padding-left: 2px;padding-right: 2px;}
-#panelcss #metrics .margin {display: inline-block;text-align: center;vertical-align: middle;margin: 11px;float: left;padding: 3px;}
-#panelcss #metrics .padding {border: 1px white dashed;display: inline-block;text-align: center;vertical-align: middle;padding: 3px; margin: 3px;}
-#panelcss input[type='text']{width: 35px; height: 15px;padding: 0;border-radius: 3px;}
+#metrics {font-size: 10px;text-align: center;white-space: nowrap;height: 191px;margin-top: 25px;}
+#metrics input{position:absolute}
+#metrics .graph label {position: absolute;margin-top: 1px;font-size: 8px;line-height: 11px;background-color: white;margin-left: 44px;padding: 0 2px;color: #444;letter-spacing: 1.5px;border-radius: 4px;}
+#metrics .margin {display: inline-block;text-align: center;vertical-align: middle;margin: 11px;float: left;padding: 3px;}
+#metrics .padding {border: 1px white dashed;display: inline-block;text-align: center;vertical-align: middle;padding: 3px; margin: 3px;}
+#panelcss input[type='text']{width: 38px;padding: 0;border-radius: 2px;font-size: 11px;height: 14px;text-shadow: none;border: 0;}
 #panelcss .graph .representation{border-top: 1px solid #777;border-bottom: 1px solid #444;border-right: 1px solid #444;border-left: 1px solid #777;background: #555;}
-
+#panelcss .graph input{width:33px}
+#panelcss_tab_border .representation input{width:100% !important;display: block;margin: 5px 0;}
+#panelcss_tab_type .decoration{margin:10px}
+#panelcss_tab_type .text-shadow input{width:33px !important}
+#panelcss_tab_type .text-shadow label{max-width: 50px !important;margin-left: 10px;}
 /* CSS TOOL Typography */
-#panelcss_tab_type label,  #panelcss_tab_lists label {margin: 3px 10px;position: relative;width: 70px;}
-#panelcss_tab_type input[type="text"],#panelcss_tab_background input[type="text"],#panelcss_tab_lists input[type="text"]{width: 90px;}
-#panelcss_tab_type select, #panelcss_tab_background select, #panelcss_tab_lists select{width: 90px;}
+#panelcss_tab_type label,  #panelcss_tab_lists label {margin: 6px 0px;position: relative;}
+#panelcss_tab_background input[type="text"],#panelcss_tab_lists input[type="text"]{width: 90px;}
+#panelcss_tab_type .decoration label{width: 70px;}
 
 /* CSS TOOL Borders  */
 #panelcss_tab_border .representation div:first-child{text-align:center;color:white;line-height: 14px;}
@@ -483,11 +487,11 @@ fieldset {
 
 /* Resizable */
 .parsimonyDND{pointer-events:all}
-.parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;background: #00C0F1;border-radius:10px;pointer-events:all}
-.parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
-.parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;}
-.parsimonyResize.ne{ right: -5px; top: -5px;cursor: ne-resize;}
-.parsimonyResize.sw{ left: -5px; bottom: -5px;cursor: sw-resize;}
+.parsimonyResize{position: absolute;display:none; display: block; width: 8px; height: 8px;background: #00aaff;border-radius:4px;pointer-events:all}
+.parsimonyResize.se{ right: -4px; bottom: -4px;cursor: se-resize;}
+.parsimonyResize.nw{ left: -4px; top: -4px;cursor: nw-resize;}
+.parsimonyResize.ne{ right: -4px; top: -4px;cursor: ne-resize;}
+.parsimonyResize.sw{ left: -4px; bottom: -4px;cursor: sw-resize;}
 .parsimonyResizeInfo{white-space: nowrap;background:rgba(0,0,0,0.9);height: 20px;border-radius:7px;position:absolute;/*min-width:260px;*/color:#fff;padding:5px;font-size:10px;top:-25px;line-height: 6px;}
 .parsimonyResizeInfo a {font-weight: bold;font-style: italic;font-size: 12px;line-height: 10px;}
 .spanDND{margin-top: -4px;vertical-align: top;display: inline-block;position: relative;/*border: #333 solid 2px;*/border-radius: 5px;cursor: pointer;
@@ -904,6 +908,7 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-arrowthickstop-1-s {background-position: -224px -48px;}
 .ui-icon-carat-1-e {background-position: -32px 0;}
 .ui-icon-arrowrefresh-1-w {background-position: -128px -64px;}
+.ui-icon-folder-open {background-position: -16px -96px;}
 
 .ui-resizable-helper { border: 1px dotted red;z-index: 99999999; }
 a#previewMode{border-radius: 10px 0 0 10px;margin-left: 10px;}

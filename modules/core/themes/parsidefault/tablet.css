@@ -2,9 +2,8 @@
 
 #headertab {
 margin : 1% ;
-width : 45% ;
+width : 80% ;
 position : relative ;
-behavior : url(/lib/csspie/PIE.htc) ;
 float : left ;}
 
 body {
@@ -51,19 +50,16 @@ position: relative;}
 #tabcategs ul {
 	position : relative ;
 	display : none ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #recentsposts ul {
 	position : relative ;
 	display : none ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #tabtags ul {
 	position : relative ;
 	display : none ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #toolheader .parsiTitle {
@@ -89,13 +85,9 @@ background: #F2F2F2;
 color: #999;}
 
 #myimg {
-	width : 99% ;
 	height : 120px ;
 	top : 0px ;
-	left : -7px ;
 	position : relative ;
-	float : right ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #tabmenu .parsimenu {
@@ -113,10 +105,6 @@ list-style: none;
 background-color: #777;
 font-size: 20px;
 font-weight: normal;
-border-width: 1px;
-border-style: solid;
-border-color: #999 #555 #555 #999;
-border: 1px solid #CCC;
 text-transform: capitalize;
 background: #F2F2F2;
 height: 50px;
@@ -132,14 +120,11 @@ color: #999;}
 
 #tabmenu .parsimenu .current a {
 	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
-	filter : progid ;
+	background : -webkit-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
 	color : #444 ;
 	border-top : solid 1px #f8f8f8 ;
 	box-shadow : 0 1px 1px rgba(0, 0, 0, .2) ;
 	text-shadow : 0 1px 0 rgba(255, 255, 255, .8) ;
-}
-
-#tabmenu .parsimenu li:hover > a {
 }
 
 #tabmenu .parsimenu ul li:hover a {
@@ -158,6 +143,7 @@ color: #999;}
 
 #tabmenu .parsimenu ul a:hover {
 	background : -moz-linear-gradient(top,  #04acec,  #0186ba) !important ;
+	background : -webkit-linear-gradient(top,  #04acec,  #0186ba) !important ;
 	filter : progid ;
 	color : #fff !important ;
 	text-shadow : 0 1px 1px rgba(0, 0, 0, .1) ;
@@ -166,6 +152,7 @@ color: #999;}
 #tabmenu .parsimenu ul {
 	z-index : 9999 ;
 	background : -moz-linear-gradient(top,  #fff,  #cfcfcf) ;
+	ackground : -webkit-linear-gradient(top,  #fff,  #cfcfcf) ;
 	filter : progid ;
 	display : none ;
 	margin : 0 ;
@@ -222,13 +209,11 @@ color: #999;}
 	position : relative ;
 	font-weight : normal ;
 	width : 20% ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 	float : left ;
 }
 
 #content {
 	position : relative ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 	margin : 1% ;
 	font-weight : normal ;
 	float : left ;
@@ -241,6 +226,7 @@ color: #999;}
 	line-height : 100% ;
 	box-shadow : 0 1px 3px rgba(0, 0, 0, .4) ;
 	background : -moz-linear-gradient(top,  #a9a9a9,  #7a7a7a) ;
+	background : -webkit-linear-gradient(top,  #a9a9a9,  #7a7a7a) ;
 	filter : progid ;
 	border : solid 1px #6d6d6d ;
 }
@@ -264,6 +250,7 @@ color: #999;}
 
 #tabssmenu .parsimenu .current a {
 	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
+	background : -webkit-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
 	filter : progid ;
 	color : #444 ;
 	border-top : solid 1px #f8f8f8 ;
@@ -273,6 +260,7 @@ color: #999;}
 
 #tabssmenu .parsimenu li:hover > a {
 	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
+	background : -webkit-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
 	filter : progid ;
 	color : #444 ;
 	border-top : solid 1px #f8f8f8 ;
@@ -358,13 +346,12 @@ color: #999;}
 #sstabmenu {
 	margin : 1% 0 ;
 	position : relative ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 	font-weight : normal ;
 	display : none ;
 	float : left ;
 }
 
-#tabposts .publicationGMT {
+.poststablet .publicationGMT {
 box-shadow: inset -1px -1px 1px white, inset 1px 1px 1px white;
 display: inline-block;
 vertical-align: top;
@@ -379,14 +366,13 @@ text-transform: capitalize;
 background: #F2F2F2;
 color: #999;}
 
-#tabposts .title {
-	behavior : url(/lib/csspie/PIE.htc) ;
+.poststablet .title {
 }
 
 .itemprop {
 }
 
-#tabposts .title a {
+.poststablet .title a {
 text-decoration: none;
 color: #09F;
 font-size: 25px;
@@ -394,30 +380,29 @@ line-height: 30px;
 padding: 1%;
 text-transform: capitalize;}
 
-#tabposts .author {
+.poststablet .author {
 color: #999;
 font-size: 12px;
 text-transform: capitalize;
 padding: 1%;
 text-align: right;}
 
-#tabposts .content p {
+.poststablet .content p {
 	color : rgb(56, 56, 56) ;
 	font-size : 15px ;
 	line-height : 25px ;
 	padding : 1% ;
 	position : relative ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
-#tabposts .itemscope {
+.poststablet .itemscope {
 padding: 1% 0;
 margin: 1% 0;
 border-bottom: 1px dotted #CCC;}
 
-#tabposts {
+.poststablet {
 position : relative ;
-behavior : url(/lib/csspie/PIE.htc) ;}
+}
 
 #sstabmenu li {
 box-shadow: inset -1px -1px 1px white, inset 1px 1px 1px white;
@@ -446,261 +431,13 @@ color: #999;}
 #tabtags {
 	position : relative ;
 	background : white ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #tabcolumn {
 	position : relative ;
 	display : inline-block ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 	width : 100% ;
 	float : left ;
 	font-weight : normal ;
 }
 
-#tabcolumn .columntab {
-display: -webkit-flexbox;
-display: -moz-flexbox;
-display: -ms-flexbox;
-display: -o-flexbox;
--webkit-flex: 1;}
-
-#sstabmenu .parsimenu {
-	z-index : 9999 ;
-	margin : 0 ;
-	line-height : 100% ;
-	box-shadow : 0 1px 3px rgba(0, 0, 0, .4) ;
-	background : -moz-linear-gradient(top,  #a9a9a9,  #7a7a7a) ;
-	filter : progid ;
-	border : solid 1px #6d6d6d ;
-}
-
-#sstabmenu .parsimenu li {
-	z-index : 9999 ;
-	float : left ;
-	position : relative ;
-	list-style : none ;
-}
-
-#sstabmenu .parsimenu a {
-	font-weight : bold ;
-	color : #e7e5e5 ;
-	text-decoration : none ;
-	display : block ;
-	padding : 8px 20px ;
-	margin : 0 ;
-	text-shadow : 0 1px 1px rgba(0, 0, 0, .3) ;
-}
-
-#sstabmenu .parsimenu .current a {
-	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
-	filter : progid ;
-	color : #444 ;
-	border-top : solid 1px #f8f8f8 ;
-	box-shadow : 0 1px 1px rgba(0, 0, 0, .2) ;
-	text-shadow : 0 1px 0 rgba(255, 255, 255, .8) ;
-}
-
-#sstabmenu .parsimenu li:hover > a {
-	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
-	filter : progid ;
-	color : #444 ;
-	border-top : solid 1px #f8f8f8 ;
-	box-shadow : 0 1px 1px rgba(0, 0, 0, .2) ;
-	text-shadow : 0 1px 0 rgba(255, 255, 255, .8) ;
-}
-
-#sstabmenu .parsimenu ul li:hover a {
-	background : none ;
-	border : none ;
-	color : #666 ;
-	box-shadow : none ;
-}
-
-#sstabmenu .parsimenu li:hover li a {
-	background : none ;
-	border : none ;
-	color : #666 ;
-	box-shadow : none ;
-}
-
-#sstabmenu .parsimenu ul a:hover {
-	background : -moz-linear-gradient(top,  #04acec,  #0186ba) !important ;
-	filter : progid ;
-	color : #fff !important ;
-	text-shadow : 0 1px 1px rgba(0, 0, 0, .1) ;
-}
-
-#sstabmenu .parsimenu ul {
-	z-index : 9999 ;
-	background : -moz-linear-gradient(top,  #fff,  #cfcfcf) ;
-	filter : progid ;
-	display : none ;
-	margin : 0 ;
-	padding : 0 ;
-	width : 185px ;
-	position : absolute ;
-	left : 0 ;
-	border : solid 1px #b4b4b4 ;
-	box-shadow : 0 1px 3px rgba(0, 0, 0, .3) ;
-}
-
-#sstabmenu .parsimenu li:hover > ul {
-	display : block ;
-}
-
-#sstabmenu .parsimenu ul li {
-	z-index : 9999 ;
-	float : none ;
-	margin : 0 ;
-	padding : 0 ;
-}
-
-#sstabmenu .parsimenu ul a {
-	font-weight : normal ;
-	text-shadow : 0 1px 1px rgba(255, 255, 255, .9) ;
-}
-
-#sstabmenu .parsimenu ul ul {
-	z-index : 9999 ;
-	left : 185px ;
-	top : -1px ;
-}
-
-#sstabmenu .parsimenu:after {
-	content : "." ;
-	display : block ;
-	clear : both ;
-	visibility : hidden ;
-	line-height : 0 ;
-	height : 0 ;
-}
-
-#sstabmenu .parsimenu.vertical ul {
-	left : 100% ;
-	top : 0 ;
-}
-
-#sstabmenu .parsimenu.vertical li {
-	float : none ;
-}
-
-#zertyui .parsimenu {
-	z-index : 9999 ;
-	margin : 0 ;
-	line-height : 100% ;
-	box-shadow : 0 1px 3px rgba(0, 0, 0, .4) ;
-	background : -moz-linear-gradient(top,  #a9a9a9,  #7a7a7a) ;
-	filter : progid ;
-	border : solid 1px #6d6d6d ;
-}
-
-#zertyui .parsimenu li {
-	z-index : 9999 ;
-	float : left ;
-	position : relative ;
-	list-style : none ;
-}
-
-#zertyui .parsimenu a {
-	font-weight : bold ;
-	color : #e7e5e5 ;
-	text-decoration : none ;
-	display : block ;
-	padding : 8px 20px ;
-	margin : 0 ;
-	text-shadow : 0 1px 1px rgba(0, 0, 0, .3) ;
-}
-
-#zertyui .parsimenu .current a {
-	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
-	filter : progid ;
-	color : #444 ;
-	border-top : solid 1px #f8f8f8 ;
-	box-shadow : 0 1px 1px rgba(0, 0, 0, .2) ;
-	text-shadow : 0 1px 0 rgba(255, 255, 255, .8) ;
-}
-
-#zertyui .parsimenu li:hover > a {
-	background : -moz-linear-gradient(top,  #ebebeb,  #a1a1a1) ;
-	filter : progid ;
-	color : #444 ;
-	border-top : solid 1px #f8f8f8 ;
-	box-shadow : 0 1px 1px rgba(0, 0, 0, .2) ;
-	text-shadow : 0 1px 0 rgba(255, 255, 255, .8) ;
-}
-
-#zertyui .parsimenu ul li:hover a {
-	background : none ;
-	border : none ;
-	color : #666 ;
-	box-shadow : none ;
-}
-
-#zertyui .parsimenu li:hover li a {
-	background : none ;
-	border : none ;
-	color : #666 ;
-	box-shadow : none ;
-}
-
-#zertyui .parsimenu ul a:hover {
-	background : -moz-linear-gradient(top,  #04acec,  #0186ba) !important ;
-	filter : progid ;
-	color : #fff !important ;
-	text-shadow : 0 1px 1px rgba(0, 0, 0, .1) ;
-}
-
-#zertyui .parsimenu ul {
-	z-index : 9999 ;
-	background : -moz-linear-gradient(top,  #fff,  #cfcfcf) ;
-	filter : progid ;
-	display : none ;
-	margin : 0 ;
-	padding : 0 ;
-	width : 185px ;
-	position : absolute ;
-	left : 0 ;
-	border : solid 1px #b4b4b4 ;
-	box-shadow : 0 1px 3px rgba(0, 0, 0, .3) ;
-}
-
-#zertyui .parsimenu li:hover > ul {
-	display : block ;
-}
-
-#zertyui .parsimenu ul li {
-	z-index : 9999 ;
-	float : none ;
-	margin : 0 ;
-	padding : 0 ;
-}
-
-#zertyui .parsimenu ul a {
-	font-weight : normal ;
-	text-shadow : 0 1px 1px rgba(255, 255, 255, .9) ;
-}
-
-#zertyui .parsimenu ul ul {
-	z-index : 9999 ;
-	left : 185px ;
-	top : -1px ;
-}
-
-#zertyui .parsimenu:after {
-	content : "." ;
-	display : block ;
-	clear : both ;
-	visibility : hidden ;
-	line-height : 0 ;
-	height : 0 ;
-}
-
-#zertyui .parsimenu.vertical ul {
-	left : 100% ;
-	top : 0 ;
-}
-
-#zertyui .parsimenu.vertical li {
-	float : none ;
-}
