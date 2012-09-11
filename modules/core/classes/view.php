@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- *  @authors Julien Gras et Benoît Lorillot
- *  @copyright  Julien Gras et Benoît Lorillot
+ *  @authors Julien Gras et BenoÃ®t Lorillot
+ *  @copyright  Julien Gras et BenoÃ®t Lorillot
  *  @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -315,9 +315,9 @@ class view implements \Iterator {
                 $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
             }
         }
+       $vars = array(); // init here for pagination
        if (isset($this->SQL['wheres'])) {
             $wheres = array();
-            $vars = array();
             foreach ($this->SQL['wheres'] AS $key => $where) {
                 if(strstr($where, ':') !== FALSE){
                     preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
@@ -355,7 +355,7 @@ class view implements \Iterator {
             $query .= ' ORDER BY ' . implode(',', $orders);
         }
         if (isset($this->SQL['pagination']) && $this->SQL['pagination']) {
-            $this->SQL['pagination'] = new \pagination($query, $this->SQL['limit']);
+            $this->SQL['pagination'] = new \pagination($query, $this->SQL['limit'],$vars);
             $start = $this->SQL['pagination']->getCurrentPage() * $this->SQL['limit'] - $this->SQL['limit'];
             $query .= ' LIMIT ' . $start . ',' . $this->SQL['limit'];
         }elseif (isset($this->SQL['limit'])) {
