@@ -29,7 +29,7 @@
 $categories = $this->getCategories();
 if(is_array($categories)){
     $category = current($categories);
-    if(isset($category['children']))
+    if(isset($category['children']) && count($category['children']) == 1)
 	$categories = $category['children'];
     echo $this->drawTree($categories);
 }
