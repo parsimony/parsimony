@@ -36,18 +36,13 @@
                 $($(this).attr("href")).show();
 		top.ParsimonyAdmin.resizeConfBox();
             });            
-            /* CTRL-S*/
-            var isCtrl = false;
-            $(window).keydown(function(e) {
-                if(e.ctrlKey) isCtrl = true;     
-                if(e.keyCode == 83 && isCtrl) {
-                    $("form").trigger("submit");
-                    return false;
-                }
-            }).keyup(function(e) {
-                isCtrl = false;
-            });
-	    
+            /* Shortcut : Save on CTRL+S */
+	    document.addEventListener("keydown", function(e) {
+		if (e.keyCode == 83 && e.ctrlKey) {
+		  e.preventDefault();
+		  $("form").trigger("submit");
+		}
+	    }, false);
         </script>
     </head>
     <body>
