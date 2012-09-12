@@ -56,7 +56,7 @@ class field_image extends \field {
      * @param string $height by default ''
      * @param string $path by default 'images'
      */
-    public function __construct($module, $entity, $name, $type='varchar', $characters_max='255', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $width='', $height='', $path='files') {
+    public function __construct($module, $entity, $name, $type='varchar', $characters_max='255', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $width='100', $height='100', $path='files') {
         $this->constructor(func_get_args());
     }
 
@@ -66,6 +66,7 @@ class field_image extends \field {
      */
     public function setWidth($width) {
         $this->width = $width;
+        return $this;
     }
 
     /**
@@ -74,6 +75,7 @@ class field_image extends \field {
      */
     public function setHeight($height) {
         $this->height = $height;
+        return $this;
     }
 
 }
