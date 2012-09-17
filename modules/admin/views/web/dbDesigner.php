@@ -125,6 +125,15 @@ include_once('modules/core/classes/field.php');
     .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
     #toolbar{font-weight: normal;line-height: 25px}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
+    #save.haveToSave{
+	color: white;
+	font-weight: bold;
+	background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
+	background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
+	background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
+	background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
+	background-image: linear-gradient(top, #44C5EC, #259BDB);
+    }
 </style> 
 
 <div id="tooltip-new-fields" class="none toolfield">
@@ -726,7 +735,7 @@ include_once('modules/core/classes/field.php');
 			    $html .= ob_get_clean();
 			    $html .= '</fieldset>';
 			}
-			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 0 0 2px 25%;"></div>';
+			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
 		    }
 		}
 		?>
@@ -773,7 +782,7 @@ include_once('modules/core/classes/field.php');
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><input type="text" name="behaviorDescription"></div>
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><input type="text" name="behaviorKeywords"></div>
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><input type="text" name="behaviorImage"></div>
-                <input type="submit" class="save_table" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 0 0 2px 25%;">
+                <input type="submit" class="save_table" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
             </div>
         </div>
         <div id="update_field">
@@ -915,6 +924,7 @@ include_once('modules/core/classes/field.php');
                     $("#deletator").prependTo($("body"));
                     current_update_field.text(obj.name);
                     $(this).parent().hide('slow');
+		    $("#save").addClass("haveToSave");
                 });
                 
                 /* Save table Settings */
@@ -928,6 +938,7 @@ include_once('modules/core/classes/field.php');
                     $("#deletator").prependTo($("body"));
                     current_update_table.find(".title").text(obj.name);
                     $(this).parent().parent().hide('slow');
+		    $("#save").addClass("haveToSave");
                 }); 
 		
                 /* Open Table Settings */
@@ -956,6 +967,7 @@ include_once('modules/core/classes/field.php');
                             obj.remove();
                         }
                     }
+		    $("#save").addClass("haveToSave");
                 })
 		
                 /* Show delete buttons on fields */
@@ -979,6 +991,14 @@ include_once('modules/core/classes/field.php');
                 
 		var current_update_field;
                 var current_update_table;
+		
+		/* Shortcut : Save on CTRL+S */
+		document.addEventListener("keydown", function(e) {
+		    if (e.keyCode == 83 && e.ctrlKey) {
+		      e.preventDefault();
+		      $("#save").trigger("click");
+		    }
+		}, false);
                 
                 $(document).on('click','#conf_box_close',function(){
                     $('#popup').hide();
@@ -1043,6 +1063,7 @@ include_once('modules/core/classes/field.php');
                     $.post('saveModel', {  module : '<?php echo $_POST['module'] ?>', list : propertylist },function(data){
                         ParsimonyAdmin.notify(t('New Data Model has been Saved') + data,"positive");
                     });
+		    $("#save").removeClass("haveToSave");
                 })
                 /* Choose behavior of the link */
                 .on('click','#popup input',function(){
@@ -1084,6 +1105,7 @@ include_once('modules/core/classes/field.php');
                 $("#toolbar").on('submit','#add_table',function(e){  
                     e.preventDefault();
                     dbadmin.createTable($("#table_name").val());
+		    $("#save").addClass("haveToSave");
                 });
                 
                 dbadmin.reDraw();
@@ -1168,6 +1190,7 @@ include_once('modules/core/classes/field.php');
                             champ.appendTo(this);
 			    
                             $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
+			    $("#save").addClass("haveToSave");
                         }
                     }
                 });

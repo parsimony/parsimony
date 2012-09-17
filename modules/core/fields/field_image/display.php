@@ -27,4 +27,4 @@
  */
  ?>
 
-<img src="<?php echo BASE_PATH; ?>thumbnail?c=<?php echo $this->module.'/'.$this->path.'/'.s($this); ?>&x=70&y=70"  />
+<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>"  />

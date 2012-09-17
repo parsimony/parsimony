@@ -763,7 +763,8 @@ class admin extends \module {
     protected function changeThemeAction($THEMEMODULE, $name) {
         $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/web.' .\app::$config['dev']['serialization']);
 	if ($path) {
-            $configObj = new \core\classes\config('config.php', TRUE);
+	    if(PROFILE == 'www') $configObj = new \core\classes\config('config.php', TRUE);
+            else $configObj = new \core\classes\config('profiles/' . PROFILE . '/modules/config.php', TRUE);
             $update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);
             $configObj->saveConfig($update);
             setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');

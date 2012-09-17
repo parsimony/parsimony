@@ -26,6 +26,8 @@ function blockAdminCSS() {
             $("#threed").show();
 	    function destroyCSSpicker(){
 		$('#container',ParsimonyAdmin.currentBody).off(".csspicker");
+                $("#rotatex,#rotatey").val(0);
+                $("#rotatez").val(300);
 		$("#csspicker").removeClass("active");
 	    }
 	    if($(this).hasClass("active")){

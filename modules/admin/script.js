@@ -242,18 +242,14 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
 	    e.preventDefault();
 	});
-
-	/* CTRL-S*/
-	var isCtrl = false;
-	$(window).keydown(function(e) {
-	    if(e.ctrlKey) isCtrl = true;     
-	    if(e.keyCode == 83 && isCtrl) {
-		$("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
-		return false;
+	
+	/* Shortcut : Save on CTRL+S */
+	document.addEventListener("keydown", function(e) {
+	    if (e.keyCode == 83 && e.ctrlKey) {
+	      e.preventDefault();
+	      $("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
 	    }
-	}).keyup(function(e) {
-	    if(e.ctrlKey) isCtrl = false;
-	});
+	}, false);
 	
 	ParsimonyAdmin.hideOverlay();
 	ParsimonyAdmin.removeEmptyTextNodes(document.body);

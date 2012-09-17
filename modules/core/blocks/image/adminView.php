@@ -92,7 +92,11 @@ if ($this->getConfig('imgPath') != '') {
 		 }
 		 ?>" alt="" >
             <div id="size">
-<?php $size =  getimagesize( stream_resolve_include_path($this->getConfig('imgPath')));  echo '<label>' . t('Width', false) . ' : </label> <span id="width">' .   $size[0] . 'px' . '</span> ;  <label>' . t('Height', false) . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
+<?php 
+$size = array(0,0);
+$pathIMG = stream_resolve_include_path($this->getConfig('imgPath'));
+if($pathIMG) $size =  @getimagesize($pathIMG);
+echo '<label>' . t('Width', false) . ' : </label> <span id="width">' .   $size[0] . 'px' . '</span> ;  <label>' . t('Height', false) . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
             </div>
         </div>
 
