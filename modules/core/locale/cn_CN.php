@@ -13,7 +13,7 @@ $lang['You are connected'] = ' 您已经登录';
 $lang['You are not connected'] =  '无法连接';
 $lang['Videos'] = '视频';
 $lang['Documentation'] = '文档 ';
-$lang['Menu'] = 'Menu'; 菜单
+$lang['Menu'] = ' 菜单';
 $lang['Add A Link Manually'] = '加入新链接';
 $lang['Preview Menu'] = ' 菜单预览';
 $lang['Add Links'] = ' 加入新链接';
@@ -150,7 +150,7 @@ $lang['In line'] = ' 在线';
 $lang['Message'] = ' 消息';
 $lang['Behavior'] = '行为';
 $lang['Normal'] = ' 标准';
-$lang['Menu'] = 'Menu'; 菜单
+$lang['Menu'] = '菜单'; 
 $lang['Creation Date'] = ' 创建日期';
 $lang['Update Date'] = ' 保存日期';
 $lang['Begin programming in this area'] = ' 在此区域开始程序编制';
@@ -230,7 +230,7 @@ $lang['Current page']= '当前页面';
 $lang['Cardinality']=  '关联基数';
 $lang['Module']= '模板';
 $lang['Relation']= '关系';
-$lang['Title']= '标题'
+$lang['Title']= '标题';
 $lang['For 1']= '一个';
 $lang['For several']= ' 几个';
 $lang['Table Settings']= ' 桌面环境';
@@ -501,5 +501,6 @@ $lang['Delete'] = '删除';
 $lang['Move'] = '移动';
 $lang['Form View'] = '文档视图';
 $lang['In which form display the field ?'] = '在哪一文档显示此区域 ?';
+
 
 
