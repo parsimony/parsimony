@@ -337,7 +337,7 @@ $lang['Create Block']= ' 创建模块';
 $lang['Create Module']= ' 创建模板';
 $lang['URL & Rewriting']= ' URL及重写';
 $lang['Db Modeling']= ' DB模型';
-$lang['DB']= 'DB'; 
+$lang['DB']= '数据库'; 
 $lang['Manage Themes']= ' 主题管理';
 $lang['Logout']= ' 退出';
 $lang['Query Editor']= ' 发送请求';
@@ -501,6 +501,10 @@ $lang['Delete'] = '删除';
 $lang['Move'] = '移动';
 $lang['Form View'] = '文档视图';
 $lang['In which form display the field ?'] = '在哪一文档显示此区域 ?';
+$lang['Files'] = '档';
+$lang['Visual'] = '视觉的';
+$lang['Code'] = '编程';
+
 
 
 
