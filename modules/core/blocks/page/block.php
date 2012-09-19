@@ -30,8 +30,12 @@
 namespace core\blocks;
 
 /**
- * Page Block Class 
- * Manages Page Block
+ * @title Page
+ * @description  
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class page extends \block {

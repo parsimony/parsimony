@@ -30,14 +30,15 @@
 namespace core\fields;
 
 /**
- * field_string Class 
- * Create a field_string field
+ * @title String
+ * @description String
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class field_string extends \field {
-
-    /** @var string $title by default 'String' */
-    protected $title = 'String';
     
     public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $unique = FALSE){
         $this->constructor(func_get_args());

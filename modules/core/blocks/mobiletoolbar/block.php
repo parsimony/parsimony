@@ -29,15 +29,16 @@
 namespace core\blocks;
 
 /**
- * Mobiletoolbar Block Class 
- * Manages Mobiletoolbar Block
+ * @title Mobile Toolbar
+ * @description displays a configurable mobile toolbar
+ * @version 1
+ * @browsers all
+ * @allowed_types mobile,tablet,tv
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class mobiletoolbar extends \block {
-        
-        protected $title = 'displays a configurable mobile toolbar';
-    
-	public $allowedTypes = array('mobile', 'tablet', 'tv'); 
 
 }
 ?>

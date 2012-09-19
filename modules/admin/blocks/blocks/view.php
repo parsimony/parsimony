@@ -45,17 +45,17 @@ $arrayScript = array();
 		    $blockName = substr(strrchr(substr($path, 0, -10), '/block.php'), 1);
 		    if ($blockName !== 'error404' && $blockName !== 'page') {
 			$blockClassName = $moduleobj->getName() . '\blocks\\' . $blockName;
-			$obj = new ReflectionClass('\\' . $blockClassName);
-			$props = $obj->getDefaultProperties();
-			if (!isset($props['allowedTypes']) || (isset($props['allowedTypes']) && in_array(THEMETYPE, $props['allowedTypes']))) {
-			    if (isset($props['category']))
-				$categBlock = $props['category'];
+			$reflect = new ReflectionClass('\\' . $blockClassName);
+                        $blockInfos = \tools::getClassInfos($reflect);
+			if (!isset($blockInfos['allowed_types']) || (isset($blockInfos['allowed_types']) && strstr(','.str_replace(' ', '', $blockInfos['allowed_types']).',',','.THEMETYPE.','))) {
+			    if (isset($blockInfos['block_category']))
+				$categBlock = $blockInfos['block_category'];
 			    else
 				$categBlock = $moduleobj->getName();
 			    if (!isset($blocksCat[$categBlock]))
 				$blocksCat[$categBlock] = '';
-                            if(isset($props['title'])) $title = $props['title'];
-			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-tooltip="' . ucfirst($blockName).' '.$title. '" draggable="true" id="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center;"></div>';
+                            if(isset($blockInfos['description'])) $description = ucfirst(s($blockInfos['description']));
+			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-tooltip="' . ucfirst(s($blockInfos['title'])).' '.$description. '" draggable="true" id="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center;"></div>';
 			}
 		    }
                     if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){

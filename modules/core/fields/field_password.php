@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_password Class 
- * Create a field_password field
+ * @title Password
+ * @description Password
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_password extends \field {
 
-    /** @var string $title by default 'Password' */
-    protected $title = 'Password';
+class field_password extends \field {
 
     /**
      * Validate field

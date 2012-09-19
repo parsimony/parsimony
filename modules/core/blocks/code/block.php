@@ -29,13 +29,16 @@
 namespace core\blocks;
 
 /**
- * Code Block Class 
- * Manages Code Block
+ * @title Code
+ * @description displays a Code editor (PHP, js, HTML, CSS)
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class code extends \block {
     
-    protected $title = 'displays a Code editor (PHP, js, HTML, CSS)';
     /**
      * Initialize the block configs
      * Called when block is created

@@ -30,13 +30,15 @@
 namespace core\blocks;
 
 /**
- * Gallery Block Class 
- * Manages Gallery Block
+ * @title Gallery
+ * @description allows you to build an image gallery in drag n drop
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class gallery extends \block {
-
-    protected $title = 'allows you to build an image gallery in drag n drop';
     
     public function saveConfigs() {
         $this->setConfig('img', $_POST['img']);

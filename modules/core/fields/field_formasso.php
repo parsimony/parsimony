@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_formasso Class 
- * Create a field_formasso field
+ * @title N:N Association Form
+ * @description N:N Association Form
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_formasso extends \field {
 
-    /** @var string $title by default 'Magic Form' */
-    protected $title = 'N:N Association Form';
+class field_formasso extends \field {
 
     /**
      * Build a field_formasso field

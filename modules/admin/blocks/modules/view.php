@@ -35,6 +35,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
     $activeModule = array_merge(array(MODULE => '1'), \app::$activeModules);
     foreach ($activeModule as $module => $type) {
         $moduleobj = \app::getModule($module);
+        $moduleInfos = \tools::getClassInfos($moduleobj);
 	$icon = '';
         if (is_file('modules/' . $module . '/icon.png'))
             $icon = 'background:url(' . BASE_PATH . $module . '/icon.png)';
@@ -42,9 +43,9 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js');
         if ($adminHTML == FALSE)
             $htmlConfig = '';
         else
-            $htmlConfig = '<div class="action floatright" style="margin:3px; line-height:0;" rel="getViewModuleAdmin" params="module=' . $moduleobj->getName() . '" title="' . t('Administration Module', FALSE) . ' ' . ucfirst($moduleobj->getTitle()) . '"><img src="' . BASE_PATH . 'admin/img/config.png"/></div>';
+            $htmlConfig = '<div class="action floatright" style="margin:3px; line-height:0;" rel="getViewModuleAdmin" params="module=' . $moduleobj->getName() . '" title="' . t('Administration Module', FALSE) . ' ' . ucfirst(s($moduleInfos['title'])) . '"><img src="' . BASE_PATH . 'admin/img/config.png"/></div>';
         if ($module != 'admin')
-            echo '<div class="titleTab ellipsis"><span style="margin: 5px 7px 0px 7px;' . $icon . '" class="sprite sprite-module floatleft"></span> ' . ucfirst($moduleobj->getTitle()) . $htmlConfig . '</div>';
+            echo '<div class="titleTab ellipsis"><span style="margin: 5px 7px 0px 7px;' . $icon . '" class="sprite sprite-module floatleft"></span> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
         $display = '';
         if ($module != MODULE)
             $display = 'none';

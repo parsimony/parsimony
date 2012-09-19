@@ -230,6 +230,17 @@ class tools {
         return unserialize(file_get_contents($filename. '.' .\app::$config['dev']['serialization']));
     }
     
+    public static function getClassInfos($reflect) {
+        if(!($reflect instanceof \ReflectionClass)) $reflect = new \ReflectionClass($reflect);
+        $com = $reflect->getDocComment();
+        preg_match_all("/@([^\s]+) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture comments
+	$infos = array();
+	foreach ($matchs as $match) {
+	    $infos[$match[1]] = $match[2];
+	}
+        return $infos;
+    }
+    
     /**
      * Reset a new password to an user and send by email
      * @param $userMail mail

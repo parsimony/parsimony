@@ -27,14 +27,18 @@
  */
 
 namespace core\fields;
+
 /**
- * field_ident Class 
- * Create a field_ident field
+ * @title Ident
+ * @description Ident
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_ident extends \field {
 
-    /** @var string $title by default 'Ident' */
-    protected $title = 'Ident';
 /**
  * Build a field_ident field
  * @param string $module

@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_wysiwyg Class 
- * Create a field_wysiwyg field
+ * @title Wysiwyg
+ * @description Wysiwyg
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_wysiwyg extends \field {
 
-    /** @var string $title by default 'WYSIWYG' */
-    protected $title = 'Wysiwyg';
+class field_wysiwyg extends \field {
 
     /**
      * Build a field_code field

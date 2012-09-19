@@ -29,9 +29,18 @@
 
 namespace core;
 
+/**
+ * @title Parsimony
+ * @description Module Core
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @php_extension php_pdo_mysql,php_gd2
+ * @php_settings magic_quotes_gpc:0,register_globals:0
+ */
+
 class core extends \module {
 
-    protected $title = 'Parsimony';
     protected $name = 'core';
 
     public function __wakeup() {

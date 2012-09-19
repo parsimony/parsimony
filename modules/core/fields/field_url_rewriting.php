@@ -30,15 +30,16 @@
 namespace core\fields;
 
 /**
- * field_url_rewriting Class 
- * Create a url_rewriting field
+ * @title URL Rewriting
+ * @description URL Rewriting
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class field_url_rewriting extends \field {
 
-    /** @var string $title by default 'url_rewriting' */
-    protected $title = 'url Rewriting';
-    
     public function __construct($module, $entity, $name, $type='VARCHAR', $characters_max=255, $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE,$regex='[a-z0-9-]*', $visibility = 7, $propertyToURL='', $unique = FALSE) {
         $this->constructor(func_get_args());
     }

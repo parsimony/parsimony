@@ -27,13 +27,18 @@
  */
 
 namespace core\fields;
+
 /**
- * field_numeric Class 
- * Create a field_numeric field
+ * @title Percentage
+ * @description Percentage
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_percent extends \field {
-    /** @var string $title by default 'Numeric' */
-    protected $title = 'Percentage';
+
     /**
      * Build a field_numeric field
      * @param string $module

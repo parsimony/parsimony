@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_date Class 
- * Create a field_date field
+ * @title Date
+ * @description Date
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_date extends \field {
 
-    /** @var string $title by default 'Date' */
-    protected $title = 'Date';
+class field_date extends \field {
 
     /**
      * Build a field_date field

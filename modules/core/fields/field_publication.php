@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_publication Class 
- * Create a field_publication field
+ * @title Publication
+ * @description Publication
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_publication extends \field {
 
-    /** @var string $title by default 'Publication' */
-    protected $title = 'Publication';
+class field_publication extends \field {
 
     /**
      * Build a field_publication field

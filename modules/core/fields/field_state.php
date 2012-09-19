@@ -30,12 +30,16 @@
 namespace core\fields;
 
 /**
- * field_state Class 
- * Create a field_state field
+ * @title State
+ * @description State
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_state extends \field {
-    /** @var string $title by default 'State' */
-    protected $title = 'State';
+
     /**
      * Build a field_state field
      * @param string $module

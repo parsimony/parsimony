@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_image Class 
- * Create a field_image field
+ * @title Image
+ * @description Image
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_image extends \field {
 
-    /** @var string $title by default 'Image' */
-    protected $title = 'Image';
+class field_image extends \field {
 
     /**
      * Build a field_image field

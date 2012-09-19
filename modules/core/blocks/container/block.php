@@ -30,14 +30,16 @@
 namespace core\blocks;
 
 /**
- * Container Block Class 
- * Manages Container Block
+ * @title Container
+ * @description can contains other blocks and is used to structure the page
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category containers
+ * @modules_dependencies core:1
  */
+
 class container extends \block {
-    
-    protected $title = 'can contains other blocks and is used to structure the page';
-    
-    protected $category = 'containers';
 
     public function display() {
 	$cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';

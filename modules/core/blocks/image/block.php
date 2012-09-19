@@ -29,13 +29,15 @@
 namespace core\blocks;
 
 /**
- * Image Block Class 
- * Manages Image Block
+ * @title Image
+ * @description displays a configurable image in drag n drop
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class image extends \block {
-    
-    protected $title = 'displays a configurable image in drag n drop';
     
     public function saveConfigs() {
         

@@ -30,9 +30,16 @@
 namespace admin;
 
 /**
- * Admin Class 
- * Manage the administration of Parsimony
+ * @title Amin
+ * @description Manage the administration of Parsimony
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @php_extension php_pdo_mysql
+ * @php_settings magic_quotes_gpc:0,register_globals:0
+ * @modules_dependencies core:1
  */
+
 class admin extends \module {
     
     protected $name = 'admin';

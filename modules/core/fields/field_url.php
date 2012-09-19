@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_url Class 
- * Create a field_url field
+ * @title URL
+ * @description URL
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_url extends \field {
 
-    /** @var string $title by default 'URL' */
-    protected $title = 'URL';
+class field_url extends \field {
 
     /**
      * Build a field_url field

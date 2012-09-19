@@ -29,13 +29,17 @@
 namespace core\blocks;
 
 /**
- * Query Block Class 
- * Manages Query Block
+ * @title Query
+ * @description is a point-and-click interface to build and display SQL Queries
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category database
+ * @modules_dependencies core:1
  */
+
 class query extends \block {
 
-    protected $title = 'is a point-and-click interface to build and display SQL Queries'; 
-    protected $category = 'database';
     protected $pathOfViewFile;
 
     public function init() {

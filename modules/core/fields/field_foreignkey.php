@@ -26,14 +26,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 namespace core\fields;
+
 /**
- * field_foreignkey Class 
- * Create a field_foreignkey field
- */ 
+ * @title Foreign Key
+ * @description Foreign Key
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
+ */
+
 class field_foreignkey extends \field {
-        
-        /** @var string $title by default 'Foreign Key' */
-        protected $title = 'Foreign Key';
 
 /**
  * Build a field_foreignkey field

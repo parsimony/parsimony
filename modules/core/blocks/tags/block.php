@@ -30,14 +30,16 @@
 namespace core\blocks;
 
 /**
- * Tags Block Class 
- * Manages Categories Block
+ * @title Tags
+ * @description displays the tags of your posts
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category blog
+ * @modules_dependencies core:1
  */
-class tags extends \block {
 
-    protected $title = 'displays the tags of your posts';
-    
-    protected $category = 'blog';
+class tags extends \block {
 
 }
 

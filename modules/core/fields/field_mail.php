@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_mail Class 
- * Create a field_mail field
+ * @title Mail
+ * @description Mail
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_mail extends \field {
 
-    /** @var string $title by default 'Mail' */
-    protected $title = 'Mail';
+class field_mail extends \field {
 
     /**
      * Build a field_mail field

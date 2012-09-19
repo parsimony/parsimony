@@ -681,6 +681,7 @@ include_once('modules/core/classes/field.php');
 			    $class = $aliasClasses[$class];
 			}
 			$field = new $class($_POST['module'], '', '');
+                        $fieldInfos = \tools::getClassInfos($field);
 			$args = array();
 			$ssmethod = new ReflectionMethod($class, '__construct');
 			$params = $ssmethod->getParameters();
@@ -693,7 +694,7 @@ include_once('modules/core/classes/field.php');
 			else
 			    $none = '';
 			echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-			echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst($field->getTitle()), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+			echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
@@ -746,14 +747,9 @@ include_once('modules/core/classes/field.php');
     foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
 	$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
 	$className = $reflect->getShortName();
-	$com = $reflect->getDocComment();
-	preg_match_all("/@(.*) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture the comments
-	$newArray = array();
-	foreach ($matchs as $match) {
-	    $newArray[$match[1]] = $match[2];
-	}
+        $modelInfos = \tools::getClassInfos($reflect);
 	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-	echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $newArray['top'] . ';left:' . $newArray['left'] . ';"><div class="title">' . $className . '</div>';
+	echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
 	$parameters = $entity->getFields();
 	foreach ($parameters as $propertyName => $field) {
 	    $class = get_class($field);

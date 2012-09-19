@@ -27,13 +27,18 @@
  */
 
 namespace core\fields;
+
 /**
- * field_numeric Class 
- * Create a field_numeric field
+ * @title Price
+ * @description Price
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_price extends \field {
-    /** @var string $title by default 'Numeric' */
-    protected $title = 'Price';
+
     /**
      * Build a field_numeric field
      * @param string $module

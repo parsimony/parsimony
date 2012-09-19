@@ -29,13 +29,15 @@
 namespace core\blocks;
 
 /**
- * Menu Block Class 
- * Manages Menu Block
+ * @title Menu
+ * @description displays a configurable menu in drag n drop
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class menu extends \block {
-    
-    protected $title = 'displays a configurable menu in drag n drop';
     
     public function arbo($items) {
 	if(!empty($items)){

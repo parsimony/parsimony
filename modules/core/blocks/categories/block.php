@@ -30,14 +30,16 @@
 namespace core\blocks;
 
 /**
- * Categories Block Class 
- * Manages Categories Block
+ * @title Categories
+ * @description displays categories of your articles
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category blog
+ * @modules_dependencies core:1
  */
+
 class categories extends \block {
-    
-    protected $title = 'displays categories of your articles';
-    
-    protected $category = 'blog';
 
     public function saveConfigs() {
 	$this->setConfig('display', $_POST['display']);

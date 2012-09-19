@@ -30,14 +30,17 @@
 namespace core\fields;
 
 /**
- * field_user Class 
- * Create a field_user field
+ * @title User
+ * @description User
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_user extends \field {
-    /** @var string $title by default 'User' */
-    protected $title = 'User';
-    
-        /**
+
+    /**
      * Build a field_numeric field
      * @param string $module
      * @param string $entity 

@@ -30,15 +30,16 @@
 namespace core\blocks;
 
 /**
- * Mobileheader Block Class 
- * Manages Mobileheader Block
+ * @title Mobile Header
+ * @description displays a configurable mobile header
+ * @version 1
+ * @browsers all
+ * @allowed_types mobile,tablet,tv
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class mobileheader extends \block {
-    
-    protected $title = 'displays a configurable mobile header';
-    
-    public $allowedTypes = array('mobile', 'tablet', 'tv');
 
     public function init() {
         $this->setConfig('text', 'Parsimony');

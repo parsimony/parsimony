@@ -29,13 +29,15 @@
 namespace core\blocks;
 
 /**
- * Connexion Block Class 
- * Manages Connexion Block
+ * @title Connexion
+ * @description displays a login form
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class connexion extends \block {
-    
-    protected $title = 'displays a login form';
     
     public function getAdminView(){
 	return t('No config for this block');

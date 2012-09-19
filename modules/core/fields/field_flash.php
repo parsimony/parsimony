@@ -26,14 +26,18 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 namespace core\fields;
+
 /**
- * field_flash Class 
- * Create a field_flash field
- */ 
+ * @title Flash
+ * @description Flash
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
+ */
+
 class field_flash extends \field {
 
-	/** @var string $title by default 'Flash' */
-        protected $title = 'Flash';
 /**
  * Build a field_code field
  * @param string $module

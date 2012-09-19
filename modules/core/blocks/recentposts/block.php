@@ -30,14 +30,16 @@
 namespace core\blocks;
 
 /**
- * Recentposts Block Class 
- * Manages Recentposts Block
+ * @title Recent Posts
+ * @description displays your most recent posts
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category blog
+ * @modules_dependencies core:1
  */
+
 class recentposts extends \block {
-    
-    protected $title = 'displays your most recent posts';
-    
-    protected $category = 'blog';
 
 } 
  

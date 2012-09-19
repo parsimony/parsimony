@@ -30,13 +30,15 @@
 namespace core\fields;
 
 /**
- * field_numeric Class 
- * Create a field_numeric field
+ * @title IP Address
+ * @description IP Address
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
-class field_ip extends \field {
 
-    /** @var string $title by default 'Numeric' */
-    protected $title = 'IP Address';
+class field_ip extends \field {
 
     /**
      * Build a field_numeric field

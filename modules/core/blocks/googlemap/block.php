@@ -29,13 +29,15 @@
 namespace core\blocks;
 
 /**
- * Googlemap Block Class 
- * Manages Googlemap Block
+ * @title Google Map
+ * @description displays a configurable google map
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class googlemap extends \block {
-    
-    protected $title = 'displays a configurable google map';
     
     public function saveConfigs() {
 	    $this->setConfig('adress', $_POST['adress']);

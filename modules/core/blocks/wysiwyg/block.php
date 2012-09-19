@@ -30,13 +30,15 @@
 namespace core\blocks;
 
 /**
- * Wysiwyg Block Class 
- * Manages Wysiwyg Block
+ * @title Wysiwyg
+ * @description displays a rich text editor
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 
 class wysiwyg extends \block {
-
-    protected $title = 'displays a rich text editor';
     
     public function init() {
         if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme')

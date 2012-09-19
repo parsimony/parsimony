@@ -30,15 +30,17 @@
 namespace core\blocks;
 
 /**
- * Calendar Block Class 
- * Manages Calendar Block
+ * @title Calendar
+ * @description displays posts by months in a calendar
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category blog
+ * @modules_dependencies core:1
  */
-class calendar extends \block {
-    
-    protected $title = 'displays posts by months in a calendar';
-    
-    protected $category = 'blog';
 
+class calendar extends \block {
+   
 } 
  
 ?>

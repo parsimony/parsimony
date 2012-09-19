@@ -3,14 +3,16 @@
 namespace core\blocks;
 
 /**
- * Formadd Block Class 
- * Manages formadd Block
+ * @title Form Add
+ * @description displays in one click the add form of db model
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category database
+ * @modules_dependencies core:1
  */
+
 class formadd extends \block {
-    
-    protected $title = 'displays in one click the add form of db model';
-    
-    protected $category = 'database';
     
     public function init() {
         $this->setConfig('regenerateview', 1);

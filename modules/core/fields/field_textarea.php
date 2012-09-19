@@ -30,13 +30,16 @@
 namespace core\fields;
 
 /**
- * field_textarea Class 
- * Create a field_textarea field
+ * @title Text
+ * @description Text
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
+
 class field_textarea extends \field {
 
-    /** @var string $title by default 'Text' */
-    protected $title = 'Text';
     /**
      * Build a field_textarea field
      * @param string $module
