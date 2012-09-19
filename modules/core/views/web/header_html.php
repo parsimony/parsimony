@@ -1,1 +1,0 @@
-<h1>My site</h1><h3>Parsimony : Just a more effective webprogramming</h3><div class="clearboth"></div> 
