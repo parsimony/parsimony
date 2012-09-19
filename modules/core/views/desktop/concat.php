@@ -22,16 +22,32 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/blocks
+ * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/* In case the file isn't in PROFILES/ */
-if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$this->getConfig('pathCode'))){
-    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathCode')));
-    copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
+if ($_REQUEST['format'] == 'css')
+    app::$response->setFormat('css');
+else
+    app::$response->setFormat('js');
+$hash = md5(app::$request->getParam('files'));
+$pathCache = 'cache/' . $hash . '.' . $_REQUEST['format'];
+if (is_file($pathCache) && app::$config['dev']['status'] == 'prod') {
+    app::$response->setHeader('Expires', gmdate( 'D, d M Y H:i:s', time() + 999999 ) . ' GMT' );
+    include($pathCache);
+} else {
+    $files = explode(',', $_REQUEST['files']);
+    ob_start();
+    foreach ($files as $file) {
+	$pathParts = pathinfo($file,PATHINFO_EXTENSION);
+	if($pathParts == 'js' || $pathParts=='css'){
+	    $file2 = substr($file, strlen(BASE_PATH));
+	    $path = stream_resolve_include_path (substr($file, strlen(BASE_PATH)));
+	    if($path) include($path);
+	}
+    }
+    $html = ob_get_clean();
+    echo $html;
+    file_put_contents($pathCache,$html);
 }
-$path = PROFILE_PATH.$this->getConfig('pathCode');
-$editorMode = 'application/x-httpd-php';
-include('modules/admin/views/desktop/editor.php');
+
 ?>

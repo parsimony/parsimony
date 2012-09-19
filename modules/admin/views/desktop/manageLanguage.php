@@ -22,16 +22,20 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/blocks
+ * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* In case the file isn't in PROFILES/ */
-if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$this->getConfig('pathCode'))){
-    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathCode')));
-    copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
-}
-$path = PROFILE_PATH.$this->getConfig('pathCode');
-$editorMode = 'application/x-httpd-php';
-include('modules/admin/views/desktop/editor.php');
 ?>
+<div>
+    <select onchange="parent.ParsimonyAdmin.changeLocale(this.value)" id="languages" style="width:300px">
+        <?php
+        foreach (\request::$locales AS $code => $locale) {
+            if (isset($_COOKIE['locale']) && isset(\request::$locales['locales'][$_COOKIE['locale']]) && $_COOKIE['locale'] == $code)
+                echo '<option value="' . $code . '" selected="selected">' . $locale . '</option>';
+            else
+                echo '<option value="' . $code . '">' . $locale . '</option>';
+        }
+        ?>
+    </select>
+</div>

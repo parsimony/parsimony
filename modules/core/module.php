@@ -60,7 +60,7 @@ class core extends \module {
 		'1000x1600' => '16/10'), 'detectFnc' => function() {
 		return preg_match('@(GoogleTV)@', $_SERVER['HTTP_USER_AGENT']);
 	    });
-	\app::$devices[] = array('name' => 'web', 'resolution' => array('max' => 'Normal',
+	\app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
 		'640x480' => '640 x 480',
 		'800x600' => '800 x 600',
 		'1024x768' => '1024 x 768',
@@ -133,11 +133,11 @@ class core extends \module {
     }
 
     public function concatAction() {
-	return $this->getView('concat', 'web');
+	return $this->getView('concat', 'desktop');
     }
 
     public function connectAction() {
-	return $this->getView('connect', 'web');
+	return $this->getView('connect', 'desktop');
     }
 
     public function loginAjaxAction() {
@@ -165,16 +165,16 @@ class core extends \module {
     }
 
     public function importAction() {
-	return $this->getView('import', 'web');
+	return $this->getView('import', 'desktop');
     }
 
     public function thumbnailAction() {
-	echo $this->getView('thumbnail', 'web');
-	return $this->getView('thumbnail', 'web');
+	echo $this->getView('thumbnail', 'desktop');
+	return $this->getView('thumbnail', 'desktop');
     }
     
     public function sitemapAction() {
-	return $this->getView('sitemap', 'web');
+	return $this->getView('sitemap', 'desktop');
     }
 
     public function install() {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parsimony
  *
@@ -22,16 +23,28 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/blocks
+ * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/* In case the file isn't in PROFILES/ */
-if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$this->getConfig('pathCode'))){
-    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathCode')));
-    copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
-}
-$path = PROFILE_PATH.$this->getConfig('pathCode');
-$editorMode = 'application/x-httpd-php';
-include('modules/admin/views/desktop/editor.php');
 ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>PHP Error</title>
+	<style>
+	    body{color: #D8D5D2;background: #D8D5D2;}
+	    #message{background: #FBFAF5;border:1px #444 solid;position: relative;top:200px;margin:0 auto;max-width:650px;padding:10px;color:#484848;border-radius:10px}
+	    #message div{margin:5px}
+	    .label{text-decoration: underline;font-weight: bold;}
+	</style>
+    </head>
+    <body>
+	<div id="message">
+	    <div><span class="label"><?php echo t('Code', False) ?></span>: <?php echo $code ?></div>
+	    <div><span class="label"><?php echo t('File', False) ?> </span>: <?php echo $file ?></div>
+	    <div><span class="label"><?php echo t('In line', False) ?> </span>: <?php echo $line ?></div>
+	    <div><span class="label"><?php echo t('Message', False) ?> </span>: <?php echo $message ?></div>
+	</div>
+    </body>
+</html>

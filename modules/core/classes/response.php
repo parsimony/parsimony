@@ -106,7 +106,7 @@ class response {
             }
 	    if ($structure){
 		ob_start();
-		include('core/views/web/index.php');
+		include('core/views/desktop/index.php');
 		$this->body = ob_get_clean();
 	    }
 		

@@ -317,7 +317,7 @@ namespace core\classes {
                     if (ob_get_level()) ob_clean();
                     echo json_encode(array('notification' => $file . ' : ' . $message . ' in line ' . $line, 'notificationType' => 'negative'));
                 } else {
-                    include($root . 'modules/core/views/web/error.php');
+                    include($root . 'modules/core/views/desktop/error.php');
                 }
                 exit;
             }

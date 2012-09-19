@@ -22,16 +22,41 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/blocks
+ * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/* In case the file isn't in PROFILES/ */
-if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$this->getConfig('pathCode'))){
-    \tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathCode')));
-    copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
+$cachePath = 'cache/'.urlencode($_GET['x'].$_GET['y'].$_GET['path']);
+if(file_exists($cachePath)){
+    list($width, $height, $type, $attr) = getimagesize($cachePath);
+	 switch ($type) {
+            case 1:
+                header("Content-type: image/gif");
+                break;
+            case 2:
+                header("Content-type: image/jpeg");
+                break;
+            case 3:
+                header("Content-type: image/png");
+                break;
+            case 15:
+                header("Content-type: image/wbmp");
+                break;
+            default:
+                break;
+        }
+	echo file_get_contents($cachePath);
+	exit;
 }
-$path = PROFILE_PATH.$this->getConfig('pathCode');
-$editorMode = 'application/x-httpd-php';
-include('modules/admin/views/desktop/editor.php');
+
+
+$im = new img($_GET['path']);
+if(!isset($_GET['crop'])){
+	$im->resize($_GET['x'],$_GET['y']);
+}else{
+	$im->crop($_GET['x'],$_GET['y']);
+}
+$im->save($cachePath,100);
+$im->display();
+
 ?>

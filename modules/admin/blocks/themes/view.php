@@ -36,7 +36,7 @@ background-image: -o-linear-gradient(top, white, #ECECEC);
 background-image: linear-gradient(top, white, #ECECEC);
 text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
     .adminzone .adminzonemenu{display: block;min-height: 0;width: auto}
-    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;background: #EEE url(admin/img/concrete_wall_3.png);}
+    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;background: #EEE url(<?php echo BASE_PATH; ?>admin/img/concrete_wall_3.png);}
     .adminzone .adminzonemenu .adminzonetab{border-left: 1px solid white;border-right: 1px solid #D3D5DB;float: left;border-top: none;border-bottom: none;}
     .adminzone .adminzonemenu .adminzonetab a{padding: 0 10px;color: #777; background: none;border-top: none;border-bottom:none;color: #464646;text-decoration: none;line-height:25px;}
     .adminzone .adminzonemenu .adminzonetab a.active, .adminzonemenu .adminzonetab a:hover{border-top: none;background: #E4E4E4;}

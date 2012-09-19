@@ -36,7 +36,7 @@
 <br>
 <?php
 $path = PROFILE_PATH .$this->getConfig('pathOfView');
-include('modules/admin/views/web/editor.php');
+include('modules/admin/views/desktop/editor.php');
 ?>
 <script>
     

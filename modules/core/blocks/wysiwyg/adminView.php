@@ -33,5 +33,5 @@ if(!is_file(PROFILE_PATH.$this->getConfig('path')) && is_file('modules/'.$this->
 }
 
 $path = PROFILE_PATH.$this->getConfig('path');
-include('modules/admin/views/web/editor.php');
+include('modules/admin/views/desktop/editor.php');
 ?>

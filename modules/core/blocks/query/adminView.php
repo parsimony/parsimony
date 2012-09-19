@@ -337,7 +337,7 @@ $view = $this->getConfig('view');
 		    $obj = $view;
 		    if ($this->getConfig('pagination') != 1)
 			$obj->limit(10);
-		    include('modules/admin/views/web/datagrid.php');
+		    include('modules/admin/views/desktop/datagrid.php');
 		}
 		?>
 	    </div>
@@ -352,7 +352,7 @@ $view = $this->getConfig('view');
 	</div>
 	<?php
 	$path = $this->pathOfViewFile;
-	include('modules/admin/views/web/editor.php');
+	include('modules/admin/views/desktop/editor.php');
 	?>
     </div>
 </div>
