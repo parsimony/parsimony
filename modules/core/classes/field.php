@@ -145,6 +145,15 @@ class field {
     public function getValue() {
         return $this->value;
     }
+    
+    /**
+     * Set field label
+     * @param string $label
+     */
+    public function setLabel($label) {
+        $this->label = $label;
+        return $this;
+    }
 
     /**
      * Get field title
