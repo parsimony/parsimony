@@ -94,8 +94,8 @@ include_once('modules/core/classes/field.php');
     .title{border-top-left-radius: 2px;border-top-right-radius: 2px;text-align: center;/*text-decoration: underline;*/}
     #leftsidebar{box-shadow: 2px 1px 8px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:28px;background: #EEE;border:1px solid #000000;}
     #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#F1F5F9;right:0;top:28px;}
-    #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff}
-    .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;}
+    #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(/parsimony_cms/admin/img/icons_white.png);}
+    .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(/parsimony_cms/admin/img/icons.png);}
     #outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
     h3{margin:10px 0;font-size:16px;padding-left: 5px;}
     .component{font-size: 11px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
@@ -698,7 +698,7 @@ include_once('modules/core/classes/field.php');
 			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
-<h2 style="margin-top:0"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;"></span>' . t('Field Settings', FALSE) . '</h2>
+<h2 style="margin-top:0;padding: 10px;"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 8px;background-image: url(/parsimony_cms/admin/img/icons_white.png);"></span>' . t('Field Settings', FALSE) . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
@@ -770,7 +770,7 @@ include_once('modules/core/classes/field.php');
     ?>
     <div id="rightsidebar" style="z-index:999">
         <div id="update_table">
-            <h2 style="margin-top:0"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;"></span><?php echo t('Table Settings', FALSE) ?></h2>
+            <h2 style="margin-top:0;padding: 10px;"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 8px;background-image: url(/parsimony_cms/admin/img/icons_white.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
             <div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>
