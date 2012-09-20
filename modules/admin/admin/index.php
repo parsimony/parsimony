@@ -242,6 +242,7 @@
 			<option value="prod"<?php if(app::$config['dev']['status']=='prod') echo ' selected="selected"'; ?>><?php echo t('Production', FALSE); ?></option>
 		    </select>
                 </div>
+                <?php /*
 		<div class="placeholder">
                     <label class="label"><?php echo t('Serialization', FALSE); ?></label>
 		    <select name="config[dev][serialization]">
@@ -249,6 +250,7 @@
 			<option value="json"<?php if(app::$config['dev']['serialization']=='json') echo ' selected="selected"'; ?>><?php echo t('Json', FALSE); ?></option>
 		    </select>
                 </div>
+                 * */ ?>
             </div>
              <div id="tabsb-8" class="admintabs">
                 <h2><?php echo t('Mailing'); ?> </h2>

@@ -214,20 +214,20 @@ class tools {
 	return $str;
     }
     
-        /**
+    /**
      * Serialize an object in a file
      * @return bool
      */
     public static function serialize($filename,$obj) {
-       return \tools::file_put_contents($filename. '.' .\app::$config['dev']['serialization'], serialize($obj));
+       return \tools::file_put_contents($filename. '.obj', serialize($obj));
     }
     
-        /**
+    /**
      * Unserialize an object of a file
      * @return bool
      */
     public static function unserialize($filename) {
-        return unserialize(file_get_contents($filename. '.' .\app::$config['dev']['serialization']));
+        return unserialize(file_get_contents($filename. '.obj'));
     }
     
     public static function getClassInfos($reflect) {
