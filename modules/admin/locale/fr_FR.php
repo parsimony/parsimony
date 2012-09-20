@@ -285,5 +285,7 @@ $lang['Registration']= 'inscription';
 $lang['State']= 'status';
 $lang['Name']= 'nom';
 $lang['Title']= 'Contenu';
+$lang['Module management']= 'Gestion des modules';
+$lang['No module detected']= 'Aucun module detecté';
 
 ?>

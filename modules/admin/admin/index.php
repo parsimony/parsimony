@@ -65,7 +65,7 @@
         <?php endif; ?>
         <div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization', FALSE); ?></a></div>
         <?php /*<div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences', FALSE); ?></a></div>*/ ?>
-        <div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Enable Module', FALSE); ?></a></div>
+        <div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security', FALSE); ?></a></div>
 	<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
@@ -181,19 +181,15 @@
                 </div>
 		  */ ?>
                 <div id="tabsb-5" class="admintabs">
-                    <h2><?php echo t('Enable Module', FALSE); ?></h2>
+                    <h2><?php echo t('Module management', FALSE); ?></h2>
 
                     <?php
                     $i = 0;
                     $tplright = '';
                     $tplleft = '';
-                    $right = '<table style="float:left;margin-left: 80px;margin-right: 1px;">
-                        <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead>';
-                    $left = '<table style="float:left; margin: 0px 30px;border-left: solid #CCC 1px;padding: 0px 25px;">
-                        <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead><tbody>';
                     foreach (glob('modules/*', GLOB_ONLYDIR) as $filename) {
                         $module = substr(strrchr($filename, '/'), 1);
-                        if ($module != 'core' && $module != 'db' && $module != 'admin') {
+                        if ($module != 'core' && $module != 'db' && $module != 'admin' && is_file('modules/'.$module.'/module.php')) {
                             $i++;
                             if (isset(\app::$activeModules[$module]))
                                 $checked = 'checked="checked"';
@@ -218,12 +214,22 @@
                                 <input type="checkbox" name="config[activeModules][' . $module . ']" class="display" value="' . $value . '" ' . $checked . '></div>
                             </td> ';
                             if ($i % 2 == 0)
-                                $tplleft .= $input; else
-                                $tplright .= $input/* .'</div>' */;
+                                $tplright .= $input;
+                            else
+                                $tplleft .= $input;
                         }
                     }
-                    echo $right . $tplright . '</tbody></table>';
-                    echo $left . $tplleft . '</tbody></table>';
+                    if(!empty($tplleft)){
+                        echo '<table style="float:left;margin:20px 1px 0 80px;border-left: solid #CCC 1px;padding: 0px 25px;">
+                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead><tbody>' . $tplleft . '</tbody></table>';
+                    }
+                    if(!empty($tplright)){
+                        echo '<table style="float:left; margin: 20px 30px">
+                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead>' . $tplright . '</tbody></table>';
+                    }
+                    if(empty($tplright) && empty($tplleft)){
+                        echo '<div style="margin-top:20px">'.t('No module detected', FALSE).'</div>';
+                    }
                     ?>
                 </div>
             </div>
