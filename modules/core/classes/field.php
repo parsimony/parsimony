@@ -154,6 +154,15 @@ class field {
         $this->label = $label;
         return $this;
     }
+    
+    /**
+     * Set field entity name
+     * @param string $name
+     */
+    public function setEntity($name) {
+        $this->entity = $name;
+        return $this;
+    }
 
     /**
      * Get field title

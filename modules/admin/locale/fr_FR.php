@@ -287,5 +287,7 @@ $lang['Name']= 'nom';
 $lang['Title']= 'Contenu';
 $lang['Module management']= 'Gestion des modules';
 $lang['No module detected']= 'Aucun module detecté';
+$lang['Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.']= 'Votre Attention : Si vous changez le nom de la table, vous allez désactiver toutes vos requêtes déjà effectuées avec l\'ancien nom.';
+$lang['Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.']= 'Votre Attention : Si vous changez le nom de la propriété, vous allez désactiver toutes vos requêtes déjà effectuées avec l\'ancien nom.';
 
 ?>

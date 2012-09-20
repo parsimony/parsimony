@@ -911,6 +911,11 @@ include_once('modules/core/classes/field.php');
                 		
                 /* Save field settings */
                 $("#update_field").on('click','.save_field',function(){
+                    if($('#update_' + current_update_field.attr('type_class') + ' input[name="name"]').val() != $('#update_' + current_update_field.attr('type_class') + ' input[name="oldName"]').val()){
+                        if(!confirm(('Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.'))){
+                            return false;
+                        }
+                    }
                     var json = '{';
                     $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
                         json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
@@ -925,16 +930,27 @@ include_once('modules/core/classes/field.php');
                 
                 /* Save table Settings */
                 $("#update_table").on('click','.save_table',function(){
+                    if($('#update_table input[name="name"]').val() != $('#update_table input[name="oldName"]').val()){
+                        if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
+                            return false;
+                        }
+                        /* we change the entity name of all his properties */
+                        $(".property", current_update_table).each(function(){
+                            var attrs = $(this).data("attributs");
+                            attrs.entity = $('#update_table input[name="name"]').val();
+                            $(this).data("attributs",attrs);
+                        });
+                    }
                     var json = '{';
                     $("#update_table input[name],#update_table select[name]").each(function(){
-                        json +=  '"' +$(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
+                        json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
                     });
                     var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
                     current_update_table.data("attributs",obj);
                     $("#deletator").prependTo($("body"));
                     current_update_table.find(".title").text(obj.name);
                     $(this).parent().parent().hide('slow');
-		    $("#save").addClass("haveToSave");
+                    $("#save").addClass("haveToSave");
                 }); 
 		
                 /* Open Table Settings */

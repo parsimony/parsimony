@@ -26,11 +26,15 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-\app::addListener('beforeBuildQuery', array($this, 'process'));
-$view = $this->getConfig('view');
-if ($view != FALSE) {
-    include($this->getConfig('pathOfViewFile'));
-} else {
+try {
+    \app::addListener('beforeBuildQuery', array($this, 'process'));
+    $view = $this->getConfig('view');
+    if ($view != FALSE) {
+        include($this->getConfig('pathOfViewFile'));
+    } else {
+        echo t('Please check the query configuration');
+    }
+} catch (Exception $e) {
     echo t('Please check the query configuration');
 }
 ?>

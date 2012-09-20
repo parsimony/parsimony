@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parsimony
  *
@@ -25,12 +26,15 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-$categories = $this->getCategories();
-if(is_array($categories)){
-    $category = current($categories);
-    if(isset($category['children']) && count($category['children']) == 1)
-	$categories = $category['children'];
-    echo $this->drawTree($categories);
+try {
+    $categories = $this->getCategories();
+    if (is_array($categories)) {
+        $category = current($categories);
+        if (isset($category['children']) && count($category['children']) == 1)
+            $categories = $category['children'];
+        echo $this->drawTree($categories);
+    }
+} catch (Exception $e) {
+    echo '<div>'.t('No categories').'</div>';
 }
 ?>
