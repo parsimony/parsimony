@@ -527,8 +527,16 @@ class module {
 	    tools::createDirectory('modules/' . $name);
 	    $template = '<?php
             namespace ' . $name . ';
+
+            /**
+             * @title ' . str_replace('\'', '\\\'', $title) . '
+             * @description ' . str_replace('\'', '\\\'', $title) . '
+             * @version 1
+             * @browsers all
+             * @php_version_min 5.3
+             */
+
             class ' . $name . ' extends \module {
-                protected $title = \'' . str_replace('\'', '\\\'', $title) . '\';
                 protected $name = \'' . str_replace('\'', '\\\'', $name) . '\';
             }
             ?>';
