@@ -136,6 +136,9 @@ class admin extends \module {
 	/* If exists : Add default block CSS in current theme  */
 	if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
 	    $css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
+	    if(!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css')){
+		file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css',file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css'));
+	    }
 	    $cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
 	    foreach ($css->getAllSselectors() as $selector) {
 		$newSelector = '#'.$idBlock.' '.$selector;
