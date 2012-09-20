@@ -725,8 +725,8 @@ $selectors = $css->getAllSselectors();
         var code = event.keyCode || event.which; 
         if(code != 13) {
             if (event.type == 'keyup') {
-                $('.cssPicker',ParsimonyAdmin.currentBody).removeClass('cssPicker');
-                $("#container " + $('#current_selector_update').val(),ParsimonyAdmin.currentBody).addClass('cssPicker');
+                $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+                $($('#current_selector_update').val(),ParsimonyAdmin.currentDocument).addClass('cssPicker');
             }
 	    $("#panelcss").addClass("CSSSearch");
         }
