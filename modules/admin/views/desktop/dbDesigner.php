@@ -930,14 +930,23 @@ include_once('modules/core/classes/field.php');
                 
                 /* Save table Settings */
                 $("#update_table").on('click','.save_table',function(){
-                    if($('#update_table input[name="name"]').val() != $('#update_table input[name="oldName"]').val()){
+                    var oldName = $('#update_table input[name="oldName"]').val();
+                    var newName = $('#update_table input[name="name"]').val();
+                    if(newName != oldName){
                         if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
                             return false;
                         }
                         /* we change the entity name of all his properties */
                         $(".property", current_update_table).each(function(){
                             var attrs = $(this).data("attributs");
-                            attrs.entity = $('#update_table input[name="name"]').val();
+                            attrs.entity = newName;
+                            $(this).data("attributs",attrs);
+                        });
+                         /* we change the link entity name for all foreign keys that link to this table */
+                        $('.property[type_class="field_foreignkey"]').each(function(){
+                            var attrs = $(this).data("attributs");
+                            if(attrs.link == oldName)
+                                attrs.link = newName;
                             $(this).data("attributs",attrs);
                         });
                     }
