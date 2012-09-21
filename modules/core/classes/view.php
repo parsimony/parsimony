@@ -463,7 +463,8 @@ class view implements \Iterator {
     
     public function isEmpty() {
         $this->buildQuery();
-        return !(bool)$this->SQL['stmt']->fetch();
+        if (is_object($this->SQL['stmt'])) return !(bool)$this->SQL['stmt']->fetch();
+        else return TRUE;
     }
 
     /**
