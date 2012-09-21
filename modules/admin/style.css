@@ -520,7 +520,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 .explorer{float:right;cursor:pointer;margin-right: 15px;}
 
 /* Notify */
-#notify{border-radius: 0 0 5px 5px;border: solid #DDD 1px;border-top:0;box-shadow: 0px 1px 15px #C9C9C9;position: fixed;top: 29px;left: 30%;padding: 2px 30px;z-index: 1000001;display: none;width: 500px;text-align: center;}
+#notify{border-radius: 0 0 5px 5px;border: solid #DDD 1px;border-top:0;box-shadow: 0px 1px 15px #C9C9C9;position: fixed;top: 29px;left: 30%;padding: 2px 30px;z-index: 1000001;display: none;width: 600px;text-align: center;}
 #notify.positive{color:#5C8011;background:#A2E01B;border:solid #5C8011 1px;}
 #notify.negative{color:#E0960B;background:#FFE5B5;border:solid #E0960B 1px;}
 #notify.normal{color:#444;background:#eee;border:solid #333 1px;}
