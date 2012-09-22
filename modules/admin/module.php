@@ -227,6 +227,7 @@ class admin extends \module {
 	    $results['notificationType'] = 'normal';
 	\app::$response->setHeader('X-XSS-Protection', '0');
 	\app::$response->setHeader('Content-type', 'application/json');
+        ob_clean();
 	return json_encode($results);
     }
 

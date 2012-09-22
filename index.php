@@ -29,9 +29,6 @@ include('install.php');exit;
 
 define('PARSIMONY_VERSION','0.6');
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 include('modules/core/classes/app.php');
 spl_autoload_register('\core\classes\app::autoLoad');
 set_error_handler('\core\classes\app::errorHandler');

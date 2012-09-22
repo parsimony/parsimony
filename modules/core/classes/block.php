@@ -221,7 +221,20 @@ abstract class block {
             if ($this->getConfig('ajaxLoad')) {
                 \app::$request->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$request->page->getId() . '", "' . $this->id . '")});</script>';
             } else {
-                $html .= $this->getView();
+                /* Catch all exceptions or error in order to keep tha page structure in creation mode */
+                try {
+                    $view = $this->getView();
+                    $html .= $view;
+                } catch (\Exception $e) {
+                    if(BEHAVIOR == 2){
+                        /* Display Error or exception just for the dev */
+                        ob_clean();
+                        $html .= '<div class="PHPError"><div class="titleError"><strong>Block </strong>#'.$this->getId().' </div>';
+                        $html .= '<div class="error"> <strong>'.t('Error').' '.t('in line').' </strong>'.$e->getLine().' : </strong>'.$e->getMessage().'</div>';
+                        $html .= '<div class="file"><strong>File : </strong>'.$e->getFile().'</div></div>';
+                    }
+                    
+                }
             }
             $html .= '<div class="clearboth"></div></' . $balise . '>';
             if ($maxAge > 0)

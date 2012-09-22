@@ -280,8 +280,17 @@ class request {
 		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
 	    define('ID_ROLE', $_SESSION['idr']);
             define('BEHAVIOR',$_SESSION['roleBehavior']);
-	}else
+            /* If user is a creator we display errors */
+            if(BEHAVIOR == 2){
+                error_reporting(-1); /* Report all errors */
+                ini_set('display_errors', 1); /* Display all errors */ 
+            }
+	}else{
 	    define('BEHAVIOR', 0);
+            /* We hide all errors */
+            error_reporting(0);
+            ini_set('display_errors', 0);
+        }
     }
 
     /**

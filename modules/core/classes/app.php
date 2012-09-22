@@ -101,8 +101,14 @@ namespace core\classes {
                     self::$request = new request();
 
                     /* Dispatch Request in case of HTTP Response */
-                    self::$request->dispatch();
+                    try {
+                             self::$request->dispatch();
                     echo self::$response->getContent();
+                    } catch (Exception $exc) {
+                        echo $exc->getTraceAsString();
+                    }
+
+               
                 }
             }
         }
@@ -275,8 +281,12 @@ namespace core\classes {
          * @param string $errfile
          * @param integer $errline
          */
-        public static function errorHandler($errno, $errstr, $errfile, $errline) {
-            self::errorLog($errno, $errfile, $errline, $errstr);
+        public static function errorHandler($code, $mess, $file, $line) {
+            if(error_reporting() == 0){
+                return true; // continue script execution
+            }
+            /* convert errors ( E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE) in exceptions */ 
+            throw new \ErrorException($mess, $code, $code, $file, $line);
         }
 
         /**
@@ -284,9 +294,25 @@ namespace core\classes {
          * @static function
          */
         public static function errorHandlerFatal() {
-            $lastError = error_get_last();
-            if ($lastError['type'] == 1 || $lastError['type'] == 4 || $lastError['type'] == 256)
+
+            $lastError = error_get_last();           
+            if(isset($lastError['type'])){ // for error type :  1, 4, 256
+                $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH; 
                 self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
+                if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
+                    if (ob_get_level()) ob_clean();
+                    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                        echo json_encode(array('notification' => $messHTML, 'notificationType' => 'negative'));
+                    } else {
+                        $code = $lastError['type'];
+                        $file = $lastError['file'];
+                        $line = $lastError['line'];
+                        $message = $lastError['message'];
+                        include($root . 'modules/core/views/desktop/error.php');
+                    }
+                }
+            }
+            exit;
         }
 
         /**
@@ -294,8 +320,9 @@ namespace core\classes {
          * @static function
          * @param exception object $e
          */
-        public static function exceptionHandler($e) {
+        public static function exceptionHandler($e) { 
             self::errorLog($e->getCode(), $e->getFile(), $e->getLine(), $e->getMessage());
+            return TRUE; // continue script execution
         }
 
         /**
@@ -306,21 +333,14 @@ namespace core\classes {
          * @param integer $line
          * @param string $message
          */
-        protected static function errorLog($code, $file, $line, $message) {
-            $trace = $code . ' - ' . $file . ' - ' . $line . ' - ' . $message . PHP_EOL;
-            $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH;
-            if (is_file($root . 'modules/core/errors.log'))
-                file_put_contents($root . 'modules/core/errors.log', $trace, FILE_APPEND);
+        public static function errorLog($code, $file, $line, $message) {
             self::dispatchEvent('error', array($code, $file, $line, $message));
-            if (!isset($_SESSION['idr']) || $_SESSION['idr'] == 1) {
-                if (isset($_POST['action'])) {
-                    if (ob_get_level()) ob_clean();
-                    echo json_encode(array('notification' => $file . ' : ' . $message . ' in line ' . $line, 'notificationType' => 'negative'));
-                } else {
-                    include($root . 'modules/core/views/desktop/error.php');
-                }
-                exit;
-            }
+            $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH;
+            
+            /* Log error */
+            if (is_file($root . 'modules/core/errors.log'))
+                file_put_contents($root . 'modules/core/errors.log', $message.' in '.$file.' '.t('in line').' '. $line , FILE_APPEND);
+
         }
 
     }

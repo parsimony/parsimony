@@ -139,13 +139,31 @@ class tools {
      * @param string $code
      * @return bool
      */
-    public static function testSyntaxError($code){
-	$return = @eval('return TRUE;?>' . $code . '<?php ');
+    public static function testSyntaxError($code,$vars = array()){
+        if(!empty($vars)) extract($vars);
+        /* Test for parse or syntax error  (ex: dgedgbsggb )  */
+        $return = @eval('return TRUE;?>' . $code . '<?php ');
 	if ( $return === false && ( $error = error_get_last()) ) {
 		return $error;
 	}else{
-		return TRUE;
+            /* If there's no parse or syntax error, Test for E_PARSE error (ex: require 'inexistant file'; ) */
+            $return = @eval('?>' . $code . '<?php ');
+            if ( $return === false && ( $error = error_get_last()) ) {
+		return $error;
+            }else{
+                /* If there's no E_PARSE error, Test for warning or notice error (ex: strstr(); )  */
+                try {
+                     $return = eval('?>' . $code . '<?php ');
+                } catch (Exception $exc) {
+                    echo $exc->getTraceAsString();
+                }
+               
+                if ( $return === false && ( $error = error_get_last()) ) {
+                    return $error;
+                }
+            }
 	}
+        return FALSE;
     }
 
     /**

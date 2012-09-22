@@ -35,18 +35,20 @@ class formadd extends \block {
             $this->setConfig('success', $_POST['success']);
             $this->setConfig('fail', $_POST['fail']);
             
-            \app::addListener('error', array($this, 'catchError'));
-
             $pathOfView = PROFILE_PATH .$this->getConfig('pathOfView');
-            if ($this->getConfig('regenerateview') == 1) {
-                \tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'),$this->getConfig('entity')));
-            } else {
-                \tools::file_put_contents($pathOfView, $_POST['editor']);
-            }
-
-            $testIfHasError = exec('php -l ' . $pathOfView);
-            if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')) {
-                file_put_contents($pathOfView, $testIfHasError . PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
+            
+            /* Test for errors in view and save */
+            \app::addListener('error', array($this, 'catchError'));
+            /* Test if new file contains errors */
+            $testIfHasError = \tools::testSyntaxError($_POST['editor'],array('entity' => \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'))));
+            /* If new file contains errors */
+            if (!$testIfHasError){
+                /* If there's no errors, Save new file */
+                if ($this->getConfig('regenerateview') == 1) {
+                    \tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'),$this->getConfig('entity')));
+                } else {
+                    \tools::file_put_contents($pathOfView, $_POST['editor']);
+                }
             }
         }
     }
@@ -64,10 +66,20 @@ class formadd extends \block {
     }
     
     public function catchError($code, $file, $line, $message) {
-        $mess = $message.' in '.$file.' in line '. $line ;
-        \tools::file_put_contents( $this->getConfig('pathCode'), $mess .PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
-        $return = array('eval' => '$("#' . basename($file,'.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
-        echo json_encode($return);
+        $mess = $message.' '.t('in line').' '. $line ;
+        if($code == 0 || $code == 2 || $code == 8 || $code == 256 || $code == 512 || $code == 1024 || $code == 2048 || $code == 4096 || $code == 8192 || $code == 16384){
+            /* If it's a low level error, we save but we notice the dev */
+            if ($this->getConfig('regenerateview') == 1) {
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $this->generateViewAction($_POST['properties']));
+            } else {
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $_POST['editor']);
+            }
+            $return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
+        }else{
+            $return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error', FALSE) . ' : ' . $mess, 'notificationType' => 'negative');
+        }
+        if (ob_get_level()) ob_clean();
+	echo json_encode($return);
         exit;
     }
 

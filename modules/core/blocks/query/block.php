@@ -63,21 +63,6 @@ class query extends \block {
         $this->setConfig('regenerateview', $_POST['regenerateview']);
         $this->setConfig('nbitem', $_POST['nbitem']);
 
-        \app::addListener('error', array($this, 'catchError'));
-
-        if ($this->getConfig('regenerateview') == 1) {
-            \tools::file_put_contents($pathOfViewFile, $this->generateViewAction($_POST['properties']));
-        } else {
-            \tools::file_put_contents($pathOfViewFile, $_POST['editor']);
-        }
-
-        //$testIfHasError = exec('php -l ' . $pathOfViewFile);
-        $testIfHasError = \tools::testSyntaxError($_POST['editor']);
-        //if (!empty($testIfHasError) && !strstr($testIfHasError, 'No syntax errors detected')){
-        if (is_array($testIfHasError)){
-            $this->catchError(0, $pathOfViewFile, $testIfHasError['line'], $testIfHasError['message']);
-        }
-
         $myView = new \view();
         if (isset($_POST['relations']))
             $myView = $myView->initFromArray($_POST['properties'], $_POST['relations']);
@@ -89,6 +74,20 @@ class query extends \block {
             $myView->limit($this->getConfig('nbitem'));
         $myView->buildQuery();
         $this->setConfig('view', $myView);
+        
+        /* Test for errors in view and save */
+        \app::addListener('error', array($this, 'catchError'));
+        /* Test if new file contains errors */
+        $testIfHasError = \tools::testSyntaxError($_POST['editor'],array('view' => $myView));
+        /* If new file contains errors */
+        if (!$testIfHasError){
+            /* If there's no errors, Save new file */
+            if ($this->getConfig('regenerateview') == 1) {
+                \tools::file_put_contents($pathOfViewFile, $this->generateViewAction($_POST['properties']));
+            } else {
+                \tools::file_put_contents($pathOfViewFile, $_POST['editor']);
+            }
+        }
     }
 
     public function generateViewAction($properties, $pagination = '', $filter = '', $sort = '') {
@@ -120,11 +119,20 @@ class query extends \block {
     }
 
     public function catchError($code, $file, $line, $message) {
-        $mess = $message . ' in ' . $file . ' '.t('in line').' ' . $line;
-        \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $mess . PHP_EOL . '<?php __halt_compiler(); ?>' . $_POST['editor']);
-        $return = array('eval' => '$("#' . basename($file, '.php') . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => $mess, 'notificationType' => 'negative');
-        ob_clean();
-        echo json_encode($return);
+        $mess = $message.' '.t('in line').' '. $line ;
+        if($code == 0 || $code == 2 || $code == 8 || $code == 256 || $code == 512 || $code == 1024 || $code == 2048 || $code == 4096 || $code == 8192 || $code == 16384){
+            /* If it's a low level error, we save but we notice the dev */
+            if ($this->getConfig('regenerateview') == 1) {
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $this->generateViewAction($_POST['properties']));
+            } else {
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $_POST['editor']);
+            }
+            $return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
+        }else{
+            $return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error', FALSE) . ' : ' . $mess, 'notificationType' => 'negative');
+        }
+        if (ob_get_level()) ob_clean();
+	echo json_encode($return);
         exit;
     }
 
