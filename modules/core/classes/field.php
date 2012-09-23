@@ -165,15 +165,7 @@ class field {
     }
 
     /**
-     * Get field title
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * Get field title
+     * Get field field path
      * @return string
      */
     public function getFieldPath() {

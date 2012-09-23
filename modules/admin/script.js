@@ -238,15 +238,13 @@ var ParsimonyAdmin = {
 	    }
 	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
 	    e.preventDefault();
-	});
-	    
-	$("#menu").on('click','a',function(e){
+	}).on('click','#menu a',function(e){
 	    ParsimonyAdmin.closeParsiadminMenu();
 	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-	})
-	.on("mouseenter",".CSSProps a",function(){
+	});
+	$("#menu").on("mouseenter",".CSSProps a",function(){
 	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-	    $(this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
+	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
 	});
 	
 	/* Shortcut : Save on CTRL+S */
