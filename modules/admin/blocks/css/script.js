@@ -45,8 +45,7 @@ function blockAdminCSS() {
 		e.preventDefault();
 		e.stopPropagation();
                 $("#threed").hide();
-                ParsimonyAdmin.$currentBody.css('-webkit-transform','initial');
-                ParsimonyAdmin.$currentBody.removeClass("threed");
+                ParsimonyAdmin.$currentBody.css('-webkit-transform','initial').removeClass("threed");
 		$(".cssPicker").removeClass("cssPicker");
 		$(this).addClass("cssPicker");
 		blockAdminCSS.getCSSForCSSpicker();
@@ -121,10 +120,10 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
 	blockAdminCSS.updateCSSUI($.parseJSON(data));
 	
     });
-    var selectorPrev = $("#current_selector_update_prev").val();
+    var selectorPrev = document.getElementById("current_selector_update_prev").value;
     if(selectorPrev.length > 0){
-	var nbstyle = $("#current_stylesheet_nb").val();
-	var nbrule = $("#current_stylesheet_nb_rule").val();
+	var nbstyle = document.getElementById("current_stylesheet_nb").value;
+	var nbrule = document.getElementById("current_stylesheet_nb_rule").value;
 	blockAdminCSS.setCss(nbstyle, nbrule, selectorPrev + "{" + ($("#current_stylesheet_rules").val() || " ") + "}");
     }
     document.getElementById("typeofinput").value = "form";
@@ -134,17 +133,17 @@ blockAdminCSS.displayCSSConf = function (filePath,selector) {
     var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
     for (var i = 0; i < styleSheets.length; i++){
 	if(styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.match(new RegExp(filePath))){
-	    $("#current_stylesheet_nb").val(i);
+	    document.getElementById("current_stylesheet_nb").value = i;
 	    $.each(styleSheets[i].cssRules, function(nbrule) {
 		if(this.selectorText == selector){
-		    $("#current_stylesheet_nb_rule").val(nbrule);
-		    $("#current_stylesheet_rules").val(styleSheets[i].cssRules[nbrule].style.cssText);
+		    document.getElementById("current_stylesheet_nb_rule").value = nbrule;
+		    document.getElementById("current_stylesheet_rules").value = styleSheets[i].cssRules[nbrule].style.cssText;
 		}
 	    });
-	    if($("#current_stylesheet_nb_rule").val().length == 0){
+	    if(document.getElementById("current_stylesheet_nb_rule").value.length == 0){
 		var nbRule = ParsimonyAdmin.currentDocument.styleSheets[i].cssRules.length;
 		if(nbRule > 0) nbrule = ParsimonyAdmin.currentDocument.styleSheets[i].cssRules.length - 1;
-		$("#current_stylesheet_nb_rule").val(nbRule);
+		document.getElementById("current_stylesheet_nb_rule").value = nbRule;
 	    }
 	}
     }
@@ -281,15 +280,13 @@ blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrul
 blockAdminCSS.openCSSForm = function () {
     $("#right_sidebar").removeClass("close");
     $("#paneltree").hide();
-    $("#panelcss").removeClass("CSSCode CSSSearch");
-    $("#panelcss").addClass("CSSForm").show();
-    $("#typeofinput").val("form");
+    $("#panelcss").removeClass("CSSCode CSSSearch").addClass("CSSForm").show();
+    document.getElementById("typeofinput").value = "form";
 }
 blockAdminCSS.openCSSCode = function () {
     $("#right_sidebar").removeClass("close");
-    $("#panelcss").removeClass("CSSForm CSSSearch");
-    $("#panelcss").addClass("CSSCode");
-    $("#typeofinput").val("code");
+    $("#panelcss").removeClass("CSSForm CSSSearch").addClass("CSSCode");
+    document.getElementById("typeofinput").value = "code";
     $("#changecsscode").empty();
     $.each(blockAdminCSS.csseditors,function(i, el){
 	blockAdminCSS.csseditors.splice(i,i+1);

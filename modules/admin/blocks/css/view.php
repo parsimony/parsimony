@@ -524,9 +524,8 @@ $selectors = $css->getAllSselectors();
             $(this).addClass("active");
 	    $(".panelcss_tab").addClass("hiddenTab");
             $("#" + $(this).attr("rel")).removeClass("hiddenTab");
-        });
-        
-        $("#panelcss").on('click','#savemycss',function(){
+        })
+	.on('click','#savemycss',function(){
             if($("#typeofinput").val()=='form') { // update prev styles
                 var nbstyle = $("#current_stylesheet_nb").val();
                 var nbrule = $("#current_stylesheet_nb_rule").val();
@@ -587,12 +586,11 @@ $selectors = $css->getAllSselectors();
         picker.el.style.display = "block";
         picker.el.style.top = ($(this).offset().top) + 20 + "px";
         picker.el.style.left = ($(this).offset().left - 200) + "px";
-    });
-    $("#panelcss").on('blur','.colorpicker2',function(){
+    })
+    .on('blur','.colorpicker2',function(){
         picker.el.style.display = "none";
-    });
-
-    $("#panelcss").on('change','.representation input:not(".resultcss"),.representation select:not(".resultcss")',function(){
+    })
+    .on('change','.representation input:not(".resultcss"),.representation select:not(".resultcss")',function(){
         obj = $(this).closest('.representation');
         reprToInput(obj);
     });
@@ -700,9 +698,8 @@ $selectors = $css->getAllSselectors();
 
     $("#panelcss").on("change",'#changecsspath',function(){
         if($('#current_selector_update').val().length > 2) blockAdminCSS.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
-    });
-    
-    $("#panelcss").on("click",'#goeditcss',function(){
+    })
+    .on("click",'#goeditcss',function(){
         var selector = $('#current_selector_update').val();
         var path = $('#changecsspath').val();
         if($("#typeofinput").val() == 'code') {
@@ -711,16 +708,14 @@ $selectors = $css->getAllSselectors();
         }else{
             blockAdminCSS.displayCSSConf(path,selector);
         }
-    });
-
-    $("#panelcss").on("keypress",'#current_selector_update',function(e){
+    })
+    .on("keypress",'#current_selector_update',function(e){
         var code = e.keyCode || e.which; 
         if(code == 13) {
             $("#goeditcss").trigger("click");
         }
-    });
-    
-    $("#panelcss").on('keyup keydown',"#current_selector_update", function(event) {
+    })
+    .on('keyup keydown',"#current_selector_update", function(event) {
         event.stopPropagation();
         var code = event.keyCode || event.which; 
         if(code != 13) {
@@ -730,14 +725,15 @@ $selectors = $css->getAllSselectors();
             }
 	    $("#panelcss").addClass("CSSSearch");
         }
-    });
-    $( "#css_panel" ).on('change','#slider-range-max', function( event, ui ) {
+    })
+    .on('change','#slider-range-max', function( event, ui ) {
         var val = $(this).val() ;
         if(val==1) val = '';
         $( "#positioning_opacity" ).val( val ).trigger("change").trigger("keyup");
     });    
-    $('div.titleTab').off('click');
-    $('div.titleTab').on('click',function(){
+    
+    $('div.titleTab').off('click')
+    .on('click',function(){
         var next = $(this).next();	
         if(next.is('ul')) $(this).next().slideToggle();       
     });

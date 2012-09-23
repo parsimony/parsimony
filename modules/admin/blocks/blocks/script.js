@@ -227,7 +227,7 @@ function block() {
 	var CSSProps = '';
 	if(typeof me.stylableElements != "undefined"){
 	    $.each(me.stylableElements, function(index, value) { 
-		CSSProps += '<a href="#" onclick="blockAdminCSS.displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;"><span class="ui-icon ui-icon-pencil floatleft"></span>'+ t('Design') + ' ' + t(index) + '</a>';
+		CSSProps += '<a href="#" onclick="blockAdminCSS.displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;" data-css="' + value + '"><span class="ui-icon ui-icon-pencil floatleft"></span>'+ t('Design') + ' ' + t(index) + '</a>';
 	    });
 	    CSSProps = '<span class="ui-icon ui-icon-carat-1-e floatright"></span><div class="none CSSProps">' + CSSProps + '</a>';
 	}

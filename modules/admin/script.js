@@ -229,10 +229,7 @@ var ParsimonyAdmin = {
         
 	ParsimonyAdmin.isInit = true;
 
-	$(document).on('click','#menu a',function(e){
-	    ParsimonyAdmin.closeParsiadminMenu();
-	})
-	.add('#config_tree_selector').on('click',".action", function(e){
+	$(document).add('#config_tree_selector').on('click',".action", function(e){
 	    var parentId = '';
 	    var inProgress = $("#treedom_" + ParsimonyAdmin.inProgress);
 	    if(inProgress.length > 0){
@@ -241,6 +238,15 @@ var ParsimonyAdmin = {
 	    }
 	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
 	    e.preventDefault();
+	});
+	    
+	$("#menu").on('click','a',function(e){
+	    ParsimonyAdmin.closeParsiadminMenu();
+	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+	})
+	.on("mouseenter",".CSSProps a",function(){
+	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+	    $(this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
 	});
 	
 	/* Shortcut : Save on CTRL+S */
