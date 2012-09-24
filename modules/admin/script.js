@@ -243,8 +243,9 @@ var ParsimonyAdmin = {
 	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
 	$("#menu").on("mouseenter",".CSSProps a",function(){
-	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
+	}).on("mouseout",".CSSProps a",function(){
+	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
 	
 	/* Shortcut : Save on CTRL+S */
