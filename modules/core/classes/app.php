@@ -86,7 +86,7 @@ namespace core\classes {
 
                 /* Load general configs */
                 if (PROFILE != 'www')
-                    include(PROFILE_PATH . 'config.php');
+                    include('profiles/'.PROFILE . '/config.php');
                 self::$activeModules = $config['activeModules'];
                 self::$config = $config;
 
@@ -101,12 +101,9 @@ namespace core\classes {
                     self::$request = new request();
 
                     /* Dispatch Request in case of HTTP Response */
-                    try {
-                             self::$request->dispatch();
+
+                    self::$request->dispatch();
                     echo self::$response->getContent();
-                    } catch (Exception $exc) {
-                        echo $exc->getTraceAsString();
-                    }
 
                
                 }
