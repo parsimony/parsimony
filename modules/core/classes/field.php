@@ -198,12 +198,11 @@ class field {
      * @return string
      */
     public function display(&$row = '') {
+	$this->displayView = 'display.php';
          if (!isset($this->mark)) {
             if (BEHAVIOR >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
                 \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
-            } else {
-                $this->displayView = 'display.php';
             }
             $this->mark = TRUE;
         }
@@ -223,12 +222,11 @@ class field {
         ob_start();
         $idName = $row->getId()->name;
         /*$authorName = $row->getBehaviorAuthor()->name;*/
-        if (!isset($this->mark)) {
+         $this->displayView = 'display.php';
+	if (!isset($this->mark)) {
             if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || BEHAVIOR >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
                 \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
-            } else {
-                $this->displayView = 'display.php';
             }
             $this->mark = TRUE;
         }

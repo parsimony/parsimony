@@ -439,8 +439,9 @@ class admin extends \module {
                 $css->addSelector($selector);
             }
             unset($_POST['selectors']);
-            $isCSS3 = FALSE;
+	    $isCSS3 = FALSE;
             foreach ($_POST AS $key => $value) {
+		$isCSS3 = FALSE;
                 $value = trim($value);
                 if ($value != '') {
                     if (!$css->propertyExists($selector, $key)) {
@@ -1143,6 +1144,28 @@ class admin extends \module {
 	    }
 	}
 	$return = array('eval' => '', 'notification' => t('The Permissions have been saved', FALSE), 'notificationType' => 'positive');
+	return $this->returnResult($return);
+    }
+    
+    /**
+     * Save WYSIWYGS
+     * @return string
+     */
+    protected function saveWYSIWYGSAction($changes) {
+	$changes = json_decode($changes);
+	if(!empty($changes)){
+	    foreach ($changes as $id => $wysiwyg) {
+		if(empty($wysiwyg->theme)){
+		    $blockObj = & \app::getModule($wysiwyg->module)->getPage($wysiwyg->idPage)->search_block($id);
+		}else{
+		    $theme = \theme::get($wysiwyg->module, $wysiwyg->theme, THEMETYPE);
+		    $blockObj = $theme->search_block($id, $theme);
+		}
+		
+		$blockObj->setContent($wysiwyg->html);
+	    }
+	    $return = array('eval' => '', 'notification' => t('Modifications have been saved', FALSE), 'notificationType' => 'positive');
+	}
 	return $this->returnResult($return);
     }
     

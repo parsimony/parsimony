@@ -343,7 +343,7 @@ class tools {
     }
 
     $html = '';
-    $str = preg_replace('/\s+/', ' ', $str);
+    $str = preg_replace('/ +/', ' ', $str);
     $tab = preg_split('/(<[^>]*>)/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     foreach ($tab AS $val) {
 	$innerTag = '';

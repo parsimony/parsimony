@@ -292,19 +292,19 @@ namespace core\classes {
          */
         public static function errorHandlerFatal() {
 
-            $lastError = error_get_last();           
+            $lastError = error_get_last();
             if(isset($lastError['type'])){ // for error type :  1, 4, 256
+		$code = $lastError['type'];
+		$file = $lastError['file'];
+		$line = $lastError['line'];
+		$message = $lastError['message'];
                 $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH; 
                 self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
                 if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
                     if (ob_get_level()) ob_clean();
                     if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                        echo json_encode(array('notification' => $messHTML, 'notificationType' => 'negative'));
+                        echo json_encode(array('notification' =>  $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
                     } else {
-                        $code = $lastError['type'];
-                        $file = $lastError['file'];
-                        $line = $lastError['line'];
-                        $message = $lastError['message'];
                         include($root . 'modules/core/views/desktop/error.php');
                     }
                 }
@@ -336,7 +336,7 @@ namespace core\classes {
             
             /* Log error */
             if (is_file($root . 'modules/core/errors.log'))
-                file_put_contents($root . 'modules/core/errors.log', $message.' in '.$file.' '.t('in line').' '. $line , FILE_APPEND);
+                file_put_contents($root . 'modules/core/errors.log', $message.'-||-'.$file.'-||-'. $line , FILE_APPEND);
 
         }
 

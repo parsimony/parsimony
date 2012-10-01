@@ -35,6 +35,7 @@ var ParsimonyAdmin = {
     inProgress :  "",
     typeProgress : "",
     wysiwyg : "",
+    unsavedChanges : false,
     plugins: [],
 	
     setPlugin :   function(plugin){
@@ -157,10 +158,18 @@ var ParsimonyAdmin = {
     
     loadEditMode :   function(){
         $(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
-        $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true");
+        $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
+	/* Shortcut : Save on CTRL+S */
+	.on("keydown.edit", function(e) {
+	    if (e.keyCode == 83 && e.ctrlKey) {
+	      e.preventDefault();
+	      ParsimonyAdmin.haveToSave = true;
+	    }
+	});
+	
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
-            ParsimonyAdmin.wysiwyg= new wysiwyg();
-            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage","undo","redo"], document, ParsimonyAdmin.currentDocument);
+            ParsimonyAdmin.wysiwyg = new wysiwyg();
+            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
         $(".HTML5editorToolbar").hide();
         
@@ -175,28 +184,54 @@ var ParsimonyAdmin = {
 	    e.stopPropagation();
 	    if(!$(this).hasClass("wysiwyg")) $(".HTML5editorToolbar").hide();
 	});
-	$(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).on('blur.edit',function(e){
-	    if( $(this).attr("data-changed") == "1"){
-		var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
-		var theme = ParsimonyAdmin.currentWindow.THEME;
-		var idPage = '';
-		if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
-		    theme = '';
-		    module = ParsimonyAdmin.currentWindow.MODULE;
-		    idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
+	
+	$("#toolbarEditMode").on('click.edit',".toolbarEditModeCommands",function(e){
+	    ParsimonyAdmin.currentDocument.execCommand(this.dataset.command, false, null);
+	})
+	.on('click.edit',"#toolbarEditModeSave",function(e){
+	    var changes = {};
+	     $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
+		if(this.dataset.changed) {
+		    var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
+		    var theme = ParsimonyAdmin.currentWindow.THEME;
+		    var idPage = '';
+		    if(ParsimonyAdmin.whereIAm(this.id) == 'page'){
+			theme = '';
+			module = ParsimonyAdmin.currentWindow.MODULE;
+			idPage = $(".container_page",ParsimonyAdmin.currentBody).data('page');
+		    }
+		    changes[this.id] = {idPage:idPage,theme:theme,module:module,html:this.innerHTML};
 		}
-		$.post(BASE_PATH + module + '/callBlock',{
-		    module:module, 
-		    idPage:idPage,
-		    theme: theme, 
-		    id:this.id, 
-		    method:'saveWYSIWYG', 
-		    args:"html=" + $(this).html()
-		    },function(data){
-		    ParsimonyAdmin.execResult(data);
+	    });
+	    $.post(BASE_PATH + 'admin/saveWYSIWYGS',{changes:JSON.stringify(changes)},function(data){
+			ParsimonyAdmin.unsavedChanges = false
+			$("#toolbarEditMode").slideUp();
+			$(".wysiwyg.activeEdit").attr("data-changed","0");
+			ParsimonyAdmin.execResult(data);
 		});
-		$(this).attr("data-changed","0");
+	});
+	
+	$(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).on('keyup.edit',function(e){
+	    /*var nbChanged = 0;
+	    $(".wysiwyg",ParsimonyAdmin.currentBody).each(function(){
+		if(this.dataset.changed) nbChanged++;
+	    });*/
+	    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
+	    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
+	    if(undo || redo){
+		$("#toolbarEditMode").slideDown();
+		if(undo) document.getElementById("toolbarEditModeUndo").style.display = "inline-block";
+		else document.getElementById("toolbarEditModeUndo").style.display = "none";
+		if(redo) document.getElementById("toolbarEditModeRedo").style.display = "inline-block";
+		else document.getElementById("toolbarEditModeRedo").style.display = "none";
+	    }else{
+		$("#toolbarEditMode").slideUp();
 	    }
+	    if(ParsimonyAdmin.haveToSave){
+		ParsimonyAdmin.haveToSave = false;
+		$("#toolbarEditModeSave").trigger("click");
+	    }
+	    ParsimonyAdmin.unsavedChanges = true;
 	});
 	
 	this.pluginDispatch("loadEditMode");
@@ -209,6 +244,7 @@ var ParsimonyAdmin = {
         $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
         $(".wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
         $(".HTML5editorToolbar").hide();
+	$("#toolbarEditMode").hide();
 	this.pluginDispatch("unloadEditMode");
     },
     loadPreviewMode :   function(){
@@ -242,6 +278,7 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.closeParsiadminMenu();
 	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
+	
 	$("#menu").on("mouseenter",".CSSProps a",function(){
 	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
 	}).on("mouseout",".CSSProps a",function(){
@@ -250,15 +287,21 @@ var ParsimonyAdmin = {
 	
 	/* Shortcut : Save on CTRL+S */
 	document.addEventListener("keydown", function(e) {
-	    if (e.keyCode == 83 && e.ctrlKey) {
+	    if (e.keyCode == 83 && e.ctrlKey) {alert();
 	      e.preventDefault();
-	      $("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
+		$("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
 	    }
 	}, false);
+	
+	$(window).bind("beforeunload",function(event) {
+	    if(ParsimonyAdmin.unsavedChanges) return t("You have unsaved changes");
+	});
 	
 	ParsimonyAdmin.hideOverlay();
 	ParsimonyAdmin.removeEmptyTextNodes(document.body);
 	this.pluginDispatch("init");
+	
+	
     }
     ,
     goToPage :   function (pageTitle,pageUrl, isHistory){

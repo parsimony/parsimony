@@ -80,6 +80,14 @@ function blockAdminCSS() {
 	    });
 	});
 	
+	/* Shortcut : Save on CTRL+S */
+	$(document).on("keydown.creation", function(e) {
+	    if (e.keyCode == 83 && e.ctrlKey) {
+	      e.preventDefault();
+	      $("#savemycss").trigger("click");
+	    }
+	});
+	
     }
     
     this.unloadCreationMode = function(){

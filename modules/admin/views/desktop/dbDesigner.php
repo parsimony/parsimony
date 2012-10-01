@@ -57,14 +57,15 @@ include_once('modules/core/classes/field.php');
 </style>
 <style type="text/css">
     .ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
-    body{margin:0;padding:0;font-family:verdana}
+    body{margin:0;padding:0;font-family:verdana;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    #container_bdd{margin:0;padding:0;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+    #container_bdd{margin:0;padding:0;
+		   background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
     ._jsPlumb_endpoint{z-index: 50}
     /*._jsPlumb_connector{z-index: 1}*/
     #field_list{margin:0;padding:0;border-radius: 8px;}
-    #field_list .myfield{position:relative;font-size: 12px;color: #222;width: 194px;margin: 2px;cursor: move;text-align: left;padding:5px;background-color: #F1F5F9;background-repeat:no-repeat;padding-left:23px;background-position: 2px 3px ;border: 1px solid #97B2D2;}
+    #field_list .myfield{position:relative;font-size: 12px;color: #222;width: 196px;margin: 2px;cursor: move;text-align: left;padding:5px;background-color: #F1F5F9;background-repeat:no-repeat;padding-left:23px;background-position: 2px 3px ;border: 1px solid #97B2D2;}
     #field_list .myfield:hover{background-color: #CBD8E8;}
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
@@ -76,13 +77,14 @@ include_once('modules/core/classes/field.php');
             border-radius: 5px;
             box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
             background: linear-gradient(#FFFFFF, #ddd);}
-    .table:hover{-webkit-box-shadow: 0px 0px 20px #ccc;}
+    .table:hover{box-shadow: 0px 0px 9px #777;}
+    .ui-draggable-dragging:hover{box-shadow: none} /*perf enhancement on drag table */
     .property{position:relative;cursor: pointer;border-bottom: dashed #CCC 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-family: arial;font-size: 12px;font-weight: normal;}
     .property.current_property,.table .property:hover{background-color: #CBD8E8;}
     .property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
     .property[type_class=field_foreignkey]::before{ content:"#"; }
     .table .property:last-child{ border-radius: 0 0 3px 3px; }
-    .ombre{-webkit-box-shadow: 0px 0px 20px #34afb6;}
+    .ombre{box-shadow: 0px 0px 20px #34afb6;}
     .dragActive { border:4px dotted #b634af; border-radius:50px;}
     label{font-size: 13px;line-height: 26px;width: 140px;display: block;float: left;padding-left: 10px;}
     h2,.title{text-align:center;font-family: arial;font-size: 12px;padding:7px;color: white;
@@ -92,7 +94,7 @@ include_once('modules/core/classes/field.php');
               background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
               filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5E9AE2', endColorstr='#3570B8');}
     .title{border-top-left-radius: 2px;border-top-right-radius: 2px;text-align: center;/*text-decoration: underline;*/}
-    #leftsidebar{box-shadow: 2px 1px 8px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:28px;background: #EEE;border:1px solid #000000;}
+    #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:28px;background: #EEE;/*border:1px solid #000000;*/}
     #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#F1F5F9;right:0;top:28px;}
     #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(/parsimony_cms/admin/img/icons_white.png);}
     .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(/parsimony_cms/admin/img/icons.png);}
@@ -122,8 +124,8 @@ include_once('modules/core/classes/field.php');
     .tooltab td input{width: 50px;font-size: inherit;height: 20px;}
     .tooltab tbody{border-top: 1px solid whitesmoke}
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
-    .boxDropImage {color: white;border: 4px dashed #999;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-    #toolbar{font-weight: normal;line-height: 25px}
+    .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
+    #toolbar{font-weight: normal;line-height: 25px;}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
     #save.haveToSave{
 	color: white;
@@ -899,8 +901,10 @@ include_once('modules/core/classes/field.php');
                     viewportStyle:{fillStyle:"rgba(104,169,255,0.2)"},
                     viewportDragStyle:{fillStyle:"rgba(104,169,255,0.5)"}
                 });
-                
-                document.onselectstart=new Function ("return false");
+		
+		$(window).bind("beforeunload",function(event) {
+		    if($("#save").hasClass("haveToSave")) return t("You have unsaved changes");
+		});
 		
                 /* JsPlumb */
                 jsPlumb.importDefaults({     

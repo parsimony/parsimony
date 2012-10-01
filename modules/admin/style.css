@@ -21,7 +21,7 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 .sidebar{opacity:0.9;position:fixed;top: 28px;z-index: 99;
          transition: all 0.1s;-o-transition: all 0.1s;-webkit-transition: all 0.1s;-moz-transition: all 0.1s ease-in;transform-origin: 0 0;}
 .sidebar:hover{opacity:1}
-.sidebar .contenttab{border-bottom: 1px solid #999;}
+/*.sidebar .contenttab{border-bottom: 1px solid #999;}*/
 .sidebar.close .contenttab{display:none}
 .sidebar .block{clear:both}
 
@@ -35,7 +35,7 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 
 /* Main Tab */
 .mainTab{position: relative;float: left;border-right: 1px solid #333;border-bottom: 1px solid #444;color: whiteSmoke;
-         width: 50%;box-sizing: border-box;font-weight: bold;text-align: center;padding: 12px 6px 10px ;cursor: pointer;
+         width: 50%;box-sizing: border-box;font-weight: bold;text-align: center;padding: 12px 6px 10px ;cursor: pointer;text-shadow: 1px 1px #222;
          background-image: -webkit-linear-gradient(top, #555, #444);
 	 background-image: -moz-linear-gradient(top, #555, #444);
 	 background-image: -o-linear-gradient(top, #555, #444);}
@@ -49,8 +49,8 @@ body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
     background-image: -ms-linear-gradient(top, white,#E5E5E5);
     background-image: -o-linear-gradient(top, white,#E5E5E5);
     background-image: linear-gradient(top, white,#E5E5E5);
-float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #777;text-align: center;font-weight: bold;}
-.ssTab.active,.ssTab div:hover{color:white;font-weight: bold;
+float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #999;text-align: center;font-weight: bold;}
+.ssTab.active,.ssTab div:hover{color:white;font-weight: bold;text-shadow: 0 1px rgba(0, 0, 0, 0.35);border-color: #0F96C0;
       background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
       background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
       background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
@@ -58,7 +58,7 @@ float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #777;text-
       background-image: linear-gradient(top, #44C5EC, #259BDB);}
 .ssTab:first-child{border-radius: 5px 0 0 5px;border-right:0 !important;}
 .ssTab:last-child{border-radius: 0 5px 5px 0;}
-ul.models,ul.pages{padding: 5px;}
+ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
  
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
@@ -70,14 +70,14 @@ ul.models,ul.pages{padding: 5px;}
 	    border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;border-top: 0;box-sizing: content-box;-moz-box-sizing: content-box;margin-left: -40px;box-shadow: 0 0 0 1px #999;
 }
 /* Title Tab */
-.titleTab{border-top: 1px solid #999;border-bottom: 1px solid #555;font-size: 15px;border-right: 1px solid #888;height: 28px;vertical-align: top;line-height: 25px;color: white;background: #777;letter-spacing: 1.5px;cursor: pointer;clear:both;
-          background: -webkit-linear-gradient(top,#828282,#777);
-	  background: -moz-linear-gradient(top,#828282,#777);
-	  background: -o-linear-gradient(top,#828282,#777);position: relative;}
+.titleTab{border-top: 1px solid #999;border-bottom: 1px solid #555;font-size: 15px;/*border-right: 1px solid #888;*/height: 28px;vertical-align: top;line-height: 25px;color: white;background: #777;letter-spacing: 1.5px;cursor: pointer;clear:both;
+          background: -webkit-linear-gradient(top,#8F8F8F,#777);
+	  background: -moz-linear-gradient(top,#8F8F8F,#777);
+	  background: -o-linear-gradient(top,#8F8F8F,#777);position: relative;text-shadow: 1px 1px #2E2E2E;}
 .sublist{position:relative;line-height:22px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;clear:both;}
 .sublist:first-child,.sublist.selected:first-child{border-top: 1px solid transparent;}
 .sublist:last-child,.sublist.selected:last-child{border-bottom: 1px solid transparent;}
-.sublist a{font-weight: bold;font-size: 12px;color: #444;text-shadow: #eee 0 1px 0;text-decoration: none;display: block;text-transform: capitalize;}
+.sublist a{font-weight: bold;font-size: 12px;color: #444;text-shadow: 0 1px 0 white;text-decoration: none;display: block;text-transform: capitalize;}
 .sublist:hover,.sublist.selected{border-top: 1px solid #E5E5E5;border-bottom: 1px solid #EEE;}
 .sublist span.ui-icon-pencil{display: none}
 .sublist:hover span.ui-icon-pencil{display: block}
@@ -86,22 +86,23 @@ ul.models,ul.pages{padding: 5px;}
 .modelSubList{background: url(admin/img/db_small.png) no-repeat 3px 3px;padding-left: 25px;}
 
 /* Sub Sidebars */
-.subSidebar{width: 20px;position: absolute;top: 0px;box-shadow: 0px 3px 7px #444;
+.subSidebar{width: 20px;position: absolute;top: 0px;box-shadow: 0px 2px 5px #444;
             background-image: -moz-linear-gradient(right,#E5E9EF,#FEFEFE);
 	    background-image: -o-linear-gradient(right,#E5E9EF,#FEFEFE);
             background-image: -webkit-linear-gradient(right,#E5E9EF,#FEFEFE);}
-#right_sidebar .subSidebar{left: -20px;}
+#right_sidebar .subSidebar{left: -21px;}
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
 #panelblocks .sprite{margin: 5px 3px 0px 7px;}
 .contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
+.contenttab{position: relative}
 
 /* Sidebar left */
 #left_sidebar{width:209px;background: whiteSmoke;/*width: 13.4%;*/}
 #left_sidebar.close{left:-210px}
-#left_sidebar .contenttab{box-shadow: 4px 7px 10px #444;border-right: 1px solid #999;}
+#left_sidebar .contenttab{box-shadow: 1px 1px 6px #444;/*border-right: 1px solid #999;*/}
 #left_sidebar .openclose span{background-position: -144px -192px;}
 #left_sidebar.close .openclose span{background-position: -112px -192px;}
 
@@ -109,7 +110,7 @@ ul.models,ul.pages{padding: 5px;}
 /* Sidebar right */
 #right_sidebar{right:0px;width:230px;/*width: 14.6%;*/background: #777;}
 #right_sidebar.close{top:29px;position:fixed;right: 0px;width:0 !important}
-#right_sidebar .contenttab{box-shadow: -4px 7px 10px #444;border-left: 1px solid #999;min-height: 79px;}
+#right_sidebar .contenttab{box-shadow: -1px 1px 6px #444;/*border-left: 1px solid #999;*/min-height: 79px;}
 #right_sidebar .titleTab{line-height: 20px;padding-left: 15px;}
 #right_sidebar .openclose span{background-position: -112px -192px;}
 #right_sidebar.close .openclose span{background-position: -144px -192px;}
@@ -118,8 +119,13 @@ ul.models,ul.pages{padding: 5px;}
 #toolbar{position: fixed;min-width: 1250px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
 	 background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe);
 	 background-image: -webkit-linear-gradient(bottom,#e5e9ef,#fefefe);
-         box-shadow: 0 2px 6px #443;}
+         box-shadow: 0 1px 5px #443;}
 #toolbar ul li:nth-child(2){border-left:0;}
+
+/* Edit mode bottom toolbar */
+#toolbarEditMode{position: fixed;bottom: 0;left: 0;bottom: 0;width: 100%;background: #333;padding: 7px;display:none;z-index: 99999999;}
+.toolbarEditModeCommands{position: relative;top: 3px;margin: 0 7px;}
+
 /* Sidebars parts */
 
 /* Sidebar right parts */
@@ -164,7 +170,7 @@ ul.models,ul.pages{padding: 5px;}
 #panelcss th{font-weight: bold;}
 #panelcss td{padding:2px;text-align:center}
 #panelcss td:first-child{text-align:left}
-#panelcss .panelcss_tab{padding:5px;background: #555;width: 230px;margin-top: 2px;border-bottom: 1px solid #999;border-top: 1px solid #555;}
+#panelcss .panelcss_tab{padding:5px;background: #555;width: 230px;margin-top: 2px;/*border-bottom: 1px solid #999;*/border-top: 1px solid #555;}
 #panelcss #changecssform select{padding-top: 0px;}
 #panelcss_tab_general label{margin: 9px 0;top: -6px;position: relative;}
 #panelcss_tab_general .leftpart label{min-width: 45px;margin: 5px 0;position: relative;top: 1px;}
@@ -456,6 +462,7 @@ background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
+text-shadow: 0 1px rgba(0, 0, 0, 0.35);
 }
 
 legend{
