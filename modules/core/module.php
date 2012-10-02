@@ -188,7 +188,11 @@ class core extends \module {
 
     public function install() {
 	parent::install();
-	$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'admin', 'state' => '2'));
+	$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'Super Admin', 'state' => '2'));
+        $this->getEntity('role')->insertInto(array('id_role' => '2', 'name' => 'Admin', 'state' => '2'));
+        $this->getEntity('role')->insertInto(array('id_role' => '3', 'name' => 'Developer', 'state' => '2'));
+        $this->getEntity('role')->insertInto(array('id_role' => '4', 'name' => 'Webmaster', 'state' => '1'));
+        $this->getEntity('role')->insertInto(array('id_role' => '5', 'name' => 'Subscriber', 'state' => '0'));
     }
 
 }
