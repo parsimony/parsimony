@@ -88,7 +88,7 @@ if(is_object($query)){
             $thismonth = getdate($firstDayOfMonth);
             $startday = $thismonth['wday'];
 	    if($startday == 0) $startday = 7;
-            if ($startday > 1) {
+            if ($startday >= 1) {
                 $totalDays = --$startday + $maxday;
                 for ($i = 1 - $startday; $i <= 0; $i++)
                     echo '<div class="day out">' . date('d', mktime(0, 0, 0, $thisMonth, $i, $thisYear)) . '</div>';
