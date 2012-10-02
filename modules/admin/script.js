@@ -157,8 +157,10 @@ var ParsimonyAdmin = {
     },
     
     loadEditMode :   function(){
-        $(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
+	$(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
+	/* Active edit behavior on WYSIWYG blocks */
         $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
+	
 	/* Shortcut : Save on CTRL+S */
 	.on("keydown.edit", function(e) {
 	    if (e.keyCode == 83 && e.ctrlKey) {
@@ -167,31 +169,38 @@ var ParsimonyAdmin = {
 	    }
 	});
 	
+	/* Init WYSIWYG editor */
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
             ParsimonyAdmin.wysiwyg = new wysiwyg();
             ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
         $(".HTML5editorToolbar").hide();
         
+	/* Manage clicks on <a> in edit mode */
 	ParsimonyAdmin.$currentDocument.on('click.edit','a', function(e){
             e.preventDefault();
 	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://' && $(".usereditinline",this).length == 0){
 		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
 	    }
-	});
+	})
 	
-	$(".bloc",ParsimonyAdmin.currentBody).on('click.edit',function(e){
-	    e.stopPropagation();
+	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
+	.on('click.edit','.block',function(e){
 	    if(!$(this).hasClass("wysiwyg")) $(".HTML5editorToolbar").hide();
 	});
 	
+	/* Manage undo/redo on save toolbar */
 	$("#toolbarEditMode").on('click.edit',".toolbarEditModeCommands",function(e){
 	    ParsimonyAdmin.currentDocument.execCommand(this.dataset.command, false, null);
 	})
+	
+	/* Save all WYSISYG blocks or contenteditable fields */
 	.on('click.edit',"#toolbarEditModeSave",function(e){
+	    
+	    /* We collect fresh data for WYSIWYG blocks */
 	    var changes = {};
 	     $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
-		if(this.dataset.changed) {
+		if(this.dataset.modified) {
 		    var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
 		    var theme = ParsimonyAdmin.currentWindow.THEME;
 		    var idPage = '';
@@ -203,19 +212,25 @@ var ParsimonyAdmin = {
 		    changes[this.id] = {idPage:idPage,theme:theme,module:module,html:this.innerHTML};
 		}
 	    });
+
+	    /* We collect fresh data for contenteditable fields */
+	    $(".usereditinline",ParsimonyAdmin.currentBody).each(function(){
+		if(this.dataset.modified) {
+		    changes[this.dataset.property+this.dataset.id] = {module:this.dataset.module,entity:this.dataset.entity,fieldName:this.dataset.property,id:this.dataset.id,html:this.innerHTML};
+		}
+	    });
+	    
+	    /* We send fresh data to the serve to save it */
 	    $.post(BASE_PATH + 'admin/saveWYSIWYGS',{changes:JSON.stringify(changes)},function(data){
 			ParsimonyAdmin.unsavedChanges = false
 			$("#toolbarEditMode").slideUp();
-			$(".wysiwyg.activeEdit").attr("data-changed","0");
+			$(".wysiwyg.activeEdit, .usereditinline").attr("data-modified","0");
 			ParsimonyAdmin.execResult(data);
 		});
 	});
 	
-	$(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).on('keyup.edit',function(e){
-	    /*var nbChanged = 0;
-	    $(".wysiwyg",ParsimonyAdmin.currentBody).each(function(){
-		if(this.dataset.changed) nbChanged++;
-	    });*/
+	/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
+	$(ParsimonyAdmin.currentBody).on('keyup.edit',".wysiwyg.activeEdit, .usereditinline",function(e){
 	    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
 	    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
 	    if(undo || redo){

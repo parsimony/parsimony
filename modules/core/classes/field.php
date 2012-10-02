@@ -198,13 +198,13 @@ class field {
      * @return string
      */
     public function display(&$row = '') {
-	$this->displayView = 'display.php';
-         if (!isset($this->mark)) {
+         if (empty($this->displayView)) {//if (!isset($this->mark)) {
+	     $this->displayView = 'display.php';
             if (BEHAVIOR >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
                 \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
-            $this->mark = TRUE;
+            //$this->mark = TRUE;
         }
         $idName = $row->getId()->name;
         ob_start();
@@ -222,30 +222,36 @@ class field {
         ob_start();
         $idName = $row->getId()->name;
         /*$authorName = $row->getBehaviorAuthor()->name;*/
-         $this->displayView = 'display.php';
-	if (!isset($this->mark)) {
+	if (empty($this->displayView)) {//if (!isset($this->mark)) {
+	    $this->displayView = 'display.php';
             if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || BEHAVIOR >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
                 \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
-            $this->mark = TRUE;
+            //$this->mark = TRUE;
         }
+	
         include($this->getFieldPath() . '/' . $this->displayView);
         $html = ob_get_clean();
         return $html;
     }
     
-    public function saveEditInlineAction($data, $id) {
+    public function saveEditInline($data, $id) {
         $data = $this->validate($data);
         if ($data !== FALSE) {
             $entityObj = \app::getModule($this->module)->getEntity($this->entity);
             $res = \PDOconnection::getDB()->exec('UPDATE ' . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = \'' . str_replace("'", "\'", $data) . '\' WHERE ' . $entityObj->getId()->name . '=' . $id);
-          
             if ($res) {
-                $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
+                return TRUE;
             }
         }
-        if(isset($return)) {
+        return FALSE;
+    }
+    
+    public function saveEditInlineAction($data, $id) {
+	if ($this->saveEditInline($data, $id)) {
+	    $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
+	}else{
             $return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');
         }
         \app::$response->setHeader('X-XSS-Protection', '0');
