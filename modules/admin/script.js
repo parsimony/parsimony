@@ -302,7 +302,7 @@ var ParsimonyAdmin = {
 	
 	/* Shortcut : Save on CTRL+S */
 	document.addEventListener("keydown", function(e) {
-	    if (e.keyCode == 83 && e.ctrlKey) {alert();
+	    if (e.keyCode == 83 && e.ctrlKey) {
 	      e.preventDefault();
 		$("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
 	    }
