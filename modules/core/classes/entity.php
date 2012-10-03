@@ -113,6 +113,15 @@ abstract class entity implements \Iterator {
         if (isset($this->_rights[(String) $role]))
             return $this->_rights[(String) $role];
     }
+    
+    /**
+     * Set Rights
+     * @param array $rights
+     * @return string
+     */
+    public function setRights(array $rights) {
+            return $this->_rights = $rights;
+    }
 
     /**
      * Get Name
