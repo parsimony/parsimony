@@ -25,7 +25,8 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-\app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.js');
+\app::$request->page->addJSFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js');
+\app::$request->page->addCSSFile(BASE_PATH . 'core/fields/field_formasso/css.css');
 ?>
 <script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
 <div>
@@ -47,15 +48,6 @@
         $words[] = $obj;
     }
     ?>
-    <style>
-        .ui-autocomplete {
-            position:absolute;
-            max-height: 180px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index:1005;
-        }
-    </style>
     <script>
         function addATag<?php echo $this->name; ?>(id,label){
             if(label.length > 0) $('<div class="floatleft" style="padding:3px"><span class="ui-icon ui-icon-circle-close floatleft" style="cursor:pointer"></span>' + label + '<input type="hidden" name="<?php echo $this->name; ?>[' + id + ']" value="' + label + '" /></div>').appendTo("#log<?php echo $this->name; ?>");
@@ -63,7 +55,7 @@
         $(function() {
             var availableTags = <?php echo json_encode($words); ?>;
             $( "#<?php echo $this->name; ?>").autocomplete({
-                source: availableTags, appendTo:".fixedzindex",
+                source: availableTags, 
                 select: function( event, ui ) {
                     addATag<?php echo $this->name; ?>(ui.item.value, ui.item.label);
                     ui.item.value = '';
