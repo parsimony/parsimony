@@ -1255,7 +1255,7 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		$newObj->behaviorDescription = $table->behaviorDescription;
 		$newObj->behaviorKeywords = $table->behaviorKeywords;
 		$newObj->behaviorImage = $table->behaviorImage;
-                $newObj->setRights($oldObjModel->getRights());
+                $newObj->setAllRights($oldObjModel->getAllRights());
 		if ($oldObjModel != FALSE) {
 		    $nameFieldBefore = '';
 		    foreach ($args as $fieldName => $field) {
