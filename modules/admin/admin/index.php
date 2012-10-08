@@ -281,7 +281,7 @@
             <?php if (PROFILE == 'www'): ?>
                 <input type="hidden" name="file" value="config.php">
             <?php else: ?>
-                <input type="hidden" name="file" value="<?php echo PROFILE_PATH; ?>config.php">
+                <input type="hidden" name="file" value="<?php echo 'profiles/' . PROFILE . '/config.php'; ?>">
             <?php endif; ?>
             <input class="none" id="save_configs" type="submit">
         </form>

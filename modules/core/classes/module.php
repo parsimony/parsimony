@@ -553,7 +553,7 @@ class module {
 	    if (PROFILE == 'www')
 		$config = new \config('config.php', TRUE);
 	    else
-		$config = new \config(PROFILE_PATH . 'config.php', TRUE);
+		$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
 	    $config->add('$config[\'activeModules\'][\'' . $name . '\']', '0');
 	    return $config->save();
 	}else {

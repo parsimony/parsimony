@@ -776,7 +776,7 @@ class admin extends \module {
         $path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/desktop.' .\app::$config['dev']['serialization']);
 	if ($path) {
 	    if(PROFILE == 'www') $configObj = new \core\classes\config('config.php', TRUE);
-            else $configObj = new \core\classes\config('profiles/' . PROFILE . '/modules/config.php', TRUE);
+            else $configObj = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
             $update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);
             $configObj->saveConfig($update);
             setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
@@ -830,7 +830,8 @@ class admin extends \module {
      * @param string $locale
      */
     protected function changeLocaleAction($locale) {
-	$config = new \config('config.php', TRUE);
+	if(PROFILE == 'www') $config = new \core\classes\config('config.php', TRUE);
+        else $config = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
 	$config->saveConfig(array('localization' => array('default_language' => $locale)));
     }
 
