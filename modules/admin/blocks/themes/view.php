@@ -27,7 +27,7 @@
  */
 ?>
 <style>
-    .adminzone{width:100%;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#ECECEC');
+    .adminzone{width:100%;padding-left:0;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#ECECEC');
 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #ECECEC));
 background-image: -webkit-linear-gradient(top, white, #ECECEC);
 background-image: -moz-linear-gradient(top, white, #ECECEC);
@@ -35,13 +35,13 @@ background-image: -ms-linear-gradient(top, white, #ECECEC);
 background-image: -o-linear-gradient(top, white, #ECECEC);
 background-image: linear-gradient(top, white, #ECECEC);
 text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
-    .adminzone .adminzonemenu{display: block;min-height: 0;width: auto}
-    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;background: #EEE url(<?php echo BASE_PATH; ?>admin/img/concrete_wall_3.png);}
+    .adminzone .adminzonemenu{display: block;min-height: 0;width: auto;position: relative}
+    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;overflow-x: hidden;overflow-y: auto;background: #EEE url(<?php echo BASE_PATH; ?>admin/img/concrete_wall_3.png);}
     .adminzone .adminzonemenu .adminzonetab{border-left: 1px solid white;border-right: 1px solid #D3D5DB;float: left;border-top: none;border-bottom: none;}
     .adminzone .adminzonemenu .adminzonetab a{padding: 0 10px;color: #777; background: none;border-top: none;border-bottom:none;color: #464646;text-decoration: none;line-height:25px;}
     .adminzone .adminzonemenu .adminzonetab a.active, .adminzonemenu .adminzonetab a:hover{border-top: none;background: #E4E4E4;}
     .placeholder {position: relative;clear: both;width: 200px;}
-    #admin_themes input{width: 90px;}
+    #themeFormAdd input{width: 90px;}
     #themelist{overflow-x: scroll;overflow-y: hidden;height: 145px;width: 99.5%;}
     #themelist ul{width: 4000px;}
     #themelist h4{line-height: 20px;text-align: center}
