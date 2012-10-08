@@ -21,24 +21,12 @@
         app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js');
         echo app::$request->page->printInclusions()
         ?>
-        <style>body{overflow: hidden;}</style>
+        <style>body{overflow: hidden;background: white;}</style>
         <script>
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
                 if( $(".firstpanel").length > 0) $(".firstpanel a").trigger("click");
                 else top.ParsimonyAdmin.resizeConfBox();
-		if($.browser.mozilla) {
-		     var wrapper = document.createElement("div");
-		     var inner = document.createElement("div");
-		     wrapper.appendChild(inner);
-		     wrapper.setAttribute("style","width:100%;overflow-y:scroll");
-		     var childs = $('.adminzonecontent')[0].childNodes;
-		     for(var i = 0; i < childs.length; i++){
-			 wrapper.insertBefore(childs[i], inner);
-			 i--;
-		     }
-		    $('.adminzonecontent')[0].appendChild(wrapper);
-		}
             }).on('click',".adminzonetab a",function(event){
                 event.preventDefault();
                 $(".adminzonecontent .admintabs").hide();

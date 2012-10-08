@@ -473,8 +473,9 @@ var ParsimonyAdmin = {
                 $("#conf_box_content_inline").show().append($(url));
                 $("#conf_box_content_iframe").hide();
                 $(url).show();
-                $("#conf_box").css("visibility","visible");
+                document.getElementById("conf_box").style.visibility = "visible";
             }
+            
 	},
 	closeConfBox :   function (){
 	    $("#conf_box").hide();
@@ -484,14 +485,15 @@ var ParsimonyAdmin = {
             
 	},
 	resizeConfBox : function(){
-	    document.getElementById("conf_box_load").style.display = "none";
 	    var iframe = document.getElementById("conf_box_content_iframe");
             iframe.removeAttribute("style");
 	    var doc = iframe.contentDocument;
+            document.getElementById("conf_box_load").style.display = "none";
 	    if(doc.location.href != "about:blank"){
-		iframe.style.cssText = "width:" + $(".adminzone",doc).outerWidth() + "px;height:" + $("body",doc).outerHeight() + "px";
-		document.getElementById("conf_box").style.visibility = "visible";
+                var elmtWidth = $(".adminzone",doc)[0] || $("body",doc)[0] ;
+		iframe.style.cssText = "width:" + elmtWidth.scrollWidth + "px;height:" + $("body",doc).outerHeight() + "px";
 	    }
+            document.getElementById("conf_box").style.visibility = "visible";
 	},
 	setConfBoxTitle :   function (title){
 	    $("#conf_box_title").html(title);
