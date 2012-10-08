@@ -55,7 +55,7 @@ function blockAdminBlocks() {
         })
 	/* Hide overlay when user don't pick a block */
         .on('mouseover.creation',"body", function(event) {
-            $("#blockOverlay").hide();
+            document.getElementById("blockOverlay").style.display = "none";
         })
 	.on('dragenter.creation',"#admintoolbar", function(e) {
 	    e.stopPropagation();
@@ -102,18 +102,13 @@ function blockAdminBlocks() {
         ParsimonyAdmin.$currentBody.on('click.creation','.block',function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
 	    blockInst.onClickCreation.apply(this, [e]);
-        }).on('mouseover.creation',".block", function(event) {
+        })
+	.on('mouseover.creation',".block", function(event) {
             event.stopImmediatePropagation();
-            var offset = $(this).offset();
-            var offsetFrame = $("#parsiframe").offset();
-            if(ParsimonyAdmin.inProgress != this.id) $("#blockOverlay").css({
-                "display":"block",
-                "top":offset.top + "px",
-                "left":offset.left + offsetFrame.left + 40 + "px",
-                "width":$(this).outerWidth() + "px",
-                "height":$(this).outerHeight() + "px"
-            })
-            else $("#blockOverlay").hide();
+            var offset = this.getBoundingClientRect();
+            var leftOffsetFrame = document.getElementById("parsiframe").offsetLeft;
+            if(ParsimonyAdmin.inProgress != this.id) document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame + 40) + "px;width:" + $(this).outerWidth() + "px;height:" + $(this).outerHeight() + "px";
+            else document.getElementById("blockOverlay").style.display = "none";
         });
 
 	ParsimonyAdmin.$currentBody.add('#paneltree')

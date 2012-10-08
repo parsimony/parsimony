@@ -116,7 +116,7 @@ ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
 #right_sidebar.close .openclose span{background-position: -144px -192px;}
 
 /* Top toolbar */
-#toolbar{position: fixed;min-width: 1250px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
+#toolbar{position: fixed;min-width: 1260px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
 	 background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe);
 	 background-image: -webkit-linear-gradient(bottom,#e5e9ef,#fefefe);
          box-shadow: 0 1px 5px #443;}
@@ -221,7 +221,7 @@ padding: 4px;
 #panelcss .CodeMirror-gutter pre:hover{background:#e4e4e4 !important;}
 #panelcss .barre{text-decoration: line-through;}
 #panelcss .activeline {background: #e8f2ff !important;}
-#panelcss .CodeMirror-gutter-text pre{border-radius: 2px;max-width: 9px;background: #F1F1F1;max-height: 10px;line-height: 10px;margin: 4px 0 7px 0;
+#panelcss .CodeMirror-gutter-text pre{border-radius: 2px;max-width: 9px;background: #F1F1F1;max-height: 10px;line-height: 10px;margin: 4px 0 7px 0;height: 10px;
 border: 1px solid #BBB;text-align: center;padding: 0 1px 1px 1px;white-space: pre !important;font-size: 9px;}
 
 /* When CSS panel is in form mode */
@@ -462,6 +462,7 @@ background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
+border: 1px solid #5B8F9C;
 text-shadow: 0 1px rgba(0, 0, 0, 0.35);
 }
 
@@ -509,7 +510,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 #overlays{position:absolute;top:28px;pointer-events: none;width:100%;height:100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;-o-user-select: none;user-select: none;}
 
 /* Block overlay */
-#blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;background-color:rgba(5,178,248,0.25)}
+#blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;/*-moz-transition: all 0.1s; too slow */background-color:rgba(5,178,248,0.25)}
 /*#blockOverlay.csspicker{background-color:rgba(204,10,71,0.25)}*/
 /* Shelter for unused div*/
 #shelter > div{display:none;}

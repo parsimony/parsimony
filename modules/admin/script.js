@@ -57,7 +57,7 @@ var ParsimonyAdmin = {
 	});
 
 	$("#dialog-id").keyup(function(){
-	    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
+	    this.value = this.value.toLowerCase().replace(/[^a-z_]+/,"");
 	});
 		
 	$("#conf_box").on('click','#conf_box_wpopup', function(e){
@@ -85,7 +85,11 @@ var ParsimonyAdmin = {
         ParsimonyAdmin.changeDeviceUpdate();
         
         /* Add Iframe style */
-	ParsimonyAdmin.$currentBody.append('<link rel="stylesheet" type="text/css" href="' + BASE_PATH + 'admin/iframe.css">');
+	var iframeStyle = document.createElement("link");
+	iframeStyle.setAttribute("rel", "stylesheet");
+	iframeStyle.setAttribute("type", "text/css");
+	iframeStyle.setAttribute("href", BASE_PATH + "admin/iframe.css");
+	ParsimonyAdmin.currentBody.insertBefore(iframeStyle, ParsimonyAdmin.currentBody.firstChild);
         blockAdminCSS.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length-1];
         
 	/* Init tooltip */
@@ -443,7 +447,7 @@ var ParsimonyAdmin = {
 	$( "#conf_box_overlay").css('opacity',opacity).show();
     },
     hideOverlay :   function (){
-	$( "#conf_box_overlay").hide();
+	document.getElementById("conf_box_overlay").style.display = "none";
     },
     displayConfBox :   function (url,title,params,modal){
         $("#conf_box_load").show();
@@ -480,15 +484,13 @@ var ParsimonyAdmin = {
             
 	},
 	resizeConfBox : function(){
-            $("#conf_box_load").hide();
-            $("#conf_box_content_iframe").removeAttr("style");
-	    var doc = document.getElementById("conf_box_content_iframe").contentDocument;
+	    document.getElementById("conf_box_load").style.display = "none";
+	    var iframe = document.getElementById("conf_box_content_iframe");
+            iframe.removeAttribute("style");
+	    var doc = iframe.contentDocument;
 	    if(doc.location.href != "about:blank"){
-		$( "#conf_box_content_iframe" ).css({
-		    "width": $(".adminzone",doc).outerWidth() + "px",
-		    "height": $("body",doc).outerHeight() + "px"
-		});
-                $("#conf_box").css("visibility","visible");
+		iframe.style.cssText = "width:" + $(".adminzone",doc).outerWidth() + "px;height:" + $("body",doc).outerHeight() + "px";
+		document.getElementById("conf_box").style.visibility = "visible";
 	    }
 	},
 	setConfBoxTitle :   function (title){
@@ -560,12 +562,12 @@ var ParsimonyAdmin = {
 	addOptionParsiadminMenu : function (option) {
 	    $("#menu .options").append('<div class="option">' + option + '</div>');
 	},
-	reloadIframe : function (){
+	/*reloadIframe : function (){
 	    $.get("index.html?parsiframe=ok",
 		function(data){
 		    ParsimonyAdmin.$iframe.contents().find("html").replaceWith(data);
 		});
-	},
+	},*/
 	updateUI :   function (tree){
 	    $(".dropInContainer",ParsimonyAdmin.currentBody).remove();
 	    if(tree!=false) {
@@ -620,9 +622,8 @@ var ParsimonyAdmin = {
 	    var children = elem.childNodes;
 	    var child;
 	    var len = children.length;
-	    var i = 0;
 	    var whitespace = /^\s*$/;
-	    for(; i < len; i++){
+	    for(var i = 0; i < len; i++){
 		child = children[i];
 		if(child.nodeType == 3){
 		    if(whitespace.test(child.nodeValue)){

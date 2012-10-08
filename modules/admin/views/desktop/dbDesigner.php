@@ -998,19 +998,25 @@ include_once('modules/core/classes/field.php');
                 /* Show delete buttons on fields */
                 .on('mouseover mouseout','.property',function(event) {
                     event.stopPropagation();
+		    var deletator = document.getElementById("deletator");
                     if (event.type == 'mouseover') {
-                        if($(this).attr('type_class') != 'field_ident') $("#deletator").show().prependTo($(this));
+                        if(this.getAttribute('type_class') != 'field_ident'){
+			    deletator.style.display = "block";
+			    this.insertBefore( deletator, this.firstChild);
+			}
                     } else {
-                        $("#deletator").hide();
+			deletator.style.display = "none";
                     }
                 })
 		
                 /* Show delete buttons on tables */
                 .on('mouseover mouseout','.table',function(event) {
+		    var deletator = document.getElementById("deletator");
                     if (event.type == 'mouseover') {
-                        $("#deletator").show().prependTo($(this));
+                        deletator.style.display = "block";
+			this.insertBefore( deletator, this.firstChild);
                     } else {
-                        $("#deletator").hide();
+                        document.getElementById("deletator").style.display = "none";
                     }
                 });
                 

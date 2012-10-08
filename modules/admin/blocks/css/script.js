@@ -58,14 +58,14 @@ function blockAdminCSS() {
 		var good = false;
 		var selectProp = "";
 		if(this.id == ""){
-		    if($(this).attr('class') != undefined && $(this).attr('class') != "") selectProp = ("." + $(this).attr("class").replace(" ","."));
+		    if(this.getAttribute('class') != undefined && this.getAttribute('class') != "") selectProp = ("." + this.getAttribute("class").replace(" ","."));
 		    $(this).parentsUntil("body").each(function(){
 			if(!good){
 			    var selectid = "";
 			    var selectclass = "";
-			    if($(this).attr('id') != undefined) selectid = "#" + $(this).attr('id');
+			    if(this.getAttribute('id') != undefined) selectid = "#" + this.getAttribute('id');
 			    else{
-				if($(this).attr('class') != undefined && $(this).attr('class') != "") selectclass = "." + $(this).attr("class").replace(" ",".");
+				if(this.getAttribute('class') != undefined && this.getAttribute('class') != "") selectclass = "." + this.getAttribute("class").replace(" ",".");
 			    }
 			    selectProp = selectid + selectclass + " " + selectProp;
 			    if(selectid != "") good = true;

@@ -151,7 +151,7 @@ $stamp = time();
         <input type="button" style="border-radius: 0 5px 5px 0;" value="<?php echo t('Publish', FALSE); ?>" data-ident="Publish" class="publish">
         <input type="hidden" value="" class="publishstatus" name="<?php echo $this->name . '_status' ?>">
     </div>
-    <div style="clear: both;padding: 5px 0" >
+    <div style="clear: both;padding: 5px 0;min-width: 237px;" >
         <span style="font-weight: bold;"><?php echo t('Publish', false); ?>  <?php echo t('Immediately', false); ?></span><span style="padding-left:5px"><?php echo t('Or', false); ?></span>
         <span style="padding-left:5px" class="slide"><?php echo t('Edit Planning', false); ?>  <img src="<?php echo BASE_PATH ?>admin/img/calendar.gif" style="padding-left:5px;cursor:pointer"/></span>
         <div class="none publishcl" style="clear: both;font-size: 16px;color: #333;text-shadow: 0px 1px 0px white;padding-top: 8px;">
