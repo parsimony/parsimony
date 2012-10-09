@@ -331,7 +331,8 @@ class tools {
 	'hiliteColor' => array('allowedStyles' => array('background-color' => '.*')),
 	'fontName' => array('allowedStyles' => array('font-family' => '.*')),
 	'fontSize' => array('allowedStyles' => array('font-size' => '.*')),
-	'insertImage' => array('allowedTags' => array('img' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title")),'allowedStyles' => array('color' => '.*'))
+	'insertImage' => array('allowedTags' => array('img' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title")),'allowedStyles' => array('color' => '.*')),
+	'code' => array('allowedTags' => array('code' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title", "data-language")))
     );
     $cut = explode(',', $plugins);
 
