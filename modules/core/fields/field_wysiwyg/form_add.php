@@ -35,8 +35,8 @@ app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	<?php endif; ?>
     </label>
-    <div style="padding-top: 24px;">
-	<textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><p><?php echo $this->default ?>...</p></textarea>
+    <div style="padding-top: 24px;width:700px">
+	<textarea cols="50" rows="14" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><p><?php echo $this->default ?>...</p></textarea>
     </div>
 </div>
 <script>

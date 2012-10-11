@@ -376,7 +376,7 @@ class tools {
 		    }
 		}
 	    }
-	    $html .= ' ' . $innerTag . '>';
+	    $html .= $innerTag . '>';
 	} else {
 	    $html .= $val;
 	}

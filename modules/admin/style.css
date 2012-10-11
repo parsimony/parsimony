@@ -300,7 +300,7 @@ background: radial-gradient(ellipse at center,  rgba(37,155,219,0.59) 0%,rgba(68
 }
 
 /* ######### Conf box - Inline Popup ############## */
-#conf_box{display:inline-block;visibility: hidden;position:relative;top:70px;max-width: 85%;max-height: 85%;margin:0 auto;background: #ccc;z-index:1000000;border-radius: 7px 7px 0 0;box-shadow: 0px 0px 50px #222;}
+#conf_box{display:inline-block;visibility: hidden;position:relative;top:70px;max-width: 95%;/*max-height: 85%;*/margin:0 auto;background: #ccc;z-index:1000000;border-radius: 7px 7px 0 0;box-shadow: 0px 0px 50px #222;}
 #conf_box_overlay{text-align: center;position: fixed;width:100%;height:100%;background: rgba(0, 0, 0, 0.85);z-index: 999;}
 #conf_box_load{position:relative;top:150px;margin:0 auto;width:220px;height:19px;background:url(admin/img/load.gif) no-repeat}
 #conf_box_title{text-align: left;box-shadow: inset 0px -1px 0px #AAA;
@@ -317,7 +317,10 @@ text-shadow: white 0 1px 0;}
 #conf_box_close, #conf_box_wpopup, #closemenu{margin:5px;border: #666 solid 2px;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px, whiteSmoke;}
 #conf_box_wpopup{background: url(admin/img/icons.png) -32px -80px, whiteSmoke;}
 #conf_box_close:hover, #conf_box_wpopup:hover{border: #5E9AE2 solid 2px;}
-
+#conf_box_content_iframe{max-width: 100%;max-height: 80%;}
+@-moz-document url-prefix() {
+    #conf_box_content_iframe{max-width: 100%;max-height: 650px;}
+}
 #dialog{background: #EEE url(admin/img/concrete_wall_3.png);}
 
 /* Blocks droppables */
@@ -355,7 +358,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
 #tabsconfig th{min-width: 80px;} 
 .adminzone td{vertical-align: middle;border: 1px solid #DDD;text-align: left;text-overflow:ellipsis;}
 .adminzone tbody tr{background:white}
-.adminzone .adminzonemenu{width: 150px;min-width: 150px;background: #ECECEC;position: absolute;left: 0;top: 0;bottom: 0;/*display: table-cell;*/}
+.adminzone .adminzonemenu{width: 150px;min-width: 150px;background: #ECECEC;position: fixed;left: 0;top: 0;bottom: 0;/*display: table-cell;*/}
 .adminzone .adminzonemenu h2{color: #555;padding: 5px 10px;font-size: 15px;}
 .adminzone .adminzonemenu .adminzonetab{background: #ececec;cursor:pointer;font-size: 15px;line-height: 24px}
 .adminzone .adminzonemenu .adminzonetab a{border-top: 1px solid #F9F9F9;
@@ -371,7 +374,7 @@ background : url('admin/img/savecss.png') no-repeat 3px 2px,linear-gradient(top,
 .adminzone .adminzonemenu h3{font-size:16px}
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
            font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
-.admintabs{display:none;max-height: 585px;} 
+.admintabs{display:none;max-height: 100%;} 
 .adminzonecontent{color:#555;/*overflow-x: auto;overflow-y: auto;*/position: relative;z-index: 2;border-left: 1px solid white;font-size: 12px;vertical-align: top;box-shadow: -2px 0px 2px #DFDFDF;background: white;
 padding: 7px;min-width: 731px;min-height: 600px;/*display: table-cell;-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/}
 .adminzonecontent h2{color:#464646;font-size: 23px;padding: 9px 15px 4px 0;line-height: 29px;font-weight: normal;margin: 0;text-shadow: white 0 1px 0;} 

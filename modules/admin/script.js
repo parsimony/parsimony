@@ -490,8 +490,8 @@ var ParsimonyAdmin = {
 	    var doc = iframe.contentDocument;
             document.getElementById("conf_box_load").style.display = "none";
 	    if(doc.location.href != "about:blank"){
-                var elmtWidth = $(".adminzone",doc)[0] || $("body",doc)[0] ;
-		iframe.style.cssText = "width:" + elmtWidth.scrollWidth + "px;height:" + $("body",doc).outerHeight() + "px";
+                var elmt = $(".adminzone",doc)[0] || $("body",doc)[0] ;
+		iframe.style.cssText = "width:" + elmt.scrollWidth + "px;height:" + elmt.scrollHeight + "px";
 	    }
             document.getElementById("conf_box").style.visibility = "visible";
 	},
