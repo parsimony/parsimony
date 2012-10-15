@@ -26,6 +26,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
+<script>
+    $(document).ready(function() {
+        $("#name_module").keyup(function(){
+            this.value = this.value.toLowerCase().replace(/[^a-z_]+/,"");
+        });
+        $("#name_titre").keyup(function(){
+            this.value = this.value.toLowerCase().replace(/[^a-zA-Z_ ]+/,"");
+        });
+    });     
+</script>
 <div id="addmodule" class="adminzone">
     <div class="adminzonemenu">
         <?php /*<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download', FALSE); ?></a></div>*/ ?>
@@ -36,10 +47,10 @@
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 		<input type="hidden" name="action" value="addModule">
                 <div class="placeholder">
-                    <label><?php echo t('Title', FALSE); ?>: </label><input type="text" name="name_titre">
+                    <label><?php echo t('Title', FALSE); ?>: </label><input type="text" name="name_titre" id="name_titre" required>
                 </div>
                 <div class="placeholder">
-                    <label><?php echo t('Name', FALSE); ?>: </label><input type="text" name="name_module">
+                    <label><?php echo t('Name', FALSE); ?>: </label><input type="text" name="name_module" id="name_module" required>
                 </div>
                 <input type="submit" name="saveAddModule" value="<?php echo t('Save', FALSE); ?>">
 	</form>
