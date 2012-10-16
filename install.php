@@ -356,7 +356,7 @@ while (1) {
                 $timezone_identifiers = DateTimeZone::listIdentifiers();
                 $continent = '';
                 foreach ($timezone_identifiers as $value) {
-                    if (preg_match('/^(America|Antartica|Arctic|Asia|Atlantic|Europe|Indian|Pacific)\//', $value)) {
+                    if (preg_match('/^(Africa|America|Antartica|Arctic|Asia|Atlantic|Australia|Europe|Indian|Pacific|Others)\//', $value)) {
                         $ex = explode('/', $value, 2); //obtain continent,city
                         if ($continent != $ex[0]) {
                             if ($continent != "")
