@@ -116,7 +116,7 @@ ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
 #right_sidebar.close .openclose span{background-position: -144px -192px;}
 
 /* Top toolbar */
-#toolbar{position: fixed;min-width: 1260px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
+#toolbar{position: fixed;min-width: 1280px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
 	 background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe);
 	 background-image: -webkit-linear-gradient(bottom,#e5e9ef,#fefefe);
          box-shadow: 0 1px 5px #443;}

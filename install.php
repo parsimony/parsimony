@@ -68,8 +68,12 @@ $lang['fr']['Please choose a login'] = 'Veuillez choisir un identifiant';
 $lang['fr']['Please give a name to your site'] = 'Veuillez donner un nom à votre site';
 $lang['fr']['Install and enable the'] = 'Installez et activez l\'extenssion';
 $lang['fr']['extension enabled'] = 'est activé';
-$lang['fr']['Permissions are Ok'] = 'Les droits conviennent';
-$lang['fr']['Set write permissions on <span>"profiles/"</span> directory (and sub-directories) using an FTP client'] = 'Mettre les permissions d\'écriture dans le dossier <span>"profiles/"</span> ( et ces sous-dossiers) via un client FTP';
+$lang['fr']['Permissions are Ok for'] = 'Les droits conviennent pour';
+$lang['fr']['Set write permissions on'] = 'Mettre les permissions d\'écriture pour';
+$lang['fr']['Set write permissions on'] = 'Mettre les permissions d\'écriture pour';
+$lang['fr']['Set read/write permissions on'] = 'Mettre les permissions de lecture/écriture pour';
+$lang['fr']['Set read permissions on'] = 'Mettre les permissions de lecture pour';
+$lang['fr']['directory (and sub-directories) using an FTP client'] = '( et ces sous-dossiers) via un client FTP';
 $lang['fr']['You are running PHP v '] = 'Vous êtes sous PHP v ';
 $lang['fr']['is off'] = 'est désactivé';
 $lang['fr']['is set'] = 'est défini';
@@ -259,10 +263,34 @@ while (1) {
             $low = array();
             $ok = array();
 
-            if (!is_writable('profiles/')) {
-                $high[] = tr('Set write permissions on <span>"profiles/"</span> directory (and sub-directories) using an FTP client');
+            if (!is_readable('index.php') || !is_readable('config.php') || !is_readable('install.php') || !is_writable('index.php') || !is_writable('config.php') || !is_writable('install.php')) {
+                $high[] = tr('Set read/write permissions on').' <span>"index.php, config.php, install.php"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
-                $ok[] = tr('Permissions are Ok');
+                $ok[] = tr('Permissions are Ok for').' <span>"index.php, config.php, install.php"</span>';
+            }
+            
+            if (!is_readable('lib/') || !is_readable('lib/cms.css') ){
+                $high[] = tr('Set read permissions on').' <span>"lib/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            } else {
+                $ok[] = tr('Permissions are Ok for').'  <span>"lib/"</span>';
+            }
+            
+            if (!is_readable('modules/') || !is_readable('modules/core/') || !is_readable('modules/core/model/') || !is_writable('modules/') || !is_writable('modules/core/') || !is_writable('modules/core/model/') || !is_writable('modules/core/model/post.php') ){
+                $high[] = tr('Set read/write permissions on').' <span>"modules/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            } else {
+                $ok[] = tr('Permissions are Ok for').'  <span>"modules/"</span>';
+            }
+            
+            if (!is_readable('profiles/') || !is_writable('profiles/')) {
+                $high[] = tr('Set read/write permissions on').' <span>"profiles/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            } else {
+                $ok[] = tr('Permissions are Ok for').'  <span>"profiles/"</span>';
+            }
+            
+            if (!is_readable('cache/') || !is_writable('cache/')) {
+                $high[] = tr('Set read/write permissions on').' <span>"cache/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            } else {
+                $ok[] = tr('Permissions are Ok for').'  <span>"cache/"</span>';
             }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
