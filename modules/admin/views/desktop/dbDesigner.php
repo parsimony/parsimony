@@ -1206,22 +1206,25 @@ include_once('modules/core/classes/field.php');
                     activeClass: 'ui-state-hover',
                     hoverClass: 'ombre',
                     drop: function(event, ui) {
+                        var champ = ui.draggable.clone();
                         var nom_champ = prompt(t('Please enter a field name') + ' ?');
-                        nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
-                        if(nom_champ){
-                            var champ = ui.draggable.clone();
-                            champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property");
-                            jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
-                            jsonproperties.entity = $(this).find('.title').text();
-                            jsonproperties.name = nom_champ;
-                            jsonproperties.oldName = nom_champ;
-                            jsonproperties.label = nom_champ;
-                            champ.data("attributs",jsonproperties);
-                            champ.text(nom_champ);
-                            champ.appendTo(this);
-			    
-                            $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
-			    $("#save").addClass("haveToSave");
+                        if(nom_champ != null){
+                            nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
+                            if(nom_champ != ""){
+                                var champ = ui.draggable.clone();
+                                champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property");
+                                jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
+                                jsonproperties.entity = $(this).find('.title').text();
+                                jsonproperties.name = nom_champ;
+                                jsonproperties.oldName = nom_champ;
+                                jsonproperties.label = nom_champ;
+                                champ.data("attributs",jsonproperties);
+                                champ.text(nom_champ);
+                                champ.appendTo(this);
+
+                                $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
+                                $("#save").addClass("haveToSave");
+                            }
                         }
                     }
                 });
