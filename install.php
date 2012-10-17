@@ -286,12 +286,6 @@ while (1) {
             } else {
                 $ok[] = tr('Permissions are Ok for').'  <span>"profiles/"</span>';
             }
-            
-            if (!is_readable('cache/') || !is_writable('cache/')) {
-                $high[] = tr('Set read/write permissions on').' <span>"cache/"</span> '.tr('directory (and sub-directories) using an FTP client');
-            } else {
-                $ok[] = tr('Permissions are Ok for').'  <span>"cache/"</span>';
-            }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
 		$serverOK = FALSE;
