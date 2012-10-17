@@ -67,7 +67,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js');
         <a href="#" data-title="<?php echo t('Accounts', FALSE); ?>"><?php echo t('Accounts', FALSE); ?></a>
         <ul>
             <li>
-                <a href="#" class="action" rel="getViewAdminRights" data-title="Gestion des Droits"><?php echo t('Permissions', FALSE); ?></a>
+                <a href="#" class="action" rel="getViewAdminRights" data-title="Manage Rights"><?php echo t('Permissions', FALSE); ?></a>
             </li>
             <li>
                 <a href="#" class="modeleajout ellipsis" rel="core - role" data-title="<?php echo t('Manage Roles', FALSE); ?>"><?php echo t('Manage Roles', FALSE); ?></a>
