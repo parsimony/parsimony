@@ -180,9 +180,12 @@ class tools {
 	    if (!is_dir($dir_backup))
 		self::createDirectory($dir_backup);
 	    file_put_contents($dir_backup . basename($file) . '-' . time() . '.bak', $content);
-            foreach (glob($dir_backup.'*.bak') as $filename) {
-                if ( filemtime($filename) <= time()-60*60*24*4 ) {
-                    unlink($filename);
+            $delest = glob($dir_backup.'*.bak');
+            if(is_array($delest)){
+                foreach ($delest as $filename) {
+                    if ( filemtime($filename) <= time()-60*60*24*4 ) {
+                        unlink($filename);
+                    }
                 }
             }
 	}

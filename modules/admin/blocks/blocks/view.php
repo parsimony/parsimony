@@ -41,7 +41,7 @@ $arrayScript = array();
 	if (file_exists('modules/' . $moduleobj->getName() . '/blocks')) {
 	    if ($moduleobj->getName() != 'admin') {
 		$blocklist = glob('modules/' . $moduleobj->getName() . '/blocks/*/block.php');
-		foreach ($blocklist as $path) {
+		foreach ((is_array($blocklist) ? $blocklist : array()) as $path) {
 		    $blockName = substr(strrchr(substr($path, 0, -10), '/block.php'), 1);
 		    if ($blockName !== 'error404' && $blockName !== 'page') {
 			$blockClassName = $moduleobj->getName() . '\blocks\\' . $blockName;

@@ -128,11 +128,14 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
     </select>
     <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
 	<?php
-	$backup = array_reverse(glob('profiles/' . PROFILE . '/backup/' . $path . '-*.bak'));
-	foreach ($backup as $filename) {
-	    preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
-	    echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
-	}
+        $backups = glob('profiles/' . PROFILE . '/backup/' . $path . '-*.bak');
+        if(is_array($backups)){
+            $backup = array_reverse($backups);
+            foreach ($backup as $filename) {
+                preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
+                echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
+            }
+        }
 	?>
     </select>
     <input type="button" onclick="if($('#changeModeid').val() == 'application/x-httpd-php'){alert('PHP mode formatting is not available.');} codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />

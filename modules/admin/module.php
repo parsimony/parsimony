@@ -1280,7 +1280,8 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		$tableExists[] = $table->name;
 	    }
 	}
-	foreach (glob('modules/' . $module . '/model/*.php') as $filename) {
+        $entities = glob('modules/' . $module . '/model/*.php');
+	foreach (is_array($entities) ? $entities : array() as $filename) {
 	    $modelName = substr(substr(strrchr($filename, "/"), 1), 0, -4);
 	    if (!in_array($modelName, $tableExists)) {
 		\app::getModule($module)->getEntity($modelName)->deleteTable();
