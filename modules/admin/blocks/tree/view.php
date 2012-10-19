@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/tree/script.js');
+app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/tree/script.js','footer');
 ?>
 <div class="titleTab ellipsis"><span style="letter-spacing: 1.1px;"><?php echo t('Tree', FALSE); ?></span><span id="treelegend" style="position: absolute;right: 6px;top: 1px;color: #444;font-weight: bold;padding-right: 10px;">?</span></div>
 <div class="none" id="treelegend2"><fieldset style="text-shadow:none;color:white;">

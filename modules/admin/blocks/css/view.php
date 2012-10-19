@@ -26,15 +26,15 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
+app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js','footer');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js','footer');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css','footer');
+app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css','footer');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js','footer');
+app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/colorpicker/colorpicker.css');
 app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/css/script.js');
+app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/css/script.js','footer');
 if(strlen(strstr($_SERVER['HTTP_USER_AGENT'],"Firefox")) > 0 ){ 
     app::$request->page->addJSFile(BASE_PATH . 'lib/firefoxCompatibility/html5slider.js');
 }
