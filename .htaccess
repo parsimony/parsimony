@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine on
 
+  #Uncomment following line and modify username if you use UserDir mod
+  #RewriteBase /~myusername/
+
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ index.php?parsiurl=$1 [L,QSA]
 </IfModule>

@@ -298,14 +298,13 @@ namespace core\classes {
 		$file = $lastError['file'];
 		$line = $lastError['line'];
 		$message = $lastError['message'];
-                $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH; 
                 self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
                 if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
                     if (ob_get_level()) ob_clean();
                     if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                         echo json_encode(array('notification' =>  $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
                     } else {
-                        include($root . 'modules/core/views/desktop/error.php');
+                        include(\app::$config['DOCUMENT_ROOT'] . '/modules/core/views/desktop/error.php');
                     }
                 }
             }
@@ -332,11 +331,10 @@ namespace core\classes {
          */
         public static function errorLog($code, $file, $line, $message) {
             self::dispatchEvent('error', array($code, $file, $line, $message));
-            $root = realpath($_SERVER['DOCUMENT_ROOT']) . BASE_PATH;
             
             /* Log error */
-            if (is_file($root . 'modules/core/errors.log'))
-                file_put_contents($root . 'modules/core/errors.log', $message.'-||-'.$file.'-||-'. $line , FILE_APPEND);
+            if (is_file(\app::$config['DOCUMENT_ROOT'] . '/modules/core/errors.log'))
+                file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/modules/core/errors.log', $message.'-||-'.$file.'-||-'. $line , FILE_APPEND);
 
         }
 

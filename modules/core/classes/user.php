@@ -38,7 +38,7 @@ class user {
     protected $sessPath;
 
     public function __construct() {
-        $this->sessPath = realpath($_SERVER['DOCUMENT_ROOT']). BASE_PATH . 'profiles' . DIRECTORY_SEPARATOR . PROFILE . DIRECTORY_SEPARATOR . 'sessions';
+        $this->sessPath = \app::$config['DOCUMENT_ROOT'] . '/profiles' . DIRECTORY_SEPARATOR . PROFILE . DIRECTORY_SEPARATOR . 'sessions';
         ini_set('session.save_path', '4;' . $this->sessPath . '');
 
         ini_set('use_only_cookies', 1);

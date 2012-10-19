@@ -2,10 +2,11 @@
 
 //General Config
 $config['BASE_PATH'] = '';
+$config['DOCUMENT_ROOT'] = __DIR__;
 
 //Themes
 $config['THEMEMODULE'] = 'core';
-$config['THEME'] = 'parsidefault';  
+$config['THEME'] = 'parsidefault';
 
 //BDD
 $config['db']['host'] = 'localhost';
