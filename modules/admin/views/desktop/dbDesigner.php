@@ -1133,7 +1133,7 @@ include_once('modules/core/classes/field.php');
 		
                 /* Sort properties */
                 $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
-                $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
+                $("#field_list > div").draggable({zIndex: 2700 ,scroll: false ,revert:true,helper: "clone"});
 		
                 /* Add a Table */
                 $("#toolbar").on('submit','#add_table',function(e){  
