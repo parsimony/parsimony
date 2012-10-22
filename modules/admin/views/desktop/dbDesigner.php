@@ -1133,7 +1133,7 @@ include_once('modules/core/classes/field.php');
 		
                 /* Sort properties */
                 $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
-                $("#field_list > div").draggable({zIndex: 2700 ,scroll: false ,revert:true,helper: "clone"});
+                $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
 		
                 /* Add a Table */
                 $("#toolbar").on('submit','#add_table',function(e){  
@@ -1192,7 +1192,6 @@ include_once('modules/core/classes/field.php');
 		/* Allows to drag tables */
 		$(".table").draggable("destroy").draggable({
 		    cursor: 'move',
-                    scroll: false ,
 		    handle : 'div.title',
 		    containment: '#container_bdd',drag: function(event, ui) {
 			jsPlumb.repaint( $(".property",this).add(this).toArray());
@@ -1260,6 +1259,7 @@ include_once('modules/core/classes/field.php');
             }
         };
         $(document).ready(function() {
+	    if($.browser.mozilla) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
             dbadmin.init();
         });
     </script>
