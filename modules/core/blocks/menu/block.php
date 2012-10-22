@@ -99,7 +99,7 @@ class menu extends \block {
             $classes = array();
             $class = '';
 	     if(isset($item['url'])){
-		 $url = $item['url'];
+		 $url = BASE_PATH.$item['url'];
 		 $title = $item['title'];
 	     } else{
 		 $page = \app::getModule($item['module'])->getPage($item['page']);
