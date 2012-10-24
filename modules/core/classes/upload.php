@@ -103,8 +103,9 @@ class upload {
                     }
                     $fichier_info = pathinfo($this->target . $this->fileName);
                     $extension = $fichier_info['extension'];
+                    $upload_ok = '';
                     foreach ($this->type AS $type) {
-                        if ($extension == $type || $type = 'all') {
+                        if ($extension == $type || $type == 'all') {
                             $upload_ok = 'ok';
                         }
                     }
@@ -124,19 +125,19 @@ class upload {
                                 return $this->fileName;
                             }
                         } else {
-                            throw new Exception(t('Error : The file format is invalid', FALSE));
+                            throw new \Exception(t('Error : The file format is invalid', FALSE));
                         }
                     } else {
-                         throw new Exception(t('Error : the filename can\'t be empty', FALSE));
+                         throw new \Exception(t('Error : the filename can\'t be empty', FALSE));
                     }
                 } else {
-                    throw new Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). $this->maxSize . t('bytes'));
+                    throw new \Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). ' '. ceil($this->maxSize/1024) . ' ko');
                 }
             } else {
-                throw new Exception(t('The target folder doesn\'t exist :', FALSE). $this->target);
+                throw new \Exception(t('The target folder doesn\'t exist :', FALSE). $this->target);
             }
         } else {
-            throw new Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). $this->maxSize . t('bytes'));
+            throw new \Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). ' '. ceil($this->maxSize/1024) . ' ko');
         }
     }
 
