@@ -120,7 +120,7 @@ class upload {
                             if (!is_dir($this->target))
                                 \tools::createDirectory($this->target);
                             if (!move_uploaded_file($file['tmp_name'], $this->target . $this->fileName)) {
-                                throw new Exception(t('Error : No file Uploaded', FALSE));
+                                throw new \Exception(t('Error : No file Uploaded', FALSE));
                             } else {
                                 return $this->fileName;
                             }
