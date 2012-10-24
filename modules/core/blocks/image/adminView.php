@@ -46,7 +46,7 @@
                 }
 	    }
 	});
-    })(jQuery);
+    });
 </script>
 <style>
     #preview{width: 280px;line-height: 15px;text-align: center;margin: 7px 10px}
