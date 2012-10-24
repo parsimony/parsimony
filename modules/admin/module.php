@@ -1049,7 +1049,7 @@ class admin extends \module {
      * @param string $path
      * @return string 
      */
-    protected function uploadAction($path, $size = 104857600, $allowedExt = 'jpg|png|gif') {
+    protected function uploadAction($path, $size = 104857600, $allowedExt = 'image') {
         try {
             $upload = new \core\classes\upload($size, $allowedExt, $path . '/');
             $result = $upload->upload($_FILES['fileField']);

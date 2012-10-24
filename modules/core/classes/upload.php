@@ -102,7 +102,7 @@ class upload {
                         $this->fileName = $file['name'];
                     }
                     $fichier_info = pathinfo($this->target . $this->fileName);
-                    $extension = $fichier_info['extension'];
+                    $extension = strtolower($fichier_info['extension']);
                     $upload_ok = '';
                     foreach ($this->type AS $type) {
                         if ($extension == $type || $type == 'all') {
