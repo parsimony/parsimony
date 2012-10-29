@@ -1049,9 +1049,14 @@ class admin extends \module {
      * @param string $path
      * @return string 
      */
-    protected function uploadAction($path, $size = 999999, $allowedExt = 'jpg|png|gif') {
-	$upload = new \core\classes\upload($size, $allowedExt, $path . '/');
-	$result = $upload->upload($_FILES['fileField']);
+    protected function uploadAction($path, $size = 104857600, $allowedExt = 'image') {
+        try {
+            $upload = new \core\classes\upload($size, $allowedExt, $path . '/');
+            $result = $upload->upload($_FILES['fileField']);
+        } catch (\Exception $exc) {
+            $return = array('eval' => '', 'notification' => $exc->getMessage(), 'notificationType' => 'negative');
+            return $this->returnResult($return);
+        }
 	if($result !== FALSE){
 	$arr = $_FILES['fileField'];
 	$arr['name'] = $result;

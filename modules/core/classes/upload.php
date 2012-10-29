@@ -102,9 +102,10 @@ class upload {
                         $this->fileName = $file['name'];
                     }
                     $fichier_info = pathinfo($this->target . $this->fileName);
-                    $extension = $fichier_info['extension'];
+                    $extension = strtolower($fichier_info['extension']);
+                    $upload_ok = '';
                     foreach ($this->type AS $type) {
-                        if ($extension == $type || $type = 'all') {
+                        if ($extension == $type || $type == 'all') {
                             $upload_ok = 'ok';
                         }
                     }
@@ -119,24 +120,24 @@ class upload {
                             if (!is_dir($this->target))
                                 \tools::createDirectory($this->target);
                             if (!move_uploaded_file($file['tmp_name'], $this->target . $this->fileName)) {
-                                throw new Exception(t('Error : No file Uploaded', FALSE));
+                                throw new \Exception(t('Error : No file Uploaded', FALSE));
                             } else {
                                 return $this->fileName;
                             }
                         } else {
-                            throw new Exception(t('Error : The file format is invalid', FALSE));
+                            throw new \Exception(t('Error : The file format is invalid', FALSE));
                         }
                     } else {
-                         throw new Exception(t('Error : the filename can\'t be empty', FALSE));
+                         throw new \Exception(t('Error : the filename can\'t be empty', FALSE));
                     }
                 } else {
-                    throw new Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). $this->maxSize . t('bytes'));
+                    throw new \Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). ' '. ceil($this->maxSize/1024) . ' ko');
                 }
             } else {
-                throw new Exception(t('The target folder doesn\'t exist :', FALSE). $this->target);
+                throw new \Exception(t('The target folder doesn\'t exist :', FALSE). $this->target);
             }
         } else {
-            throw new Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). $this->maxSize . t('bytes'));
+            throw new \Exception(t('The uploaded file exceeds the MAX_FILE_SIZE :', FALSE). ' '. ceil($this->maxSize/1024) . ' ko');
         }
     }
 

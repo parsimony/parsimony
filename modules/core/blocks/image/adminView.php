@@ -30,21 +30,26 @@
 <script>
     $(document).ready(function() {
 	$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-	    ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH . $this->module . '/files'; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+	    ajaxFileParams: {action: "upload",type: "image",path: "<?php echo PROFILE_PATH . $this->module . '/files'; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
 	    start:function(file){console.log("Start load : " + file.name)},
 	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
 	    stop:function(response){
-		$("input[name=imgPath]").val(response.name);
-		$("#preview .title").html('<span id="currentname"> <?php echo str_replace('\'','\\\'',t('Current Name', false)) ?> : ' + response.name + '</span>');
-		var src = "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' .PROFILE_PATH. $this->module . '/files'; ?>/" + response.name ;
-		$("#preview .img").attr( 'src' ,src );
-		$("span#width").text(response.x + 'px');
-		$("span#height").text(response.y + 'px');
+                if(typeof response.name != "undefined"){
+                    $("input[name=imgPath]").val(response.name);
+                    $("#preview .title").html('<span id="currentname"> <?php echo str_replace('\'','\\\'',t('Current Name', false)) ?> : ' + response.name + '</span>');
+                    var src = "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' .PROFILE_PATH. $this->module . '/files'; ?>/" + response.name ;
+                    $("#preview .img").attr( 'src' ,src );
+                    $("span#width").text(response.x + 'px');
+                    $("span#height").text(response.y + 'px');
+                }else{
+                    top.ParsimonyAdmin.execResult(response);
+                }
 	    }
 	});
-    })(jQuery);
+    });
 </script>
 <style>
+    #preview{width: 280px;line-height: 15px;text-align: center;margin: 7px 10px}
     #imageover {text-overflow: inherit; overflow: visible;white-space: normal;word-wrap: break-word;background-color: white;z-index: 999; border: 1px #CCC dashed;}
     #size{margin: 5px 0px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;}
     .dragndropimage{width: 100%;border: 1px solid #ccc;height: 210px;border-radius: 8px; background: #f9f9f9;color:#222;}
@@ -78,7 +83,7 @@ if ($this->getConfig('imgPath') != '') {
 }
 ?>">
         </div>
-        <div id="preview" class="inline-block" style="width: 280px;text-align: center;margin: 7px 10px">
+        <div id="preview" class="inline-block">
             <div class="title ellipsis"  style="font-weight: bold;font-size: 12px;height:26px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;">
 		 <?php
 		 if (stream_resolve_include_path($this->getConfig('imgPath'))) {
