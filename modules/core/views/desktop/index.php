@@ -17,7 +17,7 @@
 	    var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 	    var TOKEN = '<?php echo TOKEN ?>';
 	</script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
         <meta name="generator" content="Parsimony">
 	<?php echo app::$request->page->printMetas() ?>

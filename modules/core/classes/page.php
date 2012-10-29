@@ -361,7 +361,7 @@ class page extends \block {
      * @param string $cssFile
      */
     public function addCSSFile($cssFile, $position = 'header') {
-        if (substr($cssFile, 0, 7) == 'http://') {
+        if (substr($cssFile, 0, 2) == '//' || substr($cssFile, 0, 7) == 'http://') {
             if (!in_array($cssFile, $this->includes[$position]['css']['http']))
                 $this->includes[$position]['css']['http'][] = $cssFile;
         }else {
@@ -385,7 +385,7 @@ class page extends \block {
      * @param string $jsFile
      */
     public function addJSFile($jsFile, $position = 'header') {
-        if (substr($jsFile, 0, 7) == 'http://') {
+        if (substr($jsFile, 0, 2) == '//' || substr($jsFile, 0, 7) == 'http://') {
             if (!in_array($jsFile, $this->includes[$position]['js']['http']))
                 $this->includes[$position]['js']['http'][] = $jsFile;
         }else {

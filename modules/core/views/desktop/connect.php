@@ -36,7 +36,7 @@ if (\app::getClass('user')->VerifyConnexion()) {
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
 <!--[if IE]>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
 <style>
     .chromeFrameInstallDefaultStyle {
     width: 800px;
@@ -135,7 +135,7 @@ if (isset($_POST['connexion'])) {
                 </div>
             </form> 
         </div> 
-        <script LANGUAGE="Javascript" SRC="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"> </script>
+        <script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"> </script>
 	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
         <script>
             $(document).ready(function () {
