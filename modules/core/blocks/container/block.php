@@ -39,50 +39,55 @@ namespace core\blocks;
  * @modules_dependencies core:1
  */
 
-class container extends \block {
+class container extends \block
+{
 
-    public function display() {
-	$cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
-	$cacheFile = 'cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
-	$maxage = $this->getConfig('maxAge');
-	$html = '';
-	if ($maxage > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxage > time()) {
-	    ob_start();
-	    include($cacheFile);
-	    $html .= ob_get_clean();
-	} else {
-	    if ($this->getConfig('tag') !== false)
-		$tag = $this->getConfig('tag');
-	    else
-		$tag = 'div';
-	    $classes = $this->getConfig('cssClasses');
-	    if($this->getConfig('column')) {
-		\app::$request->page->head .= '<style> #'.$this->getId().' > .block{float:left} </style>';
-		$classes .= ' column';
-	    }
-	    $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
-	    if (!empty($this->blocks)) {
-		foreach ($this->blocks as $selected_block) {
-		    $html .= $selected_block->display() . PHP_EOL;
-		}
-	    }
-	    $html .= '<div class="clearboth"></div></' . $tag . ' >';
-	    if ($maxage > 0)
-		\tools::file_put_contents($cacheFile, $html);
-	}
-	return $html;
+    public function display()
+    {
+        $cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
+        $cacheFile = 'cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
+        $maxage = $this->getConfig('maxAge');
+        $html = $classes = '';
+        if ($maxage > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxage > time()) {
+            ob_start();
+            include($cacheFile);
+            $html .= ob_get_clean();
+        } else {
+            if ($this->getConfig('tag') !== false)
+                $tag = $this->getConfig('tag');
+            else
+                $tag = 'div';
+            if ($this->getConfig('cssClasses') != false )
+                $classes = ' ' . $this->getConfig('cssClasses');
+            if ($this->getConfig('column')) {
+                \app::$request->page->head .= '<style> #' . $this->getId() . ' > .block{float:left} </style>';
+                $classes .= ' column';
+            }
+            $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
+            if (!empty($this->blocks)) {
+                foreach ($this->blocks as $selected_block) {
+                    $html .= $selected_block->display() . PHP_EOL;
+                }
+            }
+            $html .= '<div class="clearboth"></div></' . $tag . ' >';
+            if ($maxage > 0)
+                \tools::file_put_contents($cacheFile, $html);
+        }
+        return $html;
     }
 
-    public function setBlocks($blocks) {
-	$this->blocks = $blocks;
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
     }
 
-    public function ajaxRefresh($type = FALSE) {
-	if ($type == 'add') {
-	    return parent::ajaxRefresh($type);
-	} else {
-	    return 'document.getElementById("parsiframe").contentWindow.location.reload()';
-	}
+    public function ajaxRefresh($type = FALSE)
+    {
+        if ($type == 'add') {
+            return parent::ajaxRefresh($type);
+        } else {
+            return 'document.getElementById("parsiframe").contentWindow.location.reload()';
+        }
     }
 
 }
