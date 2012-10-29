@@ -60,7 +60,7 @@ class container extends \block {
 		\app::$request->page->head .= '<style> #'.$this->getId().' > .block{float:left} </style>';
 		$classes .= ' column';
 	    }
-	    $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
+	    $html .= '<' . $tag . ' id="' . $this->id . '" class="block container ' . $classes . '">';
 	    if (!empty($this->blocks)) {
 		foreach ($this->blocks as $selected_block) {
 		    $html .= $selected_block->display() . PHP_EOL;
