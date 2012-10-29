@@ -1,44 +1,71 @@
 function blockAdminToolbar() {
 
     this.initBefore = function () {
-
-        $('.sidebar').draggable({
-            handle: ".handle",
-            zIndex: 999998,
-            containment: 'body',
-            start:function(){
-                ParsimonyAdmin.showOverlay(0);
-                $(this).addClass('notransition')
-            }, 
-            stop:function(){
-                ParsimonyAdmin.hideOverlay();
-                $(this).removeClass('notransition');
-                ParsimonyAdmin.setCookie("leftToolbarCoordX",$("#left_sidebar").css('left'),999);
+	
+	$('.subSidebar').on('dragstart',".handle",function(e){
+	    $("#conf_box_overlay").css({"opacity":0,"z-index":0, "display":"block"});
+	    var evt = e.originalEvent;
+	    var img = document.createElement('img');
+	    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+	    evt.dataTransfer.setDragImage(img,0,0);
+	    evt.dataTransfer.setData("Parsimony/dragSidebar", "drag sidebar"); /* Firefox fix */
+	    var dragInfos = {elmt : this.parentNode.parentNode, pageX : evt.pageX, pageY : evt.pageY};
+	    dragInfos.side = dragInfos.elmt.getAttribute("data-side");
+	    dragInfos.elmt.classList.add('notransition'); /* Firefox fix */
+	    dragInfos.left = isNaN(parseFloat(dragInfos.elmt.style.left)) ? 0 : dragInfos.elmt.style.left,
+	    dragInfos.right = isNaN(parseFloat(dragInfos.elmt.style.right)) ? 0 : dragInfos.elmt.style.right,
+	    dragInfos.top = isNaN(parseFloat(dragInfos.elmt.style.top)) ? 0 : dragInfos.elmt.style.top;
+	    ParsimonyAdmin.showOverlay(0);
+	    
+	    $(document).on('dragover.dragSidebar',dragInfos,function(e){
+		e.preventDefault(); /* Firefox fix */
+		var evt = e.originalEvent;
+		var side;
+		var top = parseFloat(dragInfos.top) + evt.pageY - dragInfos.pageY;
+		if(dragInfos.side == "left") side = parseFloat(dragInfos.left) + evt.pageX - dragInfos.pageX;
+		else side = parseFloat(dragInfos.right) - (evt.pageX - dragInfos.pageX);
+		dragInfos.elmt.style.top = (top < 28) ? "28px" : top + "px";
+		dragInfos.elmt.style[dragInfos.side] = (side < 0) ? "0px" : side + "px";
+		return false;
+	    }).on('dragend.dragSidebar',dragInfos,function(){
+		$("#conf_box_overlay").css({"z-index":999, "display":"none"});
+		$(document).add(ParsimonyAdmin.currentDocument).off('.dragSidebar');
+		dragInfos.elmt.classList.remove('notransition');
+		ParsimonyAdmin.setCookie("leftToolbarCoordX",$("#left_sidebar").css('left'),999);
                 ParsimonyAdmin.setCookie("leftToolbarCoordY",$("#left_sidebar").css('top'),999);
-                ParsimonyAdmin.setCookie("rightToolbarCoordX",$("#right_sidebar").css('left'),999);
+                ParsimonyAdmin.setCookie("rightToolbarCoordX",$("#right_sidebar").css('right'),999);
                 ParsimonyAdmin.setCookie("rightToolbarCoordY",$("#right_sidebar").css('top'),999);
-            }
-        })
-        .resizable({
-            start:function(event, ui){
-                ParsimonyAdmin.showOverlay(0);
-                $(this).addClass('notransition');
-            },
-            helper: "ui-resizable-helper",
-            handles: {
-                'e': '.ui-icon-arrowthick-2-e-w',
-                'w': '.ui-icon-arrowthick-2-e-w'
-            }, 
-            stop:function(){
-                ParsimonyAdmin.hideOverlay();
-                $(this).removeClass('notransition');
-                $( '#right_sidebar').css('height','auto');
-                $( '#right_sidebar').css('position','fixed');
-                ParsimonyAdmin.setCookie("leftToolbarX",$("#left_sidebar").css('width'),999);
+	    });
+	});
+	
+	$('.subSidebar').on('dragstart',".resizeHandle",function(e){
+	    $("#conf_box_overlay").css({"opacity":0,"z-index":0, "display":"block"});
+	    var evt = e.originalEvent;
+	    var img = document.createElement('img');
+	    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+	    evt.dataTransfer.setDragImage(img,0,0);
+	    evt.dataTransfer.setData("Parsimony/dragSidebar", "drag sidebar"); /* Firefox fix */
+	    var dragInfos = {elmt : this.parentNode.parentNode, pageX : evt.pageX, pageY : evt.pageY};
+	    dragInfos.side = dragInfos.elmt.getAttribute("data-side");
+	    dragInfos.elmt.classList.add('notransition');
+	    dragInfos.width = isNaN(parseFloat(dragInfos.elmt.style.width)) ? 0 : dragInfos.elmt.style.width;
+	    $(document).on('dragover.dragSidebar',dragInfos,function(e){
+		var evt = e.originalEvent;
+		var width;
+		if(dragInfos.side == "left") width = parseFloat(dragInfos.width) + evt.pageX - dragInfos.pageX;
+		else width = parseFloat(dragInfos.width) - (evt.pageX - dragInfos.pageX);
+		dragInfos.elmt.style.width = (width < 150) ? "150px" : width + "px";
+		return false;
+	    }).on('dragend.dragSidebar',dragInfos,function(){
+		$("#conf_box_overlay").css({"z-index":999, "display":"none"});
+		$(document).add(ParsimonyAdmin.currentDocument).off('.dragSidebar');
+		dragInfos.elmt.classList.remove('notransition');
+		ParsimonyAdmin.setCookie("leftToolbarX",$("#left_sidebar").css('width'),999);
                 ParsimonyAdmin.setCookie("rightToolbarX",$("#right_sidebar").css('width'),999);
-            }
-        })
-        .on('click',".openclose",function(){
+	    });
+	});
+
+        $('.sidebar').on('click',".openclose",function(){
             var sidebar = $(this).closest(".sidebar");
             sidebar.toggleClass("close");
             ParsimonyAdmin.setCookie(sidebar.data("side") + "ToolbarOpen",( sidebar.hasClass("close") ? "0" : "1"),999);

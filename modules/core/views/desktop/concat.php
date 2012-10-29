@@ -40,8 +40,7 @@ if (is_file($pathCache) && app::$config['dev']['status'] == 'prod') {
     foreach ($files as $file) {
 	$pathParts = pathinfo($file,PATHINFO_EXTENSION);
 	if($pathParts == 'js' || $pathParts=='css'){
-	    $file2 = substr($file, strlen(BASE_PATH));
-	    $path = stream_resolve_include_path (substr($file, strlen(BASE_PATH)));
+	    $path = stream_resolve_include_path ($file);
 	    if($path) include($path);
 	}
     }

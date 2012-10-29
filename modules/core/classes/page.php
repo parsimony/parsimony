@@ -304,7 +304,7 @@ class page extends \block {
             $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
         if (!empty($this->includes[$position]['css']['local'])) {
             if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup']))
-                $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&amp;files=' . implode(',', $this->includes[$position]['css']['local']) . '" />';
+                $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&amp;files=' . substr(str_replace(','.BASE_PATH, ',',implode(',', $this->includes[$position]['css']['local'])),strlen(BASE_PATH)) . '" />';
             else {
                 foreach ($this->includes[$position]['css']['local'] AS $css)
                     $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . $css . '" />';
@@ -314,7 +314,7 @@ class page extends \block {
             $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
         if (!empty($this->includes[$position]['js']['local'])) {
             if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) {
-                $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&amp;files=' . implode(',', $this->includes[$position]['js']['local']) . '"> </SCRIPT>' . PHP_EOL;
+                $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&amp;files=' . substr(str_replace(','.BASE_PATH, ',', implode(',', $this->includes[$position]['js']['local'])),strlen(BASE_PATH)) . '"> </SCRIPT>' . PHP_EOL;
             } else {
                 foreach ($this->includes[$position]['js']['local'] AS $css)
                     $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . $css . '"> </SCRIPT>';

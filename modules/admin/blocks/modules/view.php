@@ -67,7 +67,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                             $entityTitle = s(ucfirst($entity->getTitle()));
                             if ($module != 'core' || ($entityName != 'role' && $entityName != 'user' && !empty($entityTitle))) {
                                 ?>
-                                <li class="sublist modelSubList"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
+                                <li class="sublist modelSubList" drag><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
                                 <?php
                             }
                         }
@@ -97,7 +97,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                             else
                                 $pageURL = BASE_PATH . $moduleobj->getName() . '/' . $page->getURL();
                             ?>
-                            <li class="sublist ellipsis <?php echo $selected ?>" id="page_<?php echo $id_page ?>" data-url="<?php echo $pageURL ?>"><span class="ui-icon ui-icon-document floatleft"></span>
+                            <li class="sublist ellipsis <?php echo $selected ?>" draggable="true" id="page_<?php echo $id_page ?>" data-url="<?php echo $pageURL ?>"><span class="ui-icon ui-icon-document floatleft"></span>
                                 <a class="ellipsis" onclick="ParsimonyAdmin.goToPage('<?php echo str_replace("'", "\\'", $page->getTitle()); ?>', '<?php echo utf8_encode($pageURL); ?>');return false;"
                                    href="#" ><?php echo ucfirst(s($page->getTitle())); ?></a>
                                 <span class="action ui-icon ui-icon-pencil" style="right: 5px;top: 2px;position: absolute;border: #666 solid 1px;border-radius: 5px;cursor: pointer;" rel="getViewUpdatePage" title="<?php echo t('Manage this page', FALSE); ?>" params="module=<?php echo $moduleobj->getName(); ?>&page=<?php echo $id_page; ?>"></span>
@@ -125,12 +125,28 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
 </div>
 <script>
     $(document).ready(function(){
-	$( ".pages" ).sortable({
-	    update: function(event, ui) {
-		$.post(BASE_PATH + "admin/reorderPages", {module: $(this).data("module"), order : $( this ).sortable( "toArray")}, function(data) {
+	$('.pages').on('dragstart',"li",function(e){
+	    $("#conf_box_overlay").css({"opacity":0,"z-index":0, "display":"block"});
+	    var evt = e.originalEvent;
+	    evt.dataTransfer.effectAllowed = 'move';
+	    evt.dataTransfer.setData("Parsimony/dragSidebar", "drag page"); /* Firefox fix */
+	    var dragInfos = {elmt : this, list:this.parentNode};
+	    dragInfos.width = isNaN(parseFloat(dragInfos.elmt.style.width)) ? 0 : dragInfos.elmt.style.width;
+	    $('li',dragInfos.list).on('dragover.sortPages',dragInfos,function(e){
+		if(dragInfos.elmt != this) this.parentNode.insertBefore(dragInfos.elmt, this);
+		return false;
+	    })
+	    $(document).on('dragend.sortPages',dragInfos,function(){
+		$("#conf_box_overlay").css({"z-index":999, "display":"none"});
+		$(document).add('li',dragInfos.list).off('.sortPages');
+		var list = Array();
+		$('li',dragInfos.list).each(function(){
+		    if(this.id) list.push(this.id);
+		});
+		$.post(BASE_PATH + "admin/reorderPages", {module: $(dragInfos.list).data("module"), order : list}, function(data) {
 		    ParsimonyAdmin.notify(t("The changes have been saved"),"positive");
 		});
-	    }
+	    });
 	});
     });
 </script>

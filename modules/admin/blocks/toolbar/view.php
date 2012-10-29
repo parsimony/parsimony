@@ -1,12 +1,11 @@
 <?php
-app::$request->page->addJSFile(BASE_PATH . 'lib/jquery-ui/jquery-ui-1.8.23.custom.min.js','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css','footer');
 app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js','footer');
 app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js','footer');
 app::$request->page->addJSFile(BASE_PATH . 'admin/script.js');
-app::$request->page->addJSFile(BASE_PATH . 'cache/' . app::$request->getLocale() . '-lang.js','footer');
+app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5sortable/jquery.sortable.js','footer');
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js','footer');
 ?>
 <script type="text/javascript">

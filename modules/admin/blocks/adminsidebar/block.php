@@ -38,7 +38,7 @@ class adminsidebar extends \core\blocks\container {
 	$html = '';
 	$style = '';
 	if (isset($_COOKIE[$this->side . 'ToolbarCoordX']) && $_COOKIE[$this->side . 'ToolbarCoordX'] != 0)
-	    $style .= 'left:' . $_COOKIE[$this->side . 'ToolbarCoordX'] . ';top:' . $_COOKIE[$this->side . 'ToolbarCoordY'] . ';';
+	    $style .= $this->side . ':' . $_COOKIE[$this->side . 'ToolbarCoordX'] . ';top:' . $_COOKIE[$this->side . 'ToolbarCoordY'] . ';';
 	if (isset($_COOKIE[$this->side . 'ToolbarX']))
 	    $style .= 'width:' . $_COOKIE[$this->side . 'ToolbarX'] . ';';
 	if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit' && $this->side == 'right')

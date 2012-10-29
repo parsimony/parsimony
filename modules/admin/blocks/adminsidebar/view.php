@@ -27,10 +27,10 @@
  */
 ?>
 <div class="subSidebar">
-    <div class="subSidebarOnglet handle" style="cursor: move;"><span class="ui-icon ui-icon-arrow-4"></span></div>
+    <div class="subSidebarOnglet handle" style="cursor: move;" draggable="true"><span class="ui-icon ui-icon-arrow-4"></span></div>
     <div class="subSidebarOnglet revert tooltip" data-tooltip="<?php echo t('Pin', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
     <div class="subSidebarOnglet openclose tooltip" data-tooltip="<?php echo t('Show / Hide', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>"></span></div>
-    <div class="subSidebarOnglet tooltip" data-tooltip="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
+    <div class="subSidebarOnglet tooltip resizeHandle" style="cursor: w-resize;" draggable="true" data-tooltip="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
 </div>
 <div class="contenttab">
     <?php foreach ($this->getBlocks() AS $block): ?>

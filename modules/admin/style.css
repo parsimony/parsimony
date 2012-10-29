@@ -92,6 +92,7 @@ ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
             background-image: -webkit-linear-gradient(right,#E5E9EF,#FEFEFE);}
 #right_sidebar .subSidebar{left: -21px;}
 #left_sidebar .subSidebar{right: -20px;}
+.close .resizeHandle{display:none}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
 #panelblocks{background: #444 url(admin/img/black_paper.png)}
@@ -101,7 +102,7 @@ ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
 
 /* Sidebar left */
 #left_sidebar{width:209px;background: whiteSmoke;/*width: 13.4%;*/}
-#left_sidebar.close{left:-210px}
+#left_sidebar.close{top:29px;position:fixed;left: 0px;width:0 !important}
 #left_sidebar .contenttab{box-shadow: 1px 1px 6px #444;/*border-right: 1px solid #999;*/}
 #left_sidebar .openclose span{background-position: -144px -192px;}
 #left_sidebar.close .openclose span{background-position: -112px -192px;}
@@ -558,8 +559,8 @@ background: -o-linear-gradient(bottom,#828282,#777);}
 
 /* Transitions */
 .notransition{
-    -o-transition:all 0 ease 0 !important;-webkit-transition:all 0 ease 0 !important;
-    -moz-transition:all 0 ease 0 !important;transition:all 0 ease 0 !important;
+    transition:none !important;-webkit-transition:none !important;
+    -moz-transition:none !important;-o-transition:none !important;
 }
 
 /* datagrid */
@@ -921,7 +922,6 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-arrowrefresh-1-w {background-position: -128px -64px;}
 .ui-icon-folder-open {background-position: -16px -96px;}
 
-.ui-resizable-helper { border: 1px dotted red;z-index: 99999999; }
 a#previewMode{border-radius: 10px 0 0 10px;margin-left: 10px;}
 .switchMode:last-child{border-radius: 0 10px 10px 0;}
 a.switchMode{color: white !important;padding: 4px 10px !important;font-size: 13px;text-shadow: 0 1px rgba(0, 0, 0, 0.35);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #707A84), color-stop(100%, #505968));background-image: -webkit-linear-gradient(top, #707A84, #505968);background-image: -moz-linear-gradient(top, #707A84, #505968);background-image: -ms-linear-gradient(top, #707A84, #505968);background-image: -o-linear-gradient(top, #707A84, #505968);background-image: linear-gradient(top, #707A84, #505968);box-shadow: inset 1px 1px #777;}
