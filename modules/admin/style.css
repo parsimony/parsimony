@@ -59,7 +59,7 @@ float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #999;text-
 .ssTab:first-child{border-radius: 5px 0 0 5px;border-right:0 !important;}
 .ssTab:last-child{border-radius: 0 5px 5px 0;}
 ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
- 
+
 /* Add Button*/
 .parsiplusone {text-decoration: none;color: white;display: inline-block;position: absolute;top:1px;right: 0px;cursor: cell;
                background: url("admin/img/add.png") no-repeat;width: 16px;height: 16px;}
@@ -117,7 +117,7 @@ ul.models,ul.pages{padding: 5px;background: whiteSmoke;}
 #right_sidebar.close .openclose span{background-position: -144px -192px;}
 
 /* Top toolbar */
-#toolbar{position: fixed;min-width: 1280px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
+#toolbar{position: fixed;min-width: 1050px;width:100%;z-index: 999999;height:28px;color: #666;text-shadow: white 0 1px 0;text-decoration: none; font-weight: bold;font-size: 12px;background-color: #f3f3f3; 
 	 background-image: -moz-linear-gradient(bottom,#e5e9ef,#fefefe);
 	 background-image: -webkit-linear-gradient(bottom,#e5e9ef,#fefefe);
          box-shadow: 0 1px 5px #443;}
@@ -283,6 +283,16 @@ background-image: -o-linear-gradient(top, #707A84, #505968);
 background-image: linear-gradient(top, #707A84, #505968);
 }
 #toolbar ul ul li a{color: #555;text-shadow: none;display:block;min-width:140px;line-height:18px;box-shadow: none;}
+
+
+#logo{border:0 !important;width:208px}
+.littleLogo{display:none}
+ @media screen and (max-width: 1400px) {
+  #logo{width:32px}
+  .littleLogo{display:block}
+  .biggerLogo{display:none}
+}
+
 
 /* Top Toolbar right part */
 #toolbar .rightpart{margin-right:10px;}

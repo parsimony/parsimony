@@ -43,8 +43,10 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer
     </a>
 </div>
 <ul>
-    <li style="border:0;width:208px"><a href="http://parsimony.mobi" target="_blank" style="padding:0;display: block;height:28px;">
-            <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
+    <li id="logo">
+	<a href="http://parsimony.mobi" target="_blank" style="padding:0;display: block;height:28px;">
+            <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png" class="biggerLogo">
+	    <img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png" class="littleLogo">
         </a>
     </li>
     <?php if (\app::$config['domain']['multisite']): ?>
