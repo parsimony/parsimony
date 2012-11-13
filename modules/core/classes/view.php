@@ -368,7 +368,6 @@ class view implements \Iterator {
                 $this->SQL['query']  = str_replace($table,PREFIX.$table,$this->SQL['query']);
             }
         }
-        echo $this->SQL['query'];
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);

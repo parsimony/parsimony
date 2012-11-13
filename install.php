@@ -99,6 +99,7 @@ $lang['fr']['My WebSite'] = 'Mon site';
 $lang['fr']['Password'] = 'Mot de passe';
 $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
 $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
+$lang['fr']['Use a prefix ( Optional)'] = 'Utiliser un préfixe ( Optionnel)';
 
 
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
@@ -480,8 +481,11 @@ while (1) {
                 <input type="text" name="db_pass" value="<?php if (isset($_POST['db_pass'])) echo se($_POST['db_pass']); ?>">
             </div>
             <div>
-                <label><?php echo tr('Tables Prefix'); ?></label>
-                <input type="text" name="db_prefix" value="<?php if (isset($_POST['db_prefix'])) echo se($_POST['db_prefix']); ?>" placeholder="ex : parsi_">
+                <div style="margin-top:7px"><input type="checkbox" onclick="if(this.checked) {document.getElementById('prefixcont').style.display = 'block';} else {document.getElementById('prefixcont').style.display = 'none';}"> <?php echo tr('Use a prefix ( Optional)'); ?></div>
+                <div id="prefixcont" style="display:none">
+                    <label><?php echo tr('Tables Prefix'); ?></label>
+                    <input type="text" name="db_prefix" value="<?php if (isset($_POST['db_prefix'])) echo se($_POST['db_prefix']); ?>" pattern="[a-z_]+" placeholder="ex : parsi_">
+                </div>
             </div>
             <input type="hidden" name="step" value="validstep3" />
             <?php
