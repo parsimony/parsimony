@@ -758,7 +758,7 @@ abstract class entity implements \Iterator {
         if (isset($this->_SQL['limit'])) {
             $query .= ' LIMIT ' . $this->_SQL['limit'];
         }
-        $this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
+        $this->_SQL['query'] = $query = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
         $this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
         if (is_object($this->_SQL['stmt'])) {
             return TRUE;
