@@ -26,9 +26,9 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$tags = \PDOconnection::getDB()->query('SELECT core_tag.name, core_tag.url, COUNT( core_tag.name ) AS nb
-FROM core_tag INNER JOIN core_tag_post ON core_tag.id_tag = core_tag_post.id_tag
-GROUP BY core_tag.name ORDER BY nb DESC LIMIT 0 , 30');
+$tags = \PDOconnection::getDB()->query('SELECT '.PREFIX.'core_tag.name, '.PREFIX.'core_tag.url, COUNT( '.PREFIX.'core_tag.name ) AS nb
+FROM '.PREFIX.'core_tag INNER JOIN '.PREFIX.'core_tag_post ON '.PREFIX.'core_tag.id_tag = '.PREFIX.'core_tag_post.id_tag
+GROUP BY '.PREFIX.'core_tag.name ORDER BY nb DESC LIMIT 0 , 30');
 if(is_object($tags)){
     $tags = $tags->fetchAll(\PDO::FETCH_ASSOC);
     if(isset($tags[0]['nb'])){

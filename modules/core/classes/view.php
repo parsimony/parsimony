@@ -186,7 +186,7 @@ class view implements \Iterator {
      * @return view object
      */
     public function from($table) {
-        $this->SQL['froms'][$table] = $table;
+        $this->SQL['froms'][PREFIX.$table] = PREFIX.$table;
         return $this;
     }
 

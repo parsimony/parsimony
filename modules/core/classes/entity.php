@@ -161,7 +161,7 @@ abstract class entity implements \Iterator {
      * @return bool 
      */
     public function createTable() {
-        $sql = 'CREATE TABLE IF NOT EXISTS ' . $this->_tableName . ' (';
+        $sql = 'CREATE TABLE IF NOT EXISTS ' . PREFIX . $this->_tableName . ' (';
         foreach ($this->getFields() as $name => $field) {
             $sqlField = $field->sqlModel();
             if ($sqlField != FALSE)
@@ -176,7 +176,7 @@ abstract class entity implements \Iterator {
      * @return bool 
      */
     public function deleteTable() {
-        $sql = 'DROP TABLE ' . $this->_tableName;
+        $sql = 'DROP TABLE ' . PREFIX . $this->_tableName;
         rename('modules/' . $this->_module . '/model/' . $this->_entityName . '.php', 'modules/' . $this->_module . '/model/' . $this->_entityName . '.php.back');
         rename('modules/' . $this->_module . '/model/' . $this->_entityName . '.' . \app::$config['dev']['serialization'], 'modules/' . $this->_module . '/model/' . $this->_entityName . '.' . \app::$config['dev']['serialization'] . '.back');
         return (bool) PDOconnection::getDB()->exec($sql);
@@ -206,7 +206,7 @@ abstract class entity implements \Iterator {
      */
     public function insertInto(array $vars) {
         $vars = $this->beforeInsert($vars);
-        $query = 'INSERT INTO ' . $this->_tableName . '(';
+        $query = 'INSERT INTO ' . PREFIX . $this->_tableName . '(';
 	$params = '';
         foreach ($this->getFields() as $name => $field) {
             if (get_class($field) != \app::$aliasClasses['field_formasso']) {
@@ -240,7 +240,7 @@ abstract class entity implements \Iterator {
      */
     public function update(array $vars) {
         $vars = $this->beforeUpdate($vars);
-        $query = 'UPDATE ' . $this->_tableName . ' SET ';
+        $query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
         foreach ($this->getFields() as $name => $field) {
             if (get_class($field) != \app::$aliasClasses['field_formasso'] && isset($vars[$name]))
                 foreach ($field->getColumns() AS $column)
@@ -278,7 +278,7 @@ abstract class entity implements \Iterator {
      */
     public function delete() {
         $this->beforeDelete();
-        $query = 'DELETE FROM ' . $this->_tableName;
+        $query = 'DELETE FROM ' . PREFIX . $this->_tableName;
         if (isset($this->_SQL['wheres'])) {
             $wheres = array();
             foreach ($this->_SQL['wheres'] AS $property => $where) {
@@ -735,7 +735,7 @@ abstract class entity implements \Iterator {
             //$query .= implode(',', array_keys($this->getFields()));
             $query .= '*';
         }
-        $query .= ' FROM ' . $this->_tableName;
+        $query .= ' FROM ' . PREFIX . $this->_tableName;
         if (isset($this->_SQL['joins'])) {
             foreach ($this->_SQL['joins'] AS $join) {
                 $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];

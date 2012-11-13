@@ -216,8 +216,7 @@ class module {
      */
     public function getFields() {
 	$fields = array();
-        $fieldsList = glob(PROFILE_PATH . $this->name . '/fields/*.php');
-	foreach (is_array($fieldsList) ? $fieldsList : array() as $filename) {
+	foreach (glob(PROFILE_PATH . $this->name . '/fields/*.php') as $filename) {
 	    $field = basename($filename, '.php');
 	    $fields[] = $field;
 	}
@@ -261,8 +260,7 @@ class module {
      * @return array
      */
     public function getModel() {
-        $entities = glob('modules/' . $this->name . '/model/*.php');
-	foreach (is_array($entities) ? $entities : array() as $filename) {
+	foreach (glob('modules/' . $this->name . '/model/*.php') as $filename) {
 	    $model = basename($filename, '.php');
 	    $this->model[$model] = $this->getEntity($model);
 	}
@@ -310,9 +308,7 @@ class module {
      */
     public function getThemes() {
 	$themes = array();
-        $themesModule = glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR);
-        $themesProfile = glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR);
-        $themelist = array_merge((is_array($themesModule) ? $themesModule : array()), (is_array($themesProfile) ? $themesProfile : array()));
+        $themelist = array_merge((array)glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR), glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR));
 	foreach ($themelist as $filename) {
 	    $themeName = basename($filename);
 	    $themes[$themeName] = $themeName;

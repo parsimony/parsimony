@@ -36,7 +36,7 @@
     </label>
 <?php
 $foreignID = $this->value;
-$sth = PDOconnection::getDB()->query('SELECT * FROM '.$this->module.'_'.$this->link); // used ->getEntity() but there was interference because of cache
+$sth = PDOconnection::getDB()->query('SELECT * FROM ' . PREFIX . $this->module.'_'.$this->link); // used ->getEntity() but there was interference because of cache
 $sth->setFetchMode(PDO::FETCH_OBJ);
 if(is_object($sth)){
     echo '<select name="'.$this->name.'"><option></option>';

@@ -1247,7 +1247,7 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		
 		// Change table Name if has change
 		if ($table->name != $table->oldName) {
-		    \PDOconnection::getDB()->exec('ALTER TABLE ' . $module . '_' . $table->oldName . ' RENAME TO ' . $module . '_' . $table->name . ';');
+		    \PDOconnection::getDB()->exec('ALTER TABLE ' .PREFIX . $module . '_' . $table->oldName . ' RENAME TO ' . $module . '_' . $table->name . ';');
 		    unlink('modules/' . $module . '/model/' . $table->oldName . '.php');
 		    unlink('modules/' . $module . '/model/' . $table->oldName .  '.' .\app::$config['dev']['serialization']);
 		    //require_once('modules/' . $module . '/model/' . $table->name . '.php');

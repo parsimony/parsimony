@@ -60,7 +60,7 @@ $daysOfThisMonth = array();
 for ($i = 1; $i <= $maxday; $i++)
     $daysOfThisMonth[$i] = 0;
 
-$query = \PDOconnection::getDB()->query('SELECT publicationGMT FROM core_post WHERE publicationGMT BETWEEN \'' . gmdate('Y-m-d H:i:s', $firstDayOfMonth) . '\' AND \'' . gmdate('Y-m-d H:i:s', mktime(0, 0, 0, $thisMonth, $maxday, $thisYear)) . '\'');
+$query = \PDOconnection::getDB()->query('SELECT publicationGMT FROM '.PREFIX.'core_post WHERE '.PREFIX.'publicationGMT BETWEEN \'' . gmdate('Y-m-d H:i:s', $firstDayOfMonth) . '\' AND \'' . gmdate('Y-m-d H:i:s', mktime(0, 0, 0, $thisMonth, $maxday, $thisYear)) . '\'');
 if(is_object($query)){
     $recposts = $query->fetchAll(\PDO::FETCH_ASSOC);
     if (!empty($recposts)) {

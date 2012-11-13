@@ -79,6 +79,7 @@ namespace core\classes {
             include('config.php');
 
 	    define('BASE_PATH',$config['BASE_PATH']);
+            define('PREFIX',$config['db']['prefix']);
 	    
             /* Determine the domain www.Domain Name */
             if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain

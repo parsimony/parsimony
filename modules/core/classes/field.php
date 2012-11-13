@@ -240,7 +240,7 @@ class field {
         $data = $this->validate($data);
         if ($data !== FALSE) {
             $entityObj = \app::getModule($this->module)->getEntity($this->entity);
-            $res = \PDOconnection::getDB()->exec('UPDATE ' . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = \'' . str_replace("'", "\'", $data) . '\' WHERE ' . $entityObj->getId()->name . '=' . $id);
+            $res = \PDOconnection::getDB()->exec('UPDATE ' .PREFIX . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = \'' . str_replace("'", "\'", $data) . '\' WHERE ' . $entityObj->getId()->name . '=' . $id);
             if ($res) {
                 return TRUE;
             }
@@ -323,7 +323,7 @@ class field {
             $pos = ' FIRST ';
         else
             $pos = ' AFTER ' . $fieldBefore;
-        $sql = 'ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->sqlModel() . $pos;
+        $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' ADD ' . $this->sqlModel() . $pos;
         return (bool) PDOconnection::getDB()->exec($sql);
     }
 
@@ -342,7 +342,7 @@ class field {
             $name = $oldName;
         else
             $name = $this->name;
-        $sql = 'ALTER TABLE ' . $this->module . '_' . $this->entity . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
+        $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
         return (bool) PDOconnection::getDB()->exec($sql);
     }
 
@@ -351,7 +351,7 @@ class field {
      * @return bool
      */
     public function deleteColumn() {
-        $sql = 'ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name;
+        $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' DROP ' . $this->name;
         return (bool) PDOconnection::getDB()->exec($sql);
     }
 

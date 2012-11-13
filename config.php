@@ -14,6 +14,7 @@ $config['db']['port'] = '3306';
 $config['db']['dbname'] = '';
 $config['db']['user'] = '';
 $config['db']['pass'] = '';
+$config['db']['prefix'] = 'parsi_';
 
 //Cache
 $config['cache']['cache-control'] = 'private';

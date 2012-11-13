@@ -450,7 +450,7 @@ while (1) {
 	    include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
             $configObj = new \core\classes\config('config.php', TRUE);
-            $update = array('BASE_PATH' => BASE_PATH ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass']));
+            $update = array('BASE_PATH' => BASE_PATH ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass'], 'prefix' => $_POST['db_prefix']));
             $configObj->saveConfig($update);
 
             break;
@@ -479,12 +479,10 @@ while (1) {
                 <label><?php echo tr('Password'); ?></label>
                 <input type="text" name="db_pass" value="<?php if (isset($_POST['db_pass'])) echo se($_POST['db_pass']); ?>">
             </div>
-			<?php /*
             <div>
                 <label><?php echo tr('Tables Prefix'); ?></label>
                 <input type="text" name="db_prefix" value="<?php if (isset($_POST['db_prefix'])) echo se($_POST['db_prefix']); ?>" placeholder="ex : parsi_">
             </div>
-			*/ ?>
             <input type="hidden" name="step" value="validstep3" />
             <?php
             break 2;
@@ -558,6 +556,7 @@ while (1) {
 	    include('modules/core/classes/app.php');
 	    class_alias('core\classes\app','app');
 	    include('config.php');
+            define('PREFIX',$config['db']['prefix']);
 	    app::$config = $config;
 		 $config['aliasClasses'] = array('app' => 'core\classes\app',
 	    'request' => 'core\classes\request',
