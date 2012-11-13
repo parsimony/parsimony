@@ -186,7 +186,7 @@ class view implements \Iterator {
      * @return view object
      */
     public function from($table) {
-        $this->SQL['froms'][PREFIX.$table] = PREFIX.$table;
+        $this->SQL['froms'][$table] = $table;
         return $this;
     }
 
@@ -363,6 +363,12 @@ class view implements \Iterator {
         }
         $this->SQL['valid'] = TRUE;
         $this->SQL['query'] = strtolower($query);
+        if(PREFIX != ''){
+            foreach($this->SQL['froms'] AS $table){
+                $this->SQL['query']  = str_replace($table,PREFIX.$table,$this->SQL['query']);
+            }
+        }
+        echo $this->SQL['query'];
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
