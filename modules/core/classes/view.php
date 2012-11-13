@@ -362,13 +362,12 @@ class view implements \Iterator {
             $query .= ' LIMIT 0,' . $this->SQL['limit'];
         }
         $this->SQL['valid'] = TRUE;
-        $query = strtolower($query);
         if(PREFIX != ''){
             foreach($this->SQL['froms'] AS $table){
                 $query  = str_replace($table,PREFIX.$table,$query);
             }
         }
-        $this->SQL['query'] = $query;
+        $this->SQL['query'] = strtolower($query);
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
