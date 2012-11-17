@@ -1199,9 +1199,9 @@ class admin extends \module {
 
 		foreach ($table->properties as $fieldName => $property) {
 		    list($name, $type) = explode(':', $fieldName);
-		    $tplProp .= '    protected $' . $name . ";\n\r"; //genere les atributs
-		    $tplParam .= '\\' . $type . ' $' . $name . ','; //génère les paramètres du constructeur
-		    $tplAssign .= '        $this->' . $name . ' = $' . $name . ";\n"; //génère les affectations dans le constructeur
+		    $tplProp .= '    protected $' . $name . ";\n\r"; //generates attributes
+		    $tplParam .= '\\' . $type . ' $' . $name . ','; //generates the constructor parameters
+		    $tplAssign .= '        $this->' . $name . ' = $' . $name . ";\n"; //generates assignments in the constructor
 		    $reflectionObj = new \ReflectionClass($type);
 		    $property = json_encode($property);
 		    $property = json_decode($property, true);
