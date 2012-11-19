@@ -30,7 +30,7 @@
 namespace admin;
 
 /**
- * @title Amin
+ * @title Admin
  * @description Manage the administration of Parsimony
  * @version 1
  * @browsers all
