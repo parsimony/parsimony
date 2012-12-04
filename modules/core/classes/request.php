@@ -429,6 +429,7 @@ class request {
 	'no_NO' => 'Norwegian (Bokmal)',
 	'nn_NO' => 'Norwegian (Nynorsk)',
 	'or_OR' => 'Oriya',
+        'fa_IR' => 'Persian (Iran)',
 	'pl_PL' => 'Polish',
 	'pt_BR' => 'Portuguese (Brazil)',
 	'pt_PT' => 'Portuguese (Portugal)',
