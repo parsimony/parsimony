@@ -51,14 +51,14 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
             if ($module != MODULE)
                 $display = 'none';
             ?>  
-            <div id="page_<?php echo $moduleobj->getName(); ?>" class="<?php echo $display; ?>">
+            <div id="page_<?php echo $moduleobj->getName(); ?>" class="<?php echo $display; ?>" style="border-bottom: 1px solid rgb(233, 233, 233);border-top: 1px solid white;">
                 <div class="datatopages subTabsContainer">
-                    <div rel="pages" class="ssTab ellipsis switchtodata active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>" target="_blank"><?php echo t('Pages', FALSE); ?>                  
+                    <div rel="pages" class="ssTab ellipsis switchtodata active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo t('Pages', FALSE); ?>                  
                     </div>
-                    <div rel="models" class="ssTab db ellipsis switchtopages" target="_blank" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Content', FALSE); ?>
+                    <div rel="models" class="ssTab db ellipsis switchtopages" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($moduleobj->getName()); ?>"><?php echo ' ' . t('Content', FALSE); ?>
                     </div> 
                 </div>
-                <ul class="none models">
+                <ul class="none models tabPanel">
                     <?php
                     $models = $moduleobj->getModel();
                     if (count($models) > 0) {
@@ -83,7 +83,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                     </li>
                     <?php endif; ?>
                 </ul>
-                <ul class="pages" data-module="<?php echo $moduleobj->getName(); ?>" style="max-height: 300px;overflow-y: auto">
+                <ul class="pages tabPanel" data-module="<?php echo $moduleobj->getName(); ?>" style="display:block;max-height: 300px;overflow-y: auto">
                     <?php
                     if (stream_resolve_include_path($moduleobj->getName() . '/module' . '.' . \app::$config['dev']['serialization'])) {
                         foreach ($moduleobj->getPages() as $id_page => $page) {
@@ -120,7 +120,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
     }
     if (BEHAVIOR == 2 ):
     ?>		
-    <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="sprite sprite-module floatleft" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: white;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
+    <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon ui-icon-plus" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: #444;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
     <?php endif; ?>
 </div>
 <script>

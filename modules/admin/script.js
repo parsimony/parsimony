@@ -491,7 +491,8 @@ var ParsimonyAdmin = {
             document.getElementById("conf_box_load").style.display = "none";
 	    if(doc.location.href != "about:blank"){
                 var elmt = $(".adminzone",doc)[0] || $("body",doc)[0] ;
-		iframe.style.cssText = "width:" + elmt.scrollWidth + "px;height:" + elmt.scrollHeight + "px";
+		var height = $(".adminzonefooter",doc).length > 0 ? ( elmt.scrollHeight + 40) : elmt.scrollHeight ;
+		iframe.style.cssText = "width:" + elmt.scrollWidth + "px;height:" + height + "px";
 	    }
             document.getElementById("conf_box").style.visibility = "visible";
 	},
@@ -507,7 +508,7 @@ var ParsimonyAdmin = {
 	    THEMETYPE = device;
 	    $('#changeres').val('');// to change res.
 	    ParsimonyAdmin.changeDeviceUpdate(device);
-	    $("#info_themetype").text("Version " + device);
+	    $("#info_themetype").text(device);
 	    ParsimonyAdmin.$iframe.attr("src", ParsimonyAdmin.$iframe.attr("src"));
 	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
@@ -521,7 +522,7 @@ var ParsimonyAdmin = {
 		nb++;
 	    });
 	    $("#currentRes").text(changeres[0].value);
-	    $('#listres').html(select);
+	    $('#listres').html(select);$('#currentRes').css("position","relative");
 	},
 	changeLocale : function (locale) {
 	    ParsimonyAdmin.setCookie("locale",locale,999);
@@ -586,12 +587,15 @@ var ParsimonyAdmin = {
 	    });
 	},
 	setCreationMode :   function (){
-	    $('.sidebar,#left_sidebar .mainTab').show();
+	    $('.sidebar,.panelblocks,.creation').show();
+            $(".panelblocks").removeClass("active");
+            $(".panelmodules").addClass("active");
 	    ParsimonyAdmin.setMode("creation");  
 	},
 	setEditMode :   function (){
-	    $('#right_sidebar,#left_sidebar .mainTab,#panelblocks').hide();
-	    $("#panelmodules,#left_sidebar").show();
+	    $('#right_sidebar,.panelblocks,.creation').hide();
+            $('#left_sidebar').show();
+	    $(".panelmodules").addClass("active");
 	    ParsimonyAdmin.setMode("edit");
 	},
 	setPreviewMode :   function (){

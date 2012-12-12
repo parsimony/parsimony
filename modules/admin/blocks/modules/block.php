@@ -29,7 +29,7 @@ namespace admin\blocks;
 
 class modules extends \block {
     
-    protected $name = 'Modules';
+    protected $name = 'modules';
 
 }
 ?>

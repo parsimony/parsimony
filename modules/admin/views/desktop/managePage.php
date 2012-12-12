@@ -60,11 +60,12 @@
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
     .choicebuilder{display:inline-block;vertical-align: top;width:225px;margin:8px 0;padding:7px}
     .choicetitle{padding: 3px;font-size: 15px;text-align: left;margin: 2px 0px 7px;border-bottom: 1px solid #DDD;}
+    .parsiplusone {display: inline-block;cursor: cell;
+               background: url("<?php echo BASE_PATH; ?>admin/img/add.png") no-repeat;width: 16px;height: 16px;}
     </style>
     <div class="adminzone" id="adminformpage">
 
-    <div id="admin_page" class="adminzonemenu">
-        <div id="save_page" class="save"><a href="#" class="ellipsis"><?php echo t('Save', FALSE); ?></a></div>
+    <div id="admin_page" class="adminzonemenu"> 
         <div id="goto_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('See', FALSE); ?></a></div>
         <div id="delete_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('Delete', FALSE); ?></a></div>   
     </div>
@@ -342,5 +343,9 @@
                 <input class="none" type="submit" id="sendFormPage">
             </div>
         </form>
+    </div>
+
+    <div class="adminzonefooter">
+	<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
     </div>
 </div>

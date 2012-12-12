@@ -60,23 +60,19 @@ include_once('modules/core/classes/field.php');
     body{margin:0;padding:0;font-family:verdana;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    #container_bdd{margin:0;padding:0;
-		   background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+    #container_bdd{margin:0;padding:0;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
     ._jsPlumb_endpoint{z-index: 50}
     /*._jsPlumb_connector{z-index: 1}*/
-    #field_list{margin:0;padding:0;border-radius: 8px;}
-    #field_list .myfield{position:relative;font-size: 12px;color: #222;width: 196px;margin: 2px;cursor: move;text-align: left;padding:5px;background-color: #F1F5F9;background-repeat:no-repeat;padding-left:23px;background-position: 2px 3px ;border: 1px solid #97B2D2;}
+    #field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
+    #field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: rgb(247, 247, 247);background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
     #field_list .myfield:hover{background-color: #CBD8E8;}
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
     #update_table{display: none;}
     #update_field > div{font-size: 14px;display: none;}
-    .table {z-index:60; float: left; margin: 10px;border:1px solid gray;
-            position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
-            font-size:15px;background-color:white;font-weight:bold;
-            border-radius: 5px;
-            box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
-            background: linear-gradient(#FFFFFF, #ddd);}
+    .table {z-index:60; float: left; margin: 10px;border:1px solid gray;position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
+font-size:15px;background-color:white;font-weight:bold;border-radius: 5px;box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
+background: linear-gradient(#FFFFFF, #ddd);}
     .table:hover{box-shadow: 0px 0px 9px #777;}
     .ui-draggable-dragging:hover{box-shadow: none} /*perf enhancement on drag table */
     .property{position:relative;cursor: pointer;border-bottom: dashed #CCC 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-family: arial;font-size: 12px;font-weight: normal;}
@@ -87,15 +83,10 @@ include_once('modules/core/classes/field.php');
     .ombre{box-shadow: 0px 0px 20px #34afb6;}
     .dragActive { border:4px dotted #b634af; border-radius:50px;}
     label{font-size: 13px;line-height: 26px;width: 140px;display: block;float: left;padding-left: 10px;}
-    h2,.title{text-align:center;font-family: arial;font-size: 12px;padding:7px;color: white;
-              border-color: #2E63A5;
-              background: #5E9AE2;
-              background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
-              background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
-              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5E9AE2', endColorstr='#3570B8');}
+    h2,.title{text-align:center;font-family: arial;font-size: 12px;padding:7px;color: white;border-color: #2E63A5;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5E9AE2', endColorstr='#3570B8');}
     .title{border-top-left-radius: 2px;border-top-right-radius: 2px;text-align: center;/*text-decoration: underline;*/}
-    #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:28px;background: #EEE;/*border:1px solid #000000;*/}
-    #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#F1F5F9;right:0;top:28px;}
+    #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
+    #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
     #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
     .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
     #outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
@@ -125,17 +116,10 @@ include_once('modules/core/classes/field.php');
     .tooltab tbody{border-top: 1px solid whitesmoke}
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
     .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-    #toolbar{font-weight: normal;line-height: 25px;}
+    #toolbar{font-weight: normal;line-height: 36px;}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
-    #save.haveToSave{
-	color: white;
-	font-weight: bold;
-	background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
-	background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
-	background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
-	background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
-	background-image: linear-gradient(top, #44C5EC, #259BDB);
-    }
+    #save.haveToSave{color: white;font-weight: bold;background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
+    .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
 </style> 
 
 <div id="tooltip-new-fields" class="none toolfield">
@@ -618,10 +602,10 @@ include_once('modules/core/classes/field.php');
         <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
     </a>
     <div class="toolbarbonus inline-block">
-        <div class="floatleft" style="border-right: 1px solid #D3D5DB;padding-right: 10px">	
+        <div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
 	    <?php echo t('Current Module', FALSE); ?>
             <form action="" method="POST" style="display:inline-block">
-                <select style="font-weight: bold;" name="module" onchange="$(this).parent().trigger('submit');">
+                <select style="font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;" name="module" onchange="$(this).parent().trigger('submit');">
 		    <?php
 		    foreach (\app::$activeModules as $moduleName => $module) {
 			if ($moduleName == $_POST['module']) {
@@ -637,15 +621,15 @@ include_once('modules/core/classes/field.php');
             </form>
         </div>
 
-        <div class="floatleft" style="border-left: 1px solid white;border-right: 1px solid #D3D5DB;padding-left: 10px;padding-right: 10px">
+        <div class="floatleft" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
 	    <?php echo t('Add an Entity', FALSE); ?>
             <form id="add_table" class="inline-block">
                 <input type="text" id="table_name" style="padding:1px;">
-                <input type="submit" style="height: 24px;" value="<?php echo t('Add', FALSE); ?>"> 
+                <input type="submit" style="height: 22px;" value="<?php echo t('Add', FALSE); ?>"> 
             </form>
         </div>
-        <div class="floatleft inline-block" style="border-left: 1px solid white;padding-left: 10px">
-            <input type="button" id="save" value="<?php echo t('Save', FALSE); ?>" style="height: 24px;margin-top: 1px;" />
+        <div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
+            <input type="button" id="save" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
         </div>
 
     </div>
@@ -665,7 +649,7 @@ include_once('modules/core/classes/field.php');
     </div>
     <div id="leftsidebar">
         <div>
-            <h2 data-tooltip="#tooltip-new-fields" class="tooltip"><?php echo t('New Fields', FALSE); ?></h2>
+            <h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
             <div id="field_list">
 		<?php
 		$aliasClasses = array_flip(\app::$aliasClasses);
@@ -700,7 +684,7 @@ include_once('modules/core/classes/field.php');
 			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
-<h2 style="margin-top:0;padding: 10px;"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 8px;background-image: url('.BASE_PATH.'admin/img/icons_white.png);"></span>' . t('Field Settings', FALSE) . '</h2>
+<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url('.BASE_PATH.'admin/img/icons.png);"></span>' . t('Field Settings', FALSE) . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
@@ -772,7 +756,7 @@ include_once('modules/core/classes/field.php');
     ?>
     <div id="rightsidebar" style="z-index:999">
         <div id="update_table">
-            <h2 style="margin-top:0;padding: 10px;"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 8px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
+            <h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
             <div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>

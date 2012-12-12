@@ -39,7 +39,7 @@
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <style>
     body{min-width: 870px;background: #fff;}
-    #explorerWrap{font-family: arial, sans-serif;font-size: 13px;width: 100%;height:544px;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
+    #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:544px;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
     #explorer{display:table-cell;width: 200px;overflow-y:scroll;height:100%;vertical-align: top;}
     #explorer ul{display:none}
     #explorer li.file{display:none}
@@ -110,7 +110,7 @@
 </script>
 <div>
     <div id="path">/</div>
-    <div id="explorerWrap" class="adminzone">
+    <div id="explorerWrap">
 	<ul id="explorer">
 	    <?php
 	    $path = dirname($_SERVER['SCRIPT_FILENAME']) . '/' . PROFILE_PATH;

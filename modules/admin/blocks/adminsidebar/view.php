@@ -26,23 +26,27 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="subSidebar">
-    <div class="subSidebarOnglet handle" style="cursor: move;" draggable="true"><span class="ui-icon ui-icon-arrow-4"></span></div>
-    <div class="subSidebarOnglet revert tooltip" data-tooltip="<?php echo t('Pin', FALSE); ?>"><span class="ui-icon ui-icon-seek-<?php if ($this->side == 'left') echo 'prev'; else echo 'next'; ?>"></span></div>
-    <div class="subSidebarOnglet openclose tooltip" data-tooltip="<?php echo t('Show / Hide', FALSE); ?>"><span class="ui-icon ui-icon-circle-arrow-<?php if ($this->side == 'left') echo 'w'; else echo 'e'; ?>"></span></div>
-    <div class="subSidebarOnglet tooltip resizeHandle" style="cursor: w-resize;" draggable="true" data-tooltip="<?php echo t('Resize', FALSE); ?>"><span class="ui-icon ui-icon-arrowthick-2-e-w ui-resizable-handle ui-resizable-<?php if ($this->side == 'left') echo 'e'; else echo 'w'; ?>"></span></div>
-</div>
 <div class="contenttab">
-    <?php foreach ($this->getBlocks() AS $block): ?>
-        <div class="mainTab <?php echo $block->getId(); ?> ellipsis <?php if($block->getConfig('cssClasses') != 'none') echo 'active'; ?>" rel="<?php echo $block->getId(); ?>">
-            <?php echo t($block->getName(), FALSE); ?>
+    <?php foreach ($this->blocks AS $block): ?>
+        <div class="mainTab <?php echo $block->getId(); ?> <?php if($block->getConfig('cssClasses') != 'none') echo 'active'; ?>" rel="<?php echo $block->getId(); ?>">
+	    <div class="icons sprite"></div>
+	    <div class="content">
+		<h2><?php echo t($block->getName(), FALSE); ?></h2>
+		 <?php 
+		    echo $block->display() . PHP_EOL;
+		    ?>
+	    </div>
         </div>
     <?php endforeach; ?>
-    <?php
-    if (!empty($this->blocks)) {
-        foreach ($this->blocks as $selected_block) {
-            echo $selected_block->display() . PHP_EOL;
-        }
-    }
-    ?>
+	<div style="height:0;margin:10px 5px;border-top: 1px solid #0c0c0c;border-bottom: 1px solid #3c3c3c;"></div>
+    <?php if($this->side == 'left'): ?>
+		<div onclick="ParsimonyAdmin.displayConfBox(BASE_PATH + 'admin/explorer','Explorer');" data-title="<?php echo t('Files Explorer', FALSE); ?>" class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer', FALSE); ?>" data-pos="e"></div>
+		<div onclick="$(this).next('form').trigger('submit');" data-title="<?php echo t('Db Modeling', FALSE); ?>" class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling', FALSE); ?>" data-pos="e"></div>        
+	        <form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank"></form>
+   <?php endif; ?>
+   <?php if($this->side == 'right'): ?>
+        <div data-title="<?php echo t('CSS Picker', FALSE); ?>" class="roundBTN cssPickerBTN tooltip sprite sprite-csspicker" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>" data-pos="w">
+        </div>        
+   <?php endif; ?>
 </div>
+<div onclick="$(this).parent().toggleClass('pin')" class="pinner"></div>

@@ -2,12 +2,12 @@ function blockAdminBlocks() {
     
     this.dragLastDomId = "";
     this.dragMiddle = 0;
+    this.isAddBlock = false;
     this.blocks = [];
     
     this.startDragging = function () {
-        ParsimonyAdmin.$currentBody.append($("#dropInPage" ));
-        $("#right_sidebar").removeClass("close");
-	$(".mainTab.paneltree").trigger("click");
+        ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage" ));
+	$(".paneltree").trigger("click");
     }
     
     this.changeBlockPosition = function (blockType, idBlock, idNextBlock, startIdParentBlock, stopIdParentBlock, startTypeCont, stopTypeCont, action, content){
@@ -64,22 +64,23 @@ function blockAdminBlocks() {
 
         /* HTML5 drag n drop*/
         $("#panelblocks").on('dragstart.creation',".admin_core_block", function( event ){
+            $this.isAddBlock = true;
             var evt = event.originalEvent;
-            evt.dataTransfer.setDragImage(document.getElementById($(this).attr("id")),15,15);
-            evt.dataTransfer.setData("Parsimony/addBlock", JSON.stringify({blockType:this.id}));
+            evt.dataTransfer.setDragImage(this,15,15);
+            evt.dataTransfer.setData("parsimony/addblock", JSON.stringify({blockType:this.id}));
             evt.dataTransfer.effectAllowed = 'copy';
             $this.startDragging();
         });
-        $("#menu").add('#paneltree').on('dragstart.creation',".move_block",function( event ){  
+        $("#menu").add('#paneltree').on('dragstart.creation',".move_block",function( event ){
+            $this.isAddBlock = false;
             var evt = event.originalEvent;
             var elmt = $("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody);
-            var InProgressId = elmt.attr("id");
-            evt.dataTransfer.setDragImage($("#" + InProgressId,ParsimonyAdmin.currentBody).get(0),15,15);
+            evt.dataTransfer.setDragImage(elmt[0],15,15);
 	    var startTypeCont = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
             if(elmt.parent().closest(".container").hasClass("container_page")) startIdParentBlock = elmt.parent().closest(".container").data('page');
             else startIdParentBlock = elmt.parent().closest(".container").attr('id');
             if(startIdParentBlock == 'content') startIdParentBlock = $(".container_page",ParsimonyAdmin.currentBody).data('page');
-            evt.dataTransfer.setData("Parsimony/moveBlock", JSON.stringify({idBlock:InProgressId,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
+            evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:ParsimonyAdmin.inProgress,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
 	    evt.dataTransfer.effectAllowed = 'copyMove';
             $this.startDragging();
         });
@@ -122,19 +123,22 @@ function blockAdminBlocks() {
 		    ( $this.dragMiddlePos == 1 && (e.originalEvent.pageY > $this.dragMiddle)) ||
 		    ( $this.dragMiddlePos == 0 && (e.originalEvent.pageY < $this.dragMiddle)))){
 		    var theBlock = this;
-		    if(this.classList.contains("tree_selector")) theBlock = $("#" + this.id.split("treedom_")[1],ParsimonyAdmin.currentBody).get(0);
+		    if(this.classList.contains("tree_selector")) theBlock = ParsimonyAdmin.currentDocument.getElementById(this.id.split("treedom_")[1]);
 		    var theBlockTree = document.getElementById("treedom_" + theBlock.id);
-		    var dropInPage = $( "#dropInPage",ParsimonyAdmin.currentBody).get(0) || $("#dropInPage").appendTo(ParsimonyAdmin.currentBody).get(0);
-		    $this.dragLastDomId = this.id;
+		    var dropInPage = ParsimonyAdmin.currentDocument.getElementById("dropInPage") || $("#dropInPage").appendTo(ParsimonyAdmin.currentBody).get(0);
+                    $this.dragLastDomId = this.id;
 		    $this.dragMiddle = $(this).offset().top + this.offsetHeight/2;
 		    if(e.originalEvent.pageY < $this.dragMiddle && !isContainer){
+                        if(!$this.isAddBlock && ParsimonyAdmin.inProgress == theBlock.id) return true;
 			$this.dragMiddlePos = 1;
 			$(theBlock).before(dropInPage);
 			theBlockTree.parentNode.insertBefore(document.getElementById( "dropInTree" ),theBlockTree);
 		    }else{
+                        if(!$this.isAddBlock && theBlock.nextElementSibling.id == ParsimonyAdmin.inProgress) return true;
 			$this.dragMiddlePos = 0;
 			if(theBlock.classList.contains("container") && $(theBlock).children(".dropInContainer").length > 0){
-			    $(".dropInContainerChild:first",theBlock).append(dropInPage);
+			    if(!$this.isAddBlock && theBlock.id == ParsimonyAdmin.inProgress) return true;
+                            $(".dropInContainerChild:first",theBlock).append(dropInPage);
 			    theBlockTree.appendChild(document.getElementById( "dropInTree" ),theBlockTree);
 			}else if(theBlock.classList.contains("container") && !isContainer){
 			    theBlock.parentNode.insertBefore(dropInPage,theBlock);
@@ -181,15 +185,15 @@ function blockAdminBlocks() {
                 else stopIdParentBlock = elmt.closest(".container").attr('id');
                 var idNextBlock = elmt.next(".block").attr('id');
 		/* Move block action */
-		if(evt.dataTransfer.getData("Parsimony/moveBlock").length > 0){
-		    var obj = JSON.parse(evt.dataTransfer.getData("Parsimony/moveBlock"));
+		if(evt.dataTransfer.getData("parsimony/moveblock").length > 0){
+		    var obj = JSON.parse(evt.dataTransfer.getData("parsimony/moveblock"));
                     if(obj.idBlock == '' || idNextBlock == '' || obj.startIdParentBlock == '' || stopIdParentBlock == '' || obj.startTypeCont == '' || ParsimonyAdmin.whereIAm("dropInTree") == '') alert("stop");
                     $this.changeBlockPosition('',obj.idBlock,idNextBlock,obj.startIdParentBlock,stopIdParentBlock,obj.startTypeCont,ParsimonyAdmin.whereIAm("dropInTree"),"moveBlock");
                 }else{
 		    /* Add a block or other types of things */
 		    var obj;
-		    if(evt.dataTransfer.getData("Parsimony/addBlock").length > 0){
-			obj = JSON.stringify({blockType:JSON.parse(evt.dataTransfer.getData("Parsimony/addBlock")).blockType,stopIdParentBlock:stopIdParentBlock,idNextBlock:idNextBlock});
+		    if(evt.dataTransfer.getData("parsimony/addblock").length > 0){
+			obj = JSON.stringify({blockType:JSON.parse(evt.dataTransfer.getData("parsimony/addblock")).blockType,stopIdParentBlock:stopIdParentBlock,idNextBlock:idNextBlock});
 		    }else if(evt.dataTransfer.getData("text/plain").length > 0){
 			obj = JSON.stringify({blockType:"core\\blocks\\wysiwyg",stopIdParentBlock:stopIdParentBlock,idNextBlock:idNextBlock,content:evt.dataTransfer.getData("text/plain")});
 		    }

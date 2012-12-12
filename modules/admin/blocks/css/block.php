@@ -31,7 +31,7 @@ namespace admin\blocks;
 
 class css extends \block {
     
-    protected $name = 'CSS';
+    protected $name = 'css';
 
 }
 ?>

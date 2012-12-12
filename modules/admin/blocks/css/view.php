@@ -72,7 +72,7 @@ $selectors = $css->getAllSselectors();
             <div id="switchtocode" class="ssTab">Code</div>
         </div>
 	<div id="selectorcontainer">
-	    <div id="csspicker" class="tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
+	    <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
 	    <input type="text" placeholder="CSS Selector e.g. #selector" name="selector" data-optionsurl="" class="autocomplete" id="current_selector_update" />
 	</div>
         <input type="hidden" id="current_selector_update_prev" />

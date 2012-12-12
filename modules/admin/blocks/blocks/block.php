@@ -30,7 +30,7 @@ namespace admin\blocks;
 
 class blocks extends \block {
     
-    protected $name = 'Blocks';
+    protected $name = 'blocks';
 
 }
 ?>

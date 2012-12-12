@@ -27,13 +27,10 @@
  */
 $role = app::getModule('core')->getEntity('role');
 ?>
-<div class="adminzone" id="admin_profile">
-    <div class="adminzonemenu">
-        <div class="save"><a href="#" onclick="$('form').trigger('submit');return false;" class="ellipsis"><?php echo t('Save', FALSE); ?></a></div>
-    </div>
+<div class="adminzone" id="admin_profile" style="padding-left: 0px;">
     <div class="adminzonecontent">
 	<?php
-	echo \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->getViewUpdateForm();
+	echo \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->getViewUpdateForm(TRUE);
 	?>
     </div>
 </div>

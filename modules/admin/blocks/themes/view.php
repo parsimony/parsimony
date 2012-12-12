@@ -27,71 +27,47 @@
  */
 ?>
 <style>
-    .adminzone{width:100%;padding-left:0;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#ECECEC');
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #ECECEC));
-background-image: -webkit-linear-gradient(top, white, #ECECEC);
-background-image: -moz-linear-gradient(top, white, #ECECEC);
-background-image: -ms-linear-gradient(top, white, #ECECEC);
-background-image: -o-linear-gradient(top, white, #ECECEC);
-background-image: linear-gradient(top, white, #ECECEC);
-text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
-    .adminzone .adminzonemenu{display: block;min-height: 0;width: auto;position: relative}
-    .adminzone .adminzonecontent{display: block;width:100%;box-shadow: -2px 0px 2px #999;overflow-x: hidden;overflow-y: auto;background: #EEE url(<?php echo BASE_PATH; ?>admin/img/concrete_wall_3.png);}
-    .adminzone .adminzonemenu .adminzonetab{border-left: 1px solid white;border-right: 1px solid #D3D5DB;float: left;border-top: none;border-bottom: none;}
-    .adminzone .adminzonemenu .adminzonetab a{padding: 0 10px;color: #777; background: none;border-top: none;border-bottom:none;color: #464646;text-decoration: none;line-height:25px;}
-    .adminzone .adminzonemenu .adminzonetab a.active, .adminzonemenu .adminzonetab a:hover{border-top: none;background: #E4E4E4;}
-    .placeholder {position: relative;clear: both;width: 200px;}
-    #themeFormAdd input{width: 90px;}
-    #themelist{overflow-x: scroll;overflow-y: hidden;height: 145px;width: 99.5%;}
-    #themelist ul{width: 4000px;}
-    #themelist h4{line-height: 20px;text-align: center}
-    .themeItem.active{background: #C9C9C9;border-radius: 5px;}
-    .themeItem:hover{background: #C9C9C9;border-radius: 5px;}
-    #themeFormAdd{float:left;text-align: center;width:255px;border-right: 1px solid #CCC;}
-    #themeFormAdd h4{margin: 0px 5px;border: 1px solid #D3D5DB;line-height: 20px;}
-    #themeFormPattern{float:left;border-left: 1px solid whitesmoke;padding-left:10px}
+    #themes{width: 230px;color:#444;height: 100%;}
+    .placeholder {position: relative;clear: both;width: 200px;margin:10px;}
+    .themelist h4{line-height: 25px;text-align: left;text-shadow: 0 1px 0 white;}
+    
+    #themeFormAdd{color:#444;border-right: 1px solid #CCC;}
+    #themeFormAdd h4{margin: 0px 5px;line-height: 20px;text-transform: capitalize}
     #duplicatepattern{display:none}
     #themes span.ui-icon { background-image: url(admin/img/icons.png);}
-    .adminzone .adminzonecontent li:last-child {border-right: 0;}
-    .adminzone .adminzonecontent li:first-child{border-left: 0;}
-    #themes_close{margin-right: 15px;border: #CCC solid 1px;border-radius: 5px;cursor: pointer;margin-top: 2px;}
-    .contimg{position:relative;width:97px;height:97px;margin: 0 auto;}
+    .contimg{position:relative;width:97px;height:97px;display: inline-block;}
     .contimg:hover .preview{display:block}
-    .preview{position:absolute;width:100%;height:100%;background:rgba(0,0,0,.75);display:none;text-align: center;font-size:25px;padding-top:40%;color:#fff;cursor:pointer;font-family:sans-serif}
-    .themeOptions{display:none;text-align: center;position: absolute;top: 0;width: 120px;height: 125px;left: 137px;z-index: 999;background-color: inherit;border-radius: 0 5px 5px 0;padding-top: 17px;}
-    .themeItem:hover .themeOptions{display:block}
+    .preview{position:absolute;width:100%;height:100%;background:rgba(0,0,0,.75);display:none;font-size:21px;padding-top:40%;cursor:pointer;font-family:sans-serif;color: rgb(240, 240, 240);text-align: center;}
+    .themeOptions{position: absolute;padding-left:10px;top: 0;width: 120px;height: 125px;left: 110px;z-index: 999;padding-top: 30px;opacity: 0.4;}
+    .themeItem:hover .themeOptions{opacity: 1;}
      #patternName{float: left;line-height: 27px;}
-    .themeItem{position: relative;width: 140px;height: 125px;padding-right: 10px;padding-left:10px;border-right: 1px solid #CCC;border-left: 1px solid whitesmoke;float: left}
+    .themeItem{position: relative;text-align:left;padding:5px 0 ;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;padding-left:7px;}
+    .themeItem:first-child{border-top: 0;}
+    .themeItem.active,.themeItem:hover{background: #e5e5e5;}
+    .tabPanel{display:none}
+    .themes .content{height: 100%}
+    #admin_themes{height: 100%;}
+    #admin_themes .subTabsContainer{z-index: 99;position: relative;}
+    .themesTabs{height: 100%;position: absolute;width: 100%;top: 0;padding-top: 100px;}
 </style>
 <script type="text/javascript">
-    $(document).on('click',".adminzonetab a", function(event){
-	event.preventDefault();
-	$(".adminzonecontent .admintabs").hide();
-	$(".adminzonetab a").removeClass("active");
-	$(this).addClass("active");
-	$($(this).attr("href")).show();
-    });           
-    $(document).on("click",".duplicate",function(){
+    $("#admin_themes").on("click",".duplicate",function(){
 	$('#duplicatepattern').show();
 	$('#admin_themes .secondpanel a').trigger('click');
 	$('#patternName').text($(this).data("themename").split(";")[1]);
-	$('#themeFormPattern input[name="template"]').val($(this).data("themename"));
+	$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
 	$('#patternIMG').attr("src",($(this).data("imgurl")));
 	$('input[value="template"]').attr('checked', true)
     });
-    $(window).load(function() {
-	$(".firstpanel a").trigger("click");
-    });
 </script>
-<div style="background: #E9E9E9;" id="admin_themes" class="adminzone">
-    <div class="adminzonemenu">
-        <div class="adminzonetab firstpanel"><a href="#themelist" class="ellipsis"><?php echo t('Existing Themes', FALSE); ?></a></div>
-        <div class="adminzonetab secondpanel"><a href="#tabs-2" class="ellipsis"><?php echo t('New theme', FALSE); ?></a></div>
-        <span id="themes_close" onclick="$('#themes').hide();" class="floatright ui-icon ui-icon-closethick"></span>
+<div id="admin_themes">
+    <div class="subTabsContainer">
+        <div class="ssTab ellipsis switchtodata active" rel="themelist"><?php echo t('Existing', FALSE); ?></div>
+        <div class="ssTab ellipsis switchtodata" rel="themenew"><?php echo t('New', FALSE); ?></div>
     </div>
-    <div class="adminzonecontent">
-        <div id="themelist" class="admintabs fs">
-            <ul>
+    <div class="themesTabs">
+        <div class="themelist tabPanel" style="display:block;height: 100%;">
+            <ul style="height: 100%;overflow-y: auto;overflow-x: hidden;">
 		<?php
                 $modules = \app::$activeModules;
                 unset($modules['admin']);
@@ -131,39 +107,36 @@ text-shadow: white 0 1px 0;display:block;border-top: 2px solid #999;}
 		?>
             </ul>	
         </div> 
-        <div id="tabs-2" class="admintabs">
-            <form method="POST" target="ajaxhack" action="<?php echo BASE_PATH; ?>admin/addTheme">
-                <div id="themeFormAdd">
-                    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
-                    <div class="placeholder" style="margin: 0px 10px;">
-                        <label for="name"><?php echo t('Theme Name', FALSE); ?></label>
-                        <input type="text" style="width: 220px;" name="name" required="required"/>                       
-                    </div>
-                    <div class="placeholder" style="margin: 0px 10px;width: 220px;">
-			<label><?php echo t('Module', FALSE); ?>: </label>
-			<select name="thememodule">
-                            <?php
-                            $modules = \app::$activeModules;
-                            unset($modules['admin']);
-                            foreach ($modules as $moduleName => $mode) {
-                                echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
-                            }
-                            ?>
-			</select>
-		    </div>
-                    <input type="submit" style="width: 220px;margin: 4px 0 0 -15px;" value="<?php echo t('Create Theme', FALSE); ?>"/>
-                </div>
-                <div id="themeFormPattern">
-		    <h4><?php echo t('Pattern', FALSE) . ' : ' ?></h4>
+        <div class="themenew tabPanel">
+            <form method="POST" id="themeFormAdd" target="ajaxhack" action="<?php echo BASE_PATH; ?>admin/addTheme">
+		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
+		<div class="placeholder">
+		    <label for="name"><?php echo t('Theme Name', FALSE); ?></label>
+		    <input type="text" style="width: 190px;" name="name" required="required"/>                       
+		</div>
+		<div class="placeholder">
+		    <label><?php echo t('Module', FALSE); ?>: </label>
+		    <select name="thememodule">
+			<?php
+			$modules = \app::$activeModules;
+			unset($modules['admin']);
+			foreach ($modules as $moduleName => $mode) {
+			    echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
+			}
+			?>
+		    </select>
+		</div>
+		<div class="placeholder" style="width: 190px;">
+		    <label><?php echo t('Pattern', FALSE) . ' : ' ?></label>
 		    <div><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank', FALSE) ?></div>
 		    <?php /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL', FALSE) ?> : <input type="text" name="url" style="width:150px;" ></div>*/ ?>
 		    <div id="duplicatepattern">
-			<div><input type="radio" name="patterntype" value="template" style="float:left" /><h4 id="patternName"></h4></div>
+			<div><input type="radio" name="patterntype" value="template" style="float:left;margin:0" /><h4 id="patternName"></h4></div>
 			<img id="patternIMG" src="" />
 			<input type="hidden" name="template" value=""  />
 		    </div>
-
-                </div>
+		</div>
+		<input type="submit" style="width: 90%;margin:15px;" value="<?php echo t('Create Theme', FALSE); ?>"/>
             </form>
         </div>
     </div>

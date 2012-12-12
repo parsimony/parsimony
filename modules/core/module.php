@@ -136,7 +136,10 @@ class core extends \module {
 
 	    if (THEMETYPE == 'mobile') {
 		\app::$request->page->addCSSFile(BASE_PATH . 'lib/mobile.css');
-		\app::$request->page->head .= '<meta name="viewport" content="width=device-width">';
+		\app::$request->page->head .= '
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <meta name="apple-mobile-web-app-capable" content="yes" />
+                    <script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>';
 	    }
 	}
     }
@@ -159,6 +162,19 @@ class core extends \module {
 	    }
 	}
 	return FALSE;
+    }
+    
+    public function loginAction($URL = "index") {
+        if(!\app::$request->isAjax()) \app::$request->setHeader('Location', $URL);
+	$login = \app::$request->getParam('login');
+	$pass = \app::$request->getParam('password');
+	if ($login && $pass) {
+	    \app::getClass('user')->authentication($login, $pass);
+	    if (\app::getClass('user')->VerifyConnexion()) {
+                return TRUE;
+	    }
+	}
+        return FALSE;
     }
 
     public function logoutAction() {

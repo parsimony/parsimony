@@ -28,7 +28,7 @@
 
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/tree/script.js','footer');
 ?>
-<div class="titleTab ellipsis"><span id="treelegend" style="position: absolute;right: 6px;top: 1px;color: #444;font-weight: bold;padding-right: 10px;">?</span></div>
+<div id="treelegend">?</div>
 <div class="none" id="treelegend2"><fieldset style="text-shadow:none;color:white;">
 	<legend><?php echo t('Type of blocks', FALSE); ?></legend>
 	<span class="parsicontainer" style="padding-left: 30px;position: relative;left: 5px;"><?php echo t('Block Container', FALSE); ?></span> </br>

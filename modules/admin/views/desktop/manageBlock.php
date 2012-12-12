@@ -33,7 +33,7 @@ if (is_object($block) == NULL) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-	$(".adminzonemenu .save a").live('click',function(event){
+	$("#save_page").live('click',function(event){
 	    event.preventDefault();
             $('#save_configs').trigger('click');
             return false;
@@ -44,7 +44,6 @@ if (is_object($block) == NULL) {
 </script>
 <div id="block_conf" class="adminzone">
     <div class="adminzonemenu">
-	<div class="save"><a href="#" id="adminzone_save" class="ellipsis"><?php echo t('Save',FALSE); ?></a></div>
 	<div class="firstpanel adminzonetab"><a href="#accordionBlockConfig" class="ellipsis"><?php echo t('Specific',FALSE); ?></a></div>
 	<div class="adminzonetab"><a href="#accordionBlockConfigGeneral" class="ellipsis"><?php echo t('General',FALSE); ?></a></div>
     </div>
@@ -101,6 +100,10 @@ if (is_object($block) == NULL) {
 	    <input type="submit" class="none" id="save_configs" name="save_configs">
 	</form>
     </div>
+    <div class="adminzonefooter">
+	<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
+    </div>
+    
 </div>
     <?php
 }

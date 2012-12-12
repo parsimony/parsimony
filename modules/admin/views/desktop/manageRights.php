@@ -38,7 +38,6 @@ $role = app::getModule('core')->getEntity('role');
 </style>
 <div class="adminzone" id="admin_rights">
     <div class="adminzonemenu">
-        <div class="save"><a href="#" onclick="$('form').trigger('submit');return false;" class="ellipsis"><?php echo t('Save', FALSE); ?></a></div>
         <?php
         $class = ' firstpanel';
         foreach ($role->select() as $key => $line) {
@@ -185,7 +184,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                     <?php
                 }
                 ?>
-        </fieldset></div>
+        </fieldset><br><br></div>
         <?php
     endforeach;
     ?>
@@ -193,4 +192,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
     <input type="hidden" name="action" value="saveRights">
     </form>
 </div>
+    <div class="adminzonefooter">
+	<div id="save_page" class="save ellipsis" onclick="$('form').trigger('submit');return false;"><?php echo t('Save', FALSE); ?></div>
+    </div>
 </div>

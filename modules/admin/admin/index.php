@@ -57,8 +57,6 @@
 </style>
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
-        <div class="save"><a href="#" class="ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save', FALSE); ?></a></div>
-        
 	<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
         <?php if (PROFILE == 'www'): ?>
             <div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
@@ -285,5 +283,8 @@
             <?php endif; ?>
             <input class="none" id="save_configs" type="submit">
         </form>
+    </div>
+    <div class="adminzonefooter">
+	<div id="save_page" class="save ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save', FALSE); ?></div>
     </div>
 </div>

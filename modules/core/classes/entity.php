@@ -397,7 +397,7 @@ abstract class entity implements \Iterator {
         $col2 = '';
         if ($ajax == TRUE) {
             $html .= '<input type="hidden" name="action" value="updateEntry">';
-            $html .= '<input type="hidden" name="entity" value="' . $_POST['module'] . ' - ' . $_POST['entity'] . '">';
+            $html .= '<input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
         }
         foreach ($this->getFields() as $name => $field) {
             if ($field->visibility & UPDATE) {

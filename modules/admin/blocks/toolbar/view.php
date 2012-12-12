@@ -31,12 +31,12 @@ $admin->addBlock($menutop);
 
 /* Define active panels */
 $leftPan = 'panelmodules';
-if (isset($_COOKIE['leftToolbarPanel']) && $_COOKIE['leftToolbarPanel'] == 'panelblocks') {
-    $leftPan = 'panelblocks';
+if (isset($_COOKIE['leftToolbarPanel'])) {
+    $leftPan = $_COOKIE['leftToolbarPanel'];
 }
 $rightPan = 'paneltree';
-if (isset($_COOKIE['rightToolbarPanel']) && $_COOKIE['rightToolbarPanel'] == 'panelcss') {
-    $rightPan = 'panelcss';
+if (isset($_COOKIE['rightToolbarPanel'])) {
+    $rightPan = $_COOKIE['rightToolbarPanel'];
 }
 
 /* Sidebar Left */
@@ -69,10 +69,13 @@ if (BEHAVIOR == 2):
     if($rightPan != 'panelcss') $block->setConfig('cssClasses','none');
     $rightSidebar->addBlock($block);
     $admin->addBlock($rightSidebar);
+    
+    /* Theme */
+    $block = new \admin\blocks\themes("themes");
+    if($rightPan != 'themes') $block->setConfig('cssClasses','none');
+    $rightSidebar->addBlock($block);
+    $admin->addBlock($rightSidebar);
 endif;
-/* Themes */
-$themes = new \admin\blocks\themes("themes");
-$admin->addBlock($themes);
 
 echo $admin->display();
 ?>
@@ -89,7 +92,7 @@ echo $admin->display();
 	    <div id="conf_box_content">
 		<iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" style="max-height:630px;overflow: hidden"></iframe>
 		<div id="conf_box_content_inline"></div>
-	    </div>
+	    </div> 
 	    <form method="POST" target="conf_box_content_iframe" id="conf_box_form" action="<?php echo BASE_PATH . 'admin/action' ?>" class="none">
 		<input type="hidden" name="vars" value="" id="conf_box_form_vars" />
 	    </form>
