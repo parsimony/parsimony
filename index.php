@@ -1,4 +1,5 @@
 <?php
+include('install.php');exit;
 /**
  * Parsimony
  *
@@ -26,7 +27,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('PARSIMONY_VERSION','1.2');
+define('PARSIMONY_VERSION','2.0');
 
 include('modules/core/classes/app.php');
 spl_autoload_register('\core\classes\app::autoLoad');
