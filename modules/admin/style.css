@@ -240,7 +240,7 @@ background: -moz-linear-gradient(top, white, #F2F2F2);}
 #panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{color: white;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);font-weight: bold;}
 
 /* When CSS panel is in code mode */
-.CSSCode #changecsscode{display:block;background: #DDD;}
+.CSSCode #changecsscode{display:block;background: #DDD;color: #164;}
 .CSSCode #changecssform{display:none}
 .CSSCode #goeditcss, .CSSForm #goeditcss{display:none}
 #changecsscode .selectorcss{border-top: 1px solid whiteSmoke;border-bottom: 1px solid whiteSmoke;color: #333;background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F9F9F9),color-stop(100%, #E3E4E6));background-image: -moz-linear-gradient(top, #F9F9F9, #E3E4E6);background-image: linear-gradient(top, #F9F9F9, #E3E4E6);position: relative;padding-left: 7px;line-height: 16px;}
