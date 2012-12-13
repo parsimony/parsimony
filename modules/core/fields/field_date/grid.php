@@ -26,4 +26,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div class="align_center ellipsis"><?php echo strftime('%e %B %Y ', strtotime($this)); ?></div>
+<div class="align_center ellipsis"><?php echo strftime('%d %B %Y', strtotime($this)); ?></div>
