@@ -184,7 +184,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                     <?php
                 }
                 ?>
-        </fieldset><br><br></div>
+        </fieldset></div>
         <?php
     endforeach;
     ?>

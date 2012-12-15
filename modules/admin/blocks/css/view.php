@@ -28,9 +28,7 @@
 
 app::$request->page->addJSFile(BASE_PATH . 'lib/dnd/parsimonyDND.js','footer');
 app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js','footer');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css','footer');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js','footer');
 app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js','footer');
 app::$request->page->addCSSFile(BASE_PATH . 'lib/colorpicker/colorpicker.css');
 app::$request->page->addJSFile(BASE_PATH . 'lib/colorpicker/colorpicker.js');

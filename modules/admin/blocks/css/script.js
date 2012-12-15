@@ -175,49 +175,40 @@ blockAdminCSS.CSSeditor = function (id) {
     editor = CodeMirror(function(node) {
 	document.getElementById(id).parentNode.insertBefore(node, document.getElementById(id).nextSibling);
     }, {
+	gutters: ["guttercss"],
 	mode:"text/css",
 	value: document.getElementById(id).value,
 	lineNumbers: false,
-	gutter:true,
-	autoClearEmptyLines:true,
-	onGutterClick: function(c, n) {
-	    var info = c.lineInfo(n);
-	    if (info.lineClass == "barre"){
-		c.setLineClass(n, "");
-		c.clearMarker(n);
-	    }else{
-		c.setMarker(n, '<span class="activebtn">×</span>');
-		c.setLineClass(n, "barre");
-	    }
-	    this.onChange(c);
-	},
-	onChange: function(c) {
+	autoClearEmptyLines:true
+    });
+    editor.id = id;
+    editor.on("change", function(c, change) {
 	    var textarea = document.getElementById(c.id);
 	    var nbstyle = textarea.getAttribute('data-nbstyle');
 	    var nbrule = textarea.getAttribute('data-nbrule');
 	    var selector = decodeURIComponent(textarea.getAttribute('data-selector'));
 	    var code = selector + '{';
-	    for(var i = 0;i < c.lineCount(); i++){
-		if(c.lineInfo(i).lineClass != "barre") code += c.getLine(i);
+	var cptL = c.lineCount();
+	for(var i = 0;i < cptL; i++){
+	    if(c.lineInfo(i).textClass != "barre") code += c.getLine(i);
 	    }
 	    blockAdminCSS.setCss(nbstyle, nbrule, code + "}");
 	    textarea.value = c.getValue();
-	}/*,,
-	extraKeys: { 
-	    "Ctrl-V": function(c, e) { console.dir(e); }
-	    }
-	onCursorActivity: function(c) {
-	    var cursorLine = c.getCursor().line;
-	    var lineCount = c.lineCount();
-	    for(var i = 0;i < lineCount; i++){alert();
-		if(c.getLine(i) == "" && cursorLine != i) c.removeLine(i);
-		c.setLine(i,c.getLine(i).replace(/(\r\n|\n|\r)/gm,"").replace(";",';\r\n'));
-		c.indentLine(i);
-	    } 
-
-	}*/
     });
-    editor.id = id;
+    editor.on("gutterClick", function(c, n) {
+	var info = c.lineInfo(n);
+	if (info.textClass == "barre"){
+	    c.removeLineClass(n, "text", "barre");
+	    c.setGutterMarker(n, "guttercss", null);
+	}else{
+	    var elmt = document.createElement("span");
+	    elmt.classList.add("activebtn");
+	    elmt.innerHTML = "×";
+	    c.setGutterMarker(n, "guttercss", elmt);
+	    c.addLineClass(n, "text", "barre");
+	    }
+	c._handlers['change'][0](c);
+    });
     blockAdminCSS.csseditors.push(editor);
 }
 blockAdminCSS.getCSSForCSSpicker = function () {
