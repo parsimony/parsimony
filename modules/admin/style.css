@@ -200,6 +200,7 @@ display: block;}
 #treedom_container{border-left:0 !important}
 .arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 5px;float:left;display:block;width:16px;height:16px;cursor:pointer}
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
+.currentDOM:first-child{/*font-weight:bold;background-color: #999 !important*/}
 
 /* Panel CSS */         	  
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}

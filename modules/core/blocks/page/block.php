@@ -67,7 +67,7 @@ class page extends \block {
 	    }else{
                 \app::$request->page->setMeta('robots','noindex');
             }
-	    $html .= '<div class="clearboth"></div></' . $balise . ' >';
+	    $html .= '</' . $balise . ' >';
 	    if ($secondes != 0)
 		tools::file_put_contents($fichier_cache, $html);
 	}

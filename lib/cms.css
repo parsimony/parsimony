@@ -27,6 +27,10 @@ blockquote, q {quotes: none;}
 blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
 table {border-collapse: collapse;border-spacing: 0;}
 
+.block:before,.block:after {content: " ";display: table;}
+.block:after {clear: both;}
+.block {*zoom: 1;}
+
 .clearboth{clear:both;}
 
 /* editinplace */

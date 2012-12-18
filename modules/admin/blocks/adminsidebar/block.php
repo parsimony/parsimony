@@ -50,7 +50,7 @@ class adminsidebar extends \core\blocks\container {
 	    $classes .= ' close';
 	$html = '<div id="' . $this->id . '" data-side="'.$this->side.'" class="block sidebar container pin ' . $classes . ' ' . (string) $this->getConfig('cssClasses') . '" style="' . $style . '">';
 	$html .= $this->getView();
-	$html .= '<div class="clearboth"></div></div>';
+	$html .= '</div>';
 	return $html;
     }
 
