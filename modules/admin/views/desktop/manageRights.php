@@ -41,7 +41,7 @@ $role = app::getModule('core')->getEntity('role');
         <?php
         $class = ' firstpanel';
         foreach ($role->select() as $key => $line) {
-            echo '<div class="adminzonetab' . $class . '"><a href="#tabs-' . $line->name . '" class="ellipsis">' . ucfirst($line->name) . '</a></div>';
+            echo '<div class="adminzonetab' . $class . '"><a href="#tabs-' . $line->id_role . '" class="ellipsis">' . ucfirst($line->name) . '</a></div>';
             $class = '';
         }
         ?>
@@ -50,7 +50,7 @@ $role = app::getModule('core')->getEntity('role');
         <form action="" method="POST" target="ajaxhack">
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <?php foreach ($role->select() as $key => $line) : ?>
-                <div id="tabs-<?php echo $line->name; ?>" class="admintabs">
+                <div id="tabs-<?php echo $line->id_role; ?>" class="admintabs">
                     <div>
                         <h2 style="letter-spacing: 1.5px;color: #555;text-transform: capitalize;margin-left: 10px;"><?php echo t('%s role', array($line->name)); ?></h2>
                         <table style="margin-left: 10px">
@@ -78,7 +78,7 @@ $role = app::getModule('core')->getEntity('role');
                            <legend style="display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #DFDFDF;border-radius: 5px;background-color: #F1F1F1;
 background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulename"><?php echo t('Module', FALSE); ?> :</label>
-                        <select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->name ?>-' + this.value).show()">
+                        <select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->id_role ?>-' + this.value).show()">
                             <?php
                             $modules = \app::$activeModules;
                             unset($modules['admin']);
@@ -90,7 +90,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                     </legend>
                     <?php
                     foreach (\app::$activeModules as $moduleName => $type) {
-                        echo '<div id="rights-' . $line->name . '-' . $moduleName . '" class="rightbox';
+                        echo '<div id="rights-' . $line->id_role. '-' . $moduleName . '" class="rightbox';
                         if ($moduleName != 'core')
                             echo ' none';
                         echo '">';
@@ -157,6 +157,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                             </tbody>
                         </table>
                         <br>
+                        </div>
                         <div class="clearboth">
                         
                         <?php /*
