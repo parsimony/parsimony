@@ -36,7 +36,8 @@ $lang['fr']['Default Language'] = 'Langue par défaut';
 $lang['fr']['License agreement'] = 'Contrat de licence';
 $lang['fr']['I accept the terms of the license agreement'] = 'J\'approuve les termes et conditions du contrat ci-dessus';
 $lang['fr']['Server Settings'] = 'Configuration du serveur';
-$lang['fr']['Write permission of files and directories'] = 'Droit en écriture des fichiers et dossiers';
+$lang['fr']['Files and directories'] = 'Fichiers et dossiers';
+$lang['fr']['file is missing'] = 'est manquant';
 $lang['fr']['PHP Extensions'] = 'Extensions PHP';
 $lang['fr']['PHP.ini Settings'] = 'Configuration PHP.ini';
 $lang['fr']['TimeZone'] = 'Fuseaux Horaires (TimeZone)';
@@ -257,12 +258,16 @@ while (1) {
             ?>
             <h1><?php echo tr('Step'); ?> 2 : <?php echo tr('Server Settings'); ?></h1>
 
-            <h2><?php echo tr('Write permission of files and directories'); ?></h2>
+            <h2><?php echo tr('Files and directories'); ?></h2>
             <?php
             $serverOK = TRUE;
             $high = array();
             $low = array();
             $ok = array();
+            
+            if (!is_file('.htaccess')) {
+                $high[] = ' <span>"/.htaccess"</span> '.tr('file is missing');
+            }
 
             if (!is_readable('index.php') || !is_readable('config.php') || !is_readable('install.php') || !is_writable('index.php') || !is_writable('config.php') || !is_writable('install.php')) {
                 $high[] = tr('Set read/write permissions on').' <span>"index.php, config.php, install.php"</span> '.tr('directory (and sub-directories) using an FTP client');
