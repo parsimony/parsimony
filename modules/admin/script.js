@@ -90,7 +90,6 @@ var ParsimonyAdmin = {
 	iframeStyle.setAttribute("type", "text/css");
 	iframeStyle.setAttribute("href", BASE_PATH + "admin/iframe.css");
 	ParsimonyAdmin.currentBody.insertBefore(iframeStyle, ParsimonyAdmin.currentBody.firstChild);
-        blockAdminCSS.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length-1];
         
 	/* Init tooltip */
 	$(".tooltip").parsimonyTooltip({
@@ -99,8 +98,8 @@ var ParsimonyAdmin = {
 	
 	var timer = setInterval(function resizeIframe() {
 	    if(document.getElementById("changeres").value == "max"){
-		var height = ParsimonyAdmin.currentBody.offsetHeight;
-		if(screen.height > height) height = screen.height - 28;
+		var height = ParsimonyAdmin.currentBody.getBoundingClientRect().bottom;
+		if(screen.height > height) height = screen.height - 35;
 		ParsimonyAdmin.iframe.style.height = height + "px";
 		document.getElementById("overlays").style.height = height + "px";
 	    }

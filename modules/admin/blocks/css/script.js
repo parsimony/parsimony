@@ -79,7 +79,9 @@ function blockAdminCSS() {
 		return false;
 	    });
 	});
-	
+        
+        blockAdminCSS.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length-1];
+
 	/* Shortcut : Save on CTRL+S */
 	$(document).on("keydown.creation", function(e) {
 	    if (e.keyCode == 83 && e.ctrlKey) {
