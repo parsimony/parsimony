@@ -23,15 +23,20 @@
             enterMode: "keep",
             tabMode: "shift",
 	    lineWrapping: true,
-	    onCursorActivity: function() {
-		codeEditor.setLineClass(hlLine, null, null);
-		hlLine = codeEditor.setLineClass(codeEditor.getCursor().line, "activeline");
-	    },
-            extraKeys: {"Ctrl-S": function() {$(".save a").trigger("click");return false; }},
-            onBlur: function(){codeEditor.save();},
-	    onChange: function(){if(typeof editorChange == "function") editorChange();}
+            extraKeys: {"Ctrl-S": function() {$(".save a").trigger("click");return false; }}
         });
-	var hlLine = codeEditor.setLineClass(0, "activeline");
+	codeEditor.on("cursorActivity", function(c) {
+	    codeEditor.removeLineClass(hlLine, "background", "activeline");
+	    hlLine = codeEditor.getCursor().line;
+	    codeEditor.addLineClass(hlLine, "background", "activeline");
+	});
+	codeEditor.on("change", function(c, n) {
+	    if(typeof editorChange == "function") editorChange();
+	});
+	codeEditor.on("blur", function(c) {
+	    codeEditor.save()
+	});
+	var hlLine = codeEditor.addLineClass(0, "background", "activeline");
 	$("#changeModeid").val('<?php echo $editorMode; ?>');
     };
     var lastPos = null, lastQuery = null, marked = [];
@@ -95,8 +100,8 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
     #codeeditor { margin: 0;position: absolute;top: 0;bottom: 0;left: 0;right: 0;}
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .adminzonecontent{min-width:900px}
-    .CodeMirror {background: white;width: 870px;margin: 0 15px 0 0;font-size: 13px;}
-    .CodeMirror-scroll {height: 100%;width: 870px;overflow-y: hidden;overflow-x: auto;}
+    .CodeMirror {background: white;min-width: 870px;margin: 0 15px 0 0;font-size: 13px;height: auto}
+    .CodeMirror-scroll {min-width: 870px;padding-right:0}
     .activeline {background: rgba(232, 242, 255, 0.33) !important;}
     .toolbarEditor{background: #F8F8F8;padding: 5px;position: relative;z-index: 999;box-shadow: 1px 1px 4px #BBB;}
     .subToolbarEditor{display:none;padding-top: 5px;width: 100%;text-align: right;}
@@ -138,7 +143,7 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
         }
 	?>
     </select>
-    <input type="button" onclick="if($('#changeModeid').val() == 'application/x-httpd-php'){alert('PHP mode formatting is not available.');} codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
+    <input type="button" onclick="codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
     <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
     <div class="subToolbarEditor">
 	<input type="text" id="query" >

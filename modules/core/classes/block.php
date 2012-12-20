@@ -236,7 +236,7 @@ abstract class block {
                     
                 }
             }
-            $html .= '<div class="clearboth"></div></' . $balise . '>';
+            $html .= '</' . $balise . '>';
             if ($maxAge > 0)
                 tools::file_put_contents($cacheFile, $html);
         }

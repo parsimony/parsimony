@@ -200,6 +200,7 @@ display: block;}
 #treedom_container{border-left:0 !important}
 .arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 5px;float:left;display:block;width:16px;height:16px;cursor:pointer}
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
+.currentDOM:first-child{/*font-weight:bold;background-color: #999 !important*/}
 
 /* Panel CSS */         	  
 #savemycss{line-height: 23px;vertical-align: bottom;border-bottom: 1px solid #D3D5DB;}
@@ -223,7 +224,7 @@ display: block;}
 #panelcss_tab_background label{margin: 5px 10px;position: relative;width: 70px;}
 .adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;padding: 4px;                
 background: -webkit-linear-gradient(top, white, #F2F2F2);
-background: -moz-linear-gradient(top, white, #F2F2F2);}
+background: -moz-linear-gradient(top, white, #F2F2F2);background: linear-gradient(top, white, #F2F2F2);}
 
 /* 3d Panel */
 #threed{padding:7px;background:whiteSmoke}
@@ -248,22 +249,15 @@ background: -moz-linear-gradient(top, white, #F2F2F2);}
 #changecsscode .gotoform{background-image: -webkit-linear-gradient(bottom,#818181,#A4A4A4);background-image: -moz-linear-gradient(bottom,#818181,#A4A4A4);border-bottom: 1px solid #7F7F7F;position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;border-radius: 0 0 0 3px;font-size: 10px;color: #FAFAFA;}
 #changecsscode .gotoform:hover{background:#777;color:white}
 #changecsscode .selectorcss b{overflow:hidden}
-#changecsscode .activebtn{cursor:pointer}
-#changecsscode .activebtn:hover{color:#444;}
+#changecsscode .activebtn{cursor:pointer;border-radius: 2px;width: 9px;background: #F1F1F1;line-height: 10px;margin: 3px 1px;
+height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: block;color: rgb(68, 68, 68);}
+#changecsscode .activebtn:hover{background: #e1e1e1;color:#444;}
 #changecsscode .csscode{display:none;}
 
 /* --> code editor on code mode  */
-#panelcss .CodeMirror {border: 1px solid #eee;font-size: 12px;line-height: 17px;}
-#panelcss .CodeMirror {margin-left: 1px;}
-#panelcss .CodeMirror-lines,#panelcss .CodeMirror-gutter-text{padding: 1px;}
-#panelcss .CodeMirror-scroll {background: #fff;height: auto;overflow-y: hidden;overflow-x: auto;width: 100%;}
-#panelcss .CodeMirror-gutter{min-width: 0 !important;}
-#panelcss .CodeMirror-gutter pre{cursor:pointer;color:#444}
-#panelcss .CodeMirror-gutter pre:hover{background:#e4e4e4 !important;}
+#panelcss .CodeMirror {height: auto;background: #f9f9f9;border: 1px solid #eee;font-size: 12px;line-height: 17px;max-width: 400px;}
+#panelcss .guttercss{padding: 0 3px 0 5px;min-width: 12px;text-align: right;color: #999;}
 #panelcss .barre{text-decoration: line-through;}
-#panelcss .activeline {background: #e8f2ff !important;}
-#panelcss .CodeMirror-gutter-text pre{border-radius: 2px;max-width: 9px;background: #F1F1F1;max-height: 10px;line-height: 10px;margin: 4px 0 7px 0;height: 10px;
-border: 1px solid #BBB;text-align: center;padding: 0 1px 1px 1px;white-space: pre !important;font-size: 9px;}
 
 /* When CSS panel is in form mode */
 .CSSForm #changecssform{display:block}
@@ -388,7 +382,7 @@ background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
 font-weight: bold;}
-.adminzone{overflow-x: hidden;overflow-y: auto;width:100%;background: #ECECEC;font-family: Helvetica, Arial, sans-serif;min-height: 600px;padding-left: 150px;/*display: table;
+.adminzone{overflow-x: hidden;overflow-y: auto;width:100%;margin-bottom:40px;background: #ECECEC;font-family: Helvetica, Arial, sans-serif;min-height: 600px;padding-left: 150px;/*display: table;
            display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/
 }
 .adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}

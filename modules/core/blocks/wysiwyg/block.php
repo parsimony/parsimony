@@ -62,7 +62,6 @@ class wysiwyg extends \block {
     }
     
     public function setContent($html) {
-	if(strstr($html,'<div class="clearboth">')) $html = substr($html,0,strrpos($html, '<div class="clearboth">'));
         if (\app::getClass('user')->VerifyConnexion() && BEHAVIOR == 2) {
             return \tools::file_put_contents(PROFILE_PATH.$this->getConfig('path'),\tools::sanitize($html));
         }

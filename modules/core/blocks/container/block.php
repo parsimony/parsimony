@@ -69,7 +69,7 @@ class container extends \block
                     $html .= $selected_block->display() . PHP_EOL;
                 }
             }
-            $html .= '<div class="clearboth"></div></' . $tag . ' >';
+            $html .= '</' . $tag . ' >';
             if ($maxage > 0)
                 \tools::file_put_contents($cacheFile, $html);
         }

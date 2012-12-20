@@ -411,32 +411,36 @@ var ParsimonyAdmin = {
 	}
     },
     selectBlock :   function (idBlock){
-	var blockObj = $("#" + idBlock,ParsimonyAdmin.currentBody);
-	var blockTreeObj = $("#treedom_" + idBlock);
-        
-	$(".selection-block",ParsimonyAdmin.currentBody).removeClass("selection-block");
-	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
+	var blockTreeObj = document.getElementById("treedom_" + idBlock);
+        var block = ParsimonyAdmin.currentDocument.getElementById(idBlock);
+	var oldSelection = ParsimonyAdmin.currentDocument.querySelector(".selection-block");
+	var oldSelectionTree = document.querySelector(".currentDOM");
+	var config_tree_selector = document.getElementById("config_tree_selector");
+	
+	oldSelection && oldSelection.classList.remove("selection-block");
+	oldSelectionTree && oldSelectionTree.classList.remove("currentDOM");
+	
 	ParsimonyAdmin.inProgress = idBlock;
 	ParsimonyAdmin.typeProgress = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
-	$("#tree .tree_selector,#tree .container").css('background','transparent');
-	$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).addClass("selection-block").parent(".container").addClass("selection-container");
-
-	blockTreeObj.css('background','#999');
-	if(idBlock=="container" || blockObj.hasClass('container_page')) $("#config_tree_selector").addClass("restrict");
-	else $("#config_tree_selector").removeClass("restrict");
-	blockTreeObj.prepend($("#config_tree_selector").show());
+	block && block.classList.add("selection-block");
+	blockTreeObj.classList.add("currentDOM");
+	if(idBlock == "container" || (block && block.classList.contains("container_page"))) config_tree_selector.classList.add("restrict");
+	else document.getElementById("config_tree_selector").classList.remove("restrict");
+	config_tree_selector.style.display = "block";
+	blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
         
     },
     whereIAm :   function (idBlock){
 	var where = "theme";
-	if($("#" + idBlock,ParsimonyAdmin.currentBody).length > 0){
-	    if($("#" + idBlock,ParsimonyAdmin.currentBody).parent().closest("#content").length > 0 ){
+	var elmt = ParsimonyAdmin.currentDocument.getElementById(idBlock);
+	if(elmt){
+	    if(elmt.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("content")) == 10){
 		where = "page";
 	    }
 	}else{
-	    if(idBlock == 'dropInTree') var obj = $("#dropInTree");
-	    else var obj = $("#treedom_" + idBlock);
-	    if(obj.parent().closest("#treedom_content").length > 0){
+	    if(idBlock == 'dropInTree') var obj = document.getElementById("dropInTree");
+	    else var obj = document.getElementById("treedom_" + idBlock);
+	    if(obj.compareDocumentPosition(document.getElementById("treedom_content")) == 10){
 		where = "page";
 	    }
 	}
