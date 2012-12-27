@@ -27,5 +27,6 @@
  */
  ?>
 <div style="margin: 10px 0;font-size: 13px;padding-left: 10px;"><?php echo t('Properties of 1:n Relationship',False) ; ?> </div>
+<div><label><?php echo t('Referring Module',False) ; ?> </label><input type="text" name="moduleLink"></div>
 <div><label><?php echo t('Referring Entity',False) ; ?> </label><input type="text" name="link"></div>
 <div><label><?php echo t('Template of link',False) ; ?> </label><input type="text" name="templatelink"></div>

@@ -47,7 +47,7 @@ include_once('modules/core/classes/field.php');
     var THEMEMODULE = '<?php echo THEMEMODULE ?>';
     var TOKEN = '<?php echo TOKEN ?>';
 </script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.12-all-min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-0.11.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.outline-0.11.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
@@ -57,7 +57,7 @@ include_once('modules/core/classes/field.php');
 </style>
 <style type="text/css">
     .ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
-    body{margin:0;padding:0;font-family:verdana;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+    body{margin:0;padding:0;font-family: arial, sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #container_bdd{margin:0;padding:0;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
@@ -96,12 +96,13 @@ background: linear-gradient(#FFFFFF, #ddd);}
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
     .connection{color:#2E63A5;text-transform: capitalize;}
-    #popup{font-family: Arial, Verdana;text-align: left;border-radius:10px;padding: 5px 10px;width:700px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
+    .popup{font-family: Arial, Verdana;text-align: left;border-radius:10px;padding: 5px 10px;width:700px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
+
     .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px 0px;background-color: #F1F5F9;line-height: 20px;}
     .question input{margin-right: 10px;}
-    #conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);margin: 2px 5px;position: absolute;top: 2px;right: 0px;color: white;cursor: pointer;}
+    .conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
-    #cardinality{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
+    .title_popup{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
     input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
     .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
@@ -118,10 +119,20 @@ background: linear-gradient(#FFFFFF, #ddd);}
     .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
     #toolbar{font-weight: normal;line-height: 36px;}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
-    #save.haveToSave{color: white;font-weight: bold;background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);background-image: -o-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
+    #extLink{position: fixed;right: 0;top: 35px;height: 50px;width: 120px;}
+    .dragActive2{z-index: 1;border-radius: 0 0 0 50px;
+    box-shadow: 0px 0px 26px rgb(32, 219, 255);font-size: 10px;text-align: center;background: rgb(249, 255, 255);color: rgb(19, 94, 122);padding: 17px 5px;}
+    #save.haveToSave{color: white;font-weight: bold;
+               background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
+               background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
+               background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
+               background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
+               background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
+    #conf_box_overlay{z-index: 9999;}
+    #currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
 </style> 
-
+<div id="extLink" style=""><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
     <p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
 </div>
@@ -605,7 +616,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
         <div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
 	    <?php echo t('Current Module', FALSE); ?>
             <form action="" method="POST" style="display:inline-block">
-                <select style="font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;" name="module" onchange="$(this).parent().trigger('submit');">
+                <select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
 		    <?php
 		    foreach (\app::$activeModules as $moduleName => $module) {
 			if ($moduleName == $_POST['module']) {
@@ -637,14 +648,33 @@ background: linear-gradient(#FFFFFF, #ddd);}
 <div id="notify"></div>
 <div id="container_bdd">
     <canvas id="outline" width="150" height="100"></canvas>
-    <div id="conf_box_overlay" style="z-index: 99;" class="none">
-        <div id="popup">   
-            <div id="cardinality"><?php echo t('Cardinality', FALSE); ?>
-                <span id="conf_box_close" class="ui-icon ui-icon-closethick right"></span>
+    <div id="conf_box_overlay" class="none ">
+        <div id="popup" class="popup">   
+            <div class="title_popup"><?php echo t('Cardinality', FALSE); ?>
+                <span class="conf_box_close ui-icon ui-icon-closethick right"></span>
             </div>
             <div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity1"></span> " ?</div>
             <div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
             <div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
+        </div>
+        <div id="popup2" class="popup" style="text-align: center">
+            <div class="title_popup"><?php echo t('Link to another module', FALSE); ?>
+                <span class="conf_box_close ui-icon ui-icon-closethick right"></span>
+            </div>
+            <div style="margin:15px 0">
+                <select multiple="multiple" id="linkToExternal" style="background: #fff">
+                    <?php
+                    foreach (\app::$activeModules as $moduleName => $module) {
+                        if ($moduleName != 'admin' && $moduleName != $_POST['module']){
+                            foreach (\app::getModule($moduleName)->getModel() as $entityName => $entity) {
+                                echo '<option>' . $moduleName . ' - ' . $entityName . '</option>';
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
         </div>
     </div>
     <div id="leftsidebar">
@@ -798,6 +828,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 isTarget:false },
             endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
                 paintStyle:{ fillStyle: "transparent" },
+                dropOptions : { activeClass:'dragActive' } ,
                 isSource:false,
                 reattach:true,
                 maxConnections:100,
@@ -808,13 +839,11 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 isSource:false,
                 connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
                 isTarget:false },
-            /*todo décider si on peut faire un lien récursif ou pas
-             */
-            buildLink : function(source,target){
-                var objSource = $("#table_" + source);
+            buildLink : function(sourceModule, source, targetModule, target){
+                //var objSource = $("#table_" + source);
                 var objTarget = $("#table_" + target);
-                var champ = $("#field_list div[type_class='field_foreignkey']").clone();         
-                var predictedname = objSource.find(".property[type_class='field_ident']" ).text();
+                var champ = $("#field_list div[type_class='field_foreignkey']").clone();    
+                var predictedname = "id_" + source;
                 var n = 0;
                 while($('#table_'+ target + '_'+predictedname).length){            
                     n++;
@@ -827,14 +856,14 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_foreignkey']").data("attributs")));
                 jsonproperties.name = predictedname;
                 jsonproperties.label = predictedname;
-                var linkName = objSource.find(".title").text();
-                jsonproperties.link = linkName;
-                var fieldString = $("#table_" + linkName + ' .property[type_class="field_string"]:first');
+                jsonproperties.moduleLink = sourceModule;
+                jsonproperties.link = source;
+                var fieldString = $("#table_" + source + ' .property[type_class="field_string"]:first');
                 if(fieldString.length > 0) jsonproperties.templatelink = '%' + fieldString.text() + '%';
-                else jsonproperties.templatelink = '%id_' + linkName + '%';
-                jsonproperties.entity = objTarget.find(".title").text();
+                else jsonproperties.templatelink = '%id_' + source + '%';
+                jsonproperties.entity = target;
                 champ.removeAttr('class').data("attributs",jsonproperties).text(predictedname);
-                champ.attr("name",objSource.find('.title').text());
+                champ.attr("name",source);
                 champ.attr("id",'table_' + target + '_' + predictedname).addClass("property");
                 champ.appendTo(objTarget).show();
                 dbadmin.reDraw();
@@ -893,10 +922,9 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 /* JsPlumb */
                 jsPlumb.importDefaults({     
                     Container : $("body"),
-                    DragOptions : { cursor: 'pointer', zIndex:2000 },                  
-                    DropOptions : { activeClass:'dragActive' } 
+                    DragOptions : { zIndex:2000 }
                 });
-                		
+                
                 /* Save field settings */
                 $("#update_field").on('click','.save_field',function(){
                     if($('#update_' + current_update_field.attr('type_class') + ' input[name="name"]').val() != $('#update_' + current_update_field.attr('type_class') + ' input[name="oldName"]').val()){
@@ -951,7 +979,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                     $(this).parent().parent().hide('slow');
                     $("#save").addClass("haveToSave");
                 }); 
-		
+                
                 /* Open Table Settings */
                 $('#container_bdd').on('click','.title',function(){
                     $('#update_field > div').hide();
@@ -1017,12 +1045,16 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		    }
 		}, false);
                 
-                $(document).on('click','#conf_box_close',function(){
-                    $('#popup').hide();
+                $(document).on('click','.conf_box_close',function(){
+                    $(this).closest(".popup").hide();
                     $('#conf_box_overlay').hide();
                 })
                 .on('click','.closeformpreview',function(){
                     $(this).parent().parent().hide();
+                })
+                .on('mousedown','._jsPlumb_endpoint',function(){
+                    document.getElementById("update_field").style.display = "none";
+                    document.getElementById("update_table").style.display = "none";
                 })
                 /* Filter Table Name */
                 .on('keyup',"#table_name",function(){
@@ -1089,13 +1121,14 @@ background: linear-gradient(#FFFFFF, #ddd);}
                     var target1 = $("#" + $(this).data('targetid'));
                     var entitySource = source1.parent().find('.title').text();
                     var entityTarget = $('.title',target1).text();
-                    if($(this).attr('id')=='button3'){
+                    var module = $("#currentModule").val();
+                    if(this.id=='button3'){
                         var t = entitySource +'_'+entityTarget;
                         dbadmin.createTable(t);
-                        dbadmin.buildLink(entitySource,t);
-                        dbadmin.buildLink(entityTarget,t);
+                        dbadmin.buildLink(module,entitySource,module,t);
+                        dbadmin.buildLink(module,entityTarget,module,t);
                     }else{
-                        if($(this).attr('id')=='button2'){
+                        if(this.id=='button2'){
                             source = source1;
                             target = target1;
                         }else{
@@ -1104,15 +1137,32 @@ background: linear-gradient(#FFFFFF, #ddd);}
                         }
                         var entitySource = source.parent().find('.title').text();
                         var entityTarget = $('.title',target).text();
-                        dbadmin.buildLink(entitySource,entityTarget);
+                        dbadmin.buildLink(module,entitySource,module,entityTarget);
                     }
-                    $("#popup").hide();
-                    $('#conf_box_overlay').hide();
+                    $("#popup,#conf_box_overlay").hide();
+                    $("#save").addClass("haveToSave");
                     dbadmin.reDraw();
+                })
+                /* Choose behavior of the link */
+                .on('click','#btnLinkToExternal',function(){
+                    if($("#linkToExternal").val()){
+                        var module = $("#currentModule").val();
+                        var source1 = $("#" + $(this).data('sourceid'));
+                        var entitySource = source1.parent().find('.title').text();
+                        var ref = $("#linkToExternal").val().toString().split(" - ");
+                        dbadmin.buildLink(ref[0], ref[1], module,entitySource);
+                        $(this).closest(".popup").hide();
+                        $('#conf_box_overlay').hide();
+                        $("#save").addClass("haveToSave");
+                        dbadmin.reDraw();
+                    }else{
+                        alert(t("Please choose the linked table"));
+                    }
+                    
                 })
                 /* Filter Table Name */
                 .on('keyup',"#table_name",function(){
-                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/g,""));
+                    this.value = this.value.toLowerCase().replace(/[^a-z_]+/g,"");
                 });
 		
                 /* Sort properties */
@@ -1149,27 +1199,31 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		
                 /* Draw Anchor on fields ident */
                 $(".property").each(function(index) {
-                    if($(this).attr('type_class') == 'field_ident') dbadmin.createAnchor($(this).attr('id') );
+                    if(this.getAttribute('type_class') == 'field_ident') dbadmin.createAnchor(this.id );
                 });
 
                 /* Draw Anchor on fields foreignKey */
                 $(".table").each(function(){
-                    dbadmin.createAnchorForeignKey($(this).attr('id'));
+                    dbadmin.createAnchorForeignKey(this.id);
                 });
-		
+                
+                jsPlumb.makeTarget("extLink", {isTarget:true, paintStyle:{ fillStyle:"transparent"},dropOptions :  { activeClass:'dragActive2' } });
+                
                 /* Draw connectors between tables */
                 $("#container_bdd div[type_class='field_foreignkey']").not("#field_list div[type_class='field_foreignkey']").each(function(index) {
                     var jsonproperties = $(this).data("attributs");
-                    dbadmin.createAnchorNewForeignKey($(this).attr("id"));
+                    dbadmin.createAnchorNewForeignKey(this.id);
                     dbadmin.marqueur = true;
-                    jsPlumb.connect({ uuids:[$(this).attr("id")+"_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
-                        paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
-                        hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
-                        overlays: [
-                            [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
-                            [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
-                        ]
-                    });
+                    if($("#table_" + jsonproperties.link).length > 0 ){
+                        jsPlumb.connect({ uuids:[this.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
+                            paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
+                            hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
+                            overlays: [
+                                [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
+                                [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
+                            ]
+                        });
+                    }
                     dbadmin.marqueur = false;
                 });
 		
@@ -1217,8 +1271,14 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		
                 /* When a connector is linked */
                 jsPlumb.bind("jsPlumbConnection", function(event, originalEvent) {
-                    if(  !dbadmin.marqueur){                       
+                    if(  !dbadmin.marqueur){
                         jsPlumb.detach(event);
+                        if(event.targetId == "extLink"){
+                            jsPlumb.removeAllEndpoints("extLink");
+                            $("#popup2,#conf_box_overlay").show();
+                            $("#btnLinkToExternal").data('sourceid',event.sourceId);
+                            return true;
+                        }
                         $("#popup input").data('sourceid',event.sourceId);
                         $("#popup input").data('targetid',event.targetId);
                         $("#popup .entity1").text(event.source.parent().find('.title').text());
@@ -1226,8 +1286,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                         if(event.source.parent().attr('id') == event.targetId){
                             $('#button1').trigger('click');
                         }else{
-                            $("#popup").show();
-                            $('#conf_box_overlay').show();
+                            $("#popup,#conf_box_overlay").show();
                         }
                     }
                 });

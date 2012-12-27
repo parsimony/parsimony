@@ -35,7 +35,7 @@
 	<?php endif; ?>
     </label>
 <?php
-$obj2 = \app::getModule($this->module)->getEntity($this->link);
+$obj2 = \app::getModule($this->moduleLink)->getEntity($this->link);
 echo '<select name="'.$this->name.'" id="insert_'.$this->name.'"><option></option>';
 $properties = $obj2->getFields();
 foreach ($obj2->select() as $key => $line) {
