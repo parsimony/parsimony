@@ -29,7 +29,7 @@
 app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer');
 ?>
 <div class="flexToolbar">
-    <div style="-webkit-box-flex: 2;-moz-box-flex: 2;box-flex: 2;position: relative;top: -1px;">
+    <div style="-webkit-box-flex: 2;-moz-box-flex: 2;box-flex: 2;margin-top: -2px;">
 	<ul class="menu">
 	    <li id="logo" style="box-shadow: none;">
 		<a href="http://parsimony.mobi" target="_blank" style="padding:0;display: block;">

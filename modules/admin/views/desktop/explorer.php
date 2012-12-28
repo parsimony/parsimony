@@ -40,8 +40,8 @@
 <style>
     body{min-width: 870px;background: #fff;}
     #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:544px;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
-    #explorer{display:table-cell;width: 200px;overflow-y:scroll;height:100%;vertical-align: top;}
-    #explorer ul{display:none}
+    #explorer{display:table-cell;width: 200px;overflow-y:scroll;height:100%;vertical-align: top;list-style: none;padding:0;margin:0;}
+    #explorer ul{display:none;list-style: none;}
     #explorer li.file{display:none}
     #explorer ul{padding-left:20px}
     #explorer > ul li{display:none;}

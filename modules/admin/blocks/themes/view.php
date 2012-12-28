@@ -29,7 +29,7 @@
 <style>
     #themes{width: 230px;color:#444;height: 100%;}
     .placeholder {position: relative;clear: both;width: 200px;margin:10px;}
-    .themelist h4{line-height: 25px;text-align: left;text-shadow: 0 1px 0 white;}
+    .themelist h4{line-height: 25px;text-align: left;text-shadow: 0 1px 0 white;margin: 0;}
     
     #themeFormAdd{color:#444;border-right: 1px solid #CCC;}
     #themeFormAdd h4{margin: 0px 5px;line-height: 20px;text-transform: capitalize}

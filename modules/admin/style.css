@@ -16,7 +16,7 @@
 body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
 #admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;
 	      -moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
-
+ul{list-style: none;padding:0;margin:0;}
 /*############## SideBars ################# */
 
 .sidebar{width: 40px !important;background: #272727;height: 100%;position:fixed;padding-top: 35px;z-index: 99;
@@ -61,7 +61,7 @@ float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #999;text-
       background-image: linear-gradient(top, #44C5EC, #259BDB);}
 .ssTab:first-child{border-radius: 4px 0 0 4px;border-right:0 !important;}
 .ssTab:last-child{border-radius: 0 4px 4px 0;}
-ul.models,ul.pages{padding: 5px;background: #f9f9f9;}
+#admintoolbar ul.models,#admintoolbar ul.pages{padding: 5px;background: #f9f9f9;}
 
 /* Preview frame */
 #parsiframe{transition: all 0.4s;-o-transition: all 0.4s;-webkit-transition: all 0.4s;-moz-transition: all 0.4s ease-in;
@@ -598,7 +598,7 @@ background: url(admin/img/icons_white.png) -96px -128px;padding: 8px 9px 8px 7px
 #menu h5{padding: 4px 8px;line-height: 16px;font-family: arial;font-size: 13px;font-weight: normal;color: #fff;letter-spacing: 1.1px;border-radius: 2px;
 background: -webkit-linear-gradient(bottom,#828282,#777);
 background: -moz-linear-gradient(bottom,#828282,#777);
-background: -o-linear-gradient(bottom,#828282,#777);}
+background: -o-linear-gradient(bottom,#828282,#777);margin:0}
 #menu a{color: #333;text-decoration: none;display: block;width: 100%;}
 #menu .CSSDesign{position:relative;}
 #menu .CSSProps{position: absolute;left: 100%;top: -7px;background: #F9F9F9;min-width: 250px;}

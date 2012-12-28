@@ -68,7 +68,7 @@ include_once('modules/core/classes/field.php');
     #field_list .myfield:hover{background-color: #CBD8E8;}
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
-    #update_table{display: none;}
+    #update_table{display: none;font-size: 12px;}
     #update_field > div{font-size: 14px;display: none;}
     .table {z-index:60; float: left; margin: 10px;border:1px solid gray;position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
 font-size:15px;background-color:white;font-weight:bold;border-radius: 5px;box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
@@ -615,7 +615,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
     <div class="toolbarbonus inline-block">
         <div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
 	    <?php echo t('Current Module', FALSE); ?>
-            <form action="" method="POST" style="display:inline-block">
+            <form action="" method="POST" style="display:inline-block;margin: 0;">
                 <select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
 		    <?php
 		    foreach (\app::$activeModules as $moduleName => $module) {
@@ -634,7 +634,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
 
         <div class="floatleft" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
 	    <?php echo t('Add an Entity', FALSE); ?>
-            <form id="add_table" class="inline-block">
+            <form id="add_table" style="display:inline-block;margin: 0;">
                 <input type="text" id="table_name" style="padding:1px;">
                 <input type="submit" style="height: 22px;" value="<?php echo t('Add', FALSE); ?>"> 
             </form>

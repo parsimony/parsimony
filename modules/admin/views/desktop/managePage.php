@@ -253,7 +253,7 @@
                                         ?>
                                         <div class="clearboth"></div>
                                     </div>
-                                    <div class="choicebuilder" style="width: 285px;border-left:1px solid #ccc;border-right:1px solid #ccc;">
+                                    <div class="choicebuilder" style="width: 284px;border-left:1px solid #ccc;border-right:1px solid #ccc;">
                                         <div class="choicetitle"><?php echo t('A regex parameter', False); ?> :</div>
                                         <input type="text" style="width:70px" id="paramname">
                                         <select id="paramregex"><option value="(.*)"></span><?php echo t('Text', False); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric', False); ?></option></select>
