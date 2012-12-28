@@ -298,11 +298,11 @@ class tools {
      * @return string sanitized html
      */
     public static function sanitize($str, $plugins = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,fontName,fontSize,createLink,unlink,formatBlock,foreColor,hiliteColor,insertImage') {
-    $allowedTags = array('div' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
-	'span' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
-	'p' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
-	'pre' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'),
-	'br' => array('class', 'dir', 'align', 'lang', 'style', 'title', 'xml:lang'));
+    $allowedTags = array('div' => array( 'dir', 'lang', 'style', 'title'),
+	'span' => array( 'dir', 'lang', 'style', 'title'),
+	'p' => array( 'dir', 'lang', 'style', 'title'),
+	'pre' => array( 'dir', 'lang', 'style', 'title'),
+	'br' => array( 'style'));
 
     $allowedStyles = array();
 
@@ -315,27 +315,27 @@ class tools {
 	'strikeThrough' => array('allowedStyles' => array('text-decoration' => '.*')),
 	'subscript' => array('allowedStyles' => array('vertical-align' => '.*')),
 	'superscript' => array('allowedStyles' => array('vertical-align' => '.*')),
-	'orderedList' => array('allowedTags' => array('ol' => array("id", "class", "style", "dir", "lang", "title")),
+	'orderedList' => array('allowedTags' => array('ol' => array( "style", "dir", "lang", "title"),'li' => array( "style", "dir", "lang", "title")),
 	    'allowedStyles' => array('list-style' => '.*', 'list-style-image' => '.*', 'list-style-position' => '.*', 'list-style-type' => '.*')),
-	'unOrderedList' => array('allowedTags' => array('ul' => array("id", "class", "style", "dir", "lang", "title")),
+	'unOrderedList' => array('allowedTags' => array('ul' => array("style", "dir", "lang", "title"),'li' => array( "style", "dir", "lang", "title")),
 	    'allowedStyles' => array('list-style' => '.*', 'list-style-image' => '.*', 'list-style-position' => '.*', 'list-style-type' => '.*')),
-	'outdent' => array('allowedTags' => array('blockquote' => array("id", "class", "style", "dir", "lang", "title")),
+	'outdent' => array('allowedTags' => array('blockquote' => array("style", "dir", "lang", "title")),
 	    'allowedStyles' => array('margin' => '.*', 'border' => '.*', 'padding' => '.*')),
-	'indent' => array('allowedTags' => array('blockquote' => array("id", "class", "style", "dir", "lang", "title")),
+	'indent' => array('allowedTags' => array('blockquote' => array("style", "dir", "lang", "title")),
 	    'allowedStyles' => array('margin' => '.*', 'border' => '.*', 'padding' => '.*')),
-	'createLink' => array('allowedTags' => array('a' => array("id", "class", "style", "dir", "lang", "title", "accesskey", "tabindex", "charset", "coords", "href", "hreflang", "name", "rel", "rev", "shape", "target"))),
-	'formatBlock' => array('allowedTags' => array('h1' => array("id","class","style","dir","lang","title"),
-							'h2' => array("id","class","style","dir","lang","title"),
-							'h3' => array("id","class","style","dir","lang","title"),
-							'h4' => array("id","class","style","dir","lang","title"),
-							'h5' => array("id","class","style","dir","lang","title"),
-							'h6' => array("id","class","style","dir","lang","title"))),
+	'createLink' => array('allowedTags' => array('a' => array( "style", "dir", "lang", "title", "accesskey", "tabindex", "charset", "coords", "href", "hreflang", "name", "rel", "rev", "shape", "target"))),
+	'formatBlock' => array('allowedTags' => array('h1' => array("style","dir","lang","title"),
+							'h2' => array("style","dir","lang","title"),
+							'h3' => array("style","dir","lang","title"),
+							'h4' => array("style","dir","lang","title"),
+							'h5' => array("style","dir","lang","title"),
+							'h6' => array("style","dir","lang","title"))),
 	'foreColor' => array('allowedStyles' => array('color' => '.*')),
 	'hiliteColor' => array('allowedStyles' => array('background-color' => '.*')),
 	'fontName' => array('allowedStyles' => array('font-family' => '.*')),
 	'fontSize' => array('allowedStyles' => array('font-size' => '.*')),
-	'insertImage' => array('allowedTags' => array('img' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title")),'allowedStyles' => array('color' => '.*')),
-	'code' => array('allowedTags' => array('code' => array("id", "class", "style", "dir", "lang", "title", "src", "alt", "title", "data-language")))
+	'insertImage' => array('allowedTags' => array('img' => array("style", "dir", "lang", "title", "src", "alt", "title")),'allowedStyles' => array('color' => '.*')),
+	'code' => array('allowedTags' => array('code' => array("style", "dir", "lang", "title", "src", "alt", "title", "data-language")))
     );
     $cut = explode(',', $plugins);
 

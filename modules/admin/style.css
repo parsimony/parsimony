@@ -667,6 +667,8 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 
 /* Fix wysiwyg */
 #HTML5editorToolbar button{min-width: initial !important;}
+.HTML5Editor ul{list-style: disc outside none;padding-left:40px;margin:12px 0 }
+
 /* ############## BASIC UI ################## */
 
 /* ScrollBar for Webkit */

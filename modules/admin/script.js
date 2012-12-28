@@ -177,7 +177,7 @@ var ParsimonyAdmin = {
             ParsimonyAdmin.wysiwyg = new wysiwyg();
             ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
-        $(".HTML5editorToolbar").hide();
+            $(".HTML5editorToolbar").hide();
         
 	/* Manage clicks on <a> in edit mode */
 	ParsimonyAdmin.$currentDocument.on('click.edit','a', function(e){
@@ -190,6 +190,7 @@ var ParsimonyAdmin = {
 	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
 	.on('click.edit','.block',function(e){
 	    if(!$(this).hasClass("wysiwyg")) $(".HTML5editorToolbar").hide();
+            else $(".HTML5editorToolbar").show();
 	});
 	
 	/* Manage undo/redo on save toolbar */
@@ -199,7 +200,7 @@ var ParsimonyAdmin = {
 	
 	/* Save all WYSISYG blocks or contenteditable fields */
 	.on('click.edit',"#toolbarEditModeSave",function(e){
-	    
+	    $(this).trigger("focus");
 	    /* We collect fresh data for WYSIWYG blocks */
 	    var changes = {};
 	     $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
