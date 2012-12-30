@@ -423,11 +423,11 @@ var ParsimonyAdmin = {
 	ParsimonyAdmin.inProgress = idBlock;
 	ParsimonyAdmin.typeProgress = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
 	block && block.classList.add("selection-block");
-	blockTreeObj.classList.add("currentDOM");
+	if(blockTreeObj) blockTreeObj.classList.add("currentDOM");
 	if(idBlock == "container" || (block && block.classList.contains("container_page"))) config_tree_selector.classList.add("restrict");
 	else document.getElementById("config_tree_selector").classList.remove("restrict");
 	config_tree_selector.style.display = "block";
-	blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
+	if(blockTreeObj) blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
         
     },
     whereIAm :   function (idBlock){
