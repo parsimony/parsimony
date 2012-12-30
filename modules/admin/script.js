@@ -258,6 +258,8 @@ var ParsimonyAdmin = {
     
     unloadEditMode :   function(){
 	//if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
+        delete ParsimonyAdmin.wysiwyg;
+        ParsimonyAdmin.wysiwyg = "";
 	ParsimonyAdmin.$currentDocument.add(ParsimonyAdmin.currentBody).off('.edit');
         $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
         $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
