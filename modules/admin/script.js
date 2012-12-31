@@ -100,8 +100,10 @@ var ParsimonyAdmin = {
 	    if(document.getElementById("changeres").value == "max"){
 		var height = ParsimonyAdmin.currentBody.getBoundingClientRect().bottom;
 		if(screen.height > height) height = screen.height - 35;
-		ParsimonyAdmin.iframe.style.height = height + "px";
-		document.getElementById("overlays").style.height = height + "px";
+                if(ParsimonyAdmin.iframe.style.height != height + "px"){
+                    ParsimonyAdmin.iframe.style.height = height + "px";
+                    document.getElementById("overlays").style.height = height + "px";
+                }
 	    }
 	}, 1000);
        
@@ -138,7 +140,7 @@ var ParsimonyAdmin = {
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu("Link");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<a href="javascript:ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');"><span class="ui-icon ui-icon-extlink floatleft"></span>'+ t('Go to the link') +'</a>');
+	    ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" onclick="ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;"><span class="ui-icon ui-icon-extlink floatleft"></span>'+ t('Go to the link') +'</a>');
 	});	
 
 	$(document).on("keypress.creation",'#dialog-id',function(e){
@@ -161,6 +163,7 @@ var ParsimonyAdmin = {
     
     loadEditMode :   function(){
 	$(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
+        
 	/* Active edit behavior on WYSIWYG blocks */
         $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
 	
@@ -182,9 +185,9 @@ var ParsimonyAdmin = {
 	/* Manage clicks on <a> in edit mode */
 	ParsimonyAdmin.$currentDocument.on('click.edit','a', function(e){
             e.preventDefault();
-	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://' && $(".usereditinline",this).length == 0){
+	    /*if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://' && $(".usereditinline",this).length == 0){
 		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
-	    }
+	    }*/
 	})
 	
 	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
@@ -331,7 +334,8 @@ var ParsimonyAdmin = {
 	ParsimonyAdmin.unloadPreviewMode();
 	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH && pageUrl.substring(0,7) != "http://") pageUrl = BASE_PATH + pageUrl;
 	pageUrl = $.trim(pageUrl);
-	if(pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '?parsiframe=ok';
+        if(pageUrl.indexOf('?') > -1 && pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '&parsiframe=ok';
+	else pageUrl += '?parsiframe=ok';
         ParsimonyAdmin.currentDocument.title = pageTitle;
 	$('#parsiframe').attr('src', pageUrl);
 	return false;
