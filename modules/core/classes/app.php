@@ -83,7 +83,7 @@ namespace core\classes {
 	    
             /* Determine the domain www.Domain Name */
             if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
-                set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
+                set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/'.PROFILE.'/modules/core/' . PATH_SEPARATOR . './modules/core/'); // set include path
 
                 /* Load general configs */
                 if (PROFILE != 'www')

@@ -144,10 +144,6 @@ class core extends \module {
 	}
     }
 
-    public function concatAction() {
-	return $this->getView('concat', 'desktop');
-    }
-
     public function connectAction() {
 	return $this->getView('connect', 'desktop');
     }

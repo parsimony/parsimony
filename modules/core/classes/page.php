@@ -304,7 +304,7 @@ class page extends \block {
             $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
         if (!empty($this->includes[$position]['css']['local'])) {
             if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup']))
-                $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . 'concat?format=css&amp;files=' . substr(str_replace(','.BASE_PATH, ',',implode(',', $this->includes[$position]['css']['local'])),strlen(BASE_PATH)) . '" />';
+                $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
             else {
                 foreach ($this->includes[$position]['css']['local'] AS $css)
                     $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . $css . '" />';
@@ -314,13 +314,38 @@ class page extends \block {
             $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
         if (!empty($this->includes[$position]['js']['local'])) {
             if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) {
-                $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . 'concat?format=js&amp;files=' . substr(str_replace(','.BASE_PATH, ',', implode(',', $this->includes[$position]['js']['local'])),strlen(BASE_PATH)) . '"> </SCRIPT>' . PHP_EOL;
+                $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
             } else {
                 foreach ($this->includes[$position]['js']['local'] AS $css)
                     $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . $css . '"> </SCRIPT>';
             }
         }
         return $html;
+    }
+    
+    /**
+     * Concat JS or CSS Files
+     * @param array $module
+     */
+    public function concatFiles(array $files, $format) {
+        $hash = md5(implode('', $files));
+        $pathCache = 'profiles/' . PROFILE .'/modules/core/'. $hash . '.' . $format;
+        if (is_file($pathCache) && app::$config['dev']['status'] == 'prod') {
+            include($pathCache);
+        } else {
+            ob_start();
+            foreach ($files as $file) {
+                $file = substr($file, strlen(BASE_PATH));
+                $pathParts = pathinfo($file,PATHINFO_EXTENSION);
+                if($pathParts == 'js' || $pathParts=='css'){
+                    $path = stream_resolve_include_path ($file);
+                    if($path) include($path);
+                }
+            }
+            $content = ob_get_clean();
+            file_put_contents($pathCache,$content);
+        }
+        return $hash . '.' . $format;
     }
 
     /**
