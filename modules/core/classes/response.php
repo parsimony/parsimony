@@ -105,8 +105,10 @@ class response {
                 }
             }
 	    if ($structure){
+                $view = 'core/views/desktop/index.php';
+                if(stream_resolve_include_path('core/views/'.THEMETYPE.'/index.php')) $view = 'core/views/'.THEMETYPE.'/index.php';
 		ob_start();
-		include('core/views/desktop/index.php');
+		include($view);
 		$this->body = ob_get_clean();
 	    }
 		

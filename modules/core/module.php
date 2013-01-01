@@ -133,14 +133,6 @@ class core extends \module {
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
 	    \app::$request->page->addCSSFile(BASE_PATH . 'core/' . THEMETYPE . '.css');
 	    \app::$request->page->addCSSFile(BASE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
-
-	    if (THEMETYPE == 'mobile') {
-		\app::$request->page->addCSSFile(BASE_PATH . 'lib/mobile.css');
-		\app::$request->page->head .= '
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-                    <meta name="apple-mobile-web-app-capable" content="yes" />
-                    <script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>';
-	    }
 	}
     }
 
