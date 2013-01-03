@@ -91,23 +91,7 @@ var ParsimonyAdmin = {
 	iframeStyle.setAttribute("href", BASE_PATH + "admin/iframe.css");
 	ParsimonyAdmin.currentBody.insertBefore(iframeStyle, ParsimonyAdmin.currentBody.firstChild);
         
-	/* Init tooltip */
-	$(".tooltip").parsimonyTooltip({
-	    triangleWidth:5
-	});
-	
-	var timer = setInterval(function resizeIframe() {
-	    if(document.getElementById("changeres").value == "max"){
-		var height = ParsimonyAdmin.currentBody.getBoundingClientRect().bottom;
-		if(screen.height > height) height = screen.height - 35;
-                if(ParsimonyAdmin.iframe.style.height != height + "px"){
-                    ParsimonyAdmin.iframe.style.height = height + "px";
-                    document.getElementById("overlays").style.height = height + "px";
-                }
-	    }
-	}, 1000);
-       
-	/* Set initial mode */
+	/* Init mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
 	if(initialMode == 'edit'){
 	    $("#editMode").trigger('click');
@@ -118,10 +102,8 @@ var ParsimonyAdmin = {
 	}
 
 	//override jQuery ready function to exec them with ajax portions
-	$.fn.ready = function(a) {
-	    ParsimonyAdmin.currentWindow.eval(" exec = " + a.toString()+";exec.call(window)");
-	}
-    //document.getElementById("parsiframe").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("parsiframe").contentWindow);}
+	setTimeout('$.fn.ready = function(a) {ParsimonyAdmin.currentWindow.eval(" exec = " + a.toString()+";exec.call(window)");}',4000);
+        //document.getElementById("parsiframe").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("parsiframe").contentWindow);}
     
 	this.pluginDispatch("initIframe");
 	
@@ -308,6 +290,22 @@ var ParsimonyAdmin = {
 	}).on("mouseout",".CSSProps a",function(){
 	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
+        
+        /* Init tooltip */
+	$(".tooltip").parsimonyTooltip({
+	    triangleWidth:5
+	});
+	
+	var timer = setInterval(function resizeIframe() {
+	    if(document.getElementById("changeres").value == "max"){
+		var height = ParsimonyAdmin.currentBody.getBoundingClientRect().bottom;
+		if(screen.height > height) height = screen.height - 35;
+                if(ParsimonyAdmin.iframe.style.height != height + "px"){
+                    ParsimonyAdmin.iframe.style.height = height + "px";
+                    document.getElementById("overlays").style.height = height + "px";
+                }
+	    }
+	}, 1000);
 	
 	/* Shortcut : Save on CTRL+S */
 	document.addEventListener("keydown", function(e) {
