@@ -41,28 +41,36 @@
     });
 </script>
 <style>
-    table,th,thead,td{text-align:center;padding-top:8px;}
-    table{width :100%}
-    td{border: 1px solid #D3D5DB;padding: 5px;}   
+    .showcomponent{text-align: center;padding: 5px 0;width: 700px;overflow-x: auto;} 
+    .paramstatique, .paramdyn{position: relative;background: #CBDDF3;border: 1px solid #9CC1D3;float: left; width: 112px; border: 1px solid rgb(204, 204, 204); margin: 0px 2px;}
     #tabs-admin-query{position:relative;text-align: left}
-    .ui-icon-closethick{margin: 5px;border: #666 solid 1px;border-radius: 5px;margin: 0px auto}
+    .ui-icon-closethick{margin: 5px;border: #666 solid 1px;border-radius: 5px;margin: 0px auto;display: none}
     .modulecss{padding: 5px;list-style: none;border: 1px solid #99BBE8;background-color: #CBDDF3;text-transform: capitalize;}
     .modulecss a{text-decoration: none;color:#333;}
     .details{display:none;position:absolute;top:23px;z-index:1;background: rgba(255,255,255,0.8);width: 650px;overflow-x: scroll}
     .detailsCont{width: 1500px;}
     .entity{border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;margin:2px 2px;}
     .cent{width:100%;box-sizing:border-box;}
-    td.type{cursor: move;}
+    div.type{cursor: move;}
     .entityname{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
                 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
                 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
     .property:hover{background:#CBDDF3}
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
-    .choicebuilder{display:inline-block;vertical-align: top;width:225px;margin:8px 0;padding:7px}
+    .choicebuilder{display: inline-block;vertical-align: top;width: 225px;margin: 8px;padding: 7px;background: #FCFCFC;border: 1px solid #C2C2C2;color: black;height: 110px;}
     .choicetitle{padding: 3px;font-size: 15px;text-align: left;margin: 2px 0px 7px;border-bottom: 1px solid #DDD;}
     .parsiplusone {display: inline-block;cursor: cell;
                background: url("<?php echo BASE_PATH; ?>admin/img/add.png") no-repeat;width: 16px;height: 16px;}
-    </style>
+    #col > div,.paramdyn > div,.paramstatique > div{height:30px;line-height:30px;text-align:left;padding: 0 5px}
+    #col > div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
+    #col{box-shadow: 0px 2px 2px #CCC,2px -1px 2px #CCC;background: white;max-width: 120px;border: 1px solid white;float: left;margin-left: -7px;margin-right: 5px;}
+    .del{position: absolute;top: -6px;right: -10px;}  
+    #addparam {margin-top: 10px;}
+    #container{width:10000px}
+    .ui-state-highlight{border:#ccc 61px solid;float:left;height:52px;}
+    #container > div:hover .ui-icon-closethick{display:block}
+    .ui-icon-closethick{background-color: #F9F9F9;}
+</style>
     <div class="adminzone" id="adminformpage">
 
     <div id="admin_page" class="adminzonemenu"> 
@@ -103,7 +111,7 @@
                     <?php endif; ?>
                     <script type="text/javascript">
                         $(document).on('mousedown change keyup','.inputregex',function(){
-                            if($('table tbody tr:not(#abc,#abcd)').length == 0){
+                            if($('#container > div').length == 0){
                                 $('#patternurlregex').prop("disabled", false);
                             }else{
                                 $('#patternurlregex').attr("disabled", "disabled");
@@ -119,7 +127,7 @@
                             $('#conf_box input[name="action"]').val("savePage");
                             $('#sendFormPage').trigger('click');
                             $('#goto_page').show();
-                            if($('table tbody tr:not(#abc,#abcd)').length > 0){
+                            if($('#container > div').length > 0){
                                 $('#patternurlregex').attr("disabled", "disabled");
                             }
                         });
@@ -150,15 +158,13 @@
                             },function() {
                                 $("li",this).next().hide();
                             });
-                            $(function() {
-                                $( "table tbody" ).sortable({
-                                    placeholder: "ui-state-highlight",
-                                    stop:function(){
-                                        genereregex();
-                                    }
-                                });
-                                $( "table tbody" ).disableSelection();
+                            $("#container").sortable({
+                                placeholder: "ui-state-highlight",
+                                stop:function(){
+                                    genereregex();
+                                }
                             });
+                            $( ".showcomponent" ).disableSelection();
                         });
                         $(document).off('click','#schema_sql .property');
                         $(document).on('click','#schema_sql .property', function(){
@@ -167,10 +173,11 @@
                             $(".regex input",obj).val($(this).attr('regex'));
                             $(".val input",obj).val($(this).attr('val'));
                             $(".modelProperty input",obj).val($(this).parent().attr("table") + "." + $(this).text());
-                            obj.appendTo('table').show();
+                            obj.appendTo('#container').show();
+                            $("#container").sortable("refresh");
                             genereregex();
                         });
-                        $(document).on('change keyup','table tbody input', function(){
+                        $(document).on('change keyup','.showcomponent input', function(){
                             genereregex();
                         });
 
@@ -182,13 +189,13 @@
                             $('.regex input',obj).val($('#paramregex').val());
                             if($('#paramregex').val()=='(.*)') $('.val input',obj).val('abcd');
                             else $('.val input',obj).val('123');
-                            obj.appendTo('table tbody').show();
+                            obj.appendTo('#container').show();
                             $('#paramname').val('');
                             genereregex();
                         });
                         $(document).off('click','#addtextcomposant');
                         $(document).on('click','#addtextcomposant', function(){
-                            $('#abcd').clone().removeAttr("id").appendTo('table tbody').show();
+                            $('#abcd').clone().removeAttr("id").appendTo('#container').show();
                             genereregex();
                         });
 			$(document).on('click','.robotsOptions', function(){
@@ -203,7 +210,7 @@
                             $('#goto_page').hide();
                             var url = '';
                             var urlRegex = '';
-                            $('table tbody tr:not(#abc,#abcd)').each(function(i){
+                            $('#container > div:not(#abc,#abcd)').each(function(i){
                                 $("input",this).each(function(){
                                     $(this).attr("name","URLcomponents[" + i + "][" + $(this).parent().attr("class").replace("parsi","") +"]");
                                 });
@@ -218,15 +225,71 @@
                             $("#patternurl").text(url);
                             $("#patternurlregex").val(urlRegex);
                             $(".showcomponent").show();
+                            
                         }
                     </script>
 
                     <div style="position:relative;padding-top: 30px;">
 			<?php if (BEHAVIOR == 2 ): ?>
+                        <?php $components = $page->getURLcomponents(); ?>
                             <div id="tabs-admin-querieur" class="none" style="">
-                                <fieldset id="tabs-admin-query" style="">
-                                    <legend><?php echo t('URL Rewriting', False); ?></legend>
-                                    <div><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
+                                <fieldset id="tabs-admin-query" style="background: none;">
+                                    <legend><?php echo t('URL Builder', False); ?></legend>
+                                    <div class="showcomponent <?php
+                                if (empty($components))
+                                    echo 'none';
+                                ?>">
+                                        <div id="col">
+                                                <div><?php echo t('Name', FALSE); ?></div>
+                                                <div><?php echo t('Component', FALSE); ?></div>
+                                                <div><?php echo t('Regex', FALSE); ?></div>
+                                                <div><?php echo t('Default Value', FALSE); ?></div>                                             
+                                         </div> 
+                                         <div id="abc" class="none paramdyn">
+                                                <div class="parsiname"><input type="text" style="width:100px"></div>
+                                                <div class="type"><?php echo t('Regex', FALSE); ?></div>
+                                                <div class="regex"><input type="text" style="width:100px"></div>
+                                                <div class="modelProperty" style="display:none"><input type="hidden"></div>
+                                                <div class="val"><input type="text" style="width:100px"></div>
+                                                <div class="del"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+                                         </div>
+                                         <div id="abcd" class="none paramstatique">
+                                             <div class="text"><input type="text" style="width:100px"></div>   
+                                             <div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text', FALSE); ?></div>  
+                                             <div class="del"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+                                         </div>
+                                         <div id="container">
+                                         
+                                            <?php
+                                            if (!empty($components)) {
+                                                foreach ($page->getURLcomponents() AS $idc => $component) {
+                                                    if (isset($component['regex'])) {
+                                                        ?>
+                                                         <div class="paramdyn">
+                                                             <div class="parsiname"><input value="<?php echo $component['name']; ?>" name="URLcomponents[<?php echo $idc; ?>][name]" style="width:100px" type="text" ></div>
+                                                            <div class="type"><?php echo t('Regex', FALSE); ?></div>
+                                                            
+                                                            <div class="regex"><input value="<?php echo $component['regex']; ?>" name="URLcomponents[<?php echo $idc; ?>][regex]" type="text" style="width:100px" ></div>
+                                                            <div class="modelProperty" style="display:none"><input value="<?php if (isset($component['modelProperty'])) echo $component['modelProperty']; ?>" name="URLcomponents[<?php echo $idc; ?>][modelProperty]" type="hidden"></div>
+                                                            <div class="val"><input value="<?php echo $component['val']; ?>" name="URLcomponents[<?php echo $idc; ?>][val]" type="text" style="width:100px"></div>
+                                                            <div class="del" style="text-align:center"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+                                                        </div>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                         <div class="paramstatique">
+                                                            <div class="text" colspan="3"><input type="text" class="cent" name="URLcomponents[<?php echo $idc ?>][text]" value="<?php echo $component['text'] ?>"></div>
+                                                            <div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text', FALSE); ?></div>
+                                                            <div class="del"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                               }
+                                            }
+                                            ?>
+                                    </div>
+                                    </div>
+                                    <div style="clear: both;padding-top: 15px;"><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
                                     <div id="schema_sql" class="choicebuilder" style="width: 175px;">
                                         <div class="choicetitle"><?php echo t('A SQL property', False); ?> :</div>
                                         <?php
@@ -253,9 +316,9 @@
                                         ?>
                                         <div class="clearboth"></div>
                                     </div>
-                                    <div class="choicebuilder" style="width: 284px;border-left:1px solid #ccc;border-right:1px solid #ccc;">
+                                    <div class="choicebuilder">
                                         <div class="choicetitle"><?php echo t('A regex parameter', False); ?> :</div>
-                                        <input type="text" style="width:70px" id="paramname">
+                                        <input type="text" style="width: 120px;margin-right: 10px;" id="paramname">
                                         <select id="paramregex"><option value="(.*)"></span><?php echo t('Text', False); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric', False); ?></option></select>
                                         <input type="button" id="addparam" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
@@ -263,64 +326,8 @@
                                         <div class="choicetitle"><?php echo t('A simple textual parameter :', False); ?></div>
                                         <input type="button" id="addtextcomposant" value="<?php echo t('Add Text Component', False); ?>">
                                     </div>
-                                    <?php
-                                    $components = $page->getURLcomponents();
-                                    ?>
-                                    <table class="showcomponent <?php
-                                if (empty($components))
-                                    echo 'none';
-                                ?>">
-                                        <thead>
-                                            <tr>
-                                                <th><?php echo t('Component', FALSE); ?></th>
-                                                <th><?php echo t('Name', FALSE); ?></th>
-                                                <th><?php echo t('Regex', FALSE); ?></th>
-                                                <th><?php echo t('Default Value', FALSE); ?></th>
-                                                <th><span class="ui-icon ui-icon-closethick"></span></a></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="abc" class="none paramdyn">
-                                                <td class="type"><?php echo t('Regex', FALSE); ?></td>
-                                                <td class="parsiname"><input type="text" style="width:100px"></td>
-                                                <td class="regex"><input type="text" style="width:100px"></td>
-                                                <td class="modelProperty" style="display:none"><input type="hidden"></td>
-                                                <td class="val"><input type="text" style="width:100px"></td>
-                                                <td><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></td>
-                                            </tr>
-                                            <tr id="abcd" class="none paramstatique">
-                                                <td class="type"><?php echo t('Text', FALSE); ?></td>
-                                                <td class="text" colspan="3"><input type="text" style="width:400px"></td>
-                                                <td><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();return false;"><span class="ui-icon ui-icon-closethick"></span></a></td>
-                                            </tr>
-                                            <?php
-                                            if (!empty($components)) {
-                                                foreach ($page->getURLcomponents() AS $idc => $component) {
-                                                    if (isset($component['regex'])) {
-                                                        ?>
-                                                        <tr class="paramdyn">
-                                                            <td class="type"><?php echo t('Regex', FALSE); ?></td>
-                                                            <td class="parsiname"><input value="<?php echo $component['name']; ?>" name="URLcomponents[<?php echo $idc; ?>][name]" style="width:100px" type="text" ></td>
-                                                            <td class="regex"><input value="<?php echo $component['regex']; ?>" name="URLcomponents[<?php echo $idc; ?>][regex]" type="text" style="width:100px" ></td>
-                                                            <td class="modelProperty" style="display:none"><input value="<?php if (isset($component['modelProperty'])) echo $component['modelProperty']; ?>" name="URLcomponents[<?php echo $idc; ?>][modelProperty]" type="hidden"></td>
-                                                            <td class="val"><input value="<?php echo $component['val']; ?>" name="URLcomponents[<?php echo $idc; ?>][val]" type="text" style="width:100px"></td>
-                                                            <td style="text-align:center"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></td>
-                                                        </tr>
-                                                        <?php
-                                                    } else {
-                                                        ?>
-                                                        <tr class="paramstatique">
-                                                            <td class="type"><?php echo t('Text', FALSE); ?></td>
-                                                            <td class="text" colspan="3"><input type="text" class="cent" name="URLcomponents[<?php echo $idc ?>][text]" value="<?php echo $component['text'] ?>"></td>
-                                                            <td><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></td>
-                                                        </tr>
-                                                        <?php
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
+                                    
+                                    
                                 </fieldset>
                                 <div class="none"><a href="#" onClick="$('input[name=\'regex\']');return false;"><?php echo t('Dynamise your page with numbers', FALSE); ?></a> <a href="#" onClick="$(this).next().slideToggle();return false;"><?php echo t('Dynamise your page with String', FALSE); ?></a></div>
                                 <div class="clearboth"></div>
