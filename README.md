@@ -12,6 +12,11 @@ To install Parsimony, unzip the project on your server and let yourself be guide
 
 Learn Parsimony in 10 videos : [http://en.parsimony.mobi/learn-parsimony-in-10-videos](http://en.parsimony.mobi/learn-parsimony-in-10-videos)
 
+##License
+
+Parsimony is distributed under Open Software License 3.0. The permitted uses are enacted in the Open Software License 3.0.
+For further informations, see [http://parsimony.mobi/download](http://parsimony.mobi/download).
+
 ## Administration
 
 To access the administration of Parsimony, go to your sitename + /connect (e.g. http://yoursite.tld/connect)
@@ -44,5 +49,6 @@ With Parsimony, the search engines will no more punish you to have a slow loadin
 * **Your applications on the fly**: 
 Modify the content and the style in live, front and drag drop !
 No more wireframes ! Create your site (design & features) directly in the browser & Make attractive HTML5/CSS3 applications.
+
 
 
