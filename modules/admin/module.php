@@ -107,7 +107,7 @@ class admin extends \module {
 		    return TRUE;
 	    }
 	    /*if (is_file('modules/' . $module . '/views/desktop/' . $id . '.php'))
-		return TRUE;echo 'coucou';exit;*/
+		return TRUE;*/
             if (is_file(PROFILE_PATH . $module . '/views/'.$themetype.'/' . $id . '.php'))
 		return TRUE;
 	}
@@ -937,7 +937,9 @@ class admin extends \module {
 	$obj = $maview;
 	ob_start();
         $sql = $obj->getSQL();
-        echo '<div id="generatedsql">'.$sql['query'].'</div>';
+        $search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
+        $replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
+        echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
 	require('modules/admin/views/desktop/datagrid.php');
 	return ob_get_clean();
     }

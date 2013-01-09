@@ -61,8 +61,8 @@ include_once('modules/core/classes/field.php');
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #container_bdd{margin:0;padding:0;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
-    ._jsPlumb_endpoint{z-index: 50}
-    /*._jsPlumb_connector{z-index: 1}*/
+    ._jsPlumb_endpoint{cursor: pointer;z-index: 50}
+    ._jsPlumb_connector{cursor: pointer;}
     #field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
     #field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: rgb(247, 247, 247);background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
     #field_list .myfield:hover{background-color: #CBD8E8;}
@@ -70,7 +70,7 @@ include_once('modules/core/classes/field.php');
     #field_list .myfield:hover span{display:block}
     #update_table{display: none;font-size: 12px;}
     #update_field > div{font-size: 14px;display: none;}
-    .table {z-index:60; float: left; margin: 10px;border:1px solid gray;position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
+    .table {z-index:60;border:1px solid gray;position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
 font-size:15px;background-color:white;font-weight:bold;border-radius: 5px;box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
 background: linear-gradient(#FFFFFF, #ddd);}
     .table:hover{box-shadow: 0px 0px 9px #777;}
@@ -802,507 +802,507 @@ background: linear-gradient(#FFFFFF, #ddd);}
         </div>
     </div>
     <span id="deletator" class="ui-icon ui-icon-closethick"></span>
-    <script>
-        function enc(str){
-            return str.toString().replace('"','\\"');
-        }
-        $(document).on("change",'.visibilityform input[type="checkbox"]',function(e){
-            var nb = 0;
-            var parent = $(this).parent();
-            $('input:checked',parent).each(function(){
-                nb += parseInt($(this).val());
-            });
-            $('input[name="visibility"]',parent).val(nb);
+</div>
+<script>
+    function enc(str){
+        return str.toString().replace('"','\\"');
+    }
+    $(document).on("change",'.visibilityform input[type="checkbox"]',function(e){
+        var nb = 0;
+        var parent = $(this).parent();
+        $('input:checked',parent).each(function(){
+            nb += parseInt($(this).val());
         });
+        $('input[name="visibility"]',parent).val(nb);
+    });
 
-        var dbadmin = {
-            marqueur : false,
-            endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
-                paintStyle:{ fillStyle:'#346db5'},
-                isSource:true,
-                reattach:true,
-                maxConnections:100,
-                connector:[ "Bezier", (200) ],
-                dragAllowedWhenFull:true,
-                connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
-                isTarget:false },
-            endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
-                paintStyle:{ fillStyle: "transparent" },
-                dropOptions : { activeClass:'dragActive' } ,
-                isSource:false,
-                reattach:true,
-                maxConnections:100,
-                dragAllowedWhenFull:true, 
-                isTarget:true },
-            endpointOptions3 : {endpoint:[ "Dot", { radius:8 } ],
-                paintStyle:{ fillStyle:'#b634af'},
-                isSource:false,
-                connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
-                isTarget:false },
-            buildLink : function(sourceModule, source, targetModule, target){
-                //var objSource = $("#table_" + source);
-                var objTarget = $("#table_" + target);
-                var champ = $("#field_list div[type_class='field_foreignkey']").clone();    
-                var predictedname = "id_" + source;
-                var n = 0;
-                while($('#table_'+ target + '_'+predictedname).length){            
-                    n++;
-                    if(n>1){
-                        predictedname = predictedname.substring(0,predictedname.length-2)+'_'+n;  
-                    }else{
-                        predictedname += '_'+n;
-                    }           
-                }
-                var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_foreignkey']").data("attributs")));
-                jsonproperties.name = predictedname;
-                jsonproperties.label = predictedname;
-                jsonproperties.moduleLink = sourceModule;
-                jsonproperties.link = source;
-                var fieldString = $("#table_" + source + ' .property[type_class="field_string"]:first');
-                if(fieldString.length > 0) jsonproperties.templatelink = '%' + fieldString.text() + '%';
-                else jsonproperties.templatelink = '%id_' + source + '%';
-                jsonproperties.entity = target;
-                champ.removeAttr('class').data("attributs",jsonproperties).text(predictedname);
-                champ.attr("name",source);
-                champ.attr("id",'table_' + target + '_' + predictedname).addClass("property");
-                champ.appendTo(objTarget).show();
-                dbadmin.reDraw();
-            },
-            createTable : function(tablename){
-                if(tablename.length>0){
-                    var keywordsReserveds = ',include,require,include_once,require_once,for,foreach,as,if,elseif,else,while,do,endwhile,endif,switch,case,endswitch,endfor,endforeach,return,break,continue,self,static,parent,a,abort,abs,absolute,access,action,ada,add,admin,after,aggregate,alias,all,allocate,also,alter,always,analyse,analyze,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,audit,authorization,auto_increment,avg,avg_row_length,backup,backward,before,begin,bernoulli,between,bigint,binary,bit,bit_length,bitvar,blob,bool,boolean,both,breadth,break,browse,bulk,by,c,cache,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,change,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,checkpoint,checksum,class,class_origin,clob,close,cluster,clustered,coalesce,cobol,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,columns,command_function,command_function_code,comment,commit,committed,completion,compress,compute,condition,condition_number,connect,connection,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructor,contains,containstable,continue,conversion,convert,copy,corr,corresponding,count,covar_pop,covar_samp,create,createdb,createrole,createuser,cross,csv,cube,cume_dist,current,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,database,databases,date,datetime,datetime_interval_code,datetime_interval_precision,day,day_hour,day_microsecond,day_minute,day_second,dayofmonth,dayofweek,dayofyear,dbcc,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delay_key_write,delayed,delete,delimiter,delimiters,dense_rank,deny,depth,deref,derived,desc,describe,descriptor,destroy,destructor,deterministic,diagnostics,dictionary,disable,disconnect,disk,dispatch,distinct,distinctrow,distributed,div,do,domain,double,drop,dual,dummy,dump,dynamic,dynamic_function,dynamic_function_code,each,element,else,elseif,enable,enclosed,encoding,encrypted,end,end-exec,enum,equals,errlvl,escape,escaped,every,except,exception,exclude,excluding,exclusive,exec,execute,existing,exists,exit,exp,explain,external,extract,false,fetch,fields,file,fillfactor,filter,final,first,float,float4,float8,floor,flush,following,for,force,foreign,fortran,forward,found,free,freetext,freetexttable,freeze,from,full,fulltext,function,fusion,g,general,generated,get,global,go,goto,grant,granted,grants,greatest,group,grouping,handler,having,header,heap,hierarchy,high_priority,hold,holdlock,host,hosts,hour,hour_microsecond,hour_minute,hour_second,identified,identity,identity_insert,identitycol,if,ignore,ilike,immediate,immutable,implementation,implicit,in,include,including,increment,index,indicator,infile,infix,inherit,inherits,initial,initialize,initially,inner,inout,input,insensitive,insert,insert_id,instance,instantiable,instead,int,int1,int2,int3,int4,int8,integer,intersect,intersection,interval,into,invoker,is,isam,isnull,isolation,iterate,join,k,key,key_member,key_type,keys,kill,lancompiler,language,large,last,last_insert_id,lateral,leading,least,leave,left,length,less,level,like,limit,lineno,lines,listen,ln,load,local,localtime,localtimestamp,location,locator,lock,login,logs,long,longblob,longtext,loop,low_priority,lower,m,map,match,matched,max,max_rows,maxextents,maxvalue,mediumblob,mediumint,mediumtext,member,merge,message_length,message_octet_length,message_text,method,middleint,min,min_rows,minus,minute,minute_microsecond,minute_second,minvalue,mlslabel,mod,mode,modifies,modify,module,month,monthname,more,move,multiset,mumps,myisam,name,names,national,natural,nchar,nclob,nesting,new,next,no,no_write_to_binlog,noaudit,nocheck,nocompress,nocreatedb,nocreaterole,nocreateuser,noinherit,nologin,nonclustered,none,normalize,normalized,nosuperuser,not,nothing,notify,notnull,nowait,null,nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,off,offline,offset,offsets,oids,old,on,online,only,open,opendatasource,openquery,openrowset,openxml,operation,operator,optimize,option,optionally,options,or,order,ordering,ordinality,others,out,outer,outfile,output,over,overlaps,overlay,overriding,owner,pack_keys,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,parameters,partial,partition,pascal,password,path,pctfree,percent,percent_rank,percentile_cont,percentile_disc,placing,plan,pli,position,postfix,power,preceding,precision,prefix,preorder,prepare,prepared,preserve,primary,print,prior,privileges,proc,procedural,procedure,process,processlist,public,purge,quote,raid0,raiserror,range,rank,raw,read,reads,readtext,real,recheck,reconfigure,recursive,ref,references,referencing,regexp,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,reindex,relative,release,reload,rename,repeat,repeatable,replace,replication,require,reset,resignal,resource,restart,restore,restrict,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,rlike,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rowcount,rowguidcol,rowid,rownum,rows,rule,save,savepoint,scale,schema,schema_name,schemas,scope,scope_catalog,scope_name,scope_schema,scroll,search,second,second_microsecond,section,security,select,self,sensitive,separator,sequence,serializable,server_name,session,session_user,set,setof,sets,setuser,share,show,shutdown,signal,similar,simple,size,smallint,some,soname,source,space,spatial,specific,specific_name,specifictype,sql,sql_big_result,sql_big_selects,sql_big_tables,sql_calc_found_rows,sql_log_off,sql_log_update,sql_low_priority_updates,sql_select_limit,sql_small_result,sql_warnings,sqlca,sqlcode,sqlerror,sqlexception,sqlstate,sqlwarning,sqrt,ssl,stable,start,starting,state,statement,static,statistics,status,stddev_pop,stddev_samp,stdin,stdout,storage,straight_join,strict,string,structure,style,subclass_origin,sublist,submultiset,substring,successful,sum,superuser,symmetric,synonym,sysdate,sysid,system,system_user,table,table_name,tables,tablesample,tablespace,temp,template,temporary,terminate,terminated,text,textsize,than,then,ties,time,timestamp,timezone_hour,timezone_minute,tinyblob,tinyint,tinytext,to,toast,top,top_level_count,trailing,tran,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,truncate,trusted,tsequal,type,uescape,uid,unbounded,uncommitted,under,undo,unencrypted,union,unique,unknown,unlisten,unlock,unnamed,unnest,unsigned,until,update,updatetext,upper,usage,use,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,utc_date,utc_time,utc_timestamp,vacuum,valid,validate,validator,value,values,var_pop,var_samp,varbinary,varchar,varchar2,varcharacter,variable,variables,varying,verbose,view,volatile,waitfor,when,whenever,where,while,width_bucket,window,with,within,without,work,write,writetext,x509,xor,year,year_month,zerofill,zone,';
-                    if(keywordsReserveds.indexOf("," + tablename + ",") == -1){
-                        if(!$('#table_' + tablename).length){
-                            $("#container_bdd").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
-                            var monid_champ = "table_" + tablename +  "_id_" + tablename;
-                            var table_name = tablename;
-                            var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
-                            jsonproperties.entity = table_name;
-                            jsonproperties.name = "id_" + table_name;
-                            jsonproperties.label = "Id " + table_name;
-                            var champ = $('#table_' + tablename + ' div[type_class="field_ident"]');
-                            champ.attr("id",monid_champ).attr("type_class","field_ident").addClass("property new").text("id_" + table_name);
-                            champ.data("attributs",jsonproperties);
-                            dbadmin.reDraw();
-                        }else{
-                            ParsimonyAdmin.notify(t('The Entity') + ' ' +tablename + ' ' + t('already exists'),'negative');
-                        }
-                    }else{
-                        ParsimonyAdmin.notify(t('This word')+ ' '  + tablename + ' ' + t('belongs to a list of Reserved Words, Please Choose another'),'negative') + '.';
-                    }
+    var dbadmin = {
+        marqueur : false,
+        endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
+            paintStyle:{ fillStyle:'#346db5'},
+            isSource:true,
+            reattach:true,
+            maxConnections:100,
+            connector:[ "Bezier", (200) ],
+            dragAllowedWhenFull:true,
+            connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
+            isTarget:false },
+        endpointOptions2 : {endpoint:[ "Dot", { radius:12 } ],
+            paintStyle:{ fillStyle: "transparent" },
+            dropOptions : { activeClass:'dragActive' } ,
+            isSource:false,
+            reattach:true,
+            maxConnections:100,
+            dragAllowedWhenFull:true, 
+            isTarget:true },
+        endpointOptions3 : {endpoint:[ "Dot", { radius:8 } ],
+            paintStyle:{ fillStyle:'#b634af'},
+            isSource:false,
+            connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
+            isTarget:false },
+        buildLink : function(sourceModule, source, targetModule, target){
+            //var objSource = $("#table_" + source);
+            var objTarget = $("#table_" + target);
+            var champ = $("#field_list div[type_class='field_foreignkey']").clone();    
+            var predictedname = "id_" + source;
+            var n = 0;
+            while($('#table_'+ target + '_'+predictedname).length){            
+                n++;
+                if(n>1){
+                    predictedname = predictedname.substring(0,predictedname.length-2)+'_'+n;  
                 }else{
-                    ParsimonyAdmin.notify(t('Enter a Name of Entity'),'negative');
-                }
-            },
-            init :   function(){
-                /* Tooltip */
-                $(".tooltip").parsimonyTooltip({triangleWidth:5});
-                /* Fracs preview */
-                $("#outline").fracs("outline", {
-                    crop: true,
-                    styles: [{
-                            selector: ".table",
-                            strokeWidth: "auto",
-                            strokeStyle: "auto",
-                            fillStyle: "#2E63A5"
-                        },{
-                            selector: ".current_update_table",
-                            strokeWidth: "auto",
-                            strokeStyle: "auto",
-                            fillStyle: "red"
-                        }],
-                    viewportStyle:{fillStyle:"rgba(104,169,255,0.2)"},
-                    viewportDragStyle:{fillStyle:"rgba(104,169,255,0.5)"}
-                });
-		
-		$(window).bind("beforeunload",function(event) {
-		    if($("#save").hasClass("haveToSave")) return t("You have unsaved changes");
-		});
-		
-                /* JsPlumb */
-                jsPlumb.importDefaults({     
-                    Container : $("body"),
-                    DragOptions : { zIndex:2000 }
-                });
-                
-                /* Save field settings */
-                $("#update_field").on('click','.save_field',function(){
-                    if($('#update_' + current_update_field.attr('type_class') + ' input[name="name"]').val() != $('#update_' + current_update_field.attr('type_class') + ' input[name="oldName"]').val()){
-                        if(!confirm(('Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.'))){
-                            return false;
-                        }
-                    }
-                    var json = '{';
-                    $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
-                        json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
-                    });
-                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
-                    if(current_update_field.hasClass("new")) obj.oldName = obj.name;
-                    current_update_field.data("attributs",obj);
-                    $("#deletator").prependTo($("body"));
-                    current_update_field.text(obj.name);
-                    $(this).parent().hide('slow');
-		    $("#save").addClass("haveToSave");
-                });
-                
-                /* Save table Settings */
-                $("#update_table").on('click','.save_table',function(){
-                    var oldName = $('#update_table input[name="oldName"]').val();
-                    var newName = $('#update_table input[name="name"]').val();
-                    if(newName != oldName){
-                        if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
-                            return false;
-                        }
-                        /* we change the entity name of all his properties */
-                        $(".property", current_update_table).each(function(){
-                            var attrs = $(this).data("attributs");
-                            attrs.entity = newName;
-                            $(this).data("attributs",attrs);
-                        });
-                         /* we change the link entity name for all foreign keys that link to this table */
-                        $('.property[type_class="field_foreignkey"]').each(function(){
-                            var attrs = $(this).data("attributs");
-                            if(attrs.link == oldName)
-                                attrs.link = newName;
-                            $(this).data("attributs",attrs);
-                        });
-                    }
-                    var json = '{';
-                    $("#update_table input[name],#update_table select[name]").each(function(){
-                        json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
-                    });
-                    var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
-                    if(current_update_table.hasClass("new")) obj.oldName = obj.name;
-                    current_update_table.data("attributs",obj);
-                    $("#deletator").prependTo($("body"));
-                    current_update_table.find(".title").text(obj.name);
-                    $(this).parent().parent().hide('slow');
-                    $("#save").addClass("haveToSave");
-                }); 
-                
-                /* Open Table Settings */
-                $('#container_bdd').on('click','.title',function(){
-                    $('#update_field > div').hide();
-                    $('#update_table').show();
-                })
-		
-                /* Delete Table */
-                .on('click','#deletator',function(){
-                    obj = $(this).parent();
-                    if(obj.hasClass('table')){
-                        if(confirm(t('Are you sure to delete this entity ?'))){
-                            $(this).appendTo($('body'));
-                            $('#container_bdd div[type_class="field_foreignkey"]').each(function(index){
-                                var name = $(".title",obj).text();
-                                if($(this).text()=='id_' + name) $(this).remove();
-                            });
-                            obj.remove();
-                            dbadmin.reDraw();
-                        }
-                    }else if(obj.hasClass('property')){
-                        if(confirm(t('Are you sure to delete this property ?'))){
-                            $(this).appendTo($('body'));
-                            jsPlumb.removeAllEndpoints(obj.attr('id'));
-                            obj.remove();
-                        }
-                    }
-		    $("#save").addClass("haveToSave");
-                })
-		
-                /* Show delete buttons on fields */
-                .on('mouseover mouseout','.property',function(event) {
-                    event.stopPropagation();
-		    var deletator = document.getElementById("deletator");
-                    if (event.type == 'mouseover') {
-                        if(this.getAttribute('type_class') != 'field_ident'){
-			    deletator.style.display = "block";
-			    this.insertBefore( deletator, this.firstChild);
-			}
-                    } else {
-			deletator.style.display = "none";
-                    }
-                })
-		
-                /* Show delete buttons on tables */
-                .on('mouseover mouseout','.table',function(event) {
-		    var deletator = document.getElementById("deletator");
-                    if (event.type == 'mouseover') {
-                        deletator.style.display = "block";
-			this.insertBefore( deletator, this.firstChild);
-                    } else {
-                        document.getElementById("deletator").style.display = "none";
-                    }
-                });
-                
-		var current_update_field;
-                var current_update_table;
-		
-		/* Shortcut : Save on CTRL+S */
-		document.addEventListener("keydown", function(e) {
-		    if (e.keyCode == 83 && e.ctrlKey) {
-		      e.preventDefault();
-		      $("#save").trigger("click");
-		    }
-		}, false);
-                
-                $(document).on('click','.conf_box_close',function(){
-                    $(this).closest(".popup").hide();
-                    $('#conf_box_overlay').hide();
-                })
-                .on('click','.closeformpreview',function(){
-                    $(this).parent().parent().hide();
-                })
-                .on('mousedown','._jsPlumb_endpoint',function(){
-                    document.getElementById("update_field").style.display = "none";
-                    document.getElementById("update_table").style.display = "none";
-                })
-                /* Filter Table Name */
-                .on('keyup',"#table_name",function(){
-                    $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
-                })
-                /* Open and load field Settings */
-                .on('click',".table .property",function(){ 
-                    $('#update_field').show();
-                    $('#update_table').hide();
-                    current_update_field = $(this);
-                    $(".current_property").removeClass("current_property");
-                    current_update_field.addClass("current_property");
-                    $.each($(this).data("attributs"), function(i,item){
-                        var parent = $('#update_'+ current_update_field.attr('type_class'));
-                        if(item === false) item = 0;
-                        $('[name=' + i + ']',parent).val(item);
-                        if(i == 'visibility'){
-                            if(item & 1) $('input[data-form="form-display"]',parent).attr('checked','checked');
-                            else $('input[data-form="form-display"]',parent).removeAttr('checked');
-                            if(item & 2) $('input[data-form="form-add"]',parent).attr('checked','checked');
-                            else $('input[data-form="form-add"]',parent).removeAttr('checked');
-                            if(item & 4) $('input[data-form="form-update"]',parent).attr('checked','checked');
-                            else $('input[data-form="form-update"]',parent).removeAttr('checked');
-                        }
-                    });
-                    $('#update_field > div').hide();
-                    $('#update_'+ current_update_field.attr('type_class')).show();          
-                })
-
-                
-                /* Open and load table Settings */
-                .on('click',".table",function(){ 
-                    current_update_table = $(this);         
-                    $(".current_update_table").removeClass("current_update_table");
-                    current_update_table.addClass("current_update_table");
-                    $.each($(this).data("attributs"), function(i,item){
-                        $('#update_table input[name=' + i + ']').val(item);
-                    });
-                    $("#outline").fracs('outline', 'redraw');
-                })
-                /* Save all models */
-                .on('click','#save',function(){
-                    var propertylist = '[' ;
-                    $(".table").each(function(){
-                        var recupId = $(".title",this).text();
-                        var tableAttrs = $(this).data("attributs");
-                        propertylist += '{"name": "' + enc(recupId) + '","oldName": "' + enc(tableAttrs.oldName) + '","title":"' + enc(tableAttrs.title) + '","behaviorTitle":"' + enc(tableAttrs.behaviorTitle) + '","behaviorDescription":"' + enc(tableAttrs.behaviorDescription) + '","behaviorKeywords":"' + enc(tableAttrs.behaviorKeywords) + '","behaviorImage":"' + enc(tableAttrs.behaviorImage) + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
-                        $(".property",$(this)).each(function(){
-                            var jsonproperties = $(this).data("attributs");
-                            propertylist += '"' + enc(jsonproperties.name) + ':' + $(this).attr("type_class") + '" :' + JSON.stringify(jsonproperties) +' ,';
-                        });
-                        propertylist = propertylist.substring(0, propertylist.length-1) + '}},';
-                    });
-                    propertylist = propertylist.substring(0, propertylist.length-1) + ']';
-                    $.post('saveModel', {  module : '<?php echo $_POST['module'] ?>', list : propertylist },function(data){
-                        ParsimonyAdmin.notify(t('New Data Model has been Saved') + data,"positive");
-                        $(".new").removeClass("new");
-                    });
-		    $("#save").removeClass("haveToSave");
-                })
-                /* Choose behavior of the link */
-                .on('click','#popup input',function(){
-                    var source1 = $("#" + $(this).data('sourceid'));
-                    var target1 = $("#" + $(this).data('targetid'));
-                    var entitySource = source1.parent().find('.title').text();
-                    var entityTarget = $('.title',target1).text();
-                    var module = $("#currentModule").val();
-                    if(this.id=='button3'){
-                        var t = entitySource +'_'+entityTarget;
-                        dbadmin.createTable(t);
-                        dbadmin.buildLink(module,entitySource,module,t);
-                        dbadmin.buildLink(module,entityTarget,module,t);
-                    }else{
-                        if(this.id=='button2'){
-                            source = source1;
-                            target = target1;
-                        }else{
-                            source = target1.find("div[type_class='field_ident']");
-                            target = source1.parent();
-                        }
-                        var entitySource = source.parent().find('.title').text();
-                        var entityTarget = $('.title',target).text();
-                        dbadmin.buildLink(module,entitySource,module,entityTarget);
-                    }
-                    $("#popup,#conf_box_overlay").hide();
-                    $("#save").addClass("haveToSave");
-                    dbadmin.reDraw();
-                })
-                /* Choose behavior of the link */
-                .on('click','#btnLinkToExternal',function(){
-                    if($("#linkToExternal").val()){
-                        var module = $("#currentModule").val();
-                        var source1 = $("#" + $(this).data('sourceid'));
-                        var entitySource = source1.parent().find('.title').text();
-                        var ref = $("#linkToExternal").val().toString().split(" - ");
-                        dbadmin.buildLink(ref[0], ref[1], module,entitySource);
-                        $(this).closest(".popup").hide();
-                        $('#conf_box_overlay').hide();
-                        $("#save").addClass("haveToSave");
+                    predictedname += '_'+n;
+                }           
+            }
+            var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_foreignkey']").data("attributs")));
+            jsonproperties.name = predictedname;
+            jsonproperties.label = predictedname;
+            jsonproperties.moduleLink = sourceModule;
+            jsonproperties.link = source;
+            var fieldString = $("#table_" + source + ' .property[type_class="field_string"]:first');
+            if(fieldString.length > 0) jsonproperties.templatelink = '%' + fieldString.text() + '%';
+            else jsonproperties.templatelink = '%id_' + source + '%';
+            jsonproperties.entity = target;
+            champ.removeAttr('class').data("attributs",jsonproperties).text(predictedname);
+            champ.attr("name",source);
+            champ.attr("id",'table_' + target + '_' + predictedname).addClass("property");
+            champ.appendTo(objTarget).show();
+            dbadmin.reDraw();
+        },
+        createTable : function(tablename){
+            if(tablename.length>0){
+                var keywordsReserveds = ',include,require,include_once,require_once,for,foreach,as,if,elseif,else,while,do,endwhile,endif,switch,case,endswitch,endfor,endforeach,return,break,continue,self,static,parent,a,abort,abs,absolute,access,action,ada,add,admin,after,aggregate,alias,all,allocate,also,alter,always,analyse,analyze,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,audit,authorization,auto_increment,avg,avg_row_length,backup,backward,before,begin,bernoulli,between,bigint,binary,bit,bit_length,bitvar,blob,bool,boolean,both,breadth,break,browse,bulk,by,c,cache,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,change,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,checkpoint,checksum,class,class_origin,clob,close,cluster,clustered,coalesce,cobol,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,columns,command_function,command_function_code,comment,commit,committed,completion,compress,compute,condition,condition_number,connect,connection,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructor,contains,containstable,continue,conversion,convert,copy,corr,corresponding,count,covar_pop,covar_samp,create,createdb,createrole,createuser,cross,csv,cube,cume_dist,current,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,database,databases,date,datetime,datetime_interval_code,datetime_interval_precision,day,day_hour,day_microsecond,day_minute,day_second,dayofmonth,dayofweek,dayofyear,dbcc,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delay_key_write,delayed,delete,delimiter,delimiters,dense_rank,deny,depth,deref,derived,desc,describe,descriptor,destroy,destructor,deterministic,diagnostics,dictionary,disable,disconnect,disk,dispatch,distinct,distinctrow,distributed,div,do,domain,double,drop,dual,dummy,dump,dynamic,dynamic_function,dynamic_function_code,each,element,else,elseif,enable,enclosed,encoding,encrypted,end,end-exec,enum,equals,errlvl,escape,escaped,every,except,exception,exclude,excluding,exclusive,exec,execute,existing,exists,exit,exp,explain,external,extract,false,fetch,fields,file,fillfactor,filter,final,first,float,float4,float8,floor,flush,following,for,force,foreign,fortran,forward,found,free,freetext,freetexttable,freeze,from,full,fulltext,function,fusion,g,general,generated,get,global,go,goto,grant,granted,grants,greatest,group,grouping,handler,having,header,heap,hierarchy,high_priority,hold,holdlock,host,hosts,hour,hour_microsecond,hour_minute,hour_second,identified,identity,identity_insert,identitycol,if,ignore,ilike,immediate,immutable,implementation,implicit,in,include,including,increment,index,indicator,infile,infix,inherit,inherits,initial,initialize,initially,inner,inout,input,insensitive,insert,insert_id,instance,instantiable,instead,int,int1,int2,int3,int4,int8,integer,intersect,intersection,interval,into,invoker,is,isam,isnull,isolation,iterate,join,k,key,key_member,key_type,keys,kill,lancompiler,language,large,last,last_insert_id,lateral,leading,least,leave,left,length,less,level,like,limit,lineno,lines,listen,ln,load,local,localtime,localtimestamp,location,locator,lock,login,logs,long,longblob,longtext,loop,low_priority,lower,m,map,match,matched,max,max_rows,maxextents,maxvalue,mediumblob,mediumint,mediumtext,member,merge,message_length,message_octet_length,message_text,method,middleint,min,min_rows,minus,minute,minute_microsecond,minute_second,minvalue,mlslabel,mod,mode,modifies,modify,module,month,monthname,more,move,multiset,mumps,myisam,name,names,national,natural,nchar,nclob,nesting,new,next,no,no_write_to_binlog,noaudit,nocheck,nocompress,nocreatedb,nocreaterole,nocreateuser,noinherit,nologin,nonclustered,none,normalize,normalized,nosuperuser,not,nothing,notify,notnull,nowait,null,nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,off,offline,offset,offsets,oids,old,on,online,only,open,opendatasource,openquery,openrowset,openxml,operation,operator,optimize,option,optionally,options,or,order,ordering,ordinality,others,out,outer,outfile,output,over,overlaps,overlay,overriding,owner,pack_keys,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,parameters,partial,partition,pascal,password,path,pctfree,percent,percent_rank,percentile_cont,percentile_disc,placing,plan,pli,position,postfix,power,preceding,precision,prefix,preorder,prepare,prepared,preserve,primary,print,prior,privileges,proc,procedural,procedure,process,processlist,public,purge,quote,raid0,raiserror,range,rank,raw,read,reads,readtext,real,recheck,reconfigure,recursive,ref,references,referencing,regexp,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,reindex,relative,release,reload,rename,repeat,repeatable,replace,replication,require,reset,resignal,resource,restart,restore,restrict,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,rlike,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rowcount,rowguidcol,rowid,rownum,rows,rule,save,savepoint,scale,schema,schema_name,schemas,scope,scope_catalog,scope_name,scope_schema,scroll,search,second,second_microsecond,section,security,select,self,sensitive,separator,sequence,serializable,server_name,session,session_user,set,setof,sets,setuser,share,show,shutdown,signal,similar,simple,size,smallint,some,soname,source,space,spatial,specific,specific_name,specifictype,sql,sql_big_result,sql_big_selects,sql_big_tables,sql_calc_found_rows,sql_log_off,sql_log_update,sql_low_priority_updates,sql_select_limit,sql_small_result,sql_warnings,sqlca,sqlcode,sqlerror,sqlexception,sqlstate,sqlwarning,sqrt,ssl,stable,start,starting,state,statement,static,statistics,status,stddev_pop,stddev_samp,stdin,stdout,storage,straight_join,strict,string,structure,style,subclass_origin,sublist,submultiset,substring,successful,sum,superuser,symmetric,synonym,sysdate,sysid,system,system_user,table,table_name,tables,tablesample,tablespace,temp,template,temporary,terminate,terminated,text,textsize,than,then,ties,time,timestamp,timezone_hour,timezone_minute,tinyblob,tinyint,tinytext,to,toast,top,top_level_count,trailing,tran,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,truncate,trusted,tsequal,type,uescape,uid,unbounded,uncommitted,under,undo,unencrypted,union,unique,unknown,unlisten,unlock,unnamed,unnest,unsigned,until,update,updatetext,upper,usage,use,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,utc_date,utc_time,utc_timestamp,vacuum,valid,validate,validator,value,values,var_pop,var_samp,varbinary,varchar,varchar2,varcharacter,variable,variables,varying,verbose,view,volatile,waitfor,when,whenever,where,while,width_bucket,window,with,within,without,work,write,writetext,x509,xor,year,year_month,zerofill,zone,';
+                if(keywordsReserveds.indexOf("," + tablename + ",") == -1){
+                    if(!$('#table_' + tablename).length){
+                        $("#container_bdd").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
+                        var monid_champ = "table_" + tablename +  "_id_" + tablename;
+                        var table_name = tablename;
+                        var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
+                        jsonproperties.entity = table_name;
+                        jsonproperties.name = "id_" + table_name;
+                        jsonproperties.label = "Id " + table_name;
+                        var champ = $('#table_' + tablename + ' div[type_class="field_ident"]');
+                        champ.attr("id",monid_champ).attr("type_class","field_ident").addClass("property new").text("id_" + table_name);
+                        champ.data("attributs",jsonproperties);
                         dbadmin.reDraw();
                     }else{
-                        alert(t("Please choose the linked table"));
+                        ParsimonyAdmin.notify(t('The Entity') + ' ' +tablename + ' ' + t('already exists'),'negative');
                     }
-                    
-                })
-                /* Filter Table Name */
-                .on('keyup',"#table_name",function(){
-                    this.value = this.value.toLowerCase().replace(/[^a-z_]+/g,"");
-                });
-		
-                /* Sort properties */
-                $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
-                $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
-		
-                /* Add a Table */
-                $("#toolbar").on('submit','#add_table',function(e){  
-                    e.preventDefault();
-                    dbadmin.createTable($("#table_name").val());
-		    $("#save").addClass("haveToSave");
-                });
-                
-                dbadmin.reDraw();
-            },
-            //	    updateFormPreview :   function(){
-            //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
-            //		    $("#preview_form .content").html(data);                 
-            //		});
-            //	    },
-            createAnchor :   function(monid){
-                myEndpoint = jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions));
-                jsPlumb.setDraggable(monid, false);          
-            },
-            createAnchorForeignKey :   function(monid){
-                jsPlumb.addEndpoint(monid, $.extend({ anchor:["BottomRight","TopRight"], uuid:monid+"_uuid" }, dbadmin.endpointOptions2));
-            },
-            createAnchorNewForeignKey :   function(monid){
-                jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions3));
-                jsPlumb.setDraggable(monid, false);
-            },
-            reDraw :   function(){
-                jsPlumb.reset();
-		
-                /* Draw Anchor on fields ident */
-                $(".property").each(function(index) {
-                    if(this.getAttribute('type_class') == 'field_ident') dbadmin.createAnchor(this.id );
-                });
-
-                /* Draw Anchor on fields foreignKey */
-                $(".table").each(function(){
-                    dbadmin.createAnchorForeignKey(this.id);
-                });
-                
-                jsPlumb.makeTarget("extLink", {isTarget:true, paintStyle:{ fillStyle:"transparent"},dropOptions :  { activeClass:'dragActive2' } });
-                
-                /* Draw connectors between tables */
-                $("#container_bdd div[type_class='field_foreignkey']").not("#field_list div[type_class='field_foreignkey']").each(function(index) {
-                    var jsonproperties = $(this).data("attributs");
-                    dbadmin.createAnchorNewForeignKey(this.id);
-                    dbadmin.marqueur = true;
-                    if($("#table_" + jsonproperties.link).length > 0 ){
-                        jsPlumb.connect({ uuids:[this.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
-                            paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
-                            hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
-                            overlays: [
-                                [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
-                                [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
-                            ]
-                        });
-                    }
-                    dbadmin.marqueur = false;
-                });
-		
-		/* Allows to drag tables */
-		$(".table").draggable("destroy").draggable({
-		    cursor: 'move',
-		    handle : 'div.title',
-		    containment: '#container_bdd',drag: function(event, ui) {
-			jsPlumb.repaint( $(".property",this).add(this).toArray());
-			$("#outline").fracs('outline', 'redraw');
-		    }
-		    ,stop:function(){
-			jsPlumb.repaint( $(".property",this).add(this).toArray());
-		    }
-		});
-
-                /* Allows to drop fields in table */
-                $(".table").droppable("destroy").droppable({
-                    accept: '#field_list div',
-                    activeClass: 'ui-state-hover',
-                    hoverClass: 'ombre',
-                    drop: function(event, ui) {
-                        var champ = ui.draggable.clone();
-                        var nom_champ = prompt(t('Please enter a field name') + ' ?');
-                        if(nom_champ != null){
-                            nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
-                            if(nom_champ != ""){
-                                var champ = ui.draggable.clone();
-                                champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property new");
-                                jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
-                                jsonproperties.entity = $(this).find('.title').text();
-                                jsonproperties.name = nom_champ;
-                                jsonproperties.oldName = nom_champ;
-                                jsonproperties.label = nom_champ;
-                                champ.data("attributs",jsonproperties);
-                                champ.text(nom_champ);
-                                champ.appendTo(this);
-
-                                $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
-                                $("#save").addClass("haveToSave");
-                            }
-                        }
-                    }
-                });
-		
-                /* When a connector is linked */
-                jsPlumb.bind("jsPlumbConnection", function(event, originalEvent) {
-                    if(  !dbadmin.marqueur){
-                        jsPlumb.detach(event);
-                        if(event.targetId == "extLink"){
-                            jsPlumb.removeAllEndpoints("extLink");
-                            $("#popup2,#conf_box_overlay").show();
-                            $("#btnLinkToExternal").data('sourceid',event.sourceId);
-                            return true;
-                        }
-                        $("#popup input").data('sourceid',event.sourceId);
-                        $("#popup input").data('targetid',event.targetId);
-                        $("#popup .entity1").text(event.source.parent().find('.title').text());
-                        $("#popup .entity2").text(event.target.find('.title').text());
-                        if(event.source.parent().attr('id') == event.targetId){
-                            $('#button1').trigger('click');
-                        }else{
-                            $("#popup,#conf_box_overlay").show();
-                        }
-                    }
-                });
-		
-                /* When a connector is cliqued*/
-                jsPlumb.bind("click", function(connection, originalEvent) {
-                    if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
-                        jsPlumb.detach(connection);
-                        jsPlumb.removeAllEndpoints(connection.sourceId);
-                        $("#" + connection.sourceId).remove();
-                    }
-                });
+                }else{
+                    ParsimonyAdmin.notify(t('This word')+ ' '  + tablename + ' ' + t('belongs to a list of Reserved Words, Please Choose another'),'negative') + '.';
+                }
+            }else{
+                ParsimonyAdmin.notify(t('Enter a Name of Entity'),'negative');
             }
-        };
-        $(document).ready(function() {
-	    if($.browser.mozilla) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
-            dbadmin.init();
-        });
-    </script>
+        },
+        init :   function(){
+            /* Tooltip */
+            $(".tooltip").parsimonyTooltip({triangleWidth:5});
+            /* Fracs preview */
+            $("#outline").fracs("outline", {
+                crop: true,
+                styles: [{
+                        selector: ".table",
+                        strokeWidth: "auto",
+                        strokeStyle: "auto",
+                        fillStyle: "#2E63A5"
+                    },{
+                        selector: ".current_update_table",
+                        strokeWidth: "auto",
+                        strokeStyle: "auto",
+                        fillStyle: "red"
+                    }],
+                viewportStyle:{fillStyle:"rgba(104,169,255,0.2)"},
+                viewportDragStyle:{fillStyle:"rgba(104,169,255,0.5)"}
+            });
+
+            $(window).bind("beforeunload",function(event) {
+                if($("#save").hasClass("haveToSave")) return t("You have unsaved changes");
+            });
+
+            /* JsPlumb */
+            jsPlumb.importDefaults({     
+                Container : $("body"),
+                DragOptions : { zIndex:2000 }
+            });
+
+            /* Save field settings */
+            $("#update_field").on('click','.save_field',function(){
+                if($('#update_' + current_update_field.attr('type_class') + ' input[name="name"]').val() != $('#update_' + current_update_field.attr('type_class') + ' input[name="oldName"]').val()){
+                    if(!confirm(('Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.'))){
+                        return false;
+                    }
+                }
+                var json = '{';
+                $("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function(){
+                    json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"').replace(/\\/g,'\\\\') + '",';
+                });
+                var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
+                if(current_update_field.hasClass("new")) obj.oldName = obj.name;
+                current_update_field.data("attributs",obj);
+                $("#deletator").prependTo($("body"));
+                current_update_field.text(obj.name);
+                $(this).parent().hide('slow');
+                $("#save").addClass("haveToSave");
+            });
+
+            /* Save table Settings */
+            $("#update_table").on('click','.save_table',function(){
+                var oldName = $('#update_table input[name="oldName"]').val();
+                var newName = $('#update_table input[name="name"]').val();
+                if(newName != oldName){
+                    if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
+                        return false;
+                    }
+                    /* we change the entity name of all his properties */
+                    $(".property", current_update_table).each(function(){
+                        var attrs = $(this).data("attributs");
+                        attrs.entity = newName;
+                        $(this).data("attributs",attrs);
+                    });
+                     /* we change the link entity name for all foreign keys that link to this table */
+                    $('.property[type_class="field_foreignkey"]').each(function(){
+                        var attrs = $(this).data("attributs");
+                        if(attrs.link == oldName)
+                            attrs.link = newName;
+                        $(this).data("attributs",attrs);
+                    });
+                }
+                var json = '{';
+                $("#update_table input[name],#update_table select[name]").each(function(){
+                    json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
+                });
+                var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
+                if(current_update_table.hasClass("new")) obj.oldName = obj.name;
+                current_update_table.data("attributs",obj);
+                $("#deletator").prependTo($("body"));
+                current_update_table.find(".title").text(obj.name);
+                $(this).parent().parent().hide('slow');
+                $("#save").addClass("haveToSave");
+            }); 
+
+            /* Open Table Settings */
+            $('#container_bdd').on('click','.title',function(){
+                $('#update_field > div').hide();
+                $('#update_table').show();
+            })
+
+            /* Delete Table */
+            .on('click','#deletator',function(){
+                obj = $(this).parent();
+                if(obj.hasClass('table')){
+                    if(confirm(t('Are you sure to delete this entity ?'))){
+                        $(this).appendTo($('body'));
+                        $('#container_bdd div[type_class="field_foreignkey"]').each(function(index){
+                            var name = $(".title",obj).text();
+                            if($(this).text()=='id_' + name) $(this).remove();
+                        });
+                        obj.remove();
+                        dbadmin.reDraw();
+                    }
+                }else if(obj.hasClass('property')){
+                    if(confirm(t('Are you sure to delete this property ?'))){
+                        $(this).appendTo($('body'));
+                        jsPlumb.removeAllEndpoints(obj.attr('id'));
+                        obj.remove();
+                    }
+                }
+                $("#save").addClass("haveToSave");
+            })
+
+            /* Show delete buttons on fields */
+            .on('mouseover mouseout','.property',function(event) {
+                event.stopPropagation();
+                var deletator = document.getElementById("deletator");
+                if (event.type == 'mouseover') {
+                    if(this.getAttribute('type_class') != 'field_ident'){
+                        deletator.style.display = "block";
+                        this.insertBefore( deletator, this.firstChild);
+                    }
+                } else {
+                    deletator.style.display = "none";
+                }
+            })
+
+            /* Show delete buttons on tables */
+            .on('mouseover mouseout','.table',function(event) {
+                var deletator = document.getElementById("deletator");
+                if (event.type == 'mouseover') {
+                    deletator.style.display = "block";
+                    this.insertBefore( deletator, this.firstChild);
+                } else {
+                    document.getElementById("deletator").style.display = "none";
+                }
+            });
+
+            var current_update_field;
+            var current_update_table;
+
+            /* Shortcut : Save on CTRL+S */
+            document.addEventListener("keydown", function(e) {
+                if (e.keyCode == 83 && e.ctrlKey) {
+                  e.preventDefault();
+                  $("#save").trigger("click");
+                }
+            }, false);
+
+            $(document).on('click','.conf_box_close',function(){
+                $(this).closest(".popup").hide();
+                $('#conf_box_overlay').hide();
+            })
+            .on('click','.closeformpreview',function(){
+                $(this).parent().parent().hide();
+            })
+            .on('mousedown','._jsPlumb_endpoint',function(){
+                document.getElementById("update_field").style.display = "none";
+                document.getElementById("update_table").style.display = "none";
+            })
+            /* Filter Table Name */
+            .on('keyup',"#table_name",function(){
+                $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
+            })
+            /* Open and load field Settings */
+            .on('click',".table .property",function(){ 
+                $('#update_field').show();
+                $('#update_table').hide();
+                current_update_field = $(this);
+                $(".current_property").removeClass("current_property");
+                current_update_field.addClass("current_property");
+                $.each($(this).data("attributs"), function(i,item){
+                    var parent = $('#update_'+ current_update_field.attr('type_class'));
+                    if(item === false) item = 0;
+                    $('[name=' + i + ']',parent).val(item);
+                    if(i == 'visibility'){
+                        if(item & 1) $('input[data-form="form-display"]',parent).attr('checked','checked');
+                        else $('input[data-form="form-display"]',parent).removeAttr('checked');
+                        if(item & 2) $('input[data-form="form-add"]',parent).attr('checked','checked');
+                        else $('input[data-form="form-add"]',parent).removeAttr('checked');
+                        if(item & 4) $('input[data-form="form-update"]',parent).attr('checked','checked');
+                        else $('input[data-form="form-update"]',parent).removeAttr('checked');
+                    }
+                });
+                $('#update_field > div').hide();
+                $('#update_'+ current_update_field.attr('type_class')).show();          
+            })
+
+
+            /* Open and load table Settings */
+            .on('click',".table",function(){ 
+                current_update_table = $(this);         
+                $(".current_update_table").removeClass("current_update_table");
+                current_update_table.addClass("current_update_table");
+                $.each($(this).data("attributs"), function(i,item){
+                    $('#update_table input[name=' + i + ']').val(item);
+                });
+                $("#outline").fracs('outline', 'redraw');
+            })
+            /* Save all models */
+            .on('click','#save',function(){
+                var propertylist = '[' ;
+                $(".table").each(function(){
+                    var recupId = $(".title",this).text();
+                    var tableAttrs = $(this).data("attributs");
+                    propertylist += '{"name": "' + enc(recupId) + '","oldName": "' + enc(tableAttrs.oldName) + '","title":"' + enc(tableAttrs.title) + '","behaviorTitle":"' + enc(tableAttrs.behaviorTitle) + '","behaviorDescription":"' + enc(tableAttrs.behaviorDescription) + '","behaviorKeywords":"' + enc(tableAttrs.behaviorKeywords) + '","behaviorImage":"' + enc(tableAttrs.behaviorImage) + '","top": "'+ $(this).css("top")+'","left": "'+ $(this).css("left")+'","properties" : {';
+                    $(".property",$(this)).each(function(){
+                        var jsonproperties = $(this).data("attributs");
+                        propertylist += '"' + enc(jsonproperties.name) + ':' + $(this).attr("type_class") + '" :' + JSON.stringify(jsonproperties) +' ,';
+                    });
+                    propertylist = propertylist.substring(0, propertylist.length-1) + '}},';
+                });
+                propertylist = propertylist.substring(0, propertylist.length-1) + ']';
+                $.post('saveModel', {  module : '<?php echo $_POST['module'] ?>', list : propertylist },function(data){
+                    ParsimonyAdmin.notify(t('New Data Model has been Saved') + data,"positive");
+                    $(".new").removeClass("new");
+                });
+                $("#save").removeClass("haveToSave");
+            })
+            /* Choose behavior of the link */
+            .on('click','#popup input',function(){
+                var source1 = $("#" + $(this).data('sourceid'));
+                var target1 = $("#" + $(this).data('targetid'));
+                var entitySource = source1.parent().find('.title').text();
+                var entityTarget = $('.title',target1).text();
+                var module = $("#currentModule").val();
+                if(this.id=='button3'){
+                    var t = entitySource +'_'+entityTarget;
+                    dbadmin.createTable(t);
+                    dbadmin.buildLink(module,entitySource,module,t);
+                    dbadmin.buildLink(module,entityTarget,module,t);
+                }else{
+                    if(this.id=='button2'){
+                        source = source1;
+                        target = target1;
+                    }else{
+                        source = target1.find("div[type_class='field_ident']");
+                        target = source1.parent();
+                    }
+                    var entitySource = source.parent().find('.title').text();
+                    var entityTarget = $('.title',target).text();
+                    dbadmin.buildLink(module,entitySource,module,entityTarget);
+                }
+                $("#popup,#conf_box_overlay").hide();
+                $("#save").addClass("haveToSave");
+                dbadmin.reDraw();
+            })
+            /* Choose behavior of the link */
+            .on('click','#btnLinkToExternal',function(){
+                if($("#linkToExternal").val()){
+                    var module = $("#currentModule").val();
+                    var source1 = $("#" + $(this).data('sourceid'));
+                    var entitySource = source1.parent().find('.title').text();
+                    var ref = $("#linkToExternal").val().toString().split(" - ");
+                    dbadmin.buildLink(ref[0], ref[1], module,entitySource);
+                    $(this).closest(".popup").hide();
+                    $('#conf_box_overlay').hide();
+                    $("#save").addClass("haveToSave");
+                    dbadmin.reDraw();
+                }else{
+                    alert(t("Please choose the linked table"));
+                }
+
+            })
+            /* Filter Table Name */
+            .on('keyup',"#table_name",function(){
+                this.value = this.value.toLowerCase().replace(/[^a-z_]+/g,"");
+            });
+
+            /* Sort properties */
+            $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
+            $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
+
+            /* Add a Table */
+            $("#toolbar").on('submit','#add_table',function(e){  
+                e.preventDefault();
+                dbadmin.createTable($("#table_name").val());
+                $("#save").addClass("haveToSave");
+            });
+
+            dbadmin.reDraw();
+        },
+        //	    updateFormPreview :   function(){
+        //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
+        //		    $("#preview_form .content").html(data);                 
+        //		});
+        //	    },
+        createAnchor :   function(monid){
+            myEndpoint = jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions));
+            jsPlumb.setDraggable(monid, false);          
+        },
+        createAnchorForeignKey :   function(monid){
+            jsPlumb.addEndpoint(monid, $.extend({ anchor:["BottomRight","TopRight"], uuid:monid+"_uuid" }, dbadmin.endpointOptions2));
+        },
+        createAnchorNewForeignKey :   function(monid){
+            jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions3));
+            jsPlumb.setDraggable(monid, false);
+        },
+        reDraw :   function(){
+            jsPlumb.reset();
+
+            /* Draw Anchor on fields ident */
+            $(".property").each(function(index) {
+                if(this.getAttribute('type_class') == 'field_ident') dbadmin.createAnchor(this.id );
+            });
+
+            /* Draw Anchor on fields foreignKey */
+            $(".table").each(function(){
+                dbadmin.createAnchorForeignKey(this.id);
+            });
+
+            jsPlumb.makeTarget("extLink", {isTarget:true, paintStyle:{ fillStyle:"transparent"},dropOptions :  { activeClass:'dragActive2' } });
+
+            /* Draw connectors between tables */
+            $("#container_bdd div[type_class='field_foreignkey']").not("#field_list div[type_class='field_foreignkey']").each(function(index) {
+                var jsonproperties = $(this).data("attributs");
+                dbadmin.createAnchorNewForeignKey(this.id);
+                dbadmin.marqueur = true;
+                if($("#table_" + jsonproperties.link).length > 0 ){
+                    jsPlumb.connect({ uuids:[this.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
+                        paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
+                        hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
+                        overlays: [
+                            [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
+                            [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
+                        ]
+                    });
+                }
+                dbadmin.marqueur = false;
+            });
+
+            /* Allows to drag tables */
+            jsPlumb.draggable($(".table"),{
+                cursor: 'move',
+                handle : 'div.title',
+                containment: '#container_bdd',
+                drag: function(event, ui) {
+                    $("#outline").fracs('outline', 'redraw');
+                },stop:function(){
+                    jsPlumb.repaint( $(".property",this).add(this).toArray());
+                }
+            });
+
+            /* Allows to drop fields in table */
+            $(".table").droppable("destroy").droppable({
+                accept: '#field_list div',
+                activeClass: 'ui-state-hover',
+                hoverClass: 'ombre',
+                drop: function(event, ui) {
+                    var champ = ui.draggable.clone();
+                    var nom_champ = prompt(t('Please enter a field name') + ' ?');
+                    if(nom_champ != null){
+                        nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
+                        if(nom_champ != ""){
+                            var champ = ui.draggable.clone();
+                            champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property new");
+                            jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
+                            jsonproperties.entity = $(this).find('.title').text();
+                            jsonproperties.name = nom_champ;
+                            jsonproperties.oldName = nom_champ;
+                            jsonproperties.label = nom_champ;
+                            champ.data("attributs",jsonproperties);
+                            champ.text(nom_champ);
+                            champ.appendTo(this);
+
+                            $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
+                            $("#save").addClass("haveToSave");
+                        }
+                    }
+                }
+            });
+
+            /* When a connector is linked */
+            jsPlumb.bind("jsPlumbConnection", function(event, originalEvent) {
+                if(  !dbadmin.marqueur){
+                    jsPlumb.detach(event);
+                    if(event.targetId == "extLink"){
+                        jsPlumb.removeAllEndpoints("extLink");
+                        $("#popup2,#conf_box_overlay").show();
+                        $("#btnLinkToExternal").data('sourceid',event.sourceId);
+                        return true;
+                    }
+                    $("#popup input").data('sourceid',event.sourceId);
+                    $("#popup input").data('targetid',event.targetId);
+                    $("#popup .entity1").text(event.source.parent().find('.title').text());
+                    $("#popup .entity2").text(event.target.find('.title').text());
+                    if(event.source.parent().attr('id') == event.targetId){
+                        $('#button1').trigger('click');
+                    }else{
+                        $("#popup,#conf_box_overlay").show();
+                    }
+                }
+            });
+
+            /* When a connector is cliqued*/
+            jsPlumb.bind("click", function(connection, originalEvent) {
+                if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
+                    jsPlumb.detach(connection);
+                    jsPlumb.removeAllEndpoints(connection.sourceId);
+                    $("#" + connection.sourceId).remove();
+                }
+            });
+        }
+    };
+    $(document).ready(function() {
+        if($.browser.mozilla) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
+        dbadmin.init();
+    });
+</script>

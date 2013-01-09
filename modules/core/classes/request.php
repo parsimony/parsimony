@@ -278,7 +278,9 @@ class request {
     protected function determineRole() {
 	if (\app::getClass('user')->VerifyConnexion() &&
 		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
-	    define('ID_ROLE', $_SESSION['idr']);
+            $this->setParam('id_user', $_SESSION['id_user']);
+            $this->setParam('id_role', $_SESSION['idr']);
+            define('ID_ROLE', $_SESSION['idr']);
             define('BEHAVIOR',$_SESSION['roleBehavior']);
             /* If user is a creator we display errors */
             if(BEHAVIOR == 2){

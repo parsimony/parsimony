@@ -198,8 +198,8 @@ class view implements \Iterator {
      * @return view object
      */
     public function join($propertyLeft, $propertyRight, $type) {
-        $left = explode('.',$propertyLeft);//title$left[0]
-        if(!isset($this->SQL['joins'][$propertyLeft])) $this->SQL['joins'][$propertyLeft] = array('propertyLeft' => $propertyLeft, 'propertyRight' => $propertyRight, 'type' => $type);
+        $left = explode('.',$propertyLeft);
+        if(!isset($this->SQL['joins'][$propertyLeft.'_'.$propertyRight])) $this->SQL['joins'][$propertyLeft.'_'.$propertyRight] = array('propertyLeft' => $propertyLeft, 'propertyRight' => $propertyRight, 'type' => $type);
         return $this;
     }
 

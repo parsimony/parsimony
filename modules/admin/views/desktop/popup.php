@@ -26,14 +26,14 @@
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
                 if( $(".firstpanel").length > 0) $(".firstpanel a").trigger("click");
-                else top.ParsimonyAdmin.resizeConfBox();
+                else ( typeof top.ParsimonyAdmin != "undefined" ? top.ParsimonyAdmin.resizeConfBox() : opener.top.ParsimonyAdmin.resizeConfBox())
             }).on('click',".adminzonetab a",function(event){
                 event.preventDefault();
                 $(".adminzonecontent .admintabs").hide();
                 $(".adminzonetab a").removeClass("active");
                 $(this).addClass("active");
                 $($(this).attr("href")).show();
-		top.ParsimonyAdmin.resizeConfBox();
+		typeof top.ParsimonyAdmin != "undefined" ? top.ParsimonyAdmin.resizeConfBox() : opener.top.ParsimonyAdmin.resizeConfBox();
             });            
             /* Shortcut : Save on CTRL+S */
 	    document.addEventListener("keydown", function(e) {

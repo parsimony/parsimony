@@ -62,6 +62,7 @@ class query extends \block {
         $this->setConfig('sort', $_POST['sort']);
         $this->setConfig('regenerateview', $_POST['regenerateview']);
         $this->setConfig('nbitem', $_POST['nbitem']);
+        if(isset($_POST['tables'])) $this->setConfig('tables', $_POST['tables']);
 
         $myView = new \view();
         if (isset($_POST['relations']))

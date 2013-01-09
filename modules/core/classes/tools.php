@@ -140,6 +140,7 @@ class tools {
      * @return bool
      */
     public static function testSyntaxError($code,$vars = array()){
+        ob_start();
         if(!empty($vars)) extract($vars);
         /* Test for parse or syntax error  (ex: dgedgbsggb )  */
         $return = @eval('return TRUE;?>' . $code . '<?php ');
@@ -163,6 +164,7 @@ class tools {
                 }
             }
 	}
+        ob_clean();
         return FALSE;
     }
 
