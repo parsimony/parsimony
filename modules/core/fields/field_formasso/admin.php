@@ -28,5 +28,5 @@
 ?>
 
 <div style="margin: 10px 0;font-size: 13px;padding-left: 10px;"><?php echo t('Properties of n:n Relationship',False) ; ?> </div>
-<div><label class="ellipsis"><?php echo t('Entity of assocation',False) ;?>  </label><input type="text" name="entity_asso"></div>
-<div><label class="ellipsis"><?php echo t('Associate Entity',False) ;?> </label><input type="text" name="entity_foreign"></div>
+<div><label class="ellipsis"><?php echo t('Associative entity',False) ;?>  </label><input type="text" name="entity_asso"></div>
+<div><label class="ellipsis"><?php echo t('Associated entity',False) ;?> </label><input type="text" name="entity_foreign"></div>
