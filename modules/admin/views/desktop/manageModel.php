@@ -89,7 +89,8 @@
     #modifmodel3 span.ui-icon-closethick {display: none;}
     #modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
     .updateBTN{text-align: center;width: 20px;padding:2px}
-    .adminzonecontent{min-width:900px}
+    .adminzone{margin-bottom: 0;}
+    .adminzonecontent{min-width:900px;padding-bottom:0}
 </style>
 <div class="adminzone">
     <div class="adminzonemenu">

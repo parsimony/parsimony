@@ -521,6 +521,7 @@ background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 background-image: linear-gradient(top, #44C5EC, #259BDB);
 border: 1px solid #5B8F9C;
 text-shadow: 0 1px rgba(0, 0, 0, 0.35);
+margin: 0 5px;
 }
 
 legend{display: block;
@@ -626,6 +627,7 @@ background: -o-linear-gradient(bottom,#828282,#777);margin:0}
 .datagrid .line:hover td:not([rowspan]){border-color: DDD;background-color: #EFEFEF;}
 .datagrid_title{max-width: 300px !important;text-align: left !important;}
 .selecttr{border-style: dotted;border-color: #A3BAE9;background-color: #DFE8F6;}
+.datagridWrapper{width: 100%;overflow-x: auto;}
 
 /* forms placeholder */
 .placeholder{position:relative;clear: both}
