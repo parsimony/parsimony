@@ -483,8 +483,8 @@ $lang['The ability to write code is pretty much a super power in today\'s societ
 $lang['Record'] = ' 注册';
 $lang['Add in'] = ' 加入到';
 $lang['N:N Association Form'] = ' 从 NN关系';
-$lang['Association Entity']='组合项目';
-$lang['Associate Entity']= ' 联合项目';
+$lang['Associative entity']='组合项目';
+$lang['Associated entity']= ' 联合项目';
 $lang['at']=' 至';
 $lang['Your mail'] = ' 您的电子邮箱';
 $lang['The changes have been saved'] = '修改已保存';
