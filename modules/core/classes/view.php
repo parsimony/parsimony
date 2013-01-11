@@ -54,7 +54,7 @@ class view implements \Iterator {
      */
     public function __set($name, $fieldValue) {
         //if(isset($this->fields[$name])) {
-           $this->fields[$name]->setValue($fieldValue);
+            $this->fields[$name]->setValue($fieldValue);
         /*}else{
 	    $this->fields[$name] =  new \field_string('hidden','hidden',$name); 
 	}*/
@@ -167,7 +167,7 @@ class view implements \Iterator {
 	    }else{
 		$miniSelect = $select;
 	    }
-	    if(isset($this->SQL['selects'][$miniSelect])){
+	    if(isset($this->fields[$miniSelect])){
 		if(isset($tableName)) $alias = $miniSelect . '_'.$tableName;
 		else $alias = $miniSelect . '_2';
 		$this->SQL['selects'][$alias] = $select.' AS '.$alias;
@@ -175,7 +175,9 @@ class view implements \Iterator {
 		$alias = $miniSelect;
 		$this->SQL['selects'][$miniSelect] = $select;
 	    }
-	    $this->setField($alias, \app::getModule(strstr($tableName, '_', true))->getEntity(substr(strstr($tableName, '_'), 1))->__get($miniSelect));
+            $obj = \app::getModule(strstr($tableName, '_', true))->getEntity(substr(strstr($tableName, '_'), 1))->__get($miniSelect);
+            if($hidden) {$obj->setVisibility(0);$this->setField($miniSelect,$obj );}
+            else $this->setField($alias, $obj);
         }
         return $this;
     }
@@ -246,9 +248,12 @@ class view implements \Iterator {
             $this->groupBy($property);
         } else {
             $cut = explode('.', $property);
-            $this->SQL['selects'][$cut[1] . '_nb'] = $function . '(' . $property . ') AS ' . $cut[1] . '_nb';
-            $this->fields[$cut[1] . '_nb'] = $this->fields[$cut[1]];
-            unset($this->fields[$cut[1]]);
+            $this->SQL['selects'][$cut[1] . '_nb'] = $function . '(' . $property . ') AS ' . $cut[1] . '_nb'; 
+            $propTable = explode('_',$cut[0],2);
+            $this->fields[$cut[1] . '_nb'] = new \field_ident ($propTable[0],$propTable[1],$cut[1] . '_nb');
+            $this->fields[$cut[1] . '_nb']->setLabel($cut[1] . '_nb');
+            if(!isset($this->fields[$cut[1]])) $this->fields[$cut[1] . '_nb']->setVisibility(0);
+            else unset($this->fields[$cut[1]]);
         }
         return $this;
     }
@@ -301,7 +306,7 @@ class view implements \Iterator {
                 $this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
                 $this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
                 $this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
-            }elseif (!isset($this->SQL['selects'][$id])) {
+            } elseif (!isset($this->fields[$id])) {
                 $this->select($field->module . '_' . $field->entity . '.' . $id,TRUE);
             }
         }

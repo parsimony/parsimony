@@ -73,7 +73,7 @@
                                 }
                                 if (get_class($field) != 'core\fields\field_formasso') :
                                     ?>
-                                <td class="column<?php echo $class; ?>"><?php echo $line->{$field->name}->displayGrid(); ?></td>
+                                <td class="column<?php echo $class; ?>"><?php echo $line->$fieldName->displayGrid(); ?></td>
                                     <?php
                                 endif;
                             endif;
