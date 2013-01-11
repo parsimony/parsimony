@@ -253,7 +253,10 @@ class view implements \Iterator {
             $this->fields[$cut[1] . '_nb'] = new \field_ident ($propTable[0],$propTable[1],$cut[1] . '_nb');
             $this->fields[$cut[1] . '_nb']->setLabel($cut[1] . '_nb');
             if(!isset($this->fields[$cut[1]])) $this->fields[$cut[1] . '_nb']->setVisibility(0);
-            else unset($this->fields[$cut[1]]);
+            else {
+                unset($this->SQL['selects'][$cut[1]]) ;
+                unset($this->fields[$cut[1]]);
+            }
         }
         return $this;
     }
