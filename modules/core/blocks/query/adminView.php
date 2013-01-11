@@ -92,6 +92,7 @@ $view = $this->getConfig('view');
     .bloctitle{border-radius: 3px;background: #5E9AE2;
 	       background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
 	       background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
+    .bloctitle input {text-shadow: none;font-size: 13px;}
     input.filter,input.sort{margin:3px 0}
     #linksWrapper{padding:5px;border-bottom:1px solid #ddd;border-left:1px solid #ddd;position: absolute;right:0;width:525px;background: #fff;display:none;z-index: 999;}
     #links{margin-bottom:15px;padding-left: 22px;}
