@@ -39,6 +39,7 @@
     .sortable li {margin: 7px 0 0 0;padding: 0;}
     .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
+    .sortable li > div > div{vertical-align: middle}
     .ui-icon-closethick{margin-top: 7px;}
     #addPageItem li{margin:0 !important}
     .parsimenu ul{top: 20px;left: -1px;}
