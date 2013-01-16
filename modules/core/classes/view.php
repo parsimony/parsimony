@@ -382,7 +382,6 @@ class view implements \Iterator {
             }
         }
         $this->SQL['query'] = strtolower($query);
-        echo $query;
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
