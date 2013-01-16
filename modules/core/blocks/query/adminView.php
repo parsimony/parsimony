@@ -278,6 +278,7 @@ $view = $this->getConfig('view');
 	</div>
 	<?php
 	$path = $this->pathOfViewFile;
+        $editorMode = 'application/x-httpd-php';
 	include('modules/admin/views/desktop/editor.php');
         ?>
     </div>
