@@ -329,6 +329,7 @@ class view implements \Iterator {
             foreach ($this->SQL['wheres'] AS $key => $where) {
                 if(strstr($where, ':') !== FALSE){
                     preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
+                    $notEmptyVars = TRUE;
                     foreach($matches[1] AS $param){
                         $value = \app::$request->getParam($param);
                         if(!empty($value)){
@@ -342,9 +343,14 @@ class view implements \Iterator {
                                 $where = str_replace(':'.$param, implode(',',$str), $where);
                             }else{
                                 $vars[':'.$param] = strlen($value) > 0 ? $value : '';
-                            }
-                            $wheres[] = $where;
-                        }
+                            }      
+                        }else $notEmptyVars = FALSE;
+                    }
+                    if($notEmptyVars) {
+                        $where = strtolower($where);
+                        // Frame the "where" if several sql conditions
+                        if(strstr($where,' or ') || strstr($where,' and ')) $wheres[] = '(' . $where .')';
+                        else $wheres[] = $where;
                     }
                 }else{
                     $wheres[] = $where;
@@ -376,6 +382,7 @@ class view implements \Iterator {
             }
         }
         $this->SQL['query'] = strtolower($query);
+        echo $query;
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
@@ -479,7 +486,7 @@ class view implements \Iterator {
         if (is_object($this->SQL['stmt'])) return !(bool)$this->SQL['stmt']->fetch();
         else return TRUE;
     }
-
+    
     /**
      * Return properties in order to serialize it
      * @return array of SQL properties
