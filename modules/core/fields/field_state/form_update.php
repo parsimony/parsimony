@@ -33,7 +33,7 @@
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	<?php endif; ?>
     </label>
-    <select type="text" name="<?php echo $this->name ?>"> 
+    <select name="<?php echo $this->name ?>"> 
         <?php
         $states = explode(',', $this->states);
         foreach ($states as $key => $state) : ?>
