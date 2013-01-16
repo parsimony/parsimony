@@ -216,7 +216,8 @@ class module {
      */
     public function getFields() {
 	$fields = array();
-	foreach (glob(PROFILE_PATH . $this->name . '/fields/*.php') as $filename) {
+        $fieldList = glob(PROFILE_PATH . $this->name . '/fields/*.php');
+	foreach ((is_array($fieldList) ? $fieldList : array()) as $filename) {
 	    $field = basename($filename, '.php');
 	    $fields[] = $field;
 	}
@@ -260,7 +261,8 @@ class module {
      * @return array
      */
     public function getModel() {
-	foreach (glob('modules/' . $this->name . '/model/*.php') as $filename) {
+        $entities = glob('modules/' . $this->name . '/model/*.php');
+	foreach ((is_array($entities) ? $entities : array()) as $filename) {
 	    $model = basename($filename, '.php');
 	    $this->model[$model] = $this->getEntity($model);
 	}

@@ -32,7 +32,8 @@ $dirPath = PROFILE_PATH . substr(\app::$request->getParam('dirPath'), 1);
 $dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
 $extOk = array(); //'jpeg', 'png', 'gif', 'jpg'
 $extKo = array('obj');
-foreach (glob($dirPath . '/*') as $filename) :
+$files = glob($dirPath . '/*');
+foreach ((is_array($files) ? $files : array()) as $filename) :
     if (is_dir($filename)) :
         $filename = str_replace('//','/',$filename); //fix
 	?>
