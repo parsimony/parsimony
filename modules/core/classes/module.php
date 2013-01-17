@@ -310,8 +310,10 @@ class module {
      */
     public function getThemes() {
 	$themes = array();
-        $themelist = array_merge((array)glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR), glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR));
-	foreach ($themelist as $filename) {
+	$themesModules = glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR);
+        $themesProfiles = glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR); 
+        $themelist = array_merge((is_array($themesModules) ? $themesModules : array()), (is_array($themesProfiles) ? $themesProfiles : array()));
+        foreach ($themelist as $filename) {
 	    $themeName = basename($filename);
 	    $themes[$themeName] = $themeName;
 	}
