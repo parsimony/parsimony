@@ -131,7 +131,7 @@ var ParsimonyAdmin = {
 		$("#dialog-ok").trigger("click");
 	    }
 	});
-	
+	$(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
 	this.pluginDispatch("loadCreationMode");
     }, 
 
