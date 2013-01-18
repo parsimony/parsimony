@@ -509,7 +509,7 @@ $view = $this->getConfig('view');
         $("#links").on('mouseover mouseout','.linkDef',function(event) {
             var deletator = document.getElementById("deletator");
             var invert = document.getElementById("invertRelation");
-            if (event.type == 'mouseover') { console.log("uyu");
+            if (event.type == 'mouseover') {
                 deletator.style.display = "block";
                 invert.style.display = "block";
                 this.insertBefore( deletator, this.firstChild);

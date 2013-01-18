@@ -31,6 +31,15 @@ if (!isset($_POST['module']))
     $_POST['module'] = 'core';
 
 include_once('modules/core/classes/field.php');
+
+$nativeProperties = array('tag' => array('id_tag','name','url'),
+			    'tag_post' => array('id_tag_post','id_tag','id_post'),
+			    'post' => array('id_post','title','url','content','excerpt','publicationGMT','author','tag','category','has_comment','ping_status'),
+			    'category' => array('id_category','name','id_parent','url','description'),
+			    'category_post' => array('id_category_post','id_category','id_post'),
+			    'comment' => array('id_comment','id_post','author','author_url','author_email','author_IP','dateGMT','content','status','id_user','id_parent','type'),
+			    'user' => array('id_user','pseudo','mail','pass','registration','state','id_role'),
+			    'role' => array('id_role','name','state'));
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
@@ -131,6 +140,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
     #conf_box_overlay{z-index: 9999;}
     #currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
+    input[disabled] {background:#ddd}
 </style> 
 <div id="extLink" style=""><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
@@ -765,7 +775,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
 	$className = $reflect->getShortName();
         $modelInfos = \tools::getClassInfos($reflect);
 	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-	echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
+	$native = isset($nativeProperties[$className]) ? ' native' : '';
+	echo '<div class="table'.$native.'" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
 	$parameters = $entity->getFields();
 	foreach ($parameters as $propertyName => $field) {
 	    $class = get_class($field);
@@ -779,7 +790,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		$args [$ssparam->name] = $field->{$ssparam->name};
 	    }
 	    $args['oldName'] = $field->name;
-	    echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+	    $native = isset($nativeProperties[$className]) && in_array($propertyName ,$nativeProperties[$className]) ? ' native' : '';
+	    echo '<div class="property'.$native.'" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 	}
 	echo '</div>';
     }
@@ -990,29 +1002,35 @@ background: linear-gradient(#FFFFFF, #ddd);}
             /* Delete Table */
             .on('click','#deletator',function(){
                 obj = $(this).parent();
-                if(obj.hasClass('table')){
-                    if(confirm(t('Are you sure to delete this entity ?'))){
-                        $(this).appendTo($('body'));
-                        $('#container_bdd div[type_class="field_foreignkey"]').each(function(index){
-                            var name = $(".title",obj).text();
-                            if($(this).text()=='id_' + name) $(this).remove();
-                        });
-                        obj.remove();
-                        dbadmin.reDraw();
-                    }
-                }else if(obj.hasClass('property')){
-                    if(confirm(t('Are you sure to delete this property ?'))){
-                        $(this).appendTo($('body'));
-                        jsPlumb.removeAllEndpoints(obj.attr('id'));
-                        obj.remove();
-                    }
-                }
-                $("#save").addClass("haveToSave");
+		if(obj.hasClass('native')){
+		    alert(t("This is a native object, you don't have the permissions to delete it."));
+		    return false;
+		}else{
+		    if(obj.hasClass('table')){
+			if(confirm(t('Are you sure to delete this entity ?'))){
+			    $(this).appendTo($('body'));
+			    $('#container_bdd div[type_class="field_foreignkey"]').each(function(index){
+				var name = $(".title",obj).text();
+				if($(this).text()=='id_' + name) $(this).remove();
+			    });
+			    obj.remove();
+			    dbadmin.reDraw();
+			}
+		    }else if(obj.hasClass('property')){
+			if(confirm(t('Are you sure to delete this property ?'))){
+			    $(this).appendTo($('body'));
+			    jsPlumb.removeAllEndpoints(obj.attr('id'));
+			    obj.remove();
+			}
+		    }
+		    $("#save").addClass("haveToSave");
+		}
             })
 
             /* Show delete buttons on fields */
             .on('mouseover mouseout','.property',function(event) {
                 event.stopPropagation();
+		if(this.classList.contains("native")) return false;
                 var deletator = document.getElementById("deletator");
                 if (event.type == 'mouseover') {
                     if(this.getAttribute('type_class') != 'field_ident'){
@@ -1026,6 +1044,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
 
             /* Show delete buttons on tables */
             .on('mouseover mouseout','.table',function(event) {
+		if(this.classList.contains("native")) return false;
                 var deletator = document.getElementById("deletator");
                 if (event.type == 'mouseover') {
                     deletator.style.display = "block";
@@ -1068,8 +1087,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 current_update_field = $(this);
                 $(".current_property").removeClass("current_property");
                 current_update_field.addClass("current_property");
+		var parent = $('#update_'+ current_update_field.attr('type_class'));
                 $.each($(this).data("attributs"), function(i,item){
-                    var parent = $('#update_'+ current_update_field.attr('type_class'));
                     if(item === false) item = 0;
                     $('[name=' + i + ']',parent).val(item);
                     if(i == 'visibility'){
@@ -1081,6 +1100,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
                         else $('input[data-form="form-update"]',parent).removeAttr('checked');
                     }
                 });
+		if(this.classList.contains("native")) $('input[name="name"]',parent).attr('disabled','disabled');
+		else $('input[name="name"]',parent).removeAttr('disabled');
                 $('#update_field > div').hide();
                 $('#update_'+ current_update_field.attr('type_class')).show();          
             })
@@ -1094,6 +1115,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 $.each($(this).data("attributs"), function(i,item){
                     $('#update_table input[name=' + i + ']').val(item);
                 });
+		if(this.classList.contains("native")) $('#update_table input[name="name"]').attr('disabled','disabled');
+		else $('#update_table input[name="name"]').removeAttr('disabled');
                 $("#outline").fracs('outline', 'redraw');
             })
             /* Save all models */
