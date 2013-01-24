@@ -312,7 +312,9 @@ abstract class entity implements \Iterator {
                 else
                     $value = $field->validate($columnsValues,$val, $vars);
                 if ($value === FALSE)
-                    return $field->label . '. ' . $field->msg_error; // return error message
+                    return $field->label . ' : ' . $field->msg_error; // return error message
+		else 
+		    $field->setValue($value);
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
                     foreach ($field->getColumns() AS $column)
                         if (count($columns) == 1)
