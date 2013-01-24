@@ -56,7 +56,7 @@ class field_date extends \field {
      * @param string $regex by default '.*'
      * @param string $use by default 'normal'
      */
-    public function __construct($module, $entity, $name, $type = 'datetime', $characters_max = '', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $use = 'normal') {
+    public function __construct($module, $entity, $name, $type = 'datetime', $characters_max = '', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $use = 'normal', $templateDisplay='%d %B %Y ,%H:%M', $templateForms='%year% / %month% / %day% %hour% : %minute% : %second%') {
 	$this->constructor(func_get_args());
     }
 
@@ -66,13 +66,18 @@ class field_date extends \field {
      * @return string
      */
     public function validate($value) {
-	if (empty($value)) { // use insert & update
+	
+	if (empty($value) && ($this->use == 'update' || $this->use == 'insert')) {
 	    return gmdate('Y-m-d H:i:s', time());
-	} else {
-	    if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $value, $date)) {
-		if (checkdate($date[2], $date[3], $date[1])) {
-		    return $value;
-		}
+	}
+	
+	if(is_array($value)){
+	    return date("Y-m-d H:i:s", mktime((isset($value['hour']) ? $value['hour'] : 0), (isset($value['minute']) ? $value['minute'] : 0), (isset($value['second']) ? $value['second'] : 0), (isset($value['month']) ? $value['month'] : 1), (isset($value['day']) ? $value['day'] : 1), (isset($value['year']) ? $value['year'] : date('Y'))));
+	}
+	
+	if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $value, $date)) {
+	    if (checkdate($date[2], $date[3], $date[1])) {
+		return $value;
 	    }
 	}
 	return FALSE;

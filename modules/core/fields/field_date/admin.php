@@ -34,3 +34,11 @@
 		<option value="update"><?php echo t('Update Date', FALSE) ;?></option>
 	</select>
 </div>
+<div>
+	<label><?php echo t('Template display', FALSE) ;?></label>
+	<input type="text" name="templateDisplay">
+</div>
+<div>
+	<label><?php echo t('Template forms', FALSE) ;?></label>
+	<input type="text" name="templateForms">
+</div>

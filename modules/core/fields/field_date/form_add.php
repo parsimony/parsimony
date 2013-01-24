@@ -18,33 +18,16 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$stamp = time();
-?>
-<script>
-    function lead(val, length) {
-        var val = val + '';
-        while (val.length < length)  val = '0' + val;
-        return val;
-    }
-    
-    $(document).ready(function() {
-        var myForm = $("#mydate").closest("form");
-        $(myForm).on('change','.datesql', function(e) { 
-            var sqltime = lead($('.addyyyy', myForm).val(),4) + '-' + lead($('.addmm', myForm).val(),2) + '-' + lead($('.adddd', myForm).val(),2) + ' ' + lead($('.addhour', myForm).val(),2) + ':' + lead($('.addminut', myForm).val(),2) + ':' + lead($('.addsecond', myForm).val(),2);
-            $('.datestatus', myForm).val(sqltime);           
-        });
-	$('.datesql',myForm).trigger('change');
-    });
-</script>
 
-<div id="mydate">
+?>
+<div>
     <?php if ($this->use == 'normal') : ?>
         <label>
 	    <?php echo $this->label ?>
@@ -52,34 +35,33 @@ $stamp = time();
 		<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	    <?php endif; ?>
         </label>
-        <div>
+        <div class="field-date-container" style="display:inline-block">
 	    <?php
-	    $locale = \app::$request->getLocale();
-	    $lang = '<input type="text" class="datesql adddd" style="width: 25px;" value="' . date('d', $stamp) . '" />';
-	    $m = date('m', $stamp);
-	    $select = ' <select type="text" class="datesql addmm" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;">';
-	    $month = array('01' => t('Jan', false), '02' => t('Feb', false), '03' => t('Mar', false), '04' => t('Apr', false), '05' => t('May', false), '06' => t('Jun', false), '07' => t('Jul', false), '08' => t('Aug', false), '09' => t('Sep', false), '10' => t('Oct', false), '11' => t('Nov', false), '12' => t('Dec', false));
-	    foreach ($month as $key => $month) {
-		if ($key == $m)
-		    $select .= '<option value="' . $key . '" selected="selected">' . $key . '-' . $month . '</option>';
-		else
-		    $select .= '<option value="' . $key . '">' . $key . '-' . $month . '</option>';
+	    $temp = $this->templateForms;
+	    $elmts = array('year' => array('value'=> '', 'pattern'=>'^[12][0-9]{3}$', 'width'=>'40'),
+			    'day' => array('value'=> '', 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'hour' => array('value'=> '', 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'minute' => array('value'=> '', 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'second' => array('value'=> '', 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'));
+	    
+	    $select = '<select class="field-date-month"  name="'.$this->name.'[month]" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;"><option></option>';
+	    $months = array('01' => t('Jan', false), '02' => t('Feb', false), '03' => t('Mar', false), '04' => t('Apr', false), '05' => t('May', false), '06' => t('Jun', false), '07' => t('Jul', false), '08' => t('Aug', false), '09' => t('Sep', false), '10' => t('Oct', false), '11' => t('Nov', false), '12' => t('Dec', false));
+	    foreach ($months as $key => $month) {
+		    $select .= '<option value="' . $key . '">' . $month . '</option>';
 	    }
 	    $select .='</select> ';
-	    if ($locale == 'fr_FR')
-		echo $lang . $select;
-	    else
-		echo $select . $lang . ',';
+	    
+	    $temp = str_replace('%month%', $select, $temp);
+	    
+	    foreach ($elmts as $key => $v) {
+		$temp = str_replace('%'.$key.'%', '<input type="text" class="field-date-'.$key.'" style="width:'.$v['width'].'px" name="'.$this->name.'['.$key.']" pattern="'.$v['pattern'].'" value="'.$v['value'].'" />', $temp);
+	    }
+	    echo $temp;
 	    ?>
-    	<input type="text" class="datesql addyyyy" style="width: 40px;" pattern="^[12][0-9]{3}$" value="<?php echo date('Y', $stamp); ?>" />
-    	@ <input class="datesql addhour" type="text" style="width: 25px;" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('H', $stamp); ?>"> : 
-    	<input type="text" class="addminut datesql" style="width: 25px;" maxlength="2" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('i', $stamp); ?>">
-    	<input type="hidden" class="addsecond datesql" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('s', $stamp); ?>">
         </div>
-        <input type="hidden" class="datestatus" name="<?php echo $this->name ?>">
-	<?php //elseif ($this->use == 'creation') : ?>
 
-	<?php //elseif ($this->use == 'update') : ?>
-
+    <?php elseif ($this->use == 'creation') : ?>
+        <input type="hidden" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>">
+    <?php elseif ($this->use == 'update') : ?>
     <?php endif; ?>
 </div>
