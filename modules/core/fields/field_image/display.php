@@ -25,6 +25,8 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- ?>
 
+if(!empty($this->value)):
+ ?>
 <img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>"  />
+<?php endif; ?>

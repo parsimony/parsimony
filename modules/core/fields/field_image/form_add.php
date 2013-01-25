@@ -25,7 +25,9 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
+/* todo remove style attribute */
+app::$request->page->addJSFile(BASE_PATH . 'lib/upload/parsimonyUpload.js');
+ ?>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
 <div class="placeholder" id="upload_image_<?php echo $this->name ?>">
     <label for="<?php echo $this->name ?>">
@@ -34,12 +36,13 @@
     	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
 	<?php endif; ?>
     </label>
-    <input type="file" />
-    <div id="image_thumb_<?php echo $this->name ?>" class="none">
-	<div style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
-		<div style="padding:5px 0;"><?php echo t('Name',FALSE) ?> : <a href="" style="text-decoration: none;width:400px;display: inline-block;" class="nameIMG ellipsis" target="_blank"></a></div>
-		<img src="" />
-	</div>
+    <div id="image_thumb_<?php echo $this->name ?>" class="field-image-previewContainer none" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
+	    <div style="padding:5px 0;"><?php echo t('Name',FALSE) ?> : <a href="" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"></a></div>
+	    <img src="" class="field-image-preview" />
+    </div>
+    <div class="field-image-inputContainer" style="position: relative">
+	<input type="file" class="field-image-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;height:20px;cursor:pointer;margin: 0;" />
+	<div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1"><a href="#"><?php echo t('Choose an image or Drag & Drop it'); ?></a></div>
     </div>
     <input type="hidden" id="image_<?php echo $this->name ?>" name="<?php echo $this->name ?>" />
 </div>
@@ -49,9 +52,9 @@
 	    ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH . $this->module . '/' . $this->path; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
 	    stop:function(response){
 		$("#image_<?php echo $this->name ?>").val(response.name);
-		$("#image_thumb_<?php echo $this->name ?>").find(".nameIMG").text(response.name);
-		$("#image_thumb_<?php echo $this->name ?>").find("a").attr("href",response.name);
-		$("#image_thumb_<?php echo $this->name ?>").show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
+		var thumb = $("#image_thumb_<?php echo $this->name ?>");
+		$(".field-image-fileNameLink",thumb).text(response.name).attr("href",response.name);
+		thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
 	    }
 	});
     });

@@ -71,7 +71,7 @@ class field_date extends \field {
 	    return gmdate('Y-m-d H:i:s', time());
 	}else{
 	    if(is_array($value)){
-		$value = (isset($value['year']) && !empty($value['year']) ? $value['year'] : '0000').'-'.
+		return (isset($value['year']) && !empty($value['year']) ? $value['year'] : '0000').'-'.
 			(isset($value['month']) && !empty($value['month']) ? $value['month'] : '00').'-'.
 			(isset($value['day']) && !empty($value['day']) ? $value['day'] : '00').' '.
 			(isset($value['hour']) && !empty($value['hour']) ? $value['hour'] : '00').':'.
