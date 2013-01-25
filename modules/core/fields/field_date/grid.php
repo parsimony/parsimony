@@ -25,5 +25,8 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+if($this->value != '0000-00-00 00:00:00'):
  ?>
-<div class="align_center ellipsis"><?php echo strftime('%d %B %Y', strtotime($this)); ?></div>
+<div class="align_center ellipsis"><?php echo date('d m Y', strtotime($this)); ?></div>
+<?php endif; ?>

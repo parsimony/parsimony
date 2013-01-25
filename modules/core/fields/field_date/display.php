@@ -25,4 +25,6 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-echo strftime($this->templateDisplay, strtotime($this)); ?>
+
+if($this->value != '0000-00-00 00:00:00')
+    echo strftime($this->templateDisplay, strtotime($this)); ?>

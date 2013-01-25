@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et BenoÃ®t Lorillot
- * @copyright  Julien Gras et BenoÃ®t Lorillot
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core/fields
@@ -60,8 +60,8 @@
 	    ?>
         </div>
 
-    <?php elseif ($this->use == 'creation') : ?>
-        <input type="hidden" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>">
-    <?php elseif ($this->use == 'update') : ?>
+    <?php //elseif ($this->use == 'creation') : ?>
+
+    <?php //elseif ($this->use == 'update') : ?>
     <?php endif; ?>
 </div>

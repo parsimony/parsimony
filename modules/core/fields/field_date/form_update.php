@@ -40,13 +40,19 @@ $stamp = strtotime($value);
         <div class="field-date-container" style="display:inline-block">
 	    <?php
 	    $temp = $this->templateForms;
-	    $elmts = array('year' => array('value'=> date('Y', $stamp), 'pattern'=>'^[12][0-9]{3}$', 'width'=>'40'),
-			    'day' => array('value'=> date('d', $stamp), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			    'hour' => array('value'=> date('H', $stamp), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			    'minute' => array('value'=> date('i', $stamp), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			    'second' => array('value'=> date('s', $stamp), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'));
+	    if($this->value == '0000-00-00 00:00:00'){
+		$dateNull = true;
+		$currentMonth = '';
+	    }else{
+		$dateNull = false;
+		$currentMonth = date('m', $stamp);
+	    }
+	    $elmts = array('year' => array('value'=> ($dateNull ? '' : date('Y', $stamp)), 'pattern'=>'^[12][0-9]{3}$', 'width'=>'40'),
+			    'day' => array('value'=> ($dateNull ? '' : date('d', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'hour' => array('value'=> ($dateNull ? '' : date('H', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'minute' => array('value'=> ($dateNull ? '' : date('i', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
+			    'second' => array('value'=> ($dateNull ? '' : date('s', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'));
 	    
-	    $currentMonth = date('m', $stamp);
 	    $select = '<select class="field-date-month"  name="'.$this->name.'[month]" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;"><option></option>';
 	    $months = array('01' => t('Jan', false), '02' => t('Feb', false), '03' => t('Mar', false), '04' => t('Apr', false), '05' => t('May', false), '06' => t('Jun', false), '07' => t('Jul', false), '08' => t('Aug', false), '09' => t('Sep', false), '10' => t('Oct', false), '11' => t('Nov', false), '12' => t('Dec', false));
 	    foreach ($months as $key => $month) {

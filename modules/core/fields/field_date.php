@@ -65,19 +65,24 @@ class field_date extends \field {
      * @param string $value
      * @return string
      */
-    public function validate($value) {
+     public function validate($value) {
 	
-	if (empty($value) && ($this->use == 'update' || $this->use == 'insert')) {
+	if (empty($value) && $this->use != 'normal') { // update || creation
 	    return gmdate('Y-m-d H:i:s', time());
-	}
-	
-	if(is_array($value)){
-	    return date("Y-m-d H:i:s", mktime((isset($value['hour']) ? $value['hour'] : 0), (isset($value['minute']) ? $value['minute'] : 0), (isset($value['second']) ? $value['second'] : 0), (isset($value['month']) ? $value['month'] : 1), (isset($value['day']) ? $value['day'] : 1), (isset($value['year']) ? $value['year'] : date('Y'))));
-	}
-	
-	if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $value, $date)) {
-	    if (checkdate($date[2], $date[3], $date[1])) {
-		return $value;
+	}else{
+	    if(is_array($value)){
+		$value = (isset($value['year']) && !empty($value['year']) ? $value['year'] : '0000').'-'.
+			(isset($value['month']) && !empty($value['month']) ? $value['month'] : '00').'-'.
+			(isset($value['day']) && !empty($value['day']) ? $value['day'] : '00').' '.
+			(isset($value['hour']) && !empty($value['hour']) ? $value['hour'] : '00').':'.
+			(isset($value['minute']) && !empty($value['minute']) ? $value['minute'] : '00').':'.
+			(isset($value['second']) && !empty($value['second']) ? $value['second'] : '00');
+	    }
+
+	    if (preg_match("/^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/", $value, $date)) {
+		if (checkdate($date[2], $date[3], $date[1])) {
+		    return $value;
+		}
 	    }
 	}
 	return FALSE;
