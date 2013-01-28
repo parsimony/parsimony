@@ -25,10 +25,10 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-\app::$request->page->addJSFile('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js');
+\app::$request->page->addJSFile('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js');
 \app::$request->page->addCSSFile(BASE_PATH . 'core/fields/field_formasso/css.css');
 ?>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
 <div>
     <label for="<?php echo $this->name ?>">
         <?php echo $this->label ?>
@@ -61,7 +61,7 @@
                     ui.item.value = '';
                 }
             });
-            $(".ui-icon-circle-close").live('click', function(event){
+            $(document).on('click', ".ui-icon-circle-close", function(event){
                 $(this).parent().remove();
             });
             $("#log<?php echo $this->name; ?>").parent().on("keydown","#<?php echo $this->name; ?>",function(event){

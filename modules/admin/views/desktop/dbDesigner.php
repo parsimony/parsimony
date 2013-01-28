@@ -44,10 +44,10 @@ $nativeProperties = array('tag' => array('id_tag','name','url'),
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
-<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js" type="text/javascript"></script>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.0.min.js"><\/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js" type="text/javascript"></script>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
 <script type="text/javascript">
     var BASE_PATH = '<?php echo BASE_PATH ?>';
     var MODULE = '<?php echo MODULE ?>';
@@ -69,7 +69,8 @@ $nativeProperties = array('tag' => array('id_tag','name','url'),
     body{margin:0;padding:0;font-family: arial, sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    #container_bdd{margin:0;padding:0;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+    #container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+    #canvas{position:absolute;width:100%;height:100%}
     ._jsPlumb_endpoint{cursor: pointer;z-index: 50}
     ._jsPlumb_connector{cursor: pointer;}
     #field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
@@ -138,6 +139,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
                background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
     #conf_box_overlay{z-index: 9999;}
+    #notify {top:35px}
     #currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
     input[disabled] {background:#ddd}
@@ -769,33 +771,35 @@ background: linear-gradient(#FFFFFF, #ddd);}
             </div>
         </div>
     </div>
-    <?php
-    foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
-	$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
-	$className = $reflect->getShortName();
-        $modelInfos = \tools::getClassInfos($reflect);
-	$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-	$native = isset($nativeProperties[$className]) ? ' native' : '';
-	echo '<div class="table'.$native.'" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
-	$parameters = $entity->getFields();
-	foreach ($parameters as $propertyName => $field) {
-	    $class = get_class($field);
-	    if (isset($aliasClasses[$class])) {
-		$class = $aliasClasses[$class];
+    <div id="canvas">
+	<?php
+	foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
+	    $reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
+	    $className = $reflect->getShortName();
+	    $modelInfos = \tools::getClassInfos($reflect);
+	    $tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
+	    $native = isset($nativeProperties[$className]) ? ' native' : '';
+	    echo '<div class="table'.$native.'" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
+	    $parameters = $entity->getFields();
+	    foreach ($parameters as $propertyName => $field) {
+		$class = get_class($field);
+		if (isset($aliasClasses[$class])) {
+		    $class = $aliasClasses[$class];
+		}
+		$ssmethod = new ReflectionMethod($class, '__construct');
+		$params = $ssmethod->getParameters();
+		$args = array();
+		foreach ($params as $ssparam) {
+		    $args [$ssparam->name] = $field->{$ssparam->name};
+		}
+		$args['oldName'] = $field->name;
+		$native = isset($nativeProperties[$className]) && in_array($propertyName ,$nativeProperties[$className]) ? ' native' : '';
+		echo '<div class="property'.$native.'" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 	    }
-	    $ssmethod = new ReflectionMethod($class, '__construct');
-	    $params = $ssmethod->getParameters();
-	    $args = array();
-	    foreach ($params as $ssparam) {
-		$args [$ssparam->name] = $field->{$ssparam->name};
-	    }
-	    $args['oldName'] = $field->name;
-	    $native = isset($nativeProperties[$className]) && in_array($propertyName ,$nativeProperties[$className]) ? ' native' : '';
-	    echo '<div class="property'.$native.'" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+	    echo '</div>';
 	}
-	echo '</div>';
-    }
-    ?>
+	?>
+    </div>
     <div id="rightsidebar" style="z-index:999">
         <div id="update_table">
             <h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
@@ -852,6 +856,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             isSource:false,
             connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
             isTarget:false },
+	 keywordsReserveds : ',include,require,include_once,require_once,for,foreach,as,if,elseif,else,while,do,endwhile,endif,switch,case,endswitch,endfor,endforeach,return,break,continue,self,static,parent,a,abort,abs,absolute,access,action,ada,add,admin,after,aggregate,alias,all,allocate,also,alter,always,analyse,analyze,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,audit,authorization,auto_increment,avg,avg_row_length,backup,backward,before,begin,bernoulli,between,bigint,binary,bit,bit_length,bitvar,blob,bool,boolean,both,breadth,break,browse,bulk,by,c,cache,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,change,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,checkpoint,checksum,class,class_origin,clob,close,cluster,clustered,coalesce,cobol,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,columns,command_function,command_function_code,comment,commit,committed,completion,compress,compute,condition,condition_number,connect,connection,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructor,contains,containstable,continue,conversion,convert,copy,corr,corresponding,count,covar_pop,covar_samp,create,createdb,createrole,createuser,cross,csv,cube,cume_dist,current,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,database,databases,date,datetime,datetime_interval_code,datetime_interval_precision,day,day_hour,day_microsecond,day_minute,day_second,dayofmonth,dayofweek,dayofyear,dbcc,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delay_key_write,delayed,delete,delimiter,delimiters,dense_rank,deny,depth,deref,derived,desc,describe,descriptor,destroy,destructor,deterministic,diagnostics,dictionary,disable,disconnect,disk,dispatch,distinct,distinctrow,distributed,div,do,domain,double,drop,dual,dummy,dump,dynamic,dynamic_function,dynamic_function_code,each,element,else,elseif,enable,enclosed,encoding,encrypted,end,end-exec,enum,equals,errlvl,escape,escaped,every,except,exception,exclude,excluding,exclusive,exec,execute,existing,exists,exit,exp,explain,external,extract,false,fetch,fields,file,fillfactor,filter,final,first,float,float4,float8,floor,flush,following,for,force,foreign,fortran,forward,found,free,freetext,freetexttable,freeze,from,full,fulltext,function,fusion,g,general,generated,get,global,go,goto,grant,granted,grants,greatest,group,grouping,handler,having,header,heap,hierarchy,high_priority,hold,holdlock,host,hosts,hour,hour_microsecond,hour_minute,hour_second,identified,identity,identity_insert,identitycol,if,ignore,ilike,immediate,immutable,implementation,implicit,in,include,including,increment,index,indicator,infile,infix,inherit,inherits,initial,initialize,initially,inner,inout,input,insensitive,insert,insert_id,instance,instantiable,instead,int,int1,int2,int3,int4,int8,integer,intersect,intersection,interval,into,invoker,is,isam,isnull,isolation,iterate,join,k,key,key_member,key_type,keys,kill,lancompiler,language,large,last,last_insert_id,lateral,leading,least,leave,left,length,less,level,like,limit,lineno,lines,listen,ln,load,local,localtime,localtimestamp,location,locator,lock,login,logs,long,longblob,longtext,loop,low_priority,lower,m,map,match,matched,max,max_rows,maxextents,maxvalue,mediumblob,mediumint,mediumtext,member,merge,message_length,message_octet_length,message_text,method,middleint,min,min_rows,minus,minute,minute_microsecond,minute_second,minvalue,mlslabel,mod,mode,modifies,modify,module,month,monthname,more,move,multiset,mumps,myisam,name,names,national,natural,nchar,nclob,nesting,new,next,no,no_write_to_binlog,noaudit,nocheck,nocompress,nocreatedb,nocreaterole,nocreateuser,noinherit,nologin,nonclustered,none,normalize,normalized,nosuperuser,not,nothing,notify,notnull,nowait,null,nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,off,offline,offset,offsets,oids,old,on,online,only,open,opendatasource,openquery,openrowset,openxml,operation,operator,optimize,option,optionally,options,or,order,ordering,ordinality,others,out,outer,outfile,output,over,overlaps,overlay,overriding,owner,pack_keys,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,parameters,partial,partition,pascal,password,path,pctfree,percent,percent_rank,percentile_cont,percentile_disc,placing,plan,pli,position,postfix,power,preceding,precision,prefix,preorder,prepare,prepared,preserve,primary,print,prior,privileges,proc,procedural,procedure,process,processlist,public,purge,quote,raid0,raiserror,range,rank,raw,read,reads,readtext,real,recheck,reconfigure,recursive,ref,references,referencing,regexp,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,reindex,relative,release,reload,rename,repeat,repeatable,replace,replication,require,reset,resignal,resource,restart,restore,restrict,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,rlike,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rowcount,rowguidcol,rowid,rownum,rows,rule,save,savepoint,scale,schema,schema_name,schemas,scope,scope_catalog,scope_name,scope_schema,scroll,search,second,second_microsecond,section,security,select,self,sensitive,separator,sequence,serializable,server_name,session,session_user,set,setof,sets,setuser,share,show,shutdown,signal,similar,simple,size,smallint,some,soname,source,space,spatial,specific,specific_name,specifictype,sql,sql_big_result,sql_big_selects,sql_big_tables,sql_calc_found_rows,sql_log_off,sql_log_update,sql_low_priority_updates,sql_select_limit,sql_small_result,sql_warnings,sqlca,sqlcode,sqlerror,sqlexception,sqlstate,sqlwarning,sqrt,ssl,stable,start,starting,state,statement,static,statistics,status,stddev_pop,stddev_samp,stdin,stdout,storage,straight_join,strict,string,structure,style,subclass_origin,sublist,submultiset,substring,successful,sum,superuser,symmetric,synonym,sysdate,sysid,system,system_user,table,table_name,tables,tablesample,tablespace,temp,template,temporary,terminate,terminated,text,textsize,than,then,ties,time,timestamp,timezone_hour,timezone_minute,tinyblob,tinyint,tinytext,to,toast,top,top_level_count,trailing,tran,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,truncate,trusted,tsequal,type,uescape,uid,unbounded,uncommitted,under,undo,unencrypted,union,unique,unknown,unlisten,unlock,unnamed,unnest,unsigned,until,update,updatetext,upper,usage,use,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,utc_date,utc_time,utc_timestamp,vacuum,valid,validate,validator,value,values,var_pop,var_samp,varbinary,varchar,varchar2,varcharacter,variable,variables,varying,verbose,view,volatile,waitfor,when,whenever,where,while,width_bucket,window,with,within,without,work,write,writetext,x509,xor,year,year_month,zerofill,zone,',
         buildLink : function(sourceModule, source, targetModule, target){
             //var objSource = $("#table_" + source);
             var objTarget = $("#table_" + target);
@@ -879,26 +884,28 @@ background: linear-gradient(#FFFFFF, #ddd);}
             champ.attr("name",source);
             champ.attr("id",'table_' + target + '_' + predictedname).addClass("property");
             champ.appendTo(objTarget).show();
-            dbadmin.reDraw();
+            dbadmin.createConnector(champ[0]);
+	    dbadmin.refreshUI();
         },
         createTable : function(tablename){
             if(tablename.length>0){
-                var keywordsReserveds = ',include,require,include_once,require_once,for,foreach,as,if,elseif,else,while,do,endwhile,endif,switch,case,endswitch,endfor,endforeach,return,break,continue,self,static,parent,a,abort,abs,absolute,access,action,ada,add,admin,after,aggregate,alias,all,allocate,also,alter,always,analyse,analyze,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,audit,authorization,auto_increment,avg,avg_row_length,backup,backward,before,begin,bernoulli,between,bigint,binary,bit,bit_length,bitvar,blob,bool,boolean,both,breadth,break,browse,bulk,by,c,cache,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,change,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,checkpoint,checksum,class,class_origin,clob,close,cluster,clustered,coalesce,cobol,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,columns,command_function,command_function_code,comment,commit,committed,completion,compress,compute,condition,condition_number,connect,connection,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructor,contains,containstable,continue,conversion,convert,copy,corr,corresponding,count,covar_pop,covar_samp,create,createdb,createrole,createuser,cross,csv,cube,cume_dist,current,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,database,databases,date,datetime,datetime_interval_code,datetime_interval_precision,day,day_hour,day_microsecond,day_minute,day_second,dayofmonth,dayofweek,dayofyear,dbcc,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delay_key_write,delayed,delete,delimiter,delimiters,dense_rank,deny,depth,deref,derived,desc,describe,descriptor,destroy,destructor,deterministic,diagnostics,dictionary,disable,disconnect,disk,dispatch,distinct,distinctrow,distributed,div,do,domain,double,drop,dual,dummy,dump,dynamic,dynamic_function,dynamic_function_code,each,element,else,elseif,enable,enclosed,encoding,encrypted,end,end-exec,enum,equals,errlvl,escape,escaped,every,except,exception,exclude,excluding,exclusive,exec,execute,existing,exists,exit,exp,explain,external,extract,false,fetch,fields,file,fillfactor,filter,final,first,float,float4,float8,floor,flush,following,for,force,foreign,fortran,forward,found,free,freetext,freetexttable,freeze,from,full,fulltext,function,fusion,g,general,generated,get,global,go,goto,grant,granted,grants,greatest,group,grouping,handler,having,header,heap,hierarchy,high_priority,hold,holdlock,host,hosts,hour,hour_microsecond,hour_minute,hour_second,identified,identity,identity_insert,identitycol,if,ignore,ilike,immediate,immutable,implementation,implicit,in,include,including,increment,index,indicator,infile,infix,inherit,inherits,initial,initialize,initially,inner,inout,input,insensitive,insert,insert_id,instance,instantiable,instead,int,int1,int2,int3,int4,int8,integer,intersect,intersection,interval,into,invoker,is,isam,isnull,isolation,iterate,join,k,key,key_member,key_type,keys,kill,lancompiler,language,large,last,last_insert_id,lateral,leading,least,leave,left,length,less,level,like,limit,lineno,lines,listen,ln,load,local,localtime,localtimestamp,location,locator,lock,login,logs,long,longblob,longtext,loop,low_priority,lower,m,map,match,matched,max,max_rows,maxextents,maxvalue,mediumblob,mediumint,mediumtext,member,merge,message_length,message_octet_length,message_text,method,middleint,min,min_rows,minus,minute,minute_microsecond,minute_second,minvalue,mlslabel,mod,mode,modifies,modify,module,month,monthname,more,move,multiset,mumps,myisam,name,names,national,natural,nchar,nclob,nesting,new,next,no,no_write_to_binlog,noaudit,nocheck,nocompress,nocreatedb,nocreaterole,nocreateuser,noinherit,nologin,nonclustered,none,normalize,normalized,nosuperuser,not,nothing,notify,notnull,nowait,null,nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,off,offline,offset,offsets,oids,old,on,online,only,open,opendatasource,openquery,openrowset,openxml,operation,operator,optimize,option,optionally,options,or,order,ordering,ordinality,others,out,outer,outfile,output,over,overlaps,overlay,overriding,owner,pack_keys,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,parameters,partial,partition,pascal,password,path,pctfree,percent,percent_rank,percentile_cont,percentile_disc,placing,plan,pli,position,postfix,power,preceding,precision,prefix,preorder,prepare,prepared,preserve,primary,print,prior,privileges,proc,procedural,procedure,process,processlist,public,purge,quote,raid0,raiserror,range,rank,raw,read,reads,readtext,real,recheck,reconfigure,recursive,ref,references,referencing,regexp,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,reindex,relative,release,reload,rename,repeat,repeatable,replace,replication,require,reset,resignal,resource,restart,restore,restrict,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,rlike,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rowcount,rowguidcol,rowid,rownum,rows,rule,save,savepoint,scale,schema,schema_name,schemas,scope,scope_catalog,scope_name,scope_schema,scroll,search,second,second_microsecond,section,security,select,self,sensitive,separator,sequence,serializable,server_name,session,session_user,set,setof,sets,setuser,share,show,shutdown,signal,similar,simple,size,smallint,some,soname,source,space,spatial,specific,specific_name,specifictype,sql,sql_big_result,sql_big_selects,sql_big_tables,sql_calc_found_rows,sql_log_off,sql_log_update,sql_low_priority_updates,sql_select_limit,sql_small_result,sql_warnings,sqlca,sqlcode,sqlerror,sqlexception,sqlstate,sqlwarning,sqrt,ssl,stable,start,starting,state,statement,static,statistics,status,stddev_pop,stddev_samp,stdin,stdout,storage,straight_join,strict,string,structure,style,subclass_origin,sublist,submultiset,substring,successful,sum,superuser,symmetric,synonym,sysdate,sysid,system,system_user,table,table_name,tables,tablesample,tablespace,temp,template,temporary,terminate,terminated,text,textsize,than,then,ties,time,timestamp,timezone_hour,timezone_minute,tinyblob,tinyint,tinytext,to,toast,top,top_level_count,trailing,tran,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,truncate,trusted,tsequal,type,uescape,uid,unbounded,uncommitted,under,undo,unencrypted,union,unique,unknown,unlisten,unlock,unnamed,unnest,unsigned,until,update,updatetext,upper,usage,use,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,utc_date,utc_time,utc_timestamp,vacuum,valid,validate,validator,value,values,var_pop,var_samp,varbinary,varchar,varchar2,varcharacter,variable,variables,varying,verbose,view,volatile,waitfor,when,whenever,where,while,width_bucket,window,with,within,without,work,write,writetext,x509,xor,year,year_month,zerofill,zone,';
-                if(keywordsReserveds.indexOf("," + tablename + ",") == -1){
+                if(dbadmin.keywordsReserveds.indexOf("," + tablename + ",") == -1){
                     if(!$('#table_' + tablename).length){
-                        $("#container_bdd").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
-                        var monid_champ = "table_" + tablename +  "_id_" + tablename;
+                        $("#canvas").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
+                        var myID_champ = "table_" + tablename +  "_id_" + tablename;
                         var table_name = tablename;
                         var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
                         jsonproperties.entity = table_name;
                         jsonproperties.name = "id_" + table_name;
                         jsonproperties.label = "Id " + table_name;
                         var champ = $('#table_' + tablename + ' div[type_class="field_ident"]');
-                        champ.attr("id",monid_champ).attr("type_class","field_ident").addClass("property new").text("id_" + table_name);
+                        champ.attr("id",myID_champ).attr("type_class","field_ident").addClass("property new").text("id_" + table_name);
                         champ.data("attributs",jsonproperties);
-                        dbadmin.reDraw();
+                        dbadmin.createAnchor(champ[0].id );
+			dbadmin.createAnchorForeignKey("table_" + tablename);
+			dbadmin.refreshUI();
                     }else{
-                        ParsimonyAdmin.notify(t('The Entity') + ' ' +tablename + ' ' + t('already exists'),'negative');
+                        ParsimonyAdmin.notify(t('The Entity') + ' ' + tablename + ' ' + t('already exists'),'negative');
                     }
                 }else{
                     ParsimonyAdmin.notify(t('This word')+ ' '  + tablename + ' ' + t('belongs to a list of Reserved Words, Please Choose another'),'negative') + '.';
@@ -934,7 +941,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
 
             /* JsPlumb */
             jsPlumb.importDefaults({     
-                Container : $("body"),
+                Container : $("#canvas"),
                 DragOptions : { zIndex:2000 }
             });
 
@@ -962,39 +969,47 @@ background: linear-gradient(#FFFFFF, #ddd);}
             $("#update_table").on('click','.save_table',function(){
                 var oldName = $('#update_table input[name="oldName"]').val();
                 var newName = $('#update_table input[name="name"]').val();
-                if(newName != oldName){
-                    if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
-                        return false;
+		if(dbadmin.keywordsReserveds.indexOf("," + newName + ",") == -1){
+                    if(!$('#table_' + newName).length){
+			if(newName != oldName){
+			    if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
+				return false;
+			    }
+			    /* we change the entity name of all his properties */
+			    $(".property", current_update_table).each(function(){
+				var attrs = $(this).data("attributs");
+				attrs.entity = newName;
+				$(this).data("attributs",attrs);
+			    });
+			     /* we change the link entity name for all foreign keys that link to this table */
+			    $('.property[type_class="field_foreignkey"]').each(function(){
+				var attrs = $(this).data("attributs");
+				if(attrs.link == oldName)
+				    attrs.link = newName;
+				$(this).data("attributs",attrs);
+			    });
+			}
+			var json = '{';
+			$("#update_table input[name],#update_table select[name]").each(function(){
+			    json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
+			});
+			var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
+			if(current_update_table.hasClass("new")) obj.oldName = obj.name;
+			current_update_table.data("attributs",obj);
+			$("#deletator").prependTo($("body"));
+			current_update_table.find(".title").text(obj.name);
+			$(this).parent().parent().hide('slow');
+			$("#save").addClass("haveToSave");
+		    }else{
+                        ParsimonyAdmin.notify(t('The Entity') + ' ' + newName + ' ' + t('already exists'),'negative');
                     }
-                    /* we change the entity name of all his properties */
-                    $(".property", current_update_table).each(function(){
-                        var attrs = $(this).data("attributs");
-                        attrs.entity = newName;
-                        $(this).data("attributs",attrs);
-                    });
-                     /* we change the link entity name for all foreign keys that link to this table */
-                    $('.property[type_class="field_foreignkey"]').each(function(){
-                        var attrs = $(this).data("attributs");
-                        if(attrs.link == oldName)
-                            attrs.link = newName;
-                        $(this).data("attributs",attrs);
-                    });
+                }else{
+                    ParsimonyAdmin.notify(t('This word')+ ' '  + newName + ' ' + t('belongs to a list of Reserved Words, Please Choose another'),'negative') + '.';
                 }
-                var json = '{';
-                $("#update_table input[name],#update_table select[name]").each(function(){
-                    json +=  '"' + $(this).attr('name') + '":"' +  $(this).val().replace(/"/g,'\\"') + '",';
-                });
-                var obj = jQuery.parseJSON(json.substring(0, json.length-1) + "}");
-                if(current_update_table.hasClass("new")) obj.oldName = obj.name;
-                current_update_table.data("attributs",obj);
-                $("#deletator").prependTo($("body"));
-                current_update_table.find(".title").text(obj.name);
-                $(this).parent().parent().hide('slow');
-                $("#save").addClass("haveToSave");
             }); 
 
             /* Open Table Settings */
-            $('#container_bdd').on('click','.title',function(){
+            $('#canvas').on('click','.title',function(){
                 $('#update_field > div').hide();
                 $('#update_table').show();
             })
@@ -1009,12 +1024,19 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		    if(obj.hasClass('table')){
 			if(confirm(t('Are you sure to delete this entity ?'))){
 			    $(this).appendTo($('body'));
-			    $('#container_bdd div[type_class="field_foreignkey"]').each(function(index){
+			    jsPlumb.removeAllEndpoints(obj.attr('id'));
+			    $('.property',obj).each(function(index){
+				jsPlumb.removeAllEndpoints(this.id);
+			    });
+			    $('#canvas div[type_class="field_foreignkey"]').each(function(index){
 				var name = $(".title",obj).text();
-				if($(this).text()=='id_' + name) $(this).remove();
+				if($(this).data("attributs").link == name) {
+				    jsPlumb.removeAllEndpoints(this.id);
+				    $(this).remove();
+				}
 			    });
 			    obj.remove();
-			    dbadmin.reDraw();
+			    dbadmin.refreshUI();
 			}
 		    }else if(obj.hasClass('property')){
 			if(confirm(t('Are you sure to delete this property ?'))){
@@ -1165,7 +1187,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 }
                 $("#popup,#conf_box_overlay").hide();
                 $("#save").addClass("haveToSave");
-                dbadmin.reDraw();
+                dbadmin.refreshUI();
             })
             /* Choose behavior of the link */
             .on('click','#btnLinkToExternal',function(){
@@ -1178,7 +1200,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                     $(this).closest(".popup").hide();
                     $('#conf_box_overlay').hide();
                     $("#save").addClass("haveToSave");
-                    dbadmin.reDraw();
+                    dbadmin.refreshUI();
                 }else{
                     alert(t("Please choose the linked table"));
                 }
@@ -1190,7 +1212,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             });
 
             /* Sort properties */
-            $("#container_bdd .table").sortable({ items: ".property[type_class!='field_ident']" });
+            $("#canvas .table").sortable({ items: ".property[type_class!='field_ident']" });
             $("#field_list > div").draggable({zIndex: 2700 ,revert:true,helper: "clone"});
 
             /* Add a Table */
@@ -1199,31 +1221,10 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 dbadmin.createTable($("#table_name").val());
                 $("#save").addClass("haveToSave");
             });
-
-            dbadmin.reDraw();
-        },
-        //	    updateFormPreview :   function(){
-        //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
-        //		    $("#preview_form .content").html(data);                 
-        //		});
-        //	    },
-        createAnchor :   function(monid){
-            myEndpoint = jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions));
-            jsPlumb.setDraggable(monid, false);          
-        },
-        createAnchorForeignKey :   function(monid){
-            jsPlumb.addEndpoint(monid, $.extend({ anchor:["BottomRight","TopRight"], uuid:monid+"_uuid" }, dbadmin.endpointOptions2));
-        },
-        createAnchorNewForeignKey :   function(monid){
-            jsPlumb.addEndpoint(monid, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:monid+"_uuid" }, dbadmin.endpointOptions3));
-            jsPlumb.setDraggable(monid, false);
-        },
-        reDraw :   function(){
-            jsPlumb.reset();
-
-            /* Draw Anchor on fields ident */
-            $(".property").each(function(index) {
-                if(this.getAttribute('type_class') == 'field_ident') dbadmin.createAnchor(this.id );
+	    
+	    /* Draw Anchor on fields ident */
+            $(".property[type_class='field_ident']").each(function(index) {
+                dbadmin.createAnchor(this.id );
             });
 
             /* Draw Anchor on fields foreignKey */
@@ -1233,29 +1234,78 @@ background: linear-gradient(#FFFFFF, #ddd);}
 
             jsPlumb.makeTarget("extLink", {isTarget:true, paintStyle:{ fillStyle:"transparent"},dropOptions :  { activeClass:'dragActive2' } });
 
-            /* Draw connectors between tables */
-            $("#container_bdd div[type_class='field_foreignkey']").not("#field_list div[type_class='field_foreignkey']").each(function(index) {
-                var jsonproperties = $(this).data("attributs");
-                dbadmin.createAnchorNewForeignKey(this.id);
-                dbadmin.marqueur = true;
-                if($("#table_" + jsonproperties.link).length > 0 ){
-                    jsPlumb.connect({ uuids:[this.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
-                        paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
-                        hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
-                        overlays: [
-                            [ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
-                            [ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(this).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
-                        ]
-                    });
-                }
-                dbadmin.marqueur = false;
+	    /* Draw connectors between tables */
+            $("#canvas div[type_class='field_foreignkey']").each(function(index) {
+                dbadmin.createConnector(this);
             });
+	    
+	    /* When a connector is linked */
+            jsPlumb.bind("beforeDrop", function(event, originalEvent) {
+		if(event.targetId == "extLink"){
+		    jsPlumb.removeAllEndpoints("extLink");
+		    $("#popup2,#conf_box_overlay").show();
+		    $("#btnLinkToExternal").data('sourceid',event.sourceId);
+		    return true;
+		}
+		$("#popup input").data('sourceid',event.sourceId);
+		$("#popup input").data('targetid',event.targetId);
+		$("#popup .entity1").text(event.connection.source.parent().find('.title').text());
+		$("#popup .entity2").text(event.connection.target.find('.title').text());
+		if(event.connection.source.parent().attr('id') == event.targetId){
+		    $('#button1').trigger('click');
+		}else{
+		    $("#popup,#conf_box_overlay").show();
+		}
+            });
+
+            /* When a connector is cliqued*/
+            jsPlumb.bind("click", function(connection, originalEvent) {
+                if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
+                    jsPlumb.detach(connection);
+                    jsPlumb.removeAllEndpoints(connection.sourceId);
+                    //$("#" + connection.sourceId).remove();
+                }
+            });
+	    
+            dbadmin.refreshUI();
+        },
+        //	    updateFormPreview :   function(){
+        //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
+        //		    $("#preview_form .content").html(data);                 
+        //		});
+        //	    },
+        createAnchor :   function(myID){
+            myEndpoint = jsPlumb.addEndpoint(myID, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:myID+"_uuid" }, dbadmin.endpointOptions));        
+        },
+        createAnchorForeignKey :   function(myID){
+            jsPlumb.addEndpoint(myID, $.extend({ anchor:["BottomRight","TopRight"], uuid:myID+"_uuid" }, dbadmin.endpointOptions2));
+        },
+        createAnchorNewForeignKey :   function(myID){
+            jsPlumb.addEndpoint(myID, $.extend({ anchor:["LeftMiddle","RightMiddle"], uuid:myID+"_uuid" }, dbadmin.endpointOptions3));
+        },
+	createConnector :   function(elmt){
+            var jsonproperties = $(elmt).data("attributs");
+	    dbadmin.createAnchorNewForeignKey(elmt.id);
+	    if($("#table_" + jsonproperties.link).length > 0 ){
+		jsPlumb.connect({ uuids:[elmt.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
+		    paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
+		    hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
+		    detachable:false,
+		    deleteEndpointsOnDetach:false,
+		    overlays: [
+			[ "Arrow", {  location:0.4,paintStyle:{ fillStyle:'#222', strokeStyle:"rgba(255,255,255,0)" }} ],
+			[ "Label", { cssClass:"component",font:"12px sans-serif",label: ' ' + t('Primary key') +" : <span class=\"connection\">" + $(elmt).parent().find('.title').text() + "</span>"+ ' ' + t('to Foreign Key')+ ' : '+ "<span class=\"connection\">" + $("#table_" + jsonproperties.link + " div[type_class='field_ident']").parent().find('.title').text() + "</span> " }]	
+		    ]
+		});
+	    }
+        },
+        refreshUI :   function(){
 
             /* Allows to drag tables */
             jsPlumb.draggable($(".table"),{
                 cursor: 'move',
                 handle : 'div.title',
-                containment: '#container_bdd',
+                containment: '#canvas',
                 drag: function(event, ui) {
                     $("#outline").fracs('outline', 'redraw');
                 },stop:function(){
@@ -1264,7 +1314,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             });
 
             /* Allows to drop fields in table */
-            $(".table").droppable("destroy").droppable({
+            $(".table").droppable({
                 accept: '#field_list div',
                 activeClass: 'ui-state-hover',
                 hoverClass: 'ombre',
@@ -1275,7 +1325,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                         nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
                         if(nom_champ != ""){
                             var champ = ui.draggable.clone();
-                            champ.removeAttr('class').attr("id",$(event.target).attr("id") + "_" + nom_champ).addClass("property new");
+                            champ.removeAttr('class').attr("id",event.target.id + "_" + nom_champ).addClass("property new");
                             jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
                             jsonproperties.entity = $(this).find('.title').text();
                             jsonproperties.name = nom_champ;
@@ -1284,48 +1334,18 @@ background: linear-gradient(#FFFFFF, #ddd);}
                             champ.data("attributs",jsonproperties);
                             champ.text(nom_champ);
                             champ.appendTo(this);
-
-                            $("#container_bdd .table").sortable('destroy').sortable({ items: ".property[type_class!='field_ident']" });
+           
+                            $("#canvas .table").sortable({ items: ".property[type_class!='field_ident']" });
                             $("#save").addClass("haveToSave");
                         }
                     }
                 }
             });
-
-            /* When a connector is linked */
-            jsPlumb.bind("jsPlumbConnection", function(event, originalEvent) {
-                if(  !dbadmin.marqueur){
-                    jsPlumb.detach(event);
-                    if(event.targetId == "extLink"){
-                        jsPlumb.removeAllEndpoints("extLink");
-                        $("#popup2,#conf_box_overlay").show();
-                        $("#btnLinkToExternal").data('sourceid',event.sourceId);
-                        return true;
-                    }
-                    $("#popup input").data('sourceid',event.sourceId);
-                    $("#popup input").data('targetid',event.targetId);
-                    $("#popup .entity1").text(event.source.parent().find('.title').text());
-                    $("#popup .entity2").text(event.target.find('.title').text());
-                    if(event.source.parent().attr('id') == event.targetId){
-                        $('#button1').trigger('click');
-                    }else{
-                        $("#popup,#conf_box_overlay").show();
-                    }
-                }
-            });
-
-            /* When a connector is cliqued*/
-            jsPlumb.bind("click", function(connection, originalEvent) {
-                if (confirm( t('Delete connection from') + ' ' + connection.source.parent().find(".title").text()+ ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")){
-                    jsPlumb.detach(connection);
-                    jsPlumb.removeAllEndpoints(connection.sourceId);
-                    $("#" + connection.sourceId).remove();
-                }
-            });
+            
         }
     };
     $(document).ready(function() {
-        if($.browser.mozilla) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
         dbadmin.init();
     });
 </script>

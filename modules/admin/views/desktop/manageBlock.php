@@ -33,7 +33,7 @@ if (is_object($block) == NULL) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-	$("#save_page").live('click',function(event){
+	$(document).on('click',"#save_page", function(event){
 	    event.preventDefault();
             $('#save_configs').trigger('click');
             return false;

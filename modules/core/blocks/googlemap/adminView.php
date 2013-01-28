@@ -103,7 +103,7 @@ if (($this->getConfig('language')) != '') {
 
 
 <script>
-    $('input,select').live('blur change',function(){
+    $(document).on('blur change','input,select',function(){
         var adress = $('input[name=adress]').val() +','+ $('input[name=town]').val()+','+ $('input[name=country]').val();
         var lang = $('input[name=language]').val();
         var view = $('select[name=view]').val();

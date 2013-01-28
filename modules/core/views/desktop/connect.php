@@ -135,11 +135,11 @@ if (isset($_POST['connexion'])) {
                 </div>
             </form> 
         </div> 
-        <script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"> </script>
-	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.8.1.min.js"><\/script>')</script>
+        <script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"> </script>
+	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.9.0.min.js"><\/script>')</script>
         <script>
             $(document).ready(function () {
-                if($.browser.mozilla){
+                if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
 		    $('#header').after('<div style="postion:absolute;top:0;font-size:25px;text-align:center;line-height: 50px;letter-spacing: 1.5px; color:#777;text-shadow: 0px 1px 0px white;z-index:99999999;top:80px;position:absolute;width:100%">It is highly recommended to use Parsimony Beta with <a style="color:#777;font-size:25px;text-align:center;line-height: 50px;letter-spacing: 1.5px;text-shadow: 0px 1px 0px white;" href="https://www.google.com/chrome">Google Chrome</a> for administration.</div>');
 		}else if(!window.chrome){
                     $('body').empty();       

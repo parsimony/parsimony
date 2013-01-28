@@ -26,8 +26,8 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<SCRIPT LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js"> </SCRIPT>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.8.23.min.js"><\/script>')</script>
+<SCRIPT LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"> </SCRIPT>
+<script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/nestedSortable/jquery.ui.nestedSortable.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/default.css">
 <style>
