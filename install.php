@@ -10,7 +10,7 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to contact@parsimony.mobi so we can send you a copy immediately.
+ * to contact@parsimony-cms.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
@@ -25,9 +25,6 @@
  * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-error_reporting(E_ALL);
 
 $lang = array();
 $lang['fr']['Step'] = 'Etape';

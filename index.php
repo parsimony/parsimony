@@ -11,7 +11,7 @@ include('install.php');exit;
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to contact@parsimony.mobi so we can send you a copy immediately.
+ * to contact@parsimony-cms.com so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
