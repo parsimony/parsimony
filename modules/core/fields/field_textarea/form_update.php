@@ -34,8 +34,8 @@
 	    <?php endif; ?>
 	</label>
         <?php if (isset($this->mode) && $this->mode == 'text'): ?>
-            <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $this->value ?>" />
+            <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $value ?>" />
         <?php else: ?>
-            <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $this->value ?></textarea>
+            <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $value ?></textarea>
         <?php endif; ?>
 </div>

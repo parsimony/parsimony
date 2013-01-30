@@ -36,6 +36,7 @@
 <br>
 <?php
 $path = PROFILE_PATH .$this->getConfig('pathOfView');
+$editorMode = 'application/x-httpd-php';
 include('modules/admin/views/desktop/editor.php');
 ?>
 <script>

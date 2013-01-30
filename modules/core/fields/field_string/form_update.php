@@ -38,6 +38,7 @@ if(isset($this->unique) && $this->unique):
 		}
 	    });
 	});
+	$("#<?php echo $this->name.'_'.$row->getId()->value  ?>").trigger("keyup");
     });
 </script>
 <?php

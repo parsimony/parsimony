@@ -37,7 +37,7 @@ $id = $this->name.'_'.$row->getId()->value;
 	<?php endif; ?>
     </label>
     
-    <div id="image_thumb_<?php echo $id; ?>" class="field-image-previewContainer<?php if(empty($this->value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
+    <div id="image_thumb_<?php echo $id; ?>" class="field-image-previewContainer<?php if(empty($value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
 	    <div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name',FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
 	    <img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/<?php echo s($value) ?>&x=150&y=150" class="field-image-preview" />
     </div>

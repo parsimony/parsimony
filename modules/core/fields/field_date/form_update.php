@@ -40,7 +40,7 @@ $stamp = strtotime($value);
         <div class="field-date-container" style="display:inline-block">
 	    <?php
 	    $temp = $this->templateForms;
-	    if($this->value == '0000-00-00 00:00:00'){
+	    if($value == '0000-00-00 00:00:00'){
 		$dateNull = true;
 		$currentMonth = '';
 	    }else{

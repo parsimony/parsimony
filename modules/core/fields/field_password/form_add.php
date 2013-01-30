@@ -34,4 +34,7 @@
 	    <?php endif; ?>
 	</label>
 	<input type="password" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo $this->default ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
+	<div>
+            <input type="checkbox" class="checkPass" onclick="if(this.checked) document.getElementById('<?php echo $this->name ?>').type = 'text'; else document.getElementById('<?php echo $this->name ?>').type = 'password';"><?php echo t('Check Password'); ?>
+        </div>
 </div>
