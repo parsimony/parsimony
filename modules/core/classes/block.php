@@ -160,6 +160,7 @@ abstract class block {
     /**
      * Remove a block of container block
      * @param string $idBlock 
+     * @return bool
      */
     public function rmBlock($idBlock) {
         if(isset($this->blocks[$idBlock])) {
