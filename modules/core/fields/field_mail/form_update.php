@@ -29,7 +29,7 @@ if(isset($this->unique) && $this->unique):
 ?>
 <script>
     $(document).ready(function() {
-	$(document).on("keyup", "#<?php echo $this->name.'_'.$row->getId()->value  ?>", function(){
+	$(document).on("blur keyup", "#<?php echo $this->name.'_'.$row->getId()->value  ?>", function(){
 	    $.post(BASE_PATH + '<?php echo $this->module; ?>/callField',{module:"<?php echo $this->module; ?>", entity:"<?php echo $this->entity; ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value + "&id=<?php echo $row->getId()->value ?>"}, function(data){
 		if(data == 1){
 		    $(".info_<?php echo $this->name.'_'.$row->getId()->value ?>").empty();
@@ -38,6 +38,7 @@ if(isset($this->unique) && $this->unique):
 		}
 	    });
 	});
+	$("#<?php echo $this->name.'_'.$row->getId()->value  ?>").trigger("keyup");
     });
 </script>
 <?php
