@@ -22,7 +22,7 @@
         <?php echo app::$request->page->printInclusions() ?>
 	<?php echo app::$request->page->head ?>
     </head>
-    <body class="module-<?php echo MODULE; ?> page-<?php echo app::$request->page->getId(); ?>">
+    <body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo app::$request->page->getId(); ?>">
 	<?php echo $this->body; ?>
 	<?php echo app::$request->page->printInclusions('footer') ?>
     </body>
