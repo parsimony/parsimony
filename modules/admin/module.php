@@ -1069,6 +1069,7 @@ class admin extends \module {
 	    $arr['y'] = $height;
 	    $arr['type'] = $type;
 	}
+	unset($arr['tmp_name']);
 	\app::$response->setHeader('Content-type', 'application/json');
 	return json_encode($arr);
 	}else
