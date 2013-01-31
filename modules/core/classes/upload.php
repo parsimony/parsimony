@@ -99,7 +99,7 @@ class upload {
             if (!empty($this->target)) {
                 if ($file['size'] <= $this->maxSize) {
                     if (empty($this->fileName)) {
-                        $this->fileName = $file['name'];
+                        $this->fileName = strtolower($file['name']);
                     }
                     $fichier_info = pathinfo($this->target . $this->fileName);
                     $extension = strtolower($fichier_info['extension']);

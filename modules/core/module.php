@@ -153,7 +153,7 @@ class core extends \module {
     }
     
     public function loginAction($URL = "index") {
-        if(!\app::$request->isAjax()) \app::$request->setHeader('Location', $URL);
+        if(!\app::$request->isAjax()) \app::$response->setHeader('Location', $URL);
 	$login = \app::$request->getParam('login');
 	$pass = \app::$request->getParam('password');
 	if ($login && $pass) {

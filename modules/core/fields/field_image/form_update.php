@@ -49,8 +49,14 @@ $id = $this->name.'_'.$row->getId()->value;
 </div>
 <script LANGUAGE="JavaScript" type="text/javascript">
     $(document).ready(function(){
-	$("#upload_image_<?php echo $id; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-	    ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH . $this->module . '/' . $this->path; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+	$("#upload_image_<?php echo $id; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>socialssignin/callField",
+	    ajaxFileParams: {
+            module: "<?php echo $this->module; ?>", 
+            entity: "<?php echo $this->entity; ?>", 
+            fieldName:"<?php echo $this->name; ?>", 
+            method:'upload', 
+            args:''
+            },
 	    stop:function(response){
 		$("#image_<?php echo $id; ?>").val(response.name);
 		var thumb = $("#image_thumb_<?php echo $id; ?>");
