@@ -340,6 +340,7 @@ class page extends \block {
                 if($pathParts == 'js' || $pathParts=='css'){
                     $path = stream_resolve_include_path ($file);
                     if($path) include($path);
+		    echo PHP_EOL; //in order to split JS script and avoid "}function"
                 }
             }
             $content = ob_get_clean();

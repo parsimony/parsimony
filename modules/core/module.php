@@ -127,8 +127,8 @@ class core extends \module {
 	\app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
 	\app::$request->page->addJSFile(BASE_PATH . 'lib/cms.js');
 	if(\app::$config['general']['ajaxnav']){
-	    \app::$request->page->addJSFile(BASE_PATH . 'core/js/ajaxNav.js');
-	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css');
+	    \app::$request->page->addJSFile(BASE_PATH . 'core/js/ajaxNav.js','footer');
+	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css','footer');
 	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
 	    \app::$request->page->addCSSFile(BASE_PATH . 'core/' . THEMETYPE . '.css');

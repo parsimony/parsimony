@@ -42,8 +42,9 @@ public function __construct(\field_ident $id_user,\field_string $pseudo,\field_m
     }
 
     public function afterInsert($vars) {
-	$name = $vars[':pseudo'];
+	$name = $login = $vars[':pseudo'];
 	$password = $this->_newPassword;
+	$companyMail = \app::$config['mail']['adminMail'];
 	ob_start();
 	include('admin/views/mail/registration.php');
 	$body = ob_get_clean();

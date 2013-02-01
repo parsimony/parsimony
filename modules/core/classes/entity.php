@@ -227,9 +227,10 @@ abstract class entity implements \Iterator {
         if(!$res) {
 	    return FALSE;
 	}else{
+	    $lastId = $values[':'.$this->getId()->name] = \PDOconnection::getDB()->lastInsertId(); // should be before afterInsert
 	    $this->afterInsert($values);
 	    \app::dispatchEvent('afterInsert', array($vars, &$this));
-	    return  \PDOconnection::getDB()->lastInsertId();
+	    return  $lastId;
 	}
     }
 
