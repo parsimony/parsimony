@@ -281,8 +281,14 @@ class tools {
         }elseif ( \app::$config['mail']['type']=='qmail') {
             $mailer->IsQmail();
         }
-	
-	$mailer->AddAddress($to);
+	if(strstr($to,',') !== FALSE){
+	    $multi = explode(',',$to);
+	    foreach($multi AS $addr){
+		$mailer->AddAddress(trim($addr));
+	    }
+	}else{
+	    $mailer->AddAddress($to);
+	}
         $mailer->SetFrom($from);
         $mailer->AddReplyTo($replyTo);
         $mailer->Subject = $subject;
