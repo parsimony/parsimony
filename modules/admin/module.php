@@ -1228,12 +1228,11 @@ class ' . $table->name . ' extends \entity {
 public function __construct(' . substr($tplParam, 0, -1) . ') {
 ' . $tplAssign . '
 }
-// DON\'T TOUCH THE CODE ABOVE ##########################################################
 ';
 
 		$model = 'modules/' . $module . '/model/' . $table->name . '.php';
 		if (!is_file($model)) {
-		    $tpl .= '}'.PHP_EOL.'?>';
+		    $tpl .= '// DON\'T TOUCH THE CODE ABOVE ##########################################################'.PHP_EOL.'}'.PHP_EOL.'?>';
 		} else {
 		    $code = file_get_contents($model);
 		    $tpl = preg_replace('@<\?php(.*)}(.*)?(ABOVE ##########################################################)?@Usi', $tpl, $code);
