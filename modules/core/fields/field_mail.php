@@ -81,7 +81,7 @@ class field_mail extends \field {
     
     public function checkUniqueAction($chars, $id = false) {
 	if($this->unique){
-            $entity = \app::getModule($this->module)->getEntity($this->entity);
+            $entity = clone \app::getModule($this->module)->getEntity($this->entity);
             $obj = $entity->where($this->name.' = "'.$chars.'"');
             if($id != false && is_numeric($id)) $obj = $obj->where($entity->getId()->name.' != '.$id);
             $obj = $obj->fetch();
