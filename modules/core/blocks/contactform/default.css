@@ -1,0 +1,63 @@
+form{}
+form div {}
+label 
+{
+display:block;
+font-size : 20px ;
+margin : 0 ;
+padding : 5px 0 ;
+color : #474242 ;
+}
+
+input 
+{
+height : 30px ;
+border-width : 1px ;
+border-top-left-radius : 10px ;
+border-top-right-radius : 10px ;
+border-bottom-right-radius : 10px ;
+border-bottom-left-radius : 10px ;
+font-size : 20px ;
+color : #474242 ;
+box-shadow : 0px 1px 3px 0px #888888  ;
+-webkit-box-shadow : 0px 1px 3px 0px #888888 ;
+-moz-box-shadow : 0px 1px 3px 0px #888888  ;
+text-align : left;
+text-indent : 4px;
+}
+textarea {}
+select 
+{
+height : 25px ;
+-moz-border-radius : 3px ;
+-webkit-border-radius : 3px ;
+border-radius : 3px ;
+}
+.submit 
+{
+background : #f9f9f9 ;
+width : 250px ;
+height : 40px ;
+margin : 20px 0 0 ;
+text-align : center ;
+}
+.notify 
+{
+font-size : 30px ;
+color : #201b1b ;
+text-align : center ;
+}
+.positive 
+{
+background-color : #bfe054;
+font-size : 30px ;
+color : #201b1b ;
+text-align : center ;
+}
+.negative 
+{
+background-color : #ff4949 ;
+font-size : 30px ;
+color : #201b1b ;
+text-align : center ;
+}
