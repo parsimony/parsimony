@@ -59,6 +59,11 @@ $lang['fr']['Prev Step'] = 'Retour';
 $lang['fr']['Congratulations, Parsimony is now ready'] = 'Félicitation, Parsimony a été installé avec succès';
 $lang['fr']['Let\'s Go !'] = 'C\'est Parti !';
 $lang['fr']['Your database connection settings are not valid'] = 'Les données de la connection à la base de données sont incorrectes';
+$lang['fr']['User doesn\'t exist or needed a password'] = 'L\'utilisateur n\'existe pas ou un mot de passe est demandé';
+$lang['fr']['User doesn\'t exist or wrong password'] = 'L\'utilisateur n\'existe pas ou le mot de passe est incorrect';
+$lang['fr']['Can\'t Connect to MySQL Server'] = 'Impossible de se connecter au serveur MySQL';
+$lang['fr']['Database doesn\'t exist'] = 'La base de données n\'existe pas';
+$lang['fr']['Error Code: '] = 'Code d\'erreur: ';
 $lang['fr']['Site Name'] = 'Nom du Site Principal';
 $lang['fr']['Admin Account'] = 'Compte administrateur';
 $lang['fr']['Password confirmation is different'] = 'La confirmation du mot de passe n\'est pas correcte';
@@ -440,13 +445,34 @@ while (1) {
                                     $_POST['db_pass'],
                                     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
                 } catch (PDOException $ex) {
+		    $mysql_errorcode = $ex->getCode();
                     $connect = FALSE;
                 }
             }
             if ($connect) {
                 $step = 4;
             } else {
-                echo '<div class="notify negative">' . tr('Your database connection settings are not valid') . '</div>';
+		if (isset($mysql_errorcode)) {
+			switch ($mysql_errorcode) {
+			case 1049:
+				echo '<div class="notify negative">' . tr('Database doesn\'t exist') . '</div>';
+				break;
+			case 1044:
+				echo '<div class="notify negative">' . tr('User doesn\'t exist or needed a password') . '</div>';
+				break;
+			case 1045:
+				echo '<div class="notify negative">' . tr('User doesn\'t exist or wrong password') . '</div>';
+				break;
+			case 2002:
+				echo '<div class="notify negative">' . tr('Can\'t Connect to MySQL Server') . '</div>';
+				break;
+			default:
+				echo '<div class="notify negative">' . tr('Your database connection settings are not valid') . ' ' . tr('Error Code: ') .  $mysql_errorcode .'</div>';
+				break;
+			}
+		}else{
+		echo '<div class="notify negative">' . tr('Your database connection settings are not valid').'</div>';
+		}
                 $step = 3;
             }
 	    
