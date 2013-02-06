@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et BenoÃ®t Lorillot
- * @copyright  Julien Gras et BenoÃ®t Lorillot
+ * @authors Julien Gras et BenoÃƒÂ®t Lorillot
+ * @copyright  Julien Gras et BenoÃƒÂ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -284,9 +284,7 @@ class field {
      * @return string
      */
     public function formUpdate($value, &$row = '') {
-        ob_start();
-        include($this->getFieldPath() . '/form.php');
-        return ob_get_clean();
+        return $this->form($value, $row);
     }
 
     /**
@@ -294,8 +292,9 @@ class field {
      * @deprecated since version 2.5
      * @return string
      */
-    public function formAdd() {
+    public function formAdd($value = '', &$row = FALSE) {
         ob_start();
+	$fieldName = $this->name;
         include($this->getFieldPath() . '/form.php');
         return ob_get_clean();
     }
