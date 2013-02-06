@@ -11,7 +11,7 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to contact@parsimony-cms.com so we can send you a copy immediately.
+ * to contact@parsimony.mobi so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -163,15 +163,6 @@ class field {
         $this->entity = $name;
         return $this;
     }
-    
-    /**
-     * Set field visibility
-     * @param int $visibility
-     */
-    public function setVisibility($visibility) {
-        $this->visibility = $visibility;
-        return $this;
-    }
 
     /**
      * Get field field path
@@ -218,8 +209,7 @@ class field {
         $idName = $row->getId()->name;
         ob_start();
         include($this->getFieldPath() . '/' . $this->displayView);
-        $html = ob_get_clean();
-        return $html;
+        return ob_get_clean();
     }
 
     /**
@@ -241,8 +231,7 @@ class field {
         }
 	
         include($this->getFieldPath() . '/' . $this->displayView);
-        $html = ob_get_clean();
-        return $html;
+        return ob_get_clean();
     }
     
     public function saveEditInline($data, $id) {
@@ -275,8 +264,7 @@ class field {
     public function displayGrid() {
         ob_start();
         include($this->getFieldPath() . '/grid.php');
-        $html = ob_get_clean();
-        return $html;
+        return ob_get_clean();
     }
 
     /**
@@ -286,31 +274,69 @@ class field {
     public function displayFilter() {
         ob_start();
         include($this->getFieldPath() . '/form_filter.php');
-        $html = ob_get_clean();
-        return $html;
+        return ob_get_clean();
     }
 
     /**
      * Display Updating Form
      * @param string $value
+     * @deprecated since version 2.5
      * @return string
      */
     public function formUpdate($value, &$row = '') {
         ob_start();
-        include($this->getFieldPath() . '/form_update.php');
-        $html = ob_get_clean();
-        return $html;
+        include($this->getFieldPath() . '/form.php');
+        return ob_get_clean();
     }
 
     /**
      * Display Adding Form
+     * @deprecated since version 2.5
      * @return string
      */
     public function formAdd() {
         ob_start();
-        include($this->getFieldPath() . '/form_add.php');
-        $html = ob_get_clean();
-        return $html;
+        include($this->getFieldPath() . '/form.php');
+        return ob_get_clean();
+    }
+    
+    /**
+     * Display Updating Form
+     * @param string $value
+     * @return string
+     */
+    public function form($value = '', &$row = FALSE) {
+        ob_start();
+	$fieldName = $this->name;
+	if($row){
+	    $fieldName .= '_'.$row->getId()->value;
+	}
+	?>
+	<div class="field placeholder">
+	<?php
+        include($this->getFieldPath() . '/form.php');
+	?>
+	</div>
+	<?php
+        return ob_get_clean();
+    }
+    
+    /**
+     * Display Label
+     * @param string $fieldName
+     * @return string
+     */
+    public function displayLabel($fieldName) {
+        ob_start();
+	?>
+	<label for="<?php echo $fieldName ?>">
+	    <?php echo t($this->label) ?>
+	    <?php if (!empty($this->text_help)): ?>
+	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
+	    <?php endif; ?>
+	</label>
+	<?php
+        return ob_get_clean();
     }
 
     /**

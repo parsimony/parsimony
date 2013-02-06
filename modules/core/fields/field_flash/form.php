@@ -25,17 +25,13 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+echo $this->displayLabel($fieldName);
 ?>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
-<div class="placeholder" id="upload_flash_<?php echo $this->name . '_' . $row->getId()->value ?>">
-    <label>
-	<?php echo $this->label ?>
-	<?php if (!empty($this->text_help)): ?>
-    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	<?php endif; ?>
-    </label>
+<div id="upload_flash_<?php echo $fieldName ?>">
     <input type="file" />
-    <div id="flash_thumb_<?php echo $this->name . '_' . $row->getId()->value; ?>">
+    <div id="flash_thumb_<?php echo $fieldName; ?>">
 	<div style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
 	    <div style="padding:5px 0;"><?php echo t('Name', FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="nameIMG ellipsis" target="_blank"><?php echo s($value) ?></a></div>
 	    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="180" height="140">
@@ -45,18 +41,18 @@
 	    </object>
 	</div>
     </div>
-    <input type="hidden" id="flash_<?php echo $this->name . '_' . $row->getId()->value; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
+    <input type="hidden" id="flash_<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
 </div>
 <script LANGUAGE="JavaScript" type="text/javascript">
     $(document).ready(function(){
-	$("#upload_flash_<?php echo $this->name . '_' . $row->getId()->value; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
+	$("#upload_flash_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
 	    ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH . $this->module . '/' . $this->path; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
 	    stop:function(response){
-		$("#flash_<?php echo $this->name . '_' . $row->getId()->value; ?>").val(response.name);
-		$("#flash_thumb_<?php echo $this->name . '_' . $row->getId()->value; ?>").find(".nameIMG").text(response.name);
-		$("#flash_thumb_<?php echo $this->name . '_' . $row->getId()->value; ?>").find("a").attr("href",response.name);
-		$("#flash_thumb_<?php echo $this->name . '_' . $row->getId()->value; ?>").find("embed").attr("src","<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
-		$("#flash_thumb_<?php echo $this->name . '_' . $row->getId()->value; ?>").show().find('param[name="movie"]').val("<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
+		$("#flash_<?php echo $fieldName; ?>").val(response.name);
+		$("#flash_thumb_<?php echo $fieldName; ?>").find(".nameIMG").text(response.name);
+		$("#flash_thumb_<?php echo $fieldName; ?>").find("a").attr("href",response.name);
+		$("#flash_thumb_<?php echo $fieldName; ?>").find("embed").attr("src","<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
+		$("#flash_thumb_<?php echo $fieldName; ?>").show().find('param[name="movie"]').val("<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name);
 	    }
 	});
     });

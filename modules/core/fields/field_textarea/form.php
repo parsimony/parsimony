@@ -25,16 +25,10 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-	<input type="text" name=" <?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
-</div>
 
-
-
+echo $this->displayLabel($fieldName);
+if (isset($this->mode) && $this->mode == 'text'): ?>
+    <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $value ?>" />
+<?php else: ?>
+    <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $value ?></textarea>
+<?php endif; ?>

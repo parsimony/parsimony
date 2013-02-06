@@ -25,16 +25,13 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+echo $this->displayLabel($fieldName);
  ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-	<input type="text" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo $this->default ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
-        <input type="text" name="<?php echo $this->name ?>_nb_votes" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
-
-</div>
-
+<select name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>">
+    <?php
+    $users = \app::getModule('core')->getEntity('user')->select();
+    foreach ($users AS $line) :?>
+	<option value="<?php echo $line->id_user; ?>"<?php if($value == $line->id_user) echo ' selected="selected"' ?>><?php echo $line->pseudo; ?></option>
+    <?php endforeach; ?>
+</select>

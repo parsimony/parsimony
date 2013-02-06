@@ -25,12 +25,9 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$val = $row->getId()->value;
 
 $visibility = $this->name . '_visibility';
-//echo s($row->$visibility);
 $status = $this->name . '_status';
-// echo s($row->$status);
 $stamp = strtotime(s($value));
 
 $visibility = $this->name . '_visibility';
@@ -48,13 +45,11 @@ $visibility = $this->name . '_visibility';
     .sticky{margin:2px 0 2px 5px;}
     .slide{cursor:pointer}
 </style>
-<div id="publishForm<?php echo $val; ?>">
-    <label for="<?php echo $this->name ?>">
-        <?php echo t('Publish', False) ?>
-        <?php if (!empty($this->text_help)): ?>
-            <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo $this->text_help ?>"></span>
-        <?php endif; ?>
-    </label>
+<?php
+echo $this->displayLabel($fieldName);
+?>
+<div id="publishForm<?php echo $fieldName; ?>">
+    
     <div class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;"><?php echo t('Visibility', False) ?> :</span> <span class="visibstatus"></span></div>
     <div class="none">
         <div class="sticky">
@@ -114,7 +109,7 @@ $visibility = $this->name . '_visibility';
 <script>
     $(document).ready(function() {
   
-        var myForm = $("#publishForm<?php echo $val; ?>").closest("form");
+        var myForm = $("#publishForm<?php echo $fieldName; ?>").closest("form");
             
         $(myForm).on('change','.datesql', function(e) { 
             var sqltime = lead($('.addyyyy', myForm).val(),4) + '-' + lead($('.addmm', myForm).val(),2) + '-' + lead($('.adddd', myForm).val(),2) + ' ' + lead($('.addhour', myForm).val(),2) + ':' + lead($('.addminut', myForm).val(),2) + ':' + lead($('.addsecond', myForm).val(),2);
@@ -184,15 +179,16 @@ $visibility = $this->name . '_visibility';
             $(this).next().slideToggle();
         });
 
-    if("<?php echo s($row->$visibility); ?>" == 0 || "<?php echo s($row->$visibility); ?>" == 1 || "<?php echo s($row->$visibility); ?>" == 2){
-        $('.sticky input[data-val="<?php echo s($row->$visibility); ?>"]').trigger('click');
-    }else{
-        $('.sticky input[data-val="3"]').trigger('click');
-        $('.passname').val("<?php echo s($row->$visibility); ?>");
-    }
-    
-    $('.pubstatus input[data-val="<?php echo s($row->$status); ?>"]').trigger('click');
+    <?php if(is_object($row)): ?>
+	if("<?php echo s($row->$visibility); ?>" == 0 || "<?php echo s($row->$visibility); ?>" == 1 || "<?php echo s($row->$visibility); ?>" == 2){
+	    $('.sticky input[data-val="<?php echo s($row->$visibility); ?>"]').trigger('click');
+	}else{
+	    $('.sticky input[data-val="3"]').trigger('click');
+	    $('.passname').val("<?php echo s($row->$visibility); ?>");
+	}
 
+	$('.pubstatus input[data-val="<?php echo s($row->$status); ?>"]').trigger('click');
+    <?php endif; ?>
     $('.public', myForm).trigger('click');
     $('.datesql', myForm).trigger('change');  
     $('.datesql',myForm).trigger('change');   

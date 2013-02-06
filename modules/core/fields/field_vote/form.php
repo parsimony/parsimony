@@ -25,19 +25,9 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+echo $this->displayLabel($fieldName);
  ?>
-<div>
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-	<select name="<?php echo $this->name ?>">
-        <?php
-        $users = \app::getModule('core')->getEntity('user')->select();
-        foreach ($users AS $line) :?>
-            <option value="<?php echo $line->id_user; ?>"<?php if($value == $line->id_user) echo ' selected="selected"' ?>><?php echo $line->pseudo; ?></option>
-        <?php endforeach; ?>
-    </select>
-</div>
+<input type="text" name=" <?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
+<?php $nbVoteName =  $this->name.'_nb_votes'; ?>
+<input type="text" name="<?php echo $this->name ?>_nb_votes" value="<?php echo s($row->$nbVoteName) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />

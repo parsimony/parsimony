@@ -11,7 +11,7 @@
  * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
- * to contact@parsimony-cms.com so we can send you a copy immediately.
+ * to contact@parsimony.mobi so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -313,7 +313,7 @@ abstract class entity implements \Iterator {
                 else
                     $value = $field->validate($columnsValues,$val, $vars);
                 if ($value === FALSE)
-                    return $field->label . ' : ' . $field->msg_error; // return error message
+                    return $field->label . ', ' . $field->msg_error; // return error message
 		else 
 		    $field->setValue($value);
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
@@ -367,10 +367,10 @@ abstract class entity implements \Iterator {
         foreach ($this->getFields() as $name => $field) {
             if ($field->visibility & INSERT) {
                 if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
-                    $col2 .= $field->formAdd();
+                    $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
                 else
-                    $col1 .= $field->formAdd();
-            }
+                    $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
+            } 
         }
         $html .= '<h2 style="position:relative">' . t('Add in', false) . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save', FALSE) . '" name="add"></h2><div class="cols">';
         $html .= '<div class="col col1">' . $col1 . '</div>';
@@ -405,12 +405,12 @@ abstract class entity implements \Iterator {
         foreach ($this->getFields() as $name => $field) {
             if ($field->visibility & UPDATE) {
                 if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
-                    $col2 .= $field->formUpdate($this->{$field->name}, $this);
+                    $col2 .= $field->form($field->value, $this);
                 else
-                    $col1 .= $field->formUpdate($this->{$field->name}, $this);
+                    $col1 .= $field->form($field->value, $this);
             }
         }
-        $html .= '<h2>' . t('Record', FALSE) . ' N° ' . $this->getId()->value;
+        $html .= '<h2>' . t('Record', FALSE) . ' NÂ° ' . $this->getId()->value;
         $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
         if ($this->getRights(ID_ROLE) & DELETE)
             $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';

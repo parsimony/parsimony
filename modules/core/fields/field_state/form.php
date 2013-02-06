@@ -25,16 +25,13 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+echo $this->displayLabel($fieldName);
  ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-	<input type="password" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo $this->default ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
-	<div>
-            <input type="checkbox" class="checkPass" onclick="if(this.checked) document.getElementById('<?php echo $this->name ?>').type = 'text'; else document.getElementById('<?php echo $this->name ?>').type = 'password';"><?php echo t('Check Password'); ?>
-        </div>
-</div>
+<select name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>"> 
+    <?php
+    $states = explode(',', $this->states);
+    foreach ($states as $key => $state) : ?>
+	<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>';
+    <?php endforeach; ?>
+</select>

@@ -25,13 +25,7 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+echo $this->displayLabel($fieldName);
  ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name.'_'.$row->getId()->value ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-	<input type="text" name="<?php echo $this->name ?>" id="<?php echo $this->name.'_'.$row->getId()->value ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
-</div>
+<input type="text" name=" <?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />

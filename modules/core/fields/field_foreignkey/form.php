@@ -25,17 +25,25 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	    <?php echo $this->label ?>
-	    <?php if (!empty($this->text_help)): ?>
-	    <span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	    <?php endif; ?>
-	</label>
-        <?php if (isset($this->mode) && $this->mode == 'text'): ?>
-            <input type="text" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> value="<?php echo $this->default ?>" />
-        <?php else: ?>
-            <textarea cols="50" rows="8" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?>><?php echo $this->default ?></textarea>
-        <?php endif; ?>
-</div>
+
+echo $this->displayLabel($fieldName);
+
+$foreignID = $this->value;
+$sth = PDOconnection::getDB()->query('SELECT * FROM ' . PREFIX . $this->moduleLink.'_'.$this->link); // used ->getEntity() but there was interference because of cache
+if(is_object($sth)){
+    $sth->setFetchMode(PDO::FETCH_OBJ);
+    echo '<select name="'.$this->name.'"><option></option>';
+    $properties = app::getModule($this->moduleLink)->getEntity($this->link)->getFields();
+    foreach ($sth as $key => $line) {
+        $text = $this->templatelink;
+        foreach ($properties as $key => $field) {
+            if(get_class($field)==\app::$aliasClasses['field_ident']) $id = $key;
+            if(isset($line->$key)) $text = str_replace('%'.$key.'%',$line->$key, $text);
+        }
+        if($line->$id == $foreignID) $selected = ' selected="selected"';
+        else $selected = '';
+        echo  '<option value="'.$line->$id.'"'.$selected.'>'.$text.'</option>';
+    }
+    echo '</select>';
+}
+?>

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Parsimony
  *
@@ -25,21 +25,13 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
+
+echo $this->displayLabel($fieldName);
+if(strstr($this->characters_max, ',')){
+    $cutMax = explode('.',$this->characters_max);
+    $step = '0.'.(str_repeat('0', $cutMax[1])-1).'1';
+}else{
+    $step = '1';
+}
 ?>
-<div class="placeholder">
-    <label for="<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	<?php if (!empty($this->text_help)): ?>
-    	<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
-	<?php endif; ?>
-    </label>
-    <div style="padding-top: 24px;width:700px">
-	<textarea cols="50" rows="14" class="<?php echo $this->name ?>" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><p><?php echo $this->default ?>...</p></textarea>
-    </div>
-</div>
-<script>
-	var HTML5editor = new wysiwyg();
-	HTML5editor.init("#<?php echo $this->name ?>",["<?php echo str_replace(',','","',$this->wysiwygModules); ?>"]);
-</script>
+<input type="range" min="0" max="100" step="<?php echo $step; ?>" id="<?php echo $fieldName ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />

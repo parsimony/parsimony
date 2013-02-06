@@ -25,4 +25,7 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?><input type="hidden" name="<?php echo $this->name ?>" id="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
+
+echo $this->displayLabel($fieldName);
+ ?>
+<input type="text" name=" <?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
