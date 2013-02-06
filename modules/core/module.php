@@ -197,6 +197,7 @@ class core extends \module {
         $this->getEntity('role')->insertInto(array('id_role' => '3', 'name' => 'Developer', 'state' => '2'));
         $this->getEntity('role')->insertInto(array('id_role' => '4', 'name' => 'Webmaster', 'state' => '1'));
         $this->getEntity('role')->insertInto(array('id_role' => '5', 'name' => 'Subscriber', 'state' => '0'));
+	$this->getEntity('role')->insertInto(array('id_role' => '6', 'name' => 'Anonymous', 'state' => '0'));
     }
 
 }

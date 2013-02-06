@@ -289,6 +289,7 @@ class request {
             }
 	}else{
 	    define('BEHAVIOR', 0);
+	    $_SESSION['idr'] = 6;
             /* We hide all errors */
             error_reporting(0);
             ini_set('display_errors', 0);

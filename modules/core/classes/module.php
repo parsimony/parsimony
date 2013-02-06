@@ -385,8 +385,8 @@ class module {
 	    if (preg_match($regex, $url, $_GET)) {
 		app::$request->setParams($_GET);
 		$page = $this->getPage($index);
-		//if(isset($_SESSION['idr']) && ($_SESSION['idr']==1 || $page->getRights($_SESSION['idr']) & DISPLAY))
-		return app::$response->setContent($page, 200);
+		if($page->getRights($_SESSION['idr']) & DISPLAY)
+		    return app::$response->setContent($page, 200);
 	    }
 	}
 	return FALSE;
