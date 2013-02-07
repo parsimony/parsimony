@@ -39,11 +39,9 @@ namespace core\blocks;
  * @modules_dependencies core:1
  */
 
-class container extends \block
-{
+class container extends \block{
 
-    public function display()
-    {
+    public function display(){
         $cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
         $cacheFile = 'cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
         $maxage = $this->getConfig('maxAge');
@@ -53,6 +51,7 @@ class container extends \block
             include($cacheFile);
             $html .= ob_get_clean();
         } else {
+	    $view = $this->getView(); // for children classes
             if ($this->getConfig('tag') !== false)
                 $tag = $this->getConfig('tag');
             else
@@ -64,6 +63,7 @@ class container extends \block
                 $classes .= ' column';
             }
             $html .= '<' . $tag . ' id="' . $this->id . '" class="block container' . $classes . '">';
+	    $html .= $view;
             if (!empty($this->blocks)) {
                 foreach ($this->blocks as $selected_block) {
                     $html .= $selected_block->display() . PHP_EOL;
@@ -75,14 +75,16 @@ class container extends \block
         }
         return $html;
     }
+    
+    public function getView(){
+        return '';
+    }
 
-    public function setBlocks($blocks)
-    {
+    public function setBlocks($blocks){
         $this->blocks = $blocks;
     }
 
-    public function ajaxRefresh($type = FALSE)
-    {
+    public function ajaxRefresh($type = FALSE){
         if ($type == 'add') {
             return parent::ajaxRefresh($type);
         } else {

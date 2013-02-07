@@ -49,7 +49,9 @@ class adminsidebar extends \core\blocks\container {
 	if (isset($_COOKIE[$this->side.'ToolbarOpen']) && $_COOKIE[$this->side.'ToolbarOpen'] == 0)
 	    $classes .= ' close';
 	$html = '<div id="' . $this->id . '" data-side="'.$this->side.'" class="block sidebar container pin ' . $classes . ' ' . (string) $this->getConfig('cssClasses') . '" style="' . $style . '">';
-	$html .= $this->getView();
+	ob_start();
+	include('view.php');
+        $html .= ob_get_clean();
 	$html .= '</div>';
 	return $html;
     }
