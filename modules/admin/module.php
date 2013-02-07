@@ -902,7 +902,7 @@ class admin extends \module {
 	    $obj = \app::$request->page;
 	}
 	foreach ($obj->getBlocks() AS $block) {
-	    if (get_class($block) == 'core\blocks\container' || $block->getId() == 'content')
+	    if (get_class($block) == 'core\blocks\container' || get_class($block) == 'core\blocks\tabs' || $block->getId() == 'content')
 		$html .= $this->structureTree($block);
 	    else
 		$html .= '<li class="tree_selector parsiblock" id="treedom_' . $block->getId() . '"> ' .$block->getId() . '</li>';
