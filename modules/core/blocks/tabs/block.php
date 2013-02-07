@@ -51,7 +51,7 @@ class tabs extends \core\blocks\container{
 		    $($(this).attr("href")).show();
 		});});
 		</script>';
-	    $html .= '<ul>';
+	    $html .= '<ul class="tabsContainer">';
 	    foreach ($this->blocks as $selected_block) {
 		$title = $selected_block->getConfig('headerTitle');
 		$html .= '<li><a href="#'.$selected_block->getId().'">'.(empty($title) ? $selected_block->getId() : $title).'</a></li>';
