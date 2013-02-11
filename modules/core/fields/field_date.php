@@ -66,8 +66,8 @@ class field_date extends \field {
      * @return string
      */
      public function validate($value) {
-	
-	if (empty($value) && $this->use != 'normal') { // update || creation
+	if(!$this->require && empty($value) && $this->use == 'normal') return '';
+	elseif (empty($value) && $this->use != 'normal') { // update || creation
 	    return gmdate('Y-m-d H:i:s', time());
 	}else{
 	    if(is_array($value)){
