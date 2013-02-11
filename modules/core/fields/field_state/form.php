@@ -32,6 +32,6 @@ echo $this->displayLabel($fieldName);
     <?php
     $states = explode(',', $this->states);
     foreach ($states as $key => $state) : ?>
-	<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>';
+	<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>
     <?php endforeach; ?>
 </select>
