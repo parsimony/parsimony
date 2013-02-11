@@ -1322,22 +1322,27 @@ background: linear-gradient(#FFFFFF, #ddd);}
                     var champ = ui.draggable.clone();
                     var nom_champ = prompt(t('Please enter a field name') + ' ?');
                     if(nom_champ != null){
-                        nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
-                        if(nom_champ != ""){
-                            var champ = ui.draggable.clone();
-                            champ.removeAttr('class').attr("id",event.target.id + "_" + nom_champ).addClass("property new");
-                            jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
-                            jsonproperties.entity = $(this).find('.title').text();
-                            jsonproperties.name = nom_champ;
-                            jsonproperties.oldName = nom_champ;
-                            jsonproperties.label = nom_champ;
-                            champ.data("attributs",jsonproperties);
-                            champ.text(nom_champ);
-                            champ.appendTo(this);
-           
-                            $("#canvas .table").sortable({ items: ".property[type_class!='field_ident']" });
-                            $("#save").addClass("haveToSave");
-                        }
+			nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
+			if(nom_champ != ""){
+			    var id = event.target.id + "_" + nom_champ;
+			    if(!$('#' + id).length){   
+				var champ = ui.draggable.clone();
+				champ.removeAttr('class').attr("id",id).addClass("property new");
+				jsonproperties = jQuery.parseJSON(JSON.stringify(ui.draggable.data("attributs")));
+				jsonproperties.entity = $(this).find('.title').text();
+				jsonproperties.name = nom_champ;
+				jsonproperties.oldName = nom_champ;
+				jsonproperties.label = nom_champ;
+				champ.data("attributs",jsonproperties);
+				champ.text(nom_champ);
+				champ.appendTo(this);
+
+				$("#canvas .table").sortable({ items: ".property[type_class!='field_ident']" });
+				$("#save").addClass("haveToSave");
+			    }else{
+				ParsimonyAdmin.notify(t('The property') + ' ' + nom_champ + ' ' + t('already exists'),'negative');
+			    }
+			}
                     }
                 }
             });
