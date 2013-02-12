@@ -69,7 +69,7 @@ class field_price extends \field {
 	$testValue = str_replace('.', '', $value);
 	$cutMax = explode(',',$this->characters_max);
 	$cutValue = explode('.',$value);
-        if(is_numeric($testValue) && strlen($value) <= $cutMax[0] && strlen($cutValue[1]) <= $cutMax[1]){
+        if(is_numeric($testValue) && strlen($value) <= $cutMax[0] && (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])){
 	    return $value;
 	}else{
 	    return FALSE;
