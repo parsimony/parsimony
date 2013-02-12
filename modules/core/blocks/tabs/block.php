@@ -46,7 +46,7 @@ class tabs extends \core\blocks\container{
 	$this->setConfig('cssClasses','container');
         if (!empty($this->blocks)) {
 	    \app::$request->page->head .= '<style> #' . $this->getId() . ' > .block{display:none;}#' . current($this->blocks)->getId() . '.block{display:block;} </style><script>
-		$(document).ready(function() {$("#'.$this->getId().'").on("click","a",function (e) {
+		$(document).ready(function() {$("#'.$this->getId().' .tabsContainer").on("click","a",function (e) {
 		    e.preventDefault();
 		    $("#'.$this->getId().' > .block").hide();
 		    $($(this).attr("href")).show();
