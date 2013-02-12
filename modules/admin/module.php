@@ -316,6 +316,7 @@ class admin extends \module {
 	    $page = new \page($idPage, $module);
 	    $page->setTitle('Page '.$idPage);
 	    $page->setRegex('@^page_'.$idPage.'$@');
+	    $page->updateRights('1','1');
 	    $page->save();
 	    $moduleObj->addPage($page); //modif
 	} else {
