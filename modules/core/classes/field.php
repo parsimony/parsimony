@@ -163,6 +163,15 @@ class field {
         $this->entity = $name;
         return $this;
     }
+    
+    /**
+     * Set field visibility
+     * @param int $visibility
+     */
+    public function setVisibility($visibility) {
+        $this->visibility = $visibility;
+        return $this;
+    }
 
     /**
      * Get field field path
