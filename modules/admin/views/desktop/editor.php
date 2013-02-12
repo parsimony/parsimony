@@ -133,12 +133,12 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
     </select>
     <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
 	<?php
-        $backups = glob('profiles/' . PROFILE . '/backup/' . $path . '-*.bak');
+        $backups = glob('var/backup/' . PROFILE . '/' . $path . '-*.bak');
         if(is_array($backups)){
             $backup = array_reverse($backups);
             foreach ($backup as $filename) {
-                preg_match('@backup/' . $path . '-(.*).bak@', $filename, $date);
-                echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
+                preg_match('@var/backup/'.PROFILE.'/' . $path . '-(.*).bak@', $filename, $date);
+                if(isset($date[1])) echo '<option value="' . $date[1] . '">' . date('l jS \of F Y h:i:s A', $date[1]) . '</option>';
             }
         }
 	?>

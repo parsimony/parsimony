@@ -178,7 +178,7 @@ class tools {
      */
     public static function file_put_contents($file, $content, $backup=true) {
 	if ($backup && defined('PROFILE')) {
-	    $dir_backup = 'profiles/' . PROFILE . '/backup/' . dirname($file) . '/';
+	    $dir_backup = 'var/backup/' . PROFILE . '/' . dirname($file) . '/';
 	    if (!is_dir($dir_backup))
 		self::createDirectory($dir_backup);
 	    file_put_contents($dir_backup . basename($file) . '-' . time() . '.bak', $content);

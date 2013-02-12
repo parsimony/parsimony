@@ -38,15 +38,15 @@ class user {
     protected $sessPath;
 
     public function __construct() {
-        $this->sessPath = \app::$config['DOCUMENT_ROOT'] . '/profiles' . DIRECTORY_SEPARATOR . PROFILE . DIRECTORY_SEPARATOR . 'sessions';
+        $this->sessPath = \app::$config['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sessions' . DIRECTORY_SEPARATOR . PROFILE ;
         ini_set('session.save_path', '4;' . $this->sessPath . '');
 
         ini_set('use_only_cookies', 1);
-        ini_set('session.gc_maxlifetime', '86400');
         ini_set('session.cache_limiter', 'nocache');
         ini_set('session.cookie_httponly', true);
-        ini_set('session.hash_function', 'sha256');
-        ini_set('session.hash_bits_per_character', 5);
+	//ini_set('session.gc_maxlifetime', '86400');
+        //ini_set('session.hash_function', 'sha256');
+        //ini_set('session.hash_bits_per_character', 5);
 
         if (!isset($_COOKIE['PHPSESSID'])) {
             $this->setSessionId();
@@ -66,20 +66,20 @@ class user {
     }
 
     protected function setSessionId() {
-        $hash = hash('sha1', uniqid(mt_rand()));
+        $hash = hash('sha1', uniqid(mt_rand().\app::$config['security']['salt']));
         $dir = $this->sessPath . DIRECTORY_SEPARATOR . $hash[0] . DIRECTORY_SEPARATOR . $hash[1] . DIRECTORY_SEPARATOR . $hash[2] . DIRECTORY_SEPARATOR . $hash[3] . DIRECTORY_SEPARATOR;
         if (!is_dir($dir))
-            mkdir($dir, 0777 , true);
+            mkdir($dir, 0755 , true);
         if (is_file($dir . 'sess_' . $hash))
             $this->setSessionId();
-        $ttt = array();
+        $oldSESS = array();
         if (isset($_SESSION))
-            $ttt = $_SESSION;
+            $oldSESS = $_SESSION;
         $oldId = session_id();
         session_write_close();
         session_id($hash);
         session_start();
-        $_SESSION = $ttt;
+        $_SESSION = $oldSESS;
         if (!empty($oldId)) {
             $oldDir = $this->sessPath . DIRECTORY_SEPARATOR . $oldId[0] . DIRECTORY_SEPARATOR . $oldId[1] . DIRECTORY_SEPARATOR . $oldId[2] . DIRECTORY_SEPARATOR . $oldId[3] . DIRECTORY_SEPARATOR;
             if (is_file($oldDir . 'sess_' . $oldId)) {

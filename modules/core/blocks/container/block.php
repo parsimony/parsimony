@@ -43,7 +43,7 @@ class container extends \block{
 
     public function display(){
         $cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
-        $cacheFile = 'cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
+        $cacheFile = 'var/cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
         $maxage = $this->getConfig('maxAge');
         $html = $classes = '';
         if ($maxage > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxage > time()) {

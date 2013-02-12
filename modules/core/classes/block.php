@@ -201,7 +201,7 @@ abstract class block {
             if (!in_array(MODULE, $mods))
                 return '';
         }     
-        $cacheFile = 'cache/' . PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
+        $cacheFile = 'var/cache/' . PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
         $maxAge = $this->getConfig('maxAge');
         if ($maxAge > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxAge > time()) {
             ob_start();

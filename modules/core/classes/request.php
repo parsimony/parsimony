@@ -173,7 +173,7 @@ class request {
 	    $this->locale = app::$config['localization']['default_language'];
 	setlocale(LC_ALL, $this->locale);
 	date_default_timezone_set(app::$config['localization']['timezone']);
-	$pathCache = 'cache/' . $this->locale . '-lang';
+	$pathCache = 'var/cache/' . $this->locale . '-lang';
 	$lang = '';
 	if (is_file($pathCache . '.php')) {
 	    include $pathCache . '.php';
@@ -185,7 +185,7 @@ class request {
 	    $config = new \config($pathCache . '.php', TRUE);
 	    $config->setVariable('lang');
 	    $config->saveConfig($lang);
-	    \tools::file_put_contents($pathCache . '.js', substr($config->getContent(), 5));
+	    \tools::file_put_contents($pathCache . '.js', substr($config->getContent(), 5, false));
 	}
 	app::$lang = $lang;
     }

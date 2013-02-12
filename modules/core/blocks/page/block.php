@@ -46,7 +46,7 @@ class page extends \block {
 
     public function display() {
 	$rep_cache = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
-	$fichier_cache = 'cache/' . $rep_cache . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
+	$fichier_cache = 'var/cache/' . $rep_cache . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
 	$secondes = $this->getConfig('maxAge');
 	$html = '';
 	if (file_exists($fichier_cache) && filemtime($fichier_cache) + $secondes > time() && $secondes != 0) {

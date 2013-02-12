@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$cachePath = 'cache/'.urlencode($_GET['x'].$_GET['y'].$_GET['path']);
+$cachePath = 'var/cache/'.urlencode($_GET['x'].$_GET['y'].$_GET['path']);
 if(file_exists($cachePath)){
     list($width, $height, $type, $attr) = getimagesize($cachePath);
 	 switch ($type) {
