@@ -38,15 +38,15 @@ if(strlen(strstr($_SERVER['HTTP_USER_AGENT'],"Firefox")) > 0 ){
 }
 if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme') {
     $filePath = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
-    $filePath2 = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
+    $filePath2 = PROFILE_PATH . MODULE . '/css/' . THEMETYPE . '.css';
 } else {
-    $filePath = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
+    $filePath = PROFILE_PATH . MODULE . '/css/' . THEMETYPE . '.css';
     $filePath2 = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
 }
-if (!isset($filePath2) && $filePath == PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css')
+if (!isset($filePath2) && $filePath == PROFILE_PATH . MODULE . '/css/' . THEMETYPE . '.css')
     $filePath2 = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
 elseif (!isset($filePath2) && $filePath == PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css')
-    $filePath2 = PROFILE_PATH . MODULE . '/' . THEMETYPE . '.css';
+    $filePath2 = PROFILE_PATH . MODULE . '/css/' . THEMETYPE . '.css';
 
 $css = new css($filePath);
 

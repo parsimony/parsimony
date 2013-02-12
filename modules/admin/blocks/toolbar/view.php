@@ -11,7 +11,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js','foo
 <script type="text/javascript">
     
     var CSSTHEMEPATH = "<?php echo THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css";
-    var CSSPAGEPATH = "<?php echo MODULE . '/' . THEMETYPE ?>.css";
+    var CSSPAGEPATH = "<?php echo MODULE . '/css/' . THEMETYPE ?>.css";
 		
     $(document).ready(function() {
         ParsimonyAdmin.initBefore();
@@ -136,4 +136,4 @@ echo $admin->display();
 
 <div id="overlays">
     <div id="blockOverlay"></div>
-</div>
+	</div>

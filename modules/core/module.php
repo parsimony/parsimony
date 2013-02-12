@@ -131,7 +131,7 @@ class core extends \module {
 	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css','footer');
 	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
-	    \app::$request->page->addCSSFile(BASE_PATH . 'core/' . THEMETYPE . '.css');
+	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/' . THEMETYPE . '.css');
 	    \app::$request->page->addCSSFile(BASE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
 	}
     }
