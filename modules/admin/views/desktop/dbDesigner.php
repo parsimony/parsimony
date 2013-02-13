@@ -621,7 +621,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
 </div>
 
 <div id="toolbar">
-    <a href="http://parsimony.mobi" target="_blank" style="padding:0;height:28px;">
+    <a href="#" onclick="setTimeout(function(){var ww = window.open(window.location, '_self'); ww.close(); }, 0);" style="padding:0;height:28px;">
         <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
     </a>
     <div class="toolbarbonus inline-block">
