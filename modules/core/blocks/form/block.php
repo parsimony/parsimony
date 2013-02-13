@@ -40,7 +40,7 @@ class form extends \block {
             /* Test for errors in view and save */
             \app::addListener('error', array($this, 'catchError'));
             /* Test if new file contains errors */
-            $testIfHasError = \tools::testSyntaxError($_POST['editor'],array('entity' => \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'))));
+            $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'entity' => \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'))));
             /* If new file contains errors */
             if (!$testIfHasError){
                 /* If there's no errors, Save new file */

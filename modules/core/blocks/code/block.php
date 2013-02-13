@@ -62,7 +62,7 @@ class code extends \block {
     public function saveConfigs() {
         \app::addListener('error', array($this, 'catchError'));
         /* Test if new file contains errors */
-        $testIfHasError = \tools::testSyntaxError($_POST['editor']);
+        $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this));
         /* If new file contains errors */
         if (!$testIfHasError){
             /* If there's no errors, Save new file */

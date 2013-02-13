@@ -139,10 +139,11 @@ class tools {
      * @param string $code
      * @return bool
      */
-    public static function testSyntaxError($code,$vars = array()){
+     public static function testSyntaxError($code,$vars = array()){
         ob_start();
         if(!empty($vars)) extract($vars);
         /* Test for parse or syntax error  (ex: dgedgbsggb )  */
+	if(isset($_this)) $code = str_replace('$this', '$_this', $code); // trick to keep this context
         $return = @eval('return TRUE;?>' . $code . '<?php ');
 	if ( $return === false && ( $error = error_get_last()) ) {
 		return $error;

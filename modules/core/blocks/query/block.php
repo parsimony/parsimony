@@ -79,7 +79,7 @@ class query extends \block {
         /* Test for errors in view and save */
         \app::addListener('error', array($this, 'catchError'));
         /* Test if new file contains errors */
-        $testIfHasError = \tools::testSyntaxError($_POST['editor'],array('view' => $myView));
+        $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'view' => $myView));
         /* If new file contains errors */
         if (!$testIfHasError){
             /* If there's no errors, Save new file */
