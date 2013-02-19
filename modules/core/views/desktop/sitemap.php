@@ -25,6 +25,9 @@
  * @package core
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+\app::$response->setHeader('Content-type', 'text/xml;charset=utf-8');
+
 $urls = array();
 foreach (\app::$activeModules AS $module => $type) {
     foreach (\app::getModule($module)->getPages() AS $page) {
@@ -45,7 +48,7 @@ foreach (\app::$activeModules AS $module => $type) {
 
 			    foreach ($entity as $line) {
 				$url = $page->getRegex();
-				$url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], substr($page->getRegex(), 1, -1));
+				$url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], substr($page->getRegex(), 2, -2));
 				$urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $url;
 			    }
 			}
@@ -55,11 +58,13 @@ foreach (\app::$activeModules AS $module => $type) {
 	}
     }
 }
-?><? xml version = "1.0" encoding = "UTF-8" ?>
+
+echo '<?xml version="1.0" encoding="UTF-8" ?> '; // in PHP to avoid confusion with short_opentag
+?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
     <?php foreach ($urls AS $url): ?>
+    <url>
         <loc><?php echo $url; ?></loc>
-    <?php endforeach; ?>
     </url>
+    <?php endforeach; ?>
 </urlset>
