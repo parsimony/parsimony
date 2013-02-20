@@ -56,6 +56,17 @@ class image extends \block {
             
 	}
     }
+    
+    public function setContent($fileName) {
+        if (\app::getClass('user')->VerifyConnexion() && BEHAVIOR == 2) {
+	    $this->init();
+	    $this->setConfig('imgPath',$fileName);
+            return TRUE;
+        }
+	return FALSE;
+    }
+    
+    
     public function init() {
             $this->setConfig('imgPath','core/files/Parsimony.png');
 	    $this->setConfig('width', '200');

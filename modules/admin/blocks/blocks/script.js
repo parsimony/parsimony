@@ -198,6 +198,39 @@ function blockAdminBlocks() {
 		    }else if(evt.dataTransfer.getData("text/plain").length > 0){
 			obj = JSON.stringify({blockType:"core\\blocks\\wysiwyg",stopIdParentBlock:stopIdParentBlock,idNextBlock:idNextBlock,content:evt.dataTransfer.getData("text/plain")});
 		    }
+		    else if(evt.dataTransfer.files  != null){
+			/* todo, img upload for all modules/profiles */
+			files = event.originalEvent.dataTransfer.files;
+			var count = files.length;
+			var maxFileSize = 1000000000;
+			for (var i = 0; i < count; i++) {
+			    var file = files[i];
+			    if((files[i].type.match(new RegExp("image.*","g")))){
+				if(maxFileSize > file.size){
+				    var fd = new FormData();
+				    fd.append("fileField", files[0]);
+				    $.each({action: "upload",path: "profiles/www/modules/core/files",MODULE: MODULE,THEME: THEME,THEMETYPE: THEMETYPE,THEMEMODULE: THEMEMODULE }, function(i, val) {
+					fd.append(i, val);
+				    });
+				    var xhr = new XMLHttpRequest();
+				    xhr.open("POST", BASE_PATH + "admin/action");
+				    xhr.upload.file = xhr.file = file;
+				    xhr.upload.addEventListener("progress", function (event) {
+					if (event.lengthComputable) {
+					    var progress = (event.loaded / event.total) * 100;
+					}
+				    }, false);
+				    xhr.addEventListener("load", function(event){
+					 var response = jQuery.parseJSON(event.target.response)
+					obj = JSON.stringify({blockType:"core\\blocks\\image",stopIdParentBlock:stopIdParentBlock,idNextBlock:idNextBlock,content:"core/files/" + response.name});
+					$("#dialog-id-options").val(obj);
+				    }, false);
+				    xhr.send(fd);
+				}
+			    }
+			}
+		    }
+		    
 		    ParsimonyAdmin.displayConfBox("#dialog","Entrez un identifiant pour ce nouveau bloc");
 		    $("#dialog-id-options").val(obj);
 		    $("#dialog-id").val('').trigger("focus");
@@ -231,8 +264,8 @@ function block() {
     
     this.onClickCreation = function (e) {
         e.stopPropagation();
-        ParsimonyAdmin.selectBlock(this.id);
-
+	    ParsimonyAdmin.selectBlock(this.id);
+	    
         if(e.trad != true && e.link != true) ParsimonyAdmin.closeParsiadminMenu();
         ParsimonyAdmin.addTitleParsiadminMenu('#' + ParsimonyAdmin.inProgress);
         ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" class="configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration' + ' #' + ParsimonyAdmin.inProgress + '"><span class="ui-icon ui-icon-wrench floatleft"></span>'+ t('Configure') +'</a>');
