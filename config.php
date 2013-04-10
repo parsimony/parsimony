@@ -5,7 +5,7 @@ $config['BASE_PATH'] = '';
 $config['DOCUMENT_ROOT'] = __DIR__;
 
 //Themes
-$config['THEMEMODULE'] = 'core';
+$config['THEMEMODULE'] = 'blog';
 $config['THEME'] = 'parsidefault';
 
 //Database
@@ -14,7 +14,7 @@ $config['db']['port'] = '3306';
 $config['db']['dbname'] = '';
 $config['db']['user'] = '';
 $config['db']['pass'] = '';
-$config['db']['prefix'] = 'parsi_';
+$config['db']['prefix'] = '';
 
 //Cache
 $config['cache']['cache-control'] = 'private';
@@ -31,6 +31,13 @@ $config['security']['salt'] = '';
 //Domain
 $config['domain']['multisite'] = '0';
 $config['domain']['sld'] = '2';
+
+//Devices
+$config['devices']['desktop'] = '1';
+$config['devices']['mobile'] = '1';
+$config['devices']['tablet'] = '1';
+$config['devices']['tv'] = '1';
+$config['devices']['defaultDevice'] = 'desktop';
 
 //Dev
 $config['dev']['status'] = 'dev';
@@ -55,7 +62,9 @@ $config['mail']['type'] = '';
 $config['mail']['server'] = '';
 $config['mail']['port'] = '25';
 
-$config['activeModules']['core'] = '1';
-$config['activeModules']['admin'] = '0';
+/* Modules */
+$config['modules']['active']['core'] = '1';
+$config['modules']['active']['blog'] = '1';
+$config['modules']['default'] = 'blog';
 
 $config['sitename'] = 'My WebSite';

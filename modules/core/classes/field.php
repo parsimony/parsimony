@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et BenoÃƒÂ®t Lorillot
- * @copyright  Julien Gras et BenoÃƒÂ®t Lorillot
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -34,10 +34,7 @@ namespace core\classes;
  * Provides the mapping of a SQL property in a PHP object
  */
 class field {
-
-    /** @var string field name */
-    protected $fieldName;
-
+    
     /** @var string module name */
     protected $module;
 
@@ -209,8 +206,8 @@ class field {
     public function display(&$row = '') {
          if (empty($this->displayView)) {//if (!isset($this->mark)) {
 	     $this->displayView = 'display.php';
-            if (BEHAVIOR >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
-                \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
+            if ($_SESSION['behavior'] >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights($_SESSION['id_role']) & UPDATE ) {
+                \app::$request->page->addJSFile('lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
             //$this->mark = TRUE;
@@ -232,8 +229,8 @@ class field {
         /*$authorName = $row->getBehaviorAuthor()->name;*/
 	if (empty($this->displayView)) {//if (!isset($this->mark)) {
 	    $this->displayView = 'display.php';
-            if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || BEHAVIOR >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights(ID_ROLE) & UPDATE ) {
-                \app::$request->page->addJSFile(BASE_PATH . 'lib/editinline.js');
+            if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || $_SESSION['behavior'] >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights($_SESSION['id_role']) & UPDATE ) {
+                \app::$request->page->addJSFile('lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
             //$this->mark = TRUE;

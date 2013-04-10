@@ -1,0 +1,82 @@
+
+###### V 3.0 #####
+
+Libs :
+
+	Updated
+
+ 	 - CodeMirror to v3.11
+ 	 - Update to jQuery v1.9.1, add source map
+	 - CSSPie to v 1
+
+	Removed
+
+	 - Fracs replaced by new lighter home made lib
+	 - DND
+
+	Enhanced
+
+	 - HTML5editor
+	 - tooltip
+ 
+	Fixed
+
+	 - Fancybox
+
+Major enhancements:
+
+	Responsive design :
+
+	 - media queries are now managed via UI
+	 - Ability to develop for single device or more ( desktop? mobile ? tablet ? tv ?)
+	 - Ability to set a by default server side version
+
+	User interface :
+
+	 - CSS UI, you can now design your block in one click
+	 - Ability to add an wysiwyg block just by drag 'n droping texts from your desktop or another window
+	 - Ability to add an image block just by drag 'n droping an image from your desktop
+	 - File explorer with code editor
+	 - HTML5 Notifications for modern browsers only
+	 - Block management enhancements
+	 - New css code editor has been integrated, more lighter, with syntax correction
+	
+	
+	Default module :
+
+	 - Ability to change default module
+	 - Core is splitted in two modules, itself and blog:
+		 - Blocks categories, tags, recentsposts, calendar moved to blog module
+		 - Entities post, category, category_post, comment, tag, tag_post moved to blog module
+		 - parsidefault theme moved to blog module
+	 - Blog become the module by default
+
+
+	Structure changes :
+
+	 - All caches, backups, sessions are now under var/ directory
+	 - CSS module files are now under css directory ( modules/mymodule/css/desktop.css)
+
+	Rights : 
+
+	 - Pages and modules rights managements are improved
+ 	 - DB Designer has now two mode, read or read/write
+ 	 - Block display just for a specific group of users
+
+	Model : 
+	 - Fields
+		 - form_update.php and form_add.php views are merged in form.php
+		 - fields numeric, image, wysiwyg, price has been enhanced
+
+
+Technical updates : 
+
+	 - core/classes/css has been refactored to play with media queries
+	 - core/classes/block has been updated to enhance block display
+	 - core/classes/page
+		 - addJSFile, addcssFile now managed path without BASE_PATH
+		 - cancat JS/CSS files has been improved
+
+
+Deprecated :
+	 - formadd block.

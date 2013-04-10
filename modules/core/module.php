@@ -37,6 +37,8 @@ namespace core;
  * @php_version_min 5.3
  * @php_extension php_pdo_mysql,php_gd2
  * @php_settings magic_quotes_gpc:0,register_globals:0
+ * @displayAdmin 0
+ * @mode r
  */
 
 class core extends \module {
@@ -44,20 +46,31 @@ class core extends \module {
     protected $name = 'core';
 
     public function __wakeup() {
-	//add devices
-	\app::$devices[] = array('name' => 'mobile', 'resolution' => array('360x480' => 'BlackBerry Torch',
+        
+        /* Add devices */
+        $devices = \app::$config['devices'];
+
+        /* Mobile */
+        if($devices['mobile']){
+            \app::$devices[] = array('name' => 'mobile', 'resolution' => array('360x480' => 'BlackBerry Torch',
 		'480x800' => 'Google Nexus One',
 		'480x800' => 'Samsung Galaxy S',
 		'320x480' => 'iPhone 3/4',
 		'480x854' => 'Motorola Droid'), 'detectFnc' => function() {
 		return preg_match('/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $_SERVER['HTTP_USER_AGENT']);
 	    });
-	\app::$devices[] = array('name' => 'tablet', 'resolution' => array('600x1024' => 'BlackBerry PlayBook',
+        }
+        /* Tablet */
+	if($devices['tablet']){
+            \app::$devices[] = array('name' => 'tablet', 'resolution' => array('600x1024' => 'BlackBerry PlayBook',
 		'768x1024' => 'iPad',
 		'600x1024' => 'Samsung Galaxy Tab'), 'detectFnc' => function() {
 		return preg_match('@(iPad|SCH-I800|GT-P)@', $_SERVER['HTTP_USER_AGENT']);
 	    });
-	\app::$devices[] = array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
+        }
+        /* TV */
+        if($devices['tv']){
+            \app::$devices[] = array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
 		'1080x1920' => '1080p',
 		'1024x768' => '4/3',
 		'1280x768' => '15/9',
@@ -69,14 +82,18 @@ class core extends \module {
 		'1000x1600' => '16/10'), 'detectFnc' => function() {
 		return preg_match('@(GoogleTV)@', $_SERVER['HTTP_USER_AGENT']);
 	    });
-	\app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
+        }
+        /* Desktop */
+        if($devices['desktop']){
+            \app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
 		'640x480' => '640 x 480',
 		'800x600' => '800 x 600',
 		'1024x768' => '1024 x 768',
 		'1280x960' => '1280 x 960',
 		'1280x1024' => '1280 x 1024'), 'detectFnc' => function() {
-		return preg_match('@.*@', $_SERVER['HTTP_USER_AGENT']);
+		return TRUE;
 	    });
+        }
 
 	\app::$aliasClasses = array('app' => 'core\classes\app',
 	    'request' => 'core\classes\request',
@@ -124,15 +141,15 @@ class core extends \module {
     }
 
     public function loadExternalFiles() {
-	\app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
-	\app::$request->page->addJSFile(BASE_PATH . 'lib/cms.js');
+	\app::$request->page->addCSSFile('lib/cms.css');
+	\app::$request->page->addJSFile('lib/cms.js');
 	if(\app::$config['general']['ajaxnav']){
-	    \app::$request->page->addJSFile(BASE_PATH . 'core/js/ajaxNav.js','footer');
-	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/ajaxNav.css','footer');
+	    \app::$request->page->addJSFile('core/js/ajaxNav.js','footer');
+	    \app::$request->page->addCSSFile('core/css/ajaxNav.css','footer');
 	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
-	    \app::$request->page->addCSSFile(BASE_PATH . 'core/css/' . THEMETYPE . '.css');
-	    \app::$request->page->addCSSFile(BASE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
+	    \app::$request->page->addCSSFile(\app::$config['modules']['default'].'/css/' . THEMETYPE . '.css');
+	    \app::$request->page->addCSSFile( THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
 	}
     }
 

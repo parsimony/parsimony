@@ -1,5 +1,5 @@
 <?php
-include('install.php');exit;
+include('installNewLife.php');exit;
 /**
  * Parsimony
  *
@@ -30,10 +30,5 @@ include('install.php');exit;
 define('PARSIMONY_VERSION','2.5');
 
 include('modules/core/classes/app.php');
-spl_autoload_register('\core\classes\app::autoLoad');
-set_error_handler('\core\classes\app::errorHandler');
-set_exception_handler('\core\classes\app::exceptionHandler');
-register_shutdown_function('\core\classes\app::errorHandlerFatal');
-class_alias('core\classes\app','app');
 new \core\classes\app();
 ?>

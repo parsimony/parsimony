@@ -111,9 +111,21 @@ abstract class block {
     public function setConfig($key, $value) {
 	if (!is_resource($value)) {
             $this->configs[$key] = $value;
+            return $this;
         } else {
             throw new Exception(t('A block config can\'t be a resource.', FALSE));
         }
+    }
+    
+    /**
+     * Remove one config of block 
+     * @param string $key key of the config
+     */
+    public function removeConfig($key) {
+	if (isset($this->configs[$key])){
+            unset($this->configs[$key]);
+        }
+        return $this;
     }
 
     /**
@@ -196,45 +208,78 @@ abstract class block {
      * @return string
      */
     public function display() {
-        if ($this->getConfig('allowedModules') != false) {
-            $mods = explode(' ', $this->getConfig('allowedModules'));
-            if (!in_array(MODULE, $mods))
-                return '';
-        }     
+        
+        $html = '';
+        $balise = 'div';
+        $maxAge = 0;
+        $headerTitle = '';
+        $CSSclasses = '';
+        $ajaxLoad = FALSE;
+        
+        foreach($this->configs AS $name => $config){
+            switch ($name) {
+                case 'allowedModules':
+                    if (is_array($config) && !in_array(MODULE, $config))
+                        return '';
+                    break;
+                case 'allowedRoles':
+                   if (is_array($config) && !in_array($_SESSION['id_role'], $config))
+                        return '';
+                    break;
+                case 'tag':
+                   $balise = $config;
+                    break;
+                case 'maxAge':
+                   $maxAge = (int) $config;
+                    break;
+                case 'headerTitle':
+                   if($config) $headerTitle = '<h2 class="parsiTitle">'.t($config).'</h2>';
+                    break;
+                case 'cssClasses':
+                   $CSSclasses .= ' '.$config;
+                    break;
+                case 'ajaxReload':
+                   if($config == 1) \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
+                    break;
+                case 'ajaxLoad':
+                    if($config == 1) {
+                        $ajaxLoad = TRUE;
+                        \app::$request->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$request->page->getId() . '", "' . $this->id . '")});</script>';
+                    }
+                    break;
+                case 'CSSFiles':
+                    foreach ($config AS $file => $pos)
+                        \app::$request->page->addCSSFile(strstr($file, '//') ? $file : $file, $pos);
+                        break;
+                case 'JSFiles':
+                    foreach ($config AS $file => $pos)
+                        \app::$request->page->addJSFile(strstr($file, '//') ? $file : $file, $pos);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         $cacheFile = 'var/cache/' . PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
-        $maxAge = $this->getConfig('maxAge');
         if ($maxAge > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxAge > time()) {
             ob_start();
             include($cacheFile);
-            $html = ob_get_clean();
+            $html .= ob_get_clean();
         } else {
-            if ($this->getConfig('tag') !== false)
-                $balise = $this->getConfig('tag');
-            else
-                $balise = 'div';
-            $html = '<' . $balise . ' id="' . $this->id . '" class="block '.$this->blockName.' ' . (string) $this->getConfig('cssClasses') . '">';
-            if ($this->getConfig('headerTitle')) {
-                    $html .= '<h2 class="parsiTitle">'.t($this->getConfig('headerTitle')).'</h2>';
-            }
-            if ($this->getConfig('ajaxReload')) {
-                \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $this->getConfig('ajaxReload') . '000);});</script>';
-            }
-            if ($this->getConfig('ajaxLoad')) {
-                \app::$request->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$request->page->getId() . '", "' . $this->id . '")});</script>';
-            } else {
+            $html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock block_'.$this->blockName. $CSSclasses . '">'.$headerTitle;
+            if ($ajaxLoad === FALSE) {
                 /* Catch all exceptions or error in order to keep tha page structure in creation mode */
                 try {
                     $view = $this->getView();
                     $html .= $view;
                 } catch (\Exception $e) {
-                    if(BEHAVIOR == 2){
+                    if($_SESSION['behavior'] == 2){
                         /* Display Error or exception just for the dev */
                         ob_clean();
                         $html .= '<div class="PHPError"><div class="titleError"><strong>Block </strong>#'.$this->getId().' </div>';
                         $html .= '<div class="error"> <strong>'.t('Error').' '.t('in line').' </strong>'.$e->getLine().' : </strong>'.$e->getMessage().'</div>';
                         $html .= '<div class="file"><strong>File : </strong>'.$e->getFile().'</div></div>';
                     }
-                    
                 }
             }
             $html .= '</' . $balise . '>';

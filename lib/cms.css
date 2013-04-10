@@ -41,11 +41,12 @@ audio:not([controls]) {display: none;height: 0;}
 /* Parsimony CSS */
 
 /* clearfix for blocks */
-.block:before,.block:after {content: " ";display: table;}
-.block:after {clear: both;}
-.block {*zoom: 1;}
+.parsiblock:before,.parsiblock:after {content: " ";display: table;}
+.parsiblock:after {clear: both;}
+.parsiblock {*zoom: 1;}
 .clearboth{clear:both;}
 
 /* editinplace */
-.usereditinline:hover{outline:1px orange solid;}
+.usereditinline:hover, .activeEdit:hover{outline:1px orange solid;}
+.parsieditinline {display: inline-block;}
 

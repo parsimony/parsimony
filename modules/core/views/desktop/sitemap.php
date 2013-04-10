@@ -29,7 +29,7 @@
 \app::$response->setHeader('Content-type', 'text/xml;charset=utf-8');
 
 $urls = array();
-foreach (\app::$activeModules AS $module => $type) {
+foreach (\app::$config['modules']['active'] AS $module => $type) {
     foreach (\app::getModule($module)->getPages() AS $page) {
 	if(!strstr($page->getMeta('robots'), 'noindex')){
 	    if (count($page->getURLcomponents()) == 0) {

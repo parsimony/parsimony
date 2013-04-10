@@ -1,10 +1,12 @@
 $(document).ready(function() {
-    parsiEdit.registerTool("fieldwysiwyg",function(){
+    parsiEdit.registerTool("fieldwysiwyg",function(elmt){
+        
         if(typeof window['wysiwygy'] == "undefined"){
             window['wysiwygy'] = new wysiwyg();
             window['wysiwygy'].init(".fieldwysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"]);
         }
-        $(this).attr("contenteditable", "true");
+        elmt.setAttribute("contenteditable", "true");
+        if(typeof top.ParsimonyAdmin != "undefined") $(".HTML5editorToolbar", top.document).hide();
         $(".HTML5editorToolbar").show();
         $(document).on('focusout.edit',".fieldwysiwyg",function(e){
             parsiEdit.currentElmt = "";
@@ -12,12 +14,12 @@ $(document).ready(function() {
             if(typeof top.ParsimonyAdmin != "undefined") $(".HTML5editorToolbar", top.document).hide();
             $(document).off('focusout.edit',".fieldwysiwyg");
             if(typeof top.ParsimonyAdmin == "undefined"){
-                $.post(BASE_PATH + $(this).data("module") + '/callField',{
-                    module: $(this).data("module"), 
-                    entity:$(this).data("entity"),
-                    fieldName: $(this).data("property"), 
+                $.post(BASE_PATH + $(elmt).data("module") + '/callField',{
+                    module: $(elmt).data("module"), 
+                    entity:$(elmt).data("entity"),
+                    fieldName: $(elmt).data("property"), 
                     method:'saveEditInline',
-                    args:"html=" + encodeURIComponent($(this).html()) + "&id=" + $(this).data("id")
+                    args:"html=" + encodeURIComponent($(elmt).html()) + "&id=" + $(elmt).data("id")
                 },function(data){
                     console.log(data);
                 });

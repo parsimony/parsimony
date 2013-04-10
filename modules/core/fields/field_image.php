@@ -79,6 +79,39 @@ class field_image extends \field {
         $this->height = $height;
         return $this;
     }
+    
+    /**
+     * Upload file
+     * @param string $path
+     * @return string 
+     */
+    public function uploadAction() {
+	$maxUploadSize = str_replace('m','000000',strtolower(ini_get('upload_max_filesize')));
+        try {
+            $upload = new \core\classes\upload($maxUploadSize, 'image', PROFILE_PATH . $this->module . '/' . $this->path . '/');
+            $result = $upload->upload($_FILES['fileField']);
+        } catch (\Exception $exc) {
+	    \app::$response->setHeader('X-XSS-Protection', '0');
+	    \app::$response->setHeader('Content-type', 'application/json');
+	    if (ob_get_level()) ob_clean();
+	    return json_encode(array('eval' => '', 'notification' => $exc->getMessage(), 'notificationType' => 'negative'));
+        }
+	if($result !== FALSE){
+	    $arr = $_FILES['fileField'];
+	    $arr['name'] = $result;
+	    $params = @getimagesize($path.'/'.$result);
+	    list($width, $height, $type, $attr) = $params;
+	    if($params){
+		$arr['x'] = $width;
+		$arr['y'] = $height;
+		$arr['type'] = $type;
+	    }
+	    unset($arr['tmp_name']);
+	    \app::$response->setHeader('Content-type', 'application/json');
+	    return json_encode($arr);
+	}else
+	    return FALSE;
+    }
 
 }
 

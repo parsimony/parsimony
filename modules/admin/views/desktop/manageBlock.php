@@ -37,11 +37,28 @@ if (is_object($block) == NULL) {
 	    event.preventDefault();
             $('#save_configs').trigger('click');
             return false;
+	})
+        .on('click',"#btnNewCSSFile", function(){
+            var file =  $('#newCSSFile').val();
+            var pos = $('#posNewCSSFile').val();
+            $('#cssFilesCont').append('<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
+            return false;
+	})
+        .on('click',"#btnNewJSFile", function(){
+            var file =  $('#newJSFile').val();
+            var pos = $('#posNewJSFile').val();
+            $('#jsFilesCont').append('<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="JSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
+            return false;
 	});
         $('input[name="getVars"]').val($.param(window.parent.$_GET));
         $('input[name="postVars"]').val($.param(window.parent.$_POST));
     });
 </script>
+<style>
+    #posNewCSSFile ,#posNewJSFile{width: 70px;margin: 0;}
+    #cssFilesCont > div, #jsFilesCont > div{padding:7px;margin:2px 0;border:1px solid #ddd}
+    .rem{float: left;padding: 0 5px;cursor: pointer;}
+</style>
 <div id="block_conf" class="adminzone">
     <div class="adminzonemenu">
 	<div class="firstpanel adminzonetab"><a href="#accordionBlockConfig" class="ellipsis"><?php echo t('Specific',FALSE); ?></a></div>
@@ -71,17 +88,12 @@ if (is_object($block) == NULL) {
 		    <label> <?php echo t('Cache Seconds',FALSE); ?> </label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
 		</div>
 		<div class="placeholder">
-		    <label><?php echo t('Reload the page every X seconds',FALSE); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>"><br />
-		</div>
-		<div class="placeholder">
 		    <label><?php echo t('CSS Classes',FALSE); ?> </label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>"><br />
 		</div>
-		<div class="placeholder">
-		    <label><?php echo t('Display only in the following modules',FALSE); ?> </label> <input type="text" name="allowedModules" value="<?php echo $block->getConfig('allowedModules') ?>"><br />
-		</div>
-                <div  class="placeholder">
-		    <label><?php echo t('HTML5 Tags',FALSE); ?> :</label> <select name="tag">
-			    <?php if($block->getConfig('tag')!==false)echo '<option value="'.$block->getConfig('tag').'">'.$block->getConfig('tag').'</option>' ?>
+                <div class="placeholder">
+		    <label><?php echo t('HTML5 Tags',FALSE); ?> :</label>
+                    <select name="tag">
+			<?php if($block->getConfig('tag')!==false)echo '<option value="'.$block->getConfig('tag').'">'.$block->getConfig('tag').'</option>' ?>
 			<option value="div">div</option>
 			<option value="header">header</option>
 			<option value="footer">footer</option>
@@ -92,9 +104,76 @@ if (is_object($block) == NULL) {
                         <option value="nav">nav</option>
 		    </select>
 		</div>
+		<div class="placeholder">
+		    <label><?php echo t('Display only in the following modules',FALSE); ?> </label>
+                     <select name="allowedModules[]" multiple="multiple">
+                        <?php
+                        $allowedModules = (array) $block->getConfig('allowedModules');
+                        $modules = \app::$config['modules']['active'];
+                        foreach ($modules as $moduleName => $state) {
+                            echo '<option'.(in_array($moduleName, $allowedModules) ? ' selected="selected"' : '').'>'.$moduleName.'</option>';
+                        }
+                        ?>
+		    </select>
+		</div>
+                <div class="placeholder">
+		    <label><?php echo t('Display only for the following role',FALSE); ?> :</label>
+                    <select name="allowedRoles[]" multiple="multiple">
+                        <?php
+                        $allowedRoles = (array) $block->getConfig('allowedRoles');
+                        $obj = \app::getModule('core')->getEntity('role');
+                        foreach ($obj as $key => $line) {
+                            echo '<option value="'.$line->id_role.'"'.(in_array($line->id_role->value, $allowedRoles) ? ' selected="selected"' : '').'>'.$line->name.'</option>';
+                        }
+                        ?>
+		    </select>
+		</div>
+                <div class="placeholder">
+		    <label><?php echo t('Reload the page every X seconds',FALSE); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>"><br />
+		</div>
                 <br>
 		<div class="placeholder">
-                    <label><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value="0"> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>><br />
+                    <label><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>><br />
+		</div>
+                <br>
+                <div class="placeholder">
+                    <label><?php echo t('CSS Files',FALSE); ?> :</label>
+                    <input type="text" id="newCSSFile" placeholder="http://example.com/css.css or lib/fancybox/example.css">
+                    <select id="posNewCSSFile">
+                        <option value="header">Header</option>
+                        <option value="footer">Footer</option>
+                    </select>
+                    <input type="button" id="btnNewCSSFile" value="<?php echo t('Add CSS File',FALSE); ?>">
+                    <div id="cssFilesCont">
+                        <?php
+                        $files = $block->getConfig('CSSFiles');
+                        if(!empty($files)){
+                            foreach ($files as $file => $pos) {
+                                echo '<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles['.$file.']" value="'.$pos.'">'.$file.' - '.$pos.'</div>';
+                            }
+                        }
+                        ?>
+                    </div>
+		</div>
+                <br>
+                <div class="placeholder">
+                    <label><?php echo t('JS Files',FALSE); ?> :</label>
+                    <input type="text" id="newJSFile" placeholder="http://example.com/css.css or lib/fancybox/example.js">
+                    <select id="posNewJSFile">
+                        <option value="header">Header</option>
+                        <option value="footer">Footer</option>
+                    </select>
+                    <input type="button" id="btnNewJSFile" value="<?php echo t('Add JS File',FALSE); ?>">
+                    <div id="jsFilesCont">
+                        <?php
+                        $files = $block->getConfig('JSFiles');
+                        if(!empty($files)){
+                            foreach ($files as $file => $pos) {
+                                echo '<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="JSFiles['.$file.']" value="'.$pos.'">'.$file.' - '.$pos.'</div>';
+                            }
+                        }
+                        ?>
+                    </div>
 		</div>
 	    </div>
 	    <input type="submit" class="none" id="save_configs" name="save_configs">
@@ -103,7 +182,6 @@ if (is_object($block) == NULL) {
     <div class="adminzonefooter">
 	<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
     </div>
-    
 </div>
     <?php
 }

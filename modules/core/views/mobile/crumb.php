@@ -1,1 +1,0 @@
-<?php echo app::$request->page->getTitle(); ?>

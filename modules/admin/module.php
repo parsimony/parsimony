@@ -57,7 +57,7 @@ class admin extends \module {
      */
     public function controllerPOST($action) {
 	$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel');
-	if (BEHAVIOR == 0 || ( BEHAVIOR == 1  && in_array($action, $justForCreators)))
+	if ($_SESSION['behavior'] == 0 || ( $_SESSION['behavior'] == 1  && in_array($action, $justForCreators)))
 	    return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
 	if (!empty($action)) {
 	    $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
@@ -99,7 +99,7 @@ class admin extends \module {
 	if ($this->theme->search_block($id) != NULL)
 	    return TRUE;
 	
-	foreach (\app::$activeModules as $module => $type) {
+	foreach (\app::$config['modules']['active'] as $module => $type) {
 	    $moduleObj = \app::getModule($module);
 	    foreach ($moduleObj->getPages() as $key => $page) {
 		$block = $page->search_block($id);
@@ -178,13 +178,33 @@ class admin extends \module {
      * @param string $cssClasses
      * @return string 
      */
-    protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $allowedModules, $ajaxReload, $ajaxLoad, $cssClasses) {
+    protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 	$block = $this->$typeProgress->search_block($idBlock);
-        $block->setConfig('headerTitle', $headerTitle);
-	$block->setConfig('maxAge', $maxAge);
-	$block->setConfig('tag', $tag);
-	$block->setConfig('allowedModules', $allowedModules);
-	$block->setConfig('ajaxReload', $ajaxReload);
+        
+        if(!empty($headerTitle)) $block->setConfig('headerTitle', $headerTitle);
+        else $block->removeConfig('headerTitle');
+        if(is_numeric($maxAge) && $maxAge != 0) $block->setConfig('maxAge', $maxAge);
+        else $block->removeConfig('maxAge');
+        if(!empty($tag) && $tag != 'div') $block->setConfig('tag', $tag);
+        else $block->removeConfig('tag');
+        if(!empty($allowedModules)) $block->setConfig('allowedModules', $allowedModules);
+        else $block->removeConfig('allowedModules');
+        $block->removeConfig('exclude');
+        if(!empty($allowedRoles)) $block->setConfig('allowedRoles', $allowedRoles);
+        else $block->removeConfig('allowedRoles');
+        if(!empty($ajaxReload)) $block->setConfig('ajaxReload', $ajaxReload);
+        else $block->removeConfig('ajaxReload');
+        if(!empty($ajaxLoad)) $block->setConfig('ajaxLoad', $ajaxLoad);
+        else $block->removeConfig('ajaxLoad');
+        $cssClasses = trim($cssClasses);
+        if(!empty($cssClasses)) $block->setConfig('cssClasses', $cssClasses);
+        else $block->removeConfig('cssClasses');
+        $block->removeConfig('css_classes');
+        if(!empty($CSSFiles)) $block->setConfig('CSSFiles', $CSSFiles);
+        else $block->removeConfig('CSSFiles');
+        if(!empty($JSFiles)) $block->setConfig('JSFiles', $JSFiles);
+        else $block->removeConfig('JSFiles');
+
 	\app::$request->page = new \page(999, 'core');
         if(isset($_POST['getVars'])){
             parse_str($_POST['getVars'],$outVars);
@@ -199,15 +219,10 @@ class admin extends \module {
             unset($_POST['postVars']);
         }
         unset($_POST['TOKEN']);
-	if ($ajaxLoad != 0)
-	    $block->setConfig('ajaxLoad', '1');
-	else
-	    $block->setConfig('ajaxLoad', '0');
-	$block->setConfig('cssClasses', $cssClasses);
 	if (method_exists($block, 'saveConfigs')) {
 	    $block->saveConfigs();
 	} else {
-	    $rm = array('action', 'MODULE', 'THEME', 'THEMETYPE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'save_configs');
+	    $rm = array('action', 'MODULE', 'THEME', 'THEMETYPE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles', 'save_configs');
 	    $rm = array_flip($rm);
 	    $configs = array_diff_key($_POST, $rm);
 	    foreach ($configs AS $configName => $value) {
@@ -378,23 +393,30 @@ class admin extends \module {
     
     /**
      * Get the rules of css selectors and return them in json
-     * @param string $json
+     * @param string $matches
      * @return string 
      */
-    protected function getCSSSelectorsRulesAction($json) {
-        $selectors = json_decode($json);
-        $res = array();
-	$selectorText = '';
-        foreach($selectors AS $selector){
-            if(is_file(PROFILE_PATH.  $selector->url)) $filePath2 =  PROFILE_PATH. $selector->url;
-            else $filePath2 =  'modules/'.  $selector->url;
-            $css = new \css($filePath2);
-            $selectorText =  preg_replace('@;[^a-zA-Z\-]+@m',';'.PHP_EOL, trim($css->selectorExists($selector->selector)));
-            $res[] = array('selector' => $selector, 'filePath' => $selector->url, 'nbstyle' => $selector->nbstyle, 'nbrule' => $selector->nbrule, 'cssText' => $selectorText);
-        }
+    protected function getCSSSelectorsRulesAction($matches) {
+	$result = array();
+	if(!empty($matches)){
+	    foreach($matches AS $file => $selectors){
+		if(!empty($selectors)){
+		    if(is_file(PROFILE_PATH.  $file)) $filePath2 =  PROFILE_PATH. $file;
+		    else $filePath2 =  'modules/'.  $file;
+                    $css = new \css($filePath2);
+		    foreach($selectors AS $selector){
+			$values = $css->getCSSValues();
+			$media = str_replace(' ', '', $selector['media']);
+			$selector['cssText'] = preg_replace('@;[^a-zA-Z\-]+@m',';'.PHP_EOL, trim($css->selectorExists($media.$selector['selector'])));
+			$selector['CSSValues'] = (isset($values[$media.$selector['selector']]) ? $values[$media.$selector['selector']] : array());
+			$result[] = $selector;
+		    }
+		}
+	    }
+	}
         \app::$response->setHeader('X-XSS-Protection', '0');
 	\app::$response->setHeader('Content-type', 'application/json');
-        return json_encode($res);
+        return json_encode($result);
     }
 
     /**
@@ -403,101 +425,30 @@ class admin extends \module {
      * @param string $selector
      * @return string 
      */
-    protected function saveCSSAction($filePath, $selector, $typeofinput = 'form', array $selectors = array()) {
-        $css3 = array(
-            'box-shadow' => array('-moz-box-shadow', '-webkit-box-shadow'),
-            'border-radius' => array('-moz-border-radius', '-webkit-border-radius'),
-            'border-image' => array('-moz-border-image', '-webkit-border-image'),
-            'transform' => array('-webkit-transform', '-moz-transform', '-ms-transform', '-o-transform'),
-            'transition' => array('-webkit-transition', '-moz-transition', '-ms-transition', '-o-transition'),
-            'text-shadow' => array(),
-            'background-size' => array('-moz-background-size', '-webkit-background-size'),
-            'column-count' => array('-moz-column-count', '-webkit-column-count'),
-            'column-gap' => array('-moz-column-gap', '-webkit-column-gap'),
-            'background-clip' => array('-moz-background-clip', '-webkit-background-clip'),
-            'background-origin' => array('-webkit-background-origin'),
-            'transform-origin' => array('-ms-transform-origin', '-webkit-transform-origin', '-moz-transform-origin', '-o-transform-origin'),
-            'transform-style' => array('-webkit-transform-style'),
-            'perspective' => array('-webkit-perspective'),
-            'perspective-origin' => array('-webkit-perspective-origin'),
-            'backface-visibility' => array('-webkit-backface-visibility'),
-            'transition-property' => array('-moz-transition-property', '-webkit-transition-property', '-o-transition-property'),
-            'transition-duration' => array('-moz-transition-duration', '-webkit-transition-duration', '-o-transition-duration'));
-
-        if ($typeofinput == 'form') {
-            if (!is_file(PROFILE_PATH . $filePath) && is_file('modules/' . $filePath))
-                \tools::file_put_contents(PROFILE_PATH . $filePath, file_get_contents('modules/' . $filePath));
-            $filePath2 = PROFILE_PATH . $filePath;
-            $css = new \css($filePath2);
-            unset($_POST['current_selector_update']);
-            unset($_POST['action']);
-            unset($_POST['filePath']);
-            unset($_POST['selector']);
-            unset($_POST['typeofinput']);
-            unset($_POST['save']);
-            if (!$css->selectorExists($selector)) {
-                unset($_POST['action']);
-                $css->addSelector($selector);
-            }
-            unset($_POST['selectors']);
-	    $isCSS3 = FALSE;
-            foreach ($_POST AS $key => $value) {
-		$isCSS3 = FALSE;
-                $value = trim($value);
-                if ($value != '') {
-                    if (!$css->propertyExists($selector, $key)) {
-                        if (isset($css3[$key])) {
-                            $isCSS3 = TRUE;
-                            foreach ($css3[$key] as $property) {
-                                $css->addProperty($selector, $property, $value);
-                            }
-                        }
-                        $css->addProperty($selector, $key, $value);
-                    } else {
-                        if (isset($css3[$key])) {
-                            $isCSS3 = TRUE;
-                            foreach ($css3[$key] as $property) {
-                                $css->updateProperty($selector, $property, $value);
-                            }
-                        }
-                        $css->updateProperty($selector, $key, $value);
-                    }
-                } else {
-                    if (isset($css3[$key])) {
-                        $isCSS3 = TRUE;
-                        foreach ($css3[$key] as $property) {
-                            $css->deleteProperty($selector, $property);
-                        }
-                    }
-                    $css->deleteProperty($selector, $key);
-                }
-            }
-            if (!$css->propertyExists($selector, 'behavior') && $isCSS3) {
-                $css->addProperty($selector, 'behavior', 'url(/lib/csspie/PIE.htc)');
-            }
-            $css->save();
-        } elseif ($typeofinput == 'code') {
-            $csstab = array();
-            foreach ($selectors AS $css) {
-		$css['selector'] = urldecode($css['selector']);
-                if (!isset($csstab[$css['file']])){
-                     if (!is_file(PROFILE_PATH . $css['file']) && is_file('modules/' . $css['file']))
-                        \tools::file_put_contents(PROFILE_PATH . $css['file'], file_get_contents('modules/' . $css['file']));
-                    $filePath = PROFILE_PATH . $css['file'];
-                    $csstab[$css['file']] = new \css($filePath);
-                }
-                $css['code'] = trim($css['code']);
-                if(!empty($css['code'])){
-                    if (!$csstab[$css['file']]->selectorExists($css['selector'])) {
-                        $csstab[$css['file']]->addSelector($css['selector']);
-                    }
-                }
-                $csstab[$css['file']]->replaceSelector($css['selector'], $css['code']);
-            }
-            foreach ($csstab AS $css) {
-                $css->save();
-            }
-        }
+    protected function saveCSSAction(array $changes = array()) {
+	
+	if(!empty($changes)){
+	    foreach ($changes AS $file => $selectors) {
+		/* If CSS file doesn't exists in profile/ dir, we create a copy from modules/ */
+		if (!is_file(PROFILE_PATH . $file) && is_file('modules/' . $file))
+		    \tools::file_put_contents(PROFILE_PATH . $file, file_get_contents('modules/' . $file));
+		
+		$filePath = PROFILE_PATH . $file;
+		$cssFile = new \css($filePath);
+		if(!empty($selectors)){
+		    foreach ($selectors AS $selector => $rule) {
+			$code = trim($rule['value']);
+			if(!empty($code)){
+			    if (!$cssFile->selectorExists($rule['selector'], $rule['media'])) {
+				$cssFile->addSelector($rule['selector'], $rule['media']);
+			    }
+			}
+			$cssFile->replaceSelector($rule['selector'], $code, $rule['media']);
+		    }
+		    $cssFile->save();
+		}
+	    }
+	}
         $return = array('eval' => '', 'notification' => t('The style sheet has been saved', FALSE), 'notificationType' => 'positive');
         return $this->returnResult($return);
     }
@@ -631,7 +582,6 @@ class admin extends \module {
                         foreach ($kid->children() as $sskid){ //verif if children be part of structure
                             if(!in_array($sskid->tag, $allowTags) && empty($sskid->id)) {
                                 $mark = false;
-                                //echo $sskid->tag ;exit;
                                 break;
                             }
                         } 
@@ -642,7 +592,7 @@ class admin extends \module {
 			else
 			    $tts[$kid->id]['content'] = $res;
                     }
-		}else  {echo $kid->tag.'tdddt'.$kid->id;}
+		}else  {echo $kid->tag.' - '.$kid->id;}
 	    }
 	    return $tts;
 	}
@@ -684,6 +634,8 @@ class admin extends \module {
      * @return string 
      */
     protected function explorerAction() {
+        /* Init a page */
+	\app::$request->page = new \page(0, 'core');
 	return $this->getView('explorer','desktop');
     }
     
@@ -693,6 +645,14 @@ class admin extends \module {
      */
     protected function filesAction($dirPath) {
 	return $this->getView('files','desktop');
+    }
+    
+    /**
+     * Get view of the code editor for explorer
+     * @return string 
+     */
+    protected function explorerEditorAction($file) {
+	return $this->getView('explorerEditor','desktop');
     }
 
     /**
@@ -852,8 +812,9 @@ class admin extends \module {
      * @return string 
      */
     protected function saveConfigAction($file, $config) {
-	\unlink('cache/' . \app::$request->getLocale() . '-lang.php');
+	\unlink('var/cache/' . \app::$request->getLocale() . '-lang.php');
 	$configObj = new \config($file, TRUE);
+        
 	$configObj->saveConfig($config);
 	$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'panelmodules\');', 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
 	return $this->returnResult($return);
@@ -906,7 +867,7 @@ class admin extends \module {
 	    if (get_class($block) == 'core\blocks\container' || get_class($block) == 'core\blocks\tabs' || $block->getId() == 'content')
 		$html .= $this->structureTree($block);
 	    else
-		$html .= '<li class="tree_selector parsiblock" id="treedom_' . $block->getId() . '"> ' .$block->getId() . '</li>';
+		$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $block->getId() . '"> ' .$block->getId() . '</li>';
 	};
 	$html .= '</ul>';
 	return $html;
@@ -1331,7 +1292,17 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	file_put_contents($file, $old);
 	return $old;
     }
-
+    
+    /**
+     * Get a back Up
+     * @param string $replace
+     * @param string $file
+     * @return string 
+     */
+    protected function saveCodeAction($file, $code) {
+	return \tools::file_put_contents($file, $code);
+    }
+    
     /**
      * Build a new block in a given module
      * @param string $choosenmodule
@@ -1359,10 +1330,13 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
      * Wrap result of an action in an instance of Page in order to display it in a popup
      * @return string 
      */
-    protected function actionAction() {
+    protected function actionAction() { 
+        /* Init a page */
+	\app::$request->page = new \page(0, 'core');
 	if (isset($_POST['action'])) {
 	    $content = $this->controllerPOST($_POST['action']);
 	    if (isset($_POST['popup']) && $_POST['popup'] == 'yes') {
+               
 		ob_start();
 		require('modules/admin/views/desktop/popup.php');
 		return ob_get_clean();
@@ -1370,6 +1344,18 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		return $content;
 	    }
 	}
+    }
+    
+    /**
+     * Get an entity
+     * @param string $role
+     * @return integer
+     */
+    public function getRights($role) {
+	if($_SESSION['behavior'] > 0)
+            return 1;
+        else 
+            return 0;
     }
 
 }

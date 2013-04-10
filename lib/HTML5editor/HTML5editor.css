@@ -61,7 +61,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#FEFEFE', EndC
 .HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
 .HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}
 .HTML5Editor{background:#fff;min-height:220px;max-height: 350px;overflow-y: auto;border: 1px solid #CCC;padding: 4px;}
-.popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;}
+.popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;pointer-events: all}
 .HTML5editorAction .temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
 .HTML5editorAction .temoinSelect{background: white;border-right: 1px solid #CCC;display: block;margin-right: 12px;}
 .HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat 107% 8px;}

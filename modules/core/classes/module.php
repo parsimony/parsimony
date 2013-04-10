@@ -100,7 +100,7 @@ class module {
      * @return module
      */
     public static function get($name) {
-	if (isset(app::$activeModules[$name])) {
+	if (isset(app::$config['modules']['active'][$name]) || $name == 'admin') {
 	    $pathName = str_replace('\\', '/', $name);
 	    if (!class_exists($name . '\\' . $name, false))
 		include('modules/' . $pathName. '/module.php');
@@ -109,6 +109,7 @@ class module {
 		return unserialize(file_get_contents($path));
 	    } else {
 		$className = '\\' . $name . '\\' . $name;
+                echo $className;
 		$module = new $className($name, ucfirst($name));
 		$module->save();
 		return $module;
@@ -381,11 +382,12 @@ class module {
 	    }
 	    return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params));
 	}
+       
 	foreach ($this->pages AS $index => $regex) {
 	    if (preg_match($regex, $url, $_GET)) {
 		app::$request->setParams($_GET);
 		$page = $this->getPage($index);
-		if($page->getRights($_SESSION['idr']) & DISPLAY)
+		if($page->getRights($_SESSION['id_role']) & DISPLAY)
 		    return app::$response->setContent($page, 200);
 	    }
 	}
@@ -437,7 +439,7 @@ class module {
       foreach ($this->pages AS $index => $regex) {
       if (preg_match($regex, $url, $_GET)) {
       $page = $this->getPage($index);
-      //if(isset($_SESSION['idr']) && ($_SESSION['idr']==1 || $page->getRights($_SESSION['idr']) & DISPLAY))
+      //if(isset($_SESSION['idr']) && ($_SESSION['id_role'] == 1 || $page->getRights($_SESSION['id_role']) & DISPLAY))
       return $page;
       }
       }
@@ -515,8 +517,8 @@ class module {
      * @return integer
      */
     public function getRights($role) {
-	if (isset($this->rights[(String) $role]))
-	    return $this->rights[(String) $role];
+	if (isset($this->rights[$role]))
+	    return $this->rights[$role];
     }
 
     /**
@@ -550,17 +552,21 @@ class module {
 	    include('modules/' . $name . '/module.php');
 	    $name2 = $name . '\\' . $name;
 	    $mod = new $name2();
+            $mod->updateRights('1','1');
+            $mod->updateRights($_SESSION['id_role'],'1');
 	    $page = new \page('1', $name);
 	    $page->setModule($name);
 	    $page->setTitle('Index ' . $name);
 	    $page->setRegex('@^index$@');
+	    $page->updateRights('1','1');
+            $mod->updateRights($_SESSION['id_role'],'1');
 	    $mod->addPage($page);
 	    $mod->save();
 	    if (PROFILE == 'www')
 		$config = new \config('config.php', TRUE);
 	    else
 		$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
-	    $config->add('$config[\'activeModules\'][\'' . $name . '\']', '0');
+	    $config->add('$config[\'modules\'][\'active\'][\'' . $name . '\']', '0');
 	    return $config->save();
 	}else {
 	    return FALSE;

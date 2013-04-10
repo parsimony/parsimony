@@ -26,13 +26,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','footer');
+app::$request->page->addJSFile('admin/blocks/modules/script.js','footer');
 ?>
 <div id="modulespages">
     <?php
-    $activeModule = \app::$activeModules;
+    $activeModule = \app::$config['modules']['active'];
     unset($activeModule[MODULE]);
-    $activeModule = array_merge(array(MODULE => '1'), \app::$activeModules);
+    $activeModule = array_merge(array(MODULE => '1'), \app::$config['modules']['active']);
     foreach ($activeModule as $module => $type) {
         $moduleobj = \app::getModule($module);
         $moduleInfos = \tools::getClassInfos($moduleobj);
@@ -45,7 +45,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                 $htmlConfig = '';
             else
                 $htmlConfig = '<div class="action floatright" style="margin:3px; line-height:0;" rel="getViewModuleAdmin" params="module=' . $moduleobj->getName() . '" title="' . t('Administration Module', FALSE) . ' ' . ucfirst(s($moduleInfos['title'])) . '"><img src="' . BASE_PATH . 'admin/img/config.png"/></div>';
-            if ($module != 'admin')
+            if ($module != 'core' && $module != 'admin')
                 echo '<div class="titleTab ellipsis"><span style="margin: 5px 7px 0px 7px;' . $icon . '" class="sprite sprite-module floatleft"></span> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
             $display = '';
             if ($module != MODULE)
@@ -65,14 +65,14 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                         foreach ($moduleobj->getModel() as $entity) {
                             $entityName = $entity->getName();
                             $entityTitle = s(ucfirst($entity->getTitle()));
-                            if ($module != 'core' || ($entityName != 'role' && $entityName != 'user' && !empty($entityTitle))) {
+                            if ($module != 'core' || !empty($entityTitle)) {
                                 ?>
                                 <li class="sublist modelSubList" drag><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
                                 <?php
                             }
                         }
                     }
-                    if (BEHAVIOR == 2 ):
+                    if ($_SESSION['behavior'] == 2 ):
                     ?>
                     <li class="sublist" style="padding-left: 25px;">
                         <span class="dbdesigner ui-icon ui-icon-extlink"></span>
@@ -92,7 +92,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
                             else
                                 $selected = '';
 
-                            if ($moduleobj->getName() == 'core')
+                            if ($moduleobj->getName() == \app::$config['modules']['default'])
                                 $pageURL = BASE_PATH . $page->getURL();
                             else
                                 $pageURL = BASE_PATH . $moduleobj->getName() . '/' . $page->getURL();
@@ -118,7 +118,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/modules/script.js','foo
             <?php
             }
     }
-    if (BEHAVIOR == 2 ):
+    if ($_SESSION['behavior'] == 2 ):
     ?>		
     <div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon ui-icon-plus" style="top: 5px;  left: 6px;  position: absolute;"></span></span><a href="#" style="color: #444;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module" class="action" rel="getViewAddModule"><?php echo t('Add a Module', FALSE); ?></a></div>
     <?php endif; ?>

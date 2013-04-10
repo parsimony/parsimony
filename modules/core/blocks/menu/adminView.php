@@ -99,7 +99,7 @@
         <div class="title2"><?php echo t('Choose An Existing Link', FALSE); ?></div>
         <ul id="addPageItem" class="parsimenu">
             <?php
-            foreach (\app::$activeModules as $module => $mode) {
+            foreach (\app::$config['modules']['active'] as $module => $mode) {
                 $moduleObj = \app::getModule($module);
                 $pagesMod = $moduleObj->getPages();
                 if (!empty($pagesMod)) {

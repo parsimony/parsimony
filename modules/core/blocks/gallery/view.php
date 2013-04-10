@@ -25,7 +25,7 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-\app::$request->page->addJSFile(BASE_PATH . 'modules/core/blocks/gallery/plugins/slides/slides.jquery.js');
+\app::$request->page->addJSFile('modules/core/blocks/gallery/plugins/slides/slides.jquery.js');
 ?>
 <script>
     $(function(){

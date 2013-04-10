@@ -46,10 +46,12 @@
         width:100%;
         height: 50px;
         margin: 0;
-        background: -webkit-gradient(linear, left top, left bottom, from(black), to(black), color-stop(0.02, #545454), color-stop(0.04, #3B3B3B), color-stop(0.5, #1D1D1D), color-stop(0.51, black));
+	padding: 0;
+        background: -webkit-linear-gradient(top, #6A6A6A 0%,#313131 49%,black 50%,black 100%);
+        background: -moz-linear-gradient(top, #6A6A6A 0%,#313131 49%,black 50%,black 100%);
     }
     .tab_bar ul {
-        height:100%
+        height:100%;
     }
     .tab_bar li {
         width: <?php echo floor(100/count($menu))-2 ?>%;
@@ -58,8 +60,7 @@
         position: relative;
         height: 46px;
         margin: 1px;
-        padding: 0 2px;
-        
+        padding: 0 2px;list-style: none;
         box-sizing: border-box;
     }
     .tab_bar li a{

@@ -1,7 +1,7 @@
 <div class="placeholder">
     <label><?php echo t('Select a table', FALSE) ?></label>
     <select name="entity" id="entity">
-	<?php foreach (\app::$activeModules as $module => $type) : ?>
+	<?php foreach (\app::$config['modules']['active'] as $module => $type) : ?>
     	<optgroup label="<?php echo $module ?>">
 		<?php
 		foreach (\app::getModule($module)->getModel() as $model => $entity) :

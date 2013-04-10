@@ -26,14 +26,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/blocks/script.js','footer');
+app::$request->page->addJSFile('admin/blocks/blocks/script.js','footer');
 $arrayScript = array();
 ?>
 <ul class="blocks">
     <?php
-    $activeModule = \app::$activeModules;
+    $activeModule = \app::$config['modules']['active'];
     unset($activeModule[MODULE]);
-    $activeModule = array_merge(array(MODULE => '1'),\app::$activeModules);
+    $activeModule = array_merge(array(MODULE => '1'),\app::$config['modules']['active']);
     $blocksCat = array();
 
     foreach ($activeModule as $module => $type) {
@@ -59,7 +59,7 @@ $arrayScript = array();
 			}
 		    }
                     if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){
-                        \app::$request->page->addJSFile(BASE_PATH . $moduleobj->getName() . '/blocks/' . $blockName . '/script.js');
+                        \app::$request->page->addJSFile($moduleobj->getName() . '/blocks/' . $blockName . '/script.js');
                         $arrayScript[] = $blockName;
                     }
 		}

@@ -54,7 +54,7 @@
                 $('input.description',clone).attr('name','img['+response.name+'][description]');
                 $('#images').append(clone);
                 $('#images img:last').trigger('click');
-                $('.container .template').show();
+                $('.block_container .template').show();
             }
         });
     })(jQuery);
@@ -111,7 +111,7 @@
     /*#globalsettings{border: 1px solid #CCC;background: #EDEFF4;margin-left: 5px;margin-top: 5px;padding: 4px 0;}*/
     /*#specificsettings{margin: 2px 0 0 5px;margin-left: 5px;margin-top: 2px;padding: 4px 0;border: 1px solid #CCC;background: #EDEFF4;}*/
     .template:hover span.deleteimg{display: block;position: absolute;top: 0;right: 0;border: #666 solid 1px;background: url(<?php echo BASE_PATH ?>admin/img/icons_white.png) -96px -128px, #333;}
-    .container{clear: both;margin-top: 10px;margin-left: 5px;border: 1px solid #DDD;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px;background: #EDEFF4;}
+    .block_container{clear: both;margin-top: 10px;margin-left: 5px;border: 1px solid #DDD;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px;background: #EDEFF4;}
     #preview{text-align: center;/*background: #D8DFEA;border: #CCC 1px solid;*/width: 300px;height:226px;margin-top: 5px;}
     #droparea{margin-top: 5px;width: 671px; height: 78px;margin: 5px;/*border: #CCC 1px solid; background: #D8DFEA;*/-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px;}
     #dropareaInner{}

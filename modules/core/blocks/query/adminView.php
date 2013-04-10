@@ -130,7 +130,7 @@ $view = $this->getConfig('view');
             <div id="schema_sql" style="overflow-y: auto;height:100%">
                 <?php
                 $aliasClasses = array_flip(\app::$aliasClasses);
-                foreach (\app::$activeModules as $module => $mode) :
+                foreach (\app::$config['modules']['active'] as $module => $mode) :
                     $models = \app::getModule($module)->getModel();
                     if (count($models) > 0) :
                         ?>

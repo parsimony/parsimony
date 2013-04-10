@@ -26,24 +26,20 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
+/*<link type="text/css" rel="stylesheet" href="<?php echo BASE_PATH ?>lib/colorpicker/colorpicker.css">
+<script type="text/javascript" src="<?php echo BASE_PATH ?>lib/colorpicker/colorpicker.js"></script>*/
 ?>
-<link type="text/css" rel="stylesheet" href="<?php echo BASE_PATH ?>lib/colorpicker/colorpicker.css">
-<script type="text/javascript" src="<?php echo BASE_PATH ?>lib/colorpicker/colorpicker.js"></script>
+
 <script>
     $(document).ready(function(){
-        $("select option").each(function(){
-            if(!$(this).val().length){
-                $(this).text('Default');
-                $(this).val('');
-            };
-        });
         /* Color Picker */
-        var currentColorPicker = $(".colorpicker2");
+        /*var currentColorPicker = $(".colorpicker2");
         var picker = new Color.Picker({
             callback: function(hex) {
                 currentColorPicker.val("#" + hex).trigger("change");
             }
-        });
+        });*/
         $(".adminzonecontent").on('click','.colorpicker2',function(){
             currentColorPicker = $(this);
             picker.el.style.display = "block";
@@ -53,7 +49,9 @@
     });
 </script>
 <style>
-    .admintabs > div{margin-bottom: 20px;} 
+    .admintabs > div{margin-bottom: 20px;}
+    .adminzone td{padding:10px;min-width:100px}
+    .adminzone td input{margin-left: 30px;}
 </style>
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
@@ -61,6 +59,7 @@
         <?php if (PROFILE == 'www'): ?>
             <div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
         <?php endif; ?>
+        <div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization', FALSE); ?></a></div>
         <?php /*<div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences', FALSE); ?></a></div>*/ ?>
         <div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules', FALSE); ?></a></div>
@@ -134,7 +133,7 @@
                     </div>
                     <div class="placeholder">
                         <label class="label" for="TimeZone"><?php echo t('TimeZone', FALSE); ?></label>
-                        <select  name="config[localization][timezone]" id="timezone">  <?php
+                        <select name="config[localization][timezone]" id="timezone">  <?php
                             $timezone_identifiers = DateTimeZone::listIdentifiers();
                             $continent = '';
                             foreach ($timezone_identifiers as $value) {
@@ -189,7 +188,7 @@
                         $module = substr(strrchr($filename, '/'), 1);
                         if ($module != 'core' && $module != 'db' && $module != 'admin' && is_file('modules/'.$module.'/module.php')) {
                             $i++;
-                            if (isset(\app::$activeModules[$module]))
+                            if (isset(\app::$config['modules']['active'][$module]))
                                 $checked = 'checked="checked"';
                             else
                                 $checked = '';
@@ -206,11 +205,15 @@
 			    }
                             $input = ' 
                             <tr class="trover">
-                                <td style="padding: 0px 6px;text-align: center;padding-left: 5px;line-height: 30px;font-size: 16px;text-transform: capitalize;letter-spacing: 2px;vertical-align: middle">' . $module . '</td>
-                                <td><div class="scale" style="padding: 3px 6px;line-height: 30px;text-align: center">
-                                <input type="hidden" name="config[activeModules][' . $module . ']" value="removeThis">
-                                <input type="checkbox" name="config[activeModules][' . $module . ']" class="display" value="' . $value . '" ' . $checked . '></div>
-                            </td> ';
+                                <td style="line-height: 30px;font-size: 14px;text-transform: capitalize;letter-spacing: 2px;">' . $module . '</td>
+                                <td>
+                                    <input type="hidden" name="config[modules][active][' . $module . ']" value="removeThis">
+                                    <input type="checkbox" name="config[modules][active][' . $module . ']" class="display" value="' . $value . '" ' . $checked . '>
+                                </td>
+                                <td>
+                                    <input type="radio" name="config[modules][default]" value="'.$module.'" '. ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '').'>
+                                </td>
+                                ';
                             if ($i % 2 == 0)
                                 $tplright .= $input;
                             else
@@ -218,12 +221,12 @@
                         }
                     }
                     if(!empty($tplleft)){
-                        echo '<table style="float:left;margin:20px 1px 0 80px;border-left: solid #CCC 1px;padding: 0px 25px;">
-                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead><tbody>' . $tplleft . '</tbody></table>';
+                        echo '<table style="float:left;">
+                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th><th>'.t('Default', FALSE).'</th></thead><tbody>' . $tplleft . '</tbody></table>';
                     }
                     if(!empty($tplright)){
-                        echo '<table style="float:left; margin: 20px 30px">
-                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th></thead>' . $tplright . '</tbody></table>';
+                        echo '<table style="float:left; margin-left: 30px">
+                            <thead ><tr><th>'.t('Module', FALSE).'</th><th>'.t('State', FALSE).'</th><th>'.t('Default', FALSE).'</th></thead>' . $tplright . '</tbody></table>';
                     }
                     if(empty($tplright) && empty($tplleft)){
                         echo '<div style="margin-top:20px">'.t('No module detected', FALSE).'</div>';
@@ -275,6 +278,56 @@
                         <label class="label" for="port"><?php echo t('Port', FALSE); ?></label><input  name="config[mail][port]" type="text" value="<?php echo app::$config['mail']['port'] ?>">
                     </div>
                 </div>
+            </div>
+            <div id="tabsb-9" class="admintabs">
+                <h2><?php echo t('Devices', FALSE); ?></h2>
+                <table>
+                    <thead>
+                        <tr><th>Device</th><th>State</th><th>Default</th></tr>
+                    </thead>
+                    <tbody> 
+                        <tr class="trover">
+                            <td><?php echo t('Desktop', FALSE); ?></td>
+                            <td>
+                                <input type="hidden" name="config[devices][desktop]" value="0">
+                                <input type="checkbox" name="config[devices][desktop]" value="1" <?php if (app::$config['devices']['desktop']) echo 'checked="checked"'; ?>>
+                            </td>
+                            <td>
+                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','desktop',999);" value="desktop" <?php if (app::$config['devices']['defaultDevice'] == 'desktop') echo 'checked="checked"'; ?>>
+                            </td>  
+                        </tr>
+                        <tr class="trover">
+                            <td><?php echo t('Mobile', FALSE); ?></td>
+                            <td>
+                                <input type="hidden" name="config[devices][mobile]" value="0">
+                                <input type="checkbox" name="config[devices][mobile]" value="1" <?php if (app::$config['devices']['mobile']) echo 'checked="checked"'; ?>>
+                            </td>
+                            <td>
+                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','mobile',999);"  value="mobile" <?php if (app::$config['devices']['defaultDevice'] == 'mobile') echo 'checked="checked"'; ?>>
+                            </td>  
+                        </tr>
+                        <tr class="trover">
+                            <td><?php echo t('Tablet', FALSE); ?></td>
+                            <td>
+                                <input type="hidden" name="config[devices][tablet]" value="0">
+                                <input type="checkbox" name="config[devices][tablet]" value="1" <?php if (app::$config['devices']['tablet']) echo 'checked="checked"'; ?>>
+                            </td>
+                            <td>
+                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','tablet',999);" value="tablet" <?php if (app::$config['devices']['defaultDevice'] == 'tablet') echo 'checked="checked"'; ?>>
+                            </td>  
+                        </tr>
+                        <tr class="trover">
+                            <td><?php echo t('TV', FALSE); ?></td>
+                            <td>
+                                <input type="hidden" name="config[devices][tv]" value="0">
+                                <input type="checkbox" name="config[devices][tv]" value="1" <?php if (app::$config['devices']['tv']) echo 'checked="checked"'; ?>>
+                            </td>
+                            <td>
+                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','tv',999);" value="tv" <?php if (app::$config['devices']['defaultDevice'] == 'tv') echo 'checked="checked"'; ?>>
+                            </td>  
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <?php if (PROFILE == 'www'): ?>
                 <input type="hidden" name="file" value="config.php">

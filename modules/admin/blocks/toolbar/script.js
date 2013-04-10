@@ -7,7 +7,7 @@ function blockAdminToolbar() {
             var elmt = this.parentNode;
             var rel = elmt.getAttribute("rel");
             var parent = $(elmt).closest(".contenttab");
-	    $(".block",parent).hide();
+	    $(".parsiblock",parent).hide();
             if( elmt.classList.contains('active')) {
                 elmt.classList.remove('active');
 		rel = '';

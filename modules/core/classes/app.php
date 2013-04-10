@@ -19,9 +19,9 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- *  @authors Julien Gras et Benoît Lorillot
- *  @copyright  Julien Gras et Benoît Lorillot
- *  @version  Release: 1.0
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright  Julien Gras et Benoît Lorillot
+ * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -42,17 +42,11 @@ namespace core\classes {
         /** @var @static response object HTTP response */
         public static $response;
 
-        /** @var @static integer */
-        public static $timestart;
-
         /** @var @static array contains all configs */
         public static $config = array();
 
         /** @var @static array contains traductions */
         public static $lang = array();
-
-        /** @var @static array contains all active modules */
-        public static $activeModules = array();
 
         /** @var @static array contains all devices */
         public static $devices = array();
@@ -73,40 +67,44 @@ namespace core\classes {
          * Bootstrap of the app
          */
         public function __construct() {
-            self::$timestart = microtime(true);
 
             /* Load  general configs */
             include('config.php');
 
-	    define('BASE_PATH',$config['BASE_PATH']);
-            define('PREFIX',$config['db']['prefix']);
-	    
             /* Determine the domain www.Domain Name */
             if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
-                set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/'.PROFILE.'/modules/core/' . PATH_SEPARATOR . './modules/core/'); // set include path
+                set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/'.PROFILE.'/modules/'.$config['modules']['default'].'/' . PATH_SEPARATOR . './modules/'.$config['modules']['default'].'/'); // set include path
 
-                /* Load general configs */
+                /* Load Profile configs */
                 if (PROFILE != 'www')
                     include('profiles/'.PROFILE . '/config.php');
-                self::$activeModules = $config['activeModules'];
+
                 self::$config = $config;
-
-                class_alias('core\classes\response', 'response');
-                self::$response = new response();
-
+                
                 /* Check if it's a file */
                 if (!$this->sendFile()) {
+                    
+                    define('BASE_PATH',$config['BASE_PATH']);
+                    define('PREFIX',$config['db']['prefix']);
+                    
+                    /* Init autoload*/
+                    spl_autoload_register('\core\classes\app::autoLoad');
+                    
+                    /* Init active modules - set class_alias  */
+                    class_alias('core\classes\app','app');
                     class_alias('core\classes\module', 'module');
                     $this->launchActiveModules();
-
+                   
+                    /* Init request - include file to avoid autoload  */
                     self::$request = new request();
+                     
+                    /* Init response before sendFile call */
+                    self::$response = new response();
 
-                    /* Dispatch Request in case of HTTP Response */
-
+                    /* Dispatch Request */
                     self::$request->dispatch();
                     echo self::$response->getContent();
 
-               
                 }
             }
         }
@@ -118,26 +116,24 @@ namespace core\classes {
          * @return bool
          */
         protected function determineMultiSite($multi = FALSE, $nbtld = FALSE) {
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $_SERVER['HTTP_HOST'] = strtolower(trim($_SERVER['HTTP_HOST']));
-                if (!(bool) $multi) {
-                    define('DOMAIN', str_replace('www.', '', $_SERVER['HTTP_HOST']));
-                    $profile = 'www';
-                } elseif (strstr($_SERVER['HTTP_HOST'], '.') !== FALSE) {
-                    $host = explode('.', $_SERVER['HTTP_HOST'], substr_count($_SERVER['HTTP_HOST'], '.') + 2 - $nbtld);
-                    if (count($host) == 1)
-                        array_unshift($host, 'www');
-                    define('DOMAIN', array_pop($host));
-                    $profile = implode('.', $host);
-                }else {
-                    define('DOMAIN', $_SERVER['HTTP_HOST']);
-                    $profile = 'www';
-                }
-                define('PROFILE', $profile);
-                define('PROFILE_PATH', 'profiles/' . PROFILE . '/modules/');
-                if (is_dir(PROFILE_PATH))
-                    return TRUE;
+            $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+            $host = strtolower(trim(s($host)));
+            if (!(bool) $multi) {
+                define('DOMAIN', str_replace('www.', '', $host));
+                define('PROFILE', 'www');
+            } elseif (strstr($host, '.') !== FALSE) {
+                $host = explode('.', $host, substr_count($host, '.') + 2 - $nbtld);
+                if (count($host) == 1)
+                    array_unshift($host, 'www');
+                define('DOMAIN', array_pop($host));
+                define('PROFILE', implode('.', $host));
+            }else {
+                define('DOMAIN', $host);
+                define('PROFILE', 'www');
             }
+            define('PROFILE_PATH', 'profiles/' . PROFILE . '/modules/');
+            if (is_dir(PROFILE_PATH))
+                return TRUE;
             return FALSE;
         }
 
@@ -145,7 +141,7 @@ namespace core\classes {
          * Call the onLoad method of each active modules
          */
         protected function launchActiveModules() {
-            foreach (self::$activeModules as $moduleName => $type) {
+            foreach (self::$config['modules']['active'] as $moduleName => $type) {
                 if ($type == 1) {
 		    self::$modules[$moduleName] = \module::get($moduleName);
                 }
@@ -163,12 +159,13 @@ namespace core\classes {
                     $path = stream_resolve_include_path($_GET['parsiurl']);
                     if ($path) {
                         $gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
-                        self::$response->setHeader('Last-Modified', $gmtime);
-                        self::$response->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
-                        self::$response->setHeader('Cache-Control', self::$config ['cache']['cache-control'] . ';max-age=' . self::$config ['cache']['max-age']);
-                        self::$response->setHeader('Content-type', response::$mimeTypes[$ext]);
-                        $content = file_get_contents($path, FILE_USE_INCLUDE_PATH);
-                        echo self::$response->setContent($content);
+                        /* We use native functions for perfs purposes */
+                        header('HTTP/1.1 200 OK', true, 200);
+                        header('Last-Modified: ' . $gmtime);
+                        header('Expires: ' .  gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
+                        header('Cache-Control: ' .  self::$config['cache']['cache-control'] . ';max-age=' . self::$config['cache']['max-age']);
+                        header('Content-type: ' . self::$mimeTypes[$ext]);
+                        echo file_get_contents($path, FILE_USE_INCLUDE_PATH);
                         return TRUE;
                     }
                 }
@@ -279,12 +276,12 @@ namespace core\classes {
          * @param string $errfile
          * @param integer $errline
          */
-        public static function errorHandler($code, $mess, $file, $line) {
+        public static function errorHandler($code, $message, $file, $line) {
             if(error_reporting() == 0){
                 return true; // continue script execution
             }
             /* convert errors ( E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE) in exceptions */ 
-            throw new \ErrorException($mess, $code, $code, $file, $line);
+            throw new \ErrorException($message, $code, $code, $file, $line);
         }
 
         /**
@@ -300,7 +297,7 @@ namespace core\classes {
 		$line = $lastError['line'];
 		$message = $lastError['message'];
                 self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
-                if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
+                if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) {
                     if (ob_get_level()) ob_clean();
                     if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                         echo json_encode(array('notification' =>  $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
@@ -338,6 +335,58 @@ namespace core\classes {
                 file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/modules/core/errors.log', $message.'-||-'.$file.'-||-'. $line , FILE_APPEND);
 
         }
+        
+        /**
+        * Type MIME
+        */
+       static public $mimeTypes = array(
+           'txt' => 'text/plain',
+           'htm' => 'text/html',
+           'html' => 'text/html',
+           'php' => 'text/html',
+           'css' => 'text/css',
+           'js' => 'application/x-javascript',
+           'json' => 'application/json',
+           'xml' => 'application/xml',
+           'swf' => 'application/x-shockwave-flash',
+           'flv' => 'video/x-flv',
+           // images
+           'png' => 'image/png',
+           'jpe' => 'image/jpeg',
+           'jpeg' => 'image/jpeg',
+           'jpg' => 'image/jpeg',
+           'gif' => 'image/gif',
+           'bmp' => 'image/bmp',
+           'ico' => 'image/vnd.microsoft.icon',
+           'tiff' => 'image/tiff',
+           'tif' => 'image/tiff',
+           'svg' => 'image/svg+xml',
+           'svgz' => 'image/svg+xml',
+           // archives
+           'zip' => 'application/zip',
+           'rar' => 'application/x-rar-compressed',
+           'exe' => 'application/x-msdownload',
+           'msi' => 'application/x-msdownload',
+           'cab' => 'application/vnd.ms-cab-compressed',
+           // audio/video
+           'mp3' => 'audio/mpeg',
+           'qt' => 'video/quicktime',
+           'mov' => 'video/quicktime',
+           // adobe
+           'pdf' => 'application/pdf',
+           'psd' => 'image/vnd.adobe.photoshop',
+           'ai' => 'application/postscript',
+           'eps' => 'application/postscript',
+           'ps' => 'application/postscript',
+           // ms office
+           'doc' => 'application/msword',
+           'rtf' => 'application/rtf',
+           'xls' => 'application/vnd.ms-excel',
+           'ppt' => 'application/vnd.ms-powerpoint',
+           // open office
+           'odt' => 'application/vnd.oasis.opendocument.text',
+           'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+       );
 
     }
 
@@ -349,7 +398,7 @@ namespace {
      *  These 2 functions are the only procedural functions of Parsimony 
      *  
      */
-    if (isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2) {
+    if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) {
 
         function t($text, $modAdmin = TRUE) {
             $before = '';

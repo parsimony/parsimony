@@ -28,24 +28,26 @@
 if (!\app::getClass('user')->VerifyConnexion())
     exit;
 if (!isset($_POST['module']))
-    $_POST['module'] = 'core';
+    $_POST['module'] = \app::$config['modules']['default'];
 
+$moduleObj = \app::getModule($_POST['module']);
+$modulesInfos = \tools::getClassInfos($moduleObj);
+if(isset($modulesInfos['mode']) && strstr($modulesInfos['mode'],'r')){
+    ?>
+        <style>
+            .areaWrite { display:none }
+        </style>
+    <?php
+}
+        
 include_once('modules/core/classes/field.php');
 
-$nativeProperties = array('tag' => array('id_tag','name','url'),
-			    'tag_post' => array('id_tag_post','id_tag','id_post'),
-			    'post' => array('id_post','title','url','content','excerpt','publicationGMT','author','tag','category','has_comment','ping_status'),
-			    'category' => array('id_category','name','id_parent','url','description'),
-			    'category_post' => array('id_category_post','id_category','id_post'),
-			    'comment' => array('id_comment','id_post','author','author_url','author_email','author_IP','dateGMT','content','status','id_user','id_parent','type'),
-			    'user' => array('id_user','pseudo','mail','pass','registration','state','id_role'),
-			    'role' => array('id_role','name','state'));
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
-<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.0.min.js"><\/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js" type="text/javascript"></script>
 <script>typeof jQuery.ui != 'undefined' || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
 <script type="text/javascript">
@@ -57,8 +59,6 @@ $nativeProperties = array('tag' => array('id_tag','name','url'),
     var TOKEN = '<?php echo TOKEN ?>';
 </script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.fracs-0.11.min.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/fracs/jquery.outline-0.11.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>cache/<?php echo app::$request->getLocale(); ?>-lang.js"></script>
@@ -66,7 +66,7 @@ $nativeProperties = array('tag' => array('id_tag','name','url'),
 </style>
 <style type="text/css">
     .ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
-    body{margin:0;padding:0;font-family: arial, sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+    body{margin:0;padding:0;height:100%;font-family: arial, sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
@@ -630,7 +630,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             <form action="" method="POST" style="display:inline-block;margin: 0;">
                 <select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
 		    <?php
-		    foreach (\app::$activeModules as $moduleName => $module) {
+		    foreach (\app::$config['modules']['active'] as $moduleName => $module) {
 			if ($moduleName == $_POST['module']) {
 			    $selected = 'selected = "selected"';
 			} else {
@@ -644,7 +644,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             </form>
         </div>
 
-        <div class="floatleft" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
+        <div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
 	    <?php echo t('Add an Entity', FALSE); ?>
             <form id="add_table" style="display:inline-block;margin: 0;">
                 <input type="text" id="table_name" style="padding:1px;">
@@ -652,7 +652,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             </form>
         </div>
         <div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
-            <input type="button" id="save" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
+            <input type="button" id="save" class="areaWrite" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
         </div>
 
     </div>
@@ -676,7 +676,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             <div style="margin:15px 0">
                 <select multiple="multiple" id="linkToExternal" style="background: #fff">
                     <?php
-                    foreach (\app::$activeModules as $moduleName => $module) {
+                    foreach (\app::$config['modules']['active'] as $moduleName => $module) {
                         if ($moduleName != 'admin' && $moduleName != $_POST['module']){
                             foreach (\app::getModule($moduleName)->getModel() as $entityName => $entity) {
                                 echo '<option>' . $moduleName . ' - ' . $entityName . '</option>';
@@ -689,7 +689,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
             <input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
         </div>
     </div>
-    <div id="leftsidebar">
+    <div id="leftsidebar" class="areaWrite">
         <div>
             <h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
             <div id="field_list">
@@ -764,7 +764,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
 			    $html .= ob_get_clean();
 			    $html .= '</fieldset>';
 			}
-			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
+			$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field areaWrite" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
 		    }
 		}
 		?>
@@ -773,13 +773,12 @@ background: linear-gradient(#FFFFFF, #ddd);}
     </div>
     <div id="canvas">
 	<?php
-	foreach (\app::getModule($_POST['module'])->getModel() as $entityName => $entity) {
+	foreach ($moduleObj->getModel() as $entityName => $entity) {
 	    $reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
 	    $className = $reflect->getShortName();
 	    $modelInfos = \tools::getClassInfos($reflect);
 	    $tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
-	    $native = isset($nativeProperties[$className]) ? ' native' : '';
-	    echo '<div class="table'.$native.'" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
+	    echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
 	    $parameters = $entity->getFields();
 	    foreach ($parameters as $propertyName => $field) {
 		$class = get_class($field);
@@ -793,14 +792,13 @@ background: linear-gradient(#FFFFFF, #ddd);}
 		    $args [$ssparam->name] = $field->{$ssparam->name};
 		}
 		$args['oldName'] = $field->name;
-		$native = isset($nativeProperties[$className]) && in_array($propertyName ,$nativeProperties[$className]) ? ' native' : '';
-		echo '<div class="property'.$native.'" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+		echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 	    }
 	    echo '</div>';
 	}
 	?>
     </div>
-    <div id="rightsidebar" style="z-index:999">
+    <div id="rightsidebar" class="areaWrite" style="z-index:999">
         <div id="update_table">
             <h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
@@ -810,7 +808,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><input type="text" name="behaviorDescription"></div>
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><input type="text" name="behaviorKeywords"></div>
                 <div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><input type="text" name="behaviorImage"></div>
-                <input type="submit" class="save_table" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
+                <input type="submit" class="save_table areaWrite" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
             </div>
         </div>
         <div id="update_field">
@@ -917,23 +915,6 @@ background: linear-gradient(#FFFFFF, #ddd);}
         init :   function(){
             /* Tooltip */
             $(".tooltip").parsimonyTooltip({triangleWidth:5});
-            /* Fracs preview */
-            $("#outline").fracs("outline", {
-                crop: true,
-                styles: [{
-                        selector: ".table",
-                        strokeWidth: "auto",
-                        strokeStyle: "auto",
-                        fillStyle: "#2E63A5"
-                    },{
-                        selector: ".current_update_table",
-                        strokeWidth: "auto",
-                        strokeStyle: "auto",
-                        fillStyle: "red"
-                    }],
-                viewportStyle:{fillStyle:"rgba(104,169,255,0.2)"},
-                viewportDragStyle:{fillStyle:"rgba(104,169,255,0.5)"}
-            });
 
             $(window).bind("beforeunload",function(event) {
                 if($("#save").hasClass("haveToSave")) return t("You have unsaved changes");
@@ -1139,7 +1120,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 });
 		if(this.classList.contains("native")) $('#update_table input[name="name"]').attr('disabled','disabled');
 		else $('#update_table input[name="name"]').removeAttr('disabled');
-                $("#outline").fracs('outline', 'redraw');
+                thumb.draw();
             })
             /* Save all models */
             .on('click','#save',function(){
@@ -1163,18 +1144,18 @@ background: linear-gradient(#FFFFFF, #ddd);}
             })
             /* Choose behavior of the link */
             .on('click','#popup input',function(){
-                var source1 = $("#" + $(this).data('sourceid'));
-                var target1 = $("#" + $(this).data('targetid'));
-                var entitySource = source1.parent().find('.title').text();
-                var entityTarget = $('.title',target1).text();
+                var source1 = $("#" + $(this).data("sourceid"));
+                var target1 = $("#" + $(this).data("targetid"));
+                var entitySource = source1.parent().find(".title").text();
+                var entityTarget = $(".title",target1).text();
                 var module = $("#currentModule").val();
-                if(this.id=='button3'){
+                if(this.id == "button3"){
                     var t = entitySource +'_'+entityTarget;
                     dbadmin.createTable(t);
                     dbadmin.buildLink(module,entitySource,module,t);
                     dbadmin.buildLink(module,entityTarget,module,t);
                 }else{
-                    if(this.id=='button2'){
+                    if(this.id == "button2"){
                         source = source1;
                         target = target1;
                     }else{
@@ -1307,7 +1288,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 handle : 'div.title',
                 containment: '#canvas',
                 drag: function(event, ui) {
-                    $("#outline").fracs('outline', 'redraw');
+                    thumb.draw();
                 },stop:function(){
                     jsPlumb.repaint( $(".property",this).add(this).toArray());
                 }
@@ -1352,5 +1333,98 @@ background: linear-gradient(#FFFFFF, #ddd);}
     $(document).ready(function() {
         if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) $.extend( $.ui.draggable.prototype.options, {scroll:false}); // firefox fix
         dbadmin.init();
+        thumb.draw();
     });
+    
+    
+    
+    
+    function Fraction(outlineID, settings, viewportID) {
+
+        /* Init */
+        this.ratio;
+        this.settings = settings;
+        this.canvas = document.getElementById(outlineID);
+        this.viewport = document.getElementById(viewportID);
+        this.container = document.body;
+        this.dragging = false;
+        this.ctx = this.canvas.getContext("2d");
+        
+        /* Dimmenssions */
+        this.height = this.canvas.getAttribute("height");
+        this.viewportCoords = this.viewport.getBoundingClientRect();
+        this.ratio = this.height / this.viewportCoords.height;
+        this.width = this.viewportCoords.width * this.ratio;
+        this.canvas.setAttribute("width", this.width);
+        
+        /* Events */
+        window.addEventListener("scroll", this.draw.bind(this), false);
+        this.canvas.addEventListener("mousedown", this.mousedown.bind(this), false);
+    }
+
+     Fraction.prototype.draw = function () {
+         
+        this.viewportCoords = this.viewport.getBoundingClientRect();
+        
+        /* Prepare to draw : clear and set background */
+        this.ctx.clearRect(0,0,this.width,this.height);
+        this.ctx.fillStyle = this.settings.containerStyle.fillStyle;
+        this.ctx.fillRect(0,0,this.width,this.height);
+
+        /* Draw parts */
+        for (var i = 0, len = this.settings.parts.length; i < len; i++) {
+            var part = document.querySelectorAll(this.settings.parts[i].selector);
+            this.ctx.fillStyle = this.settings.parts[i].fillStyle;
+            for (var j = 0, lenT = part.length; j < lenT; j++) {
+                var coords = part[j].getBoundingClientRect();
+                this.ctx.fillRect((coords.left - this.viewportCoords.left) * this.ratio, (coords.top - this.viewportCoords.top) * this.ratio,  coords.width * this.ratio, coords.height * this.ratio);
+            }
+        }
+        
+        /* Draw viewport scroll */
+        if(this.dragging == true) this.ctx.fillStyle = this.settings.viewportDragStyle.fillStyle;
+        else this.ctx.fillStyle = this.settings.viewportStyle.fillStyle;
+        this.ctx.fillRect (this.container.scrollLeft * this.ratio, this.container.scrollTop * this.ratio,  this.container.offsetWidth * this.ratio, this.container.offsetHeight * this.ratio);
+    }
+    
+     Fraction.prototype.mousedown = function (e) {
+        this.dragging = true;
+        var canvasCoords = this.canvas.getBoundingClientRect();
+        this.container.scrollTop = (e.clientY - canvasCoords.top - (this.container.offsetHeight * this.ratio / 2)) / this.ratio;
+        this.container.scrollLeft = (e.clientX - canvasCoords.left - (this.container.offsetWidth * this.ratio / 2) ) / this.ratio;
+
+        this.Yscroll = this.container.scrollTop;
+        this.Xscroll = this.container.scrollLeft;
+        this.clientY = e.clientY;
+        this.clientX = e.clientX;
+        this.mousemoveCallBack = this.mousemove.bind(this);
+        this.mouseupCallBack = this.mouseup.bind(this);
+        this.container.addEventListener("mousemove", this.mousemoveCallBack, false);
+        this.container.addEventListener("mouseup", this.mouseupCallBack, false);
+     }
+     
+     Fraction.prototype.mousemove = function (e) {
+         this.container.scrollTop = this.Yscroll - ((this.clientY - e.clientY) / this.ratio);
+         this.container.scrollLeft = this.Xscroll - ((this.clientX - e.clientX) / this.ratio);
+     }
+     
+     Fraction.prototype.mouseup = function (e) {
+         this.dragging = false;
+         this.container.removeEventListener("mousemove", this.mousemoveCallBack, false);
+         this.container.removeEventListener("mouseup", this.mouseupCallBack, false);
+         this.draw();
+     }
+     
+    var thumb = new Fraction("outline",{parts: [{
+                        selector: ".table",
+                        fillStyle: "#2E63A5"
+                    },{
+                        selector: ".current_update_table",
+                        fillStyle: "red"
+                    }],
+                containerStyle:{fillStyle:"rgba(104,169,255,0.1)"},
+                viewportStyle:{fillStyle:"rgba(104,169,255,0.4)"},
+                viewportDragStyle:{fillStyle:"rgba(104,169,255,0.7)"}}, "container_bdd");
+    
+
 </script>

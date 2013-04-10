@@ -31,16 +31,31 @@
  *   ouvrir fichier dans editeir de code ou editeur image
  *   path par de depart du tree
  */
+app::$request->page->addCSSFile('lib/cms.css');
+app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
+app::$request->page->addCSSFile('modules/admin/style.css');
+app::$request->page->addCSSFile('lib/CodeMirror/theme/default.css');
+app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/javascript/javascript.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/php/php.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/clike/clike.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/searchcursor.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/search.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/formatting.js');
+app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
-<SCRIPT LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"> </SCRIPT>
-<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.0.min.js"><\/script>')</script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/upload/parsimonyUpload.js"></script>
+
+<SCRIPT LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </SCRIPT>
+<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
+<?php echo app::$request->page->printInclusions() ?>
+
 <style>
-    body{min-width: 870px;background: #fff;}
-    #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:544px;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
-    #explorer{display:table-cell;width: 200px;overflow-y:scroll;height:100%;vertical-align: top;list-style: none;padding:0;margin:0;}
+    body{min-width: 500px;background: #fff;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+    #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:100%;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
+    #explorer{display:table-cell;width: 200px;overflow-y:auto;height:100%;border-right: 1px solid #D3D3D3;vertical-align: top;list-style: none;padding:0;margin:0;}
     #explorer ul{display:none;list-style: none;}
     #explorer li.file{display:none}
     #explorer ul{padding-left:20px}
@@ -49,11 +64,7 @@
     #explorer li.dir{padding-left:20px;line-height:20px;cursor:pointer;border:1 #fff solid}
     #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {
 	border: solid 1px #b8d6fb;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	box-shadow: inset 0 0 1px white;
-	-moz-box-shadow: inset 0 0 1px white;
-	-webkit-box-shadow: inset 0 0 1px white;
 	background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
 	background: -moz-linear-gradient(top, #fafbfd, #ebf3fd);
 	background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
@@ -61,84 +72,230 @@
     .explorer_file{position:relative;width:100px;height:100px;margin:5px;text-align:center;border:1px #ccc solid;float:left;border-radius:4px;padding-top:15px}
     .explorer_file_name{position:absolute;line-height: 15px;bottom:2px;text-overflow: ellipsis;white-space: nowrap;width: 90px;overflow: hidden;padding: 0 5px;font-size: 13px;}
     #path{background: white;border-bottom: 1px solid #CCC;padding: 5px;color: #333;}
-    #explorercontainer{display:table-cell;overflow-y: scroll;/*-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/}
+    #rightPart{display:table-cell;position: relative;/*-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/}
     #explorerfiles{min-width:465px;height:100%;overflow: hidden;}
+    #explorer > li.dir{padding-left:7px }
+    #tabs li{cursor: pointer;display: inline-block;background: #E5E5E5;border-radius: 10px 10px 0 0;line-height: 12px;margin-top: 5px;border: 1px solid #D3D5DB;border-bottom: 0}
+    #tabs .active, #tabs li:hover{background:#ccc}
+    #tabs li > div{border: 1px solid #fff;;border-bottom: 0;padding: 5px 4px;border-radius: 10px 10px 0 0;color: #555;text-shadow: 1px 1px 1px #FFF;}
+    #tabs{position: absolute;width: 100%;z-index: 99;background: #f9f9f9;border-bottom: 1px solid #D3D5DB;border-top: 1px solid #D3D5DB;margin: 0;padding: 0;}
+    .panel {position: absolute;width: 100%;height: 100%;padding-top: 31px;box-sizing: border-box;}
+    .CodeMirror {height: 100%;line-height: 17px;}
+    #explorercontainer{position: absolute;height: 100%;width: 100%;}
+    .close{padding: 0 4px;border: 1px solid #777;border-radius: 5px;margin-left: 3px;background: #DADADA;font-size: 11px;}
+    .close:hover{color:#f5f5f5;background:#ccc}
+    
+    select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
+    .adminzonecontent{min-width:900px}
+    .CodeMirror {background: white;font-size: 13px;padding-top: 36px;box-sizing: border-box;}
+    .CodeMirror-scroll {min-width: 870px;padding-right:0}
+    .activeline {background: rgba(232, 242, 255, 0.33) !important;}
+    .toolbarEditor{background: #F8F8F8;padding: 5px;position: absolute;z-index: 999;box-shadow: 1px 1px 4px #BBB;width: 100%;}
+    .subToolbarEditor{display:none;padding-top: 5px;width: 100%;text-align: right;}
+    .subToolbarEditor input{height: 20px}
+    .subToolbarEditor input[type="button"]{padding: 2px 12px 3px 12px;}
+    .location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}
+    .unsaved{font-weight:bold}
+    .unsaved .name:after{ content:"*";}
+
 </style>
 <script>
     
-    if(typeof parent.callbackExplorer != "function") parent.callbackExplorer = function(file){return false;};
+    var editors = {};
+    if(typeof opener.callbackExplorer != "function") opener.callbackExplorer = function(file){return false;};
     
     $(document).ready(function() {
-        top.ParsimonyAdmin.resizeConfBox();
 	$("#explorer").on("click","li.dir",function(){
 	    var path = $(this).attr("path");
 	    list(path);
 	    $(this).next().find(" > li.dir").show();
 	    $(this).next().slideToggle("fast");
+            $(".panel").hide();
+            $("#explorerfiles").show();
 	});
-	$("#explorercontainer").on("dblclick",".dir", function(){
-	    var path = $(this).find(".explorer_file_name").attr("path");
-	    list(path);
+        $("#tabs").on("click","li",function(){
+            $(".panel").hide();
+            $("#tabs li").removeClass("active");
+            $(this).addClass("active");
+            var panel = this.id;
+            if(panel == "exploreTab") $("#explorerfiles").show();
+            else $("#tab-" + panel).show();
+	})
+        .on("click",".close", function(e){
+            e.stopPropagation();
+            var tab = $(this).closest("li");
+            if(!tab.hasClass("unsaved") || confirm("This file isn't save, want you really close it ?")){
+                var panel = tab.attr('id');
+                editors[panel] = "";
+                $("#tab-" + panel).add(tab).remove();
+                $("#explorerfiles").show();
+            }
 	});
+        
+	$("#explorercontainer").on("dblclick",".explorer_file", function(){
+            var path = $(this).find(".explorer_file_name").attr("path");
+            if($(this).hasClass("dir")){
+                list(path);
+            }else{
+                addFile(path);
+            }
+	});
+                
+       $("#explorerfiles").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
+	    ajaxFileParams: {action: "upload",path: $("#path").text(),MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+	    start:function(file){
+                var obj = $("#explorerfiles").data('uploadParams');
+                obj.path = $("#path").text();
+                $("#explorerfiles").data('uploadParams',obj);
+            },
+	    onProgress:function(file, progress){},
+	    stop:function(response){
+		list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+	    }
+	});
+        
 	$("#explorerWrap").on("click",".explorer_file",function(){
 	    $(".explorer_file_selected").removeClass("explorer_file_selected");
 	    $(this).addClass("explorer_file_selected");
-            var file = "<?php echo BASE_PATH; ?>" + $(".explorer_file_name",this).attr("file").replace('/<?php echo PROFILE_PATH; ?>','<?php echo BASE_PATH; ?>').substring(1);
-            console.log("4");
-            console.dir(parent.callbackExplorer);
-            parent.callbackExplorer.apply(false, [file]);
-	});
-	$("#explorercontainer").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-	    ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH ?>" + $("#path").text().substring(1),MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
-	    start:function(file){console.log("Start load : " + file.name)},
-	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
-	    stop:function(response){
-		list($("#path").text().substring(1));
-	    }
-	});
+            var file = "<?php echo BASE_PATH; ?>" + $(".explorer_file_name",this).attr("path").replace('<?php echo PROFILE_PATH; ?>','<?php echo BASE_PATH; ?>').substring(1);
+            opener.callbackExplorer.apply(false, [file]);
+	})
+                
+        .on("change",".historyfile",function(e){
+            e.stopPropagation();
+            var panel = $(this).closest(".panel");
+            var path = panel.data("path");
+            var name = panel.attr("id").substring(4);
+            var codeEditor = editors["tab-" + name];
+            if(this.value != "none"){
+                $.post("getBackUp",{
+                    replace: this.value,
+                    file: path,
+                    content: codeEditor.getValue().replace('"','\"')
+                },function(data){
+                    codeEditor.setValue(data);
+                    codeEditor.save();
+                    $("#" + name).removeClass("unsaved");
+                });
+            }
+        })
+        
+        .on("click",".saveCode", function(e){
+            e.stopPropagation();
+            var panel = $(this).closest(".panel");
+            var path = panel.data("path");
+            var name = panel.attr("id").substring(4);
+            var code = editors["tab-" + name].getValue();
+            $.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path, code : code },
+            function(data) {
+                $("#" + name).removeClass("unsaved");
+            });
+        });
+
     });
-    
+     var lastPos = null, lastQuery = null, marked = [];
+    function unmark() {
+        for (var i = 0; i < marked.length; ++i) marked[i].clear();
+        marked.length = 0;
+    }
+
+    function search(id) {
+        var codeEditor = editors["tab-" + id];
+        unmark();                     
+        var text = document.getElementById("query").value;
+        if (!text) return;
+        for (var cursor = codeEditor.getSearchCursor(text); cursor.findNext();)
+            marked.push(codeEditor.markText(cursor.from(), cursor.to(), "searched"));
+
+        if (lastQuery != text) lastPos = null;
+        var cursor = codeEditor.getSearchCursor(text, lastPos || codeEditor.getCursor());
+        if (!cursor.findNext()) {
+            cursor = codeEditor.getSearchCursor(text);
+            if (!cursor.findNext()) return;
+        }
+        codeEditor.setSelection(cursor.from(), cursor.to());
+        lastQuery = text; lastPos = cursor.to();
+    }
+
+    function replaces(id) {
+        var codeEditor = editors["tab-" + id];
+        unmark();
+        var text = document.getElementById("query").value,
+        replace = document.getElementById("replace").value;
+        if (!text) return;
+        
+        for (var cursor = codeEditor.getSearchCursor(text); cursor.findNext();)
+            cursor.replace(replace);
+    }
+    function format(id) {
+        var codeEditor = editors["tab-" + id];
+        codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));
+    }
     function list(path) {
 	$.post("<?php echo BASE_PATH; ?>admin/files", { dirPath: path },
 	function(data) {
-	    $("#explorercontainer").html(data);
-	    $("#path").text(path);
-	    $("#explorercontainer").parsimonyUpload('changeUploadParams',{action: "upload",path: "<?php echo PROFILE_PATH ?>" + $("#path").text().substring(1),MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"});
-
+	    $("#explorerfiles").html(data);
 	});
     }
+    function addFile(path) {
+        var name = path.replace(/\\/g,'/').replace( /.*\//, '' );
+        var techName = path.replace("\\","__").replace(/\//g,"__").replace(".","");
+        $("#tabs li").removeClass("active");
+	$("#tabs").append('<li id="' + techName + '" title="<?php echo PROFILE_PATH ?>' + path + '" class="active"><div><span class="name">' + name + '</span><span class="close">x</span></div></li>');
+        $.post("<?php echo BASE_PATH; ?>admin/explorerEditor", { file: path },
+	function(data) {
+	    $("#explorercontainer").append(data);
+            $(".panel").hide();
+            $("#tab-" + techName).show();
+            editors["tab-" + techName] = CodeMirror.fromTextArea(document.getElementById("code-" + techName), {mode: "css",
+                tabMode: "indent",
+                lineNumbers: true,
+                lineWrapping: true,
+                extraKeys: {"Ctrl-S": function(c) {$("#tab-" + c.techName + " .saveCode").trigger("click");return false; }}
+            });
+            editors["tab-" + techName].techName = techName;
+            editors["tab-" + techName].on("change", function(c, n) {
+                $("#" + c.techName).addClass("unsaved");
+            });
+        });
+    }
+
 </script>
-<div>
-    <div id="path">/</div>
-    <div id="explorerWrap">
-	<ul id="explorer">
-	    <?php
-	    $path = dirname($_SERVER['SCRIPT_FILENAME']) . '/' . PROFILE_PATH;
-	    $depth = 0;
-	    $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
-	    foreach ($objects as $name => $object) {
-		if ($objects->getDepth() > $depth)
-		    echo '<ul>';
-		elseif ($objects->getDepth() < $depth)
-		    echo str_repeat('</ul>', $depth - $objects->getDepth());
-		if ($object->getBasename() != '.' && $object->getBasename() != '..') {
-		    if ($object->isDir()){
-                        $name = str_replace('\\','/',$name);
-			echo '<li class="dir" path="/' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '"><span class="icondir"></span>' . $object->getBasename() .'</li>' ;
-                    }
+<div id="explorerWrap">
+    <ul id="explorer">
+        <?php
+        $path = dirname($_SERVER['SCRIPT_FILENAME']) . '/' . PROFILE_PATH;
+        $depth = 0;
+        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($objects as $name => $object) {
+            if ($objects->getDepth() > $depth)
+                echo '<ul>';
+            elseif ($objects->getDepth() < $depth)
+                echo str_repeat('</ul>', $depth - $objects->getDepth());
+            if ($object->getBasename() != '.' && $object->getBasename() != '..') {
+                if ($object->isDir()){
+                    $name = str_replace('\\','/',$name);
+                    echo '<li class="dir" path="' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '"><span class="icondir"></span>' . $object->getBasename() .'</li>' ;
                 }
-		$depth = $objects->getDepth();
-	    }
-            echo str_repeat('</ul>', $depth - 0);
-	    ?>
+            }
+            $depth = $objects->getDepth();
+        }
+        echo str_repeat('</ul>', $depth - 0);
+        ?>
+    </ul>
+    <div id="rightPart">
+        <ul id="tabs">
+            <li id="exploreTab">
+                <div>Explorer</div>
+            </li>
         </ul>
-	<div id="explorercontainer">
-            <div id="explorerfiles">
+        <div id="explorercontainer">
+            <div class="panel" id="explorerfiles">
                 <?php
                 $dirPath = $path;
                 include('files.php');
                 ?>
             </div>
-	</div>
+        </div>
     </div>
 </div>

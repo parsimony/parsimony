@@ -1,1 +1,0 @@
-<h1>Categories</h1><div class="clearboth"></div>

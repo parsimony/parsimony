@@ -106,8 +106,8 @@ class user {
                 if ((string) $mdp == \sha1($password.\app::$config['security']['salt'])) {
                     $_SESSION['login'] = $login;
                     $_SESSION['id_user'] = $obj['id_user'];
-                    $_SESSION['idr'] = $obj['id_role'];
-                    $_SESSION['roleBehavior'] = $obj['state'];
+                    $_SESSION['id_role'] = $obj['id_role'];
+                    $_SESSION['behavior'] = $obj['state'];
                     return TRUE;
                 } else {
                     return FALSE;
@@ -137,7 +137,7 @@ class user {
     public static function logOut() {
         $_SESSION = array();
         $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 3600, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+        setcookie(session_name(), '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         \session_destroy();
         header('location:index');
         exit;

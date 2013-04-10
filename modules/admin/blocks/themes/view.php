@@ -69,7 +69,7 @@
         <div class="themelist tabPanel" style="display:block;height: 100%;">
             <ul style="height: 100%;overflow-y: auto;overflow-x: hidden;">
 		<?php
-                $modules = \app::$activeModules;
+                $modules = \app::$config['modules']['active'];
                 unset($modules['admin']);
                 foreach ($modules as $moduleName => $mode) {
 		    $module = \app::getModule($moduleName);
@@ -118,7 +118,7 @@
 		    <label><?php echo t('Module', FALSE); ?>: </label>
 		    <select name="thememodule">
 			<?php
-			$modules = \app::$activeModules;
+			$modules = \app::$config['modules']['active'];
 			unset($modules['admin']);
 			foreach ($modules as $moduleName => $mode) {
 			    echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';

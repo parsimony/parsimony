@@ -99,9 +99,9 @@ class response {
                 else
                     $this->body = $body->display();
                    
-                if ((BEHAVIOR == 1 || BEHAVIOR==2) && !\app::$request->getParam('popup')){
-                     $this->timer = microtime(true) - app::$timestart; 
-                    $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';window.parent.document.getElementById("infodev_timer").innerHTML="' . round($this->timer, 4) . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
+                if ($_SESSION['behavior'] > 0 && !\app::$request->getParam('popup')){
+                    $timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
+                    $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
                 }
             }
 	    if ($structure){
@@ -120,7 +120,7 @@ class response {
             $this->body = $body;
         }
         header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
-        header('Content-type: ' . self::$mimeTypes[$this->format] . '; charset=' . $this->charset);
+        header('Content-type: ' . app::$mimeTypes[$this->format] . '; charset=' . $this->charset);
         foreach ($this->headers AS $label => $header) {
             header($label . ': ' . $header);
         }
@@ -151,7 +151,7 @@ class response {
      * @param string $format
      */
     public function setFormat($format) {
-        if (isset(self::$mimeTypes[$this->format]))
+        if (isset(app::$mimeTypes[$this->format]))
             $this->format = $format;
         else
             throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));
@@ -236,58 +236,6 @@ class response {
         505 => 'HTTP Version Not Supported',
         509 => 'Bandwidth Limit Exceeded',
 	511 => 'Network Authentication Required'
-    );
-
-    /**
-     * Type MIME
-     */
-    static public $mimeTypes = array(
-        'txt' => 'text/plain',
-        'htm' => 'text/html',
-        'html' => 'text/html',
-        'php' => 'text/html',
-        'css' => 'text/css',
-        'js' => 'application/x-javascript',
-        'json' => 'application/json',
-        'xml' => 'application/xml',
-        'swf' => 'application/x-shockwave-flash',
-        'flv' => 'video/x-flv',
-        // images
-        'png' => 'image/png',
-        'jpe' => 'image/jpeg',
-        'jpeg' => 'image/jpeg',
-        'jpg' => 'image/jpeg',
-        'gif' => 'image/gif',
-        'bmp' => 'image/bmp',
-        'ico' => 'image/vnd.microsoft.icon',
-        'tiff' => 'image/tiff',
-        'tif' => 'image/tiff',
-        'svg' => 'image/svg+xml',
-        'svgz' => 'image/svg+xml',
-        // archives
-        'zip' => 'application/zip',
-        'rar' => 'application/x-rar-compressed',
-        'exe' => 'application/x-msdownload',
-        'msi' => 'application/x-msdownload',
-        'cab' => 'application/vnd.ms-cab-compressed',
-        // audio/video
-        'mp3' => 'audio/mpeg',
-        'qt' => 'video/quicktime',
-        'mov' => 'video/quicktime',
-        // adobe
-        'pdf' => 'application/pdf',
-        'psd' => 'image/vnd.adobe.photoshop',
-        'ai' => 'application/postscript',
-        'eps' => 'application/postscript',
-        'ps' => 'application/postscript',
-        // ms office
-        'doc' => 'application/msword',
-        'rtf' => 'application/rtf',
-        'xls' => 'application/vnd.ms-excel',
-        'ppt' => 'application/vnd.ms-powerpoint',
-        // open office
-        'odt' => 'application/vnd.oasis.opendocument.text',
-        'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     );
 
 }

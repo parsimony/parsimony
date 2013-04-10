@@ -26,21 +26,21 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/tree/script.js','footer');
+app::$request->page->addJSFile('admin/blocks/tree/script.js','footer');
 ?>
 <div id="treelegend">?</div>
 <div class="none" id="treelegend2"><fieldset style="text-shadow:none;color:white;">
 	<legend><?php echo t('Type of blocks', FALSE); ?></legend>
 	<span class="parsicontainer" style="padding-left: 30px;position: relative;left: 5px;"><?php echo t('Block Container', FALSE); ?></span> </br>
-	<span class="parsiblock" style="padding-left: 39px;position: relative;left: -3px;"><?php echo t('Content Block', FALSE); ?></span></br>
+	<span class="parsimonyblock" style="padding-left: 39px;position: relative;left: -3px;"><?php echo t('Content Block', FALSE); ?></span></br>
 	<span class="parsipage" style="padding-left: 37px;position: relative;left: -1px;"><?php echo t('Dynamic Page', FALSE); ?></span></br>
     </fieldset>
 </div>  
 <div id="config_tree_selector" class="none">
-    <span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
+    <span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4 restrict"></span>
     <span class="floatleft ui-icon ui-icon-wrench action" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration', FALSE); ?>"></span>
     <span class="ui-icon ui-icon-pencil cssblock floatleft" data-action="onDesign"></span>
-    <span class="ui-icon ui-icon-closethick config_destroy floatleft" data-action="onDelete"></span>
+    <span class="ui-icon ui-icon-trash config_destroy floatleft restrict" data-action="onDelete"></span>
 </div>
 <div id="tree"> 
     <?php

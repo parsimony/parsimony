@@ -60,27 +60,32 @@ class request {
     protected $device;
 
     public function __construct() {
-
+        
+        /* Determine HTTP request */
 	$this->initMethod();
-
-	\app::getClass('user'); //fix to enable user
-	/* Init a page */
-	$this->page = new \page(0, 'core');
-
+        
 	/* Determine locale */
 	$this->determineLocale();
+
+        /* Rights */
+	define('DISPLAY', 1);
+	define('INSERT', 4);
+	define('UPDATE', 8);
+	define('DELETE', 16);
+
+	/* Determine role of user */
+	$this->determineRole();
 
 	/* MODULE : search module */
 	$this->determineModule();
 
-	if (!$this->determineToken()) { //if we don't have a Token..
+	if (!$this->determineToken()) { /* If we don't have a Token */
 
-	    /* determine device where we are */
+	    /* Determine device where we are */
 	    $this->determineDevice();
 
 	    /* Define THEME */	    
-	    //print_r($_COOKIE);
-            if(isset($_SESSION['roleBehavior']) && $_SESSION['roleBehavior'] == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+            if(isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
                 define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
                 define('THEME', $_COOKIE['THEME']);
 	    }else{
@@ -92,18 +97,6 @@ class request {
 	    $this->createNewToken();
 	}
 
-	//Rights
-	define('DISPLAY', 1 << 0);
-	define('INSERT', 1 << 1);
-	define('UPDATE', 1 << 2);
-	define('DELETE', 1 << 3);
-
-	/* determine permissions */
-	$this->determineRole();
-
-	//verify if it's admin role or not
-	if (!isset($_GET['parsiframe']) && (BEHAVIOR == 1 || BEHAVIOR==2) && empty($_POST))
-	    define('PARSI_ADMIN', 1);
     }
 
     /**
@@ -178,7 +171,7 @@ class request {
 	if (is_file($pathCache . '.php')) {
 	    include $pathCache . '.php';
 	} else {
-	    foreach (app::$activeModules as $moduleName => $type) {
+	    foreach (app::$config['modules']['active'] as $moduleName => $type) {
 		if (is_file('modules/' . $moduleName . '/locale/' . $this->locale . '.php'))
 		    include('modules/' . $moduleName . '/locale/' . $this->locale . '.php');
 	    }
@@ -212,17 +205,18 @@ class request {
      * Detect device of visitor
      */
     protected function determineDevice() {
-	if (isset($_COOKIE['device'])) {
-	    define('THEMETYPE', $_COOKIE['device']);
-	} else {
-	    foreach (\app::$devices AS $device) {
-		if ($device['detectFnc']() == TRUE) {
-		    define('THEMETYPE', $device['name']);
-		    $_COOKIE['device'] = $device['name'];
-		    break;
-		}
-	    }
+	if (!isset($_COOKIE['device'])) {
+            $_COOKIE['device'] = \app::$config['devices']['defaultDevice'];
+            if(count(\app::$devices) > 1){
+                foreach (\app::$devices AS $device) {
+                    if ($device['detectFnc']() == TRUE) {
+                        $_COOKIE['device'] = $device['name'];
+                        break;
+                    }
+                }
+            }
 	}
+        define('THEMETYPE', $_COOKIE['device']);
     }
 
     /**
@@ -232,13 +226,17 @@ class request {
 	if (empty($_GET['parsiurl']))
 	    $_GET['parsiurl'] = 'index';
 	$this->URL = explode('/', $_GET['parsiurl'], 2);
-	if (isset(\app::$activeModules[$this->URL[0]])) {
+	if (isset(\app::$config['modules']['active'][$this->URL[0]])) {
 	    $this->module = $this->URL[0];
 	    if (isset($this->URL[1]))
 		$this->secondPartURL = $this->URL[1];
 	}else {
-	    $this->URL[0] = 'core';
-	    $this->module = 'core';
+            /* We test if core Module can respond */
+            if(method_exists(app::getModule('core'), $this->URL[0] . 'Action')){
+                $this->module = 'core';
+            }else{
+                $this->module = \app::$config['modules']['default'];
+            }
 	    $this->secondPartURL = $_GET['parsiurl'];
 	}
 	if (empty($this->secondPartURL))
@@ -266,10 +264,15 @@ class request {
      * @return response|string
      */
     public function dispatch() {
-	if (app::getModule($this->module)->{'controller' . $this->method}($this->secondPartURL) === FALSE) {
-	    //if no page found
-	    return app::$response->setContent('<h1>Not Found</h1>', 404);
-	}
+        $module = app::getModule($this->module);
+        if($module->getRights($_SESSION['id_role']) == 1 || $this->module === 'core'){
+            if ($module->{'controller' . $this->method}($this->secondPartURL) === FALSE) {
+                //if Page not found
+                return app::$response->setContent('<h1>Not Found</h1>', 404);
+            }
+        }else{
+           return app::$response->setContent('<h1>Forbidden</h1>', 403); 
+        }
     }
 
     /**
@@ -278,21 +281,32 @@ class request {
     protected function determineRole() {
 	if (\app::getClass('user')->VerifyConnexion() &&
 		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
-            $this->setParam('id_user', $_SESSION['id_user']);
-            $this->setParam('id_role', $_SESSION['idr']);
-            define('ID_ROLE', $_SESSION['idr']);
-            define('BEHAVIOR',$_SESSION['roleBehavior']);
-            /* If user is a creator we display errors */
-            if(BEHAVIOR == 2){
-                error_reporting(-1); /* Report all errors */
-                ini_set('display_errors', 1); /* Display all errors */ 
+            
+            /* Mainly to use in query block */
+            $this->setParams(array('id_user' => $_SESSION['id_user'],
+                                    'id_role' => $_SESSION['id_role'],
+                                    'behavior' => $_SESSION['behavior'],
+                                    'login' => $_SESSION['login']));
+            
+            if($_SESSION['behavior'] > 0){
+                /* Add admin module */
+                \app::$config['modules']['active']['admin'] = 1;
+                /* If user is a creator we display errors and active admin module*/
+                if($_SESSION['behavior'] == 2){
+                    error_reporting(-1);
+                    ini_set('display_errors', 1);
+                    set_error_handler('\core\classes\app::errorHandler');
+                    set_exception_handler('\core\classes\app::exceptionHandler');
+                    register_shutdown_function('\core\classes\app::errorHandlerFatal');
+                }
+                // check if it's admin role or not
+                if (!isset($_GET['parsiframe']) && $this->method === 'GET')
+                    define('PARSI_ADMIN', 1);
             }
+            
 	}else{
-	    define('BEHAVIOR', 0);
-	    $_SESSION['idr'] = 6;
-            /* We hide all errors */
-            error_reporting(0);
-            ini_set('display_errors', 0);
+	    $_SESSION['behavior'] = 0;
+	    $_SESSION['id_role'] = 6;
         }
     }
 

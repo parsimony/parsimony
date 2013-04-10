@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer');
+app::$request->page->addJSFile('admin/blocks/menu/script.js','footer');
 ?>
 <div class="flexToolbar">
     <div style="-webkit-box-flex: 2;-moz-box-flex: 2;box-flex: 2;margin-top: -2px;">
@@ -51,7 +51,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer
 		</ul>
 	    </li>
 	    <?php endif; ?>
-	    <?php if (BEHAVIOR == 2): ?>
+	    <?php if ($_SESSION['behavior'] == 2): ?>
 	    <li style="border-left:0;margin-left: 20px;height:35px;"><a href="#"  class="action" rel="getViewModuleAdmin" params="module=admin" data-title="<?php echo t('Settings', FALSE); ?>"><?php echo t('Settings', FALSE); ?></a></li>
 	    <li class="subMenu" >
 		<a href="#" data-title="<?php echo t('Accounts', FALSE); ?>"><?php echo t('Accounts', FALSE); ?></a>
@@ -72,15 +72,16 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer
     </div>
     <div style="-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;text-align: center;">
 	<ul id="modesSwitcher" class="menu" style="display: inline-block;"> 
-	    <?php if (BEHAVIOR == 1 || BEHAVIOR == 2): ?>
+	    <?php if ($_SESSION['behavior'] > 0): ?>
 	    <li id="previewMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php 
 	     ?><li id="editMode" class="switchMode" <?php if(isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();"><?php echo t('Edit') ?></li><?php 
-		endif; if (BEHAVIOR == 2):?><li id="creationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();"><?php echo t('Creation') ?></li>
+		endif; if ($_SESSION['behavior'] == 2):?><li id="creationMode" class="switchMode" <?php if(!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) &&  $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();"><?php echo t('Creation') ?></li>
 	    <?php endif; ?>
 	</ul> 
     </div>
     <div style="-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;text-align: center;">
 	<ul class="menu" style="display: inline-block;">
+            <?php if (count(\app::$devices) > 1): ?>
 	    <li class="subMenu"><a href="#" id="info_themetype" data-title="<?php echo t('Version', FALSE); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
 		<ul>
 		    <?php foreach (\app::$devices AS $device): ?>
@@ -91,17 +92,19 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer
 		    </li>
 		    <?php endforeach; ?>
 		</ul>
-	    </li><li style="border-left: 0;position: relative" class="subMenu">
+	    </li>
+            <?php endif; ?>
+            <li style="border-left: 0;position: relative" class="subMenu">
                 <a href="#" style="position: relative;"><span id="currentRes"></span></a>
                 <ul id="listres"></ul>
             </li>
             <li class="orientation" style="box-shadow: none;padding-top: 8px;background: none;padding-left: 10px;opacity: 0.95;">
 		<input id="changeres" type="hidden" value="<?php if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])) echo $_COOKIE['screenX'].'x'.$_COOKIE['screenY']; ?>">
 	    <script>
-		var resultions = new Array();
+		ParsimonyAdmin.resultions = new Array();
 	<?php
 	foreach (\app::$devices AS $device) {
-	echo 'resultions["' . $device['name'] . '"] = \'' . json_encode($device['resolution']) . '\';' . PHP_EOL;
+	echo 'ParsimonyAdmin.resultions["' . $device['name'] . '"] = \'' . json_encode($device['resolution']) . '\';' . PHP_EOL;
 	}
 	?>
 	    </script>
@@ -115,7 +118,7 @@ app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/menu/script.js','footer
     </div>
     <div style="-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;text-align: right;">
 	<div class="rightpart" style="display: inline-block">
-	    <?php if (BEHAVIOR == 2): ?>
+	    <?php if ($_SESSION['behavior'] == 2): ?>
 	    <a class="floatleft" href="#"><span class="ui-icon-white ui-icon-clipboard floatleft tooltip" data-tooltip="#infodev" data-pos="s"></span></a>
 	    <div id="infodev">
 		<div>Time : <span id="infodev_timer"></span></div>

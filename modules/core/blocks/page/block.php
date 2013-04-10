@@ -58,7 +58,7 @@ class page extends \block {
 		$balise = $this->getConfig('tag');
 	    else
 		$balise = 'div';
-	    $html = '<' . $balise . ' id="' . $this->id . '" data-page="' . \app::$request->page->getId() . '" class="block container container_page ' . (string) $this->getConfig('cssClasses') . '">';
+	    $html = '<' . $balise . ' id="' . $this->id . '" data-page="' . \app::$request->page->getId() . '" class="parsiblock block_container container_page ' . (string) $this->getConfig('cssClasses') . '">';
 	    $blocks = \app::$request->page->getBlocks();
             if (!empty($blocks)) {
 		foreach ($blocks as $selected_block) {

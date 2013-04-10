@@ -57,7 +57,7 @@ $role = app::getModule('core')->getEntity('role');
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th style="width: 120px;">Anonymous<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The only right of reading content and in some offline cases<br> to add, delete or modify his own content') ;?>"></span></th>
+                                    <th style="width: 120px;">Anonymous<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The only right of reading content and in some cases<br> to add, delete or modify his own content') ;?>"></span></th>
                                     <th style="width: 120px;">Editor<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The right of editing content & pages') ;?>"></span></th>
                                     <th style="width: 120px;">Developer<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('All web development rights : Design, Module, blocks, database & so on') ;?>"></span></th></tr>
                             </thead>
@@ -78,9 +78,9 @@ $role = app::getModule('core')->getEntity('role');
                            <legend style="display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #DFDFDF;border-radius: 5px;background-color: #F1F1F1;
 background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulename"><?php echo t('Module', FALSE); ?> :</label>
-                        <select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->id_role ?>-' + this.value).show()">
+                        <select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->id_role->value ?>-' + this.value).show()">
                             <?php
-                            $modules = \app::$activeModules;
+                            $modules = \app::$config['modules']['active'];
                             unset($modules['admin']);
                             foreach ($modules as $moduleName => $type) {
                                 echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
@@ -89,14 +89,14 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                         </select>
                     </legend>
                     <?php
-                    foreach (\app::$activeModules as $moduleName => $type) {
-                        echo '<div id="rights-' . $line->id_role. '-' . $moduleName . '" class="rightbox';
+                    foreach (\app::$config['modules']['active'] as $moduleName => $type) {
+                        echo '<div id="rights-' . $line->id_role->value. '-' . $moduleName . '" class="rightbox';
                         if ($moduleName != 'core')
                             echo ' none';
                         echo '">';
                         ?>
-                           <div id="enablemodule"><label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?> ?</label><input type="hidden" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
-                            <input type="checkbox" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($line->id_role)) echo 'checked'; ?>></div>
+                           <div id="enablemodule"><label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?> ?</label><input type="hidden" name="modulerights[<?php echo $line->id_role->value; ?>][<?php echo $moduleName; ?>]" value="0">
+                            <input type="checkbox" name="modulerights[<?php echo $line->id_role->value; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($line->id_role->value)) echo 'checked'; ?>></div>
                         
                     <table style="margin: 0 auto">
                             <thead>
@@ -111,19 +111,19 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                                 foreach ($models as $modelName => $model) {
                                     $count++;
                                     $myModel = $module->getEntity($modelName);
-                                    if ($myModel->getRights($line->id_role) & DISPLAY)
+                                    if ($myModel->getRights($line->id_role->value) & DISPLAY)
                                         $displayChecked = 'checked="checked"';
                                     else
                                         $displayChecked = '';
-                                    if ($myModel->getRights($line->id_role) & INSERT)
+                                    if ($myModel->getRights($line->id_role->value) & INSERT)
                                         $insertChecked = 'checked="checked"';
                                     else
                                         $insertChecked = '';
-                                    if ($myModel->getRights($line->id_role) & UPDATE)
+                                    if ($myModel->getRights($line->id_role->value) & UPDATE)
                                         $updateChecked = 'checked="checked"';
                                     else
                                         $updateChecked = '';
-                                    if ($myModel->getRights($line->id_role) & DELETE)
+                                    if ($myModel->getRights($line->id_role->value) & DELETE)
                                         $deleteChecked = 'checked="checked"';
                                     else
                                         $deleteChecked = '';
@@ -133,10 +133,10 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                                         if ($count == 1)
                                             echo '<td rowspan="' . $nbmodels . '" class="firsttd" valign="middle">Models</td>';
                                         echo '<td class="secondtd">' . $modelName . '</td>
-                                    <td><div><input type="hidden" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][display]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][display]" class="display" ' . $displayChecked . '></div></td>
-                                        <td><div><input type="hidden" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][insert]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][insert]" class="insert" ' . $insertChecked . '></div></td>
-                                            <td><div><input type="hidden" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][update]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][update]" class="update" ' . $updateChecked . '></div></td>
-                                                <td><div><input type="hidden" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][delete]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role . '][' . $moduleName . '][' . $modelName . '][delete]" class="delete" ' . $deleteChecked . '></div></td>';
+                                    <td><div><input type="hidden" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][display]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][display]" class="display" ' . $displayChecked . '></div></td>
+                                        <td><div><input type="hidden" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][insert]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][insert]" class="insert" ' . $insertChecked . '></div></td>
+                                            <td><div><input type="hidden" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][update]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][update]" class="update" ' . $updateChecked . '></div></td>
+                                                <td><div><input type="hidden" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][delete]" value="0"><input type="checkbox" name="modelsrights[' . $line->id_role->value . '][' . $moduleName . '][' . $modelName . '][delete]" class="delete" ' . $deleteChecked . '></div></td>';
                                     }
                                     ?>
                                 </tr>
@@ -144,14 +144,14 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);"><label class="modulenam
                                 $count = 0;
                                 foreach ($module->getPages() as $id_page => $page) {
                                     $displayChecked = '';
-                                    if ($page->getRights($line->id_role) & DISPLAY)
+                                    if ($page->getRights($line->id_role->value) & DISPLAY)
                                         $displayChecked = 'checked="checked"';
                                     $count++;
                                     echo '<tr class="line">';
                                     if ($count == 1)
                                         echo '<td rowspan="30" class="firsttd" valign="middle">Pages</td>';
                                     echo '<td class="secondtd" style="width:200px;">' . s($page->getTitle()) . '</td>';
-                                    echo '<td><div><input type="hidden" name="pagesrights[' . $line->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $line->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . '></div></td></tr>';
+                                    echo '<td><div><input type="hidden" name="pagesrights[' . $line->id_role->value . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $line->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . '></div></td></tr>';
                                 }
                                 ?>
                             </tbody>

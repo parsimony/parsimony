@@ -42,27 +42,29 @@ namespace core\blocks;
 class container extends \block{
 
     public function display(){
+        $tag = 'div';
+        $maxAge = 0;
+        
         $cacheDir = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
         $cacheFile = 'var/cache/' . $cacheDir . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
-        $maxage = $this->getConfig('maxAge');
+        if (isset($this->configs['maxAge'])) 
+            $maxAge = $this->configs['maxAge'];
         $html = $classes = '';
-        if ($maxage > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxage > time()) {
+        if ($maxAge > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxAge > time()) {
             ob_start();
             include($cacheFile);
             $html .= ob_get_clean();
         } else {
 	    $view = $this->getView(); // for children classes
-            if ($this->getConfig('tag') !== false)
-                $tag = $this->getConfig('tag');
-            else
-                $tag = 'div';
-            if ($this->getConfig('cssClasses') != false )
-                $classes = ' ' . $this->getConfig('cssClasses');
+            if (isset($this->configs['tag']))
+                $tag = $this->configs['tag'];
+            if (isset($this->configs['cssClasses']))
+                $classes = ' ' . $this->configs['cssClasses'];
             if ($this->getConfig('column')) {
-                \app::$request->page->head .= '<style> #' . $this->getId() . ' > .block{float:left} </style>';
+                \app::$request->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{float:left} </style>';
                 $classes .= ' column';
             }
-            $html .= '<' . $tag . ' id="' . $this->id . '" class="block '.$this->blockName.' container' . $classes . '">';
+            $html .= '<' . $tag . ' id="' . $this->id . '" class="parsiblock block_'.$this->blockName.'' . $classes . '">';
 	    $html .= $view;
             if (!empty($this->blocks)) {
                 foreach ($this->blocks as $selected_block) {
@@ -70,7 +72,7 @@ class container extends \block{
                 }
             }
             $html .= '</' . $tag . ' >';
-            if ($maxage > 0)
+            if ($maxAge > 0)
                 \tools::file_put_contents($cacheFile, $html);
         }
         return $html;

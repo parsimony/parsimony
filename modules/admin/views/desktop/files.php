@@ -26,10 +26,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$dirPath = PROFILE_PATH . substr(\app::$request->getParam('dirPath'), 1);
-
+$dirPath = PROFILE_PATH . \app::$request->getParam('dirPath');
 //securise $path
 $dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
+echo '<div id="path">'.$dirPath.'</div>';
 $extOk = array(); //'jpeg', 'png', 'gif', 'jpg'
 $extKo = array('obj');
 $files = glob($dirPath . '/*');
@@ -39,11 +39,11 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	?>
 	<div class="explorer_file dir">
 	    <img src="<?php echo BASE_PATH ?>admin/img/dir.jpg" style="width:60%;height:60%" >
-	    <div class="explorer_file_name" path="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
-    elseif ((empty($extOk) || in_array(substr(strrchr($filename, '.'), 1), $extOk)) &&
-	    (empty($extKo) || !in_array(substr(strrchr($filename, '.'), 1), $extKo))) :
+    elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
+	    (empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
 	?>
 	<div class="explorer_file">
 	    <?php if (is_file('modules/admin/img/icons/file.png')): ?>
@@ -51,7 +51,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	    <?php else: ?>
 	        <img src="<?php echo BASE_PATH ?>admin/img/file.png" style="width:60%;height:60%" >
 	    <?php endif; ?>
-	    <div class="explorer_file_name" file="/<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
     endif;

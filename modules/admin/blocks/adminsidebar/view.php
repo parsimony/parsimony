@@ -40,7 +40,7 @@
     <?php endforeach; ?>
 	<div style="height:0;margin:10px 5px;border-top: 1px solid #0c0c0c;border-bottom: 1px solid #3c3c3c;"></div>
     <?php if($this->side == 'left'): ?>
-		<div onclick="ParsimonyAdmin.displayConfBox(BASE_PATH + 'admin/explorer','Explorer');" data-title="<?php echo t('Files Explorer', FALSE); ?>" class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer', FALSE); ?>" data-pos="e"></div>
+		<div onclick="ParsimonyAdmin.displayExplorer();" data-title="<?php echo t('Files Explorer', FALSE); ?>" class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer', FALSE); ?>" data-pos="e"></div>
 		<div onclick="$(this).next('form').trigger('submit');" data-title="<?php echo t('Db Modeling', FALSE); ?>" class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling', FALSE); ?>" data-pos="e"></div>        
 	        <form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank"></form>
    <?php endif; ?>

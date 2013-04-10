@@ -82,6 +82,7 @@ var ParsimonyAdmin = {
         ParsimonyAdmin.$currentBody = $(ParsimonyAdmin.currentBody);
 	ParsimonyAdmin.inProgress = "container";
 	ParsimonyAdmin.updateUI();
+	ParsimonyAdmin.CSSValuesChanges = {},
         ParsimonyAdmin.changeDeviceUpdate();
         
         /* Add Iframe style */
@@ -111,7 +112,7 @@ var ParsimonyAdmin = {
     ,
     loadCreationMode :   function(){
 	ParsimonyAdmin.unloadCreationMode();
-	ParsimonyAdmin.$currentBody.on('click.creation','.traduction', function(e){
+	ParsimonyAdmin.$currentBody.addClass("noSelect").on('click.creation','.traduction', function(e){
 	    e.trad = true;
 	    ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
@@ -139,7 +140,7 @@ var ParsimonyAdmin = {
 	$(".selection-block",ParsimonyAdmin.currentBody).removeClass("selection-block");
 	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
 	ParsimonyAdmin.closeParsiadminMenu();
-	ParsimonyAdmin.$currentBody.off('.creation');
+	ParsimonyAdmin.$currentBody.removeClass("noSelect").off('.creation');
 	this.pluginDispatch("unloadCreationMode");
     },
     
@@ -147,7 +148,7 @@ var ParsimonyAdmin = {
 	$(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
         
 	/* Active edit behavior on WYSIWYG blocks */
-        $(".wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
+        $(".block_wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
 	
 	/* Shortcut : Save on CTRL+S */
 	.on("keydown.edit", function(e) {
@@ -160,9 +161,9 @@ var ParsimonyAdmin = {
 	/* Init WYSIWYG editor */
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
             ParsimonyAdmin.wysiwyg = new wysiwyg();
-            ParsimonyAdmin.wysiwyg.init(".wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
+            ParsimonyAdmin.wysiwyg.init(".block_wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
-            $(".HTML5editorToolbar").hide();
+        document.querySelector(".HTML5editorToolbar").style.display = 'none';
         
 	/* Manage clicks on <a> in edit mode */
 	ParsimonyAdmin.$currentDocument.on('click.edit','a', function(e){
@@ -173,11 +174,11 @@ var ParsimonyAdmin = {
 	})
 	
 	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
-	.on('click.edit','.block',function(e){
-	    if(!$(this).hasClass("wysiwyg")) $(".HTML5editorToolbar").hide();
-            else $(".HTML5editorToolbar").show();
-	});
-	
+	.on('click.edit','.parsiblock',function(e){
+	    if(!this.classList.contains("block_wysiwyg")) document.querySelector(".HTML5editorToolbar").style.display = 'none';
+            else document.querySelector(".HTML5editorToolbar").style.display = 'block';
+	})
+        
 	/* Manage undo/redo on save toolbar */
 	$("#toolbarEditMode").on('click.edit',".toolbarEditModeCommands",function(e){
 	    ParsimonyAdmin.currentDocument.execCommand(this.dataset.command, false, null);
@@ -188,7 +189,7 @@ var ParsimonyAdmin = {
 	    $(this).trigger("focus");
 	    /* We collect fresh data for WYSIWYG blocks */
 	    var changes = {};
-	     $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
+	     $(".block_wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
 		if(this.dataset.modified) {
 		    var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
 		    var theme = ParsimonyAdmin.currentWindow.THEME;
@@ -211,11 +212,11 @@ var ParsimonyAdmin = {
 	    
 	    /* We send fresh data to the serve to save it */
 	    $.post(BASE_PATH + 'admin/saveWYSIWYGS',{changes:JSON.stringify(changes)},function(data){
-			ParsimonyAdmin.unsavedChanges = false
-			$("#toolbarEditMode").slideUp();
-			$(".wysiwyg.activeEdit, .usereditinline").attr("data-modified","0");
-			ParsimonyAdmin.execResult(data);
-		});
+                    ParsimonyAdmin.unsavedChanges = false;
+                    $("#toolbarEditMode").slideUp();
+                    $(".block_wysiwyg.activeEdit, .usereditinline").attr("data-modified","0");
+                    ParsimonyAdmin.execResult(data);
+            });
 	});
 	
 	/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
@@ -246,9 +247,9 @@ var ParsimonyAdmin = {
         delete ParsimonyAdmin.wysiwyg;
         ParsimonyAdmin.wysiwyg = "";
 	ParsimonyAdmin.$currentDocument.add(ParsimonyAdmin.currentBody).off('.edit');
-        $(".wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
+        $(".block_wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
         $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
-        $(".wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
+        $(".block_wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
         $(".HTML5editorToolbar").hide();
 	$("#toolbarEditMode").hide();
 	this.pluginDispatch("unloadEditMode");
@@ -275,8 +276,8 @@ var ParsimonyAdmin = {
 	    var parentId = '';
 	    var inProgress = $("#treedom_" + ParsimonyAdmin.inProgress);
 	    if(inProgress.length > 0){
-		if(inProgress.parent().closest(".container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
-		else parentId = inProgress.parent().closest(".container").attr('id').replace("treedom_","");
+		if(inProgress.parent().closest(".block_container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
+		else parentId = inProgress.parent().closest(".block_container").attr('id').replace("treedom_","");
 	    }
 	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
 	    e.preventDefault();
@@ -285,9 +286,9 @@ var ParsimonyAdmin = {
 	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
 	
-	$("#menu").on("mouseenter",".CSSProps a",function(){
+	$("#CSSProps").on("mouseenter","a",function(){
 	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
-	}).on("mouseout",".CSSProps a",function(){
+	}).on("mouseout","a",function(){
 	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
         
@@ -323,7 +324,6 @@ var ParsimonyAdmin = {
 	ParsimonyAdmin.removeEmptyTextNodes(document.body);
 	this.pluginDispatch("init");
 	
-	
     }
     ,
     goToPage :   function (pageTitle,pageUrl, isHistory){
@@ -336,6 +336,7 @@ var ParsimonyAdmin = {
 	else pageUrl += '?parsiframe=ok';
         ParsimonyAdmin.currentDocument.title = pageTitle;
 	$('#parsiframe').attr('src', pageUrl);
+
 	return false;
     },
     execResult :   function (obj){
@@ -372,8 +373,8 @@ var ParsimonyAdmin = {
 	if(ParsimonyAdmin.inProgress != "container"){
 	    if(confirm(t('Do you really want to remove the block ') + ParsimonyAdmin.inProgress + ' ?')==true){
 		ParsimonyAdmin.returnToShelter();
-		if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr("id")=="treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
-		else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".container").attr('id').replace("treedom_","");
+		if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".block_container").attr("id")=="treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
+		else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".block_container").attr('id').replace("treedom_","");
 		ParsimonyAdmin.postData(BASE_PATH + "admin/removeBlock",{
 		    TOKEN: TOKEN ,
 		    idBlock:ParsimonyAdmin.inProgress,
@@ -384,6 +385,7 @@ var ParsimonyAdmin = {
 		    ParsimonyAdmin.execResult(data);
 		    ParsimonyAdmin.returnToShelter();
 		    ParsimonyAdmin.updateUI();
+                    document.getElementById("parsimonyDND").style.display = "none";
 		});
 	    }
 	}
@@ -393,16 +395,13 @@ var ParsimonyAdmin = {
 	    $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after(contentBlock);
 	    ParsimonyAdmin.returnToShelter();
 	}else {
-	    var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).closest(".container");
+	    var block = $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).closest(".block_container");
 	    ParsimonyAdmin.returnToShelter();
 	    $(".dropInContainer:first",block).remove();
-	    if(block.get(0).id == 'container' && block.children(".block").length==1) block.prepend(contentBlock);
+	    if(block.get(0).id == 'container' && block.children(".parsiblock").length == 1) block.prepend(contentBlock);
 	    else block.append(contentBlock);
 	}
-	
 	$("#" + idBlock,ParsimonyAdmin.currentBody ).trigger("click");
-	var offset = $("#" + idBlock,ParsimonyAdmin.currentBody ).offset();
-	ParsimonyAdmin.openParsiadminMenu(offset.left + 30,offset.top + 30);
     },
     moveMyBlock :   function (idBlock, idBlockAfter){
 	if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
@@ -423,16 +422,20 @@ var ParsimonyAdmin = {
 	
 	oldSelection && oldSelection.classList.remove("selection-block");
 	oldSelectionTree && oldSelectionTree.classList.remove("currentDOM");
-	
 	ParsimonyAdmin.inProgress = idBlock;
 	ParsimonyAdmin.typeProgress = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
 	block && block.classList.add("selection-block");
 	if(blockTreeObj) blockTreeObj.classList.add("currentDOM");
-	if(idBlock == "container" || (block && block.classList.contains("container_page"))) config_tree_selector.classList.add("restrict");
-	else document.getElementById("config_tree_selector").classList.remove("restrict");
+        
+	if(idBlock == "container" || idBlock == "content") $(".restrict").hide();
+	else $(".restrict").show();
 	config_tree_selector.style.display = "block";
 	if(blockTreeObj) blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
         
+    },
+    unSelectBlock :   function (){
+        $('#parsimonyDND, #config_tree_selector').hide();
+        ParsimonyAdmin.inProgress = '';
     },
     whereIAm :   function (idBlock){
 	var where = "theme";
@@ -458,6 +461,7 @@ var ParsimonyAdmin = {
 	document.getElementById("conf_box_overlay").style.display = "none";
     },
     displayConfBox :   function (url,title,params,modal){
+        $("#parsimonyDND").hide();
         $("#conf_box_load").show();
         $("#conf_box,#conf_box_content" ).removeAttr("style");
         $("#conf_box").css("visibility","hidden").show();
@@ -485,7 +489,10 @@ var ParsimonyAdmin = {
             }
             
 	},
-	closeConfBox :   function (){
+        displayExplorer :   function (){
+            ParsimonyAdmin.explorer = window.open(BASE_PATH + 'admin/explorer','Explorer','top=200,left=200,width=1000,height=600');
+        },
+        closeConfBox :   function (){
 	    $("#conf_box").hide();
 	    ParsimonyAdmin.hideOverlay();
 	    $("#conf_box_title").empty();
@@ -524,13 +531,14 @@ var ParsimonyAdmin = {
 	    var select = '';
 	    var nb = 0;
 	    var changeres = $('#changeres');
-	    $.each($.parseJSON(resultions[THEMETYPE]), function(i,item){
+	    $.each($.parseJSON(ParsimonyAdmin.resultions[THEMETYPE]), function(i,item){
 		if(changeres[0].value == "" && nb == 0) changeres.val(i).trigger('change');
 		select += '<li><a href="#" onclick="$(\'#changeres\').val(\'' + i + '\').trigger(\'change\');">' + item + ' (' + i + ')</a></li>';
 		nb++;
 	    });
 	    $("#currentRes").text(changeres[0].value);
-	    $('#listres').html(select);$('#currentRes').css("position","relative");
+	    $('#listres').html(select);
+            $('#currentRes').css("position","relative"); //fix
 	},
 	changeLocale : function (locale) {
 	    ParsimonyAdmin.setCookie("locale",locale,999);
@@ -555,13 +563,22 @@ var ParsimonyAdmin = {
 	    }
 	},
 	notify : function (message,type) {
+            if (window.Notification){
+                var notif = new Notification(message, {
+                        icon: BASE_PATH + "admin/img/" + type + ".png",
+                        tag: 'type'
+                });
+                if(notif.permission === "granted" || window.Notification.permission === "granted"){
+                    setTimeout(function(){notif.cancel();}, '4000');
+                    return true;
+                }
+            }
 	    $("#notify").appendTo("body").attr("class","").addClass(type).html(message).fadeIn("normal").delay(4000).fadeOut("slow");
 	},
 	openParsiadminMenu : function (x,y) {
-	    var off = ParsimonyAdmin.$iframe.offset();
 	    $("#menu").appendTo("body").css({
-		"top":(y + off.top),
-		"left":(x + off.left)
+		"top":(y + ParsimonyAdmin.iframe.offsetTop),
+		"left":(x + ParsimonyAdmin.iframe.offsetLeft)
 	    });
 	},
 	closeParsiadminMenu : function () {
@@ -588,8 +605,8 @@ var ParsimonyAdmin = {
 		    if(ParsimonyAdmin.inProgress != "container") $("#treedom_" + ParsimonyAdmin.inProgress).trigger("click");
 		});   
 	    }
-	    $(".container",ParsimonyAdmin.currentBody).each(function(){
-		if($(this).find('.block:not("#content")').length==0) {
+	    $(".block_container",ParsimonyAdmin.currentBody).each(function(){
+		if($(this).find('.parsiblock:not("#content")').length == 0) {
 		    $(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + $(this).get(0).id + ". " + t("Drop the blocks in this space") + '</div></div>');
 		}else $(".dropInContainerChild:first",this).remove();
 	    });

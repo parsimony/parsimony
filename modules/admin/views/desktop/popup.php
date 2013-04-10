@@ -11,14 +11,14 @@
             var THEMEMODULE = '<?php echo THEMEMODULE ?>';
             var TOKEN = '<?php echo TOKEN ?>';
         </script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.0.min.js"><\/script>')</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
         <?php
-        app::$request->page->addCSSFile(BASE_PATH . 'lib/cms.css');
-        app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
-        app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css');
-        app::$request->page->addJSFile(BASE_PATH . 'lib/cms.js');
-        app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js');
+        app::$request->page->addCSSFile('lib/cms.css');
+        app::$request->page->addCSSFile('admin/style.css');
+        app::$request->page->addCSSFile('lib/tooltip/parsimonyTooltip.css');
+        app::$request->page->addJSFile('lib/cms.js');
+        app::$request->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
         echo app::$request->page->printInclusions()
         ?>
         <style>body{overflow: auto;background: white;}</style>
@@ -38,8 +38,14 @@
             /* Shortcut : Save on CTRL+S */
 	    document.addEventListener("keydown", function(e) {
 		if (e.keyCode == 83 && e.ctrlKey) {
-		  e.preventDefault();
-		  $("form").trigger("submit");
+		    e.preventDefault();
+		    /* Ask for native notifications if it's enable : an event is required for notifications */
+                    if (window.Notification){
+                        window.Notification.requestPermission(function(permission){ 
+                            return true;
+                        });
+                    }
+                    $("form").trigger("submit")
 		}
 	    }, false);
         </script>

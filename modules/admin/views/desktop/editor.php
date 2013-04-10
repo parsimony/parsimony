@@ -40,13 +40,6 @@
 	$("#changeModeid").val('<?php echo $editorMode; ?>');
     };
     var lastPos = null, lastQuery = null, marked = [];
-    function changeTheme(theme) {
-        codeEditor.setOption('theme', theme);
-	$('<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/CodeMirror/theme/' + theme + '.css">').appendTo("body");
-    }
-    function changeMode(mode) {
-        codeEditor.setOption('mode', mode);
-    }
     function unmark() {
         for (var i = 0; i < marked.length; ++i) marked[i].clear();
         marked.length = 0;
@@ -82,18 +75,18 @@
 </script>
 <style>.location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}</style>
 <?php
-app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.css');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/CodeMirror/theme/default.css');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/codemirror.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/xml/xml.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/css/css.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/javascript/javascript.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/php/php.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/mode/clike/clike.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/searchcursor.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/search.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.js');
+app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
+app::$request->page->addCSSFile('lib/CodeMirror/theme/default.css');
+app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/javascript/javascript.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/php/php.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
+app::$request->page->addJSFile('lib/CodeMirror/mode/clike/clike.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/searchcursor.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/search.js');
+app::$request->page->addJSFile('lib/CodeMirror/lib/util/formatting.js');
 ?>
 
 <style type="text/css" media="screen">
@@ -109,28 +102,6 @@ app::$request->page->addJSFile(BASE_PATH . 'lib/CodeMirror/lib/util/formatting.j
     .subToolbarEditor input[type="button"]{padding: 2px 12px 3px 12px;}
 </style>
 <div class="toolbarEditor">
-    <select id="changeModeid" onchange="changeMode(this.value);">
-	<option value="text/html">HTML</option>
-	<option value="application/x-httpd-php">PHP</option>
-	<option value="text/css">CSS</option>
-	<option value="text/javascript">JS</option>
-    </select>
-    <select title="theme" onchange="changeTheme(this.value);">
-	<option selected>default</option>
-	<option>ambiance</option>
-	<option>blackboard</option>
-	<option>cobalt</option>
-	<option>elegant</option>
-	<option>vibrant-ink</option>
-	<option>xq-dark</option>
-	<option>night</option>
-	<option>monokai</option>
-	<option>neat</option>
-	<option>elegant</option>
-	<option>cobalt</option>
-	<option>eclipse</option>
-	<option>rubyblue</option>
-    </select>
     <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
 	<?php
         $backups = glob('var/backup/' . PROFILE . '/' . $path . '-*.bak');

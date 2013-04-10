@@ -100,11 +100,11 @@
                     </div>
                     <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis;font-size:13px">
                         <span for="genereURL"><?php echo t('URL', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
-                    if ($modulename != 'core')
+                    if ($modulename != \app::$config['modules']['default'])
                         echo $modulename;
-                    ?></span><?php if ($modulename != 'core') echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
+                    ?></span><?php if ($modulename != \app::$config['modules']['default']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
                     </div>
-		    <?php if (BEHAVIOR == 2 ): ?>
+		    <?php if ($_SESSION['behavior'] == 2 ): ?>
                         <div style="top: 85px;position: absolute;left: 570px;color: #333;">
                             <a style="color: #333;line-height: 15px;text-decoration:none" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Dynamic page', FALSE); ?></a>
                         </div>
@@ -230,7 +230,7 @@
                     </script>
 
                     <div style="position:relative;padding-top: 30px;">
-			<?php if (BEHAVIOR == 2 ): ?>
+			<?php if ($_SESSION['behavior'] == 2 ): ?>
                         <?php $components = $page->getURLcomponents(); ?>
                             <div id="tabs-admin-querieur" class="none" style="">
                                 <fieldset id="tabs-admin-query" style="background: none;">

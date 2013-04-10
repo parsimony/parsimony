@@ -286,7 +286,7 @@ class page extends \block {
      * @return string
      */
     public function printMetas() {
-        $html = "\r";
+        $html = PHP_EOL;
         foreach ($this->metas as $name => $value) {
             if (!empty($value))
                 $html .= "\t" . '<META NAME="' . $name . '" CONTENT="' . $value . '">';
@@ -299,26 +299,16 @@ class page extends \block {
      * @return string
      */
     public function printInclusions($position = 'header') {
-        $html = "\r";
+        $html = PHP_EOL;
         if (!empty($this->includes[$position]['css']['http']))
             $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
         if (!empty($this->includes[$position]['css']['local'])) {
-            if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup']))
                 $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
-            else {
-                foreach ($this->includes[$position]['css']['local'] AS $css)
-                    $html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . $css . '" />';
-            }
         }
         if (!empty($this->includes[$position]['js']['http']))
             $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
         if (!empty($this->includes[$position]['js']['local'])) {
-            if (BEHAVIOR == 0 || BEHAVIOR == 1 || defined('PARSI_ADMIN') || isset($_POST['popup'])) {
                 $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
-            } else {
-                foreach ($this->includes[$position]['js']['local'] AS $css)
-                    $html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . $css . '"> </SCRIPT>';
-            }
         }
         return $html;
     }
@@ -328,20 +318,22 @@ class page extends \block {
      * @param array $module
      */
     public function concatFiles(array $files, $format) {
-        $hash = md5(implode('', $files));
-        $pathCache = 'profiles/' . PROFILE .'/modules/core/'. $hash . '.' . $format;
+        $hash = $format.'concat_'.md5(implode('', $files));
+        $pathCache = 'profiles/' . PROFILE .'/modules/'.app::$config['modules']['default'].'/'. $hash . '.' . $format;
         if (is_file($pathCache) && app::$config['dev']['status'] == 'prod') {
             include($pathCache);
         } else {
             ob_start();
             foreach ($files as $file) {
-                $file = substr($file, strlen(BASE_PATH));
                 $pathParts = pathinfo($file,PATHINFO_EXTENSION);
-                if($pathParts == 'js' || $pathParts=='css'){
+                if($pathParts == 'js' || $pathParts == 'css'){
                     $path = stream_resolve_include_path ($file);
+		    if($_SESSION['behavior'] && $pathParts == 'css') echo '.parsimonyMarker{background-image: url('.$file.') }'.PHP_EOL;
                     if($path) include($path);
 		    echo PHP_EOL; //in order to split JS script and avoid "}function"
-                }
+                }else{
+		    return FALSE;
+		}
             }
             $content = ob_get_clean();
             file_put_contents($pathCache,$content);
@@ -411,7 +403,7 @@ class page extends \block {
      * @param string $jsFile
      */
     public function addJSFile($jsFile, $position = 'header') {
-        if (substr($jsFile, 0, 2) == '//' || substr($jsFile, 0, 7) == 'http://') {
+        if (strstr($jsFile, '//')) {
             if (!in_array($jsFile, $this->includes[$position]['js']['http']))
                 $this->includes[$position]['js']['http'][] = $jsFile;
         }else {
@@ -443,9 +435,9 @@ class page extends \block {
      * @param string $role
      * @return integer
      */
-    public function getRights($role = 1) {
-        if (isset($this->rights[(String) $role]))
-            return $this->rights[(String) $role];
+    public function getRights($role) {
+        if (isset($this->rights[$role]))
+            return $this->rights[$role];
     }
 
     public function __sleep() {

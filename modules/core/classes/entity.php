@@ -206,6 +206,7 @@ abstract class entity implements \Iterator {
      */
     public function insertInto(array $vars) {
         $vars = $this->beforeInsert($vars);
+        if($vars === FALSE) return FALSE;
         $query = 'INSERT INTO ' . PREFIX . $this->_tableName . '(';
 	$params = '';
         foreach ($this->getFields() as $name => $field) {
@@ -241,6 +242,7 @@ abstract class entity implements \Iterator {
      */
     public function update(array $vars) {
         $vars = $this->beforeUpdate($vars);
+        if($vars === FALSE) return FALSE;
         $query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
         foreach ($this->getFields() as $name => $field) {
             if (get_class($field) != \app::$aliasClasses['field_formasso'] && isset($vars[$name]))
@@ -410,9 +412,9 @@ abstract class entity implements \Iterator {
                     $col1 .= $field->form($field->value, $this);
             }
         }
-        $html .= '<h2>' . t('Record', FALSE) . ' NÂ° ' . $this->getId()->value;
+        $html .= '<h2>' . t('Record', FALSE) . ' N°' . $this->getId()->value;
         $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
-        if ($this->getRights(ID_ROLE) & DELETE)
+        if ($this->getRights($_SESSION['id_role']) & DELETE)
             $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';
 
         $html .= '</h2>';

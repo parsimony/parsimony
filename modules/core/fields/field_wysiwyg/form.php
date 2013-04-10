@@ -25,8 +25,8 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css');
+app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
+app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
 
 echo $this->displayLabel($fieldName);
 ?>

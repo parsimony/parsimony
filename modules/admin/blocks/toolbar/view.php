@@ -1,12 +1,12 @@
 <?php
-app::$request->page->addCSSFile(BASE_PATH . 'admin/style.css');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.css','footer');
-app::$request->page->addCSSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.css','footer');
-app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5editor/HTML5editor.js','footer');
-app::$request->page->addJSFile(BASE_PATH . 'lib/tooltip/parsimonyTooltip.js');
-app::$request->page->addJSFile(BASE_PATH . 'admin/script.js');
-app::$request->page->addJSFile(BASE_PATH . 'lib/HTML5sortable/jquery.sortable.js','footer');
-app::$request->page->addJSFile(BASE_PATH . 'admin/blocks/toolbar/script.js','footer');
+app::$request->page->addCSSFile('admin/style.css');
+app::$request->page->addCSSFile('lib/tooltip/parsimonyTooltip.css','footer');
+app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css','footer');
+app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js','footer');
+app::$request->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
+app::$request->page->addJSFile('admin/script.js');
+app::$request->page->addJSFile('lib/HTML5sortable/jquery.sortable.js','footer');
+app::$request->page->addJSFile('admin/blocks/toolbar/script.js','footer');
 ?>
 <script type="text/javascript">
     
@@ -47,7 +47,7 @@ $block = new \admin\blocks\modules("panelmodules");
 if($leftPan != 'panelmodules') $block->setConfig('cssClasses','none');
 $leftSidebar->addBlock($block);
 
-if (BEHAVIOR == 2):
+if ($_SESSION['behavior'] == 2):
     /* Blocks */
     $block = new \admin\blocks\blocks("panelblocks");
     if($leftPan != 'panelblocks') $block->setConfig('cssClasses','none');
@@ -136,4 +136,33 @@ echo $admin->display();
 
 <div id="overlays">
     <div id="blockOverlay"></div>
+    <div id="parsimonyDND">
+	<div class="parsimonyResizeInfo">
+	    <span class="parsimonyResizeClose" id="idName"></span>
+	    <a href="#" style="border-left:0" class="toolbarButton configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration #introparsi">
+		<span class="spanDND ui-icon-wrench"></span>
+	    </a>
+	    <div href="#" id="stylableElements" class="toolbarButton">
+		<a href="#" style="display:block;width: 100%;height: 100%" class="cssblock" data-action="onDesign">
+		    <span class="spanDND sprite sprite-csspickerlittle"></span>
+		</a>
+		<div id="CSSProps" class="none"></div>
+	    </div>
+	    <a href="#" draggable="true" class="toolbarButton move_block restrict" style="cursor:move">
+		<span class="spanDND ui-icon-arrow-4"></span>
+	    </a>
+	    <a href="#" class="toolbarButton config_destroy restrict" data-action="onDelete">
+		<span class="spanDND ui-icon-trash"></span>
+	    </a>
+            <a href="#" style="border-right:0;border-radius: 0 3px 3px 0;" class="toolbarButton" onclick="ParsimonyAdmin.unSelectBlock();return false;">
+		<span class="spanDND ui-icon-closethick"></span>
+	    </a>
+	    <div class="arrow" style="left: 20px; border-color: #f9f9f9 transparent transparent;bottom: -14px;margin-left: -7px;width: 0;height: 0;position: absolute;border-width: 7px;border-style: solid;"></div>
 	</div>
+	<div class="parsimonyResize se"></div>
+	<div class="parsimonyResize nw"></div>
+	<div class="parsimonyResize ne"></div>
+	<div class="parsimonyResize sw"></div>
+	<div class="parsimonyMove"></div>
+    </div>
+</div>

@@ -58,7 +58,7 @@ class image extends \block {
     }
     
     public function setContent($fileName) {
-        if (\app::getClass('user')->VerifyConnexion() && BEHAVIOR == 2) {
+        if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
 	    $this->init();
 	    $this->setConfig('imgPath',$fileName);
             return TRUE;
