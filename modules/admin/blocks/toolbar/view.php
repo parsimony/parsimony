@@ -139,7 +139,7 @@ echo $admin->display();
     <div id="parsimonyDND">
 	<div class="parsimonyResizeInfo">
 	    <span class="parsimonyResizeClose" id="idName"></span>
-	    <a href="#" style="border-left:0" class="toolbarButton configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration #introparsi">
+	    <a href="#" style="border-left:0" class="toolbarButton configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration">
 		<span class="spanDND ui-icon-wrench"></span>
 	    </a>
 	    <div href="#" id="stylableElements" class="toolbarButton">

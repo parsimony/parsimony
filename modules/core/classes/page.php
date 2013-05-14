@@ -336,6 +336,7 @@ class page extends \block {
 		}
             }
             $content = ob_get_clean();
+            \tools::createDirectory(dirname($pathCache));
             file_put_contents($pathCache,$content);
         }
         return $hash . '.' . $format;
