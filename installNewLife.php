@@ -283,6 +283,8 @@ while (1) {
                 $ok[] = tr('Permissions are Ok for').'  <span>"modules/"</span>';
             }
             
+            if (!file_exists('profiles/'))
+                mkdir('profiles/', 0755, TRUE);
             if (!is_readable('profiles/') || !is_writable('profiles/')) {
                 $high[] = tr('Set read/write permissions on').' <span>"profiles/"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
