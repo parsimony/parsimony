@@ -27,7 +27,7 @@
  */
 
 $tags = array();
-if($this){
+if($this->value){
     $items = explode(',',$this);
     foreach($items AS $item){
         $myItem = explode('||',$item);

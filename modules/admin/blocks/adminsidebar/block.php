@@ -29,9 +29,17 @@
 
 namespace admin\blocks;
 
-class adminsidebar extends \core\blocks\container {
+/**
+ * @title Admin Sidebar
+ * @description display Admin Sidebar
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1, admin:1
+ */
 
-    protected $name = 'Admin Sidebar';
+class adminsidebar extends \core\blocks\container {
+    
     protected $side = 'left';
 
     public function display() {

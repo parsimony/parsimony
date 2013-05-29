@@ -46,18 +46,14 @@ var ParsimonyAdmin = {
 	/* Call this method for all plugins */
 	for (var i=0; i < this.plugins.length; i++) {
 	    var plugin = this.plugins[i];
-	    eval("if(typeof plugin." + methodName + " != 'undefined') plugin." + methodName + "();");
+            if(typeof plugin[methodName] != 'undefined') plugin[methodName]();
 	}
     },
     initBefore :   function(){
 
-	$("#ajaxhack").on("load",function() {
+	$("#formResult").on("load",function() {
 	    var elmt = $(this).contents().find('body').text();
 	    if(elmt != "") ParsimonyAdmin.execResult(elmt); /* Firefox fix */
-	});
-
-	$("#dialog-id").keyup(function(){
-	    this.value = this.value.toLowerCase().replace(/[^a-z_]+/,"");
 	});
 		
 	$("#conf_box").on('click','#conf_box_wpopup', function(e){
@@ -90,16 +86,16 @@ var ParsimonyAdmin = {
 	iframeStyle.setAttribute("rel", "stylesheet");
 	iframeStyle.setAttribute("type", "text/css");
 	iframeStyle.setAttribute("href", BASE_PATH + "admin/iframe.css");
-	ParsimonyAdmin.currentBody.insertBefore(iframeStyle, ParsimonyAdmin.currentBody.firstChild);
+	ParsimonyAdmin.currentDocument.getElementsByTagName('head')[0].appendChild(iframeStyle);
         
 	/* Init mode */
 	var initialMode = ParsimonyAdmin.getCookie("mode");
 	if(initialMode == 'edit'){
-	    $("#editMode").trigger('click');
+            document.getElementById("editMode").click();
 	}else if(initialMode == 'preview'){
-	    $("#previewMode").trigger('click');
+            document.getElementById("previewMode").click();
 	}else{
-	    $("#creationMode").trigger('click');
+            document.getElementById("creationMode").click();
 	}
 
 	//override jQuery ready function to exec them with ajax portions
@@ -111,8 +107,7 @@ var ParsimonyAdmin = {
     }
     ,
     loadCreationMode :   function(){
-	ParsimonyAdmin.unloadCreationMode();
-	ParsimonyAdmin.$currentBody.addClass("noSelect").on('click.creation','.traduction', function(e){
+	ParsimonyAdmin.$currentBody.on('click.creation','.translation', function(e){
 	    e.trad = true;
 	    ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
@@ -123,16 +118,17 @@ var ParsimonyAdmin = {
 	    e.preventDefault();
 	    if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 	    ParsimonyAdmin.addTitleParsiadminMenu("Link");
-	    ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" onclick="ParsimonyAdmin.goToPage(\'' + $.trim($(this).text().replace("'","\\'")) + '\',\'' + $(this).attr('href') + '\');return false;"><span class="ui-icon ui-icon-extlink floatleft"></span>'+ t('Go to the link') +'</a>');
-	});	
-
-	$(document).on("keypress.creation",'#dialog-id',function(e){
-	    var code = e.keyCode || e.which; 
+	    ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" onclick="ParsimonyAdmin.goToPage(\'' + $(this).text().replace("'","\\'").trim() + '\',\'' + $(this).attr('href') + '\');return false;"><span class="ui-icon ui-icon-extlink floatleft"></span>'+ t('Go to the link') +'</a>');
+	});
+        
+	$("#dialog-id").on("keyup.creation", function(e){
+	    this.value = this.value.toLowerCase().replace(/[^a-z_]+/g,"");
+            var code = e.keyCode || e.which; 
 	    if(code == 13) {
-		$("#dialog-ok").trigger("click");
+                document.getElementById("dialog-ok").click();
 	    }
 	});
-	$(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
+        
 	this.pluginDispatch("loadCreationMode");
     }, 
 
@@ -140,7 +136,7 @@ var ParsimonyAdmin = {
 	$(".selection-block",ParsimonyAdmin.currentBody).removeClass("selection-block");
 	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
 	ParsimonyAdmin.closeParsiadminMenu();
-	ParsimonyAdmin.$currentBody.removeClass("noSelect").off('.creation');
+	ParsimonyAdmin.$currentBody.off('.creation');
 	this.pluginDispatch("unloadCreationMode");
     },
     
@@ -164,17 +160,9 @@ var ParsimonyAdmin = {
             ParsimonyAdmin.wysiwyg.init(".block_wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
         document.querySelector(".HTML5editorToolbar").style.display = 'none';
-        
-	/* Manage clicks on <a> in edit mode */
-	ParsimonyAdmin.$currentDocument.on('click.edit','a', function(e){
-            e.preventDefault();
-	    /*if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://' && $(".usereditinline",this).length == 0){
-		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
-	    }*/
-	})
 	
 	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
-	.on('click.edit','.parsiblock',function(e){
+	ParsimonyAdmin.$currentDocument.on('click.edit','.parsiblock',function(e){
 	    if(!this.classList.contains("block_wysiwyg")) document.querySelector(".HTML5editorToolbar").style.display = 'none';
             else document.querySelector(".HTML5editorToolbar").style.display = 'block';
 	})
@@ -186,7 +174,7 @@ var ParsimonyAdmin = {
 	
 	/* Save all WYSISYG blocks or contenteditable fields */
 	.on('click.edit',"#toolbarEditModeSave",function(e){
-	    $(this).trigger("focus");
+            this.focus();
 	    /* We collect fresh data for WYSIWYG blocks */
 	    var changes = {};
 	     $(".block_wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
@@ -220,7 +208,7 @@ var ParsimonyAdmin = {
 	});
 	
 	/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
-	$(ParsimonyAdmin.currentBody).on('keyup.edit',".wysiwyg.activeEdit, .usereditinline",function(e){
+	$(ParsimonyAdmin.currentBody).on('keyup.edit', ".wysiwyg.activeEdit, .usereditinline",function(e){
 	    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
 	    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
 	    if(undo || redo){
@@ -234,7 +222,7 @@ var ParsimonyAdmin = {
 	    }
 	    if(ParsimonyAdmin.haveToSave){
 		ParsimonyAdmin.haveToSave = false;
-		$("#toolbarEditModeSave").trigger("click");
+                document.getElementById("toolbarEditModeSave").click();
 	    }
 	    ParsimonyAdmin.unsavedChanges = true;
 	});
@@ -256,9 +244,10 @@ var ParsimonyAdmin = {
     },
     loadPreviewMode :   function(){
 	ParsimonyAdmin.$currentBody.on('click.preview','a', function(e){
-	    if($(this).attr("href").substring(0,1) != '#' && $(this).attr("href").substring(0,7) != 'http://'){
+            var href = this.getAttribute("href");
+	    if(href.substring(0,1) != '#' && href.substring(0,7) != 'http://'){
 		e.preventDefault();
-		ParsimonyAdmin.goToPage( $.trim($(this).text().replace("'","\\'")) , $(this).attr('href') );
+		ParsimonyAdmin.goToPage( this.textContent.replace("'","\\'").trim() , href );
 	    }
 	});
 	ParsimonyAdmin.closeConfBox();
@@ -286,10 +275,10 @@ var ParsimonyAdmin = {
 	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
 	
-	$("#CSSProps").on("mouseenter","a",function(){
+	$("#CSSProps").on("mouseenter", "a", function(){
 	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
-	}).on("mouseout","a",function(){
-	    $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+	}).on("mouseout", "a", function(){
+	    $('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 	});
         
         /* Init tooltip */
@@ -311,13 +300,13 @@ var ParsimonyAdmin = {
 	/* Shortcut : Save on CTRL+S */
 	document.addEventListener("keydown", function(e) {
 	    if (e.keyCode == 83 && e.ctrlKey) {
-	      e.preventDefault();
-		$("form",$('#conf_box_content_iframe').contents().find("body")).trigger("submit");
+                e.preventDefault();
+                $("form", $('#conf_box_content_iframe').contents().find("body")).trigger("submit");
 	    }
 	}, false);
 	
-	$(window).bind("beforeunload",function(event) {
-	    if(ParsimonyAdmin.unsavedChanges) return t("You have unsaved changes");
+	$(window).on("beforeunload",function(event) {
+	    if(ParsimonyAdmin.unsavedChanges == true) return t("You have unsaved changes");
 	});
 	
 	ParsimonyAdmin.hideOverlay();
@@ -326,26 +315,27 @@ var ParsimonyAdmin = {
 	
     }
     ,
-    goToPage :   function (pageTitle,pageUrl, isHistory){
+    goToPage :   function (pageTitle, pageUrl){
 	ParsimonyAdmin.unloadCreationMode();
 	ParsimonyAdmin.unloadEditMode();
 	ParsimonyAdmin.unloadPreviewMode();
 	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH && pageUrl.substring(0,7) != "http://") pageUrl = BASE_PATH + pageUrl;
-	pageUrl = $.trim(pageUrl);
+	pageUrl = pageUrl.trim();
         if(pageUrl.indexOf('?') > -1 && pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '&parsiframe=ok';
 	else pageUrl += '?parsiframe=ok';
         ParsimonyAdmin.currentDocument.title = pageTitle;
-	$('#parsiframe').attr('src', pageUrl);
-
+        document.getElementById("parsiframe").setAttribute('src', pageUrl);
+        
 	return false;
     },
     execResult :   function (obj){
 	if (obj.notification == null) 
-	    var obj = jQuery.parseJSON(obj);
+	    var obj = JSON.parse(obj);
+
 	if(obj.eval != null) eval(obj.eval);
 	var headParsiFrame = ParsimonyAdmin.$iframe.contents().find("head");
 	if(obj.jsFiles){
-	    obj.jsFiles = jQuery.parseJSON(obj.jsFiles);
+	    obj.jsFiles = JSON.parse(obj.jsFiles);
 	    $.each(obj.jsFiles, function(index, url) { 
 		if (!$("script[scr='" + url + "']",headParsiFrame).length) {
 		    ParsimonyAdmin.$currentBody.append('<script type="text/javascript" src="' + url + '"></script>');
@@ -353,7 +343,7 @@ var ParsimonyAdmin = {
 	    });
 	}
 	if(obj.CSSFiles){
-	    obj.CSSFiles = jQuery.parseJSON(obj.CSSFiles);
+	    obj.CSSFiles = JSON.parse(obj.CSSFiles);
 	    $.each(obj.CSSFiles, function(index, url) {
 		if (!$('link[href="' + url + '"]',headParsiFrame).length) {
 		    ParsimonyAdmin.$currentBody.append('<link rel="stylesheet" type="text/css" href="' + url + '">');
@@ -373,8 +363,8 @@ var ParsimonyAdmin = {
 	if(ParsimonyAdmin.inProgress != "container"){
 	    if(confirm(t('Do you really want to remove the block ') + ParsimonyAdmin.inProgress + ' ?')==true){
 		ParsimonyAdmin.returnToShelter();
-		if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".block_container").attr("id")=="treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
-		else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".block_container").attr('id').replace("treedom_","");
+		if($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".parsicontainer").attr("id") == "treedom_content") var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
+		else var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".parsicontainer").attr('id').replace("treedom_","");
 		ParsimonyAdmin.postData(BASE_PATH + "admin/removeBlock",{
 		    TOKEN: TOKEN ,
 		    idBlock:ParsimonyAdmin.inProgress,
@@ -454,7 +444,7 @@ var ParsimonyAdmin = {
 	return where;
     },
     showOverlay :   function (opacity){
-	if(typeof opacity== "undefined") opacity=1;
+	if(typeof opacity == "undefined") opacity=1;
 	$( "#conf_box_overlay").css('opacity',opacity).show();
     },
     hideOverlay :   function (){
@@ -521,10 +511,10 @@ var ParsimonyAdmin = {
 	changeDevice : function (device) {
 	    ParsimonyAdmin.setCookie("device",device,999);
 	    THEMETYPE = device;
-	    $('#changeres').val('');// to change res.
+            document.getElementById("changeres").value = "";// to change res.
 	    ParsimonyAdmin.changeDeviceUpdate(device);
-	    $("#info_themetype").text(device);
-	    ParsimonyAdmin.$iframe.attr("src", ParsimonyAdmin.$iframe.attr("src"));
+            document.getElementById("info_themetype").textContent = device;
+            ParsimonyAdmin.iframe.setAttribute("src", ParsimonyAdmin.iframe.getAttribute("src"));
 	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
 	changeDeviceUpdate : function () {
@@ -544,7 +534,7 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.setCookie("locale",locale,999);
 	    window.location.reload();
 	},
-	setCookie : function (name,value,days) {
+	setCookie : function (name, value, days) {
 	    if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
@@ -613,8 +603,6 @@ var ParsimonyAdmin = {
 	},
 	setCreationMode :   function (){
 	    $('.sidebar,.panelblocks,.creation').show();
-            $(".panelblocks").removeClass("active");
-            $(".panelmodules").addClass("active");
 	    ParsimonyAdmin.setMode("creation");  
 	},
 	setEditMode :   function (){
@@ -628,15 +616,15 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.setMode("preview");
 	},
         setMode :   function (mode){
-            $("body").removeClass("previewMode modeMode creationMode").addClass(mode + "Mode");
-            $(".switchMode").removeClass("selected");
-            $("#" + mode + "Mode").addClass("selected");
+            $("body").add(ParsimonyAdmin.currentBody).removeClass("previewMode modeMode creationMode").addClass(mode + "Mode");
 	    /* Unload current mode if exists */
 	    if(ParsimonyAdmin.currentMode.length > 0){
 		var captitalizeOldMode = ParsimonyAdmin.currentMode[0].toUpperCase() + ParsimonyAdmin.currentMode.substring(1);
 		ParsimonyAdmin["unload" + captitalizeOldMode + "Mode"]();
 	    }
 	    ParsimonyAdmin.currentMode = mode;
+            $(".switchMode").removeClass("selected");
+            $("#" + mode + "Mode").addClass("selected");
 	    var captitalizeNewMode = mode[0].toUpperCase() + mode.substring(1);
 	    /* Load new mode */
 	    ParsimonyAdmin["load" + captitalizeNewMode + "Mode"]();

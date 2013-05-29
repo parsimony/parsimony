@@ -43,7 +43,8 @@ class code extends \block {
      * Initialize the block configs
      * Called when block is created
      */
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
 	if(isset($_POST['typeProgress']) && $_POST['typeProgress']=='Theme') $path = THEMEMODULE.'/views/'.THEMETYPE.'/'.$this->id.'.php';
 	else $path = MODULE.'/views/'.THEMETYPE.'/'.$this->id.'.php';
 	if(!is_file(PROFILE_PATH.$path)) \tools::file_put_contents(PROFILE_PATH.$path,'<h1>' .t('Start programming in this area',false).'</h1>');
@@ -64,7 +65,7 @@ class code extends \block {
         /* Test if new file contains errors */
         $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this));
         /* If new file contains errors */
-        if (!$testIfHasError){
+        if ($testIfHasError === TRUE){
             /* If there's no errors, Save new file */
             \tools::file_put_contents( PROFILE_PATH.$this->getConfig('pathCode'), $_POST['editor']);
         }

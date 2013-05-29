@@ -110,13 +110,14 @@ class tools {
 	return $url;
     }
     
-        /**
+     /**
      * Sanitize a String in order to generate clean Name
      * @static function
      * @param string $name
      * @return string
      */
     public static function sanitizeTechString($name) {
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
         $name = preg_replace('@[^a-zA-Z0-9_-]@', '', $name);
 	return $name;
     }
@@ -129,7 +130,7 @@ class tools {
      * @return bool
      */
     public static function createDirectory($directory, $mask=0755) {
-	if (!file_exists($directory))
+	if (!is_dir($directory))
 	    return mkdir($directory, $mask, TRUE);
     }
     
@@ -139,7 +140,7 @@ class tools {
      * @param string $code
      * @return bool
      */
-     public static function testSyntaxError($code,$vars = array()){
+     public static function testSyntaxError($code, $vars = array()){
         ob_start();
         if(!empty($vars)) extract($vars);
         /* Test for parse or syntax error  (ex: dgedgbsggb )  */
@@ -166,7 +167,7 @@ class tools {
             }
 	}
         ob_clean();
-        return FALSE;
+        return TRUE;
     }
 
     /**
@@ -177,11 +178,10 @@ class tools {
      * @param bool $backup optional
      * @return bool
      */
-    public static function file_put_contents($file, $content, $backup=true) {
+    public static function file_put_contents($file, $content, $backup = TRUE) {
 	if ($backup && defined('PROFILE')) {
 	    $dir_backup = 'var/backup/' . PROFILE . '/' . dirname($file) . '/';
-	    if (!is_dir($dir_backup))
-		self::createDirectory($dir_backup);
+	    self::createDirectory($dir_backup);
 	    file_put_contents($dir_backup . basename($file) . '-' . time() . '.bak', $content);
             $delest = glob($dir_backup.'*.bak');
             if(is_array($delest)){
@@ -194,6 +194,7 @@ class tools {
 	}
 	self::createDirectory(dirname($file));
 	if(empty($content)) $content = ' ';
+       
 	if (file_put_contents($file, $content)) { 
 	    return TRUE;
 	} else {
@@ -240,6 +241,8 @@ class tools {
     
     /**
      * Serialize an object in a file
+     * @param string $filename
+     * @param object $obj
      * @return bool
      */
     public static function serialize($filename,$obj) {
@@ -248,16 +251,22 @@ class tools {
     
     /**
      * Unserialize an object of a file
+     * @param string $filename
      * @return bool
      */
     public static function unserialize($filename) {
-        return unserialize(file_get_contents($filename. '.obj'));
+        return unserialize(file_get_contents($filename. '.obj', FILE_USE_INCLUDE_PATH));
     }
     
+    /**
+     * Get doc of a class
+     * @param mixed $reflect
+     * @return array
+     */
     public static function getClassInfos($reflect) {
         if(!($reflect instanceof \ReflectionClass)) $reflect = new \ReflectionClass($reflect);
         $com = $reflect->getDocComment();
-        preg_match_all("/@([^\s]+) (.*)\n/", $com, $matchs, PREG_SET_ORDER); //capture comments
+        preg_match_all("/@([^\s]+) (.*)\n/", $com, $matchs, PREG_SET_ORDER); /* capture comments */
 	$infos = array();
 	foreach ($matchs as $match) {
 	    $infos[$match[1]] = $match[2];
@@ -267,7 +276,12 @@ class tools {
     
     /**
      * Reset a new password to an user and send by email
-     * @param $userMail mail
+     * @param string $to
+     * @param string $from
+     * @param string $replyTo
+     * @param string $subject
+     * @param string $body
+     * @return array
      */
     public static function sendMail($to, $from, $replyTo, $subject, $body) {
         include 'lib/phpmailer/class.phpmailer.php';
@@ -302,8 +316,8 @@ class tools {
     
     /**
      * Sanitize a string come from fied WYSIWYG or block WYSIWYG
-     * @param $str string to sanitize
-     * @param $plugins string list of wysiwyg's plugins separated by comma
+     * @param string $str to sanitize
+     * @param $plugins list of wysiwyg's plugins separated by comma
      * @return string sanitized html
      */
     public static function sanitize($str, $plugins = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,fontName,fontSize,createLink,unlink,formatBlock,foreColor,hiliteColor,insertImage') {

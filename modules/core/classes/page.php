@@ -32,18 +32,11 @@ namespace core\classes;
 /**
  * Page Class 
  * Manages pages
- * 
  */
 class page extends \block {
 
-    /** @var array of blocks */
-    protected $blocks = array();
-
     /** @var string module name */
     private $moduleName;
-
-    /** @var string Page ID */
-    protected $id;
 
     /** @var string */
     private $title;
@@ -77,8 +70,9 @@ class page extends \block {
      * @param integer $id page id
      * 
      */
-    public function __construct($id, $module = 'core') {
-        $this->id = $id;
+    public function __construct( $id, $module = FALSE) {
+        parent::__construct($id);
+        if(!$module) $module = \app::$config['modules']['default'];
         $this->moduleName = $module;
     }
 
@@ -93,9 +87,11 @@ class page extends \block {
     /**
      * Set a new regex to the page
      * @param string $regex
+     * @return page object
      */
     public function setRegex($regex) {
         $this->regex = $regex;
+        return $this;
     }
 
     /**
@@ -117,9 +113,11 @@ class page extends \block {
     /**
      * Set all URL components
      * @param array $URLcomponents
+     * @return page object
      */
     public function setURLcomponents(array $URLcomponents) {
         $this->URLcomponents = $URLcomponents;
+        return $this;
     }
 
     /**
@@ -133,10 +131,12 @@ class page extends \block {
     /**
      * Set current title
      * @param string $title
+     * @return page object
      */
     public function setTitle($title) {
         if (!empty($title)) {
             $this->title = $title;
+            return $this;
         } else {
             throw new \Exception(t('Title can\'t be empty', FALSE));
         }
@@ -153,9 +153,11 @@ class page extends \block {
     /**
      * Set if the page require to display structure or no
      * @param bool $bool
+     * @return page object
      */
     public function setStructure($bool) {
         (bool) $this->structure = $bool;
+        return $this;
     }
 
     /**
@@ -181,18 +183,22 @@ class page extends \block {
     /**
      * Set Metas
      * @param array $metas
+     * @return page object
      */
     public function setMetas(array $metas) {
         $this->metas = $metas;
+        return $this;
     }
 
     /**
      * Set meta of a given key
      * @param string $name
      * @param string $value
+     * @return page object
      */
     public function setMeta($name, $value) {
         $this->metas[$name] = $value;
+        return $this;
     }
 
     /**
@@ -217,16 +223,18 @@ class page extends \block {
                 $tempBlocks[$block->getId()] = $block;
             $this->blocks[THEMETYPE] = $tempBlocks;
         }
+        return $this;
     }
 
     /**
      * Remove a block
-     * @param string $idBlock 
+     * @param string $idBlock
+     * @return page object
      */
     public function rmBlock($idBlock) {
         if (isset($this->blocks[THEMETYPE][$idBlock])) {
             unset($this->blocks[THEMETYPE][$idBlock]);
-            return TRUE;
+            return $this;
         } else {
             return FALSE;
         }
@@ -245,9 +253,11 @@ class page extends \block {
     /**
      * Set children blocks
      * @param array of blocks
+     * @return page object
      */
     public function setBlocks(array $blocks) {
         $this->blocks[THEMETYPE] = $blocks;
+        return $this;
     }
 
     /**
@@ -289,13 +299,21 @@ class page extends \block {
         $html = PHP_EOL;
         foreach ($this->metas as $name => $value) {
             if (!empty($value))
-                $html .= "\t" . '<META NAME="' . $name . '" CONTENT="' . $value . '">';
+                $html .= "\t" . '<meta name="' . $name . '" content="' . $value . '">';
         }
         return $html;
     }
-
+    
     /**
      * Get inclusions
+     * @return string
+     */
+    public function getInclusions($position = 'header') {
+        return $this->includes[$position];
+    }
+
+    /**
+     * Get HTML inclusions
      * @return string
      */
     public function printInclusions($position = 'header') {
@@ -320,13 +338,13 @@ class page extends \block {
     public function concatFiles(array $files, $format) {
         $hash = $format.'concat_'.md5(implode('', $files));
         $pathCache = 'profiles/' . PROFILE .'/modules/'.app::$config['modules']['default'].'/'. $hash . '.' . $format;
-        if (is_file($pathCache) && app::$config['dev']['status'] == 'prod') {
+        if (is_file($pathCache) && app::$config['dev']['status'] === 'prod') {
             include($pathCache);
         } else {
             ob_start();
             foreach ($files as $file) {
                 $pathParts = pathinfo($file,PATHINFO_EXTENSION);
-                if($pathParts == 'js' || $pathParts == 'css'){
+                if($pathParts === 'js' || $pathParts === 'css'){
                     $path = stream_resolve_include_path ($file);
 		    if($_SESSION['behavior'] && $pathParts == 'css') echo '.parsimonyMarker{background-image: url('.$file.') }'.PHP_EOL;
                     if($path) include($path);
@@ -427,7 +445,7 @@ class page extends \block {
      * @param string $role
      * @return integer $rights
      */
-    public function updateRights($role, $rights) {
+    public function setRights($role, $rights) {
         $this->rights[$role] = $rights;
     }
 

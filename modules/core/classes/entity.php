@@ -32,16 +32,21 @@ namespace core\classes;
 /**
  * @abstract Entity Class 
  * Provides the mapping of a SQL table in a PHP object
+ * Iterator interface allows you to:
+ * $users = app::getModule('core')->getEntity('user');
+ * foreach($users as $user){
+ *      echo $user->pseudo;
+ * }
  */
 abstract class entity implements \Iterator {
 
     /** @var string _module name */
     protected $_module;
 
-    /** @var string table name for example $_tableName = core_entityName */
+    /** @var string table name for example $_tableName = $module_$entityName */
     protected $_tableName;
     
-    /** @var string table name for example $_tableName = core_entityName */
+    /** @var string title */
     protected $_tableTitle;
 
     /** @var string entity name */
@@ -86,7 +91,7 @@ abstract class entity implements \Iterator {
      * @param string $value
      */
     public function __set($name, $value) {
-        if (isset($this->$name)) {
+        if (isset($this->$name)) {   
             $this->$name->setValue($value);
         } else {
             $this->$name = $value;
@@ -98,10 +103,10 @@ abstract class entity implements \Iterator {
     /**
      * Update Rights
      * @param string $role
-     * @param string $rights
+     * @param integer $rights
      */
-    public function updateRights($role, $rights) {
-        $this->_rights[$role] = $rights;
+    public function setRights($role, $rights) {
+        $this->_rights[$role] =$rights;
     }
 
     /**
@@ -110,8 +115,8 @@ abstract class entity implements \Iterator {
      * @return string
      */
     public function getRights($role) {
-        if (isset($this->_rights[(String) $role]))
-            return $this->_rights[(String) $role];
+        if (isset($this->_rights[$role]))
+            return $this->_rights[$role];
     }
     
     /**
@@ -126,10 +131,9 @@ abstract class entity implements \Iterator {
     /**
      * Set all Rights
      * @param array $rights
-     * @return string
      */
     public function setAllRights(array $rights) {
-            return $this->_rights = $rights;
+        $this->_rights = $rights;
     }
 
     /**
@@ -177,32 +181,18 @@ abstract class entity implements \Iterator {
      */
     public function deleteTable() {
         $sql = 'DROP TABLE ' . PREFIX . $this->_tableName;
-        rename('modules/' . $this->_module . '/model/' . $this->_entityName . '.php', 'modules/' . $this->_module . '/model/' . $this->_entityName . '.php.back');
-        rename('modules/' . $this->_module . '/model/' . $this->_entityName . '.' . \app::$config['dev']['serialization'], 'modules/' . $this->_module . '/model/' . $this->_entityName . '.' . \app::$config['dev']['serialization'] . '.back');
+        $path = 'modules/' . $this->_module . '/model/' . $this->_entityName;
+        if(is_file($path . '.php')) 
+                rename( $path . '.php', $path. '.php.back');
+        if(is_file($path . \app::$config['dev']['serialization'])) 
+                rename($path . '.' . \app::$config['dev']['serialization'], $path . '.' . \app::$config['dev']['serialization'] . '.back');
         return (bool) PDOconnection::getDB()->exec($sql);
-    }
-
-    /**
-     * Select in DB 
-     * @param $clauses
-     * @return entity object
-     */
-    public function select($clause = '') {
-        $this->_SQL = array();
-        $selects = explode(',', $clause);
-        if (!empty($clause)) {
-            foreach ($selects AS $select) {
-                $select = trim($select);
-                $this->_SQL['selects'][$select] = $select;
-            }
-        }
-        return $this;
     }
 
     /**
      * Insert Into DB 
      * @param array $vars
-     * @return bool
+     * @return bool|int
      */
     public function insertInto(array $vars) {
         $vars = $this->beforeInsert($vars);
@@ -210,7 +200,7 @@ abstract class entity implements \Iterator {
         $query = 'INSERT INTO ' . PREFIX . $this->_tableName . '(';
 	$params = '';
         foreach ($this->getFields() as $name => $field) {
-            if (get_class($field) != \app::$aliasClasses['field_formasso']) {
+            if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
                 foreach ($field->getColumns() AS $column){
 		    $query .= $column . ',';
 		    $params .= ':' . $column . ',';
@@ -222,17 +212,16 @@ abstract class entity implements \Iterator {
 
         $values = $this->prepareValues($vars);
         if (!is_array($values)) 
-            return $values; // FALSE
+            return $values; // FALSE : error message
         $res = $sth->execute($values);
         $this->purgeSQL();
-        if(!$res) {
-	    return FALSE;
-	}else{
+        if($res !== FALSE) {
 	    $lastId = $values[':'.$this->getId()->name] = \PDOconnection::getDB()->lastInsertId(); // should be before afterInsert
 	    $this->afterInsert($values);
 	    \app::dispatchEvent('afterInsert', array($vars, &$this));
 	    return  $lastId;
 	}
+        return FALSE;
     }
 
     /**
@@ -245,33 +234,28 @@ abstract class entity implements \Iterator {
         if($vars === FALSE) return FALSE;
         $query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
         foreach ($this->getFields() as $name => $field) {
-            if (get_class($field) != \app::$aliasClasses['field_formasso'] && isset($vars[$name]))
+            if (get_class($field) !== \app::$aliasClasses['field_formasso'] && isset($vars[$name]))
                 foreach ($field->getColumns() AS $column)
                     $query .= $column . ' = :' . $column . ',';
         }
         $query = substr($query, 0, -1);
         if (isset($this->_SQL['wheres'])) {
-            $wheres = array();
-            foreach ($this->_SQL['wheres'] AS $property => $where) {
-                $wheres[] = $where;
-            }
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
+            $query .= ' WHERE ' . implode(' AND ', $this->_SQL['wheres']);
         } else {
             $query .= ' WHERE ' . $this->getId()->name . ' = :' . $this->getId()->name . ';';
         }
         $sth = PDOconnection::getDB()->prepare($query);
         $values = $this->prepareValues($vars, 'update');
         if (!is_array($values)) 
-            return $values; // FALSE
+            return $values; // FALSE : error message
         $res = $sth->execute($values);
         $this->purgeSQL();
-        if(!$res) {
-	    return FALSE;
-	}else{
+        if($res !== FALSE) {
 	    $this->afterUpdate($values);
 	    \app::dispatchEvent('afterUpdate', array($vars, &$this));
 	    return TRUE;
 	}
+        return FALSE;
     }
 
     /**
@@ -283,11 +267,7 @@ abstract class entity implements \Iterator {
         $this->beforeDelete();
         $query = 'DELETE FROM ' . PREFIX . $this->_tableName;
         if (isset($this->_SQL['wheres'])) {
-            $wheres = array();
-            foreach ($this->_SQL['wheres'] AS $property => $where) {
-                $wheres[] = $where;
-            }
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
+            $query .= ' WHERE ' . implode(' AND ', $this->_SQL['wheres']);
         }
         $res = PDOconnection::getDB()->exec($query);
         $this->afterDelete();
@@ -300,27 +280,38 @@ abstract class entity implements \Iterator {
      * @param array $vars
      * @return array
      */
-    public function prepareValues(array $vars, $type= 'insert') {
+    protected function prepareValues(array $vars, $type= 'insert') {
         $values = array();
         $val = 'insert';
-        if($type == 'update') $val = $vars[$this->getId()->name];
+        if($type === 'update') {
+            $idName = $this->getId()->name;
+            if(isset($vars[$idName])){
+                $val = $vars[$idName];
+            } else {
+                throw new \Exception(t('ID must be filled to update', FALSE));
+            }
+        }
         foreach ($this->getFields() as $name => $field) {
-            if ($type=='insert' || isset($vars[$field->name])) {
-                $value = '';
+            if ($type === 'insert' || isset($vars[$name])) {
                 $columns = $field->getColumns();
-                $columnsValues = array_intersect_key($vars, array_flip($columns));
-                if(isset($vars[$field->name])) $value = $vars[$field->name];
-                if (count($columns) == 1)
+                if (count($columns) === 1){
+                    /* If the field has one column */
+                    $value = isset($vars[$name]) ? $vars[$name] : '';
                     $value = $field->validate($value,$val, $vars);
-                else
+                }else{
+                    /* If the field has severals columns */
+                    $columnsValues = array_intersect_key($vars, array_flip($columns));
                     $value = $field->validate($columnsValues,$val, $vars);
+                }
                 if ($value === FALSE)
                     return $field->label . ', ' . $field->msg_error; // return error message
 		else 
 		    $field->setValue($value);
+                
+                /* If field is a field_formasso */
                 if (get_class($field) != \app::$aliasClasses['field_formasso']) {
-                    foreach ($field->getColumns() AS $column)
-                        if (count($columns) == 1)
+                    foreach ($columns AS $column)
+                        if (count($columns) === 1)
                             $values[':' . $column] = $value;
                         else {
                             foreach ($value AS $key => $val)
@@ -351,21 +342,15 @@ abstract class entity implements \Iterator {
      * @param string $ajax by default False
      * @return string
      */
-    public function getViewAddForm($ajax = FALSE) {
+    public function getViewAddForm() {
         if (!isset($this->_SQL['stmt']))
             $this->buildQuery();
-        if ($ajax == TRUE)
-            $ajaxtarget = ' target="ajaxhack"';
-        else
-            $ajaxtarget = '';
-        $html = '<form method="post" class="form" ' . $ajaxtarget . 'action="">
-	<input type="hidden" name="TOKEN" value="' . TOKEN . '" />';
+        $html = '<form method="post" class="form" action="">
+	<input type="hidden" name="TOKEN" value="' . TOKEN . '" />
+        <input type="hidden" name="action" value="addNewEntry">
+        <input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
         $col1 = '';
         $col2 = '';
-        if ($ajax == TRUE) {
-            $html .= '<input type="hidden" name="action" value="addNewEntry">';
-            $html .= '<input type="hidden" name="entity" value="' . $_POST['model'] . '">';
-        }
         foreach ($this->getFields() as $name => $field) {
             if ($field->visibility & INSERT) {
                 if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
@@ -387,23 +372,17 @@ abstract class entity implements \Iterator {
      * @param string $ajax by default False
      * @return string
      */
-    public function getViewUpdateForm($ajax = FALSE) {
+    public function getViewUpdateForm() {
         if (!isset($this->_SQL['stmt']))
             $this->buildQuery();
         if (!$this->_SQL['stmt']->fetch())
             return '';
-        if ($ajax == TRUE)
-            $ajaxtarget = ' target="ajaxhack"';
-        else
-            $ajaxtarget = '';
-        $html = '<form method="post" class="form" ' . $ajaxtarget . 'action="">
-	<input type="hidden" name="TOKEN" value="' . TOKEN . '" />';
+        $html = '<form method="post" class="form" action="">
+	<input type="hidden" name="TOKEN" value="' . TOKEN . '" />
+        <input type="hidden" name="action" value="updateEntry">
+        <input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
         $col1 = '';
         $col2 = '';
-        if ($ajax == TRUE) {
-            $html .= '<input type="hidden" name="action" value="updateEntry">';
-            $html .= '<input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
-        }
         foreach ($this->getFields() as $name => $field) {
             if ($field->visibility & UPDATE) {
                 if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
@@ -412,27 +391,24 @@ abstract class entity implements \Iterator {
                     $col1 .= $field->form($field->value, $this);
             }
         }
-        $html .= '<h2>' . t('Record', FALSE) . ' N°' . $this->getId()->value;
+        $html .= '<h2 style="position:relative">' . t('Record', FALSE) . ' N°' . $this->getId()->value;
         $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
         if ($this->getRights($_SESSION['id_role']) & DELETE)
             $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';
 
-        $html .= '</h2>';
-        $html .= '<div class="cols">';
+        $html .= '</div></h2><div class="cols">';
         $html .= '<div class="col col1">' . $col1 . '</div>';
         if (!empty($col2))
             $html .= '<div class="col col2">' . $col2 . '</div>';
-
-        $html .= '</div></div></form>';
+        $html .= '</div><div class="clearboth"></div></form>';
         return $html;
     }
 
     /**
      * Get pagination
-     * @param string $ajax by default False
      * @return pagination object
      */
-    public function getPagination($ajax = FALSE) {
+    public function getPagination() {
         if (isset($this->_SQL['limit'])) {
             $limit = explode(',', $this->_SQL['limit']);
             if (count($limit) > 1)
@@ -443,7 +419,7 @@ abstract class entity implements \Iterator {
         }
     }
 
-    /*     * *************************************************************
+    /** *************************************************************
      * ************************* EVENTS *************
      * *************************************************** */
 
@@ -513,9 +489,8 @@ abstract class entity implements \Iterator {
             $this->_SQL = array();
             $this->where($this->getId()->name . ' = ' . $id);
             return $this;
-        }
-        else
-            throw new Exception(t('ID isn\'t numeric'));
+        }else
+            throw new \Exception(t('ID isn\'t numeric'));
     }
 
     /**
@@ -523,41 +498,41 @@ abstract class entity implements \Iterator {
      * @return field obejct
      */
     public function getId() {
-        $properties = $this->getFields();
-        return reset($properties);
+        $properties = get_object_vars($this);
+        return $this->{key($properties)};
     }
 
     /**
-     * Get META title
+     * Returns the field that contains the title of an entity row (METADATA)
      * @param integer $id
-     * @return string|false
+     * @return string
      */
     public function getBehaviorTitle() {
         if (!empty($this->behaviorTitle)) {
             return $this->behaviorTitle;
         } else {
-            foreach ($this->getFields() as $name => $property) {
-                if (get_class($property) == \app::$aliasClasses['field_string']) {
+            $properties = get_object_vars($this);
+            foreach ($properties as $name => $property) {
+                if (get_class($property) === \app::$aliasClasses['field_string']) {
                     $this->behaviorTitle = $name;
                     return $name;
                 }
             }
-            $properties = $this->getFields();
-            return reset($properties);
+            return $this->{key($properties)};
         }
-        return FALSE;
     }
 
     /**
-     * Get META description
+     * Returns the field that contains the description of an entity row (METADATA)
      * @return string|false
      */
     public function getBehaviorDescription() {
         if (!empty($this->behaviorDescription)) {
             return $this->behaviorDescription;
         } else {
-            foreach ($this->getFields() as $name => $property) {
-                if (get_class($property) == \app::$aliasClasses['field_textarea']) {
+            $properties = get_object_vars($this);
+            foreach ($properties as $name => $property) {
+                if (get_class($property) === \app::$aliasClasses['field_textarea'] ||get_class($property) === \app::$aliasClasses['field_wysiwyg']) {
                     $this->behaviorDescription = $name;
                     return $name;
                 }
@@ -567,7 +542,7 @@ abstract class entity implements \Iterator {
     }
 
     /**
-     * Get META Keywords
+     * Returns the field that contains the Keywords of an entity row  (METADATA)
      * @return string|false
      */
     public function getBehaviorKeywords() {
@@ -580,15 +555,16 @@ abstract class entity implements \Iterator {
     }
 
     /**
-     * Get META Image
+     * Returns the field that contains the images of an entity row  (METADATA)
      * @return string|false
      */
     public function getBehaviorImage() {
         if (!empty($this->behaviorImage)) {
             return $this->behaviorImage;
         } else {
-            foreach ($this->getFields() as $name => $property) {
-                if (get_class($property) == \app::$aliasClasses['field_image']) {
+            $properties = get_object_vars($this);
+            foreach ($properties as $name => $property) {
+                if (get_class($property) === \app::$aliasClasses['field_image']) {
                     $this->behaviorImage = $name;
                     return $name;
                 }
@@ -598,15 +574,16 @@ abstract class entity implements \Iterator {
     }
 
     /**
-     * Get META Author
+     * Return the field that describes the author of an entity row  (METADATA)
      * @return string|false
      */
     public function getBehaviorAuthor() {
         if (!empty($this->behaviorAuthor)) {
             return $this->behaviorAuthor;
         } else {
-            foreach ($this->getFields() as $name => $property) {
-                if (get_class($property) == \app::$aliasClasses['field_user']) {
+            $properties = get_object_vars($this);
+            foreach ($properties as $name => $property) {
+                if (get_class($property) === \app::$aliasClasses['field_user']) {
                     $this->behaviorAuthor = $name;
                     return $name;
                 }
@@ -632,10 +609,10 @@ abstract class entity implements \Iterator {
     /**
      * Get field
      * @param string $name
-     * @return field
+     * @return field|false
      */
     public function getField($name) {
-	if (($this->$name instanceof \field)) {
+	if (isset($this->$name)) {
 	    return $this->$name;
 	}
         return FALSE;
@@ -650,8 +627,7 @@ abstract class entity implements \Iterator {
     }
     
     /**
-     * 
-     * 
+     * Clean the entity object
      */
     public function purgeSQL() {
         unset($this->_SQL['selects']);
@@ -659,7 +635,6 @@ abstract class entity implements \Iterator {
         unset($this->_SQL['joins']);
         unset($this->_SQL['orders']);
         unset($this->_SQL['limit']);
-        return TRUE;
     }
 
     /**
@@ -674,7 +649,7 @@ abstract class entity implements \Iterator {
     }
     
     /**
-     * 
+     * Wake up
      * 
      */
     public function __wakeup() {
@@ -682,6 +657,23 @@ abstract class entity implements \Iterator {
 	    list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
 	    $this->_tableName = $this->_module . '_' . $this->_entityName;
 	}
+    }
+    
+    /**
+     * Select in DB 
+     * @param $clauses
+     * @return entity object
+     */
+    public function select($clause = '') {
+        $this->_SQL = array();
+        $selects = explode(',', $clause);
+        if (!empty($clause)) {
+            foreach ($selects AS $select) {
+                $select = trim($select);
+                $this->_SQL['selects'][$select] = $select;
+            }
+        }
+        return $this;
     }
 
     /**
@@ -733,11 +725,11 @@ abstract class entity implements \Iterator {
      * @return bool 
      */
     public function buildQuery() {
+        $this->beforeSelect();
         $query = 'SELECT ';
         if (isset($this->_SQL['selects'])) {
             $query .= implode(',', $this->_SQL['selects']);
         } else {
-            //$query .= implode(',', array_keys($this->getFields()));
             $query .= '*';
         }
         $query .= ' FROM ' . $this->_tableName;
@@ -771,6 +763,8 @@ abstract class entity implements \Iterator {
             return FALSE;
         }
     }
+    
+    /* Iterator interface */
 
     /**
      * Rewind the cursor to the first row 
@@ -783,13 +777,15 @@ abstract class entity implements \Iterator {
     }
 
     /**
-     * Rewind the cursor to the first row 
-     * @todo optimize - pb with PDO
+     * Rewind the cursor to the first row
      */
     public function rewind() {
-        $this->buildQuery();
-        $this->beforeSelect();
-        $this->_SQL['position'] = 0;
+        if($this->buildQuery()){
+            if($this->_SQL['stmt']->fetch() !== FALSE){
+                return $this->_SQL['position'] = 0;
+            }
+        }
+        $this->_SQL['position'] = FALSE;
     }
 
     /**
@@ -812,18 +808,24 @@ abstract class entity implements \Iterator {
      * Move forward to the next row 
      */
     public function next() {
-        $this->_SQL['position']++;
+        if($this->_SQL['stmt']->fetch() !== FALSE){
+            $this->_SQL['position']++;  
+        }else{
+            $this->_SQL['position'] = FALSE;
+        }
     }
 
     /**
      * Check if current position is valid
-     * @return bool
+     * @return object|false
      */
     public function valid() {
-        if (is_object($this->_SQL['stmt']))
-            return $this->_SQL['stmt']->fetch();
-        else
+        if($this->_SQL['position'] !== FALSE){
+            return TRUE;
+        }else{
+            $this->afterSelect();
             return FALSE;
+        }  
     }
 
 }

@@ -46,7 +46,7 @@ box-shadow: 1px 1px 0 #363738;}
 
 /* Sub Tab */
 .subTabsContainer{height: 42px;padding: 9px;background: #f9f9f9;}
-.ssTab, .ssTabCSS{position: relative;line-height: 18px;;color:#333;
+.ssTab, .ssTabCSS{position: relative;line-height: 18px;color:#333;
     background-image: -webkit-linear-gradient(top, white,#E5E5E5);
     background-image: linear-gradient(top, white,#E5E5E5);
 float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #999;text-align: center;font-weight: bold;}
@@ -582,7 +582,7 @@ background-color: #f9f9f9;
 /* Shelter for unused div*/
 #shelter > div{display:none;}
 
-/*traduction*/
+/*translation*/
 .translate{border: 2px solid #6C9;border-style: dotted;}
 
 /* CSSpicker */

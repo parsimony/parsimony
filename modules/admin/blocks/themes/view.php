@@ -86,13 +86,13 @@
 			    <div class="themeOptions">
 				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
 				<?php if($themeName != app::$config['THEME']): ?>
-                                <form method="POST" style="" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="ajaxhack">
+                                <form method="POST" style="" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
 				    <input class="input" type="submit" value="<?php echo t('Choose', FALSE) ?>" />
 				</form>
-				<form method="POST" style="" action="admin/deleteTheme" target="ajaxhack">
+				<form method="POST" style="" action="admin/deleteTheme" target="formResult">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
@@ -108,7 +108,7 @@
             </ul>	
         </div> 
         <div class="themenew tabPanel">
-            <form method="POST" id="themeFormAdd" target="ajaxhack" action="<?php echo BASE_PATH; ?>admin/addTheme">
+            <form method="POST" id="themeFormAdd" target="formResult" action="<?php echo BASE_PATH; ?>admin/addTheme">
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
 		<div class="placeholder">
 		    <label for="name"><?php echo t('Theme Name', FALSE); ?></label>

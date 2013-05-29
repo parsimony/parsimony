@@ -3,7 +3,7 @@
 		<div class="itemscope">		
 			<div class="itemprop publicationGMT" style="float:left"><?php echo strftime('%b %d %Y', strtotime($line->publicationGMT));?></div>		
 		<div style="display:inline">
-			<div class="itemprop title"><a href="<?php echo BASE_PATH.$line->url; ?>"><?php echo $line->title /*->displayEditInline($line) */; ?></a></div>
+			<div class="itemprop title"><a href="<?php echo BASE_PATH.$line->url; ?>"><?php echo $line->title /*->display() */; ?></a></div>
 			<div class="itemprop content"><?php  echo $line->content; ?></div>
 		</div>
 			<div style="display:inline" class="itemprop author"><?php echo t('By').' '.$line->pseudo; ?></div>

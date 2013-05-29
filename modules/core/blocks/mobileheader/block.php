@@ -41,7 +41,8 @@ namespace core\blocks;
 
 class mobileheader extends \block {
 
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         $this->setConfig('text', 'Parsimony');
         $this->setConfig('lefturl', '#');
         $this->setConfig('leftbutton', 'Edit');

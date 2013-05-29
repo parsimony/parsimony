@@ -28,5 +28,5 @@
 
 if(!empty($this->value)):
  ?>
-<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>"  />
+<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this->value); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>"  />
 <?php endif; ?>

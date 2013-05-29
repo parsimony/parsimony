@@ -70,10 +70,10 @@ class field_publication extends \field {
     
     /**
      * Add a column after the last existing field 
-      * @param string $fieldBefore
+     * @param string $fieldBefore
      * @return bool
      */
-    public function addColumn($fieldBefore) {
+    public function addColumn($fieldBefore = '') {
         if (empty($fieldBefore))
             $pos = ' FIRST ';
         else
@@ -89,7 +89,7 @@ class field_publication extends \field {
      * @param string $oldName optional
      * @return bool
      */
-    public function alterColumn($fieldBefore, $oldName = FALSE) {
+    public function alterColumn($fieldBefore = '', $oldName = FALSE) {
         return TRUE;
     }
 

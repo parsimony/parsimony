@@ -69,7 +69,7 @@
         <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
-        <form action="" method="POST" target="ajaxhack">
+        <form action="" method="POST" target="formResult">
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <input type="hidden" name="action" value="saveConfig">
             <div id="tabsconfig" style="min-width:465px;">

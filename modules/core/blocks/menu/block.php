@@ -59,7 +59,8 @@ class menu extends \block {
         $this->setConfig('menu', json_encode($menu));
     }
 
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         $menu = array(array('id' => 1, 'title' => 'Home', 'url' => 'index'));
         $this->setConfig('menu', json_encode($menu));
     }
@@ -98,40 +99,44 @@ class menu extends \block {
         foreach ($items AS $item) {
             $classes = array();
             $class = '';
-	     if(isset($item['url'])){
-		 $url = BASE_PATH.$item['url'];
-		 $title = $item['title'];
-	     } else{
-		 $page = \app::getModule($item['module'])->getPage($item['page']);
-                 $url = BASE_PATH.substr($page->getRegex(), 2, -2);
-                 if(count($page->getURLcomponents()) == 0){
+            if (isset($item['url'])) {
+                $url = BASE_PATH . $item['url'];
+                $title = $item['title'];
+            } else {
+                $page = \app::getModule($item['module'])->getPage($item['page']);
+                $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
+                if (count($page->getURLcomponents()) == 0) {
                     $title = $page->getTitle();
-                 }else{
-                     $dynamicURL = '';
-                     foreach($page->getURLcomponents() AS $urlRegex){
-                         if(isset($urlRegex['modelProperty'])){
-                            $prop = explode('.',$urlRegex['modelProperty']);
-                            $table = explode('_',$prop[0],2);
+                } else {
+                    $dynamicURL = '';
+                    foreach ($page->getURLcomponents() AS $urlRegex) {
+                        if (isset($urlRegex['modelProperty'])) {
+                            $prop = explode('.', $urlRegex['modelProperty']);
+                            $table = explode('_', $prop[0], 2);
                             $entity = \app::getModule($table[0])->getEntity($table[1]);
                             $entityTitle = $entity->getBehaviorTitle();
                             foreach ($entity as $line) {
-                                $dynamicURL .= '<li><a href="'.BASE_PATH.str_replace('(?<'.$urlRegex['name'].'>'.$urlRegex['regex'].')',$line->$prop[1],$url).'">'.$line->$entityTitle.'</a></li>';
+                                $dynamicURL .= '<li><a href="' . str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], $url) . '">' . $line->$entityTitle . '</a></li>';
                             }
-                         }
-                     }
-                 }
-	     }
-            if(isset($_GET[0]) && BASE_PATH.$_GET[0] == $url) $classes[] = 'current';
-            if($count == $cpt) $classes[] = 'last';
-            if($cpt==1) $classes[] = 'first';
-            if(count($classes) > 0) $class = 'class="'.implode(' ',$classes).'"';
-            if(isset($dynamicURL)): 
+                        }
+                    }
+                }
+            }
+            if (isset($_GET[0]) && BASE_PATH . $_GET[0] == $url)
+                $classes[] = 'current';
+            if ($count == $cpt)
+                $classes[] = 'last';
+            if ($cpt == 1)
+                $classes[] = 'first';
+            if (count($classes) > 0)
+                $class = 'class="' . implode(' ', $classes) . '"';
+            if (isset($dynamicURL)):
                 echo $dynamicURL;
                 unset($dynamicURL);
             else :
             ?>
-            <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
-		    <a href="<?php echo $url ?>"><?php echo $title ?></a>
+                <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
+                <a href="<?php echo $url ?>"><?php echo $title ?></a>
                 <?php
                 if (isset($item['children'])) {
                     echo '<ul>';
@@ -139,7 +144,7 @@ class menu extends \block {
                     echo '</ul>';
                 }
                 ?>
-            </li>
+                </li>
             <?php
             endif;
             $cpt++;

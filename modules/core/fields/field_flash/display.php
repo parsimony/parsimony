@@ -29,7 +29,7 @@
 
 <object type="application/x-shockwave-flash" data="<?php echo BASE_PATH ?><?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.$this; ?>" height="400" width="600">
   <param name="play" value="true">
-  <param name="movie" value="<?php echo BASE_PATH ?><?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this); ?>">
+  <param name="movie" value="<?php echo BASE_PATH ?><?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this->value); ?>">
   <param name="menu" value="false">
   <param name="quality" value="high">
   <param name="scalemode" value="noborder">

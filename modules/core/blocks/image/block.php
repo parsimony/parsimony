@@ -67,7 +67,8 @@ class image extends \block {
     }
     
     
-    public function init() {
+    public function __construct($id) {
+            parent::__construct($id);
             $this->setConfig('imgPath','core/files/Parsimony.png');
 	    $this->setConfig('width', '200');
 	    $this->setConfig('height', '200');

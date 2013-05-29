@@ -47,7 +47,7 @@ $role = app::getModule('core')->getEntity('role');
         ?>
     </div>
     <div class="adminzonecontent">
-        <form action="" method="POST" target="ajaxhack">
+        <form action="" method="POST" target="formResult">
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <?php foreach ($role->select() as $key => $line) : ?>
                 <div id="tabs-<?php echo $line->id_role; ?>" class="admintabs">

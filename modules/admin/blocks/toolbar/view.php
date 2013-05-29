@@ -102,7 +102,7 @@ echo $admin->display();
 	<div style="text-align: center;padding-top: 20px;"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
 	<div style="text-align: center;padding: 10px 0px;background: #E2E2E2;margin-top: 10px;border-top: 1px solid #BBB;"><input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>" /><input type="button" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" /></div>
     </div>
-    <iframe name="ajaxhack" id="ajaxhack" src="" class="none"></iframe>
+    <iframe name="formResult" id="formResult" src="" class="none"></iframe>
 </div>
 <div id="shelter">
     <div id="dropInPage" class="marqueurdragndrop">

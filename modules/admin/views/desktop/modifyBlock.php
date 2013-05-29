@@ -40,7 +40,7 @@
 
     <div class="adminzonecontent">
 
-        <form class="form" target="ajaxhack" method="POST">              
+        <form class="form" target="formResult" method="POST">              
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <input type="hidden" name="action" value="buildNewBlock">  
             <div id="parsitabblock" class="admintabs">  

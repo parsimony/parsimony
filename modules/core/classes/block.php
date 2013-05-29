@@ -49,9 +49,8 @@ abstract class block {
      * @param string $id Block ID 
      * @param string $init have to init the block or not
      */
-    public function __construct($id, $init = true) {
+    public function __construct($id) {
         $this->setId($id);
-        if(method_exists($this, 'init') && $init) $this->init();
     }
 
     /**
@@ -64,23 +63,17 @@ abstract class block {
 
     /**
      * Set Block ID 
-     * @param string $id 
+     * @param string $id
+     * @return block object
      */
     public function setId($id) {
+        $id = \tools::sanitizeTechString($id);
         if (!empty($id)) {
-            $this->id = \tools::sanitizeTechString($id);
+            $this->id = $id;
         } else {
-            throw new Exception(t('ID can\'t be empty', FALSE));
+            throw new \Exception(t('ID can\'t be empty', FALSE));
         }
-    }
-    
-    /**
-     * Get Block Name
-     * @return string Name
-     */
-    public function getName() {
-        if(isset($this->name)) return $this->name;
-	else return $this->id;
+        return $this;
     }
 
     /**
@@ -107,6 +100,7 @@ abstract class block {
      * Set one config of block 
      * @param string $key key of the config
      * @param mixed $value value of the config
+     * @return block object
      */
     public function setConfig($key, $value) {
 	if (!is_resource($value)) {
@@ -120,6 +114,7 @@ abstract class block {
     /**
      * Remove one config of block 
      * @param string $key key of the config
+     * @return block object
      */
     public function removeConfig($key) {
 	if (isset($this->configs[$key])){
@@ -147,15 +142,15 @@ abstract class block {
         } else {
             return FALSE;
         }
-        
     }
 
     /**
      * Add a child block in container block
      * @param block $block
      * @param string $idNext optional
+     * @return block object
      */
-    public function addBlock(block $block, $idNext = 'last') {
+    public function addBlock(\block $block, $idNext = 'last') {
         $tempBlocks = array();
         if($this->id == 'container' && count($this->blocks)==1 && isset($this->blocks['content'])) $idNext='content';
         foreach ($this->blocks as $idBlock => $temp_block) {
@@ -167,17 +162,18 @@ abstract class block {
         if ($idNext == 'last')
             $tempBlocks[$block->getId()] = $block;
         $this->blocks = $tempBlocks;
+        return $this;
     }
 
     /**
      * Remove a block of container block
      * @param string $idBlock 
-     * @return bool
+     * @return bool|block object
      */
     public function rmBlock($idBlock) {
         if(isset($this->blocks[$idBlock])) {
             unset($this->blocks[$idBlock]);
-	    return TRUE;
+	    return $this;
         } else {
             return FALSE;
         }
@@ -204,7 +200,7 @@ abstract class block {
     }
 
     /**
-     * Returns HTML of view, manages cache of a block...
+     * Returns HTML view, manages cache of a block...
      * @return string
      */
     public function display() {
@@ -239,7 +235,7 @@ abstract class block {
                    $CSSclasses .= ' '.$config;
                     break;
                 case 'ajaxReload':
-                   if($config == 1) \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
+                   if((int)$config > 0) \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
                     break;
                 case 'ajaxLoad':
                     if($config == 1) {
@@ -294,13 +290,10 @@ abstract class block {
     }
     
     public function __get($property) {
-	if($property == 'module' || $property == 'blockName'){
-	    $className = get_class($this);
-	    if ($className != 'page')
-		list( $module, $block, $blockName) = explode("\\", $className);
-	    return $$property;
-	}
-	return FALSE;
+        $className = get_class($this);
+        if ($className !== 'page')
+            list( $module, $block, $blockName) = explode("\\", $className);
+        return $$property;
     }
 
     /**
@@ -309,7 +302,7 @@ abstract class block {
      * @param string $moduleName Module name where the block is created
      * @param string $blockName Block name to create
      */
-    public static function build($moduleName, $blockName) {
+    /*public static function build($moduleName, $blockName) {
 
         $moduleName = tools::sanitizeString($moduleName);
         $blockName = tools::sanitizeString($blockName);
@@ -331,7 +324,8 @@ abstract class block {
             return False;
         }
         
-    }
+    }*/
+    
     /**
      * Returns JS to eval in iframe admin when an ajax refresh occur 
      * @param string type og refresh

@@ -29,9 +29,16 @@
 
 namespace admin\blocks;
 
+/**
+ * @title CSS
+ * @description display CSS admin
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1, admin:1
+ */
+
 class css extends \block {
-    
-    protected $name = 'css';
 
 }
 ?>

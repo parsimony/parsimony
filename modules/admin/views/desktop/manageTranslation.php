@@ -32,15 +32,14 @@ $path = 'modules/'.MODULE.'/locale/'.$locale.'.php';
 if(file_exists($path)) include($path);
 ?>
 <div style="width:500px;height:150px">
-    <div style="padding:10px;">
-	<form method="POST" id="form_confs" target="ajaxhack" action="" style="height: 100%;">
-	    <input type="hidden" name="action" value="save_configs" />
+    <div style="padding:10px;background: rgb(249, 249, 249);font-size: 12px;">
+	<form method="POST" id="form_confs" target="formResult" action="" style="height: 100%;">
 	    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 	    <input type="hidden" name="action" value="saveTranslation" />
 	    <input type="hidden" name="key" value="<?php echo s($_POST['key']); ?>" />
-	    <div><h2>Traduction to <?php echo \app::$config['locales'][$locale]; ?></h2></div><br><br>
+	    <div><h2>Translation to <?php echo \request::$locales[$locale]; ?></h2></div><br><br>
 	    <?php echo s($_POST['key']); ?> : <input type="text" name="val" value="<?php if(isset($lang[$_POST['key']])) echo s($lang[$_POST['key']]); else echo s($_POST['key']);?>" required="required"><br><br>
-	    <input type="submit" value="Save">
+	    <input type="submit" value="<?php echo t('Save'); ?>">
 	</form>
     </div>
 </div>

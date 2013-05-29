@@ -27,4 +27,4 @@
  */
 
 if($this->value != '0000-00-00 00:00:00')
-    echo strftime($this->templateDisplay, strtotime($this)); ?>
+    echo strftime($this->templateDisplay, strtotime($this->value)); ?>

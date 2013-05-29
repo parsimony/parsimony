@@ -136,7 +136,7 @@ class core extends \module {
 	    'field_formasso' => 'core\fields\field_formasso'
 	);
 
-	//on page load
+	/* on page load */
 	\app::addListener('pageLoad', array($this, 'loadExternalFiles'));
     }
 
@@ -156,7 +156,7 @@ class core extends \module {
     public function connectAction() {
 	return $this->getView('connect', 'desktop');
     }
-
+    
     public function loginAjaxAction() {
 	$login = \app::$request->getParam('login');
 	$pass = \app::$request->getParam('password');
@@ -169,7 +169,7 @@ class core extends \module {
 	return FALSE;
     }
     
-    public function loginAction($URL = "index") {
+    public function loginAction($URL = 'index') {
         if(!\app::$request->isAjax()) \app::$response->setHeader('Location', $URL);
 	$login = \app::$request->getParam('login');
 	$pass = \app::$request->getParam('password');

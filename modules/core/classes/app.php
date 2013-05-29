@@ -45,7 +45,7 @@ namespace core\classes {
         /** @var @static array contains all configs */
         public static $config = array();
 
-        /** @var @static array contains traductions */
+        /** @var @static array contains translations */
         public static $lang = array();
 
         /** @var @static array contains all devices */
@@ -82,12 +82,13 @@ namespace core\classes {
                 self::$config = $config;
                 
                 /* Check if it's a file */
-                if (!$this->sendFile()) {
+                if ($this->sendFile() === FALSE) {
                     
-                    define('BASE_PATH',$config['BASE_PATH']);
-                    define('PREFIX',$config['db']['prefix']);
+                    /* If it isn't a file, Parsimony will search and display the good page */
+                    define('BASE_PATH', $config['BASE_PATH']);
+                    define('PREFIX', $config['db']['prefix']);
                     
-                    /* Init autoload*/
+                    /* Init autoload */
                     spl_autoload_register('\core\classes\app::autoLoad');
                     
                     /* Init active modules - set class_alias  */
@@ -95,13 +96,11 @@ namespace core\classes {
                     class_alias('core\classes\module', 'module');
                     $this->launchActiveModules();
                    
-                    /* Init request - include file to avoid autoload  */
+                    /* Init request and response */
                     self::$request = new request();
-                     
-                    /* Init response before sendFile call */
                     self::$response = new response();
 
-                    /* Dispatch Request */
+                    /* Dispatch Request and display response */
                     self::$request->dispatch();
                     echo self::$response->getContent();
 
@@ -157,7 +156,7 @@ namespace core\classes {
                 $ext = pathinfo($_GET['parsiurl'], PATHINFO_EXTENSION);
                 if ($ext && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
                     $path = stream_resolve_include_path($_GET['parsiurl']);
-                    if ($path) {
+                    if ($path !== FALSE) {
                         $gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
                         /* We use native functions for perfs purposes */
                         header('HTTP/1.1 200 OK', true, 200);
@@ -404,7 +403,7 @@ namespace {
             $before = '';
             $after = '';
             if ($modAdmin != false) {
-                $before = '<span data-key="' . $text . '" class="traduction">';
+                $before = '<span data-key="' . $text . '" class="translation">';
                 $after = '</span>';
             }
             if (isset(app::$lang[$text])) {

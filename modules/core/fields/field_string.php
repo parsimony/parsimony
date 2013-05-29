@@ -50,7 +50,11 @@ class field_string extends \field {
             if($args[1] == 'insert') $args[1] = false;
 	    if($this->checkUniqueAction($value, $args[1]) == 0) return FALSE;
 	}
-        return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
+        $length = strlen($value);
+        if($length >= $this->characters_min && $length <= $this->characters_max){
+            return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
+        }
+        return FALSE;
     }
     
     public function checkUniqueAction($chars, $id = false) {

@@ -31,7 +31,10 @@
         <div class="mainTab <?php echo $block->getId(); ?> <?php if($block->getConfig('cssClasses') != 'none') echo 'active'; ?>" rel="<?php echo $block->getId(); ?>">
 	    <div class="icons sprite"></div>
 	    <div class="content">
-		<h2><?php echo t($block->getName(), FALSE); ?></h2>
+		<h2><?php
+                    $blockInfos = \tools::getClassInfos($block);
+                    echo $blockInfos['title'];
+                ?></h2>
 		 <?php 
 		    echo $block->display() . PHP_EOL;
 		    ?>

@@ -26,4 +26,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<a href="<?php echo s($this); ?>" target="_blank"><?php echo str_replace('http://','',str_replace('www.','',s($this))); ?></a>
+<a href="<?php echo s($this->value); ?>" target="_blank"><?php echo str_replace('http://','',str_replace('www.','',s($this->value))); ?></a>

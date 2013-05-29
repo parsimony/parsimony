@@ -116,7 +116,7 @@
         </div>
         <div id="addmodel" class="admintabs none">
             <?php
-            echo $obj->getViewAddForm(TRUE);
+            echo str_replace('action=""','target="formResult" action=""',$obj->getViewAddForm(TRUE));
             ?>
         </div>
     </div>

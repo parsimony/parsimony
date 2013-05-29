@@ -43,7 +43,7 @@
         <div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Create Module', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
-    <form class="form" target="ajaxhack" method="POST">
+    <form class="form" target="formResult" method="POST">
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 		<input type="hidden" name="action" value="addModule">
                 <div class="placeholder">

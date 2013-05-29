@@ -58,6 +58,11 @@ if (is_object($block) == NULL) {
     #posNewCSSFile ,#posNewJSFile{width: 70px;margin: 0;}
     #cssFilesCont > div, #jsFilesCont > div{padding:7px;margin:2px 0;border:1px solid #ddd}
     .rem{float: left;padding: 0 5px;cursor: pointer;}
+    .blockhead{width: 45%;float: left;clear: none;margin: 0 2%;}
+    .clear{clear : both}
+    .padd{padding-top: 5px;}
+    #block_conf select[multiple]{background-image: none !important}
+    #block_conf select[multiple]:enabled:hover{background-image: none !important}
 </style>
 <div id="block_conf" class="adminzone">
     <div class="adminzonemenu">
@@ -65,8 +70,7 @@ if (is_object($block) == NULL) {
 	<div class="adminzonetab"><a href="#accordionBlockConfigGeneral" class="ellipsis"><?php echo t('General',FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
-	<form method="POST" id="form_confs" target="ajaxhack" action="" style="height: 100%;">
-	    <input type="hidden" name="action" value="save_configs" />
+	<form method="POST" id="form_confs" target="formResult" action="" style="height: 100%;">
 	    <div id="accordionBlockConfig" class="admintabs">
 		    <?php
 		    echo $block->getAdminView();
@@ -81,18 +85,17 @@ if (is_object($block) == NULL) {
 		<input type="hidden" name="action" value="saveBlockConfigs" />
 	    </div>
 	    <div id="accordionBlockConfigGeneral" class="admintabs">
-                <div class="placeholder">
+		<div class="clear">
+		<h3>HTML, CSS & cache</h3>
+                <div class="placeholder blockhead">
 		    <label> <?php echo t('Header Title',FALSE); ?> </label> <input type="text" name="headerTitle" value="<?php echo $block->getConfig('headerTitle') ?>">
 		</div>
-		<div class="placeholder">
-		    <label> <?php echo t('Cache Seconds',FALSE); ?> </label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
+		<div class="placeholder blockhead">
+		    <label><?php echo t('Add CSS Classes',FALSE); ?> </label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
 		</div>
-		<div class="placeholder">
-		    <label><?php echo t('CSS Classes',FALSE); ?> </label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>"><br />
-		</div>
-                <div class="placeholder">
+		<div class="placeholder blockhead">
 		    <label><?php echo t('HTML5 Tags',FALSE); ?> :</label>
-                    <select name="tag">
+                    <select name="tag" style="height : 25px">
 			<?php if($block->getConfig('tag')!==false)echo '<option value="'.$block->getConfig('tag').'">'.$block->getConfig('tag').'</option>' ?>
 			<option value="div">div</option>
 			<option value="header">header</option>
@@ -104,8 +107,15 @@ if (is_object($block) == NULL) {
                         <option value="nav">nav</option>
 		    </select>
 		</div>
-		<div class="placeholder">
-		    <label><?php echo t('Display only in the following modules',FALSE); ?> </label>
+		<div class="placeholder blockhead">
+		    <label> <?php echo t('Cache Seconds',FALSE); ?> </label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
+		</div>
+	    </div>
+	    <div class="clear padd"> 
+		<h3>Display</h3>
+                <div class="placeholder blockhead">
+		
+		    <label><?php echo t('Only for the following modules',FALSE); ?> </label>
                      <select name="allowedModules[]" multiple="multiple">
                         <?php
                         $allowedModules = (array) $block->getConfig('allowedModules');
@@ -116,27 +126,32 @@ if (is_object($block) == NULL) {
                         ?>
 		    </select>
 		</div>
-                <div class="placeholder">
-		    <label><?php echo t('Display only for the following role',FALSE); ?> :</label>
+                <div class="placeholder blockhead">
+		    <label><?php echo t('Permissions: only for the selected groups',FALSE); ?></label>
                     <select name="allowedRoles[]" multiple="multiple">
                         <?php
                         $allowedRoles = (array) $block->getConfig('allowedRoles');
                         $obj = \app::getModule('core')->getEntity('role');
-                        foreach ($obj as $key => $line) {
-                            echo '<option value="'.$line->id_role.'"'.(in_array($line->id_role->value, $allowedRoles) ? ' selected="selected"' : '').'>'.$line->name.'</option>';
+                        foreach ($obj as $line) {
+                            echo '<option value="'.$line->id_role->value.'"'.(in_array($line->id_role->value, $allowedRoles) ? ' selected="selected"' : '').'>'.$line->name->value.'</option>';
                         }
                         ?>
 		    </select>
 		</div>
-                <div class="placeholder">
-		    <label><?php echo t('Reload the page every X seconds',FALSE); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>"><br />
+	    </div>
+	    <div class="clear padd"> 
+		<h3>Ajax load</h3>
+                <div class="placeholder blockhead">
+		    <label><?php echo t('Reload the block every X seconds',FALSE); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>">
 		</div>
-                <br>
-		<div class="placeholder">
-                    <label><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>><br />
+                
+		<div class="placeholder blockhead"> 
+                    <label><?php echo t('Ajax On Page Load',FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if($block->getConfig('ajaxLoad')!==false && $block->getConfig('ajaxLoad')!=0) echo ' checked="checked"'; ?>>
 		</div>
-                <br>
-                <div class="placeholder">
+	    </div>
+	    <div class="clear padd"> 
+		<h3>Include CSS & JS</h3>
+                <div class="placeholder blockhead">
                     <label><?php echo t('CSS Files',FALSE); ?> :</label>
                     <input type="text" id="newCSSFile" placeholder="http://example.com/css.css or lib/fancybox/example.css">
                     <select id="posNewCSSFile">
@@ -155,8 +170,8 @@ if (is_object($block) == NULL) {
                         ?>
                     </div>
 		</div>
-                <br>
-                <div class="placeholder">
+            
+                <div class="placeholder blockhead">
                     <label><?php echo t('JS Files',FALSE); ?> :</label>
                     <input type="text" id="newJSFile" placeholder="http://example.com/css.css or lib/fancybox/example.js">
                     <select id="posNewJSFile">
@@ -176,7 +191,8 @@ if (is_object($block) == NULL) {
                     </div>
 		</div>
 	    </div>
-	    <input type="submit" class="none" id="save_configs" name="save_configs">
+	    </div>
+	    <input type="submit" class="none" id="save_configs">
 	</form>
     </div>
     <div class="adminzonefooter">

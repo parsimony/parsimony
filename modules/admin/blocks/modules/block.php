@@ -27,9 +27,17 @@
  */
 namespace admin\blocks;
 
+
+/**
+ * @title Modules
+ * @description display admin modules
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1, admin:1
+ */
+
 class modules extends \block {
-    
-    protected $name = 'modules';
 
 }
 ?>

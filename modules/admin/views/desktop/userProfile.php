@@ -30,7 +30,7 @@ $role = app::getModule('core')->getEntity('role');
 <div class="adminzone" id="admin_profile" style="padding-left: 0px;">
     <div class="adminzonecontent">
 	<?php
-	echo \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->getViewUpdateForm(TRUE);
+	echo str_replace('action=""','target="formResult" action=""',\app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->getViewUpdateForm(TRUE));
 	?>
     </div>
 </div>

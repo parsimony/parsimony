@@ -26,4 +26,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<a href="<?php echo s($this); ?>"><?php echo s($this); ?></a>
+<a href="<?php echo s($this->value); ?>"><?php echo s($this->value); ?></a>

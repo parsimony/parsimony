@@ -42,7 +42,8 @@ class query extends \block {
 
     protected $pathOfViewFile;
 
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         $this->setConfig('regenerateview', 1);
         if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
             $pathOfView = MODULE . '/views/' . THEMETYPE;
@@ -70,7 +71,7 @@ class query extends \block {
         else
             $myView = $myView->initFromArray($_POST['properties']);
         if ($this->getConfig('pagination'))
-            $myView->pagination(TRUE);
+            $myView->setPagination(TRUE);
         if ($this->getConfig('nbitem') != '')
             $myView->limit($this->getConfig('nbitem'));
         $myView->buildQuery();
@@ -81,7 +82,7 @@ class query extends \block {
         /* Test if new file contains errors */
         $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'view' => $myView));
         /* If new file contains errors */
-        if (!$testIfHasError){
+        if ($testIfHasError === TRUE){
             /* If there's no errors, Save new file */
             if ($this->getConfig('regenerateview') == 1) {
                 \tools::file_put_contents($pathOfViewFile, $this->generateViewAction($_POST['properties']));

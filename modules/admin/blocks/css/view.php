@@ -42,7 +42,7 @@ $CSSValues = $css->getCSSValues();
 ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues)); ?>;
 </script>
 <?php /* We create a form in order to reset easily all values by .reset()  */ ?>
-<form method="POST" id="form_css" action="javascript:void(0);" target="ajaxhack">
+<form method="POST" id="form_css" action="javascript:void(0);" target="formResult">
     <div style="min-width:230px;position:relative">
         <div id="toolChanges" style="display:none;margin: 0 10px 10px;background:#EBEBEB;border-radius:5px;border: 1px solid #CCC;line-height: 30px;color: #919191;;font-size: 11px;">
             <button id="savemycss" class="tooltip" data-tooltip="<?php echo t('Save'); ?>" data-pos="n" style="border:0;border-radius: 5px 0 0 5px;">

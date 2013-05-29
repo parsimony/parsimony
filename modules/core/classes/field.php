@@ -76,6 +76,9 @@ class field {
 
     /** @var string visibility */
     protected $visibility;
+    
+    /** @var object of the container */
+    public $row = "";
 
     /**
      * Build field
@@ -92,7 +95,7 @@ class field {
      * @param string $default by default ''
      * @param bool $required by default true
      * @param string $regex by default '.*'
-     * * @param string $visibility by default '.*'
+     * @param string $visibility by default '.*'
      */
     public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'Invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7) {
         $this->constructor(func_get_args());
@@ -139,7 +142,7 @@ class field {
      * Get field value
      * @return string
      */
-    public function getValue() {
+    public function &getValue() {
         return $this->value;
     }
     
@@ -171,7 +174,7 @@ class field {
     }
 
     /**
-     * Get field field path
+     * Get field path
      * @return string
      */
     public function getFieldPath() {
@@ -186,7 +189,7 @@ class field {
      * @return string
      */
     public function __toString() {
-        return (string) $this->value;
+        return $this->display();
     }
 
     
@@ -200,40 +203,46 @@ class field {
 
     /**
      * Display view
-     * @param string &$view
+     * Returns by default the display view of field. With editinline rights returns the editing view.
+     * if behavior = 0 check if he has the right and if he is the autor of the content
+     * if behavior > 0 check if id_role has the right
+     * @param object &$row
      * @return string
      */
-    public function display(&$row = '') {
-         if (empty($this->displayView)) {//if (!isset($this->mark)) {
-	     $this->displayView = 'display.php';
-            if ($_SESSION['behavior'] >= 1 && app::getModule($this->module)->getEntity($this->entity)->getRights($_SESSION['id_role']) & UPDATE ) {
+    public function display() {
+        $row = $this->row;
+        /*if (!isset($this->displayView)) {
+	    $this->displayView = 'display.php';
+            if ($_SESSION['behavior'] > 0 && $row->getRights($_SESSION['id_role']) & UPDATE ) {
                 \app::$request->page->addJSFile('lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
-            //$this->mark = TRUE;
         }
-        $idName = $row->getId()->name;
-        ob_start();
+        if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
+            \app::$request->page->addJSFile('lib/editinline.js');
+            $this->displayView = 'editinline.php';
+        }*/
+        ob_start();$this->displayView = 'display.php';
         include($this->getFieldPath() . '/' . $this->displayView);
         return ob_get_clean();
     }
-
+    
     /**
      * Display view
-     * @param string &$view
+     * @param string $data
+     * @param int $id
      * @return string
      */
     public function displayEditInline(&$row = '', $authorID = FALSE) {
         ob_start();
         $idName = $row->getId()->name;
         /*$authorName = $row->getBehaviorAuthor()->name;*/
-	if (empty($this->displayView)) {//if (!isset($this->mark)) {
+	if (empty($this->displayView)) {
 	    $this->displayView = 'display.php';
             if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || $_SESSION['behavior'] >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights($_SESSION['id_role']) & UPDATE ) {
                 \app::$request->page->addJSFile('lib/editinline.js');
                 $this->displayView = 'editinline.php';
             }
-            //$this->mark = TRUE;
         }
 	
         include($this->getFieldPath() . '/' . $this->displayView);
@@ -245,13 +254,19 @@ class field {
         if ($data !== FALSE) {
             $entityObj = \app::getModule($this->module)->getEntity($this->entity);
             $res = \PDOconnection::getDB()->exec('UPDATE ' .PREFIX . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = \'' . str_replace("'", "\'", $data) . '\' WHERE ' . $entityObj->getId()->name . '=' . $id);
-            if ($res) {
+            if ($res !== FALSE) {
                 return TRUE;
             }
         }
         return FALSE;
     }
     
+    /**
+     * Display view
+     * @param string $data
+     * @param int $id
+     * @return string
+     */
     public function saveEditInlineAction($data, $id) {
 	if ($this->saveEditInline($data, $id)) {
 	    $return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
@@ -282,38 +297,17 @@ class field {
         include($this->getFieldPath() . '/form_filter.php');
         return ob_get_clean();
     }
-
-    /**
-     * Display Updating Form
-     * @param string $value
-     * @deprecated since version 2.5
-     * @return string
-     */
-    public function formUpdate($value, &$row = '') {
-        return $this->form($value, $row);
-    }
-
-    /**
-     * Display Adding Form
-     * @deprecated since version 2.5
-     * @return string
-     */
-    public function formAdd($value = '', &$row = FALSE) {
-        ob_start();
-	$fieldName = $this->name;
-        include($this->getFieldPath() . '/form.php');
-        return ob_get_clean();
-    }
     
     /**
      * Display Updating Form
      * @param string $value
+     * @param string &$row optional
      * @return string
      */
     public function form($value = '', &$row = FALSE) {
         ob_start();
 	$fieldName = $this->name;
-	if($row){
+	if(is_object($row)){
 	    $fieldName .= '_'.$row->getId()->value;
 	}
 	?>
@@ -355,25 +349,25 @@ class field {
 
     /**
      * Add a column after the last existing field 
-     * @param string $fieldBefore
-     * @return bool
+     * @param string $fieldBefore optional
+     * @return bool|int
      */
-    public function addColumn($fieldBefore) {
+    public function addColumn($fieldBefore = '') {
         if (empty($fieldBefore))
             $pos = ' FIRST ';
         else
             $pos = ' AFTER ' . $fieldBefore;
         $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' ADD ' . $this->sqlModel() . $pos;
-        return (bool) PDOconnection::getDB()->exec($sql);
+        return \PDOconnection::getDB()->exec($sql);
     }
 
     /**
      * Alter the order of columns
-     * @param string $fieldBefore
+     * @param string $fieldBefore optional
      * @param string $oldName optional
-     * @return bool
+     * @return bool|int
      */
-    public function alterColumn($fieldBefore, $oldName = FALSE) {
+    public function alterColumn($fieldBefore = '', $oldName = FALSE) {
         if (empty($fieldBefore))
             $pos = ' FIRST ';
         else
@@ -383,16 +377,16 @@ class field {
         else
             $name = $this->name;
         $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
-        return (bool) PDOconnection::getDB()->exec($sql);
+        return \PDOconnection::getDB()->exec($sql);
     }
 
     /**
      * Delete a column 
-     * @return bool
+     * @return bool|int
      */
     public function deleteColumn() {
         $sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' DROP ' . $this->name;
-        return (bool) PDOconnection::getDB()->exec($sql);
+        return \PDOconnection::getDB()->exec($sql);
     }
 
     /**
@@ -400,8 +394,8 @@ class field {
      * @return string
      */
     public function sqlModel() {
-        $primary_key = $auto_increment = '';
-        if (get_class($this) == \app::$aliasClasses['field_ident']) {
+        $primary_key = $auto_increment = $characters_max = $default = '';
+        if (get_class($this) === \app::$aliasClasses['field_ident']) {
             $primary_key = ' PRIMARY KEY';
             $auto_increment = ' AUTO_INCREMENT';
         }
@@ -411,17 +405,14 @@ class field {
             $required = 'NULL';
         if (!empty($this->characters_max) || $this->characters_max != 0)
             $characters_max = '(' . $this->characters_max . ')';
-        else
-            $characters_max = '';
         if (!empty($this->default))
             $default = ' DEFAULT \'' . $this->default . '\'';
-        else
-            $default = '';
         return $this->name . ' ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
     }
 
     /**
-     * Fill SQL Features
+     * Returns SQL to filter the field ( overridable for multiple colums)
+     * @param string $filter
      * @return string
      */
     public function sqlFilter($filter) {

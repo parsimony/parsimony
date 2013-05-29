@@ -78,7 +78,7 @@
         <div id="delete_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('Delete', FALSE); ?></a></div>   
     </div>
     <div id="contentformpage"  class="adminzonecontent">
-        <form class="form" target="ajaxhack" method="POST">
+        <form class="form" target="formResult" method="POST">
             <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
             <input type="hidden" name="id_page" value="<?php echo $page->getId(); ?>">
             <input type="hidden" name="action" value="savePage">

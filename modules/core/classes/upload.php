@@ -36,16 +36,16 @@ namespace core\classes;
 class upload {
 
     /** @var string New File name */
-    private $fileName;
+    protected $fileName;
 
     /** @var string directory name where the file is uploaded */
-    private $target;
+    protected $target;
 
     /** @var integer allowed maximum size  to upload */
-    private $maxSize;
+    protected $maxSize;
 
     /** @var array allowed Types  */
-    private $type = array();
+    protected $type = array();
 
     /**
      * Init the upload

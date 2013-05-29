@@ -62,16 +62,16 @@ class request {
     public function __construct() {
         
         /* Determine HTTP request */
-	$this->initMethod();
+	$this->initMethod($_SERVER['REQUEST_METHOD']);
         
 	/* Determine locale */
 	$this->determineLocale();
 
         /* Rights */
 	define('DISPLAY', 1);
-	define('INSERT', 4);
-	define('UPDATE', 8);
-	define('DELETE', 16);
+	define('INSERT', 2);
+	define('UPDATE', 4);
+	define('DELETE', 8);
 
 	/* Determine role of user */
 	$this->determineRole();
@@ -149,7 +149,7 @@ class request {
      * @return array $param
      */
     public function isAjax() {
-	if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+	if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 	    return TRUE;
 	} else {
 	    return FALSE;
@@ -266,7 +266,7 @@ class request {
     public function dispatch() {
         $module = app::getModule($this->module);
         if($module->getRights($_SESSION['id_role']) == 1 || $this->module === 'core'){
-            if ($module->{'controller' . $this->method}($this->secondPartURL) === FALSE) {
+            if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
                 //if Page not found
                 return app::$response->setContent('<h1>Not Found</h1>', 404);
             }
@@ -311,40 +311,42 @@ class request {
     }
 
     /**
-     * Init method HTTP and Secure incoming vars 
+     * Init method HTTP and Secure incoming vars
+     * @param string $method optional
      */
-    protected function initMethod() {
-	/* By default GET */
+    protected function initMethod($method = 'GET') {
+        $this->method = $method;
         
-	$this->method = 'GET';
-	array_walk_recursive($_GET, function(&$v, &$k) {
+        /* Regardless of the method (POST, PUT, DELETE), GET method is always treated ! */
+        array_walk_recursive($_GET, function(&$v, &$k) {
             $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
         });
 	$this->params = $_GET;
-
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	    $this->method = 'POST';
-	    array_walk_recursive($_POST, function(&$v, &$k) {
-                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
-            });
-	    $this->params = array_merge($this->params, $_POST);
-            
-	} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-	    $this->method = 'PUT';
-	    parse_str(file_get_contents("php://input"), $_PUT);
-	    array_walk_recursive($_PUT, function(&$v, &$k) {
-                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
-            });
-	    $this->params = array_merge($this->params, $_PUT);
-            
-	} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-	    $this->method = 'DELETE';
-	    parse_str(file_get_contents("php://input"), $_DELETE);
-	    array_walk_recursive($_DELETE, function(&$v, &$k) {
-                $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
-            });
-	    $this->params = array_merge($this->params, $_DELETE);
-	}
+        
+        if($method !== 'GET'){
+            switch ($method) {
+                case 'POST':
+                    array_walk_recursive($_POST, function(&$v, &$k) {
+                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                    });
+                    $this->params = array_merge($this->params, $_POST);
+                    break;
+                case 'PUT':
+                    parse_str(file_get_contents("php://input"), $_PUT);
+                    array_walk_recursive($_PUT, function(&$v, &$k) {
+                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                    });
+                    $this->params = array_merge($this->params, $_PUT);
+                    break;
+                case 'DELETE':
+                    parse_str(file_get_contents("php://input"), $_DELETE);
+                    array_walk_recursive($_DELETE, function(&$v, &$k) {
+                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                    });
+                    $this->params = array_merge($this->params, $_DELETE);
+                    break;
+            }
+        }
     }
 
     /**

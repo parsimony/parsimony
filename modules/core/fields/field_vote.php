@@ -78,7 +78,7 @@ class field_vote extends \field {
      * @param string $fieldBefore
      * @return bool
      */
-    public function addColumn($fieldBefore) {
+    public function addColumn($fieldBefore = '') {
         return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD  ' . $this->name . ' FLOAT NOT NULL,
             ADD  ' . $this->name . '_nb_votes INT NOT NULL AFTER ' . $this->name);
     }
@@ -89,7 +89,7 @@ class field_vote extends \field {
      * @param string $oldName optional
      * @return bool
      */
-    public function alterColumn($fieldBefore, $oldName = FALSE) {
+    public function alterColumn($fieldBefore = '', $oldName = FALSE) {
         return TRUE;
     }
 

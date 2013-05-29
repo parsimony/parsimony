@@ -3,9 +3,9 @@
 
 body{overflow: hidden;} 
 
-/*traduction*/
-.traduction{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
-.traduction:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
+/* translation */
+.translation{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
+.translation:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
 
 /* Marker drag n drop blocks */
 #container #dropInPage{position:relative;z-index:999995;height: 0px;pointer-events:none}
@@ -19,8 +19,9 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 /* Outline block */
 .selection-container{outline:1px solid #007BC8;}
 
-/* editinplace */
+/* Editinplace */
 .wysiwyg.activeEdit:hover{outline:1px orange solid;}
+.editMode a{pointer-events:none}
 
 /* CSS Picker */
 .cssPicker{outline: 1px solid rgb(255, 0, 251);background: rgba(250, 153, 238, 0.38) !important;}
@@ -28,7 +29,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 /* Selection */
 html ::selection {background: #00D5FF;color: #ffffff;}
 html ::-moz-selection {background: #00D5FF;color: #ffffff;}
-.noSelect{-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+.creationMode {-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 
 /* Prevent loose focus when user in iframe */
 iframe{pointer-events:none}

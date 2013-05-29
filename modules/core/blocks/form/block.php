@@ -14,7 +14,8 @@ namespace core\blocks;
 
 class form extends \block {
     
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         $this->setConfig('regenerateview', 1);
 	$this->setConfig('success', 'Success');
 	$this->setConfig('fail', 'Fail');
@@ -42,7 +43,7 @@ class form extends \block {
             /* Test if new file contains errors */
             $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'entity' => \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'))));
             /* If new file contains errors */
-            if (!$testIfHasError){
+            if ($testIfHasError === TRUE){
                 /* If there's no errors, Save new file */
                 if ($this->getConfig('regenerateview') == 1) {
                     \tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'),$this->getConfig('entity')));

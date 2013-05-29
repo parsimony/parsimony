@@ -40,7 +40,8 @@ namespace core\blocks;
 
 class wysiwyg extends \block {
     
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme')
             $path =  THEMEMODULE . '/views/' . THEMETYPE . '/' . $this->id . '.php';
         else

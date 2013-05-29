@@ -28,9 +28,16 @@
 
 namespace admin\blocks;
 
+/**
+ * @title Tree
+ * @description display tree
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1, admin:1
+ */
+
 class tree extends \block {
-    
-    protected $name = 'Tree';
 
 }
 ?>

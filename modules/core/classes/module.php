@@ -53,20 +53,9 @@ class module {
     /**
      * Construct a module
      * @param string $name module name
-     * @param string $title module name
      */
-    public function __construct($name = '', $title = '') {
-	if (!empty($name))
-	    $this->name = $name;
-	if (!empty($title))
-	    $this->title = $title;
-    }
-
-    /**
-     * Set name of the module
-     * @param string $name
-     */
-    public function setName($name) {
+    public function __construct($name) {
+        $name = str_replace('_','',\tools::sanitizeTechString($name));
 	if (!empty($name)) {
 	    $this->name = $name;
 	} else {
@@ -83,34 +72,22 @@ class module {
     }
 
     /**
-     * Get name of the module
-     * @return string
-     */
-    public function getTitle() {
-	if (!is_null($this->title))
-	    return $this->title;
-	else
-	    return $this->name;
-    }
-
-    /**
      * Get module of a given name
      * @static
      * @param string $name
      * @return module
      */
     public static function get($name) {
-	if (isset(app::$config['modules']['active'][$name]) || $name == 'admin') {
+	if (isset(app::$config['modules']['active'][$name]) || $name === 'admin') {
 	    $pathName = str_replace('\\', '/', $name);
 	    if (!class_exists($name . '\\' . $name, false))
 		include('modules/' . $pathName. '/module.php');
 	    $path = stream_resolve_include_path($pathName . '/module.' . \app::$config['dev']['serialization']);
-	    if ($path) {
+	    if ($path !== FALSE) {
 		return unserialize(file_get_contents($path));
 	    } else {
 		$className = '\\' . $name . '\\' . $name;
-                echo $className;
-		$module = new $className($name, ucfirst($name));
+		$module = new $className($name);
 		$module->save();
 		return $module;
 	    }
@@ -126,7 +103,7 @@ class module {
 	$pages = array();
 	foreach ($this->pages as $key => $page) {
 	    $page = $this->getPage($key);
-	    if ($page != FALSE)
+	    if ($page !== FALSE)
 		$pages[$key] = $page;
 	}
 	return $pages;
@@ -134,7 +111,7 @@ class module {
 
     /**
      * Reoder pages of the module
-     * @param array $pages
+     * @param array $order
      * @return array of pages
      */
     public function reoderPages($order) {
@@ -152,25 +129,11 @@ class module {
      * @return page
      */
     public function getPage($id) {
-		$file = stream_resolve_include_path($this->name . '/pages/' . $id .'.' .\app::$config['dev']['serialization']) ;
-		if ($file) 
-				return \tools::unserialize(substr($file,0,-4));
-		else
-			throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
-    }
-
-    /**
-     * Get list of pages 
-     * @static
-     * @param string $name
-     * @return array
-     */
-    public static function getPageList($name) {
-	$links = array();
-	foreach ($this->getPages() AS $page) {
-	    $links[$page->getURL()] = $page->getTitle();
-	}
-	return $links;
+        $file = stream_resolve_include_path($this->name . '/pages/' . $id . '.' . \app::$config['dev']['serialization']);
+        if ($file !== FALSE)
+            return \tools::unserialize(substr($file, 0, -4));
+        else
+            throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
     }
 
     /**
@@ -216,18 +179,17 @@ class module {
      * @return array $fields
      */
     public function getFields() {
-	$fields = array();
-        $fieldList = glob(PROFILE_PATH . $this->name . '/fields/*.php');
-	foreach ((is_array($fieldList) ? $fieldList : array()) as $filename) {
-	    $field = basename($filename, '.php');
-	    $fields[] = $field;
+        $fieldList = glob('modules/' . $this->name . '/fields/*.php');
+        $fieldList = is_array($fieldList) ? $fieldList : array(); // fix
+	foreach ($fieldList as &$filename) {
+	    $filename = basename($filename, '.php');
 	}
-	return $fields;
+	return $fieldList;
     }
 
     /**
-     * Get configs
-     * @return config
+     * Get module configs
+     * @return array|false
      */
     public function getConfigs() {
 	if (isset(\app::$config[$this->name]))
@@ -252,9 +214,11 @@ class module {
      * Set a config 
      * @param string $key
      * @param string $val
+     * @return module
      */
     public function setConfig($key, $val) {
 	\app::$config[$this->name][$key] = $val;
+        return $this;
     }
 
     /**
@@ -263,7 +227,8 @@ class module {
      */
     public function getModel() {
         $entities = glob('modules/' . $this->name . '/model/*.php');
-	foreach ((is_array($entities) ? $entities : array()) as $filename) {
+        $entities = is_array($entities) ? $entities : array(); // fix
+	foreach ($entities as &$filename) {
 	    $model = basename($filename, '.php');
 	    $this->model[$model] = $this->getEntity($model);
 	}
@@ -274,12 +239,10 @@ class module {
      * GetView
      * @return string
      */
-    public function getView($name, $themeType = FALSE) {
-	$themeType = ($themeType !== FALSE) ? $themeType : THEMETYPE;
+    public function getView($name, $device = FALSE) {
+	$device = ($device !== FALSE) ? $device : THEMETYPE;
 	ob_start();
-	$path = $this->name . '/views/' . $themeType . '/' . $name . '.php';
-	//if(is_file(PROFILE_PATH.$path)) require(PROFILE_PATH.$path);
-	//else require('modules/'.$path);
+	$path = $this->name . '/views/' . $device . '/' . $name . '.php';
 	include($path);
 	return ob_get_clean();
     }
@@ -296,7 +259,6 @@ class module {
 	    if (is_file('modules/' . $this->name . '/model/' . $entity . '.' . \app::$config['dev']['serialization'])) {
 		if (!class_exists($this->name . '\\model\\' . $entity))
 		    include ('modules/' . $this->name . '/model/' . $entity . '.php');
-
 		$this->model[$entity] = \tools::unserialize('modules/' . $this->name . '/model/' . $entity);
 		return $this->model[$entity];
 	    } else {
@@ -311,8 +273,8 @@ class module {
      */
     public function getThemes() {
 	$themes = array();
-	$themesModules = glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR);
-        $themesProfiles = glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR); 
+	$themesModules = glob('modules/' . $this->name . '/themes/*', GLOB_ONLYDIR); // for themes by default
+        $themesProfiles = glob(PROFILE_PATH . $this->name . '/themes/*', GLOB_ONLYDIR); // for themes created by user
         $themelist = array_merge((is_array($themesModules) ? $themesModules : array()), (is_array($themesProfiles) ? $themesProfiles : array()));
         foreach ($themelist as $filename) {
 	    $themeName = basename($filename);
@@ -326,7 +288,7 @@ class module {
      * @return bool
      */
     public function save() {
-	return \tools::file_put_contents(PROFILE_PATH . $this->name . '/module.obj', serialize($this));
+        return \tools::serialize(PROFILE_PATH . $this->name . '/module',$this);
     }
 
     /**
@@ -362,89 +324,41 @@ class module {
     }
 
     /**
-     * Controller of GET Request
+     * Controller of HTTP Request: GET,POST,PUT,DELETE
      * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
+     * @param string $httpMethod
      * @return page|false
      */
-    public function controller($url) {
-	if (method_exists($this, $url . 'Action')) {
-	    $class = new \ReflectionClass($this);
-	    $method = $class->getMethod($url . 'Action');
-	    $params = array();
-	    foreach ($method->getParameters() as $i => $param) {
-		$name = $param->getName();
-		$value = app::$request->getParam($name);
-		if ($value !== FALSE) {
-		    $params[] = $value;
-		} elseif ($param->isDefaultValueAvailable()) {
-		    $params[] = $param->getDefaultValue();
-		}
-	    }
-	    return (string) app::$response->setContent(call_user_func_array(array($this, $url . 'Action'), $params));
-	}
-       
-	foreach ($this->pages AS $index => $regex) {
-	    if (preg_match($regex, $url, $_GET)) {
-		app::$request->setParams($_GET);
-		$page = $this->getPage($index);
-		if($page->getRights($_SESSION['id_role']) & DISPLAY)
-		    return app::$response->setContent($page, 200);
-	    }
-	}
+    public function controller($url, $httpMethod = 'GET') {
+        if (!method_exists($this, $url . $httpMethod . 'Action')) {
+            $httpMethod = '';
+        }
+        $methodName = $url . $httpMethod . 'Action';
+        if (method_exists($this, $methodName)) {
+            $class = new \ReflectionClass($this);
+            $method = $class->getMethod($methodName);
+            $params = array();
+            foreach ($method->getParameters() as $param) {
+                $name = $param->getName();
+                $value = app::$request->getParam($name);
+                if ($value !== FALSE) {
+                    $params[] = $value;
+                } elseif ($param->isDefaultValueAvailable()) {
+                    $params[] = $param->getDefaultValue();
+                }
+            }
+            return (string) app::$response->setContent(call_user_func_array(array($this, $methodName), $params));
+        }
+        foreach ($this->pages AS $index => $regex) {
+            if (preg_match($regex, $url, $_GET)) {
+                app::$request->setParams($_GET);
+                $page = $this->getPage($index);
+                if($page->getRights($_SESSION['id_role']) & DISPLAY)
+                    return app::$response->setContent($page, 200);
+            }
+        }
 	return FALSE;
     }
-
-    /**
-     * Controller of GET Request
-     * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
-     * @return page|false
-     */
-    public function controllerGET($url) {
-	return $this->controller($url);
-    }
-
-    /**
-     * Controller of POST Request, redirect to controllerGET but we can overridde it in  a child module
-     * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
-     * @return page|false
-     */
-    public function controllerPOST($url) {
-	return $this->controller($url);
-    }
-
-    /**
-     * Controller of PUT Request, redirect to controllerGET but we can overridde it in  a child module
-     * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
-     * @return page|false
-     */
-    public function controllerPUT($url) {
-	return $this->controller($url);
-    }
-
-    /**
-     * Controller of DELETE Request, redirect to controllerGET but we can overridde it in  a child module
-     * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
-     * @return page|false
-     */
-    public function controllerDELETE($url) {
-	return $this->controller($url);
-    }
-
-    /**
-     * Controller of GET Request
-     * @param string $url , by default http://mysite.com/mymodule/ --> onepage.html <--
-     * @return page|false
-     */
-    /* public function __call($name, $arguments) {
-      foreach ($this->pages AS $index => $regex) {
-      if (preg_match($regex, $url, $_GET)) {
-      $page = $this->getPage($index);
-      //if(isset($_SESSION['idr']) && ($_SESSION['id_role'] == 1 || $page->getRights($_SESSION['id_role']) & DISPLAY))
-      return $page;
-      }
-      }
-      return FALSE;
-      } */
 
     /**
      * Add a Page to the module
@@ -499,7 +413,7 @@ class module {
 	$config = array();
 	include($this->name . '/config.php');
 	$config = array_intersect_key(\app::$config, $config);
-	return $configObj->saveConfig($config);
+	$configObj->saveConfig($config);
     }
 
     /**
@@ -507,7 +421,7 @@ class module {
      * @param string $role
      * @return integer $rights
      */
-    public function updateRights($role, $rights) {
+    public function setRights($role, $rights) {
 	$this->rights[$role] = $rights;
     }
 
@@ -552,14 +466,14 @@ class module {
 	    include('modules/' . $name . '/module.php');
 	    $name2 = $name . '\\' . $name;
 	    $mod = new $name2();
-            $mod->updateRights('1','1');
-            $mod->updateRights($_SESSION['id_role'],'1');
-	    $page = new \page('1', $name);
+            $mod->setRights(1, 1);
+            $mod->setRights($_SESSION['id_role'], 1);
+	    $page = new \page(1, $name);
 	    $page->setModule($name);
 	    $page->setTitle('Index ' . $name);
 	    $page->setRegex('@^index$@');
-	    $page->updateRights('1','1');
-            $mod->updateRights($_SESSION['id_role'],'1');
+	    $page->setRights(1, 1);
+            $mod->setRights($_SESSION['id_role'], 1);
 	    $mod->addPage($page);
 	    $mod->save();
 	    if (PROFILE == 'www')

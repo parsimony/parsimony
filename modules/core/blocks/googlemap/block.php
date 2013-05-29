@@ -49,13 +49,14 @@ class googlemap extends \block {
             
             
     }
-     public function init() {
-            $this->setConfig('adress', '19 chemin de la loge');
-            $this->setConfig('town', 'Toulouse');
-            $this->setConfig('country', 'France');
-            $this->setConfig('language', 'fr');
-            $this->setConfig('view', 'm');
-            $this->setConfig('zoom', '15');  
+     public function __construct($id) {
+        parent::__construct($id);
+        $this->setConfig('adress', '19 chemin de la loge');
+        $this->setConfig('town', 'Toulouse');
+        $this->setConfig('country', 'France');
+        $this->setConfig('language', 'fr');
+        $this->setConfig('view', 'm');
+        $this->setConfig('zoom', '15');  
     }
 
 

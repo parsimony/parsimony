@@ -46,7 +46,8 @@ class gallery extends \block {
         $this->setConfig('height', $_POST['height']);
     }
 
-    public function init() {
+    public function __construct($id) {
+        parent::__construct($id);
         $img =  array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
         $this->setConfig('img', $img);
         $this->setConfig('width', '500');

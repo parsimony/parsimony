@@ -36,30 +36,28 @@ namespace core\classes;
 class config implements \arrayaccess {
 
     /** @var string path of file */
-    private $file;
+    protected $file;
     
     /** @var string content of file */
-    private $content;
+    protected $content;
 
     /** @var array of config */
-    private $config = array();
+    protected $config = array();
 
     /** @var string name of the array to process (by default array name is 'config') */
-    private $variable = 'config';
+    protected $variable = 'config';
 
     /**
      * Initialize configs
      * @param string $file 
      * @param string optional $update 
      */
-    public function __construct($file, $update=FALSE) {
+    public function __construct($file, $update = FALSE) {
         $this->file = $file;
-        if ($update) {
-            if ($update && is_file($this->file))
-                $this->content = file_get_contents($this->file);
-            else
-                $this->content = '<?php' . PHP_EOL;
-        }
+        if ($update !== FALSE && is_file($this->file))
+            $this->content = file_get_contents($this->file);
+        else
+            $this->content = '<?php' . PHP_EOL;
     }
 
     /**
@@ -71,7 +69,7 @@ class config implements \arrayaccess {
         $confs = $this->saveConfigRecursive($setConfigs, '', $configs);
         foreach ($confs as $key => $value) {
             trim($value);
-            if ($value == 'removeThis')
+            if ($value === 'removeThis')
                 $this->remove($key);
             elseif (preg_match('@' . preg_quote($key, '@') . '.?=.*;@Ui', $this->content))
                 $this->update($key, $value);
@@ -124,7 +122,7 @@ class config implements \arrayaccess {
      */
     public function add($key, $value) {
         $this->content = trim($this->content);
-        if (substr($this->content, -2) == '?>')
+        if (substr($this->content, -2) === '?>')
             $this->content = substr($this->content, 0, -2);
         $this->content = trim($this->content) . PHP_EOL . $key . ' = \'' . addcslashes($value, "'") . '\';';
     }

@@ -55,16 +55,20 @@ class admin extends \module {
      * @param string $action
      * @return false 
      */
-    public function controllerPOST($action) {
-	$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel');
-	if ($_SESSION['behavior'] == 0 || ( $_SESSION['behavior'] == 1  && in_array($action, $justForCreators)))
-	    return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
-	if (!empty($action)) {
-	    $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-	    $this->module = \app::getModule(MODULE);
-	    if(isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) $this->page = $this->module->getPage($_POST['IDPage']);
-	    return $this->controller($action);
-	}
+    public function controller($action, $httpMethod = 'GET') {
+        if($httpMethod === 'POST'){
+            $justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel');
+            if ($_SESSION['behavior'] == 0 || ( $_SESSION['behavior'] == 1  && in_array($action, $justForCreators)))
+                return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
+            if (!empty($action)) {
+                $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
+                $this->module = \app::getModule(MODULE);
+                if(isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) $this->page = $this->module->getPage($_POST['IDPage']);
+                return parent::controller($action, 'POST');
+            }
+        }else{
+            parent::controller($action, $httpMethod);
+        }
     }
 
     /**
@@ -95,13 +99,13 @@ class admin extends \module {
      * @param string $id
      * @return bool 
      */
-    private function checkIfIdExists($id,$themetype = 'web') {
+    private function checkIfIdExists($id, $themetype = 'desktop') {
 	if ($this->theme->search_block($id) != NULL)
 	    return TRUE;
 	
 	foreach (\app::$config['modules']['active'] as $module => $type) {
 	    $moduleObj = \app::getModule($module);
-	    foreach ($moduleObj->getPages() as $key => $page) {
+	    foreach ($moduleObj->getPages() as $page) {
 		$block = $page->search_block($id);
 		if ($block != NULL)
 		    return TRUE;
@@ -222,7 +226,7 @@ class admin extends \module {
 	if (method_exists($block, 'saveConfigs')) {
 	    $block->saveConfigs();
 	} else {
-	    $rm = array('action', 'MODULE', 'THEME', 'THEMETYPE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles', 'save_configs');
+	    $rm = array('action', 'MODULE', 'THEME', 'THEMETYPE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles');
 	    $rm = array_flip($rm);
 	    $configs = array_diff_key($_POST, $rm);
 	    foreach ($configs AS $configName => $value) {
@@ -285,8 +289,9 @@ class admin extends \module {
      * @return string 
      */
     protected function savePageAction($module, $id_page, $title, $meta, $regex, array $URLcomponents = array()) {
+        print_r(\app::$request->getParams());
 	$moduleObj = \app::getModule($module);
-	$page = $moduleObj->getPage($id_page, $module);
+	$page = $moduleObj->getPage($id_page);
 	$page->setModule($module);
 	$page->setTitle($title);
 	$page->setMetas($meta);
@@ -331,7 +336,7 @@ class admin extends \module {
 	    $page = new \page($idPage, $module);
 	    $page->setTitle('Page '.$idPage);
 	    $page->setRegex('@^page_'.$idPage.'$@');
-	    $page->updateRights('1','1');
+	    $page->setRights('1','1');
 	    $page->save();
 	    $moduleObj->addPage($page); //modif
 	} else {
@@ -915,7 +920,7 @@ class admin extends \module {
      */
     protected function getViewUpdateFormAction($module, $entity, $id) {
 	$obj = \app::getModule($module)->getEntity($entity);
-	return $obj->where($obj->getId()->name. '=' . $id)->getViewUpdateForm(TRUE);
+	return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=' . $id)->getViewUpdateForm(TRUE));
     }
 
     /**
@@ -1068,9 +1073,9 @@ class admin extends \module {
 		foreach ($role as $moduleName => $value) {
 		    $module = \app::getModule($moduleName);
 		    if ($value == 'on')
-			$module->updateRights($numRole, 1);
+			$module->setRights($numRole, 1);
 		    else
-			$module->updateRights($numRole, 0);
+			$module->setRights($numRole, 0);
 		    $module->save();
 		}
 	    }
@@ -1091,7 +1096,7 @@ class admin extends \module {
 			    if ($right == 'delete' && $value == 'on')
 				$nb += 8;
 			}
-			$model->updateRights($numRole, $nb);
+			$model->setRights($numRole, $nb);
 			$model->save();
 		    }
 		}
@@ -1108,7 +1113,7 @@ class admin extends \module {
 			    if ($right == 'display' && $value == 'on')
 				$nb += 1;
 			}
-			$page->updateRights($numRole, $nb);
+			$page->setRights($numRole, $nb);
 			$page->save();
 		    }
 		}
@@ -1332,11 +1337,10 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
      */
     protected function actionAction() { 
         /* Init a page */
-	\app::$request->page = new \page(0, 'core');
+	\app::$request->page = new \page(99, 'core');
 	if (isset($_POST['action'])) {
-	    $content = $this->controllerPOST($_POST['action']);
-	    if (isset($_POST['popup']) && $_POST['popup'] == 'yes') {
-               
+	    $content = $this->controller($_POST['action'], 'POST');
+	    if (isset($_POST['popup']) && $_POST['popup'] === 'yes') {
 		ob_start();
 		require('modules/admin/views/desktop/popup.php');
 		return ob_get_clean();
