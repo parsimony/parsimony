@@ -268,10 +268,10 @@ class request {
         if($module->getRights($_SESSION['id_role']) == 1 || $this->module === 'core'){
             if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
                 //if Page not found
-                return app::$response->setContent('<h1>Not Found</h1>', 404);
+                return app::$response->setContent(app::getModule('core')->getView('404'), 404);
             }
         }else{
-           return app::$response->setContent('<h1>Forbidden</h1>', 403); 
+           return app::$response->setContent(app::getModule('core')->getView('403'), 403); 
         }
     }
 
