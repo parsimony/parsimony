@@ -50,7 +50,7 @@
         </thead>
         <tbody>
             <?php
-            if ($obj != FALSE) :
+            if ($obj !== FALSE) :
                 $id = $obj->getId();
                 if (is_object($id))
                     $id = $id->name;
@@ -63,7 +63,7 @@
                             if ($field->visibility & DISPLAY) :
                                 $fieldName = $field->name;
                                 $class = '';
-                                if ($fieldName == $id) {
+                                if ($fieldName === $id) {
                                     $class = ' datagrid_id';
                                 }
                                 if ($fieldName == $title) {

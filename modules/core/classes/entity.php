@@ -76,13 +76,7 @@ abstract class entity implements \Iterator {
      * @return field object | false
      */
     public function __get($name) {
-        if (isset($this->$name)) {
-            if (!isset($this->_SQL['stmt']))
-                $this->buildQuery();
-            return $this->$name;
-        } else {
-            return FALSE;
-        }
+        return $this->$name->value;
     }
 
     /**
@@ -90,14 +84,21 @@ abstract class entity implements \Iterator {
      * @param string $name
      * @param string $value
      */
-    public function __set($name, $value) {
+    public function __set($name, $value) {  
         if (isset($this->$name)) {   
             $this->$name->setValue($value);
         } else {
             $this->$name = $value;
-            //$this->$name = new \field_string('','','');
-            //$this->$name->setValue($value);
         }
+    }
+    
+    /**
+     * Get the name of a given entity
+     * @param string $name
+     * @return field object | false
+     */
+    public function __call($name, $args) {
+        return $this->$name;
     }
 
     /**
@@ -653,6 +654,18 @@ abstract class entity implements \Iterator {
      * 
      */
     public function __wakeup() {
+        /* Insert an entity reference in each field */
+        $fields = $this->getFields();
+        foreach ($fields as &$field) {
+            $field->row = $this;
+        }
+        
+        /* Determine if current user has the right to editinline */
+        $this->displayView = 'display.php';
+        if ($_SESSION['behavior'] > 0 && $this->getRights($_SESSION['id_role']) & UPDATE ) {
+            $this->displayView = 'editinline.php';
+        }
+
 	if(!isset($this->_tableName)){
 	    list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
 	    $this->_tableName = $this->_module . '_' . $this->_entityName;

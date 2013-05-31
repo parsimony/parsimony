@@ -200,7 +200,7 @@ class field {
         if(isset($fields['editInline'])) unset($fields['editInline']);
         return array_keys($fields);
     }
-
+    
     /**
      * Display view
      * Returns by default the display view of field. With editinline rights returns the editing view.
@@ -211,19 +211,12 @@ class field {
      */
     public function display() {
         $row = $this->row;
-        /*if (!isset($this->displayView)) {
-	    $this->displayView = 'display.php';
-            if ($_SESSION['behavior'] > 0 && $row->getRights($_SESSION['id_role']) & UPDATE ) {
-                \app::$request->page->addJSFile('lib/editinline.js');
-                $this->displayView = 'editinline.php';
-            }
-        }
-        if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
+        /*if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
             \app::$request->page->addJSFile('lib/editinline.js');
             $this->displayView = 'editinline.php';
         }*/
-        ob_start();$this->displayView = 'display.php';
-        include($this->getFieldPath() . '/' . $this->displayView);
+        ob_start();
+        include($this->getFieldPath() . '/' . $row->displayView);
         return ob_get_clean();
     }
     

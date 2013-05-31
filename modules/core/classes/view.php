@@ -57,6 +57,10 @@ class view implements \Iterator {
     public $displayView = array();
 
     public function __wakeup() {
+        /* 
+         * Load fields objects and inject a reference to its entity parent 
+         * Create a public property for each field that links to the field value
+         */
         foreach ($this->fields as $key => &$field) {
             extract($field);
             $name = $module.'_'.$entity;
@@ -64,7 +68,7 @@ class view implements \Iterator {
                 $this->entities[$name] = app::getModule($module)->getEntity($entity);
             }
             $field = $this->entities[$name]->getField($fieldName);
-            $this->{$key} = &$field->getValue(); // 
+            $this->{$key} = &$field->getValue();
             $field->row = $this->entities[$name];
         }
     }

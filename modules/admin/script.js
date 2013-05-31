@@ -424,7 +424,7 @@ var ParsimonyAdmin = {
         }else{
             $(".move_block, .config_destroy").show();
         }
-        if(blockTreeObj.classList.contains("container") && blockTreeObj.querySelector("#treedom_content")){
+        if(blockTreeObj && blockTreeObj.classList.contains("container") && blockTreeObj.querySelector("#treedom_content")){
             $(".config_destroy").hide();
         }
 	config_tree_selector.style.display = "block";

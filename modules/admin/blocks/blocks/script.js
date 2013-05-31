@@ -13,8 +13,8 @@ function blockAdminBlocks() {
     
     this.changeBlockPosition = function (blockType, idBlock, idNextBlock, startIdParentBlock, stopIdParentBlock, startTypeCont, stopTypeCont, action, content){
 	if(typeof startIdParentBlock == "undefined" || typeof stopIdParentBlock == "undefined"){
-	    alert(t('Error in your DOM, perhaps an HTML tag isn\'t closed.'));
-	    return false
+	    //alert(t('Error in your DOM, perhaps an HTML tag isn\'t closed.'));
+	    return false;
 	    };
 	if(idNextBlock == undefined || idNextBlock==idBlock) idNextBlock = "last";
 	var contentToAdd = '';
@@ -117,10 +117,15 @@ function blockAdminBlocks() {
 	.on('dragenter.creation','.parsiblock,.tree_selector', function(e) {
 	    if( e.originalEvent.dataTransfer.types != null){
 		e.stopImmediatePropagation();
-		//if(e.type == 'dragenter' || Math.floor ( Math.random() * 12 ) == 3) {
+                /* Check if block is trying to put in itself */
+                if(document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){
+                    return true;
+                }
 		var isContainer = false;
 		ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage" ));
-		if((this.classList.contains("block_container") && !this.classList.contains("tree_selector")) || this.id =='treedom_container') isContainer = true;
+		if((this.classList.contains("block_container") && !this.classList.contains("tree_selector")) || this.id =='treedom_container'){
+                    isContainer = true;
+                }
 		if(e.type == 'dragenter' || ($this.dragLastDomId != this.id ||
 		    ( $this.dragMiddlePos == 1 && (e.originalEvent.pageY > $this.dragMiddle)) ||
 		    ( $this.dragMiddlePos == 0 && (e.originalEvent.pageY < $this.dragMiddle)))){
@@ -136,7 +141,7 @@ function blockAdminBlocks() {
 			$(theBlock).before(dropInPage);
 			theBlockTree.parentNode.insertBefore(document.getElementById( "dropInTree" ),theBlockTree);
 		    }else{
-                        if(!$this.isAddBlock && theBlock.nextElementSibling.id == ParsimonyAdmin.inProgress) return true;
+                        if(!$this.isAddBlock && theBlock.nextElementSibling && theBlock.nextElementSibling.id == ParsimonyAdmin.inProgress) return true;
 			$this.dragMiddlePos = 0;
 			if(theBlock.classList.contains("block_container") && $(theBlock).children(".dropInContainer").length > 0){
 			    if(!$this.isAddBlock && theBlock.id == ParsimonyAdmin.inProgress) return true;

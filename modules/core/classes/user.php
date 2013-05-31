@@ -95,7 +95,7 @@ class user {
      * @return bool
      */
     public static function authentication($login, $password) {
-        if (\app::getModule('core')->getEntity('user')->pseudo->validate($login) === FALSE || \app::getModule('core')->getEntity('user')->pass->validate($password) === FALSE) {
+        if (\app::getModule('core')->getEntity('user')->pseudo()->validate($login) === FALSE || \app::getModule('core')->getEntity('user')->pass()->validate($password) === FALSE) {
             return FALSE;
         } else {
             $sth = PDOconnection::getDB()->prepare('SELECT pseudo, pass, id_user, '.PREFIX.'core_role.id_role, '.PREFIX.'core_role.state FROM '.PREFIX.'core_user INNER JOIN '.PREFIX.'core_role ON '.PREFIX.'core_user.id_role = '.PREFIX.'core_role.id_role WHERE pseudo = :pseudo AND '.PREFIX.'core_user.state = 1');

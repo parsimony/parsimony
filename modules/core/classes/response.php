@@ -99,7 +99,8 @@ class response {
                 else
                     $this->body = $body->display();
                    
-                if ($_SESSION['behavior'] > 0 && !\app::$request->getParam('popup')){
+                if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
+                    \app::$request->page->addJSFile('lib/editinline.js');
                     $timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
                     $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
                 }
@@ -146,7 +147,7 @@ class response {
      * @param string $format
      */
     public function setFormat($format) {
-        if (isset(app::$mimeTypes[$this->format]))
+        if (isset(app::$mimeTypes[$format]))
             $this->format = $format;
         else
             throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));

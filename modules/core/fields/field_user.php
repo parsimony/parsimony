@@ -75,11 +75,11 @@ class field_user extends \field {
     }
     
     public function setValue($value) {
-        if(isset($_SESSION['id_user']) && $_SESSION['id_user'] ==  $value){
+        /*if(isset($_SESSION['id_user']) && $_SESSION['id_user'] ==  $value){
             $this->row->isAuthor = TRUE;
         }else{
             $this->row->isAuthor = FALSE;
-        }
+        }*/
         $this->value = $value;
     }
 
