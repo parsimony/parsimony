@@ -455,7 +455,7 @@ class view implements \Iterator {
      */
     public function __sleep() {
         foreach ($this->fields as $key => $field) {
-            $this->fields[$key] = array('module' => $field->module, 'entity' => $field->entity, 'fieldName' => $field->name);
+            if(is_object($field)) $this->fields[$key] = array('module' => $field->module, 'entity' => $field->entity, 'fieldName' => $field->name);
         }
         unset($this->SQL['entities']);
         unset($this->SQL['displayView']);

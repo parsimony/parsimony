@@ -394,7 +394,7 @@ var ParsimonyAdmin = {
 	$("#" + idBlock,ParsimonyAdmin.currentBody ).trigger("click");
     },
     moveMyBlock :   function (idBlock, idBlockAfter){
-	if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
+	if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("block_container")){
 	    $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after( $("#" + idBlock,ParsimonyAdmin.currentBody) );
 	    ParsimonyAdmin.returnToShelter();
 	}else {
@@ -417,8 +417,16 @@ var ParsimonyAdmin = {
 	block && block.classList.add("selection-block");
 	if(blockTreeObj) blockTreeObj.classList.add("currentDOM");
         
-	if(idBlock == "container" || idBlock == "content") $(".restrict").hide();
-	else $(".restrict").show();
+	if(idBlock == "container"){
+            $(".move_block, .config_destroy").hide();
+        }else if(idBlock == "content"){
+            $(".config_destroy").hide();
+        }else{
+            $(".move_block, .config_destroy").show();
+        }
+        if(blockTreeObj.classList.contains("container") && blockTreeObj.querySelector("#treedom_content")){
+            $(".config_destroy").hide();
+        }
 	config_tree_selector.style.display = "block";
 	if(blockTreeObj) blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
         

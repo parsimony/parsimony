@@ -37,10 +37,10 @@ app::$request->page->addJSFile('admin/blocks/tree/script.js','footer');
     </fieldset>
 </div>  
 <div id="config_tree_selector" class="none">
-    <span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4 restrict"></span>
+    <span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
     <span class="floatleft ui-icon ui-icon-wrench action" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration', FALSE); ?>"></span>
     <span class="ui-icon ui-icon-pencil cssblock floatleft" data-action="onDesign"></span>
-    <span class="ui-icon ui-icon-trash config_destroy floatleft restrict" data-action="onDelete"></span>
+    <span class="ui-icon ui-icon-trash config_destroy floatleft" data-action="onDelete"></span>
 </div>
 <div id="tree"> 
     <?php

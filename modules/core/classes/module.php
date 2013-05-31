@@ -242,8 +242,7 @@ class module {
     public function getView($name, $device = FALSE) {
 	$device = ($device !== FALSE) ? $device : THEMETYPE;
 	ob_start();
-	$path = $this->name . '/views/' . $device . '/' . $name . '.php';
-	include($path);
+	include($this->name . '/views/' . $device . '/' . $name . '.php');
 	return ob_get_clean();
     }
 

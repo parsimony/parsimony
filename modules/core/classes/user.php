@@ -103,11 +103,11 @@ class user {
             $obj = $sth->fetch();
             if (is_array($obj)) {
                 $mdp = $obj['pass'];
-                if ((string) $mdp == \sha1($password.\app::$config['security']['salt'])) {
+                if ((string) $mdp === \sha1($password.\app::$config['security']['salt'])) {
                     $_SESSION['login'] = $login;
-                    $_SESSION['id_user'] = $obj['id_user'];
-                    $_SESSION['id_role'] = $obj['id_role'];
-                    $_SESSION['behavior'] = $obj['state'];
+                    $_SESSION['id_user'] = (int)$obj['id_user'];
+                    $_SESSION['id_role'] = (int)$obj['id_role'];
+                    $_SESSION['behavior'] = (int)$obj['state'];
                     return TRUE;
                 } else {
                     return FALSE;

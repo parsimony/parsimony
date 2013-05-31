@@ -97,7 +97,7 @@ namespace core\classes {
                     $this->launchActiveModules();
                    
                     /* Init request and response */
-                    self::$request = new request();
+                    self::$request = new request($_GET['parsiurl']);
                     self::$response = new response();
 
                     /* Dispatch Request and display response */

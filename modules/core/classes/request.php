@@ -58,8 +58,14 @@ class request {
 
     /** @var string device */
     protected $device;
-
-    public function __construct() {
+    
+    /**
+     * Init a new request
+     * @param string $url
+     */
+    public function __construct($URL) {
+        
+        $this->URL = $URL;
         
         /* Determine HTTP request */
 	$this->initMethod($_SERVER['REQUEST_METHOD']);
@@ -79,13 +85,13 @@ class request {
 	/* MODULE : search module */
 	$this->determineModule();
 
-	if (!$this->determineToken()) { /* If we don't have a Token */
+	if ($this->determineToken() === FALSE) { /* If we don't have a Token */
 
 	    /* Determine device where we are */
 	    $this->determineDevice();
-
+            
 	    /* Define THEME */	    
-            if(isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+            if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
                 define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
                 define('THEME', $_COOKIE['THEME']);
 	    }else{
@@ -209,7 +215,7 @@ class request {
             $_COOKIE['device'] = \app::$config['devices']['defaultDevice'];
             if(count(\app::$devices) > 1){
                 foreach (\app::$devices AS $device) {
-                    if ($device['detectFnc']() == TRUE) {
+                    if ($device['detectFnc']() === TRUE) {
                         $_COOKIE['device'] = $device['name'];
                         break;
                     }
@@ -223,9 +229,9 @@ class request {
      * Determine Module
      */
     protected function determineModule() {
-	if (empty($_GET['parsiurl']))
-	    $_GET['parsiurl'] = 'index';
-	$this->URL = explode('/', $_GET['parsiurl'], 2);
+	if (empty($this->URL))
+	    $this->URL = 'index';
+	$this->URL = explode('/', $this->URL, 2);
 	if (isset(\app::$config['modules']['active'][$this->URL[0]])) {
 	    $this->module = $this->URL[0];
 	    if (isset($this->URL[1]))
@@ -248,14 +254,15 @@ class request {
      */
     protected function createNewToken() {
 	$module = app::getModule($this->module);
-	define('MODULE', $module->getName());
-	if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$module->getName()])) {
-	    $token = sha1(THEMETYPE . THEMEMODULE . THEME . $module->getName() . \app::$config['security']['salt'] . time()); // change salt
-	    $_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $module->getName());
-	    $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$module->getName()] = $token;
+        $moduleName = $module->getName();
+	define('MODULE', $moduleName);
+	if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName])) {
+	    $token = sha1(THEMETYPE . THEMEMODULE . THEME . $moduleName . \app::$config['security']['salt'] . time()); // change salt
+	    $_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $moduleName);
+	    $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName] = $token;
 	    define('TOKEN', $token);
 	} else {
-	    define('TOKEN', $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$module->getName()]);
+	    define('TOKEN', $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName]);
 	}
     }
 
@@ -265,7 +272,7 @@ class request {
      */
     public function dispatch() {
         $module = app::getModule($this->module);
-        if($module->getRights($_SESSION['id_role']) == 1 || $this->module === 'core'){
+        if($module->getRights($_SESSION['id_role']) === 1 || $this->module === 'core'){
             if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
                 //if Page not found
                 return app::$response->setContent(app::getModule('core')->getView('404', 'desktop'), 404);
@@ -279,8 +286,8 @@ class request {
      * Determine Role & permissions
      */
     protected function determineRole() {
-	if (\app::getClass('user')->VerifyConnexion() &&
-		( empty(app::$config['secURLty']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['secURLty']['allowedipadmin']))) {
+	if (\app::getClass('user')->VerifyConnexion() === TRUE &&
+		( empty(app::$config['security']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['security']['allowedipadmin']))) {
             
             /* Mainly to use in query block */
             $this->setParams(array('id_user' => $_SESSION['id_user'],
@@ -292,7 +299,7 @@ class request {
                 /* Add admin module */
                 \app::$config['modules']['active']['admin'] = 1;
                 /* If user is a creator we display errors and active admin module*/
-                if($_SESSION['behavior'] == 2){
+                if($_SESSION['behavior'] === 2){
                     error_reporting(-1);
                     ini_set('display_errors', 1);
                     set_error_handler('\core\classes\app::errorHandler');
@@ -319,7 +326,7 @@ class request {
         
         /* Regardless of the method (POST, PUT, DELETE), GET method is always treated ! */
         array_walk_recursive($_GET, function(&$v, &$k) {
-            $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+            $v = str_replace(chr(0), '', $v);
         });
 	$this->params = $_GET;
         
@@ -327,21 +334,21 @@ class request {
             switch ($method) {
                 case 'POST':
                     array_walk_recursive($_POST, function(&$v, &$k) {
-                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                        $v = str_replace(chr(0), '', $v);
                     });
                     $this->params = array_merge($this->params, $_POST);
                     break;
                 case 'PUT':
                     parse_str(file_get_contents("php://input"), $_PUT);
                     array_walk_recursive($_PUT, function(&$v, &$k) {
-                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                        $v = str_replace(chr(0), '', $v);
                     });
                     $this->params = array_merge($this->params, $_PUT);
                     break;
                 case 'DELETE':
                     parse_str(file_get_contents("php://input"), $_DELETE);
                     array_walk_recursive($_DELETE, function(&$v, &$k) {
-                        $v = filter_var(str_replace(chr(0), '', $v), FILTER_UNSAFE_RAW);
+                        $v = str_replace(chr(0), '', $v);
                     });
                     $this->params = array_merge($this->params, $_DELETE);
                     break;

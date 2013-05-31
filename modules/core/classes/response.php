@@ -79,9 +79,9 @@ class response {
      * Send content to client
      * @param mixed $body optional
      */
-    public function setContent($body = '',$status = FALSE) {
+    public function setContent($body = '', $status = FALSE) {
 	if($status !== FALSE) $this->setStatus($status);
-        if (is_object($body) && get_class($body) == 'core\classes\page') {
+        if (is_object($body) && get_class($body) == 'core\classes\page') { /* If it's a page object */
 
             app::$request->page = $body;
             
@@ -94,7 +94,7 @@ class response {
                 $adm = new \admin\blocks\toolbar("admintoolbar");
                 $this->body = $adm->display();
             } else {
-                if ($structure)
+                if ($structure === TRUE)
                     $this->body = $this->theme->display();
                 else
                     $this->body = $body->display();
@@ -104,18 +104,13 @@ class response {
                     $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
                 }
             }
-	    if ($structure){
+	    if ($structure === TRUE){
                 $view = 'core/views/desktop/index.php';
                 if(stream_resolve_include_path('core/views/'.THEMETYPE.'/index.php')) $view = 'core/views/'.THEMETYPE.'/index.php';
 		ob_start();
 		include($view);
 		$this->body = ob_get_clean();
 	    }
-		
-//            @todo compact HTML
-//            $search = array('/\>[^\S ]+/s', '/[^\S ]+\</s');
-//            $replace = array('>', '<');
-//            $this->body = preg_replace($search, $replace, $this->body);
         }else {
             $this->body = $body;
         }

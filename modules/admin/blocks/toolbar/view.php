@@ -148,10 +148,10 @@ echo $admin->display();
 		</a>
 		<div id="CSSProps" class="none"></div>
 	    </div>
-	    <a href="#" draggable="true" class="toolbarButton move_block restrict" style="cursor:move">
+	    <a href="#" draggable="true" class="toolbarButton move_block" style="cursor:move">
 		<span class="spanDND ui-icon-arrow-4"></span>
 	    </a>
-	    <a href="#" class="toolbarButton config_destroy restrict" data-action="onDelete">
+	    <a href="#" class="toolbarButton config_destroy" data-action="onDelete">
 		<span class="spanDND ui-icon-trash"></span>
 	    </a>
             <a href="#" style="border-right:0;border-radius: 0 3px 3px 0;" class="toolbarButton" onclick="ParsimonyAdmin.unSelectBlock();return false;">
