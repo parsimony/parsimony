@@ -114,23 +114,23 @@ echo $admin->display();
     </div>
     <datalist id="parsidatalist"></datalist>
 </div>
-<div class="align_center" style="min-height: 600px;">
-    <?php
-    if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
-	$frameUrl = $_SERVER['REQUEST_URI'];
-    else
-	$frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
-    $style = 'width: 100%; height: 100%;';
-    if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])){
-	if(isset($_COOKIE['landscape']) && $_COOKIE['landscape'] == 'landscape'){
-	    $style = 'width: '.$_COOKIE['screenY'].'px; height: '.$_COOKIE['screenX'].'px;';
-	}else{
-	    $style = 'width: '.$_COOKIE['screenX'].'px; height: '.$_COOKIE['screenY'].'px;';
-	}
+
+<?php
+if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
+    $frameUrl = $_SERVER['REQUEST_URI'];
+else
+    $frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
+$style = 'width: 100%; height: 100%;';
+if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])){
+    if(isset($_COOKIE['landscape']) && $_COOKIE['landscape'] == 'landscape'){
+        $style = 'width: '.$_COOKIE['screenY'].'px; height: '.$_COOKIE['screenX'].'px;';
+    }else{
+        $style = 'width: '.$_COOKIE['screenX'].'px; height: '.$_COOKIE['screenY'].'px;';
     }
-    ?>
-    <iframe id="parsiframe" src="<?php echo $frameUrl; ?>" align="middle" style="<?php echo $style; ?>"></iframe>
-</div>
+}
+?>
+<iframe id="parsiframe" src="<?php echo $frameUrl; ?>" style="<?php echo $style; ?>"></iframe>
+
 
 <div id="overlays">
     <div id="blockOverlay"></div>

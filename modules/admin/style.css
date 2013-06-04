@@ -14,7 +14,7 @@
 .ellipsis {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}  
 
 body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
-#admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;
+#admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;text-align: center;
 	      -moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 ul{list-style: none;padding:0;margin:0;}
 /*############## SideBars ################# */
@@ -57,6 +57,7 @@ float: left;width: 50%;padding: 3px;cursor: pointer;border: 1px solid #999;text-
 .ssTab:first-child, .ssTabCSS:first-child{border-radius: 4px 0 0 4px;border-right:0 !important;}
 .ssTab:last-child, .ssTabCSS:last-child{border-radius: 0 4px 4px 0;}
 #admintoolbar ul.models,#admintoolbar ul.pages{padding: 5px;background: #f9f9f9;}
+#admin{text-align: left;}
 
 /* Preview frame */
 #parsiframe{background-color: white;margin-top: 35px !important;width: 850px;height: 650px;
@@ -394,9 +395,6 @@ text-shadow: white 0 1px 0;}
 #conf_box_close{margin-right: 13px;}
 #conf_box_close:hover, #conf_box_wpopup:hover{border: #5E9AE2 solid 1px;}
 #conf_box_content_iframe{width: 100%;height: 100%;}
-/*@-moz-document url-prefix() {
-    #conf_box_content_iframe{max-width: 100%;max-height: 650px;}
-}*/
 #dialog{background: #EEE url(admin/img/concrete_wall_3.png);}
 
 /* Blocks droppables */
