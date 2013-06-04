@@ -70,6 +70,21 @@
     .ui-state-highlight{border:#ccc 61px solid;float:left;height:52px;}
     #container > div:hover .ui-icon-closethick{display:block}
     .ui-icon-closethick{background-color: #F9F9F9;}
+    .robots{margin: 1px 0;}
+    .robots tr{background: white;}
+    .robots td{
+padding: 5px 2px 5px 15px;
+color: #444;
+font-size: 12px;
+text-align: left !important;
+line-height: 22px;}
+    .robots .opt{padding: 5px 2px 5px 15px;
+text-align: center !important;}
+th, td {
+height: 23px;
+width: 87px;
+}
+
 </style>
     <div class="adminzone" id="adminformpage">
 
@@ -340,11 +355,22 @@
                     <div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords', FALSE); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
                     <div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
                     <div class="placeholder">
-			<label><?php echo t('Robots', FALSE); ?></label>
+			<label style="border-bottom: 1px solid #C1C1C1;"><?php echo t('Robots', FALSE); ?></label>
 			<input type="hidden" name="meta[robots]" id="SEOrobots" value="<?php echo s($page->getMeta('robots')); ?>" /><br><br>
-			<div>No index : <input type="checkbox" class="robotsOptions" data-option="noindex" <?php if(strstr($page->getMeta('robots'), 'noindex')) echo ' checked="checked"'; ?> />
-			No follow : <input type="checkbox" class="robotsOptions" data-option="nofollow" <?php if(strstr($page->getMeta('robots'), 'nofollow')) echo ' checked="checked"'; ?> />
-			No archive : <input type="checkbox" class="robotsOptions" data-option="noarchive" <?php if(strstr($page->getMeta('robots'), 'noarchive')) echo ' checked="checked"'; ?> /></div>
+                        <table class="robots">
+                            <tbody>
+                            <tr>
+                                <td><?php echo t('No index', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noindex" <?php if(strstr($page->getMeta('robots'), 'noindex')) echo ' checked="checked"'; ?> /></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo t('No follow', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="nofollow" <?php if(strstr($page->getMeta('robots'), 'nofollow')) echo ' checked="checked"'; ?> /></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo t('No archive', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noarchive" <?php if(strstr($page->getMeta('robots'), 'noarchive')) echo ' checked="checked"'; ?> /></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        
 		    </div>
                 </div>
                 <input class="none" type="submit" id="sendFormPage">
