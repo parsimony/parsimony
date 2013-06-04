@@ -640,7 +640,7 @@ class admin extends \module {
      */
     protected function explorerAction() {
         /* Init a page */
-	\app::$request->page = new \page(0, 'core');
+	\app::$request->page = new \page(9999, 'blog');
 	return $this->getView('explorer','desktop');
     }
     
