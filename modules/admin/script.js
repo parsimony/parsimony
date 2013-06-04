@@ -60,7 +60,7 @@ var ParsimonyAdmin = {
 	    var action = $("#conf_box_form input[name=action]").val();
 	    $("#conf_box_form").attr('target','conf_box_content_popup' + action);
 	    ParsimonyAdmin.closeConfBox();
-	    window.open ($("#conf_box_content_iframe").attr('src'),'conf_box_content_popup' + action,"width=" + $("#conf_box_content_iframe").width() + ",height=" + $("#conf_box_content_iframe").height());
+	    window.open ($("#conf_box_content_iframe").attr('src'),'conf_box_content_popup' + action,"width=" + $("#conf_box").width() + ",height=" + ($("#conf_box").height() - 40));
 	    $("#conf_box_form").trigger("submit").attr('target','conf_box_content_iframe');
 	});
 	
@@ -459,10 +459,9 @@ var ParsimonyAdmin = {
 	document.getElementById("conf_box_overlay").style.display = "none";
     },
     displayConfBox :   function (url,title,params,modal){
-        $("#parsimonyDND").hide();
-        $("#conf_box_load").show();
-        $("#conf_box,#conf_box_content" ).removeAttr("style");
-        $("#conf_box").css("visibility","hidden").show();
+        document.getElementById("parsimonyDND").style.display = "none";
+        document.getElementById("conf_box_load").style.display = "block";
+        document.getElementById("conf_box").classList.remove("open");
 	if(typeof modal == "undefined" || modal == true) ParsimonyAdmin.showOverlay();
 	ParsimonyAdmin.setConfBoxTitle(title);
         if(url.substring(0,1) != "#"){
@@ -476,14 +475,14 @@ var ParsimonyAdmin = {
                     }
                 }
                 $("#conf_box_form").append('<input type="hidden" name="popup" value="yes">').trigger("submit");
-                $("#conf_box_content_iframe").show();
-                $("#conf_box_content_inline").hide();
+                document.getElementById("conf_box_content_inline").style.display = "none";
+                document.getElementById("conf_box_content_iframe").style.display = "block";
             }else{
                 $("#shelter").append($("#conf_box_content_inline").html());
                 $("#conf_box_content_inline").show().append($(url));
-                $("#conf_box_content_iframe").hide();
+                document.getElementById("conf_box_content_iframe").style.display = "none";
                 $(url).show();
-                document.getElementById("conf_box").style.visibility = "visible";
+                document.getElementById("conf_box").classList.add("open");
             }
             
 	},
@@ -491,26 +490,26 @@ var ParsimonyAdmin = {
             ParsimonyAdmin.explorer = window.open(BASE_PATH + 'admin/explorer','Explorer','top=200,left=200,width=1000,height=600');
         },
         closeConfBox :   function (){
-	    $("#conf_box").hide();
+            document.getElementById("conf_box").classList.remove("open");
+            document.getElementById("conf_box").removeAttribute("style");
 	    ParsimonyAdmin.hideOverlay();
-	    $("#conf_box_title").empty();
-	    $("#conf_box_content_iframe").attr("src","about:blank");
+            document.getElementById("conf_box_title").textContent = "";
+            document.getElementById("conf_box_content_iframe").setAttribute("src","about:blank");
             
 	},
 	resizeConfBox : function(){
 	    var iframe = document.getElementById("conf_box_content_iframe");
-            iframe.removeAttribute("style");
 	    var doc = iframe.contentDocument;
             document.getElementById("conf_box_load").style.display = "none";
 	    if(doc.location.href != "about:blank"){
-                var elmt = $(".adminzone",doc)[0] || $("body",doc)[0] ;
-		var height = $(".adminzonefooter",doc).length > 0 ? ( elmt.scrollHeight + 40) : elmt.scrollHeight ;
-		iframe.style.cssText = "width:" + elmt.scrollWidth + "px;height:" + height + "px";
+                var elmt = doc.querySelector(".adminzone") || doc.body;
+		var height = doc.querySelector(".adminzonefooter") ? ( elmt.scrollHeight + 40) : elmt.scrollHeight;
+		document.getElementById("conf_box").style.cssText = "width:" + elmt.scrollWidth + "px;height:" + height + "px;";
+                document.getElementById("conf_box").classList.add("open");
 	    }
-            document.getElementById("conf_box").style.visibility = "visible";
 	},
 	setConfBoxTitle :   function (title){
-	    $("#conf_box_title").html(title);
+	    document.getElementById("conf_box_title").textContent = title;
 	},
 	returnToShelter : function () {
 	    $("#dropInPage",ParsimonyAdmin.currentBody).prependTo($("#shelter"));

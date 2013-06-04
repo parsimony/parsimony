@@ -86,7 +86,7 @@ function blockAdminBlocks() {
             $this.startDragging();
         });
 	
-        $('#conf_box_content').on('click.creation',"#dialog-ok",function(e){
+        $('#conf_box').on('click.creation',"#dialog-ok",function(e){
             e.preventDefault();
             var idBlock = $("#dialog-id").val();
 	    var obj = JSON.parse($("#dialog-id-options").val());
@@ -118,7 +118,7 @@ function blockAdminBlocks() {
 	    if( e.originalEvent.dataTransfer.types != null){
 		e.stopImmediatePropagation();
                 /* Check if block is trying to put in itself */
-                if(document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){
+                if(ParsimonyAdmin.inProgress && document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){
                     return true;
                 }
 		var isContainer = false;

@@ -83,16 +83,14 @@ echo $admin->display();
     <div style="float:left"><input type="image" src="<?php echo BASE_PATH; ?>admin/img/undo.png" id="toolbarEditModeUndo" class="tooltip toolbarEditModeCommands" data-tooltip="<?php echo t('Undo'); ?>" data-command="undo" /><input type="image" src="<?php echo BASE_PATH; ?>admin/img/redo.png" value="<?php echo t('Redo'); ?>" id="toolbarEditModeRedo" class="tooltip toolbarEditModeCommands" data-tooltip="<?php echo t('Undo'); ?>"  data-command="redo" /></div><div style="float:right"><input type="button" style="width: 140px;" value="<?php echo t('Save modifications'); ?>" id="toolbarEditModeSave" /></div>
 </div>
 <div id="admin_core">
-    <div id="conf_box_overlay">
+    <div id="conf_box_overlay" class="none">
 	<div id="conf_box_load"></div>
-	<div id="conf_box" class="none">
+	<div id="conf_box">
 	    <span id="conf_box_close" onclick="ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
 	    <span id="conf_box_wpopup" class="floatright ui-icon ui-icon-extlink"></span>
 	    <div id="conf_box_title"></div>
-	    <div id="conf_box_content">
-		<iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" style="max-height:630px;overflow: hidden"></iframe>
-		<div id="conf_box_content_inline"></div>
-	    </div> 
+            <iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" style="max-height:630px;overflow: hidden"></iframe>
+            <div id="conf_box_content_inline"></div>
 	    <form method="POST" target="conf_box_content_iframe" id="conf_box_form" action="<?php echo BASE_PATH . 'admin/action' ?>" class="none">
 		<input type="hidden" name="vars" value="" id="conf_box_form_vars" />
 	    </form>
