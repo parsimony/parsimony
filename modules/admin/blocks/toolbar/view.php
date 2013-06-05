@@ -89,7 +89,7 @@ echo $admin->display();
 	    <span id="conf_box_close" onclick="ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
 	    <span id="conf_box_wpopup" class="floatright ui-icon ui-icon-extlink"></span>
 	    <div id="conf_box_title"></div>
-            <iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" style="max-height:630px;overflow: hidden"></iframe>
+            <iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" style="overflow: hidden"></iframe>
             <div id="conf_box_content_inline"></div>
 	    <form method="POST" target="conf_box_content_iframe" id="conf_box_form" action="<?php echo BASE_PATH . 'admin/action' ?>" class="none">
 		<input type="hidden" name="vars" value="" id="conf_box_form_vars" />

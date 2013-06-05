@@ -21,7 +21,7 @@
         app::$request->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
         echo app::$request->page->printInclusions()
         ?>
-        <style>body{overflow: auto;background: white;}</style>
+        <style>body{overflow: hidden;background: white;}</style>
         <script>
             $(document).ready(function() {
                 $(".tooltip").parsimonyTooltip({triangleWidth:5});
