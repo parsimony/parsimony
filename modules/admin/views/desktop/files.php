@@ -38,7 +38,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
         $filename = str_replace('//','/',$filename); //fix
 	?>
 	<div class="explorer_file dir">
-	    <img src="<?php echo BASE_PATH ?>admin/img/dir.jpg" style="width:60%;height:60%" >
+	    <img src="<?php echo BASE_PATH ?>admin/img/dir.png">
 	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
@@ -47,9 +47,9 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	?>
 	<div class="explorer_file">
 	    <?php if (is_file('modules/admin/img/icons/file.png')): ?>
-	        <img src="<?php echo BASE_PATH ?>admin/img/icons/file.png" style="width:60%;height:60%" >
+	        <img src="<?php echo BASE_PATH ?>admin/img/icons/file.png">
 	    <?php else: ?>
-	        <img src="<?php echo BASE_PATH ?>admin/img/file.png" style="width:60%;height:60%" >
+	        <img src="<?php echo BASE_PATH ?>admin/img/file.png">
 	    <?php endif; ?>
 	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
