@@ -28,7 +28,6 @@
 ?>
 <style>
     fieldset{background: #EDEFF4;}
-    .placeholder {background-color: #cfcfcf;}
     .ui-nestedSortable-error {background:#fbe3e4;color:#8a1f11;}
     ol {margin: 0;padding: 0;padding-left: 30px;}
     ol.sortable, ol.sortable ol {margin: 0 0 0 15px;padding: 0;list-style-type: none;}

@@ -32,7 +32,7 @@
 	   margin-top: 8px;
 	   background: #EDEFF4;
 	   padding: 8px 0;}
-    label{padding-left: 10px;
+    #accordionBlockConfig label{padding-left: 10px;
 	  color: #555;
 	  text-shadow: 0px 1px 0px #ccc;
 	  font-size: 15px;
@@ -45,7 +45,7 @@
 	   text-shadow: 0px 1px 0px white;
 	   font-size: 15px;
 	   letter-spacing: 1.5px;}
-    input{width: 240px;}
+    #accordionBlockConfig input{width: 240px;}
 
 </style>
 <div class="boxes">
