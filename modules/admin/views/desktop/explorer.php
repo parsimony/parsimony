@@ -62,42 +62,57 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     #explorer > ul li{display:none;}
     #explorer .icondir{background:url(<?php echo BASE_PATH; ?>admin/img/directory.png) no-repeat;float:left;margin-right:3px;width:16px;height:16px}
     #explorer li.dir{padding-left:20px;line-height:20px;cursor:pointer;border:1 #fff solid}
-    #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {
-	border: solid 1px #b8d6fb;
-	box-shadow: inset 0 0 1px white;
-	background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
-	background: -moz-linear-gradient(top, #fafbfd, #ebf3fd);
-	background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
-    }
-    .explorer_file{position:relative;width:100px;height:100px;margin:5px;text-align:center;border:1px #ccc solid;float:left;border-radius:4px;padding-top:15px}
-    .explorer_file_name{position:absolute;line-height: 15px;bottom:2px;text-overflow: ellipsis;white-space: nowrap;width: 90px;overflow: hidden;padding: 0 5px;font-size: 13px;}
+    #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
+    background: -moz-linear-gradient(top, #fafbfd, #ebf3fd);background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));}
     #path{background: white;border-bottom: 1px solid #CCC;padding: 5px;color: #333;}
     #rightPart{display:table-cell;position: relative;/*-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/}
     #explorerfiles{min-width:465px;height:100%;overflow: hidden;}
     #explorer > li.dir{padding-left:7px }
-    #tabs li{cursor: pointer;display: inline-block;background: #E5E5E5;border-radius: 10px 10px 0 0;line-height: 12px;margin-top: 5px;border: 1px solid #D3D5DB;border-bottom: 0}
-    #tabs .active, #tabs li:hover{background:#ccc}
-    #tabs li > div{border: 1px solid #fff;;border-bottom: 0;padding: 5px 4px;border-radius: 10px 10px 0 0;color: #555;text-shadow: 1px 1px 1px #FFF;}
-    #tabs{position: absolute;width: 100%;z-index: 99;background: #f9f9f9;border-bottom: 1px solid #D3D5DB;border-top: 1px solid #D3D5DB;margin: 0;padding: 0;}
+    #tabs li {cursor: pointer;display: inline-block;margin-left : 1px;background: #BBB;line-height: 15px;height: 26px;margin-top: 5px;border-bottom: 0;}
+    #tabs li > div {border-bottom: 0;padding: 5px 4px;color: rgb(255, 255, 255);}
+    #tabs .active, #tabs li:hover {background: #F8F8F8;}
+    #tabs .active .name, #tabs li:hover .name{color :#777;}
+    #tabs {position: absolute;width: 100%;z-index: 99;border-bottom: 1px solid #D3D5DB;border-top: 1px solid #D3D5DB;margin: 0;padding: 0;}
     .panel {position: absolute;width: 100%;height: 100%;padding-top: 31px;box-sizing: border-box;}
     .CodeMirror {height: 100%;line-height: 17px;}
     #explorercontainer{position: absolute;height: 100%;width: 100%;}
-    .close{padding: 0 4px;border: 1px solid #777;border-radius: 5px;margin-left: 3px;background: #DADADA;font-size: 11px;}
-    .close:hover{color:#f5f5f5;background:#ccc}
-    
+    .close {padding: 0px 3px 1px 3px;border-radius: 5px;margin-left: 5px;background: #BBB;border: 1px solid rgb(228, 221, 221);font-size: 11px;}
+    #tabs .active .close, #tabs li:hover .close {background: #F8F8F8;border: 1px solid #777;color: #777;}
     select {text-transform: capitalize;padding-top: 2px;padding-bottom: 2px;}
     .adminzonecontent{min-width:900px}
     .CodeMirror {background: white;font-size: 13px;padding-top: 36px;box-sizing: border-box;}
     .CodeMirror-scroll {min-width: 870px;padding-right:0}
     .activeline {background: rgba(232, 242, 255, 0.33) !important;}
-    .toolbarEditor{background: #F8F8F8;padding: 5px;position: absolute;z-index: 999;box-shadow: 1px 1px 4px #BBB;width: 100%;}
+    .toolbarEditor {background: #F8F8F8;padding: 5px;position: absolute;z-index: 999;width: 100%;border-bottom: 1px solid rgb(221, 221, 221);border-top: 1px solid rgb(221, 221, 221);}
+    .toolbarEditor input[type="button"] {margin-right: 3px;}
     .subToolbarEditor{display:none;padding-top: 5px;width: 100%;text-align: right;}
     .subToolbarEditor input{height: 20px}
     .subToolbarEditor input[type="button"]{padding: 2px 12px 3px 12px;}
     .location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}
     .unsaved{font-weight:bold}
     .unsaved .name:after{ content:"*";}
-
+    .explorer_file_name {
+position: absolute;
+bottom: 2px;
+text-overflow: ellipsis;
+white-space: nowrap;
+width: 85px;
+overflow: hidden;
+padding: 0 4px;
+font-size: 13px;
+line-height: 30px;
+}
+.explorer_file {
+position: relative;
+width: 90px;
+height: 90px;
+margin: 5px;
+text-align: center;
+border: 1px #ccc solid;
+float: left;
+border-radius: 4px;
+padding-top: 10px;
+}
 </style>
 <script>
     
