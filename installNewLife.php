@@ -99,6 +99,14 @@ $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
 $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 $lang['fr']['Use a prefix ( Optional)'] = 'Utiliser un préfixe ( Optionnel)';
 
+/* Define roles */
+$_SESSION['behovior'] = 2;
+$_SESSION['id_role'] = 1;
+/* Rights */
+define('DISPLAY', 1);
+define('INSERT', 2);
+define('UPDATE', 4);
+define('DELETE', 8);
 
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
 define('BASE_PATH',preg_replace('@//+@', '/',str_replace('\\','/',dirname($_SERVER['PHP_SELF']).'/')));
@@ -283,9 +291,9 @@ while (1) {
                 $ok[] = tr('Permissions are Ok for').'  <span>"modules/"</span>';
             }
             
-            if (!file_exists('profiles/'))
-                mkdir('profiles/', 0755, TRUE);
-            if (!is_readable('profiles/') || !is_writable('profiles/')) {
+            if (!is_dir('profiles/www/modules'))
+                mkdir('profiles/www/modules', 0755, TRUE);
+            if (!is_readable('profiles/www/modules/') || !is_writable('profiles/www/modules/')) {
                 $high[] = tr('Set read/write permissions on').' <span>"profiles/"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
                 $ok[] = tr('Permissions are Ok for').'  <span>"profiles/"</span>';
