@@ -66,6 +66,7 @@ class view implements \Iterator {
             $name = $module.'_'.$entity;
             if(!isset($this->entities[$name])){
                 $this->entities[$name] = app::getModule($module)->getEntity($entity);
+                $this->entities[$name]->prepareFieldsForDisplay();
             }
             $field = $this->entities[$name]->getField($fieldName);
             $this->{$key} = &$field->getValue();

@@ -77,8 +77,14 @@ class field {
     /** @var string visibility */
     protected $visibility;
     
+    /** @var string visibility */
+    protected $rights;
+    
     /** @var object of the container */
     public $row = "";
+    
+    /** @var object of the container */
+    public $views = array();
 
     /**
      * Build field
@@ -174,17 +180,6 @@ class field {
     }
 
     /**
-     * Get field path
-     * @return string
-     */
-    public function getFieldPath() {
-        if (!isset($this->fieldPath)) {
-            $this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
-        }
-        return $this->fieldPath;
-    }
-
-    /**
      * Convert into String
      * @return string
      */
@@ -195,7 +190,8 @@ class field {
     
     public function __sleep() {
         $fields = get_object_vars($this);
-        unset($fields['displayView']);
+        unset($fields['views']);
+        unset($fields['row']);
         unset($fields['hasUpdateRight']);
         if(isset($fields['editInline'])) unset($fields['editInline']);
         return array_keys($fields);
@@ -211,12 +207,8 @@ class field {
      */
     public function display() {
         $row = $this->row;
-        /*if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
-            \app::$request->page->addJSFile('lib/editinline.js');
-            $this->displayView = 'editinline.php';
-        }*/
         ob_start();
-        include($this->getFieldPath() . '/' . $row->displayView);
+        include($this->views['display']);
         return ob_get_clean();
     }
     
@@ -227,6 +219,10 @@ class field {
      * @return string
      */
     public function displayEditInline(&$row = '', $authorID = FALSE) {
+        /*if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
+            \app::$request->page->addJSFile('lib/editinline.js');
+            $this->displayView = 'editinline.php';
+        }*/
         ob_start();
         $idName = $row->getId()->name;
         /*$authorName = $row->getBehaviorAuthor()->name;*/
@@ -238,7 +234,7 @@ class field {
             }
         }
 	
-        include($this->getFieldPath() . '/' . $this->displayView);
+        include($this->views['fieldPath'] . '/' . $this->displayView);
         return ob_get_clean();
     }
     
@@ -277,7 +273,7 @@ class field {
      */
     public function displayGrid() {
         ob_start();
-        include($this->getFieldPath() . '/grid.php');
+        include($this->views['grid']);
         return ob_get_clean();
     }
 
@@ -287,7 +283,7 @@ class field {
      */
     public function displayFilter() {
         ob_start();
-        include($this->getFieldPath() . '/form_filter.php');
+        include($this->views['fieldPath'] . '/form_filter.php');
         return ob_get_clean();
     }
     
@@ -306,7 +302,7 @@ class field {
 	?>
 	<div class="field placeholder">
 	<?php
-        include($this->getFieldPath() . '/form.php');
+        include($this->views['fieldPath'] . '/form.php');
 	?>
 	</div>
 	<?php
@@ -418,6 +414,53 @@ class field {
      */
     public function getColumns() {
         return array($this->name);
+    }
+    
+    
+    /**
+     * Update Rights
+     * @param string $role
+     * @param integer $rights
+     */
+    public function setRights($role, $rights) {
+        /* We remove role entry if the role has the maximum of rights ( 7 = DISPLAY:1 + INSERT:2 + UPDATE:4 ) #performance */
+        if($rights === 7){
+            if(isset($this->rights[$role])){
+                unset($this->rights[$role]);
+            }
+        }else{
+            $this->rights[$role] = $rights;
+        }
+    }
+
+    /**
+     * Get Rights
+     * @param string $role
+     * @return integer
+     */
+    public function getRights($role) {
+        if (isset($this->rights[$role]))
+            return $this->rights[$role];
+        return 7;
+    }
+    
+    /**
+     * Get all Rights
+     * @param string $role
+     * @return string
+     */
+    public function getAllRights() {
+            return $this->rights;
+    }
+    
+    /**
+     * Set all Rights
+     * @param array $rights
+     */
+    public function setAllRights(array $rights) {
+        foreach ($rights as $id_role => $right) {
+            $this->setRights($id_role, $right);
+        }
     }
 
 }

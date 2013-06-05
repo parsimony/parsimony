@@ -640,7 +640,7 @@ class admin extends \module {
      */
     protected function explorerAction() {
         /* Init a page */
-	\app::$request->page = new \page(9999, '');
+	\app::$request->page = new \page(999);
 	return $this->getView('explorer','desktop');
     }
     
@@ -1058,67 +1058,73 @@ class admin extends \module {
 
     /**
      * Save rights
-     * @param string $modulerights
-     * @param string $pagesrights
+     * @param array $type
+     * @param array $modulerights
+     * @param array $modelsrights
+     * @param array $pagesrights
      * @return string 
      */
-    protected function saveRightsAction($type, $modelsrights, $modulerights, $pagesrights) {
-        if (is_array($type)) {
+    protected function saveRightsAction($type, $modulerights = array(), $modelsrights = array(), $pagesrights = array()) {
+        
+        /* Save behavior for roles */
+        if (!empty($type)) {
 	    foreach ($type as $numRole => $role) {
 		\app::getModule('core')->getEntity('role')->where('id_role = '.$numRole)->update(array('id_role' => $numRole, 'state' => $role ));
 	    }
 	}
-	if (is_array($modulerights)) {
-	    foreach ($modulerights as $numRole => $role) {
-		foreach ($role as $moduleName => $value) {
-		    $module = \app::getModule($moduleName);
-		    if ($value == 'on')
-			$module->setRights($numRole, 1);
-		    else
-			$module->setRights($numRole, 0);
-		    $module->save();
-		}
-	    }
+        
+        $roles = array_keys($modulerights);
+        
+        /* Save rights for modules */
+        if (!empty($modulerights)) {
+            foreach (reset($modulerights) as $moduleName => $value) {
+                $module = \module::get($moduleName);
+                foreach ($roles as $numRole) {
+                    if ($modulerights[$numRole][$moduleName] === 'on')
+                        $module->setRights($numRole, 1);
+                    else
+                        $module->setRights($numRole, 0);
+                    
+                }
+                $module->save();
+            }
+        }
+
+         /* Save rights for models : entities/fields */
+	if (!empty($modelsrights)) {
+            foreach (reset($modelsrights) as $moduleName => $module) {
+                $moduleObj = \app::getModule($moduleName);
+                foreach ($roles as $numRole) {
+                    $modelsrights[$numRole][$moduleName] = json_decode($modelsrights[$numRole][$moduleName], TRUE);
+                }
+                foreach ($moduleObj->getModel() as $entityName => $entity) {
+                    foreach ($roles as $numRole) {
+                        $entity->setRights($numRole, (int)$modelsrights[$numRole][$moduleName][$entityName]['rights']);
+                        foreach ($modelsrights[$numRole][$moduleName][$entityName]['fields'] as $fieldName => $rights) {
+                            $entity->getField($fieldName)->setRights($numRole, (int)$rights);
+                        }
+                    }
+                    $entity->save();
+                }
+            }
 	}
-	if (is_array($modelsrights)) {
-	    foreach ($modelsrights as $numRole => $role) {
-		foreach ($role as $moduleName => $modules) {
-		    foreach ($modules as $entityName => $entities) {
-			$nb = 0;
-			$model = \app::getModule($moduleName)->getEntity($entityName);
-			foreach ($entities as $right => $value) {
-			    if ($right == 'display' && $value == 'on')
-				$nb += 1;
-			    if ($right == 'insert' && $value == 'on')
-				$nb += 2;
-			    if ($right == 'update' && $value == 'on')
-				$nb += 4;
-			    if ($right == 'delete' && $value == 'on')
-				$nb += 8;
-			}
-			$model->setRights($numRole, $nb);
-			$model->save();
-		    }
-		}
-	    }
+         /* Save rights for pages */
+	if (!empty($pagesrights)) {
+            foreach (reset($pagesrights) as $moduleName => $module) {
+                $moduleObj = \app::getModule($moduleName);
+                foreach ($module as $pageId => $pages) {
+                    $page = $moduleObj->getPage($pageId);
+                    foreach ($roles as $numRole) {
+                        if ($pagesrights[$numRole][$moduleName][$pageId]['display'] === 'on')
+                            $page->setRights($numRole, 1);
+                        else
+                            $page->setRights($numRole, 0);
+                    }
+                    $page->save();
+                }
+            }
 	}
-	if (is_array($pagesrights)) {
-	    foreach ($pagesrights as $numRole => $role) {
-		foreach ($role as $moduleName => $modules) {
-		    foreach ($modules as $pageId => $pages) {
-			$nb = 0;
-			$mod = \app::getModule($moduleName);
-			$page = $mod->getPage($pageId);
-			foreach ($pages as $right => $value) {
-			    if ($right == 'display' && $value == 'on')
-				$nb += 1;
-			}
-			$page->setRights($numRole, $nb);
-			$page->save();
-		    }
-		}
-	    }
-	}
+        
 	$return = array('eval' => '', 'notification' => t('The Permissions have been saved', FALSE), 'notificationType' => 'positive');
 	return $this->returnResult($return);
     }

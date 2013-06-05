@@ -418,10 +418,17 @@ class module {
     /**
      * Update rights for a role
      * @param string $role
-     * @return integer $rights
+     * @param integer $rights
      */
     public function setRights($role, $rights) {
-	$this->rights[$role] = $rights;
+        /* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ) #performance */
+        if($rights === 1){
+            if(isset($this->rights[$role])){
+                unset($this->rights[$role]);
+            }
+        }else{
+            $this->rights[$role] = $rights;
+        }
     }
 
     /**
@@ -432,6 +439,7 @@ class module {
     public function getRights($role) {
 	if (isset($this->rights[$role]))
 	    return $this->rights[$role];
+        return 1;
     }
 
     /**

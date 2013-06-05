@@ -31,9 +31,10 @@
         <thead>
             <tr>
                 <?php
+                if(method_exists($obj, "prepareFieldsForDisplay")) $obj->prepareFieldsForDisplay();
                 foreach ($obj->getFields() as $field) :
-                    if (get_class($field) != 'core\fields\field_formasso') :
-                        if ($field->visibility & DISPLAY) :
+                    if (get_class($field) !== 'core\fields\field_formasso') :
+                        if ($field->visibility & DISPLAY && substr($field->views['grid'],-8) === 'grid.php') :
                             ?>
                         <th><?php echo t(ucfirst(trim($field->label))); ?></th>
                             <?php
@@ -51,25 +52,28 @@
         <tbody>
             <?php
             if ($obj !== FALSE) :
-                $id = $obj->getId();
-                if (is_object($id))
-                    $id = $id->name;
-                $title = $obj->getBehaviorTitle();
-                foreach ($obj as $key => $line) :
+                $id = '';
+                $title = '';
+                if($obj instanceof \entity){
+                    $id = $obj->getId()->name;
+                    $title = $obj->getBehaviorTitle();
+                }
+                
+                foreach ($obj as $line) :
                     ?>
                     <tr class="line">
                         <?php
                         foreach ($obj->getFields() as $field) :
-                            if ($field->visibility & DISPLAY) :
+                            if ($field->visibility & DISPLAY && substr($field->views['grid'],-8) === 'grid.php') :
                                 $fieldName = $field->name;
                                 $class = '';
                                 if ($fieldName === $id) {
                                     $class = ' datagrid_id';
                                 }
-                                if ($fieldName == $title) {
+                                if ($fieldName === $title) {
                                     $class .= ' datagrid_title';
                                 }
-                                if (get_class($field) != 'core\fields\field_formasso') :
+                                if (get_class($field) !== 'core\fields\field_formasso') :
                                     ?>
                                 <td class="column<?php echo $class; ?>"><?php echo $line->$fieldName()->displayGrid(); ?></td>
                                     <?php
