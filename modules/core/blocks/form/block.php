@@ -69,7 +69,7 @@ if(isset($_POST[\'add\'])){
 <form method="post" class="form" action="">
 	<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />'.PHP_EOL;
         foreach($entity->getFields() AS $name => $field){
-            $html .= "\t\t".'<?php echo $entity->'.$name.'->form(); ?>'.PHP_EOL;
+            $html .= "\t\t".'<?php echo $entity->'.$name.'()->form(); ?>'.PHP_EOL;
         }
         $html .= "\t".'<input type="submit" value="<?php echo t(\'Save\', FALSE); ?>" name="add" class="submit">'.PHP_EOL;
         $html .= '</form>';

@@ -96,14 +96,14 @@ class query extends \block {
         $view_code = '';
         if($this->getConfig('filter') || $this->getConfig('sort') || ($filter == 1)  || ($sort == 1)) $view_code .= '<?php echo $this->getFilters(); ?>' . PHP_EOL.PHP_EOL;
         $view_code .= '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
-	$view_code .= "\t" . '<?php foreach ($view as $key => $line) : ?>' . PHP_EOL;
+	$view_code .= "\t" . '<?php foreach ($view as $line) : ?>' . PHP_EOL;
         $view_code .= "\t\t" . '<div class="itemscope">' . PHP_EOL;
         $myView = new \view();
         if (!empty($properties)) {
             $myView = $myView->initFromArray($properties);
             foreach ($myView->getFields() AS $sqlName => $field) {
-                if (substr($sqlName, 0, 3) != 'id_')
-                    $displayLine = '->display($line)';
+                if (substr($sqlName, 0, 3) !== 'id_')
+                    $displayLine = '()';
                 else
                     $displayLine = '';
                 $view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $line->' . $sqlName . $displayLine . '; ?></div>' . PHP_EOL;
