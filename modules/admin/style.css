@@ -647,7 +647,7 @@ background-image: -webkit-gradient(top,#F9F9F9,#ECECEC);
 background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 }
-.placeholder input[type='text'],.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
+.placeholder input[type='text'],.placeholder input[type="password"],.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
 .col2 .placeholder input[type='text'],.col2 .placeholder select,.col2 .placeholder textarea{margin: initial;width:auto;}
 .col2 .placeholder label{border:0}
 .placeholder .tooltip{position: absolute;right: -19px;top: 1px;}
