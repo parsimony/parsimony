@@ -186,7 +186,7 @@
                     $tplleft = '';
                     foreach (glob('modules/*', GLOB_ONLYDIR) as $filename) {
                         $module = substr(strrchr($filename, '/'), 1);
-                        if ($module != 'core' && $module != 'db' && $module != 'admin' && is_file('modules/'.$module.'/module.php')) {
+                        if ($module !== 'core' && $module !== 'admin' && is_file('modules/'.$module.'/module.php')) {
                             $i++;
                             if (isset(\app::$config['modules']['active'][$module]))
                                 $checked = 'checked="checked"';
@@ -199,7 +199,7 @@
 				$rc = new ReflectionClass($name);
 				/* ---- hasMethod() doesn't work for __wakeup */
                                 foreach($rc->getMethods() AS $method){
-                                    if(isset($method->name)) $value = '1';
+                                    if(isset($method->name) && $method->name === '__wakeup') $value = '1';
                                 }
                                 /* ----  */
 			    }

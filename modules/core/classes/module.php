@@ -472,7 +472,7 @@ class module {
 	    file_put_contents('modules/' . $name . '/module.php', $template);
 	    include('modules/' . $name . '/module.php');
 	    $name2 = $name . '\\' . $name;
-	    $mod = new $name2();
+	    $mod = new $name2($name);
             $mod->setRights(1, 1);
             $mod->setRights($_SESSION['id_role'], 1);
 	    $page = new \page(1, $name);
