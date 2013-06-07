@@ -249,6 +249,9 @@
 			<option value="prod"<?php if(app::$config['dev']['status']=='prod') echo ' selected="selected"'; ?>><?php echo t('Production', FALSE); ?></option>
 		    </select>
                 </div>
+                <div><?php echo t('Development = concatenation of CSS and JavaScript files is updated each time a change is made', FALSE); ?></div>
+                <div><?php echo t('Production = CSS & JavaScript files are not updated after each modification and are cached', FALSE); ?></div>
+
                 <?php /*
 		<div class="placeholder">
                     <label class="label"><?php echo t('Serialization', FALSE); ?></label>
