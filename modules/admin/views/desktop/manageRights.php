@@ -149,6 +149,9 @@ $role = app::getModule('core')->getEntity('role');
                         ?>
                            <div id="enablemodule"><label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?> ?</label><input type="hidden" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
                             <input type="checkbox" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($line->id_role)) echo 'checked'; ?>></div>
+                           <?php $module = app::getModule($moduleName);
+                                $models = $module->getModel();
+                                if(count($models) > 0) : ?>
                            <h2><?php echo t('Models', FALSE); ?></h2>
                             <table style="margin: 0 auto">
                             <thead>
@@ -156,8 +159,7 @@ $role = app::getModule('core')->getEntity('role');
                             </thead>
                             <tbody class="modelArea">
                                 <?php
-                                $module = app::getModule($moduleName);
-                                $models = $module->getModel();
+                                
                                 $obj = new \stdClass();
                                 foreach ($models as $modelName => $model) {
                                     $myModel = $module->getEntity($modelName);
@@ -192,7 +194,7 @@ $role = app::getModule('core')->getEntity('role');
                                  ?>
                                         </tbody>
                         </table>
-                                 <?php 
+                                 <?php endif;
                                  $pages = $module->getPages();                
                                  if(count($pages) > 0){  
                                      ?><h2>Pages</h2>
