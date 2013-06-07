@@ -498,13 +498,26 @@ var ParsimonyAdmin = {
             
 	},
 	resizeConfBox : function(){
+            document.getElementById("conf_box").removeAttribute("style");
 	    var iframe = document.getElementById("conf_box_content_iframe");
 	    var doc = iframe.contentDocument;
             document.getElementById("conf_box_load").style.display = "none";
 	    if(doc.location.href != "about:blank"){
-                var elmt = doc.querySelector(".adminzonecontent") || doc.body;
-		var height = doc.querySelector(".adminzonefooter") ? ( elmt.scrollHeight + 40) : elmt.scrollHeight;
-		document.getElementById("conf_box").style.cssText = "width:" + (elmt.scrollWidth + 150) + "px;height:" + height + "px;";
+                var elmt, width, height;
+                if(doc.querySelector(".adminzonecontent")){
+                    elmt = doc.querySelector(".adminzonecontent");
+                    width = elmt.scrollWidth + 150;
+                    height = elmt.scrollHeight;
+                    if(doc.querySelector(".adminzonefooter")){
+                        height += 40;
+                    }
+                }else{
+                    elmt = doc.body.querySelector("*");
+                    width = elmt.offsetWidth;
+                    height = elmt.scrollHeight;
+                }
+                
+		document.getElementById("conf_box").style.cssText = "width:" + width + "px;height:" + height + "px;";
                 document.getElementById("conf_box").classList.add("open");
 	    }
 	},
