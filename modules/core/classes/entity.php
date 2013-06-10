@@ -325,7 +325,7 @@ abstract class entity implements \Iterator {
             }
         }
         foreach ($this->getFields() as $name => $field) {
-            if ($type === 'insert' || isset($vars[$name])) {
+            if ($type === 'INSERT' || isset($vars[$name])) {
                 $columns = $field->getColumns();
                 if (count($columns) === 1){
                     /* If the field has one column */

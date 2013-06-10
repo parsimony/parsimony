@@ -100,7 +100,7 @@ $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 $lang['fr']['Use a prefix ( Optional)'] = 'Utiliser un préfixe ( Optionnel)';
 
 /* Define roles */
-$_SESSION['behovior'] = 2;
+$_SESSION['behavior'] = 2;
 $_SESSION['id_role'] = 1;
 /* Rights */
 define('DISPLAY', 1);
