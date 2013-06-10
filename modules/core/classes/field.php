@@ -80,11 +80,11 @@ class field {
     /** @var string visibility */
     protected $rights;
     
-    /** @var object of the container */
-    public $row = "";
+    /** @var string field directory*/
+    protected $fieldPath;
     
-    /** @var object of the container */
-    public $views = array();
+    /** @var object of the entity container */
+    public $row = "";
 
     /**
      * Build field
@@ -107,6 +107,10 @@ class field {
         $this->constructor(func_get_args());
         $this->msg_error = 'Invalid ' . $name;
     }
+    
+    public function __wakeup() {
+         $this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
+     }
 
     /**
      * Build field arguments
@@ -122,6 +126,7 @@ class field {
             else
                 $this->$namevar = $args[$key];
         }
+        $this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
     }
 
     /**
@@ -187,7 +192,6 @@ class field {
         return $this->display();
     }
 
-    
     public function __sleep() {
         $fields = get_object_vars($this);
         unset($fields['views']);
@@ -234,7 +238,7 @@ class field {
             }
         }
 	
-        include($this->views['fieldPath'] . '/' . $this->displayView);
+        include($this->fieldPath . '/' . $this->displayView);
         return ob_get_clean();
     }
     
@@ -283,26 +287,26 @@ class field {
      */
     public function displayFilter() {
         ob_start();
-        include($this->views['fieldPath'] . '/form_filter.php');
+        include($this->fieldPath . '/form_filter.php');
         return ob_get_clean();
     }
     
     /**
      * Display Updating Form
-     * @param string $value
-     * @param string &$row optional
+     * @param string $value optional
      * @return string
      */
-    public function form($value = '', &$row = FALSE) {
+    public function form($value = FALSE) {
         ob_start();
-	$fieldName = $this->name;
-	if(is_object($row)){
+        $row = $this->row;
+	$fieldName = $row->getName().'_'.$this->name;
+	if($value !== FALSE){
 	    $fieldName .= '_'.$row->getId()->value;
 	}
 	?>
 	<div class="field placeholder">
 	<?php
-        include($this->views['fieldPath'] . '/form.php');
+        include($this->fieldPath . '/form.php');
 	?>
 	</div>
 	<?php

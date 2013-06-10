@@ -1162,6 +1162,13 @@ class admin extends \module {
     protected function saveModelAction($module,$list) {
 	$schema = json_decode($list);
 	$tableExists = array();
+        /* Get roles ids with behavior anonymous */
+        $rolesBehaviorAnonymous = array();
+        foreach (\app::getModule('core')->getEntity('role') as $role) {
+            if($role->state == 0){
+                $rolesBehaviorAnonymous[] = $role->id_role;
+            }
+        }
 	if (is_array($schema)) {
 	    foreach ($schema as $table) {
 		
@@ -1182,7 +1189,12 @@ class admin extends \module {
 		    $property = json_encode($property);
 		    $property = json_decode($property, true);
                     
-		    $args[] = $reflectionObj->newInstanceArgs($property);
+                    $field = $reflectionObj->newInstanceArgs($property);
+                    /* Set rights forbidden for non admins, admins are allowed by default */
+                    foreach ($rolesBehaviorAnonymous as $id_role) {
+                        $field->setRights($id_role, 0);
+                    }
+		    $args[] = $field;
 		    if(isset($property['oldName']) && ($property['oldName'] != $name && !empty($property['oldName']))) $matchOldNewNames[$name] = $property['oldName'];
 		}
 		$tpl = 
@@ -1199,6 +1211,7 @@ class ' . $table->name . ' extends \entity {
 ' . $tplProp . '
 
 public function __construct(' . substr($tplParam, 0, -1) . ') {
+        parent::__construct();
 ' . $tplAssign . '
 }
 ';
@@ -1230,7 +1243,10 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 		// make a reflection object
 		$reflectionObj = new \ReflectionClass($module . '\\model\\' . $table->name);
 		$newObj = $reflectionObj->newInstanceArgs($args);
-		$newObj = unserialize(serialize($newObj)); // in order to call __wakeup method
+                /* Set rights forbidden for non admins, admins are allowed by default */
+                foreach ($rolesBehaviorAnonymous as $id_role) {
+                    $newObj->setRights($id_role, 0);
+                }
                 $newObj->setTitle($table->title);
 		$newObj->behaviorTitle = $table->behaviorTitle;
 		$newObj->behaviorDescription = $table->behaviorDescription;

@@ -41,7 +41,9 @@ class form extends \block {
             /* Test for errors in view and save */
             \app::addListener('error', array($this, 'catchError'));
             /* Test if new file contains errors */
-            $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'entity' => \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'))));
+            $entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
+            $entity->prepareFieldsForDisplay();
+            $testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'entity' => $entity));
             /* If new file contains errors */
             if ($testIfHasError === TRUE){
                 /* If there's no errors, Save new file */

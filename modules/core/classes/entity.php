@@ -69,6 +69,16 @@ abstract class entity implements \Iterator {
 
     /** @var array of SQL properties in order to build SQL Query */
     protected $_SQL = array();
+    
+    /**
+     * Constructor: init entity vars
+     */
+    public function __construct() {
+        list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
+	$this->_tableName = $this->_module . '_' . $this->_entityName;
+    }
+    
+
 
     /**
      * Get the name of a given entity
@@ -245,7 +255,7 @@ abstract class entity implements \Iterator {
      * @return bool
      */
     public function update(array $vars) {
-        //if($this->getRights($_SESSION['id_role']) & UPDATE){
+        if($this->getRights($_SESSION['id_role']) & UPDATE){
             $vars = $this->beforeUpdate($vars);
             if($vars === FALSE) return FALSE;
             $query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
@@ -261,7 +271,7 @@ abstract class entity implements \Iterator {
                 $query .= ' WHERE ' . $this->getId()->name . ' = :' . $this->getId()->name . ';';
             }
             $sth = PDOconnection::getDB()->prepare($query);
-            $values = $this->prepareValues($vars, 'update');
+            $values = $this->prepareValues($vars, 'UPDATE');
             if (!is_array($values)) 
                 return $values; // FALSE : error message
             $res = $sth->execute($values);
@@ -272,9 +282,9 @@ abstract class entity implements \Iterator {
                 return TRUE;
             }
             return FALSE;
-        /*}else{
+        }else{
             throw new \Exception(t('Update forbidden on ' . $this->_tableName, FALSE));
-        }*/
+        }
     }
 
     /**
@@ -303,10 +313,10 @@ abstract class entity implements \Iterator {
      * @param array $vars
      * @return array
      */
-    protected function prepareValues(array $vars, $type= 'insert') {
+    protected function prepareValues(array $vars, $type= 'INSERT') {
         $values = array();
         $val = 'insert';
-        if($type === 'update') {
+        if($type === 'UPDATE') {
             $idName = $this->getId()->name;
             if(isset($vars[$idName])){
                 $val = $vars[$idName];
@@ -319,7 +329,7 @@ abstract class entity implements \Iterator {
                 $columns = $field->getColumns();
                 if (count($columns) === 1){
                     /* If the field has one column */
-                    $value = isset($vars[$name]) ? $vars[$name] : '';
+                    $value = isset($vars[$name]) && $field->getRights($_SESSION['id_role']) & constant($type)  ? $vars[$name] : '';
                     $value = $field->validate($value,$val, $vars);
                 }else{
                     /* If the field has severals columns */
@@ -332,7 +342,7 @@ abstract class entity implements \Iterator {
 		    $field->setValue($value);
                 
                 /* If field is a field_formasso */
-                if (get_class($field) != \app::$aliasClasses['field_formasso']) {
+                if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
                     foreach ($columns AS $column)
                         if (count($columns) === 1)
                             $values[':' . $column] = $value;
@@ -381,7 +391,7 @@ abstract class entity implements \Iterator {
             $col2 = '';
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & INSERT) {
-                    if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
+                    if (get_class($field) === \app::$aliasClasses['field_formasso'] || get_class($field) === \app::$aliasClasses['field_publication'] || get_class($field) === \app::$aliasClasses['field_state'] || get_class($field) === \app::$aliasClasses['field_foreignkey'] || get_class($field) === \app::$aliasClasses['field_date'] || get_class($field) === \app::$aliasClasses['field_user'])
                         $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
                     else
                         $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
@@ -684,16 +694,8 @@ abstract class entity implements \Iterator {
     }
     
     /**
-     * Wake up
+     * Prepare fields for display
      */
-    public function __wakeup() {
-
-	if(!isset($this->_tableName)){
-	    list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
-	    $this->_tableName = $this->_module . '_' . $this->_entityName;
-	}
-    }
-    
     public function prepareFieldsForDisplay() {
         
         /* Determine if current user has the right to editinline */
@@ -706,8 +708,9 @@ abstract class entity implements \Iterator {
         $fields = $this->getFields();
         foreach ($fields as &$field) {
             $field->row = $this;
+            $field->views = array();
             
-            $field->views['fieldPath'] = $fieldPath = 'modules/' . str_replace('\\', '/', get_class($field));
+            $fieldPath = $field->fieldPath;
 
             /* Display View */
             if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {

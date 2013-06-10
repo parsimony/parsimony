@@ -45,7 +45,7 @@ if(isset($this->unique) && $this->unique):
 endif;
 echo $this->displayLabel($fieldName); 
 ?>
-<input type="text" autocomplete="off" name="<?php echo $this->name ?>" id="<?php $fieldName ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
+<input type="text" autocomplete="off" name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
 <?php if(isset($this->unique) && $this->unique): ?>
     <div class="infoUnique info_<?php $fieldName ?>"></div>
 <?php endif; ?>

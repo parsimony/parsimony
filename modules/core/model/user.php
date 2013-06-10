@@ -3,8 +3,8 @@ namespace core\model;
 /**
 * Description of entity user
 * @author Parsimony
-* @top 302px
-* @left 1427px
+* @top 280px
+* @left 808px
 */
 class user extends \entity {
 
@@ -25,6 +25,7 @@ class user extends \entity {
 
 
 public function __construct(\field_ident $id_user,\field_string $pseudo,\field_mail $mail,\field_password $pass,\field_date $registration,\field_state $state,\field_foreignkey $id_role) {
+        parent::__construct();    
         $this->id_user = $id_user;
         $this->pseudo = $pseudo;
         $this->mail = $mail;
@@ -34,6 +35,9 @@ public function __construct(\field_ident $id_user,\field_string $pseudo,\field_m
         $this->id_role = $id_role;
 
 }
+
+
+
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
     public function beforeInsert($vars) {

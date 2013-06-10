@@ -4,7 +4,7 @@ namespace core\model;
 * Description of entity role
 * @author Parsimony
 * @top 43px
-* @left 1144px
+* @left 643px
 */
 class role extends \entity {
 
@@ -17,11 +17,15 @@ class role extends \entity {
 
 
 public function __construct(\field_ident $id_role,\field_string $name,\field_state $state) {
+        parent::__construct();
         $this->id_role = $id_role;
         $this->name = $name;
         $this->state = $state;
 
 }
+
+
+
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
 }

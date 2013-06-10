@@ -22,6 +22,7 @@ class post extends \entity {
 
 
 public function __construct(\field_ident $id_post,\field_textarea $title,\field_url_rewriting $url,\field_wysiwyg $content,\field_textarea $excerpt,\field_publication $publicationGMT,\field_user $author,\field_formasso $tag,\field_formasso $category,\field_state $has_comment,\field_state $ping_status) {
+        parent::__construct();
         $this->id_post = $id_post;
         $this->title = $title;
         $this->url = $url;
@@ -35,6 +36,12 @@ public function __construct(\field_ident $id_post,\field_textarea $title,\field_
         $this->ping_status = $ping_status;
 
 }
+
+
+
+
+
+
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 

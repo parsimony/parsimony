@@ -137,7 +137,7 @@ class view implements \Iterator {
 		$alias = $propertyName;
 		$this->SQL['selects'][$propertyName] = $select;
 	    }
-            $obj = \app::getModule(strstr($tableName, '_', true))->getEntity(substr(strstr($tableName, '_'), 1))->__get($propertyName);
+            $obj = \app::getModule(strstr($tableName, '_', true))->getEntity(substr(strstr($tableName, '_'), 1))->getField($propertyName);
             if($hidden) {
                 $obj->setVisibility(0); // keep this field invisible
             }
@@ -394,6 +394,12 @@ class view implements \Iterator {
                 $this->order($p['table'] . '.' . $p['property'], $p['order']);
             }
         }
+        
+        /* Simulate a part of __sleep() */
+        foreach ($this->fields as $key => $field) {
+            if(is_object($field)) $this->fields[$key] = array('module' => $field->module, 'entity' => $field->entity, 'fieldName' => $field->name);
+        }
+        $this->__wakeup();
         return $this;
     }
 

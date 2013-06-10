@@ -473,14 +473,17 @@ class module {
 	    include('modules/' . $name . '/module.php');
 	    $name2 = $name . '\\' . $name;
 	    $mod = new $name2($name);
-            $mod->setRights(1, 1);
-            $mod->setRights($_SESSION['id_role'], 1);
-	    $page = new \page(1, $name);
+            $page = new \page(1, $name);
 	    $page->setModule($name);
 	    $page->setTitle('Index ' . $name);
 	    $page->setRegex('@^index$@');
-	    $page->setRights(1, 1);
-            $mod->setRights($_SESSION['id_role'], 1);
+	    /* Set rights forbidden for non admins, admins are allowed by default */
+            foreach (\app::getModule('core')->getEntity('role') as $role) {
+		if($role->state == 0){
+                    $mod->setRights($role->id_role, 0);
+                    $page->setRights($role->id_role, 0);
+                }
+	    }
 	    $mod->addPage($page);
 	    $mod->save();
 	    if (PROFILE == 'www')
