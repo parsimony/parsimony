@@ -208,7 +208,7 @@ var ParsimonyAdmin = {
 	});
 	
 	/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
-	$(ParsimonyAdmin.currentBody).on('keyup.edit', ".wysiwyg.activeEdit, .usereditinline",function(e){
+	$(ParsimonyAdmin.currentBody).on('keyup.edit', ".block_wysiwyg.activeEdit, .usereditinline",function(e){
 	    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
 	    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
 	    if(undo || redo){

@@ -30,10 +30,10 @@
 <script>
     $(document).ready(function() {
         $("#name_module").keyup(function(){
-            this.value = this.value.toLowerCase().replace(/[^a-z_]+/,"");
+            this.value = this.value.toLowerCase().replace(/[^a-z]+/,"");
         });
         $("#name_titre").keyup(function(){
-            this.value = this.value.toLowerCase().replace(/[^a-zA-Z_ ]+/,"");
+            this.value = this.value.toLowerCase().replace(/[^a-zA-Z ]+/,"");
         });
     });     
 </script>

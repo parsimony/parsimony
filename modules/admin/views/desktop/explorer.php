@@ -71,7 +71,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     #tabs li {cursor: pointer;display: inline-block;margin-left : 1px;background: #BBB;line-height: 15px;height: 26px;margin-top: 5px;border-bottom: 0;}
     #tabs li > div {border-bottom: 0;padding: 5px 4px;color: rgb(255, 255, 255);}
     #tabs .active, #tabs li:hover {background: #F8F8F8;}
-    #tabs .active .name, #tabs li:hover .name{color :#777;}
+    #tabs .active > div, #tabs li:hover > div{color :#777;}
     #tabs {position: absolute;width: 100%;z-index: 99;border-bottom: 1px solid #D3D5DB;border-top: 1px solid #D3D5DB;margin: 0;padding: 0;}
     .panel {position: absolute;width: 100%;height: 100%;padding-top: 31px;box-sizing: border-box;}
     .CodeMirror {height: 100%;line-height: 17px;}

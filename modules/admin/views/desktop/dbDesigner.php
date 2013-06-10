@@ -74,27 +74,26 @@ include_once('modules/core/classes/field.php');
     ._jsPlumb_endpoint{cursor: pointer;z-index: 50}
     ._jsPlumb_connector{cursor: pointer;}
     #field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
-    #field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: rgb(247, 247, 247);background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
+    #field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
     #field_list .myfield:hover{background-color: #CBD8E8;}
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
     #update_table{display: none;font-size: 12px;}
     #update_field > div{font-size: 14px;display: none;}
-    .table {z-index:60;border:1px solid gray;position:absolute; color:#484848;line-height:18px;font-family:serif;cursor:pointer;
-font-size:15px;background-color:white;font-weight:bold;border-radius: 5px;box-shadow: #666 0px 2px 3px;background: #FFFFFF;background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#ddd));background: -moz-linear-gradient(#FFFFFF, #ddd);
-background: linear-gradient(#FFFFFF, #ddd);}
+    .table {z-index:60;position:absolute; color:#484848;line-height:18px;cursor:pointer;
+font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
     .table:hover{box-shadow: 0px 0px 9px #777;}
-    .ui-draggable-dragging:hover{box-shadow: none} /*perf enhancement on drag table */
-    .property{position:relative;cursor: pointer;border-bottom: dashed #CCC 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-family: arial;font-size: 12px;font-weight: normal;}
-    .property.current_property,.table .property:hover{background-color: #CBD8E8;}
+    .ui-draggable-dragging:hover{box-shadow: #666 0px 1px 3px;} /*perf enhancement on drag table */
+    .property{position:relative;cursor: pointer;border-bottom: dotted #ddd 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-size: 12px;font-weight: normal;}
+    .property.current_property,.table .property:hover{background-color: rgb(231,242,255)}
     .property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
     .property[type_class=field_foreignkey]::before{ content:"#"; }
     .table .property:last-child{ border-radius: 0 0 3px 3px; }
     .ombre{box-shadow: 0px 0px 20px #34afb6;}
     .dragActive { border:4px dotted #b634af; border-radius:50px;}
     label{font-size: 13px;line-height: 26px;width: 140px;display: block;float: left;padding-left: 10px;}
-    h2,.title{text-align:center;font-family: arial;font-size: 12px;padding:7px;color: white;border-color: #2E63A5;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5E9AE2', endColorstr='#3570B8');}
-    .title{border-top-left-radius: 2px;border-top-right-radius: 2px;text-align: center;/*text-decoration: underline;*/}
+    h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: -webkit-linear-gradient(top, #44C5EC, #259BDB);background: -moz-linear-gradient(top, #44C5EC, #259BDB);background: linear-gradient(top, #44C5EC, #259BDB);}
+    .title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
     #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
     #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
     #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
@@ -106,9 +105,9 @@ background: linear-gradient(#FFFFFF, #ddd);}
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
     .connection{color:#2E63A5;text-transform: capitalize;}
-    .popup{font-family: Arial, Verdana;text-align: left;border-radius:10px;padding: 5px 10px;width:700px;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;border: 2px solid #2E63A5;background-color: #EEE;}
+    .popup{font-family: Arial, Verdana;text-align: left;overflow: hidden;border-radius:5px;width:50%;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;background-color: #fbfbfb;}
 
-    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px 0px;background-color: #F1F5F9;line-height: 20px;}
+    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px;background-color: #F1F5F9;line-height: 20px;}
     .question input{margin-right: 10px;}
     .conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
@@ -129,9 +128,10 @@ background: linear-gradient(#FFFFFF, #ddd);}
     .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
     #toolbar{font-weight: normal;line-height: 36px;}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
-    #extLink{position: fixed;right: 0;top: 35px;height: 50px;width: 120px;}
-    .dragActive2{z-index: 1;border-radius: 0 0 0 50px;
-    box-shadow: 0px 0px 26px rgb(32, 219, 255);font-size: 10px;text-align: center;background: rgb(249, 255, 255);color: rgb(19, 94, 122);padding: 17px 5px;}
+    #extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
+    #btnLinkToExternal{margin-bottom: 11px;}
+    .dragActive2 {z-index: 1;border-radius: 100px;box-shadow: 0px 0px 15px rgb(32, 219, 255);font-size: 12px;text-align: center;
+    background: rgb(249, 255, 255);color: rgb(19, 94, 122);padding: 17px 5px;}
     #save.haveToSave{color: white;font-weight: bold;
                background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
                background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
@@ -144,7 +144,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
     input[disabled] {background:#ddd}
 </style> 
-<div id="extLink" style=""><?php echo t('Link to an external module'); ?></div>
+<div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
     <p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
 </div>
@@ -833,7 +833,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
     var dbadmin = {
         marqueur : false,
         endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
-            paintStyle:{ fillStyle:'#346db5'},
+            paintStyle:{ fillStyle:'#2980b9'},
             isSource:true,
             reattach:true,
             maxConnections:100,
@@ -850,9 +850,9 @@ background: linear-gradient(#FFFFFF, #ddd);}
             dragAllowedWhenFull:true, 
             isTarget:true },
         endpointOptions3 : {endpoint:[ "Dot", { radius:8 } ],
-            paintStyle:{ fillStyle:'#b634af'},
+            paintStyle:{ fillStyle:'#9b59b6'},
             isSource:false,
-            connectorStyle : {strokeStyle:"#2E63A5", position:"absolute", lineWidth:3},
+            connectorStyle : {strokeStyle:"#259BDB", position:"absolute", lineWidth:3},
             isTarget:false },
 	 keywordsReserveds : ',include,require,include_once,require_once,for,foreach,as,if,elseif,else,while,do,endwhile,endif,switch,case,endswitch,endfor,endforeach,return,break,continue,self,static,parent,a,abort,abs,absolute,access,action,ada,add,admin,after,aggregate,alias,all,allocate,also,alter,always,analyse,analyze,and,any,are,array,as,asc,asensitive,assertion,assignment,asymmetric,at,atomic,attribute,attributes,audit,authorization,auto_increment,avg,avg_row_length,backup,backward,before,begin,bernoulli,between,bigint,binary,bit,bit_length,bitvar,blob,bool,boolean,both,breadth,break,browse,bulk,by,c,cache,call,called,cardinality,cascade,cascaded,case,cast,catalog,catalog_name,ceil,ceiling,chain,change,char,char_length,character,character_length,character_set_catalog,character_set_name,character_set_schema,characteristics,characters,check,checked,checkpoint,checksum,class,class_origin,clob,close,cluster,clustered,coalesce,cobol,collate,collation,collation_catalog,collation_name,collation_schema,collect,column,column_name,columns,command_function,command_function_code,comment,commit,committed,completion,compress,compute,condition,condition_number,connect,connection,connection_name,constraint,constraint_catalog,constraint_name,constraint_schema,constraints,constructor,contains,containstable,continue,conversion,convert,copy,corr,corresponding,count,covar_pop,covar_samp,create,createdb,createrole,createuser,cross,csv,cube,cume_dist,current,current_date,current_default_transform_group,current_path,current_role,current_time,current_timestamp,current_transform_group_for_type,current_user,cursor,cursor_name,cycle,data,database,databases,date,datetime,datetime_interval_code,datetime_interval_precision,day,day_hour,day_microsecond,day_minute,day_second,dayofmonth,dayofweek,dayofyear,dbcc,deallocate,dec,decimal,declare,default,defaults,deferrable,deferred,defined,definer,degree,delay_key_write,delayed,delete,delimiter,delimiters,dense_rank,deny,depth,deref,derived,desc,describe,descriptor,destroy,destructor,deterministic,diagnostics,dictionary,disable,disconnect,disk,dispatch,distinct,distinctrow,distributed,div,do,domain,double,drop,dual,dummy,dump,dynamic,dynamic_function,dynamic_function_code,each,element,else,elseif,enable,enclosed,encoding,encrypted,end,end-exec,enum,equals,errlvl,escape,escaped,every,except,exception,exclude,excluding,exclusive,exec,execute,existing,exists,exit,exp,explain,external,extract,false,fetch,fields,file,fillfactor,filter,final,first,float,float4,float8,floor,flush,following,for,force,foreign,fortran,forward,found,free,freetext,freetexttable,freeze,from,full,fulltext,function,fusion,g,general,generated,get,global,go,goto,grant,granted,grants,greatest,group,grouping,handler,having,header,heap,hierarchy,high_priority,hold,holdlock,host,hosts,hour,hour_microsecond,hour_minute,hour_second,identified,identity,identity_insert,identitycol,if,ignore,ilike,immediate,immutable,implementation,implicit,in,include,including,increment,index,indicator,infile,infix,inherit,inherits,initial,initialize,initially,inner,inout,input,insensitive,insert,insert_id,instance,instantiable,instead,int,int1,int2,int3,int4,int8,integer,intersect,intersection,interval,into,invoker,is,isam,isnull,isolation,iterate,join,k,key,key_member,key_type,keys,kill,lancompiler,language,large,last,last_insert_id,lateral,leading,least,leave,left,length,less,level,like,limit,lineno,lines,listen,ln,load,local,localtime,localtimestamp,location,locator,lock,login,logs,long,longblob,longtext,loop,low_priority,lower,m,map,match,matched,max,max_rows,maxextents,maxvalue,mediumblob,mediumint,mediumtext,member,merge,message_length,message_octet_length,message_text,method,middleint,min,min_rows,minus,minute,minute_microsecond,minute_second,minvalue,mlslabel,mod,mode,modifies,modify,module,month,monthname,more,move,multiset,mumps,myisam,name,names,national,natural,nchar,nclob,nesting,new,next,no,no_write_to_binlog,noaudit,nocheck,nocompress,nocreatedb,nocreaterole,nocreateuser,noinherit,nologin,nonclustered,none,normalize,normalized,nosuperuser,not,nothing,notify,notnull,nowait,null,nullable,nullif,nulls,number,numeric,object,octet_length,octets,of,off,offline,offset,offsets,oids,old,on,online,only,open,opendatasource,openquery,openrowset,openxml,operation,operator,optimize,option,optionally,options,or,order,ordering,ordinality,others,out,outer,outfile,output,over,overlaps,overlay,overriding,owner,pack_keys,pad,parameter,parameter_mode,parameter_name,parameter_ordinal_position,parameter_specific_catalog,parameter_specific_name,parameter_specific_schema,parameters,partial,partition,pascal,password,path,pctfree,percent,percent_rank,percentile_cont,percentile_disc,placing,plan,pli,position,postfix,power,preceding,precision,prefix,preorder,prepare,prepared,preserve,primary,print,prior,privileges,proc,procedural,procedure,process,processlist,public,purge,quote,raid0,raiserror,range,rank,raw,read,reads,readtext,real,recheck,reconfigure,recursive,ref,references,referencing,regexp,regr_avgx,regr_avgy,regr_count,regr_intercept,regr_r2,regr_slope,regr_sxx,regr_sxy,regr_syy,reindex,relative,release,reload,rename,repeat,repeatable,replace,replication,require,reset,resignal,resource,restart,restore,restrict,result,return,returned_cardinality,returned_length,returned_octet_length,returned_sqlstate,returns,revoke,right,rlike,role,rollback,rollup,routine,routine_catalog,routine_name,routine_schema,row,row_count,row_number,rowcount,rowguidcol,rowid,rownum,rows,rule,save,savepoint,scale,schema,schema_name,schemas,scope,scope_catalog,scope_name,scope_schema,scroll,search,second,second_microsecond,section,security,select,self,sensitive,separator,sequence,serializable,server_name,session,session_user,set,setof,sets,setuser,share,show,shutdown,signal,similar,simple,size,smallint,some,soname,source,space,spatial,specific,specific_name,specifictype,sql,sql_big_result,sql_big_selects,sql_big_tables,sql_calc_found_rows,sql_log_off,sql_log_update,sql_low_priority_updates,sql_select_limit,sql_small_result,sql_warnings,sqlca,sqlcode,sqlerror,sqlexception,sqlstate,sqlwarning,sqrt,ssl,stable,start,starting,state,statement,static,statistics,status,stddev_pop,stddev_samp,stdin,stdout,storage,straight_join,strict,string,structure,style,subclass_origin,sublist,submultiset,substring,successful,sum,superuser,symmetric,synonym,sysdate,sysid,system,system_user,table,table_name,tables,tablesample,tablespace,temp,template,temporary,terminate,terminated,text,textsize,than,then,ties,time,timestamp,timezone_hour,timezone_minute,tinyblob,tinyint,tinytext,to,toast,top,top_level_count,trailing,tran,transaction,transaction_active,transactions_committed,transactions_rolled_back,transform,transforms,translate,translation,treat,trigger,trigger_catalog,trigger_name,trigger_schema,trim,true,truncate,trusted,tsequal,type,uescape,uid,unbounded,uncommitted,under,undo,unencrypted,union,unique,unknown,unlisten,unlock,unnamed,unnest,unsigned,until,update,updatetext,upper,usage,use,user,user_defined_type_catalog,user_defined_type_code,user_defined_type_name,user_defined_type_schema,using,utc_date,utc_time,utc_timestamp,vacuum,valid,validate,validator,value,values,var_pop,var_samp,varbinary,varchar,varchar2,varcharacter,variable,variables,varying,verbose,view,volatile,waitfor,when,whenever,where,while,width_bucket,window,with,within,without,work,write,writetext,x509,xor,year,year_month,zerofill,zone,',
         buildLink : function(sourceModule, source, targetModule, target){
@@ -951,7 +951,7 @@ background: linear-gradient(#FFFFFF, #ddd);}
                 var oldName = $('#update_table input[name="oldName"]').val();
                 var newName = $('#update_table input[name="name"]').val();
 		if(dbadmin.keywordsReserveds.indexOf("," + newName + ",") == -1){
-                    if(!$('#table_' + newName).length){
+                    if($('#table_' + newName).length == 0 || newName == oldName){
 			if(newName != oldName){
 			    if(!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))){
 				return false;
@@ -1269,8 +1269,8 @@ background: linear-gradient(#FFFFFF, #ddd);}
 	    dbadmin.createAnchorNewForeignKey(elmt.id);
 	    if($("#table_" + jsonproperties.link).length > 0 ){
 		jsPlumb.connect({ uuids:[elmt.id + "_uuid", $("#table_" + jsonproperties.link + " div[type_class='field_ident']" ).attr("id")+"_uuid"] ,
-		    paintStyle:{lineWidth:3,strokeStyle:'#6fb735'},
-		    hoverPaintStyle:{lineWidth:3,strokeStyle:'#8fdb00'},
+		    paintStyle:{lineWidth:3,strokeStyle:'#259BDB'},
+		    hoverPaintStyle:{lineWidth:3,strokeStyle:'#44C5EC'},
 		    detachable:false,
 		    deleteEndpointsOnDetach:false,
 		    overlays: [

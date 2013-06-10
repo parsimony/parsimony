@@ -67,7 +67,7 @@ app::$request->page->addJSFile('admin/blocks/modules/script.js','footer');
                             $entityTitle = s(ucfirst($entity->getTitle()));
                             if ($module != 'core' || !empty($entityTitle)) {
                                 ?>
-                                <li class="sublist modelSubList" drag><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
+                                <li class="sublist modelSubList"><a href="#" class="modeleajout ellipsis" rel="<?php echo $module . ' - ' . $entityName; ?>" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a></li>
                                 <?php
                             }
                         }
