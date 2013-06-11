@@ -29,7 +29,9 @@ if (!\app::getClass('user')->VerifyConnexion())
     exit;
 if (!isset($_POST['module']))
     $_POST['module'] = \app::$config['modules']['default'];
-
+if (!isset($_COOKIE['connectorchoice'])){
+    $_COOKIE['connectorchoice'] = 'Bezier';
+}
 $moduleObj = \app::getModule($_POST['module']);
 $modulesInfos = \tools::getClassInfos($moduleObj);
 if(isset($modulesInfos['mode']) && strstr($modulesInfos['mode'],'r')){
@@ -61,7 +63,7 @@ include_once('modules/core/classes/field.php');
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>cache/<?php echo app::$request->getLocale(); ?>-lang.js"></script>
+<script type="text/javascript" src="<?php echo BASE_PATH; ?>var/cache/<?php echo app::$request->getLocale(); ?>-lang.js"></script>
 <style>.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
 </style>
 <style type="text/css">
@@ -143,6 +145,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     #currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
     input[disabled] {background:#ddd}
+    #connectorchoice{margin-left: 10px;}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
@@ -626,21 +629,28 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     </a>
     <div class="toolbarbonus inline-block">
         <div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
-	    <?php echo t('Current Module', FALSE); ?>
+            <?php echo t('Connector', FALSE); ?>
             <form action="" method="POST" style="display:inline-block;margin: 0;">
+                <select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice',this.value,999);$(this).parent().trigger('submit');">
+                    <option>Bezier</option>
+                    <option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart')
+                echo ' selected="selected"';
+            ?>>Flowchart</option>
+                </select>
+                <span style="padding-left: 35px;"><?php echo t('Current Module', FALSE); ?></span>
                 <select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
-		    <?php
-		    foreach (\app::$config['modules']['active'] as $moduleName => $module) {
-			if ($moduleName == $_POST['module']) {
-			    $selected = 'selected = "selected"';
-			} else {
-			    $selected = '';
-			}
-			if ($moduleName != 'admin')
-			    echo '<option ' . $selected . '>' . $moduleName . '</option>';
-		    }
-		    ?>
-                </select>  
+                    <?php
+                    foreach (\app::$config['modules']['active'] as $moduleName => $module) {
+                        if ($moduleName == $_POST['module']) {
+                            $selected = 'selected = "selected"';
+                        } else {
+                            $selected = '';
+                        }
+                        if ($moduleName != 'admin')
+                            echo '<option ' . $selected . '>' . $moduleName . '</option>';
+                    }
+                    ?>
+                </select> 
             </form>
         </div>
 
@@ -830,14 +840,15 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
         $('input[name="visibility"]',parent).val(nb);
     });
 
+    var connectorchoice = $("#connectorchoice").val();
     var dbadmin = {
         marqueur : false,
         endpointOptions : {endpoint:[ "Dot", { radius:12 } ],
-            paintStyle:{ fillStyle:'#2980b9'},
+            paintStyle:{ fillStyle:'#346db5'},
             isSource:true,
             reattach:true,
             maxConnections:100,
-            connector:[ "Bezier", (200) ],
+            connector:[ connectorchoice, (200) ],
             dragAllowedWhenFull:true,
             connectorStyle : { strokeStyle:"#34afb6",  position:"absolute", lineWidth:2 },
             isTarget:false },
@@ -1251,7 +1262,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             dbadmin.refreshUI();
         },
         //	    updateFormPreview :   function(){
-        //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
+        //		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php //echo $_POST['module'] ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
         //		    $("#preview_form .content").html(data);                 
         //		});
         //	    },
