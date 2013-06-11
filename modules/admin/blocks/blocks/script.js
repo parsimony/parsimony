@@ -68,7 +68,7 @@ function blockAdminBlocks() {
             $this.isAddBlock = true;
             var evt = event.originalEvent;
             evt.dataTransfer.setDragImage(this,15,15);
-            evt.dataTransfer.setData("parsimony/addblock", JSON.stringify({blockType:this.id}));
+            evt.dataTransfer.setData("parsimony/addblock", JSON.stringify({blockType:this.dataset.block}));
             evt.dataTransfer.effectAllowed = 'copy';
             $this.startDragging();
         });
@@ -116,9 +116,10 @@ function blockAdminBlocks() {
 	ParsimonyAdmin.$currentBody.add('#paneltree')
 	.on('dragenter.creation','.parsiblock,.tree_selector', function(e) {
 	    if( e.originalEvent.dataTransfer.types != null){
+                console.log(e.originalEvents);
 		e.stopImmediatePropagation();
-                /* Check if block is trying to put in itself */
-                if(ParsimonyAdmin.inProgress && document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){
+                /* Check if block is trying to put in itself in move mode */
+                if(e.originalEvent.dataTransfer.effectAllowed == "copyMove" && ParsimonyAdmin.inProgress && document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){
                     return true;
                 }
 		var isContainer = false;
