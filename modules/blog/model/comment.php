@@ -3,8 +3,8 @@ namespace blog\model;
 /**
 * Description of entity comment
 * @author Parsimony
-* @top 514px
-* @left 944px
+* @top 389px
+* @left 584px
 */
 class comment extends \entity {
 
@@ -50,8 +50,6 @@ public function __construct(\field_ident $id_comment,\field_foreignkey $id_post,
         $this->type = $type;
 
 }
-
-
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 

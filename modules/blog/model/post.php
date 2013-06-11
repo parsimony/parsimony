@@ -3,23 +3,34 @@ namespace blog\model;
 /**
 * Description of entity post
 * @author Parsimony
-* @top 444px
-* @left 495px
+* @top 129px
+* @left 300px
 */
 class post extends \entity {
 
     protected $id_post;
-    protected $title;
-    protected $url;
-    protected $content;
-    protected $excerpt;
-    protected $publicationGMT;
-    protected $author;
-    protected $tag;
-    protected $category;
-    protected $has_comment;
-    protected $ping_status;
-
+
+    protected $title;
+
+    protected $url;
+
+    protected $content;
+
+    protected $excerpt;
+
+    protected $publicationGMT;
+
+    protected $author;
+
+    protected $tag;
+
+    protected $category;
+
+    protected $has_comment;
+
+    protected $ping_status;
+
+
 
 public function __construct(\field_ident $id_post,\field_textarea $title,\field_url_rewriting $url,\field_wysiwyg $content,\field_textarea $excerpt,\field_publication $publicationGMT,\field_user $author,\field_formasso $tag,\field_formasso $category,\field_state $has_comment,\field_state $ping_status) {
         parent::__construct();
@@ -36,12 +47,6 @@ public function __construct(\field_ident $id_post,\field_textarea $title,\field_
         $this->ping_status = $ping_status;
 
 }
-
-
-
-
-
-
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
