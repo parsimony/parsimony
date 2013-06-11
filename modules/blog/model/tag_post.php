@@ -3,8 +3,8 @@ namespace blog\model;
 /**
 * Description of entity tag_post
 * @author Parsimony
-* @top 321px
-* @left 242px
+* @top 216px
+* @left 701px
 */
 class tag_post extends \entity {
 
@@ -23,9 +23,6 @@ public function __construct(\field_ident $id_tag_post,\field_foreignkey $id_tag,
         $this->id_post = $id_post;
 
 }
-
-
-
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 

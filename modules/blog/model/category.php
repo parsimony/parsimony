@@ -30,8 +30,6 @@ public function __construct(\field_ident $id_category,\field_string $name,\field
 
 }
 
-
-
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
 }

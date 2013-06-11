@@ -3,8 +3,8 @@ namespace blog\model;
 /**
 * Description of entity category_post
 * @author Parsimony
-* @top 0px
-* @left 657px
+* @top 21px
+* @left 684px
 */
 class category_post extends \entity {
 
@@ -23,8 +23,6 @@ public function __construct(\field_ident $id_category_post,\field_foreignkey $id
         $this->id_post = $id_post;
 
 }
-
-
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
