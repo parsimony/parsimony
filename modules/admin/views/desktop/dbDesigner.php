@@ -115,7 +115,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     .entity2,.entity1{font-weight:bold}
     .title_popup{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
                  text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
-    input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");}
+    input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");top: 3px;}
     .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
     .toolimg{position: absolute;top:5px;left:15px;}
     .toolfield{position: relative;}
@@ -802,7 +802,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
 		    $args [$ssparam->name] = $field->{$ssparam->name};
 		}
 		$args['oldName'] = $field->name;
-		echo '<div class="property" id="table_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
+		echo '<div class="property" id="property_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 	    }
 	    echo '</div>';
 	}
@@ -891,7 +891,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             jsonproperties.entity = target;
             champ.removeAttr('class').data("attributs",jsonproperties).text(predictedname);
             champ.attr("name",source);
-            champ.attr("id",'table_' + target + '_' + predictedname).addClass("property");
+            champ.attr("id",'property_' + target + '_' + predictedname).addClass("property");
             champ.appendTo(objTarget).show();
             dbadmin.createConnector(champ[0]);
 	    dbadmin.refreshUI();
@@ -901,7 +901,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
                 if(dbadmin.keywordsReserveds.indexOf("," + tablename + ",") == -1){
                     if(!$('#table_' + tablename).length){
                         $("#canvas").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">'+ t('ID') +'</div></div>');
-                        var myID_champ = "table_" + tablename +  "_id_" + tablename;
+                        var myID_champ = "property_" + tablename +  "_id_" + tablename;
                         var table_name = tablename;
                         var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
                         jsonproperties.entity = table_name;
@@ -1092,7 +1092,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             })
             /* Filter Table Name */
             .on('keyup',"#table_name",function(){
-                $(this).val($(this).val().toLowerCase().replace(/[^a-z_]+/,""));
+                this.value = this.value.toLowerCase().replace(/[^a-z_]+/,"");
             })
             /* Open and load field Settings */
             .on('click',".table .property",function(){ 
