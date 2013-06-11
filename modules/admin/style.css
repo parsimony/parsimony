@@ -392,7 +392,9 @@ text-shadow: white 0 1px 0;}
 #dialog{background: #EEE url(admin/img/concrete_wall_3.png);}
 
 /* Blocks droppables */
-.admin_core_block{cursor:move;width: 42px;height: 42px;margin:4px;padding: 0;border-radius: 5px;background: #ccc;box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);}
+.admin_core_block{cursor:move;width: 42px;height: 42px;margin:4px 6px;padding: 0;border-radius: 2px;box-shadow: 0 1px 3px rgb(145, 145, 145);margin-bottom: 34px;}
+.admin_core_block:after{content: attr(data-title);position: absolute;color: rgb(68, 68, 68);top: 48px;font-size: 9px;text-align: center;
+width: 44px;max-width: 46px;line-height: 10px;overflow: hidden;height: 20px;}
 
 /* ###################### Admin Zone In Popup #################"""" */
 
@@ -942,7 +944,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ################ Hacks tricks ################## */
-[draggable] {-moz-user-select: none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;}
+[draggable] {-moz-user-select: none;-webkit-user-select: none;user-select: none;}
 
 /* ################ Icon CSS Sprite ################## */
 .sprite {background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;display: inline-block;}

@@ -543,7 +543,7 @@ abstract class entity implements \Iterator {
      * @return field obejct
      */
     public function getId() {
-        $properties = get_object_vars($this);
+        $properties = $this->getFields();
         return $this->{key($properties)};
     }
 
@@ -556,14 +556,15 @@ abstract class entity implements \Iterator {
         if (!empty($this->behaviorTitle)) {
             return $this->behaviorTitle;
         } else {
-            $properties = get_object_vars($this);
+            $properties = $this->getFields();
             foreach ($properties as $name => $property) {
                 if (get_class($property) === \app::$aliasClasses['field_string']) {
                     $this->behaviorTitle = $name;
                     return $name;
                 }
             }
-            return $this->{key($properties)};
+            reset($properties);
+            return key($properties);
         }
     }
 
@@ -575,7 +576,7 @@ abstract class entity implements \Iterator {
         if (!empty($this->behaviorDescription)) {
             return $this->behaviorDescription;
         } else {
-            $properties = get_object_vars($this);
+            $properties = $this->getFields();
             foreach ($properties as $name => $property) {
                 if (get_class($property) === \app::$aliasClasses['field_textarea'] ||get_class($property) === \app::$aliasClasses['field_wysiwyg']) {
                     $this->behaviorDescription = $name;
@@ -607,7 +608,7 @@ abstract class entity implements \Iterator {
         if (!empty($this->behaviorImage)) {
             return $this->behaviorImage;
         } else {
-            $properties = get_object_vars($this);
+            $properties = $this->getFields();
             foreach ($properties as $name => $property) {
                 if (get_class($property) === \app::$aliasClasses['field_image']) {
                     $this->behaviorImage = $name;
@@ -626,7 +627,7 @@ abstract class entity implements \Iterator {
         if (!empty($this->behaviorAuthor)) {
             return $this->behaviorAuthor;
         } else {
-            $properties = get_object_vars($this);
+            $properties = $this->getFields();
             foreach ($properties as $name => $property) {
                 if (get_class($property) === \app::$aliasClasses['field_user']) {
                     $this->behaviorAuthor = $name;
@@ -648,6 +649,7 @@ abstract class entity implements \Iterator {
                 unset($fields[$name]);
             }
         }
+        reset($fields);
         return $fields;
     }
     
@@ -688,8 +690,9 @@ abstract class entity implements \Iterator {
      */
     public function __sleep() {
         $this->purgeSQL();
-        $fields = get_object_vars($this);
-        $fields = array_keys($fields);
+        $properties = get_object_vars($this);
+        unset($properties['fields']);
+        $fields = array_keys($properties);
         return $fields;
     }
     
