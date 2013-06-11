@@ -28,7 +28,8 @@
 
 $visibility = $this->name . '_visibility';
 $status = $this->name . '_status';
-$stamp = strtotime(s($value));
+if($value != FALSE) $stamp = strtotime(s($value));
+else $stamp = time();
 
 $visibility = $this->name . '_visibility';
 ?>
