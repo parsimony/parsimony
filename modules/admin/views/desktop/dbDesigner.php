@@ -1313,10 +1313,11 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
                 drop: function(event, ui) {
                     var champ = ui.draggable.clone();
                     var nom_champ = prompt(t('Please enter a field name') + ' ?');
+                    if(dbadmin.keywordsReserveds.indexOf("," + nom_champ + ",") == -1){
                     if(nom_champ != null){
 			nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g,"");
 			if(nom_champ != ""){
-			    var id = event.target.id + "_" + nom_champ;
+			    var id = "property_" + event.target.id.substring(6) + "_" + nom_champ;
 			    if(!$('#' + id).length){   
 				var champ = ui.draggable.clone();
 				champ.removeAttr('class').attr("id",id).addClass("property new");
@@ -1336,6 +1337,10 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
 			    }
 			}
                     }
+                }else {
+                      ParsimonyAdmin.notify(t('This word')+ ' '  + nom_champ + ' ' + t('belongs to a list of Reserved Words, Please Choose another'),'negative') + '.';
+
+                  }
                 }
             });
             
