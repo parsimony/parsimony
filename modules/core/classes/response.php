@@ -90,6 +90,7 @@ class response {
             /* THEME */
             $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
             $structure = $body->getStructure();
+            $script='';
             if (defined('PARSI_ADMIN')) {
                 $adm = new \admin\blocks\toolbar("admintoolbar");
                 $this->body = $adm->display();
@@ -102,7 +103,8 @@ class response {
                 if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
                     \app::$request->page->addJSFile('lib/editinline.js');
                     $timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
-                    $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
+                    if ($_SESSION['behavior'] > 1) $script = 'window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";';
+                    $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';'.$script.'if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
                 }
             }
 	    if ($structure === TRUE){

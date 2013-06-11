@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 \app::$request->page->addJSFile('//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js');
-\app::$request->page->addCSSFile(BASE_PATH . 'core/fields/field_formasso/css.css');
+\app::$request->page->addCSSFile('core/fields/field_formasso/css.css');
 echo $this->displayLabel($fieldName);
 ?>
 <script>typeof jQuery.ui != 'undefined' || document.write('<script src="' + BASE_PATH + 'lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
