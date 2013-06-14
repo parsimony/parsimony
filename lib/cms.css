@@ -47,6 +47,6 @@ audio:not([controls]) {display: none;height: 0;}
 .clearboth{clear:both;}
 
 /* editinplace */
-.usereditinline:hover, .activeEdit:hover{outline:1px orange solid;}
+.parsieditinline:hover, .block_wysiwyg:hover{outline:1px orange solid;}
 .parsieditinline {display: inline-block;}
 

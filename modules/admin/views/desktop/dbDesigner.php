@@ -426,35 +426,6 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     </table>
 </div>
 
-<div id="tooltip-field_flash" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png"><span class="tooltitle"><?php echo t('Flash Field') ?></span></div>
-    <p class="tooldef ellipsis"> <?php echo 'This field allows to add easily flash content (SWF).'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-    <table class="tooltab">
-        <thead>
-            <tr>
-                <td class="inline-block tooldua">Display</td>
-                <td class="inline-block tooldua">Add</td>
-                <td class="inline-block tooldua">Update</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="clearboth inline-block tooldua">
-                    <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
-                </td>
-                <td class="inline-block tooldua" style="padding: 0 5px">
-		    <input style="height: 25px;width: 120px;" type="file">    
-
-                </td>
-                <td class="inline-block tooldua" style="width: 155px;padding: 0 5px"> 
-		    <img title="" src="<?php echo BASE_PATH ?>core/fields/field_flash/icon.png">
-		    <input style="height: 25px;width: 120px;" type="file">    
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
 <div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
     <p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
     <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>

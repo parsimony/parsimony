@@ -289,7 +289,6 @@ class admin extends \module {
      * @return string 
      */
     protected function savePageAction($module, $id_page, $title, $meta, $regex, array $URLcomponents = array()) {
-        print_r(\app::$request->getParams());
 	$moduleObj = \app::getModule($module);
 	$page = $moduleObj->getPage($id_page);
 	$page->setModule($module);
