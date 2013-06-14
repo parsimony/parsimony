@@ -41,8 +41,8 @@ $visibility = $this->name . '_visibility';
     }
 </script>
 <style>
-    .pubstatus input.active, .pubstatus input:hover{color: white;box-shadow: inset 0px 1px 2px #444;background-image: -webkit-gradient(linear,left bottom,left top,from(#959595),to(#555));}
-    .pubstatus input {float: left;width: 30%;padding: 3px;cursor: pointer;border: 1px solid #555;text-align: center;background-image: -webkit-gradient(linear,left bottom,left top,from(#CCC),to(#F3F3F3));}
+    .pubstatus input.active, .pubstatus input:hover{color: #777;box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);}
+    .pubstatus input {float: left;width: 30%;padding: 3px;cursor: pointer;}    
     .sticky{margin:2px 0 2px 5px;}
     .slide{cursor:pointer}
 </style>
@@ -80,12 +80,12 @@ echo $this->displayLabel($fieldName);
     <div style="clear: both;padding: 5px 0;min-width: 237px;" >
         <span style="font-weight: bold;"><?php echo t('Publish', false); ?>  <?php echo t('Immediately', false); ?></span><span style="padding-left:5px"><?php echo t('Or', false); ?></span>
         <span style="padding-left:5px" class="slide"><?php echo t('Edit Planning', false); ?>  <img src="<?php echo BASE_PATH ?>admin/img/calendar.gif" style="padding-left:5px;cursor:pointer"/></span>
-        <div class="none publishcl" style="clear: both;font-size: 16px;color: #333;text-shadow: 0px 1px 0px white;padding-top: 8px;">
+        <div class="none publishcl">
             <?php
             $locale = \app::$request->getLocale();
-            $lang = '<input type="text" class="datesql adddd" style="width: 25px;" value="' . date('d', $stamp) . '" />';
+            $lang = '<input type="text" class="datesql adddd" value="' . date('d', $stamp) . '" />';
             $m = date('m', $stamp);
-            $select = ' <select type="text" class="datesql addmm" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;">';
+            $select = ' <select type="text" class="datesql addmm">';
             $month = array('01' => t('Jan', false), '02' => t('Feb', false), '03' => t('Mar', false), '04' => t('Apr', false), '05' => t('May', false), '06' => t('Jun', false), '07' => t('Jul', false), '08' => t('Aug', false), '09' => t('Sep', false), '10' => t('Oct', false), '11' => t('Nov', false), '12' => t('Dec', false));
             foreach ($month as $key => $month) {
                 if ($key == $m)
@@ -99,9 +99,9 @@ echo $this->displayLabel($fieldName);
             else
                 echo $select . $lang . ',';
             ?>
-            <input type="text" class="datesql addyyyy" style="width: 40px;" pattern="^[12][0-9]{3}$" value="<?php echo date('Y', $stamp); ?>" />
-            @ <input class="datesql addhour" type="text" style="width: 25px;" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('H', $stamp); ?>"> : 
-            <input type="text" class="addminut datesql" style="width: 25px;" maxlength="2" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('i', $stamp); ?>">
+            <input type="text" class="datesql addyyyy" pattern="^[12][0-9]{3}$" value="<?php echo date('Y', $stamp); ?>" />
+            @ <input class="datesql addhour" type="text" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('H', $stamp); ?>"> : 
+            <input type="text" class="addminut datesql" maxlength="2" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('i', $stamp); ?>">
             <input type="hidden" class="addsecond datesql" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('s', $stamp); ?>">
         </div>
         <input type="hidden" class="datestatus" name="<?php echo $this->name ?>">

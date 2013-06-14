@@ -651,6 +651,12 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 .placeholderRange{padding: 0 3px;}
 .placeholder .uploadimg{padding: 25px 0px;}
 .placeholder .field-image-inputText a,.placeholder field-image-fileName a{color: #464646;}
+.placeholder .publishcl{clear: both;font-size: 13px;color: #333;text-shadow: 0px 1px 0px white;padding-top: 8px;}
+.placeholder .publishcl input[type="text"]{width: 25px;}
+.placeholder .publishcl .addyyyy{width: 40px;}
+.placeholder .publishcl select{vertical-align: top;height: 26px;width: 70px;font-size: 13px;}
+.placeholder .pubstatus input[type="button"]:nth-child(2) {border-left: none;border-right: none;}
+
 
 /* Pagination */
 .pagination a{
