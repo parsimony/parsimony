@@ -32,6 +32,22 @@
 ?>
 
 <script>
+    function checkVersion(){
+        $.get("http://parsimony.mobi/lastversion.php", function(data) {
+            if(data[0] == "{"){
+                var data = JSON.parse(data);
+                for (version in data) {
+                    if(parseFloat(version) > <?php echo PARSIMONY_VERSION; ?>){
+                        document.getElementById("stablechannel").innerHTML = '<input type="button" value="Update to version ' + version + '" class="updateVersion" data-urlupdate="' + data[version] + '">';
+                        break;
+                    }else{
+                        document.getElementById("numVersion").innerHTML = version;
+                    }
+                    document.getElementById("stablechannel").innerHTML = 'You have the lastest stable version';
+                }
+            }
+        });
+    }
     $(document).ready(function(){
         /* Color Picker */
         /*var currentColorPicker = $(".colorpicker2");
@@ -39,19 +55,31 @@
             callback: function(hex) {
                 currentColorPicker.val("#" + hex).trigger("change");
             }
-        });*/
+        });
         $(".adminzonecontent").on('click','.colorpicker2',function(){
             currentColorPicker = $(this);
             picker.el.style.display = "block";
             picker.el.style.top = ($(this).offset().top) + 25 + "px";
             picker.el.style.left = ($(this).offset().left + 200) + "px";
+        });*/
+        
+        checkVersion();
+        
+        $(document).on('click', '.updateVersion', function(){
+            document.getElementById('updateVersionLoad').style.display = "inline";
+            $.post(BASE_PATH + 'admin/uptodate', { url : this.dataset.urlupdate }, function(data) {
+                document.getElementById('updateVersionLoad').style.display = "none";
+                checkVersion();
+              });
         });
+        
     });
 </script>
 <style>
     .admintabs > div{margin-bottom: 20px;}
     .adminzone td{padding:10px;min-width:100px}
     .adminzone td input{margin-left: 30px;}
+    #updateVersionLoad{display:none}
 </style>
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
@@ -67,6 +95,7 @@
 	<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax', FALSE); ?></a></div>
+        <div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version', FALSE); ?></a></div>
     </div>
     <div class="adminzonecontent">
         <form action="" method="POST" target="formResult">
@@ -331,6 +360,16 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div id="tabsb-10" class="admintabs">
+                <h2><?php echo t('Current', FALSE); ?> Parsimony <?php echo t('Version', FALSE); ?> : <span id="numVersion"><?php echo PARSIMONY_VERSION; ?></span> <img src="<?php echo BASE_PATH; ?>admin/img/load.gif" id="updateVersionLoad" /></h2>
+                <div><h3>Stable channel</h3>
+                    <div id="stablechannel">
+                    </div>
+                </div>
+                <div><h3>Nightly channel</h3>
+                <input type="button" value="Update to lastest nightly version" class="updateVersion" data-urlupdate="http://nodeload.github.com/parsimony/parsimony_cms/legacy.zip/master">
+                </div>
             </div>
             <?php if (PROFILE == 'www'): ?>
                 <input type="hidden" name="file" value="config.php">

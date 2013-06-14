@@ -325,7 +325,7 @@ abstract class entity implements \Iterator {
             }
         }
         foreach ($this->getFields() as $name => $field) {
-            if ($type === 'INSERT' || isset($vars[$name])) {
+            if ($type === 'INSERT' || isset($vars[$name])) { // to allow only the update of some properties
                 $columns = $field->getColumns();
                 if (count($columns) === 1){
                     /* If the field has one column */
@@ -392,9 +392,9 @@ abstract class entity implements \Iterator {
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & INSERT) {
                     if (get_class($field) === \app::$aliasClasses['field_formasso'] || get_class($field) === \app::$aliasClasses['field_publication'] || get_class($field) === \app::$aliasClasses['field_state'] || get_class($field) === \app::$aliasClasses['field_foreignkey'] || get_class($field) === \app::$aliasClasses['field_date'] || get_class($field) === \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
+                        $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE)); //false is important
                     else
-                        $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : ''));
+                        $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
                 } 
             }
             $html .= '<h2 style="position:relative">' . t('Add in', false) . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save', FALSE) . '" name="add"></h2><div class="cols">';
@@ -428,9 +428,9 @@ abstract class entity implements \Iterator {
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & UPDATE) {
                     if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form($field->value, $this);
+                        $col2 .= $field->form($field->value);
                     else
-                        $col1 .= $field->form($field->value, $this);
+                        $col1 .= $field->form($field->value);
                 }
             }
             $html .= '<h2 style="position:relative">' . t('Record', FALSE) . ' N°' . $this->getId()->value;
@@ -532,7 +532,7 @@ abstract class entity implements \Iterator {
     public function getById($id) {
         if (is_numeric($id)) {
             $this->_SQL = array();
-            $this->where($this->getId()->name . ' = ' . $id);
+            $this->where($this->_tableName . '_' . $this->getId()->name . ' = ' . $id);
             return $this;
         }else
             throw new \Exception(t('ID isn\'t numeric'));

@@ -20,7 +20,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 .selection-container{outline:1px solid #007BC8;}
 
 /* Editinplace */
-.wysiwyg.activeEdit:hover{outline:1px orange solid;}
+.creationMode .parsieditinline:hover, .creationMode .block_wysiwyg:hover,.previewMode .parsieditinline:hover,.previewMode .block_wysiwyg:hover{outline:none;}
 .editMode a{pointer-events:none}
 
 /* CSS Picker */

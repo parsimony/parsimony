@@ -180,7 +180,9 @@ echo $this->displayLabel($fieldName);
             $(this).next().slideToggle();
         });
 
-    <?php if(is_object($row)): ?>
+    <?php 
+    /* For update */
+    if($value != FALSE): ?>
 	if("<?php echo s($row->$visibility); ?>" == 0 || "<?php echo s($row->$visibility); ?>" == 1 || "<?php echo s($row->$visibility); ?>" == 2){
 	    $('.sticky input[data-val="<?php echo s($row->$visibility); ?>"]').trigger('click');
 	}else{

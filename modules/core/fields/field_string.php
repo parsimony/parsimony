@@ -60,7 +60,7 @@ class field_string extends \field {
     public function checkUniqueAction($chars, $id = false) {
 	if($this->unique){
             $entity = clone \app::getModule($this->module)->getEntity($this->entity);
-            $obj = $entity->where($this->name.' = "'.$chars.'"');
+            $obj = $entity->where($this->module . '_' . $this->entity .'.'.$this->name.' = "'.$chars.'"');
             if($id != false && is_numeric($id)) $obj = $obj->where($entity->getId()->name.' != '.$id);
             $obj = $obj->fetch();
 	    if(!$obj){

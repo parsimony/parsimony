@@ -375,24 +375,27 @@ function blockAdminCSS() {
                 document.getElementById("css_panel").style.display = 'none';
             }
         });
-        
+
             
         /* CSSpicker 3D */
         $("#threed").on('change.creation','.ch',function(){
-            var x  = document.getElementById("rotatex").value;
-            var y = document.getElementById("rotatey").value;
-            var z = document.getElementById("rotatez").value;
-            if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
-            var style = 'rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff';
-            if(typeof ParsimonyAdmin.currentBody.style.MozTransform != "undefined"){
-               ParsimonyAdmin.currentBody.style['MozTransform'] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
-               blockAdminCSS.iframeStyleSheet.deleteRule("0");
-               blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-moz-transform:' + style + ';}',"0"); 
-            }else{
-               ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
-               blockAdminCSS.iframeStyleSheet.deleteRule("0");
-               blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';}',"0"); 
-            }
+            var requestAnim = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+            requestAnim(function () {
+                var x  = document.getElementById("rotatex").value;
+                var y = document.getElementById("rotatey").value;
+                var z = document.getElementById("rotatez").value;
+                if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
+                var style = 'rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff';
+                if(typeof ParsimonyAdmin.currentBody.style.MozTransform != "undefined"){
+                   ParsimonyAdmin.currentBody.style['MozTransform'] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+                   blockAdminCSS.iframeStyleSheet.deleteRule("0");
+                   blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-moz-transform:' + style + ';}',"0"); 
+                }else{
+                   ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+                   blockAdminCSS.iframeStyleSheet.deleteRule("0");
+                   blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';}',"0"); 
+                }
+            });
         });
         
         blockAdminCSS.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length-1];

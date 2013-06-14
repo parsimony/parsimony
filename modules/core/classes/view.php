@@ -262,86 +262,90 @@ class view implements \Iterator {
      */
     public function buildQuery() {
         \app::dispatchEvent('beforeBuildQuery', array());
-        $query = 'SELECT ';
-        foreach ($this->getFields() as $field) {
-            $id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
-            if(get_class($field) === \app::$aliasClasses['field_formasso']){
-                $currentEntity = \app::getModule($field->module)->getEntity($field->entity);
-                $foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
-                $idNameForeignEntity = $foreignEntity->getId()->name;
+        if(!isset($this->SQL['query']) && !isset($this->SQL['wheres'])){ // query cache
+            $query = 'SELECT ';
+            foreach ($this->getFields() as $field) {
+                $id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
+                if(get_class($field) === \app::$aliasClasses['field_formasso']){
+                    $currentEntity = \app::getModule($field->module)->getEntity($field->entity);
+                    $foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
+                    $idNameForeignEntity = $foreignEntity->getId()->name;
                 $this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
                 $this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
                 $this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
                 $this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
-            } elseif (!isset($this->fields[$id])) {
+                } elseif (!isset($this->fields[$id])) {
                 $this->select($field->module . '_' . $field->entity . '.' . $id, TRUE);
+                }
             }
-        }
-        $query .= implode(',',$this->SQL['selects']);
-        if (count($this->SQL['froms']) === 1 && empty($this->SQL['joins'])) {
-            $query .= ' FROM ' . reset($this->SQL['froms']);
-        } else {
-            $firstTable = reset($this->SQL['joins']);
-            $query .= ' FROM '.strstr($firstTable['propertyLeft'], '.', true);
-            foreach ($this->SQL['joins'] AS $join) {
-                $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+            $query .= implode(',',$this->SQL['selects']);
+            if (count($this->SQL['froms']) === 1 && empty($this->SQL['joins'])) {
+                $query .= ' FROM ' . reset($this->SQL['froms']);
+            } else {
+                $firstTable = reset($this->SQL['joins']);
+                $query .= ' FROM '.strstr($firstTable['propertyLeft'], '.', true);
+                foreach ($this->SQL['joins'] AS $join) {
+                    $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+                }
             }
-        }
-       $vars = array(); // init here for pagination
-       if (isset($this->SQL['wheres'])) {
-            $wheres = array();
-            foreach ($this->SQL['wheres'] AS $where) {
-                if(strstr($where, ':') !== FALSE){
-                    preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
-                    foreach($matches[1] AS $param){
-                        $value = \app::$request->getParam($param);
-                        if(!empty($value)){
-                            if(is_array($value)){
-                                $nb = count($value);
-                                $str = array();
-                                for ($i = 0; $i < $nb; $i++) {
-                                    $str[] = ':'.$param.$i;
-                                    $vars[':'.$param.$i] = $value[$i];
-                                }
-                                $where = str_replace(':'.$param, implode(',',$str), $where);
-                            }else{
-                                $vars[':'.$param] = strlen($value) > 0 ? $value : '';
-                            }      
+           $vars = array(); // init here for pagination
+           if (isset($this->SQL['wheres'])) {
+                $wheres = array();
+                foreach ($this->SQL['wheres'] AS $where) {
+                    if(strstr($where, ':') !== FALSE){
+                        preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
+                        foreach($matches[1] AS $param){
+                            $value = \app::$request->getParam($param);
+                            if(!empty($value)){
+                                if(is_array($value)){
+                                    $nb = count($value);
+                                    $str = array();
+                                    for ($i = 0; $i < $nb; $i++) {
+                                        $str[] = ':'.$param.$i;
+                                        $vars[':'.$param.$i] = $value[$i];
+                                    }
+                                    $where = str_replace(':'.$param, implode(',',$str), $where);
+                                }else{
+                                    $vars[':'.$param] = strlen($value) > 0 ? $value : '';
+                                }      
+                            }
                         }
                     }
+                    // Frame the "where" if several sql conditions
+                    if(strstr($where,'&&') || strstr($where,'||') || stristr($where,' or ') || stristr($where,' and ')) $wheres[] = '(' . $where .')';
+                    $wheres[] = $where;
                 }
-                // Frame the "where" if several sql conditions
-                if(strstr($where,'&&') || strstr($where,'||') || stristr($where,' or ') || stristr($where,' and ')) $wheres[] = '(' . $where .')';
-                $wheres[] = $where;
+                if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
             }
-            if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
-        }
-        if (isset($this->SQL['groupBys'])) {
-            $query .= ' GROUP BY ' . implode(' ,', $this->SQL['groupBys']);
-        }
-        if (isset($this->SQL['orders'])) {
-            $orders = array();
-            foreach ($this->SQL['orders'] AS $property => $order) {
-                $orders[] = $property . ' ' . $order;
+            if (isset($this->SQL['groupBys'])) {
+                $query .= ' GROUP BY ' . implode(' ,', $this->SQL['groupBys']);
             }
-            $query .= ' ORDER BY ' . implode(',', $orders);
-        }
-        if (isset($this->SQL['limit'])) {
-            $limit = ' LIMIT 0,' . $this->SQL['limit'];
-            if (isset($this->SQL['pagination']) && $this->SQL['pagination'] === TRUE) {
-                $this->SQL['pagination'] = new \pagination($query, $this->SQL['limit'], $vars);
-                $start = $this->SQL['pagination']->getCurrentPage() * $this->SQL['limit'] - $this->SQL['limit'];
-                $limit = ' LIMIT ' . $start . ',' . $this->SQL['limit'];
+            if (isset($this->SQL['orders'])) {
+                $orders = array();
+                foreach ($this->SQL['orders'] AS $property => $order) {
+                    $orders[] = $property . ' ' . $order;
+                }
+                $query .= ' ORDER BY ' . implode(',', $orders);
             }
-            $query .= $limit;
-        }
-        $this->SQL['valid'] = TRUE;
-        if(PREFIX !== ''){
-            foreach($this->SQL['froms'] AS $table){
-                $query = str_replace($table, PREFIX.$table, $query);
+            if (isset($this->SQL['limit'])) {
+                $limit = ' LIMIT 0,' . $this->SQL['limit'];
+                if (isset($this->SQL['pagination']) && $this->SQL['pagination'] === TRUE) {
+                    $this->SQL['pagination'] = new \pagination($query, $this->SQL['limit'], $vars);
+                    $start = $this->SQL['pagination']->getCurrentPage() * $this->SQL['limit'] - $this->SQL['limit'];
+                    $limit = ' LIMIT ' . $start . ',' . $this->SQL['limit'];
+                }
+                $query .= $limit;
             }
+            $this->SQL['valid'] = TRUE;
+            if(PREFIX !== ''){
+                foreach($this->SQL['froms'] AS $table){
+                    $query = str_replace($table, PREFIX.$table, $query);
+                }
+            }
+            $this->SQL['query'] = $query;
+        }else{
+            $query = $this->SQL['query'];
         }
-        $this->SQL['query'] = $query;//strtolower();
         if(!empty($vars)){
             $this->SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
             $this->SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);

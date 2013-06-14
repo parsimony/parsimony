@@ -57,8 +57,8 @@ class admin extends \module {
      */
     public function controller($action, $httpMethod = 'GET') {
         if($httpMethod === 'POST'){
-            $justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel');
-            if ($_SESSION['behavior'] == 0 || ( $_SESSION['behavior'] == 1  && in_array($action, $justForCreators)))
+            $justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel', 'uptodate');
+            if ($_SESSION['behavior'] === 0 || ( $_SESSION['behavior'] === 1  && in_array($action, $justForCreators)))
                 return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
             if (!empty($action)) {
                 $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
@@ -1284,6 +1284,62 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	    }
 	}
 	return ' ';
+    }
+    
+    protected function uptodateAction($url) {
+
+        $majTitle = 'maj-'.time();
+        $zipFile = 'var/maj/'.$majTitle.'.zip';
+        if (!is_dir('var/maj/'.$majTitle.'/extract'))
+            mkdir('var/maj/'.$majTitle.'/extract', 0755, TRUE);
+        if (!is_dir('var/maj/'.$majTitle.'/backup/modules'))
+            mkdir('var/maj/'.$majTitle.'/backup/modules', 0755, TRUE);
+
+        if(copy($url,'var/maj/'.$majTitle.'.zip') === TRUE){
+            //echo 'Maj downloaded';
+            $zip = new \ZipArchive();
+            if($zip->open($zipFile) === TRUE){
+                if($zip->extractTo('var/maj/'.$majTitle.'/extract') === TRUE){
+                    //echo 'Zip extracted';
+                    //get main directory 
+                    $searchDir = glob('var/maj/'.$majTitle.'/extract/parsimony*', GLOB_ONLYDIR);
+                    if(is_array($searchDir)){
+                        $mainDir = basename($searchDir[0]);
+                    }
+                    if(is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/core') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/admin') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/blog')){
+                        if(rename('lib', 'var/maj/'.$majTitle.'/backup/lib') === TRUE){
+                            //echo 'Lib directory saved in backup';
+                            if(rename('modules/core', 'var/maj/'.$majTitle.'/backup/modules/core') === TRUE && rename('modules/admin', 'var/maj/'.$majTitle.'/backup/modules/admin') === TRUE && rename('modules/blog', 'var/maj/'.$majTitle.'/backup/modules/blog') === TRUE){
+                                //echo 'Module directory saved in backup';
+                                if(rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib', 'lib') === TRUE){
+                                    if(rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/core', 'modules/core') === TRUE && rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/admin', 'modules/admin') === TRUE && rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/blog', 'modules/blog') === TRUE){
+                                        //echo 'Succesfull';
+                                        return TRUE;
+                                    }else{
+                                        rename('lib', 'var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib');
+                                        rename('var/maj/'.$majTitle.'/backup/modules/core', 'modules/core');
+                                        rename('var/maj/'.$majTitle.'/backup/modules/admin', 'modules/admin');
+                                        rename('var/maj/'.$majTitle.'/backup/modules/blog', 'modules/blog');
+                                        rename('var/maj/'.$majTitle.'/backup/lib', 'lib');
+                                    }
+                                }else{
+                                    rename('var/maj/'.$majTitle.'/backup/modules/core', 'modules/core');
+                                    rename('var/maj/'.$majTitle.'/backup/modules/admin', 'modules/admin');
+                                    rename('var/maj/'.$majTitle.'/backup/modules/blog', 'modules/blog');
+                                    rename('var/maj/'.$majTitle.'/backup/lib', 'lib');
+                                }
+                            }else{
+                                rename('var/maj/'.$majTitle.'/lib', 'lib');
+                            }
+                        }
+                    }
+                    $zip->close();
+                }else{
+
+                }
+            }
+        }
+        return FALSE;
     }
 
     /**

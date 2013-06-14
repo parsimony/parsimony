@@ -141,18 +141,40 @@ var ParsimonyAdmin = {
     },
     
     loadEditMode :   function(){
-	$(".parsieditinline",ParsimonyAdmin.currentBody).addClass('usereditinline').attr("contenteditable", "true");
         
-	/* Active edit behavior on WYSIWYG blocks */
-        $(".block_wysiwyg",ParsimonyAdmin.currentBody).addClass('activeEdit').attr("contenteditable", "true")
-	
-	/* Shortcut : Save on CTRL+S */
-	.on("keydown.edit", function(e) {
-	    if (e.keyCode == 83 && e.ctrlKey) {
-	      e.preventDefault();
-	      ParsimonyAdmin.haveToSave = true;
-	    }
-	});
+        /* Enable contenteditable */
+        $(".block_wysiwyg, .parsieditinline",ParsimonyAdmin.currentBody).attr("contenteditable", "true");
+        
+        /* Enable edit toolbar */
+        document.getElementById("toolbarEditMode").style.display = "block";
+
+        /* Listen all changes of all edit-inlines */
+        ParsimonyAdmin.observer = new MutationObserver(function(mutations) {
+            var node = mutations[0].target.parentNode;
+            while (node != ParsimonyAdmin.currentBody){
+                if (node.classList.contains("parsieditinline") || node.classList.contains("block_wysiwyg")) {
+                    if(!node.hasAttribute("data-modified")) node.setAttribute("data-modified", "1");
+                    
+                    /* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
+                    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
+                    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
+                    if(undo || redo){
+                        document.getElementById("toolbarEditMode").classList.add("open");
+                        if(undo) document.getElementById("toolbarEditModeUndo").style.display = "inline-block";
+                        else document.getElementById("toolbarEditModeUndo").style.display = "none";
+                        if(redo) document.getElementById("toolbarEditModeRedo").style.display = "inline-block";
+                        else document.getElementById("toolbarEditModeRedo").style.display = "none";
+                    }else{
+                        document.getElementById("toolbarEditMode").classList.remove("open");
+                    }
+                    ParsimonyAdmin.unsavedChanges = true;
+                    
+                    break;
+                }
+                node = (node.parentNode || ParsimonyAdmin.currentBody);
+            }
+        });
+        ParsimonyAdmin.observer.observe(ParsimonyAdmin.currentBody, { subtree:true, characterData: true });
 	
 	/* Init WYSIWYG editor */
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
@@ -174,10 +196,10 @@ var ParsimonyAdmin = {
 	
 	/* Save all WYSISYG blocks or contenteditable fields */
 	.on('click.edit',"#toolbarEditModeSave",function(e){
-            this.focus();
+
 	    /* We collect fresh data for WYSIWYG blocks */
 	    var changes = {};
-	     $(".block_wysiwyg.activeEdit",ParsimonyAdmin.currentBody).each(function(){
+	     $(".block_wysiwyg",ParsimonyAdmin.currentBody).each(function(){
 		if(this.dataset.modified) {
 		    var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
 		    var theme = ParsimonyAdmin.currentWindow.THEME;
@@ -192,54 +214,40 @@ var ParsimonyAdmin = {
 	    });
 
 	    /* We collect fresh data for contenteditable fields */
-	    $(".usereditinline",ParsimonyAdmin.currentBody).each(function(){
+	    $(".parsieditinline",ParsimonyAdmin.currentBody).each(function(){
 		if(this.dataset.modified) {
-		    changes[this.dataset.property+this.dataset.id] = {module:this.dataset.module,entity:this.dataset.entity,fieldName:this.dataset.property,id:this.dataset.id,html:this.innerHTML};
+		    changes[this.dataset.entity + this.dataset.property + this.dataset.id] = {module:this.dataset.module,entity:this.dataset.entity,fieldName:this.dataset.property,id:this.dataset.id,html:this.innerHTML};
 		}
 	    });
 	    
-	    /* We send fresh data to the serve to save it */
+	    /* We send fresh data to the server to save it */
 	    $.post(BASE_PATH + 'admin/saveWYSIWYGS',{changes:JSON.stringify(changes)},function(data){
                     ParsimonyAdmin.unsavedChanges = false;
-                    $("#toolbarEditMode").slideUp();
-                    $(".block_wysiwyg.activeEdit, .usereditinline").attr("data-modified","0");
+                    document.getElementById("toolbarEditMode").classList.remove("open");
+                    $(".block_wysiwyg, .parsieditinline").attr("data-modified","0");
                     ParsimonyAdmin.execResult(data);
             });
-	});
-	
-	/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
-	$(ParsimonyAdmin.currentBody).on('keyup.edit', ".block_wysiwyg.activeEdit, .usereditinline",function(e){
-	    var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
-	    var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
-	    if(undo || redo){
-		$("#toolbarEditMode").slideDown();
-		if(undo) document.getElementById("toolbarEditModeUndo").style.display = "inline-block";
-		else document.getElementById("toolbarEditModeUndo").style.display = "none";
-		if(redo) document.getElementById("toolbarEditModeRedo").style.display = "inline-block";
-		else document.getElementById("toolbarEditModeRedo").style.display = "none";
-	    }else{
-		$("#toolbarEditMode").slideUp();
-	    }
-	    if(ParsimonyAdmin.haveToSave){
-		ParsimonyAdmin.haveToSave = false;
-                document.getElementById("toolbarEditModeSave").click();
-	    }
-	    ParsimonyAdmin.unsavedChanges = true;
 	});
 	
 	this.pluginDispatch("loadEditMode");
     }, 
     
     unloadEditMode :   function(){
-	//if(typeof ParsimonyAdmin.wysiwyg == "object") ParsimonyAdmin.wysiwyg.disable();
+        /* Disable wysiwyg */
         delete ParsimonyAdmin.wysiwyg;
         ParsimonyAdmin.wysiwyg = "";
-	ParsimonyAdmin.$currentDocument.add(ParsimonyAdmin.currentBody).off('.edit');
-        $(".block_wysiwyg.activeEdit",ParsimonyAdmin.currentBody).off();
-        $(".parsieditinline",ParsimonyAdmin.currentBody).removeClass('usereditinline').attr("contenteditable", "false");
-        $(".block_wysiwyg",ParsimonyAdmin.currentBody).removeClass('activeEdit').attr("contenteditable", "false");
         $(".HTML5editorToolbar").hide();
-	$("#toolbarEditMode").hide();
+        $(".block_wysiwyg, .parsieditinline",ParsimonyAdmin.currentBody).attr("contenteditable", "false");
+        
+        /* Disable observer */
+        ParsimonyAdmin.observer.disconnect();
+        
+        /* Disable events */
+	ParsimonyAdmin.$currentDocument.off('.edit');
+        
+        /* Disable toolbar */
+	$("#toolbarEditMode").off('.edit').hide();
+        
 	this.pluginDispatch("unloadEditMode");
     },
     loadPreviewMode :   function(){
@@ -636,7 +644,7 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.setMode("preview");
 	},
         setMode :   function (mode){
-            $("body").add(ParsimonyAdmin.currentBody).removeClass("previewMode modeMode creationMode").addClass(mode + "Mode");
+            $("body").add(ParsimonyAdmin.currentBody).removeClass("previewMode editMode creationMode").addClass(mode + "Mode");
 	    /* Unload current mode if exists */
 	    if(ParsimonyAdmin.currentMode.length > 0){
 		var captitalizeOldMode = ParsimonyAdmin.currentMode[0].toUpperCase() + ParsimonyAdmin.currentMode.substring(1);
