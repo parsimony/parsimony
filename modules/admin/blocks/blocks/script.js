@@ -251,6 +251,7 @@ function blockAdminBlocks() {
     }
     
     this.unloadCreationMode =   function(){
+        ParsimonyAdmin.$currentBody.add('#paneltree').off('.creation');
 	ParsimonyAdmin.$currentBody.add('#paneltree').add('#conf_box_content').add(document).add('#config_tree_selector').add("#menu").off('.creation');
     }
     

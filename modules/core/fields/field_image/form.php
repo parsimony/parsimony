@@ -27,9 +27,9 @@
  */
 /* todo remove style attribute */
 app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
-
 echo $this->displayLabel($fieldName);
  ?>
+<div class="uploadimg">
 <div id="upload_image_<?php echo $fieldName?>">
     <div id="image_thumb_<?php echo $fieldName; ?>" class="field-image-previewContainer<?php if(empty($value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
 	    <div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name',FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
@@ -41,9 +41,10 @@ echo $this->displayLabel($fieldName);
     </div>
     <input type="hidden" id="image_<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
 </div>
+</div>
 <script LANGUAGE="JavaScript" type="text/javascript">
     $(document).ready(function(){
-	$("#upload_image_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>socialssignin/callField",
+	$("#upload_image_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->module; ?>/callField",
 	    ajaxFileParams: {
             module: "<?php echo $this->module; ?>", 
             entity: "<?php echo $this->entity; ?>", 

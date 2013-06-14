@@ -54,7 +54,7 @@ class field_price extends \field {
      * @param bool $required by default true
      * @param string $regex by default '[0-9]*'
      */
-    public function __construct($module, $entity, $name, $type = 'DECIMAL', $characters_max = '20,6', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '[0-9\.,]*', $visibility = 7) {
+    public function __construct($module, $entity, $name, $type = 'DECIMAL', $characters_max = '7,2', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '[0-9\.,]*', $visibility = 7) {
         $this->constructor(func_get_args());
     }
     /**
@@ -63,13 +63,12 @@ class field_price extends \field {
      * @return string
      */
     public function validate($value) {
-        if(!$this->required && empty($value))
-                return $value;
-	$value = str_replace(',', '.', $value);
-	$testValue = str_replace('.', '', $value);
+        $value = abs(str_replace(',', '.',$value));
+        // abs return absolute value or int(0)
+        if(!$this->required && empty($value)) return $value;
 	$cutMax = explode(',',$this->characters_max);
 	$cutValue = explode('.',$value);
-        if(is_numeric($testValue) && strlen($value) <= $cutMax[0] && (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])){
+        if(strlen($value) <= $cutMax[0] && (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])){
 	    return $value;
 	}else{
 	    return FALSE;

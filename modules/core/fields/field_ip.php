@@ -82,8 +82,8 @@ class field_ip extends \field {
      * @return string
      */
     public function validate($value) {
-        if(!$this->required && empty($value))
-                return $value;
+        if($this->required && empty($value)) return $_SERVER["REMOTE_ADDR"];
+        else return $value;
 	$ipv4 = filter_var($value, FILTER_VALIDATE_IP);
 	$ipv6 = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 	if ($ipv4) {

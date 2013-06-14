@@ -84,7 +84,7 @@
 </script>
 <style>
     #modifmodel3 a{line-height: 16px;padding-left: 8px;padding-right: 8px;font-size: 12px;padding-top: 2px;padding-bottom: 2px;background: none;}
-    #modifmodel3 .adminzonetab a{color: #555;background: #ECECEC;}
+    #modifmodel3 .adminzonetab a {color: #555;background: #ECECEC;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
     #modifmodel3 .adminzonetab:hover span.ui-icon-closethick {display: block;margin: -1px 2px 0px 0px;border: #666 solid 1px;border-radius: 5px;cursor: pointer;}
     #modifmodel3 span.ui-icon-closethick {display: none;}
     #modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}

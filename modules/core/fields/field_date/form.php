@@ -70,4 +70,5 @@ $stamp = strtotime($value);
 <?php elseif ($this->use == 'creation') : ?>
     <input type="hidden" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>">
 <?php elseif ($this->use == 'update') : ?>
+    <input type="hidden" name="<?php echo $this->name ?>" value="">
 <?php endif; ?>

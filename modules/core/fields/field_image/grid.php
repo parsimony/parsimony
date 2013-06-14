@@ -25,5 +25,4 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- ?>
-<div class="align_center"><img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.$this; ?>&x=40&y=40"  /></div>
+ ?><div class="align_center"><img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.$this->value.'&x=40&y=40';?>"/></div>
