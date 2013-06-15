@@ -13,13 +13,6 @@ function blockAdminTree() {
 	
     }
     
-    this.initIframe = function () {
-	
-	$('#treedom_container').attr('title','Site structure');
-	$('#treedom_content').attr('title','Dynamic content');
-	
-    }
-    
     this.init = function () {
 	
 	$('#right_sidebar').on('click','.tree_selector', function(event){
@@ -35,13 +28,12 @@ function blockAdminTree() {
 	    var ids = this.id.split("treedom_")[1];
 	    $(".selection-block:not(#" + ParsimonyAdmin.inProgress + ")",ParsimonyAdmin.currentBody).removeClass("selection-block");
 	    $("#" + ids,ParsimonyAdmin.currentBody).trigger('mouseover');
-	});
-	
-	$("#treedom_content").on('mouseover mouseout',function(event){
-	    var dom = $(".container_page",ParsimonyAdmin.currentBody).get(0);
-	    if(typeof dom.style != "undefined"){
-		if (event.type == 'mouseover') {
-		    dom.style.outline = '5px #c8007a solid';
+	})
+        .on("mouseenter mouseleave", "#treedom_content", function(event){
+	    var dom = ParsimonyAdmin.currentBody.querySelector(".container_page");
+	    if(dom){
+		if (event.type == 'mouseenter') {
+		    dom.style.outline = '4px #c8007a solid';
 		} else {
 		    dom.style.outline = 'none';
 		}

@@ -179,15 +179,14 @@ var ParsimonyAdmin = {
 	/* Init WYSIWYG editor */
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
             ParsimonyAdmin.wysiwyg = new wysiwyg();
-            ParsimonyAdmin.wysiwyg.init(".block_wysiwyg",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
+            ParsimonyAdmin.wysiwyg.init(".block_wysiwyg, .parsieditinline",["bold","underline","italic","justifyLeft","justifyCenter","justifyRight","justifyFull","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","fontName","fontSize","foreColor","hiliteColor","insertImage"], document, ParsimonyAdmin.currentDocument);
         }
         document.querySelector(".HTML5editorToolbar").style.display = 'none';
 	
-	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block */
-	ParsimonyAdmin.$currentDocument.on('click.edit','.parsiblock',function(e){
-	    if(!this.classList.contains("block_wysiwyg")) document.querySelector(".HTML5editorToolbar").style.display = 'none';
-            else document.querySelector(".HTML5editorToolbar").style.display = 'block';
-	})
+	/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block/field */
+	ParsimonyAdmin.$currentDocument.on('click.edit',".parsiblock",function(e){
+	     if(!ParsimonyAdmin.currentDocument.activeElement.hasAttribute("contenteditable")) document.querySelector(".HTML5editorToolbar").style.display = 'none';
+	});
         
 	/* Manage undo/redo on save toolbar */
 	$("#toolbarEditMode").on('click.edit',".toolbarEditModeCommands",function(e){
@@ -234,8 +233,6 @@ var ParsimonyAdmin = {
     
     unloadEditMode :   function(){
         /* Disable wysiwyg */
-        delete ParsimonyAdmin.wysiwyg;
-        ParsimonyAdmin.wysiwyg = "";
         $(".HTML5editorToolbar").hide();
         $(".block_wysiwyg, .parsieditinline",ParsimonyAdmin.currentBody).attr("contenteditable", "false");
         
@@ -618,10 +615,7 @@ var ParsimonyAdmin = {
 	    $(".dropInContainer",ParsimonyAdmin.currentBody).remove();
 	    if(tree!=false) {
 		$("#config_tree_selector").hide().prependTo("#right_sidebar");
-		ParsimonyAdmin.loadBlock('tree');
-		ParsimonyAdmin.loadBlock('tree',{}, function(){
-		    if(ParsimonyAdmin.inProgress != "container") $("#treedom_" + ParsimonyAdmin.inProgress).trigger("click");
-		});   
+		ParsimonyAdmin.loadBlock('tree');  
 	    }
 	    $(".block_container",ParsimonyAdmin.currentBody).each(function(){
 		if($(this).find('.parsiblock:not("#content")').length == 0) {
@@ -636,6 +630,7 @@ var ParsimonyAdmin = {
 	setEditMode :   function (){
 	    $('#right_sidebar,.panelblocks,.creation').hide();
             $('#left_sidebar').show();
+            $(".panelblocks").removeClass("active");
 	    $(".panelmodules").addClass("active");
 	    ParsimonyAdmin.setMode("edit");
 	},
