@@ -44,55 +44,49 @@ $view = $this->getConfig('view');
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <style>
     .adminzonecontent{min-width:1340px}
+    .queryblock:hover .removeButton{display:block}
     .tabs{min-width: 1000px;}
     .innerTabs ul li a {padding: 0 7px;line-height: 23px;}
-    .queryblock{margin:1px 1px;border-radius:3px;padding:1px;border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;background: #F7F7F7;}
+    .queryblock{position: relative;margin:1px 2px;border-radius:3px;padding:1px;border: 1px solid #e7e7e7 ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;background: #F7F7F7;}
+    .queryblock a{top: 2px;right: 2px;position: absolute;}
     ._jsPlumb_endpoint{cursor: pointer;z-index: 50}
     ._jsPlumb_connector{cursor: pointer;}
-    .property{padding: 0 5px;cursor:pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;}
-    .property:hover{background:#CBDDF3}
+    .property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
+    .property:hover{background-color: rgb(231,242,255);}
     .caption{box-shadow: 2px 0 2px #CCC;width: 72px;position: absolute;left: -5px;background: white;z-index: 100;float: left;}
     .caption div{line-height: 25px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 130px;background: transparent;border: none;box-shadow:initial;}
     #recipiant_sql input.property{pointer-events: none}
     #recipiant_sql .table{background: transparent;border: none;box-shadow:initial;}
-    #recipiant_sql .display{text-align:center;top: -2px;}
     #recipiant_sql .selector{width:100%}
-    #recipiant_sql select{width:100%}
+    #recipiant_sql select{width:100%;margin-bottom: 0px;margin-top: 5px;}
     #recipiant_sql .where input{width:110px}
+    #recipiant_sql input[type="checkbox"]{margin-bottom: 2px;margin-top: 3px;}
+     #recipiant_sql textarea, #recipiant_sql input[type="text"],  #recipiant_sql input[type="password"], #recipiant_sql input[type="file"], #recipiant_sql select{border: 1px solid #e7e7e7;}
     #schema_sql{position:absolute;height:300px;width: 185px;z-index: 999;display:none;background-color: rgb(245, 245, 245);}
     .schemasql{color:#383838;letter-spacing: 1.1px;padding-top: 3px;}
     .schemasql a{text-decoration: none;color: #333;font-weight: bolder;text-transform: capitalize;padding-left: 4px;}
     .schemasql .tableCont{border-radius: 3px;background: rgb(255, 255, 255);border: 1px solid rgb(211, 211, 211);margin:2px 2px;cursor:pointer;}
     .schemasql .tableCont .table{padding:4px;}
     .schemasql .tableCont .property{display:none;}
-     
     #queryCanvas .menuh{overflow-x: scroll;border: 1px solid #5E9AE2;text-align: left;width: 100%;display:none;position:absolute;top:32px;z-index:8000;background:rgba(255,255,255,0.8);left: 0px;}
-    #queryCanvas .tableCont{position: absolute;border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;margin:2px 2px;}
-    #queryCanvas .tableCont .table{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
-				 background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
-				 background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
-
-    #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
+    #queryCanvas .tableCont {margin: 2px 2px;z-index: 60;position: absolute;color: #484848;line-height: 18px;cursor: pointer;font-size: 15px;background-color: white;font-weight: bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
+    #queryCanvas .tableCont .table{font-weight: bold;font-size: 12px;padding:5px 4px;color: white;background: #1b74a4;border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;}
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
-    
     .textdbquery{font-size: 12px;letter-spacing: 1px;line-height: 20px;background:#eee;z-index: 999;position:relative;padding: 4px;}
     #resultpreview .pagination{display:none}
     #recipiant_sql_cont{position:relative;width: 1200px;overflow-x: auto;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:182px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
-    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 1px 3px 3px 2px;}
+    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 4px 3px 3px 2px;}
     a{text-decoration: none;}
     .propertyJoin{width:199px;line-height:25px;font-weight: bold;font-family: sans-serif}
     .propertyJoinLeft{text-align: right;padding-right: 7px}
     .propertyJoinRight{text-align: left;padding-left: 7px}
-    .bloctitle .property{color:#fff}
-    .bloctitle{border-radius: 3px;background: #5E9AE2;
-	       background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
-	       background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
-    .bloctitle input {text-shadow: none;font-size: 13px;}
+    .bloctitle {border-radius: 3px;color: white;background: #1b74a4;}
+    .bloctitle input {text-shadow: none;font-size: 13px;border : none !important;color: white;}
     input.filter,input.sort{margin:3px 0}
     #linksWrapper{padding:5px;border-bottom:1px solid #ddd;border-left:1px solid #ddd;position: absolute;right:0;width:525px;background: #fff;display:none;z-index: 999;}
     #links{margin-bottom:15px;padding-left: 22px;}
@@ -114,7 +108,7 @@ $view = $this->getConfig('view');
     .deletator2{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;}
     .tableCont .deletator{display:block;}
     #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
-    .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: block;overflow: hidden;width: 16px;height: 16px;}
+    .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
 </style>
 <div class="tabs">
     <ul>
@@ -122,7 +116,7 @@ $view = $this->getConfig('view');
         <li><a href="#tabs-admin-template"><?php echo t('View', FALSE); ?></a></li>
     </ul>
     <div class="clearboth panel" id="tabs-admin-query">
-         <div id="queryCanvasWrapper" style="position: relative;height:320px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');overflow:hidden">
+         <div id="queryCanvasWrapper" style="position: relative;height:320px;overflow: scroll;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');">
             <div id="addTable" class="tooltip" data-tooltip="<?php echo t('Add a table', FALSE); ?>" data-pos="e" onclick="$('#schema_sql').show()">+</div>
             <div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations', FALSE); ?>" data-pos="w" onclick="$('#linksWrapper').show()">∞</div>
             <span id="deletator" class="ui-icon ui-icon-closethick deletator"></span>
@@ -177,7 +171,7 @@ $view = $this->getConfig('view');
             </ul>
             <div class="innerPanel" id="tabs-criterias">
                 <div id="pattern_sql" class="queryblock floatleft none">
-                    <a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');" class="floatright">
+                    <a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
                         <span class="removeButton"></span>
                     </a>
                     <div class="bloctitle"><input class="property" type="text" value=""></div>
@@ -200,7 +194,7 @@ $view = $this->getConfig('view');
                             <option value="desc"><?php echo t('Descending', FALSE); ?></option>
                         </select>
                     </div>
-                    <div class="align_center" style="padding:4px 0px 2px;"><input class="display" type="checkbox" checked="checked"></div>
+                    <div class="align_center"><input class="display" type="checkbox" checked="checked"></div>
                     <div style="padding: 3px 0;"><input class="where" type="text"></div>
                     <div><input class="or" type="text"></div>
                     <div class="align_center"><input class="filter" type="checkbox" checked="checked"></div>
@@ -349,7 +343,7 @@ $view = $this->getConfig('view');
         table.append('<input type="hidden" class="left" name="tables[' + tableName + '][left]" value="' + left + '">');
         var tableID = "table_" + tableName;
         if($("#" + tableID ,$("#queryCanvas")).length == 0){
-            table.css({left: left + "px",top: top + "px"}).removeClass("accessible inaccessible");
+            table.css({left: left + "px",top: "0px"}).removeClass("accessible inaccessible");
             table.attr('id',tableID);
             $(".property",table).each(function(){
                 this.id = tableID + this.textContent;
@@ -523,10 +517,9 @@ $view = $this->getConfig('view');
         $("#queryCanvas").on('mouseover mouseout','.tableCont',function(event) {
             var deletator = document.getElementById("deletator");
             if (event.type == 'mouseover') {
-                deletator.style.display = "block";
                 this.insertBefore( deletator, this.firstChild);
             } else {
-                deletator.style.display = "none";
+                document.body.insertBefore( deletator, document.body.firstChild);
             }
         });
 
@@ -601,7 +594,7 @@ $view = $this->getConfig('view');
                 jsPlumb.connect({source:this, 
                     target:$("#" + idTargetTable + " .field_ident")[0],
                     endpoint:[ "Dot", { radius:3 } ],
-                    connector:[ "Bezier", { curviness:100 } ],
+                    connector:[ "Flowchart", { curviness:100 } ],
                     detachable:false,
                     paintStyle:paintStyle,
                     hoverPaintStyle:{ strokeStyle:"rgb(106, 180, 71)" },
@@ -619,7 +612,7 @@ $view = $this->getConfig('view');
             jsPlumb.draggable($("#queryCanvas .tableCont"),{
                 cursor: 'move',
                 handle : '.table',
-                containment: '#queryCanvas',
+                containment: '#queryCanvasWrapper',
                 drag:function(){
                     jsPlumb.repaint( $(".property",this).add(this).toArray());
                 },
