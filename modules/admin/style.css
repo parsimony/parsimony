@@ -400,15 +400,10 @@ width: 44px;max-width: 46px;line-height: 10px;overflow: hidden;height: 20px;}
 /* ###################### Admin Zone In Popup #################"""" */
 
 /* Tabs */
-.tabs ul {border-bottom: 1px #777 solid;padding-left: 10px;}
-.tabs ul li{border: 1px solid #777;margin: 0 5px;display: inline-block;border-bottom: 0;border-radius: 5px 5px 0 0;background-color: #F3F3F3;background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E9EF),to(#FEFEFE));}
-.tabs ul li a{text-align: center;padding: 0 10px;color:#333;text-decoration: none;font-weight:bold;line-height:30px;display:block;}
-.tabs ul li a:hover,.tabs ul li.active a{color: white;text-shadow: 0 1px rgba(0, 0, 0, 0.35);}
-.tabs ul li:hover,.tabs ul li.active{
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #44C5EC), color-stop(100%, #259BDB));
-background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
-background-image: linear-gradient(top, #44C5EC, #259BDB);
-font-weight: bold;}
+.tabs ul {overflow: hidden;border-bottom: 1px solid rgb(211, 213, 219);box-shadow: 0px 1px 0 rgb(255, 255, 255);margin: 2px 0 10px;}
+.tabs ul li.active {background: rgb(236, 236, 236);}
+.tabs ul li {display: inline-block;position: relative;color: #333;float: left;padding: 0px;cursor: pointer;text-align: center;}
+.tabs ul li a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
 .adminzone{height:100%;width:100%;background: #ECECEC;font-family: Helvetica, Arial, sans-serif;min-height: 600px;min-width: 600px;}
 .adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}
 .adminzone table{border-color: #99BCE8;}
