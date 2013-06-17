@@ -386,7 +386,7 @@ var ParsimonyAdmin = {
 	}
     },
     addBlock :   function (idBlock, contentBlock, idBlockAfter){
-	if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("container")){
+	if($( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).parent().hasClass("block_container")){
 	    $( "#" + idBlockAfter ,ParsimonyAdmin.currentBody).after(contentBlock);
 	    ParsimonyAdmin.returnToShelter();
 	}else {
