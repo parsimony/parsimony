@@ -76,7 +76,6 @@
 <style>.location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}</style>
 <?php
 app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
-app::$request->page->addCSSFile('lib/CodeMirror/theme/default.css');
 app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
@@ -84,9 +83,9 @@ app::$request->page->addJSFile('lib/CodeMirror/mode/javascript/javascript.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/php/php.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/clike/clike.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/searchcursor.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/search.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/formatting.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/search/searchcursor.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/search/search.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 ?>
 
 <style type="text/css" media="screen">
