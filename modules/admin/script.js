@@ -237,7 +237,7 @@ var ParsimonyAdmin = {
         $(".block_wysiwyg, .parsieditinline",ParsimonyAdmin.currentBody).attr("contenteditable", "false");
         
         /* Disable observer */
-        ParsimonyAdmin.observer.disconnect();
+        if(ParsimonyAdmin.observer != undefined) ParsimonyAdmin.observer.disconnect();
         
         /* Disable events */
 	ParsimonyAdmin.$currentDocument.off('.edit');
