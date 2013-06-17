@@ -53,7 +53,7 @@ $view = $this->getConfig('view');
     ._jsPlumb_connector{cursor: pointer;}
     .property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
     .property:hover{background-color: rgb(231,242,255);}
-    .caption{box-shadow: 2px 0 2px #CCC;width: 72px;position: absolute;left: -5px;background: white;z-index: 100;float: left;}
+    .caption{width: 77px;position: absolute;left: -5px;background: #fbfbfb;z-index: 100;float: left;height: 100%;}
     .caption div{line-height: 25px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
     #recipiant_sql{width: 10000px;padding-left: 70px;}
     #recipiant_sql .property{font-weight: normal;padding:5px;width: 130px;background: transparent;border: none;box-shadow:initial;}
@@ -75,12 +75,13 @@ $view = $this->getConfig('view');
     #queryCanvas .tableCont .table{font-weight: bold;font-size: 12px;padding:5px 4px;color: white;background: #1b74a4;border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;}
     .datagrid{padding-top:5px}
     .tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
-    .textdbquery{font-size: 12px;letter-spacing: 1px;line-height: 20px;background:#eee;z-index: 999;position:relative;padding: 4px;}
+    .textdbquery{font-size: 12px;letter-spacing: 1px;line-height: 20px;z-index: 999;position:relative;padding: 4px;}
     #resultpreview .pagination{display:none}
     #recipiant_sql_cont{position:relative;width: 1200px;overflow-x: auto;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:182px}
     .aggregate,.aggregate{width:100%}
     h3{color: #2E63A5;padding: 7px 0;}
-    #recipiant_sql input[type="text"],#recipiant_sql input[type="password"] {padding: 4px 3px 3px 2px;}
+    #recipiant_sql input[type="text"].table {border:none !important;}
+    #recipiant_sql input[type="text"]{padding: 5px 3px 2px 2px;}
     a{text-decoration: none;}
     .propertyJoin{width:199px;line-height:25px;font-weight: bold;font-family: sans-serif}
     .propertyJoinLeft{text-align: right;padding-right: 7px}
@@ -109,6 +110,7 @@ $view = $this->getConfig('view');
     .tableCont .deletator{display:block;}
     #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
     .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
+    #queryCanvasWrapper{position: relative;height:320px;overflow: auto;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');}
 </style>
 <div class="tabs">
     <ul>
@@ -116,7 +118,7 @@ $view = $this->getConfig('view');
         <li><a href="#tabs-admin-template"><?php echo t('View', FALSE); ?></a></li>
     </ul>
     <div class="clearboth panel" id="tabs-admin-query">
-         <div id="queryCanvasWrapper" style="position: relative;height:320px;overflow: scroll;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');">
+         <div id="queryCanvasWrapper">
             <div id="addTable" class="tooltip" data-tooltip="<?php echo t('Add a table', FALSE); ?>" data-pos="e" onclick="$('#schema_sql').show()">+</div>
             <div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations', FALSE); ?>" data-pos="w" onclick="$('#linksWrapper').show()">∞</div>
             <span id="deletator" class="ui-icon ui-icon-closethick deletator"></span>
@@ -243,7 +245,7 @@ $view = $this->getConfig('view');
                 </div>
             </div>
             <div id="tabs-result" class="innerPanel" style="display:none">
-                <div style="padding: 1px 20px 10px;box-shadow: #777 1px 1px 4px;">
+                <div style="padding: 1px 20px 10px;">
                     <div style="position:relative;text-align:right;padding:7px"><a href="#" style="color: rgb(0, 136, 213)" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL query', FALSE); ?></a></div>
                     <div id="resultpreview">
                         <?php
@@ -343,7 +345,7 @@ $view = $this->getConfig('view');
         table.append('<input type="hidden" class="left" name="tables[' + tableName + '][left]" value="' + left + '">');
         var tableID = "table_" + tableName;
         if($("#" + tableID ,$("#queryCanvas")).length == 0){
-            table.css({left: left + "px",top: "0px"}).removeClass("accessible inaccessible");
+            table.css({left: left + "px",top: "5px"}).removeClass("accessible inaccessible");
             table.attr('id',tableID);
             $(".property",table).each(function(){
                 this.id = tableID + this.textContent;
@@ -586,7 +588,7 @@ $view = $this->getConfig('view');
             if($("#" + idTargetTable).length > 0) {
                 var typeRelation = $('select[name="relations\\[' + sourceTable + '_' + targetTable + '\\]\\[type\\]"]').val() || $('select[name="relations\\[' + targetTable + '_' + sourceTable + '\\]\\[type\\]"]').val() || " ";
                 if(typeRelation.length > 1){
-                    var paintStyle = { lineWidth:2,strokeStyle:"#666"};
+                    var paintStyle = { lineWidth:2,strokeStyle:"#259bdb"};
                 }else{
                     typeRelation = "unactive";
                     var paintStyle = { lineWidth:2,strokeStyle:"#ddd",dashstyle:"4 1"};
@@ -594,7 +596,7 @@ $view = $this->getConfig('view');
                 jsPlumb.connect({source:this, 
                     target:$("#" + idTargetTable + " .field_ident")[0],
                     endpoint:[ "Dot", { radius:3 } ],
-                    connector:[ "Flowchart", { curviness:100 } ],
+                    connector:[ "Bezier", { curviness:100 } ],
                     detachable:false,
                     paintStyle:paintStyle,
                     hoverPaintStyle:{ strokeStyle:"rgb(106, 180, 71)" },
