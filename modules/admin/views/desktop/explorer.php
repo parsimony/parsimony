@@ -34,7 +34,6 @@
 app::$request->page->addCSSFile('lib/cms.css');
 app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
 app::$request->page->addCSSFile('modules/admin/style.css');
-app::$request->page->addCSSFile('lib/CodeMirror/theme/default.css');
 app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
@@ -42,14 +41,13 @@ app::$request->page->addJSFile('lib/CodeMirror/mode/javascript/javascript.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/php/php.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/clike/clike.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/searchcursor.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/search.js');
-app::$request->page->addJSFile('lib/CodeMirror/lib/util/formatting.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/search/searchcursor.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/search/search.js');
+app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
 
-<SCRIPT LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </SCRIPT>
-<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.1.min.js"></script>
 <?php echo app::$request->page->printInclusions() ?>
 
 <style>
@@ -92,27 +90,27 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     .unsaved{font-weight:bold}
     .unsaved .name:after{ content:"*";}
     .explorer_file_name {
-position: absolute;
-bottom: 2px;
-text-overflow: ellipsis;
-white-space: nowrap;
-width: 85px;
-overflow: hidden;
-padding: 0 4px;
-font-size: 13px;
-line-height: 30px;
-}
-.explorer_file {
-position: relative;
-width: 90px;
-height: 90px;
-margin: 5px;
-text-align: center;
-border: 1px #ccc solid;
-float: left;
-border-radius: 4px;
-padding-top: 10px;
-}
+        position: absolute;
+        bottom: 2px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 85px;
+        overflow: hidden;
+        padding: 0 4px;
+        font-size: 13px;
+        line-height: 30px;
+    }
+    .explorer_file {
+        position: relative;
+        width: 90px;
+        height: 90px;
+        margin: 5px;
+        text-align: center;
+        border: 1px #ccc solid;
+        float: left;
+        border-radius: 4px;
+        padding-top: 10px;
+    }
 </style>
 <script>
     

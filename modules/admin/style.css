@@ -218,24 +218,18 @@ background: linear-gradient(top, white, #F2F2F2);}
 #threed input{width:90%}
 
 /* Panel CSS menu */
-#css_menu{font-size: 10px;height: 45px;border-top: 1px solid white;position: relative;}    
-#css_menu > div{float: left;
-width: 20%;
-overflow: hidden;
-cursor: pointer;
-text-align: center;
-line-height: 45px;
-color: #444;
-border-right: 1px solid #fcfcfc;
-border-left: 1px solid #dcdcdc;
-border-bottom: 1px solid #dcdcdc;
-background: #ECECEC;}
-#css_menu > div.active,#css_menu > div:hover{color: #444;
-background: #F9F9F9;
-border-left: 1px solid #F9F9F9;
-border-right: 1px solid #F9F9F9;
-border-bottom: 1px solid #F9F9F9;}
-.panelcss_tab.hiddenTab{display: none; }
+#css_menu{font-size: 10px;height: 45px;position: relative;overflow: hidden;} 
+#css_menu > div {float: left;background-color: #f2f2f2;width: 20%;color: #444;border-right: 1px solid #fcfcfc;border-left: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;height: 45px;}
+#css_menu > div:last-child {border-right:0}
+#css_menu > div.active,#css_menu > div:hover {background-color: #F9F9F9;color: #444;border-left: 1px solid #F9F9F9;border-right: 1px solid #F9F9F9;border-bottom: 1px solid #F9F9F9;}
+#css_menu > div > div {overflow: hidden;cursor: pointer;line-height: 73px;text-align: center;}
+div [rel="panelcss_tab_general"]{background-image: url('admin/img/cssicons.png');background-position: -5px -10px;background-repeat: no-repeat ;}
+div [rel="panelcss_tab_border"]{background-image: url('admin/img/cssicons.png');background-position: -57px -10px;background-repeat: no-repeat;}
+div [rel="panelcss_tab_background"]{background-image: url('admin/img/cssicons.png');background-position: -110px -10px;background-repeat: no-repeat;}
+div [rel="panelcss_tab_type"]{background-image: url('admin/img/cssicons.png');background-position: -160px -10px;background-repeat: no-repeat;}
+div [rel="panelcss_tab_lists"]{background-image: url('admin/img/cssicons.png');background-position: -200px -10px;background-repeat: no-repeat;}
+.panelcss_tab.hiddenTab{display: none;}
+#nbChanges{padding-left: 30px;color: #444;}
 
 /* When CSS panel is in code OR form mode */
 .CSSCode #css_panel, .CSSCode #goeditcss, .CSSForm #css_panel, .CSSForm #goeditcss{display:block}
@@ -255,7 +249,7 @@ border-bottom: 1px solid #F9F9F9;}
 height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: block;color: rgb(68, 68, 68);}
 #changecsscode .activebtn:hover{background: #e1e1e1;color:#444;}
 #changecsscode .csscode{width:100%;resize:none;border-radius: 0;border: 0;min-height: 20px;}
-#css_panel{overflow: hidden;}
+#css_panel{overflow: hidden;margin-top: 8px;}
 
 /* --> code editor on code mode  */
 .CSSLightproperty{color: #259bdb;white-space: pre;}
@@ -393,7 +387,7 @@ text-shadow: white 0 1px 0;}
 #dialog{background: #EEE url(admin/img/concrete_wall_3.png);}
 
 /* Blocks droppables */
-.admin_core_block{cursor:move;width: 42px;height: 42px;margin:4px 6px;padding: 0;border-radius: 2px;box-shadow: 0 1px 3px rgb(145, 145, 145);margin-bottom: 34px;}
+.admin_core_block{float: left;position: relative;cursor:move;width: 42px;height: 42px;margin:4px 6px;padding: 0;border-radius: 2px;box-shadow: 0 1px 3px rgb(145, 145, 145);margin-bottom: 34px;}
 .admin_core_block:after{content: attr(data-title);position: absolute;color: rgb(68, 68, 68);top: 48px;font-size: 9px;text-align: center;
 width: 44px;max-width: 46px;line-height: 10px;overflow: hidden;height: 20px;}
 

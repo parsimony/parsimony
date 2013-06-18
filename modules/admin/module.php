@@ -234,9 +234,9 @@ class admin extends \module {
 		$block->setConfig($configName, $val);
 	    }
 	}
-	$this->saveAll();
 	$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
-	return $this->returnResult($return);
+	$this->saveAll(); // save objects in last to avoid call __sleep() before getting content of the block ( this->display in ajaxRefresh() ), eg. block query
+        return $this->returnResult($return);
     }
 
     /**

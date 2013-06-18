@@ -55,7 +55,7 @@ $arrayScript = array();
 			    if (!isset($blocksCat[$categBlock]))
 				$blocksCat[$categBlock] = '';
                             if(isset($blockInfos['description'])) $description = ucfirst(s($blockInfos['description']));
-			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))).'" data-tooltip="'.$description. '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="float:left;position:relative;background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center;"></div>';
+			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))).'" data-tooltip="'.$description. '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
 			}
 		    }
                     if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){

@@ -39,8 +39,7 @@ if (!file_exists($this->pathOfViewFile))
     $this->generateViewAction(array());
 $view = $this->getConfig('view');
 ?>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js" type="text/javascript"></script>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <style>
     .adminzonecontent{min-width:1340px}
@@ -459,8 +458,8 @@ $view = $this->getConfig('view');
 	if($("#regenerateview").is(":checked")){
 	    $.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
 		codeEditor.setValue(data);
-		$("#regenerateview").attr("checked","checked");
 		codeEditor.refresh();
+                $("#regenerateview").prop("checked","checked");
 	    });
 	}
     });

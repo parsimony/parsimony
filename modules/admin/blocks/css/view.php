@@ -95,11 +95,11 @@ line-height: 16px;position:absolute;margin-left:5px;text-decoration: none;color:
     <div id="css_panel" class="none">
         <div id="changecssform" class="clearboth none swicthcsscode">
             <div id="css_menu" class="clearboth">
-                <div class="active" rel="panelcss_tab_general">General</div>
-                <div rel="panelcss_tab_border">Borders</div>
-                <div rel="panelcss_tab_background">Back.</div>
-                <div rel="panelcss_tab_type">Type</div>
-                <div rel="panelcss_tab_lists">List</div>
+                <div class="active" rel="panelcss_tab_general"><div>General</div></div>
+                <div rel="panelcss_tab_border"><div>Borders</div></div>
+                <div rel="panelcss_tab_background"><div>Back.</div></div>
+                <div rel="panelcss_tab_type"><div>Type</div></div>
+                <div rel="panelcss_tab_lists"><div>List</div></div>
             </div>
             <div class="panelcss_tab" id="panelcss_tab_general">
                 <div class="leftpart"  style="display:inline-block;vertical-align:top;width: 95px;">
