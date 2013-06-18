@@ -262,7 +262,7 @@ class view implements \Iterator {
      */
     public function buildQuery() {
         \app::dispatchEvent('beforeBuildQuery', array());
-        if(!isset($this->SQL['query']) && !isset($this->SQL['wheres'])){ // query cache
+        if(!isset($this->SQL['query']) || isset($this->SQL['wheres'])){ // query cache
             $query = 'SELECT ';
             foreach ($this->getFields() as $field) {
                 $id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
