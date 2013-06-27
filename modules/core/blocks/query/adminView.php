@@ -39,7 +39,7 @@ if (!file_exists($this->pathOfViewFile))
     $this->generateViewAction(array());
 $view = $this->getConfig('view');
 ?>
-<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"></script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <style>
     .adminzonecontent{min-width:1340px}

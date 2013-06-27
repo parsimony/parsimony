@@ -135,8 +135,8 @@ if (isset($_POST['connexion'])) {
                 </div>
             </form> 
         </div> 
-        <script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
-	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
+        <script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"> </script>
+	<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
         <script>
             $(document).ready(function () {
                 if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){

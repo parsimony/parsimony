@@ -47,7 +47,7 @@ app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
 
-<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.1.min.js"></script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
 <?php echo app::$request->page->printInclusions() ?>
 
 <style>
@@ -168,10 +168,13 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 	});
         
 	$("#explorerWrap").on("click",".explorer_file",function(){
-	    $(".explorer_file_selected").removeClass("explorer_file_selected");
-	    $(this).addClass("explorer_file_selected");
-            var file = "<?php echo BASE_PATH; ?>" + $(".explorer_file_name",this).attr("path").replace('<?php echo PROFILE_PATH; ?>','<?php echo BASE_PATH; ?>').substring(1);
-            opener.callbackExplorer.apply(false, [file]);
+            $(".explorer_file_selected").removeClass("explorer_file_selected");
+            this.classList.add("explorer_file_selected");
+            if( !this.classList.contains("dir") ){
+                var file = $(".explorer_file_name",this).attr("path").replace('<?php echo PROFILE_PATH; ?>','');
+                opener.callbackExplorer.apply(false, [file]);
+            }
+            
 	})
                 
         .on("change",".historyfile",function(e){

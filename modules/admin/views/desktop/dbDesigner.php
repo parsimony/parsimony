@@ -48,10 +48,8 @@ include_once('modules/core/classes/field.php');
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/style.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
-<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js" type="text/javascript"></script>
-<script>typeof jQuery.ui != 'undefined' || document.write('<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.0.min.js"><\/script>')</script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript">
     var BASE_PATH = '<?php echo BASE_PATH ?>';
     var MODULE = '<?php echo MODULE ?>';

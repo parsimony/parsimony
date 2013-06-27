@@ -11,8 +11,8 @@
 	    var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 	    var TOKEN = '<?php echo TOKEN ?>';
 	</script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
         <meta name="generator" content="Parsimony">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
