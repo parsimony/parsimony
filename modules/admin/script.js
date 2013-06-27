@@ -51,6 +51,9 @@ var ParsimonyAdmin = {
     },
     initBefore :   function(){
 
+        ParsimonyAdmin.iframe = document.getElementById("parsiframe");
+        ParsimonyAdmin.$iframe = $(ParsimonyAdmin.iframe);
+
 	$("#formResult").on("load",function() {
 	    var elmt = $(this).contents().find('body').text();
 	    if(elmt != "") ParsimonyAdmin.execResult(elmt); /* Firefox fix */
@@ -63,14 +66,24 @@ var ParsimonyAdmin = {
 	    window.open ($("#conf_box_content_iframe").attr('src'),'conf_box_content_popup' + action,"width=" + $("#conf_box").width() + ",height=" + ($("#conf_box").height() - 40));
 	    $("#conf_box_form").trigger("submit").attr('target','conf_box_content_iframe');
 	});
+        
+        /* make sure that all url passed in iframe are suffixed by '?parsiframe=ok', to don't load the admin in iframe */
+        var observer = new MutationObserver(function(mutations) {
+            if(mutations[0].attributeName == "src"){
+                var newSRC = ParsimonyAdmin.iframe.getAttribute("src");
+                if(newSRC.indexOf("parsiframe=ok") == -1){
+                    ParsimonyAdmin.iframe.setAttribute("src", newSRC + '?parsiframe=ok');
+                }
+            }
+        });
+        observer.observe(ParsimonyAdmin.iframe, { attributes: true });
+	
 	
 	this.pluginDispatch("initBefore");
     },
 
     initIframe :   function(){
         
-        ParsimonyAdmin.iframe = document.getElementById("parsiframe");
-        ParsimonyAdmin.$iframe = $(ParsimonyAdmin.iframe);
 	ParsimonyAdmin.currentWindow = ParsimonyAdmin.iframe.contentWindow;
 	ParsimonyAdmin.currentDocument = ParsimonyAdmin.currentWindow.document;
         ParsimonyAdmin.$currentDocument = $(ParsimonyAdmin.currentDocument);
@@ -95,7 +108,7 @@ var ParsimonyAdmin = {
 	}else if(initialMode == 'preview'){
             document.getElementById("previewMode").click();
 	}else{
-            document.getElementById("creationMode").click();
+            document.querySelector(".switchMode:last-child").click();
 	}
 
 	//override jQuery ready function to exec them with ajax portions
@@ -103,7 +116,7 @@ var ParsimonyAdmin = {
         //document.getElementById("parsiframe").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("parsiframe").contentWindow);}
     
 	this.pluginDispatch("initIframe");
-	
+        
     }
     ,
     loadCreationMode :   function(){
@@ -129,6 +142,29 @@ var ParsimonyAdmin = {
 	    }
 	});
         
+        $(document).add('#config_tree_selector').on('click.creation',".action", function(e){
+	    var parentId = '';
+	    var inProgress = $("#treedom_" + ParsimonyAdmin.inProgress);
+	    if(inProgress.length > 0){
+		if(inProgress.parent().closest(".block_container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
+		else parentId = inProgress.parent().closest(".block_container").attr('id').replace("treedom_","");
+	    }
+	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
+	    e.preventDefault();
+	})
+        .on('click','#menu a',function(e){
+	    ParsimonyAdmin.closeParsiadminMenu();
+	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+	});
+	
+	$("#CSSProps").on("mouseenter.creation mouseleave.creation", "a", function(event){
+            if (event.type == 'mouseenter') {
+                $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
+            } else {
+                $('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+            }
+	});
+        
 	this.pluginDispatch("loadCreationMode");
     }, 
 
@@ -137,6 +173,9 @@ var ParsimonyAdmin = {
 	$(".selection-container",ParsimonyAdmin.currentBody).removeClass("selection-container");
 	ParsimonyAdmin.closeParsiadminMenu();
 	ParsimonyAdmin.$currentBody.off('.creation');
+        $("#dialog-id").off('.creation');
+        $(document).add('#config_tree_selector').off('.creation');
+        $("#CSSProps").off('.creation');
 	this.pluginDispatch("unloadCreationMode");
     },
     
@@ -149,7 +188,7 @@ var ParsimonyAdmin = {
         document.getElementById("toolbarEditMode").style.display = "block";
 
         /* Listen all changes of all edit-inlines */
-        ParsimonyAdmin.observer = new MutationObserver(function(mutations) {
+        ParsimonyAdmin.editObserver = new MutationObserver(function(mutations) {
             var node = mutations[0].target.parentNode;
             while (node != ParsimonyAdmin.currentBody){
                 if (node.classList.contains("parsieditinline") || node.classList.contains("block_wysiwyg")) {
@@ -174,7 +213,7 @@ var ParsimonyAdmin = {
                 node = (node.parentNode || ParsimonyAdmin.currentBody);
             }
         });
-        ParsimonyAdmin.observer.observe(ParsimonyAdmin.currentBody, { subtree:true, characterData: true });
+        ParsimonyAdmin.editObserver.observe(ParsimonyAdmin.currentBody, { subtree:true, characterData: true });
 	
 	/* Init WYSIWYG editor */
 	if(typeof ParsimonyAdmin.wysiwyg == "string"){
@@ -237,7 +276,7 @@ var ParsimonyAdmin = {
         $(".block_wysiwyg, .parsieditinline",ParsimonyAdmin.currentBody).attr("contenteditable", "false");
         
         /* Disable observer */
-        if(ParsimonyAdmin.observer != undefined) ParsimonyAdmin.observer.disconnect();
+        if(ParsimonyAdmin.editObserver != undefined) ParsimonyAdmin.editObserver.disconnect();
         
         /* Disable events */
 	ParsimonyAdmin.$currentDocument.off('.edit');
@@ -266,26 +305,6 @@ var ParsimonyAdmin = {
         
 	ParsimonyAdmin.isInit = true;
 
-	$(document).add('#config_tree_selector').on('click',".action", function(e){
-	    var parentId = '';
-	    var inProgress = $("#treedom_" + ParsimonyAdmin.inProgress);
-	    if(inProgress.length > 0){
-		if(inProgress.parent().closest(".block_container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
-		else parentId = inProgress.parent().closest(".block_container").attr('id').replace("treedom_","");
-	    }
-	    ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",($(this).data('title') || $(this).attr('title') || $(this).data('tooltip')),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page') +"&" + $(this).attr('params'));
-	    e.preventDefault();
-	}).on('click','#menu a',function(e){
-	    ParsimonyAdmin.closeParsiadminMenu();
-	     $('.cssPicker',ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-	});
-	
-	$("#CSSProps").on("mouseenter", "a", function(){
-	    $("#" + ParsimonyAdmin.inProgress  + " " + this.dataset.css,ParsimonyAdmin.currentDocument).addClass('cssPicker');
-	}).on("mouseout", "a", function(){
-	    $('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-	});
-        
         /* Init tooltip */
 	$(".tooltip").parsimonyTooltip({
 	    triangleWidth:5
@@ -321,9 +340,11 @@ var ParsimonyAdmin = {
     }
     ,
     goToPage :   function (pageTitle, pageUrl){
-	ParsimonyAdmin.unloadCreationMode();
-	ParsimonyAdmin.unloadEditMode();
-	ParsimonyAdmin.unloadPreviewMode();
+        /* Unload current Mode to clean events */
+        var captitalizeOldMode = ParsimonyAdmin.currentMode[0].toUpperCase() + ParsimonyAdmin.currentMode.substring(1);
+        ParsimonyAdmin["unload" + captitalizeOldMode + "Mode"]();
+        ParsimonyAdmin.currentMode = '';
+        
 	if(pageUrl.substring(0,BASE_PATH.length) != BASE_PATH && pageUrl.substring(0,7) != "http://") pageUrl = BASE_PATH + pageUrl;
 	pageUrl = pageUrl.trim();
         if(pageUrl.indexOf('?') > -1 && pageUrl.indexOf('?parsiframe=ok') == -1) pageUrl += '&parsiframe=ok';

@@ -52,7 +52,7 @@ function blockAdminBlocks() {
 	//Dispatch menu action event : configure / design / delete
         $(document).add('#config_tree_selector').on('click.creation',".config_destroy, .cssblock, .configure_block",function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            eval("blockInst." + $(this).data("action") + ".apply(this, [e]);");
+            eval("blockInst." + this.dataset.action + ".apply(this, [e]);");
         })
 	/* Hide overlay when user don't pick a block */
         .on('mouseover.creation',"body", function(event) {
@@ -251,8 +251,12 @@ function blockAdminBlocks() {
     }
     
     this.unloadCreationMode =   function(){
+        $(document).add('#config_tree_selector').off('.creation');
+        $("#panelblocks").off('.creation');
+        $("#parsimonyDND").add('#paneltree').off('.creation');
+        $('#conf_box').off('.creation');
+        ParsimonyAdmin.$currentBody.off('.creation');
         ParsimonyAdmin.$currentBody.add('#paneltree').off('.creation');
-	ParsimonyAdmin.$currentBody.add('#paneltree').add('#conf_box_content').add(document).add('#config_tree_selector').add("#menu").off('.creation');
     }
     
     this.setBlock = function (block) {

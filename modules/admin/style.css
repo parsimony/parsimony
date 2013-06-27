@@ -66,7 +66,7 @@ color: rgb(73, 71, 71);letter-spacing: 1.5px;cursor: pointer;clear:both;position
 .sublist:first-child,.sublist.selected:first-child{border-top: 1px solid transparent;}
 .sublist:last-child,.sublist.selected:last-child{border-bottom: 1px solid transparent;}
 .sublist a{font-size: 12px;color: #444;text-decoration: none;display: block;text-transform: capitalize;}
-.sublist:hover,.sublist.selected{background-color: #ececec;}
+.sublist:hover,.sublist.selected{background-color: #ececec;border-radius: 2px;}
 .sublist span.ui-icon-pencil{display: none}
 .sublist:hover span.ui-icon-pencil{display: block}
 .sublist .ui-icon-document{position:relative;top:2px}
@@ -136,7 +136,7 @@ border-width: 7px;top: 50%;margin-top: -7px;}
 /* Sidebar content */
 .sidebar .content {z-index: 99;position: absolute;top: 0;display:none;}
 .sidebar .mainTab:hover .content{display:block;z-index:9999}
-.sidebar .active .content{display:block;min-width: 200px;background: #f9f9f9;}
+.sidebar .active .content{display:block;min-width: 200px;background: #f9f9f9;cursor: auto;}
 #right_sidebar .active .content,#right_sidebar .mainTab:hover .content{right:40px;box-shadow: -1px 1px 2px #444}
 #left_sidebar .active .content,#left_sidebar .mainTab:hover .content{left:40px;box-shadow: 1px 1px 2px #444}
 
@@ -162,11 +162,10 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;margin: 0 10px 11px 11px;}
 #treelegend2 fieldset span{line-height: 20px;}
 #tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;
 font-family: arial, sans-serif;letter-spacing: 1.1px;}
-#tree .tree_selector{position:relative;clear:both;line-height: 19px;font-size: 13px;
-display: block;}
+#tree .tree_selector{position:relative;clear:both;line-height: 19px;font-size: 13px;display: block;}
 #tree ul ,#tree li {margin-left:15px;cursor:pointer;font-size: 13px;text-transform: capitalize;border-left: 1px dotted #999;line-height: 20px;  }
 #tree span.move_block{cursor:move;}
-#tree li.tree_selector{border-top: 1px solid #999;border-bottom: 1px solid #555;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;color:#444;cursor: pointer;}
+#tree li.tree_selector{border-top: 1px solid #999;border-bottom: 1px solid #555;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;cursor: pointer;}
 #config_tree_selector{margin-right:5px;height: 16px;}
 #treedom_container>#config_tree_selector:first-child .move_block{display:none}
 #dropInTree{position:relative;top:-1px;height:3px;width:100%;background: #276d7f;pointer-events:none}
@@ -187,28 +186,22 @@ display: block;}
 #treedom_container{border-left:0 !important}
 .arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 5px;float:left;display:block;width:16px;height:16px;cursor:pointer}
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
-.currentDOM:first-child{/*font-weight:bold;background-color: #999 !important*/}
+/*.currentDOM:first-child{font-weight:bold;background-color: #999 !important}*/
 
 /* Panel CSS */         	  
 #savemycss,#reinitcss{vertical-align: bottom;}
-#current_selector_update{letter-spacing: 1px;color: #555;font-size: 15px !important;border: 1px solid #C1C1C1 !important;width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;}
-#panelcss label{display: inline-block;min-width: 50px;color: #444;}
-#panelcss select{width: 60px;height: 14px;border:0;font-size:10px}
-#panelcss th{font-weight: bold;}
-#panelcss td{padding:2px;text-align:center}
-#panelcss td:first-child{text-align:left}
-#panelcss .panelcss_tab{padding: 5px;width: 230px;margin-top: 2px;background: #F9F9F9;}
-#panelcss #changecssform select{padding-top: 0px;}
-#panelcss_tab_general label{margin: 9px 0;top: -6px;position: relative;}
-#panelcss_tab_general .leftpart label{min-width: 45px;margin: 5px 0;position: relative;top: 1px;}
-#panelcss_tab_general .rightpart label{min-width:50px;margin: 5px 0;position: relative;top: 1px;} 
-#panelcss_tab_general .rightpart select{position: relative;top: 1px;}
-#panelcss_tab_general input{margin: 2px 0;}
-#panelcss_tab_general select{position: relative;top: -4px;}
-#panelcss_tab_border select{width:60px}
+#savemycss{border: 0;border-radius: 5px 0 0 5px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;}
+#reinitcss{border: 0;border-left: 1px #FCFCFC solid;position: relative;left: -1px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;}
+#toolChanges{display:none;margin: 0 10px 10px;background:#EBEBEB;border-radius:5px;border: 1px solid #CCC;color: #919191;;font-size: 11px;}
+#current_selector_update{letter-spacing: 1px;color: #555;font-size: 13px !important;border: 1px solid #C1C1C1 !important;width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;background: #FFF !important;}
+#panelcss{color: #444;line-height:25px}
+#panelcss input[type='text']{border: 1px solid rgb(219, 219, 219);width: 38px;padding: 2px;border-radius: 2px;font-size: 11px;height: 17px;text-shadow: none;}
+#panelcss label{display: inline-block;min-width: 50px;}
+#panelcss select{width: 60px;height: 17px;border: 1px solid rgb(219, 219, 219);background-color: rgb(254, 254, 254);}
+#panelcss .panelcss_tab{padding: 8px;width: 230px;padding-top: 10px;background: #F9F9F9;}
 #goeditcss{width: 20px;height: 20px;display:none;cursor:pointer;background:url(admin/img/defaultsprite.png) 0px -222px no-repeat;position: absolute;top: 5px;right: 5px;}
 #changecsscode{font-size: 11px;font-family: arial, sans-serif;}
-#panelcss_tab_background label{margin: 5px 10px;position: relative;width: 70px;}
+#panelcss_tab_background label{width: 100px;}
 .adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;padding: 4px;                
 background: -webkit-linear-gradient(top, white, #F2F2F2);
 background: linear-gradient(top, white, #F2F2F2);}
@@ -218,22 +211,29 @@ background: linear-gradient(top, white, #F2F2F2);}
 #threed input{width:90%}
 
 /* Panel CSS menu */
-#css_menu{font-size: 10px;height: 45px;position: relative;overflow: hidden;} 
-#css_menu > div {float: left;background-color: #f2f2f2;width: 20%;color: #444;border-right: 1px solid #fcfcfc;border-left: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;height: 45px;}
-#css_menu > div:last-child {border-right:0}
-#css_menu > div.active,#css_menu > div:hover {background-color: #F9F9F9;color: #444;border-left: 1px solid #F9F9F9;border-right: 1px solid #F9F9F9;border-bottom: 1px solid #F9F9F9;}
-#css_menu > div > div {overflow: hidden;cursor: pointer;line-height: 73px;text-align: center;}
-div [rel="panelcss_tab_general"]{background-image: url('admin/img/cssicons.png');background-position: -5px -10px;background-repeat: no-repeat ;}
-div [rel="panelcss_tab_border"]{background-image: url('admin/img/cssicons.png');background-position: -57px -10px;background-repeat: no-repeat;}
-div [rel="panelcss_tab_background"]{background-image: url('admin/img/cssicons.png');background-position: -110px -10px;background-repeat: no-repeat;}
-div [rel="panelcss_tab_type"]{background-image: url('admin/img/cssicons.png');background-position: -160px -10px;background-repeat: no-repeat;}
-div [rel="panelcss_tab_lists"]{background-image: url('admin/img/cssicons.png');background-position: -200px -10px;background-repeat: no-repeat;}
+#css_menu{height: 45px;} 
+#css_menu .cssTab {float: left;cursor: pointer;background-color: #f2f2f2;width: 20%;border-right: 1px solid #fcfcfc;border-left: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;height: 45px;}
+#css_menu .cssTab:last-child {border-right:0}
+#css_menu .cssTab.active,#css_menu .cssTab:hover {background-color: #F9F9F9;color: #444;border-left: 1px solid #F9F9F9;border-right: 1px solid #F9F9F9;border-bottom: 1px solid #F9F9F9;}
+.cssTab[rel="panelcss_tab_general"]{background-image: url('admin/img/cssicons.png');background-position: -5px -10px;background-repeat: no-repeat ;}
+.cssTab[rel="panelcss_tab_border"]{background-image: url('admin/img/cssicons.png');background-position: -57px -10px;background-repeat: no-repeat;}
+.cssTab[rel="panelcss_tab_background"]{background-image: url('admin/img/cssicons.png');background-position: -110px -10px;background-repeat: no-repeat;}
+.cssTab[rel="panelcss_tab_type"]{background-image: url('admin/img/cssicons.png');background-position: -160px -10px;background-repeat: no-repeat;}
+.cssTab[rel="panelcss_tab_lists"]{background-image: url('admin/img/cssicons.png');background-position: -200px -10px;background-repeat: no-repeat;}
+.cssTab:after{content: attr(data-title);position: absolute;top: 32px;font-size: 10px;text-align: center;width: 44px;max-width: 46px;line-height: 10px;height: 11px;}
 .panelcss_tab.hiddenTab{display: none;}
 #nbChanges{padding-left: 30px;color: #444;}
-
+#panelcss input[placeholder]{border:0;background: transparent}
+#panelcss input[placeholder]:focus{border: 1px solid rgb(193, 193, 193);background: rgb(255, 255, 255);}
 /* When CSS panel is in code OR form mode */
 .CSSCode #css_panel, .CSSCode #goeditcss, .CSSForm #css_panel, .CSSForm #goeditcss{display:block}
 #panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{background: rgb(236, 236, 236);}
+
+/* Shadow widget */
+.panelPointer{width:40px;height:40px;background: rgb(241, 241, 241);position: relative;border: 1px solid rgb(204, 204, 204);}
+.panelPointer .cross1{position: absolute;width:20px;height:20px;border-bottom:1px solid #ccc;border-right:1px solid #ccc}
+.panelPointer .cross2{position: absolute;top:19px;left:19px;width:20px;height:20px;border-top:1px solid #ccc;border-left:1px solid #ccc}
+.panelPointer .pointer{width: 8px;height: 8px;background-color: rgb(68, 68, 68);position: absolute;top: 15px;left: 15px;cursor: move;border-radius: 3px;}
 
 /* When CSS panel is in code mode */
 .CSSCode #changecsscode{display:block;background: #DDD;color: #164;}
@@ -287,41 +287,46 @@ height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: 
 /* CSS Color Picker*/
 #panelcss .colorpicker{z-index: 9999999999999;}
 #panelcss .colorpicker input{background: transparent !important;}
+.colorpicker2{width: 48px !important;border-radius: 2px 0 0 2px !important;}
+.colorpicker3{background-image: url(admin/img/transparent.png);cursor:pointer;width: 17px;height: 17px;border: 1px solid #dfdfdf;border-left: 0;vertical-align: middle;margin-top: -2px;display: inline-block;}
 
 /* CSS TOOL Metrics : margin, padding */
-#metrics {font-size: 10px;text-align: center;white-space: nowrap;height: 191px;margin-top: 25px;}
+#metrics {margin-top: 15px;}
 #metrics input{position:absolute}
-#metrics .graph label {position: absolute;margin-top: 1px;font-size: 8px;line-height: 11px;background-color: white;margin-left: 16px;padding: 0 2px;color: #444;letter-spacing: 1.5px;border-radius: 4px;border: 1px solid #CCC;}
-#metrics .margin {display: inline-block;text-align: center;vertical-align: middle;margin: 11px;float: left;padding: 3px;}
-#metrics .padding {border: 1px white dashed;
-display: inline-block;
-text-align: center;
-vertical-align: middle;
-padding: 3px;
-margin: 3px;
-background: whiteSmoke !important;}
-#panelcss input[type='text']{width: 38px;padding: 0;border-radius: 2px;font-size: 11px;height: 14px;text-shadow: none;}
-#panelcss .graph .representation{border-top: 1px solid gainsboro;
-border-right: 1px solid gainsboro;
-border-left: 1px solid gainsboro;
-border-bottom: 1px solid gainsboro;
-background: #F9F9F9;}
+#metrics .graph label {position: absolute;font-size: 8px;line-height: 11px;background-color: white;padding: 0 2px;color: #444;letter-spacing: 1.5px;border: 1px solid #CCC;top: 0;right: 0;
+border-top: 0;border-right: 0;min-width: initial;}
+#metrics .margin {display: inline-block;background: whiteSmoke !important;text-align: center;}
+#metrics .padding {border: 1px white dashed;display: inline-block;text-align: center;}
+#panelcss .graph .representation{border-top: 1px solid gainsboro;border-right: 1px solid gainsboro;border-left: 1px solid gainsboro;border-bottom: 1px solid gainsboro;background: #F9F9F9;}
 #panelcss .graph input{width:33px}
-#panelcss_tab_border .representation input{width:100% !important;display: block;margin: 5px 0;}
-#panelcss_tab_type .decoration{margin:10px}
-#panelcss_tab_type .text-shadow input{width:33px !important}
-#panelcss_tab_type .text-shadow label{max-width: 50px !important;margin-left: 10px;}
-/* CSS TOOL Typography */
-#panelcss_tab_type label,  #panelcss_tab_lists label {margin: 6px 0px;position: relative;}
-#panelcss_tab_background input[type="text"],#panelcss_tab_lists input[type="text"]{width: 90px;}
-#panelcss_tab_type .decoration label{width: 70px;}
+
+/* CSS shadows */
+#panelcss .shadowWidget label{min-width:40px}
+
+/* CSS TOOL Background */
+#panelcss_tab_background input[type="text"],#panelcss_tab_lists input[type="text"]{width: 114px;}
+#panelcss_tab_background select{width: 114px !important;}
 
 /* CSS TOOL Borders  */
-#panelcss_tab_border .representation div:first-child{text-align:center;color:#444;line-height: 14px;}
-#panelcss_tab_border .style input[type='text']{width: 45px;}
-#panelcss_tab_border .labels div{height: 20px;color:#444;}
-#panelcss_tab_border .representation div{margin: 5px 0px;}
-#panelcss_tab_border .representation{margin: 0px 2px;}
+#panelcss_tab_border_general select{width: 65px !important;}
+.labels .borderMarkers{cursor:pointer;background: #ddd;position:absolute;width:18px;height:18px;box-shadow: 1px 1px 1px rgb(68, 68, 68);}
+.labels .borderMarkers.active{box-shadow: none;border-top: 1px solid #777;border-left: 1px solid #777;}
+.labels .borderMarkers div{height: 18px;}
+.labels .borderMarkers.active div{height: 17px;}
+.labels .borderMarkers.modifiedBorder div{border-color: #2DC1EE !important;}
+
+/* Border radius */
+.divrad{width:18px;height:18px;background: #ddd;display: inline-block;vertical-align: middle;}
+
+.h-offset,.v-offset{width: 31px !important}
+
+/* CSS TOOL Typography */
+#panelcss_tab_type label{min-width: 45px;}
+.optionDeco, .optionFontStyle, .optionAlign{cursor:pointer;width: 20px;height: 20px;background: #fff;display: inline-block;text-align: center;font-weight: bold;box-shadow: 1px 1px 1px #bbb;margin:0 5px}
+.optionDeco.active, .optionFontStyle.active, .optionAlign.active {box-shadow: inset 1px 1px 1px #bbb;}
+        
+/* Font style */
+.optionFontStyle{width: 40px;}
 
 /* ############## Top Toolbar parts #####################*/
 
@@ -709,7 +714,7 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 /* UI Google Style */
 
 /* Select webkit */
-select:enabled:hover {box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);color: #333;background-image: url("admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
+select:enabled:hover {/*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);*/color: #333;background-image: url("admin/img/select.png"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
 select {background-position: center right;
 background-repeat: no-repeat;
 color: #555;
@@ -737,7 +742,6 @@ select:enabled:hover[multiple]{
 }
 /* Textarea and Inputs */
 textarea, input[type="text"], input[type="password"], input[type="file"] {
-border: 1px solid #EFEFEF;
 border-style: none;
 padding: 4px;
 text-shadow: 0px 1px 0px white;

@@ -75,7 +75,7 @@ class theme extends \core\blocks\container {
         if (!empty($name)) {
             $this->name = \tools::sanitizeTechString($name);
         } else {
-            throw new Exception(t('Name can\'t be empty', FALSE));
+            throw new \Exception(t('Name can\'t be empty', FALSE));
         }
     }
 
@@ -103,7 +103,7 @@ class theme extends \core\blocks\container {
         if (!empty($themetype)) {
             $this->themetype = $themetype;
         } else {
-            throw new Exception(t('Themetype can\'t be empty', FALSE));
+            throw new \Exception(t('Themetype can\'t be empty', FALSE));
         }
     }
     

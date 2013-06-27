@@ -176,58 +176,70 @@ function blockAdminCSS() {
 	})
 
 	/* Manage CSS updates with visual forms */
-	.on("keyup.creation change.creation",".liveconfig", function(y){
+	.on("keyup.creation change.creation",".liveconfig", function(){
 	    
-	    /* Set style in current CSS rule */
-            var jsProp = this.dataset.css.replace(/-([a-z])/gi, function(s, t) {
+	    /* Get the CSS property in camelCase notation( usefull for firefox) */
+            var jsProp = this.dataset.css.replace(/-([a-z])/g, function(s, t) {
                 return t.toUpperCase();
             });
-	    blockAdminCSS.currentRule.style[jsProp] = this.value;
+            /* Set style in current CSS rule */
+            if(this.value.length > 0){
+                blockAdminCSS.currentRule.style[jsProp] = this.value;
+            }else{
+                blockAdminCSS.currentRule.style[jsProp] = "";
+            }
 	    
 	    /* Update position of visual tool */
             blockAdminCSS.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
 	    
-	    /* Save change */
+	    /* Save change, we update from our old CSS string ( from CSSValuesChanges obj ) because shorthand propeties are exploded in CSS rules ( background => background-color..etc */
 	    var currentSelector = document.getElementById("current_selector_update").value;
 	    var oldCssText = "", newCssText;
             var oldSelector = ParsimonyAdmin.CSSValuesChanges[blockAdminCSS.currentFile][blockAdminCSS.currentMediaText.replace(/\s+/g, '') + currentSelector];
-            if(typeof oldSelector !== "undefined") oldCssText = oldSelector.value;
-	    if(oldCssText === "") oldCssText = this.dataset.css + ":" + this.value + ";";
-            if(oldCssText.indexOf(this.dataset.css) != "-1"){
+            if(typeof oldSelector !== "undefined") oldCssText = oldSelector.value.trim();
+	    if(oldCssText.length == 0) oldCssText = this.dataset.css + ":" + this.value + ";";
+            /* We check if property is already set */
+            if(oldCssText.match(new RegExp("[; ]?" + this.dataset.css + "[^;]*"))){
                 if(this.value.length > 0){
-                    newCssText = oldCssText.replace(new RegExp(this.dataset.css + ".*;", "g"), this.dataset.css + ": " + this.value + ";")
-                }else{
-                    newCssText = oldCssText.replace(new RegExp(this.dataset.css + ".*;", "g"), "");
+                    newCssText = oldCssText.replace(new RegExp("([; ]?)(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
+                }else{ /* if there is no value we delete property */
+                    newCssText = oldCssText.replace(new RegExp("([; ]?)" + this.dataset.css + "[^;]*[;]?"), "$1");
                 }
             }else{
-                newCssText = this.dataset.css + ":" + this.value + ";" + oldCssText;
+               if(this.value.length > 0){
+                   newCssText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";" ) + this.dataset.css + ":" + this.value + ";";
+               }else{
+                   newCssText = oldCssText;
+               }
             }
             
 	    blockAdminCSS.setCssChange(blockAdminCSS.currentFile, currentSelector, newCssText, blockAdminCSS.currentMediaText);
         })
-        
         .on("blur.creation",".liveconfig", function(){
             blockAdminCSS.checkChanges();
         })
 	
+        /* Explorer */
 	.on('click.creation',".explorer",function(){
-            window.callbackExplorerID = $(this).attr("rel");
+            window.callbackExplorerID = this.getAttribute("rel");
             window.callbackExplorer = function (file){
-                $("#" + window.callbackExplorerID).val("url( " + file + ")");
-                $("#" + window.callbackExplorerID).trigger('keyup');
+                $("#" + window.callbackExplorerID).val(file);
+                $("#" + window.callbackExplorerID).trigger('change');
                 window.callbackExplorer = function(file){return false;};
                 ParsimonyAdmin.explorer.close();
             }
             ParsimonyAdmin.displayExplorer();
 	})
         
-        .on('click.creation','#css_menu > div',function(){
-            $("#css_menu > .active").removeClass("active");
-            $(this).addClass("active");
-	    $(".panelcss_tab").addClass("hiddenTab");
-            $("#" + $(this).attr("rel")).removeClass("hiddenTab");
+        /* Tabs of visual panel css */
+        .on('click.creation','#css_menu .cssTab',function(){
+            document.querySelector("#css_menu .cssTab.active").classList.remove("active");
+            this.classList.add("active");
+            $(".panelcss_tab").addClass("hiddenTab");
+            document.getElementById(this.getAttribute("rel")).classList.remove("hiddenTab");
         })
-                
+        
+        /* Input selecto management : current_selector_update */
         .on("change.creation",'#changecsspath',function(){
             if($('#current_selector_update').val().length > 2) blockAdminCSS.displayCSSConf($('#changecsspath').val(),$('#current_selector_update').val());
         })
@@ -261,14 +273,22 @@ function blockAdminCSS() {
             }
             document.getElementById("css_panel").style.display = 'none';
         })
-        .on('change.creation','#slider-range-max', function( event, ui ) {
+        
+        /* Opacity visual tool */
+        .on('change.creation','#slider-range-max', function( ) {
             var val = this.value;
-            if(val === 1) val = '';
-            $( "#positioning_opacity" ).val( val ).trigger("change").trigger("keyup");
+            if(val == 1) val = '';
+            document.getElementById("positioning_opacity").value = val;
+            trigger(document.getElementById("positioning_opacity"), "change");
         })
         
-        .on('click.creation','.colorpicker2',function(){
-            currentColorPicker = $(this);
+        /* Color picker */
+        .on('click.creation','.colorpicker2, .colorpicker3',function(){
+            if(this.classList.contains("colorpicker2")){
+                currentColorPicker = $(this);
+            }else{
+                currentColorPicker = $(this).prev().focus();
+            }
             picker.el.style.display = "block";
             picker.el.style.top = ($(this).offset().top) + 20 + "px";
             picker.el.style.left = ($(this).offset().left - 200) + "px";
@@ -276,21 +296,316 @@ function blockAdminCSS() {
         .on('blur.creation','.colorpicker2',function(){
             picker.el.style.display = "none";
         })
-        .on('change.creation','.representation input:not(".resultcss"),.representation select:not(".resultcss")',function(){
-            obj = $(this).closest('.representation');
-            reprToInput(obj);
+        
+        /* Representation schemas */
+        .on('keyup.creation change.creation','.representation input:not(".resultcss")',function(){
+            obj = $(this).closest('.representation')[0];
+            var top = obj.querySelector('.repr_top');
+            var right = obj.querySelector('.repr_right');
+            var bottom = obj.querySelector('.repr_bottom');
+            var left = obj.querySelector('.repr_left');
+            var init =  obj.getAttribute("init");
+            if(!top.value) top.value = init;
+            if(!right.value) right.value = init;
+            if(!bottom.value) bottom.value = init;
+            if(!left.value) left.value = init;
+            top = top.value;
+            right = right.value;
+            bottom = bottom.value;
+            left = left.value;
+            var result = "";
+
+            if(top == bottom && top == right && top == left){
+                result = top;
+            }else if(right == left && top == bottom ){
+                result = top + ' ' + right;
+            }else if(right == left & top != bottom){
+                result = top + ' ' + right + ' ' + bottom;
+            } else{
+                result = top + ' ' + right + ' ' + bottom + ' ' + left;
+            }
+
+            obj.querySelector('.resultcss').value = result;
+            trigger(obj.querySelector('.resultcss'), "change");
         })
-        .on('change.creation','.resultcss',function(event){
-            obj = $(this).closest('.representation');
-            reprToInput2(obj);
+        .on('keyup.creation change.creation','.resultcss',function(){
+            obj = $(this).closest('.representation')[0];
+            var top = obj.querySelector('.repr_top');
+            var right = obj.querySelector('.repr_right');
+            var bottom = obj.querySelector('.repr_bottom');
+            var left = obj.querySelector('.repr_left');
+            var expl = obj.querySelector('.resultcss').value.trim();
+            if(expl.length > 0){
+                expld = expl.split(' ');
+                switch(expld.length){
+                    case 1 : 
+                        top.value = expl;
+                        right.value = expl;
+                        bottom.value = expl;
+                        left.value = expl;
+                        break;
+                    case 2 :
+                        top.value = expld[0];
+                        right.value = expld[1];
+                        bottom.value = expld[0];
+                        left.value = expld[1];
+                        break;
+                    case 3 :
+                        top.value = expld[0];
+                        right.value = expld[1];
+                        bottom.value = expld[2];
+                        left.value = expld[1];
+                        break;
+                    case 4 :
+                        top.value = expld[0];
+                        right.value = expld[1];
+                        bottom.value = expld[2];
+                        left.value = expld[3];
+                        break;
+                }
+            }
         })
-        .on("change.creation",'.decoration input',function(){
-            var deco='';
-            $('.decoration .option:checked').each(function(){
-                deco = deco + this.dataset.css + ' ';
+        
+        /* Spinner */
+        .on("keydown", ".spinner", function (event) {
+            if (event.keyCode == 40 || event.keyCode == 38) {
+                event.preventDefault();
+                var num = this.value;
+                if(num!='') num = parseInt(num);
+                else num = 0;
+                var text = this.value.replace(num,'') || this.dataset.sufix || "";
+                if (event.keyCode == 40) {
+                    this.value = (num - 1) + text;
+                } else if (event.keyCode == 38) {
+                    this.value = (num + 1) + text;
+                }
+                trigger(this, "change");
+            }
+        })
+        
+        /* Autocomlete */
+        .on("click.creation", ".autocomplete", function(){
+            /* We clear datalist */
+            document.getElementById("parsidatalist").innerHTML = "";
+            this.setAttribute("list","parsidatalist");
+            if(this.id == "current_selector_update"){
+                $.getJSON( "admin/getCSSSelectors?filePath=" + document.getElementById("changecsspath").value, function(data){
+                    $.each( data, function(i, value){
+                         options += '<option value="' + value + '" />';
+                    });
+                     document.getElementById("parsidatalist").innerHTML = options;
+                });
+            }else{
+                var options = "";
+                $.each( $.parseJSON(this.dataset.options), function(i, value){
+                     options += '<option value="' + value + '" />';
+                });
+                document.getElementById("parsidatalist").innerHTML = options;
+            }
+        });
+        
+        /* Font text-decoration */
+        $(".decoration").on("click.creation", ".optionDeco", function(e){
+            this.classList.toggle("active");
+            var deco = '';
+            $('.active', e.delegateTarget).each(function(){
+                deco = deco + this.dataset.val + ' ';
             });
             deco = deco.replace(/[\s]{2,}/g,' ');
-            $('#css-decoration').val(deco).trigger("change");
+            document.getElementById("css-decoration").value = deco;
+            trigger(document.getElementById("css-decoration"), "change");
+        })
+        .on("change.creation",".prop_text-decoration",function(){
+            var container = this.parentNode;
+            var value = this.value.replace(/[\s]{2,}/g,' ');
+            var values = value.split(" ");
+            $('.active', container).each(function(){
+                this.classList.remove("active");
+            });
+            for(var i = 0, len = values.length; i < len; i++){
+                container.querySelector('[data-val="' + values[i] + '"]').classList.add("active");
+            }
+        });
+        
+        /* Font style */
+        $(".fontstyle").on("click.creation", ".optionFontStyle", function(){
+            var input = this.querySelector("input");
+            if(this.classList.contains("active")){
+                this.classList.remove("active");
+                input.value = "";
+            }else{
+                this.classList.add("active");
+                input.value = this.dataset.val;
+            }
+            trigger(input, "change");
+        })
+        .on("change.creation",".prop_font-weight, .prop_font-style",function(){
+            var container = this.parentNode;
+            if(this.value == ""){
+                container.classList.remove("active");
+            }else{
+                container.classList.add("active");
+            }
+        });
+
+        /* Font alignement */
+        $(".alignement").on("click.creation", ".optionAlign", function(){
+            var input = document.getElementById("text_align");
+            if(this.classList.contains("active")){
+                this.classList.remove("active");
+                input.value = "";
+            }else{
+                var container = this.parentNode;
+                if(container.querySelector(".active")){
+                    container.querySelector(".active").classList.remove("active");
+                }
+                this.classList.add("active");
+                input.value = this.dataset.val; 
+            }
+            
+            trigger(input, "change");
+        })
+        .on("change.creation",".prop_text-align",function(){
+            var container = this.parentNode;
+            if(this.value == ""){
+                if(container.querySelector(".active")){
+                    container.querySelector(".active").classList.remove("active");
+                }
+            }else{
+                container.querySelector('[data-val="' + this.value.toLowerCase() + '"]').classList.add("active");
+            }
+        });
+        
+        /* Background Tab */ 
+        $("#panelcss_tab_background").on("change", ".ruleBack", function(){
+            var back_im = document.querySelector(".prop_background-image").value;
+            var color = document.querySelector(".prop_background-color").value;
+            if(back_im.length > 0){
+                back_im = "url(" + back_im + ") ";
+            }else if(color.length == 0){
+                back_im = " url(/parsimony_cms/admin/img/transparent.png) "
+            }
+
+            var size = document.querySelector(".prop_background-size").value;
+            var back = color + ' ' + back_im + ' ' +
+                       document.querySelector(".prop_background-repeat").value + ' ' +
+                       document.querySelector(".prop_background-position").value + ' ' +
+                       (size.length > 0 ? '/' + size + ' ' : ' ') +
+                       document.querySelector(".prop_background-attachment").value + ' ' +
+                       document.querySelector(".prop_background-origin").value + ' ' +
+                       document.querySelector(".prop_background-clip").value;
+            back = back.replace(/[\s]{2,}/g,' ');
+            document.querySelector(".prop_background").value = back.replace(" url(/parsimony_cms/admin/img/transparent.png)", "");
+            trigger(document.querySelector(".prop_background"), "change");
+            document.getElementById("backTest").style.background = back;
+        });
+
+        $("#backTest").on("mousedown.creation", function(e){
+            e.stopImmediatePropagation();
+            document.getElementById("overlays").style.pointerEvents = "all";  
+            var dndstart = {left: isNaN(parseInt(this.style.left))? 0 : parseInt(this.style.left),
+                            top: isNaN(parseInt(this.style.top))? 0 :  parseInt(this.style.top),
+                            pageX : e.pageX, pageY : e.pageY};
+
+            $(document).on("mousemove.parsimonyDND", dndstart, function(e){
+                var left = e.pageX - dndstart.pageX;
+                var top = e.pageY - dndstart.pageY;
+                document.querySelector(".prop_background-position").value = left + "px " + top + "px";
+                document.getElementById("backTest").style.backgroundPosition = left + "px " + top + "px";
+            })
+            .on("mouseup.parsimonyDND",dndstart,function(e){
+                trigger(document.querySelector(".prop_background-position"), "change");
+                document.getElementById("overlays").style.pointerEvents = "none";
+                $(document).off("mousemove").off("mouseup");
+            });
+        });
+        
+        /* shadowWidget init*/
+        $('.shadowWidget').on("change", ".rulePart",function(e){
+            var container = e.delegateTarget;
+            var el = container.querySelector(".resultShadow");
+            el.value = container.querySelector('.h-offset').value.trim() + ' ' + container.querySelector('.v-offset').value.trim() + ' ' + container.querySelector('.blurShadow').value.trim() + ' ' + container.querySelector('.colorShadow').value.trim();
+            trigger(el, "change");
+            container.querySelector(".pointer").style.left = parseInt(container.querySelector('.h-offset').value) + 16 + "px";
+            container.querySelector(".pointer").style.top = parseInt(container.querySelector('.v-offset').value) + 16 + "px";
+        })
+        .on("change", ".resultShadow",function(e){
+            var container = e.delegateTarget;
+            var el = container.querySelector(".resultShadow");
+            var res = el.value.split(" ");
+            container.querySelector(".h-offset").value = res[0];
+            container.querySelector(".v-offset").value = res[1];
+            if(res[2]) container.querySelector(".blurShadow").value = res[2];
+            if(res[3]) container.querySelector(".colorShadow").value = res[3];
+        })
+        .on("mousedown.creation", ".pointer",function(e){
+            e.stopImmediatePropagation();
+            document.getElementById("overlays").style.pointerEvents = "all";  
+            var dndstart = {left: isNaN(parseInt(this.style.left))? 0 : parseInt(this.style.left) - 16,
+                            top: isNaN(parseInt(this.style.top))? 0 :  parseInt(this.style.top) - 16,
+                            pointer: this,
+                            container : e.delegateTarget,
+                            pageX : e.pageX, pageY : e.pageY};
+
+            $(document).on("mousemove.parsimonyDND", dndstart, function(e){
+                var left = e.pageX - dndstart.pageX;
+                var top = e.pageY - dndstart.pageY;
+                var left2 = 16 + left + dndstart.left;
+                var top2 = 16 + top + dndstart.top;
+                if(left2 > 32) left2 = 32;
+                else if(left2 < 0) left2 = 0;
+                if(top2 > 32) top2 = 32;
+                else if(top2 < 0) top2 = 0; 
+                dndstart.container.querySelector('.h-offset').value = left2 - 16 + "px";
+                dndstart.container.querySelector('.v-offset').value = top2 - 16 + "px";
+                trigger(dndstart.container.querySelector('.v-offset'), "change");
+            })
+            .on("mouseup.parsimonyDND",dndstart,function(e){
+                document.getElementById("overlays").style.pointerEvents = "none";
+                $(document).off("mousemove").off("mouseup");
+            });
+        });
+        
+        /* Borders */
+        $('#panelcss_tab_border_general').on("click.creation", ".borderMarkers", function(e){
+            e.delegateTarget.querySelector('.active').classList.remove("active");
+            this.classList.add("active");
+            trigger(e.delegateTarget.querySelector('.prop_' + this.dataset.targetcss), "change");
+        })
+        .on("change.creation", ".rulePart", function(e){
+            var container = e.delegateTarget;
+            var elmt = container.querySelector('.prop_' + container.querySelector('.active').dataset.targetcss);
+            elmt.value = (container.querySelector('.borderWidth').value.trim() || "1px") + ' ' + (container.querySelector('.borderStyle').value.trim() || "solid" ) + ' ' + (container.querySelector('.borderColor').value.trim() || "#000000");
+            trigger(elmt, "change");
+        })
+        .on("click.creation", ".clearBorder", function(e){
+            var container = e.delegateTarget;
+            var elmt = container.querySelector('.prop_' + container.querySelector('.active').dataset.targetcss);
+            elmt.value = "";
+            trigger(elmt, "change");
+        })
+        .on("change.creation", ".liveconfig", function(e){
+            var container = e.delegateTarget;
+            var value = this.value.trim();
+            if(value.length > 0){
+                var cut = value.split(" ");
+                for(var i = 0, len = cut.length; i < len ; i++){
+                    cut[i] = cut[i].trim();
+                    if(cut[i].substring(0,1) == "#"){
+                        container.querySelector('.borderColor').value = cut[i];
+                    }else if(",none,solid,dashed,dotted,double,groove,ridge,inset,outset,".indexOf(cut[i]) != -1){
+                        container.querySelector('.borderStyle').value = cut[i];
+                    }else{
+                        container.querySelector('.borderWidth').value = cut[i];
+                    }
+                }
+                container.querySelector('.borderMarkers[data-targetcss="' + this.dataset.css + '"]').classList.add("modifiedBorder");
+            }else{
+                container.querySelector('.borderWidth').value = "";
+                container.querySelector('.borderColor').value = "";
+                container.querySelector('.borderStyle').value = "";
+                container.querySelector('.borderMarkers[data-targetcss="' + this.dataset.css + '"]').classList.remove("modifiedBorder");
+            }
         });
 	
 	/* Manage CSSpicker */
@@ -321,7 +636,7 @@ function blockAdminCSS() {
 		e.preventDefault();
 		e.stopPropagation();
                 $("#threed").hide();
-                ParsimonyAdmin.$currentBody.css('-webkit-transform','initial').removeClass("threed");
+                ParsimonyAdmin.$currentBody.css('transform','initial').css('-webkit-transform','initial').removeClass("threed");
 		$('.cssPicker',ParsimonyAdmin.currentBody).removeClass("cssPicker");
 		$(this).addClass("cssPicker");
 		blockAdminCSS.openCSSCode();
@@ -379,17 +694,17 @@ function blockAdminCSS() {
             
         /* CSSpicker 3D */
         $("#threed").on('change.creation','.ch',function(){
-            var requestAnim = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+            var requestAnim = window.requestAnimationFrame || window.mozRequestAnimationFrame;
             requestAnim(function () {
                 var x  = document.getElementById("rotatex").value;
                 var y = document.getElementById("rotatey").value;
                 var z = document.getElementById("rotatez").value;
                 if(!ParsimonyAdmin.currentBody.classList.contains("threed")) ParsimonyAdmin.currentBody.classList.add("threed");
                 var style = 'rotateX(' + (x/10) + 'deg) rotateY(' + (y/10) + 'deg) translateZ(' + z + 'px);box-shadow: '+ (-(y/10)) + 'px ' + (x/10) + 'px 3px #aaa;background-color:#fff';
-                if(typeof ParsimonyAdmin.currentBody.style.MozTransform != "undefined"){
-                   ParsimonyAdmin.currentBody.style['MozTransform'] = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+                if(typeof ParsimonyAdmin.currentBody.style.transform != "undefined"){
+                   ParsimonyAdmin.currentBody.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
                    blockAdminCSS.iframeStyleSheet.deleteRule("0");
-                   blockAdminCSS.iframeStyleSheet.insertRule('.threed * {-moz-transform:' + style + ';}',"0"); 
+                   blockAdminCSS.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';}',"0"); 
                 }else{
                    ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
                    blockAdminCSS.iframeStyleSheet.deleteRule("0");
@@ -411,12 +726,19 @@ function blockAdminCSS() {
     }
     
     this.unloadCreationMode = function(){
-	$("#panelcss").off('.creation');
+	$("#panelcss").off('.creation', "**");
 	$("#colorjack_square").hide();
 	$(document).add(ParsimonyAdmin.currentDocument).off(".parsimonyDND");
         $('#container',ParsimonyAdmin.currentBody).off(".csspicker");
 	$(".parsimonyMove").off(".creation");
 	$(".parsimonyResize").off(".creation");
+        $("#changecssformcode").off(".creation");
+        $("#right_sidebar").off(".creation");
+        $(".decoration").off(".creation");
+        $("#panelcss_tab_background").off(".creation");
+        $("#backTest").off(".creation");
+        $("#threed").off(".creation");
+        $(document).off(".creation");
 	$("#parsimonyDND").hide();
     }
 }
@@ -428,7 +750,7 @@ blockAdminCSS.setCss = function (rule, code) {
 }
 
 blockAdminCSS.setCurrentRule = function (idStyle, idRule, idMedia) {
-    if(idMedia === ""){
+    if(idMedia == ""){
 	this.currentRule = ParsimonyAdmin.currentDocument.styleSheets[idStyle].cssRules[idRule];
     }else{
 	this.currentRule = ParsimonyAdmin.currentDocument.styleSheets[idStyle].cssRules[idMedia].cssRules[idRule];
@@ -443,6 +765,8 @@ blockAdminCSS.checkChanges = function () {
         }
     }
     document.getElementById("nbChanges").textContent = " " + cpt + " changes";
+    if(cpt > 0) document.getElementById("toolChanges").classList.add('toolactive');
+    else document.getElementById("toolChanges").classList.remove('toolactive');
 }
 
 blockAdminCSS.updatePosition  = function (bounds) {
@@ -460,7 +784,8 @@ blockAdminCSS.displayCSSConf = function (filePath, selector) {
     
     /* Clean form, but keep media query setting */
     var media = document.getElementById("currentMdq").value;
-    document.getElementById("form_css").reset();
+    document.getElementById("form_css").reset(); // reset all input except inputs hidden
+    $(".modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
     document.getElementById("currentMdq").value = media;
     
     /* Get existing code, last changes in priority */
@@ -471,7 +796,7 @@ blockAdminCSS.displayCSSConf = function (filePath, selector) {
 	code = CSSRule["p"].trim();
     }
     var CSSRuleChanges = ParsimonyAdmin.CSSValuesChanges[filePath];
-    if(typeof CSSRuleChanges == "undefined" || typeof ParsimonyAdmin.CSSValuesChanges[filePath][ident] == "undefined" ) blockAdminCSS.setCssChange(filePath, selector, code, media);
+    if(typeof CSSRuleChanges == "undefined" || typeof CSSRuleChanges[ident] == "undefined" ) blockAdminCSS.setCssChange(filePath, selector, code, media);
     CSSRuleChanges = ParsimonyAdmin.CSSValuesChanges[filePath][ident];
     code = CSSRuleChanges.value.trim();
 
@@ -497,13 +822,21 @@ blockAdminCSS.displayCSSConf = function (filePath, selector) {
 		properties.forEach(function(item){
 		    var properties = item.split(":");
 		    if(Array.isArray(properties) && properties.length == 2){
-			$(".prop_" + properties[0].trim()).val(properties[1].trim());
+                        var elmt = document.querySelector(".prop_" + properties[0].trim());
+                        if(elmt){
+                            elmt.value = properties[1].trim();
+                            trigger(elmt, "change");
+                        }
 		    }
 		});
 	    }else{
 		var property = code.split(":");
 		if(Array.isArray(property) && property.length == 2){
-		     $(".prop_" + property[0].trim()).val(property[0].trim());
+                    var elmt = document.querySelector(".prop_" + property[0].trim());
+                    if(elmt){
+                        elmt.value = property[1].trim();
+                        trigger(elmt, "change");
+                    }
 		}
 	    }
 	}
@@ -680,7 +1013,7 @@ blockAdminCSS.addNewSelectorCSS = function (path, selector) {
     
     var media = this.currentMediaText;
     if(media.length > 0){
-	var media = $("#currentMdq").val();
+	var media = document.getElementById("currentMdq").value;
     }
     /* Get code  */
     var code = this.currentRule.cssText.split("{")[1].split("}")[0];
@@ -692,7 +1025,7 @@ blockAdminCSS.addSelectorCSS = function (url, selector, styleCSS, nbstyle, nbrul
     var id = 'idcss' + nbstyle + "_" + nbrule + "_" + nbmedia;
     var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="$(\'#panelcss\').removeClass(\'CSSCode\');blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\')"> '+ t('Visual') +' </div></div>';
     if(typeof media != "undefined" && media.toString().length > 0) code += '<div class="mediaQueriesTitle">' + media + '</div>';
-    code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + styleCSS.replace(/;/,";\n").replace("\n\n","\n") + '</textarea>';
+    code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + styleCSS.replace(/  /g," ").replace(/;/g,";\n").replace("\n\n","\n") + '</textarea>';
     $("#changecsscode").append(code);
     blockAdminCSS.codeEditors[id] = new CSSlight(document.getElementById(id));
 }
@@ -823,4 +1156,3 @@ function CSSlight(elmt) {
     elmt.addEventListener("scroll", this.rePos, true);
 
 };
-
