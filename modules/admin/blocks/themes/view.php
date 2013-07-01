@@ -50,16 +50,6 @@
     #admin_themes .subTabsContainer{z-index: 99;position: relative;}
     .themesTabs{height: 100%;position: absolute;width: 100%;top: 0;padding-top: 100px;}
 </style>
-<script type="text/javascript">
-    $("#admin_themes").on("click",".duplicate",function(){
-	$('#duplicatepattern').show();
-	$('#admin_themes .secondpanel a').trigger('click');
-	$('#patternName').text($(this).data("themename").split(";")[1]);
-	$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
-	$('#patternIMG').attr("src",($(this).data("imgurl")));
-	$('input[value="template"]').attr('checked', true)
-    });
-</script>
 <div id="admin_themes">
     <div class="subTabsContainer">
         <div class="ssTab ellipsis switchtodata active" rel="themelist"><?php echo t('Existing', FALSE); ?></div>
@@ -115,7 +105,7 @@
 		    <input type="text" style="width: 190px;" name="name" required="required"/>                       
 		</div>
 		<div class="placeholder">
-		    <label><?php echo t('Module', FALSE); ?>: </label>
+                    <label><?php echo t('Module', FALSE); ?> </label>
 		    <select name="thememodule">
 			<?php
 			$modules = \app::$config['modules']['active'];
@@ -127,9 +117,11 @@
 		    </select>
 		</div>
 		<div class="placeholder" style="width: 190px;">
-		    <label><?php echo t('Pattern', FALSE) . ' : ' ?></label>
-		    <div><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank', FALSE) ?></div>
-		    <?php /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL', FALSE) ?> : <input type="text" name="url" style="width:150px;" ></div>*/ ?>
+		    <label style="display: inline-block;position: relative;"><?php echo t('Pattern', FALSE) ;?></label>
+		    <div style="margin: 8px 0;"><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank', FALSE) ?></div>
+		    <?php 
+                    /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL', FALSE) ?> : <input type="text" name="url" style="width:150px;" ></div>*/
+                    ?>
 		    <div id="duplicatepattern">
 			<div><input type="radio" name="patterntype" value="template" style="float:left;margin:0" /><h4 id="patternName"></h4></div>
 			<img id="patternIMG" src="" />
@@ -141,3 +133,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $("#admin_themes").on("click",".duplicate",function(){
+	$('#admin_themes div[rel="themenew"]').trigger('click');
+        $('#duplicatepattern').show();
+	$('#patternName').text($(this).data("themename").split(";")[1]);
+	$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
+	$('#patternIMG').attr("src",($(this).data("imgurl")));
+	$('input[value="template"]').attr('checked', true);
+    });
+</script>
