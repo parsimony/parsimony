@@ -532,7 +532,7 @@ abstract class entity implements \Iterator {
     public function getById($id) {
         if (is_numeric($id)) {
             $this->_SQL = array();
-            $this->where($this->_tableName . '_' . $this->getId()->name . ' = ' . $id);
+            $this->where($this->getId()->name . ' = ' . $id);
             return $this;
         }else
             throw new \Exception(t('ID isn\'t numeric'));
