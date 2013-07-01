@@ -25,7 +25,6 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$role = app::getModule('core')->getEntity('role');
 ?>
 <div class="adminzone" id="admin_profile" style="padding-left: 0px;">
     <div class="adminzonecontent">
