@@ -28,9 +28,10 @@
 ?>
 <style>
     #themes{width: 230px;color:#444;height: 100%;}
+    .themeOptions form{margin: 12px 0}
     .placeholder {position: relative;clear: both;width: 200px;margin:10px;}
-    .themelist h4{line-height: 25px;text-align: left;text-shadow: 0 1px 0 white;margin: 0;}
-    
+    .themelist h4{line-height: 25px;margin: 0;font-weight: normal;}
+    .themeOptions input {width: 100%;}
     #themeFormAdd{color:#444;border-right: 1px solid #CCC;}
     #themeFormAdd h4{margin: 0px 5px;line-height: 20px;text-transform: capitalize}
     #duplicatepattern{display:none}
@@ -38,7 +39,7 @@
     .contimg{position:relative;width:97px;height:97px;display: inline-block;}
     .contimg:hover .preview{display:block}
     .preview{position:absolute;width:100%;height:100%;background:rgba(0,0,0,.75);display:none;font-size:21px;padding-top:40%;cursor:pointer;font-family:sans-serif;color: rgb(240, 240, 240);text-align: center;}
-    .themeOptions{position: absolute;padding-left:10px;top: 0;width: 120px;height: 125px;left: 110px;z-index: 999;padding-top: 30px;opacity: 0.4;}
+    .themeOptions{position: absolute;padding-left:10px;top: 0;width: 120px;height: 125px;left: 110px;z-index: 999;padding-top: 30px;opacity: 0.4;padding-right: 15px;}
     .themeItem:hover .themeOptions{opacity: 1;}
      #patternName{float: left;line-height: 27px;}
     .themeItem{position: relative;text-align:left;padding:5px 0 ;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;padding-left:7px;}
@@ -65,24 +66,24 @@
 		    $module = \app::getModule($moduleName);
 		    foreach ($module->getThemes() as $themeName) {
 			$imgURL = stream_resolve_include_path($moduleName . '/themes/' . s($themeName) . '/thumb.png');
-			if($imgURL)  $imgURL = BASE_PATH.  strstr(str_replace('\\','/',$imgURL),'modules/');
+			if($imgURL)  $imgURL = BASE_PATH. str_replace('\\','/',str_replace(\app::$config['DOCUMENT_ROOT'],'',$imgURL));
 			else $imgURL = BASE_PATH.'admin/img/defaulttheme.png';
 			?>
 			<li id="theme_<?php echo s($themeName); ?>" class="themeItem<?php if($themeName == THEME) echo ' active'; ?>">
 			    <h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 			    <div class="contimg" style="background:url(<?php echo $imgURL; ?>) center" class="floatleft">
-				<div class="preview ellipsis" onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" /><?php echo t('Preview', FALSE) ?></div>
+				<div class="preview ellipsis" onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();"><?php echo t('Preview', FALSE) ?></div>
 			    </div>
 			    <div class="themeOptions">
 				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
 				<?php if($themeName != app::$config['THEME']): ?>
-                                <form method="POST" style="" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
+                                <form method="POST" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
 				    <input class="input" type="submit" value="<?php echo t('Choose', FALSE) ?>" />
 				</form>
-				<form method="POST" style="" action="admin/deleteTheme" target="formResult">
+				<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
 				    <input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 				    <input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 				    <input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
@@ -110,6 +111,7 @@
 			<?php
 			$modules = \app::$config['modules']['active'];
 			unset($modules['admin']);
+                        unset($modules['core']);
 			foreach ($modules as $moduleName => $mode) {
 			    echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
 			}

@@ -111,7 +111,7 @@
                                     if(isset($tab['regex'])) $nb++; 
                                 }
                                 if ($nb <= 1)
-                                    echo '<li><a data-title="' . htmlentities($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
+                                    echo '<li><a data-title="' . s($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
                             }
                             ?>
                         </ul>

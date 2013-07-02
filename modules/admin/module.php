@@ -713,6 +713,7 @@ class admin extends \module {
                     $theme[$device['name']]->setModule($thememodule);
                     $theme[$device['name']]->setName($name);
                 }
+                if(is_dir('modules/' . $thememodule . '/themes/' . $oldName . '/')) \tools::copy_dir('modules/' . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
 		\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
                 foreach (\app::$devices AS $device) {
                     $theme[$device['name']]->save();
@@ -746,7 +747,7 @@ class admin extends \module {
             $configObj->saveConfig($update);
             setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
 	    setcookie('THEME', $name, time()+60*60*24*30, '/');
-	    $return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'positive');
+	    $return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload(); ParsimonyAdmin.loadBlock("themes")', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'positive');
 	} else {
 	    $return = array('eval' => '', 'notification' => t('The Theme has\'nt been changed', FALSE), 'notificationType' => 'negative');
 	}

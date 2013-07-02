@@ -72,7 +72,12 @@
                 checkVersion();
               });
         });
-        
+        $(document).on('click', '#tabsb-5 input[type="radio"]', function(){ 
+            $('#tabsb-5 input[type=checkbox]').removeClass('hidden');
+            var input = document.querySelector('#tabsb-5 input[type="checkbox"][name="config[modules][active]['+ this.value + ']"]');
+            input.classList.add('hidden');
+            input.checked = true; 
+        });   
     });
 </script>
 <style>
@@ -80,6 +85,7 @@
     .adminzone td{padding:10px;min-width:100px}
     .adminzone td input{margin-left: 30px;}
     #updateVersionLoad{display:none}
+    .hidden{pointer-events: none;opacity: 0.5}
 </style>
 <div class="adminzone" id="admin_rights">
     <div id="admin_rights" class="adminzonemenu">
@@ -237,7 +243,7 @@
                                 <td style="line-height: 30px;font-size: 14px;text-transform: capitalize;letter-spacing: 2px;">' . $module . '</td>
                                 <td>
                                     <input type="hidden" name="config[modules][active][' . $module . ']" value="removeThis">
-                                    <input type="checkbox" name="config[modules][active][' . $module . ']" class="display" value="' . $value . '" ' . $checked . '>
+                                    <input type="checkbox" name="config[modules][active][' . $module . ']" '. ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden"' : '').' value="' . $value . '" ' . $checked . '>
                                 </td>
                                 <td>
                                     <input type="radio" name="config[modules][default]" value="'.$module.'" '. ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '').'>

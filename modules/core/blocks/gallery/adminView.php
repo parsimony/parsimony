@@ -36,6 +36,7 @@
             start:function(file){console.log("Start load : " + file.name)},
             onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
             stop:function(response){
+                if(typeof response.name != "undefined"){
                 $("input[name=imgPath]").val(response.name);
                 $("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + response.name + '</span>');
                 var src = "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' . PROFILE_PATH . $this->module . '/files'; ?>/" + response.name ;
@@ -54,13 +55,13 @@
                 $('input.description',clone).attr('name','img['+response.name+'][description]');
                 $('#images').append(clone);
                 $('#images img:last').trigger('click');
-                $('.block_container .template').show();
+                $('.container .template').show();
+            }else{
+                    top.ParsimonyAdmin.execResult(response);
+                }
             }
         });
-    })(jQuery);
-</script>
-<script>
-    
+    });    
     $(document).on('click','#images img' , function(event){
         event.preventDefault();
         $('.mark').removeClass('mark'); 

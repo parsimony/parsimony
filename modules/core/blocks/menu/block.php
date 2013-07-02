@@ -104,7 +104,9 @@ class menu extends \block {
                 $title = $item['title'];
             } else {
                 $page = \app::getModule($item['module'])->getPage($item['page']);
-                $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
+                if ($item['module'] == \app::$config['modules']['default'])
+                                $url = BASE_PATH . substr($page->getRegex(), 2, -2);
+                else $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
                 if (count($page->getURLcomponents()) == 0) {
                     $title = $page->getTitle();
                 } else {
