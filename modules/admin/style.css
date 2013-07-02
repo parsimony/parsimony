@@ -158,7 +158,7 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;margin: 0 10px 11px 11px;}
 
 /* Tree */
 #treelegend{position: absolute;right: 5px;top: 50px;color: #555; font-weight: bold;padding-right: 10px;z-index: 999999;}
-#treelegend2 fieldset{border: 1px solid #8b8a8a;color: #555 !important; border-radius: 8px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
+#treelegend2 fieldset{border: 1px solid #CCC;color: #555 !important; border-radius: 3px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
 #treelegend2 fieldset span{line-height: 20px;}
 #tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;
 font-family: arial, sans-serif;letter-spacing: 1.1px;}
@@ -174,12 +174,13 @@ font-family: arial, sans-serif;letter-spacing: 1.1px;}
 
 /* Tree icons */
 .parsicontainer{background: url(admin/img/parsicontainer.png) no-repeat 3px 1px !important;padding-left: 18px;margin-left: 0 !important;}
-#treedom_content{padding: 3px 0 5px 25px;margin-top: 2px; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;background: #E5E5E5 url(admin/img/parsipage.png) no-repeat 3px 4px !important;margin-left: 0 !important;border: 1px solid #CCC !important;}
+#treedom_content{padding: 3px 0 5px 25px;margin-top: 2px; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;background: #fdfdfd url(admin/img/parsipage.png) no-repeat 3px 4px !important;margin-left: 0 !important;border: 1px solid #CCC !important;}
 #treedom_content>:first-child{margin-top: 7px;}
 #treedom_content>#config_tree_selector:first-child{margin-top: 0px;margin-bottom: 6px;}
 #treedom_content > .arrow_tree:first-child{background: url(admin/img/arrow.png) no-repeat -8px 0px;}
 
 #tree li.tree_selector{border-top: 0;border-bottom: 0;border-right: 0}
+#paneltree fieldset .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px -1px, url(admin/img/hier.png) no-repeat 0px 1px !important;}
 .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px 1px, url(admin/img/hier.png) no-repeat 0px 1px !important;padding-left: 32px;}
 .parsipage{background: url(admin/img/parsipage.png) no-repeat 10px /*, url(admin/img/backcontenttree.png) repeat-x !important*/;padding-left: 30px;}
 #tree ul ,#tree li {margin-left:0;border-left:0}
