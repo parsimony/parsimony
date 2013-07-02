@@ -39,7 +39,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     </div>
     <div class="field-image-inputContainer" style="position: absolute;top:0;width:30px;">
 	<input type="file" class="field-image-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;margin: 0;width:30px;" />
-        <div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1;"><a href="#" style="width:30px;height:100%">Edit</a></div>
+        <div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1;"><a href="#" style="color: white;background: #444;padding: 0px 4px;text-decoration: none;">Edit</a></div>
     </div>
     <input type="hidden" id="image_<?php echo $row->getId()->value; ?>" name="<?php echo $this->name ?>" value="<?php echo  s($this->value) ?>" />
 </div>

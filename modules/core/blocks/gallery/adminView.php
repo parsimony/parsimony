@@ -41,7 +41,7 @@
                 $("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + response.name + '</span>');
                 var src = "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' . PROFILE_PATH . $this->module . '/files'; ?>/" + response.name ;
                 var srcclone = "<?php echo BASE_PATH . 'thumbnail?x=100&y=100&crop=1&path=' . PROFILE_PATH . $this->module . '/files'; ?>/" + response.name ;
-                $("#preview .img").attr( 'src' ,src );
+                $("#preview .imgf").attr( 'src' ,src );
                 $("span#width").text(response.x + 'px');
                 $("span#height").text(response.y + 'px');
                 var clone = $('#template').clone();

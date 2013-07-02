@@ -29,14 +29,15 @@
 $dirPath = PROFILE_PATH . \app::$request->getParam('dirPath');
 //securise $path
 $dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
-echo '<div id="path">'.$dirPath.'</div>';
-$extOk = array(); //'jpeg', 'png', 'gif', 'jpg'
-$extKo = array('obj');
+echo '<div id="path">'.$dirPath.'</div><div id="dirsandfiles">';
+$extOk = array(); 
+$array_img= array('.jpeg', '.png', '.gif', '.jpg');
+$extKo = array('.obj');
 $files = glob($dirPath . '/*');
 foreach ((is_array($files) ? $files : array()) as $filename) :
     if (is_dir($filename)) :
-        $filename = str_replace('//','/',$filename); //fix
-	?>
+        $filename = str_replace('//','/',$filename); //fix      
+        ?>
 	<div class="explorer_file dir">
 	    <img src="<?php echo BASE_PATH ?>admin/img/dir.png">
 	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
@@ -46,15 +47,15 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	    (empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
 	?>
 	<div class="explorer_file">
-	    <?php if (is_file('modules/admin/img/icons/file.png')): ?>
-	        <img src="<?php echo BASE_PATH ?>admin/img/icons/file.png">
+	    <?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
+                <img src="<?php echo BASE_PATH.'thumbnail?x=50&y=50&path='.$filename; ?>"> 
 	    <?php else: ?>
 	        <img src="<?php echo BASE_PATH ?>admin/img/file.png">
-	    <?php endif; ?>
+	     <?php endif; ?>
 	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
     endif;
 endforeach;
-exit;
 ?>
+</div>
