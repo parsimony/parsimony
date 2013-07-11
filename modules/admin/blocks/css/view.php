@@ -41,33 +41,38 @@ $CSSValues = $css->getCSSValues();
 <script>
 ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues)); ?>;
 </script>
-<?php /* We create a form in order to reset easily all values by .reset()  */ ?>
-<form method="POST" id="form_css" action="javascript:void(0);" target="formResult">
+
 
     <div id="toolChanges">
         <button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>admin/img/275.png');width: 28px;height: 28px;"></div></button>
         <button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>/admin/img/12.png');width: 38px;height: 35px;margin-top: -1px;"></div></button>
-        <span id="nbChanges"> 0 changes</span>
+        <span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
+        <div id="listchanges" class="none"></div>
     </div>
-
-    <div id="selectorcontainer">
-        <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
-        <input type="text" placeholder="e.g. #selector" data-optionsurl="" class="autocomplete" id="current_selector_update" spellcheck="false" />
-        <div id="goeditcss"></div>
-        <div style="position:relative;width: 230px;text-align: right;top: -1px;">
-            <a href="#" onclick="$('#formAddMedia').toggle();return false;" style="background: rgb(236, 236, 236);width: 20px;height: 20px;border-radius: 0 0 0 15px;text-align: center;border: 1px solid rgb(204, 204, 204);line-height: 16px;display: inline-block;vertical-align: top;text-decoration: none;color: #555;font-size: 13px;"> + </a>                
-            <select id="currentMdq" style="color: #8D8D8D;background-color: #F7F7F7;position: relative;border-left: 0 !important;outline:0;width: 188px;line-height: 15px;height: 20px;display: inline-block;vertical-align: top;border-radius: 0;">
-                <option value="">No media query</option>
-            </select>
+    <div style="text-align: right;font-size: 11px;">
+        <div onclick="blockAdminCSS.findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" style="color: #777;padding-right: 5px;cursor: pointer">+ Media queries</div>
+    </div>
+    <div id="mediaqueries" style="text-align: right;font-size: 11px;" class="none">
+        <div id="formAddMedia" style="line-height: 30px;text-align: left;padding-left:7px;border-top:1px solid #F3F3F3;">
+            Screen width From <input type="text" style="width:27px;text-align:right" id="mdqMinWidthValue" placeholder="&infin;" />px 
+            &nbsp; To <input type="text" style="width:27px;text-align:right" id="mdqMaxWidthValue" placeholder="&infin;" />px
+            <div id="removeMDQ">X</div>
         </div>
+        <div id="mediaqueriesdisplay">
+            <div id="mdqlabel" onclick="document.getElementById('mediaqueriesdisplay').classList.toggle('hide');">Media queries</div>
+            <div id="scopeMediaQueries"></div>
+            <div id="arrow-down"></div>
+            <div id="globalcssscope" data-min="0" data-max="9999" data-media="" class="mediaq active"></div>
+        </div>
+        <input type="hidden" id="currentMdq" data-range="" />
+    </div>
+<?php /* We create a form in order to reset easily all values by .reset(), but not media queries inputs  */ ?>
+<form method="POST" id="form_css" action="javascript:void(0);" target="formResult">
+    <div id="selectorcontainer">
+       <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
+        <input type="text" placeholder="e.g. #selector" data-optionsurl="" class="autocomplete" id="current_selector_update" spellcheck="false" />
     </div>
     <input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>.css" />
-
-    <div id="formAddMedia" style="font-size: 10px;line-height: 30px;padding-left:7px;background: #EEE;box-shadow: inset 0px 0px 1px #B3B3B3;" class="none">
-        <span style="font-weight:bold">Width</span> : Min <input type="text" style="width:27px" id="mdqMinWidthValue" /> px 
-        &nbsp; Max <input type="text" style="width:27px" id="mdqMaxWidthValue" /> px
-        <input type="button" value="Add" id="addMdq">
-    </div>
     <div id="changecssformcode" class="subTabsContainer">
         <div id="switchtovisuel" class="ssTabCSS">Visuel</div>
         <div id="switchtocode" class="ssTabCSS">Code</div>
@@ -214,9 +219,9 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
                     <input class="liveconfig prop_box-shadow resultShadow none" data-css="box-shadow" id="box-shadow" type="text">
                 </div>
             </div>
-            <input class="liveconfig prop_background none" type="text" data-css="background">
+            
             <div class="panelcss_tab hiddenTab" id="panelcss_tab_background">
-
+                <input class="liveconfig prop_background none" type="text" data-css="background">
                 <label for="background_color">Color</label>
                 <input class="prop_background-color colorpicker2 ruleBack" data-css="background-color" type="text"><span class="colorpicker3"></span>
                 
@@ -229,7 +234,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
                 <div id="backTest" style="cursor:move;height:100px;padding:10px;border: 2px solid #DDD;background: url(<?php echo BASE_PATH; ?>admin/img/transparent.png)"></div>
 
                 <label for="background_size">Size</label>
-                <input type="text" class="prop_background-size autocomplete ruleBack" data-options='["cover","contain"]' data-css="background-size" />
+                <input type="text" class="liveconfig prop_background-size autocomplete ruleBack" data-options='["cover","contain"]' data-css="background-size" />
 
                 <label for="background_pos">Position X. Y.</label>
                 <input type="text" class="prop_background-position spinner autocomplete ruleBack" data-css="background-position" data-options='["left top","left center","left bottom","left center","right top","right center","right bottom","center top","center center","center bottom"]'>
@@ -338,6 +343,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
             </div>
         </div>
         <div id="changecsscode" class="clearboth swicthcsscode"></div>
+        <div id="parseCSS" class="none"></div>
     </div>
 </form>
 <script type="text/javascript">
@@ -363,5 +369,12 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
         ev.initEvent(event, true, false);
         el.dispatchEvent(ev);
     }
+    function rgbToHex(color) {
+        if (color.substring(0, 1) === '#') {
+            return color;
+        }
+        var part = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+        return "#" + ((1 << 24) + (parseInt(part[2]) << 16) + (parseInt(part[3]) << 8) + parseInt(part[4])).toString(16).slice(1);
+    };
 
 </script>

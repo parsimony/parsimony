@@ -411,7 +411,7 @@ class admin extends \module {
 		    foreach($selectors AS $selector){
 			$values = $css->getCSSValues();
 			$media = str_replace(' ', '', $selector['media']);
-			$selector['cssText'] = preg_replace('@;[^a-zA-Z\-]+@m',';'.PHP_EOL, trim($css->selectorExists($media.$selector['selector'])));
+			$selector['cssText'] = preg_replace('@;[^a-zA-Z\-]*@m',';'.PHP_EOL, trim($css->selectorExists($media.$selector['selector'])));
 			$selector['CSSValues'] = (isset($values[$media.$selector['selector']]) ? $values[$media.$selector['selector']] : array());
 			$result[] = $selector;
 		    }

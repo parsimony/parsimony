@@ -34,6 +34,7 @@ function blockAdminMenu() {
 	    ParsimonyAdmin.setCookie("screenY",res[1],999);
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
             setTimeout("ParsimonyAdmin.$iframe.css('transition','none');",2000);
+            setTimeout("blockAdminCSS.drawMediaQueries();",500);
 	})
 	.on('change','#changeorientation', function(e) {
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
