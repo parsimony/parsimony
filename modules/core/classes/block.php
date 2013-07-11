@@ -172,6 +172,9 @@ abstract class block {
      */
     public function rmBlock($idBlock) {
         if(isset($this->blocks[$idBlock])) {
+            if(method_exists($this->blocks[$idBlock], 'destruct')) {
+                $this->blocks[$idBlock]->destruct();
+            }
             unset($this->blocks[$idBlock]);
 	    return $this;
         } else {

@@ -233,6 +233,9 @@ class page extends \block {
      */
     public function rmBlock($idBlock) {
         if (isset($this->blocks[THEMETYPE][$idBlock])) {
+            if(method_exists($this->blocks[THEMETYPE][$idBlock], 'destruct')) {
+                $this->blocks[THEMETYPE][$idBlock]->destruct();
+            }
             unset($this->blocks[THEMETYPE][$idBlock]);
             return $this;
         } else {

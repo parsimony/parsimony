@@ -92,5 +92,12 @@ class code extends \block {
         exit;
     }
     
+    public function destruct() {
+        $path = PROFILE_PATH . $this->getConfig('pathCode');
+        if(is_file($path) === TRUE){
+            rename($path, $path . '.back');
+        }
+    }
+    
 }
 ?>

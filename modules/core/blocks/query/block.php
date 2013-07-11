@@ -210,6 +210,13 @@ class query extends \block {
             }
         }
     }
+    
+    public function destruct() {
+        $path = PROFILE_PATH . $this->getConfig('pathOfViewFile');
+        if(is_file($path) === TRUE){
+            rename($path, $path . '.back');
+        }
+    }
 
 }
 ?>

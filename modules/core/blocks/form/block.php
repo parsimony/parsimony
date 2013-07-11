@@ -84,9 +84,9 @@ if(isset($_POST[\'add\'])){
             /* If it's a low level error, we save but we notice the dev */
             if ($this->getConfig('regenerateview') == 1) {
 		list($module, $entity) = explode(' - ', $_POST['entity']);
-                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $this->generateViewAction($module,$entity));
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfView'), $this->generateViewAction($module,$entity));
             } else {
-                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $_POST['editor']);
+                \tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfView'), $_POST['editor']);
             }
             $return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
         }else{
@@ -95,6 +95,13 @@ if(isset($_POST[\'add\'])){
         if (ob_get_level()) ob_clean();
 	echo json_encode($return);
         exit;
+    }
+    
+    public function destruct() {
+        $path = PROFILE_PATH . $this->getConfig('pathOfView');
+        if(is_file($path) === TRUE){
+            rename($path, $path . '.back');
+        }
     }
 
 }
