@@ -602,10 +602,10 @@ var ParsimonyAdmin = {
             if (window.Notification){
                 var notif = new Notification(message, {
                         icon: BASE_PATH + "admin/img/" + type + ".png",
-                        tag: 'type'
+                        tag: type
                 });
                 if(notif.permission === "granted" || window.Notification.permission === "granted"){
-                    setTimeout(function(){notif.cancel();}, '4000');
+                    notif.ondisplay = function(event) { setTimeout(function() {event.currentTarget.cancel();}, 4000);}
                     return true;
                 }
             }
