@@ -813,25 +813,25 @@ function blockAdminCSS() {
 
 	/* Shortcut : Save on CTRL+S */
 	$(document).on("keydown.creation", function(e) {
-	    if (e.which === 83 && e.ctrlKey) {
-	      e.preventDefault();
+            e.preventDefault();
+	    if (e.which === 83 && e.ctrlKey && document.querySelector(".panelcss.active") != null) {
               document.getElementById("savemycss").click();
 	    }
 	});
-        
-                
-        /* Init panel, when change page or version */
-        document.getElementById("panelcss").classList.add("CSSSearch");
-        /* If CSS changed but not saved, we reinit */
-        if(document.getElementById("toolChanges").classList.contains("toolactive")){
-            ParsimonyAdmin.CSSValuesChanges  = {};
-            document.getElementById("reinitcss").click();
-        }
-	
+
     }
     
     this.unloadCreationMode = function(){
-	$("#panelcss").off('.creation', "**");
+	/* reInit panel, when change page or version */
+        document.getElementById("panelcss").classList.add("CSSSearch");
+        document.getElementById("current_selector_update").value = '';
+        /* If CSS changed but not saved, we reinit */
+        if(document.getElementById("toolChanges").classList.contains("toolactive")){
+            ParsimonyAdmin.CSSValuesChanges  = {};
+            document.getElementById("reinitcss").click(); // place before unload event
+        }
+        
+        $("#panelcss").off('.creation', "**");
 	$("#colorjack_square").hide();
 	$(document).add(ParsimonyAdmin.currentDocument).off(".parsimonyDND");
         $('#container',ParsimonyAdmin.currentBody).off(".csspicker");
