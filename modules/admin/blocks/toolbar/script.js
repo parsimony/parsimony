@@ -19,7 +19,7 @@ function blockAdminToolbar() {
         });
 
         $('#admin').on('click','.ssTab',function(){
-            var parent = $(this).parent().parent();
+            var parent = $(this.parentNode.parentNode);
             parent.find(".tabPanel").hide();
             parent.find("." + this.getAttribute('rel')).show();
             parent.find(".ssTab").removeClass('active');
