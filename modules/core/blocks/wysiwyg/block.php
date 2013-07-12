@@ -79,6 +79,13 @@ class wysiwyg extends \block {
 	\app::$response->setHeader('Content-type', 'application/json');
 	return json_encode($return);
     }
+    
+    public function destruct() {
+        $path = PROFILE_PATH . $this->getConfig('path');
+        if(is_file($path) === TRUE){
+            rename($path, $path . '.back');
+        }
+    }
 
 }
 

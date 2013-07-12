@@ -813,8 +813,8 @@ function blockAdminCSS() {
 
 	/* Shortcut : Save on CTRL+S */
 	$(document).on("keydown.creation", function(e) {
-            e.preventDefault();
 	    if (e.which === 83 && e.ctrlKey && document.querySelector(".panelcss.active") != null) {
+                e.preventDefault();
               document.getElementById("savemycss").click();
 	    }
 	});
