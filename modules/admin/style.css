@@ -383,7 +383,12 @@ background-image: linear-gradient(top, #242424,#313131);
   .littleLogo{display:block}
   .biggerLogo{display:none}
 }
-
+/* Change Resolutions / device */
+#customReso{padding: 5px 15px;color:#bbb;white-space: nowrap;}
+#customReso input::-webkit-inner-spin-button,#customReso input::-webkit-outer-spin-button {-webkit-appearance: none;margin: 0; }
+#customReso input{padding: 3px;border: 1px solid #E7E6E6;width: 65px;}
+.changeVersion li{color: #555;cursor: pointer;min-width:140px;line-height:30px;white-space: nowrap;padding: 0px 15px}
+.changeVersion li:hover{color: #FFF;}
 
 /* Top Toolbar right part */
 #toolbar .rightpart{margin-right:10px;}

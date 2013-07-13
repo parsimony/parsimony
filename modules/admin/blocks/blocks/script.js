@@ -254,6 +254,7 @@ function blockAdminBlocks() {
         $(document).add('#config_tree_selector').off('.creation');
         $("#panelblocks").off('.creation');
         $("#parsimonyDND").add('#paneltree').off('.creation');
+        $("#parsimonyDND").hide();
         $('#conf_box').off('.creation');
         ParsimonyAdmin.$currentBody.off('.creation');
         ParsimonyAdmin.$currentBody.add('#paneltree').off('.creation');

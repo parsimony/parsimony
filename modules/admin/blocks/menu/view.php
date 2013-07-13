@@ -82,29 +82,26 @@ app::$request->page->addJSFile('admin/blocks/menu/script.js','footer');
     <div style="-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;text-align: center;">
 	<ul class="menu" style="display: inline-block;">
             <?php if (count(\app::$devices) > 1): ?>
-	    <li class="subMenu"><a href="#" id="info_themetype" data-title="<?php echo t('Version', FALSE); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
-		<ul>
+	    <li class="subMenu">
+                <a href="#" id="info_themetype" data-title="<?php echo t('Version', FALSE); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
+		<ul id="changeDevice" class="changeVersion">
 		    <?php foreach (\app::$devices AS $device): ?>
-		    <li>
-			<a href="#" onclick="ParsimonyAdmin.changeDevice('<?php echo $device['name']; ?>'); return false;">
-				<?php echo ucfirst($device['name']); ?>
-			</a>
-		    </li>
+		    <li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
 		    <?php endforeach; ?>
 		</ul>
 	    </li>
             <?php endif; ?>
             <li style="border-left: 0;position: relative" class="subMenu">
                 <a href="#" style="position: relative;"><span id="currentRes"></span></a>
-                <ul id="listres"></ul>
+                <ul id="listres" class="changeVersion"></ul>
             </li>
             <li class="orientation" style="box-shadow: none;padding-top: 8px;background: none;padding-left: 10px;opacity: 0.95;">
 		<input id="changeres" type="hidden" value="<?php if(isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])) echo $_COOKIE['screenX'].'x'.$_COOKIE['screenY']; ?>">
 	    <script>
-		ParsimonyAdmin.resultions = new Array();
+		ParsimonyAdmin.resolutions = new Array();
 	<?php
 	foreach (\app::$devices AS $device) {
-	echo 'ParsimonyAdmin.resultions["' . $device['name'] . '"] = \'' . json_encode($device['resolution']) . '\';' . PHP_EOL;
+	echo 'ParsimonyAdmin.resolutions["' . $device['name'] . '"] = \'' . json_encode($device['resolution']) . '\';' . PHP_EOL;
 	}
 	?>
 	    </script>

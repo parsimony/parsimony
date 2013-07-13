@@ -564,16 +564,18 @@ var ParsimonyAdmin = {
 	    ParsimonyAdmin.loadBlock('panelblocks');
 	},
 	changeDeviceUpdate : function () {
-	    var select = '';
-	    var nb = 0;
+	    var select = '<div id="customReso"><input id="customWidth" type="number" placeholder="Width" min="100" max="5000"> X <input id="customHeight" type="number" placeholder="Height" min="100" max="5000"></div>';
+	    var firstRes = "";
+            var nb = 0;
 	    var changeres = $('#changeres');
-	    $.each($.parseJSON(ParsimonyAdmin.resultions[THEMETYPE]), function(i,item){
-		if(changeres[0].value == "" && nb == 0) changeres.val(i).trigger('change');
-		select += '<li><a href="#" onclick="$(\'#changeres\').val(\'' + i + '\').trigger(\'change\');">' + item + ' (' + i + ')</a></li>';
+	    $.each(JSON.parse(ParsimonyAdmin.resolutions[THEMETYPE]), function(i,item){
+                if(nb == 0) firstRes = i;
+		select += '<li data-res="' + i + '">' + item + ' (' + i + ')</li>';
 		nb++;
 	    });
-	    $("#currentRes").text(changeres[0].value);
-	    $('#listres').html(select);
+            document.getElementById("currentRes").textContent = changeres[0].value;
+            document.getElementById("listres").innerHTML = select;
+            if(changeres[0].value == "") changeres.val(firstRes).trigger('change');
             $('#currentRes').css("position","relative"); //fix
 	},
 	changeLocale : function (locale) {

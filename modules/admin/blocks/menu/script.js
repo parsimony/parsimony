@@ -4,8 +4,7 @@ function blockAdminMenu() {
 	
 	/* Orientation and resolution */
 	$("#toolbar").on('change','#changeres', function() {
-            $("#parsimonyDND").hide();
-            if(window.performance.timing.domComplete && ((new Date).getTime() - window.performance.timing.domComplete) > 5000) ParsimonyAdmin.$iframe.css('transition','all 0.4s');
+            if(window.performance.timing.domComplete && ((new Date).getTime() - window.performance.timing.domComplete) > 2000) ParsimonyAdmin.$iframe.css('transition','all 0.4s');
 	    var res = this.value;
 	    $("#currentRes").text(res);
 	    if(res === 'max'){
@@ -30,6 +29,8 @@ function blockAdminMenu() {
 		    });
 		}
 	    }
+            document.getElementById("customWidth").value = res[0];
+            document.getElementById("customHeight").value = res[1];
 	    ParsimonyAdmin.setCookie("screenX",res[0],999);
 	    ParsimonyAdmin.setCookie("screenY",res[1],999);
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
@@ -40,6 +41,21 @@ function blockAdminMenu() {
 	    ParsimonyAdmin.setCookie("landscape",$("#changeorientation").val(),999);
 	    $("#changeres").trigger("change");
 	});
+        
+        $('#listres').on('click', 'li', function(){
+            $('#changeres').val(this.dataset.res).trigger('change');
+        })
+        .on('change', 'input', function(){
+            var width = document.getElementById("customWidth").value;
+            var height = document.getElementById("customHeight").value;
+            if(width && height){
+                $('#changeres').val(width + "x" + height).trigger('change');
+            }
+        });
+        
+        $('#changeDevice').on('click', 'li', function(){
+            ParsimonyAdmin.changeDevice(this.dataset.device);
+        });
 	
     }
 }

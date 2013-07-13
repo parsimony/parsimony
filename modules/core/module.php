@@ -86,11 +86,11 @@ class core extends \module {
         /* Desktop */
         if($devices['desktop']){
             \app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
-		'640x480' => '640 x 480',
-		'800x600' => '800 x 600',
-		'1024x768' => '1024 x 768',
-		'1280x960' => '1280 x 960',
-		'1280x1024' => '1280 x 1024'), 'detectFnc' => function() {
+		'640x480' => '',
+		'800x600' => '',
+		'1024x768' => '',
+		'1280x960' => '',
+		'1280x1024' => ''), 'detectFnc' => function() {
 		return TRUE;
 	    });
         }
