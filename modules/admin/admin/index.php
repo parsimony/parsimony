@@ -71,13 +71,19 @@
                 document.getElementById('updateVersionLoad').style.display = "none";
                 checkVersion();
               });
-        });
-        $(document).on('click', '#tabsb-5 input[type="radio"]', function(){ 
+        })
+        .on('click', '#tabsb-5 input[type="radio"]', function(){ 
             $('#tabsb-5 input[type=checkbox]').removeClass('hidden');
             var input = document.querySelector('#tabsb-5 input[type="checkbox"][name="config[modules][active]['+ this.value + ']"]');
             input.classList.add('hidden');
             input.checked = true; 
-        });   
+        })
+        .on('click', '#tabsb-9 input[type="radio"]', function(){ 
+            $('#tabsb-9 input[type=checkbox]').removeClass('hidden');
+            var input = document.querySelector('#tabsb-9 input[type="checkbox"][name="config[devices]['+ this.value + ']"]');
+            input.classList.add('hidden');
+            input.checked = true; 
+        });
     });
 </script>
 <style>
@@ -323,47 +329,24 @@
                     <thead>
                         <tr><th>Device</th><th>State</th><th>Default</th></tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
+                        <?php
+                        $devices = array('desktop', 'mobile', 'tablet', 'tv');
+                        foreach ($devices AS $device) { 
+                        ?>
                         <tr class="trover">
-                            <td><?php echo t('Desktop', FALSE); ?></td>
+                            <td><?php echo t(ucfirst($device), FALSE); ?></td>
                             <td>
-                                <input type="hidden" name="config[devices][desktop]" value="0">
-                                <input type="checkbox" name="config[devices][desktop]" value="1" <?php if (app::$config['devices']['desktop']) echo 'checked="checked"'; ?>>
+                                <input type="hidden" name="config[devices][<?php echo $device; ?>]" value="0">
+                                <input type="checkbox" name="config[devices][<?php echo $device; ?>]" value="1" <?php if (app::$config['devices'][$device]) echo 'checked="checked"'; ?><?php if (app::$config['devices']['defaultDevice'] == $device) echo ' class="hidden"'; ?>>
                             </td>
                             <td>
-                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','desktop',999);" value="desktop" <?php if (app::$config['devices']['defaultDevice'] == 'desktop') echo 'checked="checked"'; ?>>
-                            </td>  
-                        </tr>
-                        <tr class="trover">
-                            <td><?php echo t('Mobile', FALSE); ?></td>
-                            <td>
-                                <input type="hidden" name="config[devices][mobile]" value="0">
-                                <input type="checkbox" name="config[devices][mobile]" value="1" <?php if (app::$config['devices']['mobile']) echo 'checked="checked"'; ?>>
+                                <input type="radio" name="config[devices][defaultDevice]" onclick="top.ParsimonyAdmin.setCookie('device','<?php echo $device; ?>',999);" value="<?php echo $device; ?>" <?php if (app::$config['devices']['defaultDevice'] == $device) echo 'checked="checked"'; ?>>
                             </td>
-                            <td>
-                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','mobile',999);"  value="mobile" <?php if (app::$config['devices']['defaultDevice'] == 'mobile') echo 'checked="checked"'; ?>>
-                            </td>  
                         </tr>
-                        <tr class="trover">
-                            <td><?php echo t('Tablet', FALSE); ?></td>
-                            <td>
-                                <input type="hidden" name="config[devices][tablet]" value="0">
-                                <input type="checkbox" name="config[devices][tablet]" value="1" <?php if (app::$config['devices']['tablet']) echo 'checked="checked"'; ?>>
-                            </td>
-                            <td>
-                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','tablet',999);" value="tablet" <?php if (app::$config['devices']['defaultDevice'] == 'tablet') echo 'checked="checked"'; ?>>
-                            </td>  
-                        </tr>
-                        <tr class="trover">
-                            <td><?php echo t('TV', FALSE); ?></td>
-                            <td>
-                                <input type="hidden" name="config[devices][tv]" value="0">
-                                <input type="checkbox" name="config[devices][tv]" value="1" <?php if (app::$config['devices']['tv']) echo 'checked="checked"'; ?>>
-                            </td>
-                            <td>
-                                <input type="radio" name="config[devices][defaultDevice]" onclick="ParsimonyAdmin.setCookie('device','tv',999);" value="tv" <?php if (app::$config['devices']['defaultDevice'] == 'tv') echo 'checked="checked"'; ?>>
-                            </td>  
-                        </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
