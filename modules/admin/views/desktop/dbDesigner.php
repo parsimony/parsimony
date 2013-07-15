@@ -144,6 +144,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
     input[disabled] {background:#ddd}
     #connectorchoice{margin-left: 10px;}
+    .behaviorProperty {width: 136px;line-height: 17px;height:20px}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
@@ -783,10 +784,10 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             <div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
             <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
             <div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="behaviorTitle"></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><input type="text" name="behaviorDescription"></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><input type="text" name="behaviorKeywords"></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><input type="text" name="behaviorImage"></div>
+                <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><select class="behaviorProperty" name="behaviorTitle"></select></div>
+                <div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><select class="behaviorProperty" name="behaviorDescription"></select></div>
+                <div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><select class="behaviorProperty" name="behaviorKeywords"></select></div>
+                <div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><select class="behaviorProperty" name="behaviorImage"></select></div>
                 <input type="submit" class="save_table areaWrite" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
             </div>
         </div>
@@ -1095,8 +1096,15 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
                 current_update_table = $(this);         
                 $(".current_update_table").removeClass("current_update_table");
                 current_update_table.addClass("current_update_table");
+                /* Fill properties allowed for behavior properties */
+                var select = '<option></option>';
+                $.each($(".property", this), function(){
+                    select += "<option>" + this.textContent + "</option>";
+                });
+                $(".behaviorProperty").html(select);
+                /* Fill form with current attributs */
                 $.each($(this).data("attributs"), function(i,item){
-                    $('#update_table input[name=' + i + ']').val(item);
+                    $('#update_table [name=' + i + ']').val(item);
                 });
 		if(this.classList.contains("native")) $('#update_table input[name="name"]').attr('disabled','disabled');
 		else $('#update_table input[name="name"]').removeAttr('disabled');
@@ -1104,7 +1112,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             })
             /* Save all models */
             .on('click','#save',function(){
-                var propertylist = '[' ;
+                var propertylist = '[';
                 $(".table").each(function(){
                     var recupId = $(".title",this).text();
                     var tableAttrs = $(this).data("attributs");
