@@ -98,6 +98,10 @@ $lang['fr']['Password'] = 'Mot de passe';
 $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
 $lang['fr']['Check Password'] = 'Vérifier le mot de passe';
 $lang['fr']['Use a prefix ( Optional)'] = 'Utiliser un préfixe ( Optionnel)';
+$lang['fr']['is enabled'] = 'est activé';
+$lang['fr']['if you want to use automatic updates'] = 'si vous souhaitez la mise à jour automatique';
+$lang['fr']['You must enable the function'] = 'Vous devez activer la fonction';
+$lang['fr']['If you use Parsimony by mod userdir URLs ( ie. /<strong>~</strong>parsimony/), you have to check your /.htaccess file and update RewriteBase declaration. ( #RewriteBase /~myusername/ )'] = 'Si vous utilisez Parsimony via l\'URL du mod userdir ( ex : /<strong>~</strong>parsimony/ ), vous devez modifier la déclaration RewriteBase du fichier /.htaccess . ( #RewriteBase /~myusername/ )';
 
 /* Define roles */
 $_SESSION['behavior'] = 2;
@@ -272,6 +276,10 @@ while (1) {
             if (!is_file('.htaccess')) {
                 $high[] = ' <span>"/.htaccess"</span> '.tr('file is missing');
             }
+            
+            if(strstr($_SERVER['PHP_SELF'], '~') !== FALSE){
+                $low[] = tr('If you use Parsimony by mod userdir URLs ( ie. /<strong>~</strong>parsimony/), you have to check your /.htaccess file and update RewriteBase declaration. ( #RewriteBase /~myusername/ )');
+            }
 
             if (!is_readable('index.php') || !is_readable('config.php') || !is_readable('installNewLife.php') || !is_writable('index.php') || !is_writable('config.php') || !is_writable('installNewLife.php')) {
                 $high[] = tr('Set read/write permissions on').' <span>"index.php, config.php, installNewLife.php"</span> '.tr('directory (and sub-directories) using an FTP client');
@@ -344,6 +352,12 @@ while (1) {
             } else {
                 $ok[] = '<span>gd</span> '.tr('extension enabled');
             }
+            
+            if (!extension_loaded('zip')) {
+                $low[] = tr('Install and enable the').' <span>zip</span> extension.(' . tr('if you want to use automatic updates') . ')';
+            } else {
+                $ok[] = '<span>zip</span> '.tr('extension enabled');
+            }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
 		$serverOK = FALSE;
@@ -376,6 +390,12 @@ while (1) {
                 $low[] = tr('Set').' <span>session.auto_start</span> '.tr(' to <span>off</span> in php.ini.');
             } else {
                 $ok[] = '<span>session.auto_start</span> '.tr('is off');
+            }
+            
+            if (set_include_path(get_include_path()) === false) {
+                $high[] = tr('You must enable the function').' <span>set_include_path</span> ';
+            } else {
+                $ok[] = '<span>set_include_path</span> '.tr('is enabled');
             }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
