@@ -390,6 +390,13 @@ class page extends \block {
             foreach ($this->blocks[THEMETYPE] as $selected_block) {
                 $html .= $selected_block->display();
             }
+        }else{
+            /* SEO : noindex for empty pages */
+            \app::$request->page->setMeta('robots','noindex');
+        }
+        /* SEO : canonical url for index */
+        if($this->regex === '@^index$@'){
+            \app::$request->page->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['modules']['default'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
         }
         \app::$request->page->current = FALSE;
         return $html;
@@ -460,7 +467,7 @@ class page extends \block {
     }
 
     /**
-     * Get an entity
+     * Get rights for a role
      * @param string $role
      * @return integer
      */

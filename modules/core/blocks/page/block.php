@@ -59,14 +59,7 @@ class page extends \block {
 	    else
 		$balise = 'div';
 	    $html = '<' . $balise . ' id="' . $this->id . '" data-page="' . \app::$request->page->getId() . '" class="parsiblock block_container container_page ' . (string) $this->getConfig('cssClasses') . '">';
-	    $blocks = \app::$request->page->getBlocks();
-            if (!empty($blocks)) {
-		foreach ($blocks as $selected_block) {
-		    $html .= $selected_block->display() . PHP_EOL;
-		}
-	    }else{
-                \app::$request->page->setMeta('robots','noindex');
-            }
+	    $html .= parent::display();
 	    $html .= '</' . $balise . ' >';
 	    if ($secondes != 0)
 		tools::file_put_contents($fichier_cache, $html);

@@ -3,6 +3,8 @@
     <head>
         <!--[if ie]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+        <!--[if lt IE 9]>
         <script type="text/javascript">
         'article aside footer header nav section time'.replace(/\w+/g,function(n){document.createElement(n)})
         </script>
@@ -20,9 +22,11 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
         <meta name="generator" content="Parsimony">
-	<?php echo app::$request->page->printMetas() ?>
-        <?php echo app::$request->page->printInclusions() ?>
-	<?php echo app::$request->page->head ?>
+	<?php
+        echo app::$request->page->printMetas();
+        echo app::$request->page->printInclusions();
+	echo app::$request->page->head;
+        ?>
     </head>
     <body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo app::$request->page->getId(); ?>">
 	<?php echo $this->body; ?>
