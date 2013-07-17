@@ -240,8 +240,8 @@ background: linear-gradient(top, white, #F2F2F2);}
 
 /* Shadow widget */
 .panelPointer{width:40px;height:40px;background: rgb(241, 241, 241);position: relative;border: 1px solid rgb(204, 204, 204);}
-.panelPointer .cross1{position: absolute;width:20px;height:20px;border-bottom:1px solid #ccc;border-right:1px solid #ccc}
-.panelPointer .cross2{position: absolute;top:19px;left:19px;width:20px;height:20px;border-top:1px solid #ccc;border-left:1px solid #ccc}
+.panelPointer .cross1{position: absolute;width:20px;height:20px;border-bottom:1px dashed #ccc;border-right:1px dashed #ccc}
+.panelPointer .cross2{position: absolute;top:19px;left:19px;width:20px;height:20px;border-top:1px dashed #ccc;border-left:1px dashed #ccc}
 .panelPointer .pointer{width: 8px;height: 8px;background-color: rgb(68, 68, 68);position: absolute;top: 15px;left: 15px;cursor: move;border-radius: 3px;}
 
 /* When CSS panel is in code mode */

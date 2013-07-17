@@ -52,20 +52,21 @@ class core extends \module {
 
         /* Mobile */
         if($devices['mobile']){
-            \app::$devices[] = array('name' => 'mobile', 'resolution' => array('360x480' => 'BlackBerry Torch',
-		'480x800' => 'Google Nexus One',
-		'480x800' => 'Samsung Galaxy S',
-		'320x480' => 'iPhone 3/4',
-		'480x854' => 'Motorola Droid'), 'detectFnc' => function() {
+            \app::$devices[] = array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
+		'320x568' => 'Apple iPhone 5',
+		'360x640' => 'Samsung Galaxy S3&4 / HTC One',
+                '320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
 		return preg_match('/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $_SERVER['HTTP_USER_AGENT']);
 	    });
         }
         /* Tablet */
 	if($devices['tablet']){
-            \app::$devices[] = array('name' => 'tablet', 'resolution' => array('600x1024' => 'BlackBerry PlayBook',
-		'768x1024' => 'iPad',
-		'600x1024' => 'Samsung Galaxy Tab'), 'detectFnc' => function() {
-		return preg_match('@(iPad|SCH-I800|GT-P)@', $_SERVER['HTTP_USER_AGENT']);
+            \app::$devices[] = array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
+                 '601x921' => 'Google Nexus 7',
+                 '600x1024' => 'Samsung Galaxy Tab 2 7.7',
+                 '768x1366' => 'Microsoft Surface' ,
+                 '768x1024' => 'Apple iPad'), 'detectFnc' => function() {
+		return preg_match('/(ipad|viewpad|tablet|bolt|xoom|touchpad|playbook|kindle|gt-p|gt-i|sch-i|sch-t|mz609|mz617|mid7015|tf101|g-v|ct1002|transformer|silk| tab)/i', $_SERVER['HTTP_USER_AGENT']);
 	    });
         }
         /* TV */
@@ -80,7 +81,7 @@ class core extends \module {
 		'1600x900' => '16/9 HD Extended',
 		'768x1366' => '16/9 HD Ready',
 		'1000x1600' => '16/10'), 'detectFnc' => function() {
-		return preg_match('@(GoogleTV)@', $_SERVER['HTTP_USER_AGENT']);
+		return preg_match('@GoogleTV|SmartTV|Internet.TV|NetCast|NETTV|AppleTV|boxee|Kylo|Roku|DLNADOC|CE\-HTML@i', $_SERVER['HTTP_USER_AGENT']);
 	    });
         }
         /* Desktop */
