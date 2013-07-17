@@ -394,7 +394,7 @@ this.drawScene = function () {
     }
     
     this.initResize = function(){
-        $this.clearCrop();
+        this.clearCrop();
         document.getElementById('results').classList.remove('crop');
         document.getElementById('results').classList.add('resize');
         imgw = document.getElementById('initWidth').innerHTML;
