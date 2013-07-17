@@ -108,6 +108,27 @@ class module {
 	}
 	return $pages;
     }
+    
+    /**
+     * Check if a page can override another page regarding his position and his regex
+     * @return page|FALSE
+     */
+    public function checkIfPageOverrideAnother($idPage, $regex = FALSE) {
+        $pageToCheck = $this->getPage($idPage);
+        if($regex === FALSE) $regex = $pageToCheck->getRegex();
+        $pages = $this->getPages();
+        $mark = FALSE;
+        foreach ($pages AS $id => $page) {
+            if($idPage == $id){
+               $mark = TRUE; 
+            }elseif($mark === TRUE){
+                if (preg_match($regex, $page->getURL())) {
+                    return $page;
+                }
+            }
+        }
+        return FALSE;
+    }
 
     /**
      * Reoder pages of the module

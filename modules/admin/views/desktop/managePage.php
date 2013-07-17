@@ -46,23 +46,22 @@
     .ui-icon-closethick{margin: 5px;border: #666 solid 1px;border-radius: 5px;margin: 0px auto;display: none}
     .modulecss{padding: 5px;list-style: none;border: 1px solid #99BBE8;background-color: #CBDDF3;text-transform: capitalize;}
     .modulecss a{text-decoration: none;color:#333;}
-    .details{display:none;position:absolute;top:23px;z-index:1;background: rgba(255,255,255,0.8);width: 650px;overflow-x: scroll}
+    .details{display:none;position:absolute;top:23px;z-index:1;background: #fff;width: 650px;border: 1px solid #99BBE8;padding: 3px;overflow-x: scroll}
     .detailsCont{width: 1500px;}
-    .entity{border-radius: 3px;background:#E8F4FF;border:1px solid #5E9AE2;margin:2px 2px;}
+    .entity{border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #FBFBFB;margin:2px 2px;}
     .cent{width:100%;box-sizing:border-box;}
     div.type{cursor: move;}
-    .entityname{padding:5px 4px;line-height: 20px;font-weight: bold;color: white;background: #5E9AE2;
-                background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));
-                background: -moz-linear-gradient(top, #5E9AE2, #3570B8);}
+    .entityname{font-weight: bold;font-size: 12px;padding:5px 4px;color: white;background: #1b74a4;border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;}
+    .property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
     .property:hover{background:#CBDDF3}
     #recipiant_sql select{margin-bottom: 5px;margin-top: 5px;}
     .choicebuilder{display: inline-block;vertical-align: top;width: 225px;margin: 8px;padding: 7px;background: #FCFCFC;border: 1px solid #C2C2C2;color: black;height: 110px;}
     .choicetitle{padding: 3px;font-size: 15px;text-align: left;margin: 2px 0px 7px;border-bottom: 1px solid #DDD;}
-    .parsiplusone {display: inline-block;cursor: cell;
+    .parsiplusone {display: inline-block;vertical-align: top;cursor: cell;
                background: url("<?php echo BASE_PATH; ?>admin/img/add.png") no-repeat;width: 16px;height: 16px;}
     #col > div,.paramdyn > div,.paramstatique > div{height:30px;line-height:30px;text-align:left;padding: 0 5px}
     #col > div{line-height: 28px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
-    #col{box-shadow: 0px 2px 2px #CCC,2px -1px 2px #CCC;background: white;max-width: 120px;border: 1px solid white;float: left;margin-left: -7px;margin-right: 5px;}
+    #col{background: white;max-width: 120px;border: 1px solid #eee;float: left;margin-left: -7px;margin-right: 5px;}
     .del{position: absolute;top: -6px;right: -10px;}  
     #addparam {margin-top: 10px;}
     #container{width:10000px}
@@ -71,22 +70,12 @@
     .ui-icon-closethick{background-color: #F9F9F9;}
     .robots{margin: 1px 0;}
     .robots tr{background: white;}
-    .robots td{
-padding: 5px 2px 5px 15px;
-color: #444;
-font-size: 12px;
-text-align: left !important;
-line-height: 22px;}
-    .robots .opt{padding: 5px 2px 5px 15px;
-text-align: center !important;}
-th, td {
-height: 23px;
-width: 87px;
-}
+    .robots td{padding: 5px 2px 5px 15px;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}
+    .robots .opt{padding: 5px 2px 5px 15px;text-align: center !important;}
+    th, td {height: 23px;width: 87px;}
 
 </style>
-    <div class="adminzone" id="adminformpage">
-
+<div class="adminzone" id="adminformpage">
     <div id="admin_page" class="adminzonemenu"> 
         <div id="goto_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('See', FALSE); ?></a></div>
         <div id="delete_page" class="adminzonetab"><a href="#" class="ellipsis"><?php echo t('Delete', FALSE); ?></a></div>   
@@ -112,15 +101,15 @@ width: 87px;
                     <div class="placeholder inputregex">
                         <label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr($page->getRegex(), 2,-2)); ?>">
                     </div>
-                    <div style="top: 113px;position: absolute;left: 7px;text-overflow:ellipsis;font-size:13px">
+                    <div style="top: 5px;position: relative;left: 7px;text-overflow:ellipsis;font-size:13px">
                         <span for="genereURL"><?php echo t('URL', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php $modulename = $module->getName();
                     if ($modulename != \app::$config['modules']['default'])
                         echo $modulename;
                     ?></span><?php if ($modulename != \app::$config['modules']['default']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
                     </div>
 		    <?php if ($_SESSION['behavior'] == 2 ): ?>
-                        <div style="top: 85px;position: absolute;left: 570px;color: #333;">
-                            <a style="color: #333;line-height: 15px;text-decoration:none" href="#" onclick="$('#tabs-admin-querieur').toggle();return false;"><span style="position: relative;top: 0px;right: 4px;" class="parsiplusone floatleft"></span><?php echo t('Dynamic page', FALSE); ?></a>
+                        <div style="position: absolute;left: 570px;top: 82px;cursor:pointer;color: #333;line-height: 15px;" onclick="$('#tabs-admin-querieur').toggle();">
+                            <span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Dynamic page', FALSE); ?>
                         </div>
                     <?php endif; ?>
                     <script type="text/javascript">
@@ -130,12 +119,12 @@ width: 87px;
                             }else{
                                 $('#patternurlregex').attr("disabled", "disabled");
                             }
-                        });
-                        $(document).on('change keyup','#patternurlregex',function(){
+                        })
+                        .on('change keyup','#patternurlregex',function(){
                             $('#goto_page').hide();
                             $("#patternurl").text(this.value);
-                        });
-                        $(document).on('click','#save_page',function(e){
+                        })
+                        .on('click','#save_page',function(e){
                             e.preventDefault();
                             $('#patternurlregex').prop("disabled", false);
                             $('#conf_box input[name="action"]').val("savePage");
@@ -144,19 +133,59 @@ width: 87px;
                             if($('#container > div').length > 0){
                                 $('#patternurlregex').attr("disabled", "disabled");
                             }
-                        });
-                        $(document).on('click','#goto_page',function(e){
+                        })
+                        .on('click','#goto_page',function(e){
                             e.preventDefault();
                             parent.location = $('#totalurl').text();
-                        });
-                        $(document).on('click','#delete_page',function(e){
+                        })   
+                        .on('click','#delete_page',function(e){
                             e.preventDefault();
                             var trad = t('Are you sure to delete this page ?');
                             if(confirm(trad)){
                                 $('#adminformpage input[name="action"]').val("deleteThisPage");
                                 $('#sendFormPage').trigger('click');
                             }
+                        })
+
+                        .on('click','#schema_sql .property', function(){
+                            var obj = $('#abc').clone().attr('id','');
+                            $(".parsiname input",obj).val($(this).attr('name'));
+                            $(".regex input",obj).val($(this).attr('regex'));
+                            $(".val input",obj).val($(this).attr('val'));
+                            $(".modelProperty input",obj).val($(this).parent().attr("table") + "." + $(this).text());
+                            obj.appendTo('#container').show();
+                            $("#container").sortable("refresh");
+                            genereregex();
+                        })
+                        .on('change keyup','.showcomponent input', function(){
+                            genereregex();
+                        })
+
+                        .on('click','#addparam', function(){
+                            obj = $('#abc').clone();
+                            obj.removeAttr("id");
+                            $('.parsiname input',obj).val($('#paramname').val());
+                            $('.regex input',obj).val($('#paramregex').val());
+                            if($('#paramregex').val()=='(.*)') $('.val input',obj).val('abcd');
+                            else $('.val input',obj).val('123');
+                            obj.appendTo('#container').show();
+                            $('#paramname').val('');
+                            genereregex();
+                        })
+
+                        .on('click','#addtextcomposant', function(){
+                            $('#abcd').clone().removeAttr("id").appendTo('#container').show();
+                            genereregex();
+                        })
+
+                        .on('click','.robotsOptions', function(){
+			    var robots = "";
+			    $('.robotsOptions:checked').each(function(){
+				robots += $(this).data("option") + ",";
+			    });
+                            $('#SEOrobots').val(robots.substring(0,robots.length-1));
                         });
+
                         $('input[name="title"]').blur(function() {
                             if($('input[name="title"]').val().length >0 && $('input[name="regex"]').val().length == 0){
                                 $('input[name="regex"]').addClass('active');
@@ -179,45 +208,7 @@ width: 87px;
                                 }
                             });
                             $( ".showcomponent" ).disableSelection();
-                        });
-                        $(document).off('click','#schema_sql .property');
-                        $(document).on('click','#schema_sql .property', function(){
-                            var obj = $('#abc').clone().attr('id','');
-                            $(".parsiname input",obj).val($(this).attr('name'));
-                            $(".regex input",obj).val($(this).attr('regex'));
-                            $(".val input",obj).val($(this).attr('val'));
-                            $(".modelProperty input",obj).val($(this).parent().attr("table") + "." + $(this).text());
-                            obj.appendTo('#container').show();
-                            $("#container").sortable("refresh");
-                            genereregex();
-                        });
-                        $(document).on('change keyup','.showcomponent input', function(){
-                            genereregex();
-                        });
-
-                        $(document).off('click','#addparam');
-                        $(document).on('click','#addparam', function(){
-                            obj = $('#abc').clone();
-                            obj.removeAttr("id");
-                            $('.parsiname input',obj).val($('#paramname').val());
-                            $('.regex input',obj).val($('#paramregex').val());
-                            if($('#paramregex').val()=='(.*)') $('.val input',obj).val('abcd');
-                            else $('.val input',obj).val('123');
-                            obj.appendTo('#container').show();
-                            $('#paramname').val('');
-                            genereregex();
-                        });
-                        $(document).off('click','#addtextcomposant');
-                        $(document).on('click','#addtextcomposant', function(){
-                            $('#abcd').clone().removeAttr("id").appendTo('#container').show();
-                            genereregex();
-                        });
-			$(document).on('click','.robotsOptions', function(){
-			    var robots = "";
-			    $('.robotsOptions:checked').each(function(){
-				robots += $(this).data("option") + ",";
-			    });
-                            $('#SEOrobots').val(robots.substring(0,robots.length-1));
+                            checkOveride('<?php echo $page->getRegex() ?>');
                         });
 
                         function genereregex(){
@@ -239,9 +230,21 @@ width: 87px;
                             $("#patternurl").text(url);
                             $("#patternurlregex").val(urlRegex);
                             $(".showcomponent").show();
-                            
+                            checkOveride("@^" + urlRegex + "$@");
+                        }
+                        
+                        function checkOveride(regex){
+                            $.post(BASE_PATH + "admin/checkOverridedPage", {module: '<?php echo MODULE ?>' ,idpage: '<?php echo $page->getId() ?>', regex: regex}, function(data) {
+                                if(data.length > 0){
+                                    $("#pageOverride").html('<div style="background: #44C5EC;width: 531px;padding: 5px;color: #FBFBFB;">Attention this page is suspected to override and hide page ' + data + '</div>');
+                                }else{
+                                    $("#pageOverride").html("");
+                                }
+                            });
                         }
                     </script>
+
+                    <div id="pageOverride" style="position: relative;top: 16px;left: 7px;"></div>
 
                     <div style="position:relative;padding-top: 30px;">
 			<?php if ($_SESSION['behavior'] == 2 ): ?>
@@ -308,20 +311,20 @@ width: 87px;
                                         <div class="choicetitle"><?php echo t('A SQL property', False); ?> :</div>
                                         <?php
                                         $models = $module->getModel();
+                                        $allowedField = array('field_ident', 'field_string', 'field_numeric', 'field_numeric', 'field_url_rewriting', 'field_user');
+                                        $aliasClasses = array_flip(\app::$aliasClasses);
                                         if (count($models) > 0) {
                                             echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
                                             <li class="ui-state-default ui-corner-top modulecss">' . $module->getName() . '</li><div class="details"><div class="detailsCont">';
                                             foreach ($models as $modelName => $model) {
-
                                                 echo '<div class="inline-block entity" table="' . $module->getName() . '_' . $modelName . '">
 								<div class="table entityname ellipsis">' . $module->getName() . '_' . $modelName . '</div>';
                                                 $obj = app::getModule($module->getName())->getEntity($modelName);
                                                 foreach ($obj->getFields() AS $field) {
-                                                    if (get_class($field) == 'field_foreignkey')
-                                                        $link = ' link="' . $module->getName() . '_' . $field->link . '"';
-                                                    else
-                                                        $link = '';
-                                                    echo '<div name="' . $field->name . '" regex="(.*)" val="example" class="ellipsis property ' . get_class($field) . '"' . $link . ' style="cursor:pointer;margin:5px">' . $field->name . '</div>';
+                                                    $className = get_class($field);
+                                                    if(isset($aliasClasses[$className]) && in_array($aliasClasses[$className], $allowedField)){
+                                                        echo '<div name="' . $field->name . '" regex="(' . $field->regex . ')" val="example" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
+                                                    }
                                                 }
                                                 echo '</div>';
                                             }

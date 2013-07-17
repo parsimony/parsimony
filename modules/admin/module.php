@@ -1362,6 +1362,22 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	$url = \tools::sanitizeString($url);
 	return $url;
     }
+    
+    /**
+     * Check if a page is overrided by another
+     * @param string $module
+     * @param string $idpage
+     * @param string $regex
+     * @return string 
+     */
+    protected function checkOverridedPageAction($module, $idpage, $regex) {
+	$module = \app::getModule($module);
+        $page = $module->checkIfPageOverrideAnother($idpage, $regex);
+        if($page !== FALSE){
+            return  $page->getId() . ' : ' . s($page->getTitle());
+        }
+	return  '';
+    }
 
     /**
      * Get a back Up
