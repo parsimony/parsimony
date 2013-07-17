@@ -92,10 +92,13 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     .explorer_file_name {position: absolute;bottom: 2px;text-overflow: ellipsis;white-space: nowrap;width: 85px;overflow: hidden;padding: 0 4px;font-size: 13px;line-height: 30px;}
     .explorer_file {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 10px;}
     #dirsandfiles{bottom: 0;right: 0;top: 72px;left: 10px;position: absolute;overflow: auto;}
+    #editpictures{display: none;}
 </style>
 <script>
     
     var editors = {};
+    var pictures = {};
+    
     if(typeof opener.callbackExplorer != "function") opener.callbackExplorer = function(file){return false;};
     
     $(document).ready(function() {
@@ -113,6 +116,10 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             $(this).addClass("active");
             var panel = this.id;
             if(panel == "exploreTab") $("#explorerfiles").show();
+            else if(this.classList.contains('pict')) {
+                //addPicture(this.getAttribute('title'),this.id);
+                pictures["tab-" + this.id].reDraw();
+            }
             else $("#tab-" + panel).show();
 	})
         .on("click",".close", function(e){
@@ -120,19 +127,26 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             var tab = $(this).closest("li");
             if(!tab.hasClass("unsaved") || confirm("This file isn't saved, do you really want to close it ?")){
                 var panel = tab.attr('id');
-                editors[panel] = "";
-                $("#tab-" + panel).add(tab).remove();
+                if(tab.hasClass("file")){
+                    editors[panel] = "";
+                    $("#tab-" + panel).add(tab).remove();
+                }
+                else {
+                    $("#editpictures").css('display','none');
+                    tab.remove();         
+                }
                 $("#explorerfiles").show();
+                $('#tabs li:last').trigger('click');
             }
+            
 	});
-        
+
+
 	$("#explorercontainer").on("dblclick",".explorer_file", function(){
             var path = $(this).find(".explorer_file_name").attr("path");
             if($(this).hasClass("dir")){
-                list(path);
-            }else{
-                addFile(path);
-            }
+                    list(path);
+            }else pictureOrFile(path);
 	});
                 
        $("#explorerfiles").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
@@ -234,17 +248,45 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 	    $("#explorerfiles").html(data);
 	});
     }
-    function addFile(path) {
+    
+    function pictureOrFile(path){
+        var extension = path.substr((~-path.lastIndexOf(".") >>> 0) + 2);
+        var array_img = new Array('jpeg', 'png', 'gif', 'jpg');
         var name = path.replace(/\\/g,'/').replace( /.*\//, '' );
         var techName = path.replace("\\","__").replace(/\//g,"__").replace(".","");
+        var completename = '<?php echo BASE_PATH ?>' + path;
         $("#tabs li").removeClass("active");
-	$("#tabs").append('<li id="' + techName + '" title="<?php echo PROFILE_PATH ?>' + path + '" class="active"><div><span class="name">' + name + '</span><span class="close">x</span></div></li>');
-        $.post("<?php echo BASE_PATH; ?>admin/explorerEditor", { file: path },
-	function(data) {
-	    $("#explorercontainer").append(data);
+        if($('#' + techName).length == 0){
+        if(array_img.indexOf(extension) > -1) {
+            addPicture(completename,techName);
+            
+            $("#tabs").append('<li id="' + techName + '" title="<?php echo BASE_PATH ?>' + path + '" class="active pict"><div><span class="name">' + name + '</span><span class="close">x</span></div></li>');
+            
+        }
+        else{
+            addFile(name,techName,path);
+            document.getElementById('explorerfiles').style.display = 'block';
+            document.getElementById('editpictures').style.display = 'none';
+            $("#tabs").append('<li id="' + techName + '" title="<?php echo PROFILE_PATH ?>' + path + '" class="active file"><div><span class="name">' + name + '</span><span class="close">x</span></div></li>');
+        }
+        }else{$('#' + techName).trigger('click');
+        }
+    }
+    
+    function addPicture(completename,techName){
+            $(".panel").hide();
+            document.getElementById('editpictures').style.display = 'block';         
+            pictures["tab-" + techName] = new pictureEditor(completename,techName);
+    }
+    function addFile(name,techName,path) {
+            
+            $.post("<?php echo BASE_PATH; ?>admin/explorerEditor", { file: path },
+            function(data) {
             $(".panel").hide();
             $("#tab-" + techName).show();
-            editors["tab-" + techName] = CodeMirror.fromTextArea(document.getElementById("code-" + techName), {mode: "css",
+            $("#explorercontainer").append(data);
+            editors["tab-" + techName] = CodeMirror.fromTextArea(document.getElementById("code-" + techName), {
+                mode: "css",
                 tabMode: "indent",
                 lineNumbers: true,
                 lineWrapping: true,
@@ -252,11 +294,11 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             });
             editors["tab-" + techName].techName = techName;
             editors["tab-" + techName].on("change", function(c, n) {
-                $("#" + c.techName).addClass("unsaved");
-            });
+                $("#" + c.techName).addClass("unsaved");  
         });
+    }); 
     }
-
+   
 </script>
 <div id="explorerWrap">
     <ul id="explorer">
@@ -293,6 +335,14 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
                 include('files.php');
                 ?>
             </div>
+            <div class="panel" id="editpictures">
+                <?php
+                $dirPath = $path;
+                include('pictures.php');
+                ?>
+                
+            </div> 
+                
         </div>
     </div>
 </div>

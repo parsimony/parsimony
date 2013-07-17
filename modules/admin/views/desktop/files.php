@@ -48,7 +48,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	?>
 	<div class="explorer_file">
 	    <?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
-                <img src="<?php echo BASE_PATH.'thumbnail?x=50&y=50&path='.$filename; ?>"> 
+                <img onclick="" src="<?php echo BASE_PATH.'thumbnail?x=50&y=50&path='.$filename; ?>"> 
 	    <?php else: ?>
 	        <img src="<?php echo BASE_PATH ?>admin/img/file.png">
 	     <?php endif; ?>

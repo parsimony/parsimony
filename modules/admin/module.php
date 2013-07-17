@@ -1393,7 +1393,7 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
     }
     
     /**
-     * Get a back Up
+     * Save content 
      * @param string $replace
      * @param string $file
      * @return string 
@@ -1401,6 +1401,17 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
     protected function saveCodeAction($file, $code) {
 	return \tools::file_put_contents($file, $code);
     }
+    
+     /**
+     * Get, decode base 64 & file put content
+     * @param string $replace
+     * @param string $file
+     * @return string 
+     */
+    protected function savePictureAction($file, $code) {
+	return \tools::file_put_contents($file, base64_decode($code));
+    }
+ 
     
     /**
      * Build a new block in a given module
