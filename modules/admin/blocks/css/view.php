@@ -45,7 +45,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 
     <div id="toolChanges">
         <button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>admin/img/275.png');width: 28px;height: 28px;"></div></button>
-        <button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>/admin/img/12.png');width: 38px;height: 35px;margin-top: -1px;"></div></button>
+        <button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>admin/img/12.png');width: 38px;height: 35px;margin-top: -1px;"></div></button>
         <span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
         <div id="listchanges" class="none"></div>
     </div>
