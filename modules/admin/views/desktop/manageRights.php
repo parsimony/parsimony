@@ -31,12 +31,12 @@ $role = app::getModule('core')->getEntity('role');
     th,td{height: 23px;width: 87px;}
     td{padding:5px 2px 5px 15px;text-align: center !important}
     .active{background:#AAA} 
-    .modulename{font-size: 13px;color: #777;letter-spacing: 2px;}
-    #enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;letter-spacing: 2px;}
+    .modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;}
+    #enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;}
     .firsttd{font-size: 18px;letter-spacing: 2px;vertical-align: middle}
     .secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}
     .entity{font-weight: bold;}
-    .rolecss{letter-spacing: 1.5px;color: #555;text-transform: capitalize;margin-left: 10px;}
+    .rolecss{color: #555;text-transform: capitalize;margin-left: 10px;}
     /*.disabled{background-color: #F1F1F1;}*/
     .fieldbg{background-color: rgb(250, 252, 251) !important;}
     input[type='checkbox'] {top : 2px !important;}

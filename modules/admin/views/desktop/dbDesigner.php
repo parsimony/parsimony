@@ -66,7 +66,7 @@ include_once('modules/core/classes/field.php');
 </style>
 <style type="text/css">
     .ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
-    body{margin:0;padding:0;height:100%;font-family: arial, sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+    body{margin:0;padding:0;height:100%;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
     select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
     #container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
@@ -105,14 +105,12 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     .rightbar{padding: 3px 0}
     #editor:hover{display:table}
     .connection{color:#2E63A5;text-transform: capitalize;}
-    .popup{font-family: Arial, Verdana;text-align: left;overflow: hidden;border-radius:5px;width:50%;position:relative;margin:0 auto;top:110px;z-index:999998;display: none;background-color: #fbfbfb;}
-
-    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #97B2D2;margin: 11px;background-color: #F1F5F9;line-height: 20px;}
+    .popup{text-align: left;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;overflow: hidden;border-radius: 2px;width: 50%;position: relative;margin: 0 auto;top: 110px;z-index: 999998;display: none;background-color: #fbfbfb;}
+    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #e5e5e5;margin: 11px;line-height: 20px;}
     .question input{margin-right: 10px;}
     .conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
     .entity2,.entity1{font-weight:bold}
-    .title_popup{border-radius: 3px 3px 0 0; position: relative;background: #5E9AE2;background: -webkit-gradient(linear, left top, left bottom, from(#5E9AE2), to(#3570B8));background: -moz-linear-gradient(top, #5E9AE2, #3570B8);
-                 text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 30px;}
+    .title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
     input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");top: 3px;}
     .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
     .toolimg{position: absolute;top:5px;left:15px;}
@@ -129,9 +127,8 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     #toolbar{font-weight: normal;line-height: 36px;}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
     #extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
-    #btnLinkToExternal{margin-bottom: 11px;}
-    .dragActive2 {z-index: 1;border-radius: 100px;box-shadow: 0px 0px 15px rgb(32, 219, 255);font-size: 12px;text-align: center;
-    background: rgb(249, 255, 255);color: rgb(19, 94, 122);padding: 17px 5px;}
+    #btnLinkToExternal{margin-bottom: 15px;}
+    .dragActive2 {z-index: 1;border-radius: 100px;font-size: 12px;text-align: center;background: #1b74a4;color: #fff;padding: 17px 5px;}
     #save.haveToSave{color: white;font-weight: bold;
                background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
                background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
@@ -649,12 +646,13 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
             <div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
             <div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
         </div>
-        <div id="popup2" class="popup" style="text-align: center">
+        <div id="popup2" class="popup" style="text-align: center;width:300px;">
             <div class="title_popup"><?php echo t('Link to another module', FALSE); ?>
                 <span class="conf_box_close ui-icon ui-icon-closethick right"></span>
             </div>
-            <div style="margin:15px 0">
-                <select multiple="multiple" id="linkToExternal" style="background: #fff">
+            <div style="line-height: 30px;margin-top: 10px;color: #333;">Choose a table</div>
+            <div style="margin:10px 0 20px">
+                <select id="linkToExternal">
                     <?php
                     foreach (\app::$config['modules']['active'] as $moduleName => $module) {
                         if ($moduleName != 'admin' && $moduleName != $_POST['module']){
@@ -665,7 +663,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
                     }
                     ?>
                 </select>
-            </div>
+            </div>          
             <input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
         </div>
     </div>

@@ -14,7 +14,7 @@
 .ellipsis {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}  
 
 body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
-#admintoolbar{font-family: arial, sans-serif;font-size: 13px;height: 100%;width: 100%;text-align: center;
+#admintoolbar{font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;font-size: 13px;height: 100%;width: 100%;text-align: center;
 	      -moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 ul{list-style: none;padding:0;margin:0;}
 /*############## SideBars ################# */
@@ -152,7 +152,6 @@ border-width: 7px;top: 50%;margin-top: -7px;}
 .sidebar h2{text-align: center;height:40px;margin:0;padding:0 20px;line-height: 40px;
 	    background: -webkit-linear-gradient(top, #222222, #333333);
 	    background: linear-gradient(to bottom, #222222, #333333); 
-	    font-family: 'Helvetica Neue Light', HelveticaNeue-Light, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	    font-weight: normal;font-size: 14px;text-transform: capitalize;
 }
 .sidebar .mainTab.active:hover h2,.sidebar .mainTab.active h2{background: transparent;font-weight: normal;font-size: 20px;height:41px;color:#777;
@@ -167,9 +166,8 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;margin: 0 10px 11px 11px;}
 #treelegend{position: absolute;right: 5px;top: 50px;color: #555; font-weight: bold;padding-right: 10px;z-index: 999999;}
 #treelegend2 fieldset{border: 1px solid #CCC;color: #555 !important; border-radius: 3px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
 #treelegend2 fieldset span{line-height: 20px;}
-#tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;
-font-family: arial, sans-serif;letter-spacing: 1.1px;}
-#tree .tree_selector{position:relative;clear:both;line-height: 19px;font-size: 13px;display: block;}
+#tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;letter-spacing: 1.1px;}
+#tree .tree_selector{position:relative;clear:both;line-height: 20px;font-size: 12px;display: block;}
 #tree ul ,#tree li {margin-left:15px;cursor:pointer;font-size: 13px;text-transform: capitalize;border-left: 1px dotted #999;line-height: 20px;  }
 #tree span.move_block{cursor:move;}
 #tree li.tree_selector{border-top: 1px solid #999;border-bottom: 1px solid #555;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;cursor: pointer;}
@@ -207,7 +205,7 @@ font-family: arial, sans-serif;letter-spacing: 1.1px;}
 #panelcss label{display: inline-block;min-width: 50px;}
 #panelcss select{width: 60px;height: 17px;border: 1px solid rgb(219, 219, 219);background-color: rgb(254, 254, 254);}
 #panelcss .panelcss_tab{padding: 8px;width: 230px;padding-top: 10px;background: #F9F9F9;}
-#changecsscode{font-size: 11px;font-family: arial, sans-serif;}
+#changecsscode{font-size: 11px;}
 #panelcss_tab_background label{width: 100px;}
 .adminbtnrightslide{color: #333;font-weight: bold;text-align: center;cursor:pointer;padding: 4px;                
 background: -webkit-linear-gradient(top, white, #F2F2F2);
@@ -229,7 +227,7 @@ background: linear-gradient(top, white, #F2F2F2);}
 .cssTab[rel="panelcss_tab_lists"]{background-image: url('admin/img/cssicons.png');background-position: -200px -10px;background-repeat: no-repeat;}
 .cssTab:after{content: attr(data-title);position: absolute;top: 32px;font-size: 10px;text-align: center;width: 44px;max-width: 46px;line-height: 10px;height: 11px;}
 .panelcss_tab.hiddenTab{display: none;}
-#nbChanges{padding-left: 30px;color: #444;cursor:pointer}
+#nbChanges{padding-left: 30px;color: #444;cursor:pointer;line-height: 30px;}
 #listchanges{position: relative;background: #FAFAFA;border-radius: 0 0 5px 5px;line-height: 15px;z-index: 9;}
 #listchanges .selector{padding:0 5px;cursor: help;}
 #panelcss input[placeholder]{border:0;background: transparent}
@@ -286,7 +284,7 @@ height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: 
 /* When CSS panel is in form mode */
 .CSSForm #changecssform{display:block}
 .CSSForm #changecsscode{display:none}
-#changecssform{position: relative;width:100%;font-size: 11px;font-family: arial, sans-serif;}
+#changecssform{position: relative;width:100%;font-size: 11px;}
 
 /*  Media queries */
 #mediaqueriesdisplay{position: fixed;width: 100%;left: 0;bottom: 0;z-index: 99;padding-top: 10px;line-height: 10px;background-color: #272727;
@@ -434,7 +432,7 @@ width: 44px;max-width: 46px;line-height: 10px;overflow: hidden;height: 20px;}
 .tabs ul li.active {background: rgb(236, 236, 236);}
 .tabs ul li {display: inline-block;position: relative;color: #333;float: left;padding: 0px;cursor: pointer;text-align: center;}
 .tabs ul li a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
-.adminzone{height:100%;width:100%;background: #ECECEC;font-family: Helvetica, Arial, sans-serif;min-height: 600px;min-width: 600px;}
+.adminzone{height:100%;width:100%;background: #ECECEC;font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;min-height: 600px;min-width: 600px;}
 .adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}
 .adminzone table{border-color: #99BCE8;}
 .adminzone th,.adminzone thead{border:1px solid #DFDFDF;text-align:center;padding-top:8px}
@@ -443,13 +441,13 @@ box-shadow: 0 1px 0 white;background-color: #F1F1F1;
 background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
-.adminzone th{font-weight:normal;line-height: 30px;font-size: 15px;box-shadow: #F4F8FD 0 1px 0px 0 inset;}
+.adminzone th{font-weight:normal;line-height: 28px;font-size: 14px;box-shadow: #F4F8FD 0 1px 0px 0 inset;}
 #tabsconfig th{min-width: 80px;} 
 .adminzone td{vertical-align: middle;border: 1px solid #DDD;text-align: left;text-overflow:ellipsis;}
 .adminzone tbody tr{background:white}
 .adminzone .adminzonemenu{width: 150px;position: absolute;left: 0;top: 0;bottom: 0;background: #ECECEC;z-index: 99999;}
 .adminzone .adminzonemenu h2{color: #555;padding: 5px 10px;font-size: 15px;}
-.adminzone .adminzonemenu .adminzonetab{background: #ececec;cursor:pointer;font-size: 15px;line-height: 24px}
+.adminzone .adminzonemenu .adminzonetab{background: #ececec;cursor:pointer;font-size: 14px;line-height: 24px}
 .adminzone .adminzonemenu .adminzonetab a{border-top: 1px solid #F9F9F9;
 border-bottom: 1px solid #DFDFDF;color:#464646;text-decoration:none;display:block;line-height:30px;padding-left: 29px;background:url(admin/img/puce.png) no-repeat 7px 8px;}
 .adminzone .adminzonemenu .adminzonetab a.active, .adminzonemenu .adminzonetab a:hover {border-top: 1px solid #BBB;background: url(admin/img/puce.png) no-repeat 7px 8px #E4E4E4;}
@@ -538,16 +536,8 @@ width:100%;
 text-transform:capitalize;
 margin: 0px 7px 10px 0;
 }
-.adminzonecontent h2 input[type="submit"] {
-border-radius: 4px;
-color: white;
-font-size: 13px;
-background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
-background-image: linear-gradient(top, #44C5EC, #259BDB);
-border: 1px solid #5B8F9C;
-text-shadow: 0 1px rgba(0, 0, 0, 0.35);
-margin: 0 5px;
-}
+.adminzonecontent h2 input[type="submit"] {border-radius: 2px;color: white;font-size: 13px;background: #259bdb;border: none;box-shadow: none;text-shadow: 0 1px rgba(0, 0, 0, 0.35);margin: 0 5px;line-height: 23px;}
+.adminzonecontent h2 input[type="submit"]:hover {background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);background-image: linear-gradient(top, #44C5EC, #259BDB);}
 
 legend{display: block;
         text-transform: capitalize;
@@ -616,18 +606,18 @@ background-color: #f9f9f9;
 .explorer{float:right;cursor:pointer;margin-right: 15px;}
 
 /* Notify */
-#notify{border-radius: 0 0 5px 5px;border: solid #DDD 1px;border-top:0;position: fixed;top: 36px;left: 30%;padding: 2px 30px;z-index: 999998;display: none;width: 600px;text-align: center;font-family: arial;font-size: 14px;padding: 3px 0;}
+#notify{border-radius: 0 0 5px 5px;border: solid #DDD 1px;border-top:0;position: fixed;top: 36px;left: 30%;padding: 2px 30px;z-index: 999998;display: none;width: 600px;text-align: center;font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;font-size: 14px;padding: 3px 0;}
 #notify.positive{color: rgb(32, 44, 8);background: #A2E01B;border: solid rgb(97, 126, 39) 1px;border-top: 0;}
 #notify.negative{color: rgb(255, 255, 255);background: #cb2d33;border: solid #cb2d33 1px;}
 #notify.normal{color: rgb(255, 255, 255);background: rgb(45, 193, 238);border: solid rgb(45, 193, 238) 1px;}
 
 /* Menu link trad */
-#menu{font-family: arial;font-size:12px;position:absolute;border:1px #888 solid;padding:2px;border-radius:4px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: #f9f9f9;}
+#menu{font-size:12px;position:absolute;border:1px #888 solid;padding:2px;border-radius:4px;z-index:998;box-shadow: 1px 1px 3px #888;color: #444;border-color: #C1C1C1;background: #f9f9f9;}
 #menu .option{border-top: white solid 1px;border-bottom: #E0E0E0 solid 1px;padding: 5px;clear:both;white-space: nowrap;}
 #menu .option:last-child{border-bottom:0}
 #menu .option:hover,#CSSProps a:hover{background:#eee;cursor:pointer}
 #menu .ui-icon{position: relative;top:-3px}
-#menu h5{padding: 4px 8px;line-height: 16px;font-family: arial;font-size: 13px;font-weight: normal;color: #fff;letter-spacing: 1.1px;border-radius: 2px;
+#menu h5{padding: 4px 8px;line-height: 16px;font-size: 13px;font-weight: normal;color: #fff;letter-spacing: 1.1px;border-radius: 2px;
 background: -webkit-linear-gradient(bottom,#828282,#777);
 background: -moz-linear-gradient(bottom,#828282,#777);
 margin:0}
