@@ -196,7 +196,7 @@ this.drawScene = function () {
         /* Extension */
         extension = completename.substr((~-completename.lastIndexOf(".") >>> 0) + 2);
         if(extension == 'jpg') extension == 'jpeg';
-        completename = completename.replace('/parsimony/','');
+        completename = completename.replace('<?php echo BASE_PATH ?>','');
         this.initValues();
         this.drawScene(imgw,imgh);
         dataURL = canvas.toDataURL("image/"+extension);
