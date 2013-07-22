@@ -110,6 +110,11 @@ $view = $this->getConfig('view');
     #generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
     .removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
     #queryCanvasWrapper{position: relative;height:320px;overflow: auto;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');}
+	#regenerateview{background-image: url('<?php echo BASE_PATH?>admin/img/padlockopen.png');width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
+	#regenerateview:checked{background-image: url('<?php echo BASE_PATH?>admin/img/padlockclosed.png')}
+	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/padlockopen.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/padlockclosed.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview[type='checkbox']:checked::before{content : " "}
 </style>
 <div class="tabs">
     <ul>
@@ -266,7 +271,7 @@ $view = $this->getConfig('view');
     </div>
     <div id="tabs-admin-template" class="panel" style="padding:0px">
         <div style="padding:9px 0">
-	    <?php echo t('Regenerate the view', FALSE); ?> ? <input type="hidden" value="0" name="regenerateview" /><input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
+	    <?php echo t('Lock the view', FALSE); ?> <input type="hidden" value="0" name="regenerateview" /><input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
 	    if ($this->getConfig('regenerateview') == 1)
 		echo ' checked="checked"';
 	    ?> />
@@ -279,6 +284,7 @@ $view = $this->getConfig('view');
     </div>
 </div>
 <script>
+	var markerChangeEditor = false;
     function putLink(sourceTable,sourceProperty,targetTable,targetProperty,type) {
 	$("<li class=\"linkDef\"><input type=\"hidden\" name=\"relations[" + sourceTable + "_" + targetTable + "][propertyLeft]\" value=\"" + sourceTable + "." + sourceProperty + "\"><div class=\"propertyJoin propertyJoinLeft inline-block align_right\">" + sourceTable + "." + sourceProperty + "</div><select name=\"relations[" + sourceTable + "_" + targetTable + "][type]\"><option>" + type + "</option><option>inner join</option><option>join</option><option>left join</option><option>left outer join</option><option>right join</option><option>right outer join</option></select><div class=\"propertyJoin propertyJoinRight inline-block\">" + targetTable + "." +  targetProperty + "</div><input type=\"hidden\" name=\"relations[" + sourceTable + "_" + targetTable + "][propertyRight]\" value=\"" + targetTable + "." +  targetProperty + "\"></li>").appendTo("#links");
         $( "#links" ).sortable( "refresh" );
@@ -391,16 +397,16 @@ $view = $this->getConfig('view');
     }
 
     $("select option").each(function(){
-	if(!this.value.length){
-	    $(this).text('Default');
-	    this.value = "";
-	};
+		if(!this.value.length){
+			$(this).text('Default');
+			this.value = "";
+		};
     });
-    
+
     $('#links').on("change","select",function() {
        draw(); 
     });
-    
+
     $('#queryCanvas').on('click','#deletator',function(){
         obj = $(this).parent();
         if(confirm(t('Are you sure to delete this entity ?'))){
@@ -408,9 +414,10 @@ $view = $this->getConfig('view');
             obj.remove();
             filterTables();
             draw();
+			this.style.display = "none";
         }
     });
-    
+
     $('#links').on('click','#deletator',function(){
         var parent = $(this).parent();
         $(this).appendTo($('body'));
@@ -419,6 +426,8 @@ $view = $this->getConfig('view');
         filterTables();
         checkRelations();
         draw();
+		this.style.display = "none";
+		document.getElementById("invertRelation").style.display = "none";
     })
     .on('click','#invertRelation',function(){
         var parent = $(this).parent();
@@ -437,59 +446,64 @@ $view = $this->getConfig('view');
         draw();
         $("#generate_query").trigger("click");
     });
-                
+
     $('#queryCanvas').on("click",".property",function() {
-	if($(".queryblock[property=" + $(this).parent().attr('table') + "_" + $(this).text().trim() + "]").length==0){
-	    addProperty(this, $(this).parent().attr('table'), $(this).text().trim(), true, "", "", "", "", true, true);
-	    $("#generate_query").trigger("click");
-	}
+		if($(".queryblock[property=" + $(this).parent().attr('table') + "_" + $(this).text().trim() + "]").length==0){
+			addProperty(this, $(this).parent().attr('table'), $(this).text().trim(), true, "", "", "", "", true, true);
+			$("#generate_query").trigger("click");
+		}
     });
-    
+
     $(document).on("change","#form input,#form select",function() {
-	if($('#pagination').is(':checked') && $('#nbitem').val().length==0) $('#nbitem').val(10);
-        manageFilters();
-	$("#generate_query").trigger("click");
+		if(!$('#pagination').is(':checked') && $('#nbitem').val().length==0) $('#nbitem').val(10);
+		manageFilters();
+		$("#generate_query").trigger("click");
+    })
+	.on("change","#regenerateview",function() {
+		if(!$(this).is(":checked") && confirm(t("If you confirm, all your changes will be removed"))){
+			$("#generate_query").trigger("click");
+		}
     });
     
     $('#generate_query').click(function() {
-	$.post(BASE_PATH+'admin/datagridPreview',$('form').serialize(),function(data){
-	    $("#resultpreview").html(data);
-	});
-	if($("#regenerateview").is(":checked")){
-	    $.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
-		codeEditor.setValue(data);
-		codeEditor.refresh();
-                $("#regenerateview").prop("checked","checked");
-	    });
-	}
+		markerChangeEditor = true;
+		$.post(BASE_PATH+'admin/datagridPreview',$('form').serialize(),function(data){
+			$("#resultpreview").html(data);
+		});
+		if(!$("#regenerateview").is(":checked")){
+			$.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
+			codeEditor.setValue(data);
+			codeEditor.refresh();
+			});
+		}
     });
     
      /* JsPlumb */
     jsPlumb.importDefaults({     
-        Container : $("#queryCanvas"),
-        DragOptions : { cursor: "pointer", zIndex:2000 }
+		Container : $("#queryCanvas"),
+		DragOptions : { cursor: "pointer", zIndex:2000 }
     });
 
     $(document).ready(function() {
         $( "#links" ).sortable({ update:function(){$("#generate_query").trigger("click");} });
-	$('#tabs-admin-template').css('height','0px').css('overflow','hidden');
-	$(".tabs").on('click'," > ul a",function(e){
-	    e.preventDefault();
-	    $(".panel").hide();
-	    $(".tabs > ul .active").removeClass("active");
-	    $(this).parent().addClass("active");
-	    $($(this).attr('href')).show();
-	    $($(this).attr('href')).css('height','100%').css('overflow','inherit');
-	});
+		$('#tabs-admin-template').css('height','0px').css('overflow','hidden');
+		$(".tabs").on('click'," > ul a",function(e){
+			e.preventDefault();
+			$(".panel").hide();
+			$(".tabs > ul .active").removeClass("active");
+			$(this).parent().addClass("active");
+			$($(this).attr('href')).show();
+			$($(this).attr('href')).css('height','100%').css('overflow','inherit');
+		});
 
-        $(".innerTabs").on('click'," > ul a",function(e){
-	    e.preventDefault();
-	    $(".innerPanel").hide();
-	    $(".innerTabs ul .active").removeClass("active");
-	    $(this).parent().addClass("active");
-	    $($(this).attr('href')).show();
-	    $($(this).attr('href')).css('height','100%').css('overflow','inherit');
-	});
+		$(".innerTabs").on('click'," > ul a",function(e){
+			e.preventDefault();
+			$(".innerPanel").hide();
+			$(".innerTabs ul .active").removeClass("active");
+			$(this).parent().addClass("active");
+			$($(this).attr('href')).show();
+			$($(this).attr('href')).css('height','100%').css('overflow','inherit');
+		});
 
         $(".schemasql").on('click',".tableCont",function(e){
             if($(this).hasClass("inaccessible")){
@@ -498,9 +512,8 @@ $view = $this->getConfig('view');
             }
             var table = $(this).clone();
             addTable( $(this).attr("table"), 50, 230);
-	});
-        
-                    
+		});
+
         $("#links").on('mouseover mouseout','.linkDef',function(event) {
             var deletator = document.getElementById("deletator");
             var invert = document.getElementById("invertRelation");
@@ -515,17 +528,19 @@ $view = $this->getConfig('view');
             }
         });
 
-        $("#queryCanvas").on('mouseover mouseout','.tableCont',function(event) {
+        $("#queryCanvas").on('mouseenter mouseleave','.tableCont',function(event) {
+			var deletator = document.getElementById("deletator");
             var deletator = document.getElementById("deletator");
-            if (event.type == 'mouseover') {
+            if (event.type == 'mouseenter') {
+				deletator.style.display = "block";
                 this.insertBefore( deletator, this.firstChild);
             } else {
-                document.body.insertBefore( deletator, document.body.firstChild);
+                deletator.style.display = "none";
             }
         });
 
         manageFilters();
-        
+
          <?php
          /* Add relations  */
         if(is_object($view)){ 
@@ -573,9 +588,8 @@ $view = $this->getConfig('view');
             }
         }
         ?>
-	//$("#generate_query").trigger("click");
     });
-    
+
     function draw(){
         /* Draw connectors */
         jsPlumb.reset();
@@ -622,7 +636,6 @@ $view = $this->getConfig('view');
                     $(".left",this).val(parseInt($(this).css("left")));
                 }
             });
-
         });
         jsPlumb.bind("click", function(connection, originalEvent) {
                 var sourceTable = $("#" + connection.sourceId).closest(".tableCont").attr("table");
@@ -630,7 +643,7 @@ $view = $this->getConfig('view');
 
                 var targetTable = $("#" + connection.targetId).closest(".tableCont").attr("table");
                 var targetProperty = $("#" + connection.targetId).text();
-                
+
                 var relation = $('select[name="relations\\[' + sourceTable + '_' + targetTable + '\\]\\[type\\]"]');
                 var typeRelation = relation.val() || "";
                 if(typeRelation.length > 0){
@@ -644,10 +657,12 @@ $view = $this->getConfig('view');
             });
     }
     function editorChange(){
-	$("#regenerateview").removeAttr("checked");
+		if(markerChangeEditor == false){
+			$("#regenerateview").prop("checked", true);
+		}else{
+			markerChangeEditor = false;
+		}
     }
-    
-  
 </script>
 <style>
 .adminzonecontent{min-width:1200px}

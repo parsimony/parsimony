@@ -16,15 +16,15 @@ class form extends \block {
     
     public function __construct($id) {
         parent::__construct($id);
-        $this->setConfig('regenerateview', 1);
-	$this->setConfig('success', 'Success');
-	$this->setConfig('fail', 'Fail');
-	if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
-            $pathOfView = MODULE . '/views/' . THEMETYPE;
-        } else {
-            $pathOfView = THEMEMODULE . '/views/' . THEMETYPE;
-        }
-	$this->setConfig('pathOfView', $pathOfView . '/' . $this->id . '.php');
+        $this->setConfig('regenerateview', 0);
+		$this->setConfig('success', 'Success');
+		$this->setConfig('fail', 'Fail');
+		if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
+				$pathOfView = MODULE . '/views/' . THEMETYPE;
+			} else {
+				$pathOfView = THEMEMODULE . '/views/' . THEMETYPE;
+			}
+		$this->setConfig('pathOfView', $pathOfView . '/' . $this->id . '.php');
     }
     
     public function saveConfigs() {

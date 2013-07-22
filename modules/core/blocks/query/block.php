@@ -44,7 +44,7 @@ class query extends \block {
 
     public function __construct($id) {
         parent::__construct($id);
-        $this->setConfig('regenerateview', 1);
+        $this->setConfig('regenerateview', 0);
         if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
             $pathOfView = MODULE . '/views/' . THEMETYPE;
         } else {
