@@ -116,7 +116,6 @@ function blockAdminBlocks() {
 	ParsimonyAdmin.$currentBody.add('#paneltree')
 	.on('dragenter.creation','.parsiblock,.tree_selector', function(e) {
 	    if( e.originalEvent.dataTransfer.types != null){
-                console.log(e.originalEvents);
 		e.stopImmediatePropagation();
                 /* Check if block is trying to put in itself in move mode */
                 if(e.originalEvent.dataTransfer.effectAllowed == "copyMove" && ParsimonyAdmin.inProgress && document.getElementById("treedom_" + ParsimonyAdmin.inProgress).querySelector("#" + this.id)){

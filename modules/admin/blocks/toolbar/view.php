@@ -84,7 +84,12 @@ echo $admin->display();
 </div>
 <div id="admin_core">
     <div id="conf_box_overlay" class="none">
-	<div id="conf_box_load"></div>
+	<div id="conf_box_load">
+		<div id="followingBalls_1" class="followingBalls"></div>
+		<div id="followingBalls_2" class="followingBalls"></div>
+		<div id="followingBalls_3" class="followingBalls"></div>
+		<div id="followingBalls_4" class="followingBalls"></div>
+	</div>
 	<div id="conf_box">
 	    <span id="conf_box_close" onclick="ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
 	    <span id="conf_box_wpopup" class="floatright ui-icon ui-icon-extlink"></span>
