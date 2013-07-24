@@ -273,7 +273,7 @@ class img {
                 imagewbmp($this->picture, $path);
                 break;
             default:
-                return "Le format du fichier n'est pas compatible.";
+                return t('The format is not supported');
                 break;
         }
     }

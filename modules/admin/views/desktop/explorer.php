@@ -155,10 +155,15 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
                 var obj = $("#explorerfiles").data('uploadParams');
                 obj.path = $("#path").text();
                 $("#explorerfiles").data('uploadParams',obj);
+                console.log("Start load : " + file.name)
             },
-	    onProgress:function(file, progress){},
+	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
 	    stop:function(response){
-		list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+                if(typeof response.name != "undefined"){
+                    list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+                }else{
+                    opener.ParsimonyAdmin.execResult(response);
+                }
 	    }
 	});
         

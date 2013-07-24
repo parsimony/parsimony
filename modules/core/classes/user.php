@@ -144,7 +144,7 @@ class user {
     }
 
     /**
-     * Reset a new password to an user and send by email
+     * Reset a user's password and send the new one by email
      * @param $userMail mail
      */
     public function resetPassword($userMail) {

@@ -32,7 +32,7 @@
 	$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
 	    ajaxFileParams: {action: "upload",type: "image",path: "<?php echo PROFILE_PATH . $this->module . '/files'; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
 	    start:function(file){console.log("Start load : " + file.name)},
-	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
+	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %")},
 	    stop:function(response){
                 if(typeof response.name != "undefined"){
                     $("input[name=imgPath]").val(response.name);

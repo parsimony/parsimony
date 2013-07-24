@@ -247,3 +247,4 @@ $lang['Explorer']='Explorateur';
 $lang['Other'] = 'Autre';
 $lang['Fonts'] = 'Polices de caractères';
 $lang['Criteria'] = 'Critères';
+$lang['The format is not supported'] = 'Le format n\'est pas compatible';
