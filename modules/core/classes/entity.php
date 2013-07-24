@@ -391,7 +391,8 @@ abstract class entity implements \Iterator {
             $col2 = '';
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & INSERT) {
-                    if (get_class($field) === \app::$aliasClasses['field_formasso'] || get_class($field) === \app::$aliasClasses['field_publication'] || get_class($field) === \app::$aliasClasses['field_state'] || get_class($field) === \app::$aliasClasses['field_foreignkey'] || get_class($field) === \app::$aliasClasses['field_date'] || get_class($field) === \app::$aliasClasses['field_user'])
+					$className = get_class($field);
+                    if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
                         $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE)); //false is important
                     else
                         $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
@@ -427,7 +428,10 @@ abstract class entity implements \Iterator {
             $col2 = '';
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & UPDATE) {
-                    if (get_class($field) == \app::$aliasClasses['field_formasso'] || get_class($field) == \app::$aliasClasses['field_publication'] || get_class($field) == \app::$aliasClasses['field_state'] || get_class($field) == \app::$aliasClasses['field_foreignkey'] || get_class($field) == \app::$aliasClasses['field_date'] || get_class($field) == \app::$aliasClasses['field_user'])
+					$className = get_class($field);
+					if ($className == \app::$aliasClasses['field_formasso'])
+						$col2 .= $field->form($this->getId()->value);
+                    if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
                         $col2 .= $field->form($field->value);
                     else
                         $col1 .= $field->form($field->value);

@@ -25,7 +25,7 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-\app::$request->page->addJSFile(BASE_PATH . 'lib/jquery-ui/jquery-ui-1.10.3.min.js');
+\app::$request->page->addJSFile('lib/jquery-ui/jquery-ui-1.10.3.min.js');
 \app::$request->page->addCSSFile('core/fields/field_formasso/css.css');
 echo $this->displayLabel($fieldName);
 ?>
