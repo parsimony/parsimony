@@ -1,67 +1,16 @@
 .HTML5Editor.HTML5editorToolbar{min-width:400px;}
-.HTML5editorToolbar.multiple{max-width:700px;min-width:400px;position:absolute;transition: all 0.3s;-o-transition: all 0.3s;-webkit-transition: all 0.3s;}
-.HTML5editorToolbar .btn{display: inline-block;vertical-align: top;height:25px;border-right: 1px solid #f9f9f9;
-border-left: 1px solid #cacaca;border-top: 1px solid #d1d1d1;border-bottom: 1px solid #d6d6d6;
-background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fafafa),color-stop(100%,#eeeeef));
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa', EndColorStr='#eeeeef');
-    border-radius:1px;background-position: center;margin-top:2px}
-.HTML5editorToolbar .btn:hover{border-color:#ccc}
-.HTML5editorToolbar .btn.active{box-shadow: inset 1px 1px 1px #AAAAAA;
-    background: -moz-linear-gradient(top, #d3d3d3, #eaeaea);
-    background: -ms-linear-gradient(top, #d3d3d3, #eaeaea);
-    background: -o-linear-gradient(top, #d3d3d3, #eaeaea);
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#d3d3d3), to(#eaeaea));
-    background: -webkit-linear-gradient(top, #d3d3d3, #eaeaea);
-    background: linear-gradient(top, #d3d3d3, #eaeaea);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#d3d3d3', EndColorStr='#eaeaea');
-    }
-.HTML5editorToolbar .btn > button,.HTML5editorToolbar .btn > div{cursor:pointer;min-width: 0;}
-.HTML5editorToolbar .btn:last-child{border-right:1px solid #cacaca}
-.HTML5editorToolbar .commands > div{display:none;padding:0 2px 2px 2px}
-.HTML5editorToolbar .commands{clear: both;position: relative;z-index: 2;border-radius: 0 2px 2px 2px;border: 1px solid #ccc;
-    background-image: -webkit-linear-gradient(bottom,#E5E9EF,#FEFEFE);
-    background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);
-    background-image: -ms-linear-gradient(bottom,#E5E9EF,#FEFEFE);
-    background-image: -o-linear-gradient(bottom,#E5E9EF,#FEFEFE);
-    background-image: linear-gradient(bottom,#E5E9EF,#FEFEFE);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#FEFEFE', EndColorStr='#E5E9EF');}
-.HTML5editorToolbar .tabs .current {background: whiteSmoke;z-index: 3;top: 1px;box-shadow: none;border-left: 1px solid #CCC;border-top: 1px solid #CCC;}
-.HTML5editorToolbar .tabs a {
-    position: relative;top: 1px;background: #DDD;
-    background-image: -webkit-linear-gradient(top, #f1f0f0, #DDDDDD);
-    background-image: -moz-linear-gradient(top, #f1f0f0, #DDDDDD);
-    background-image: -ms-linear-gradient(top, #f1f0f0, #DDDDDD);
-    background-image: -o-linear-gradient(top, #f1f0f0, #DDDDDD);
-    background-image: linear-gradient(top bottom, #f1f0f0, #DDDDDD);
-    padding: 1px 15px;float: left;text-decoration: none;color: #444;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
-    border-radius: 5px 0 0 0;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
-    text-transform: capitalize;
-    font-family: arial, sans-serif;font-size: 11px;
-}
-.HTML5editorToolbar .tabs .current::after {background: whitesmoke;z-index: 3;box-shadow: none;border-right: 1px solid #CCC;}
-.HTML5editorToolbar .tabs a::after {
-    content: '';position: absolute;z-index: 1;top: 0;right: -3px;bottom: 0;width: 5px;background: #DDD;
-    background-image: -webkit-linear-gradient(top, #f1f0f0, #DDD);
-    background-image: -webkit-linear-gradient(top, #f1f0f0, #DDD);
-    background-image: -moz-linear-gradient(top, #f1f0f0, #DDD);
-    background-image: -ms-linear-gradient(top, #f1f0f0, #DDD);
-    background-image: -o-linear-gradient(top, #f1f0f0, #DDD);
-    background-image: linear-gradient(to bottom, #f1f0f0, #DDD);
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);border-radius: 0 5px 0 0;
-    -webkit-transform: skew(10deg);
-    -moz-transform: skew(10deg);
-    -ms-transform: skew(10deg);
-    -o-transform: skew(10deg);
-    transform: skew(10deg);
-}
-.HTML5editorToolbar .tabs a:hover, .HTML5editorToolbar .tabs a:hover::after, .HTML5editorToolbar .tabs a:focus, .HTML5editorToolbar .tabs a:focus::after {background: whiteSmoke;}
-.HTML5editorToolbar .tabs {padding: 0 0 0 1px;list-style: none;}
+.HTML5editorToolbar.multiple{max-width:700px;min-width:400px;position:absolute;transition: all 0.3s;-o-transition: all 0.3s;-webkit-transition: all 0.3s;box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px;}
+.HTML5editorToolbar > div{display:inline-block;border-left: 1px solid #FFF;border-right: 1px solid #D8D8D8;}
+.HTML5editorToolbar > div:nth-child(2){border-left: 0;}
+.HTML5editorToolbar > div:last-child{border-right: 0;}
+.HTML5editorToolbar .HTML5editorAction{display: inline-block;cursor:pointer;vertical-align: top;position: relative;}
+.HTML5editorToolbar .HTML5editorAction.btn{padding: 5px;background-origin: content-box !important;width:25px;height:25px;}
+.HTML5editorToolbar .HTML5editorAction.active{box-shadow: inset 1px 1px 1px #AAAAAA;background-color: #e5e5e5 !important;}
+.HTML5editorToolbar .HTML5editorAction.inactive{opacity:0.3;}
+.HTML5editorToolbar{clear: both;padding: 2px;position: relative;z-index: 2;border-radius: 0 2px 2px 2px;background: #F9F9F9;}
 .HTML5editorToolbar .formatBlock .option{cursor:pointer;padding:3px;}
 .HTML5editorToolbar .formatBlock .option:hover{background:#ddd;}
 .HTML5Editor{background:#fff;min-height:220px;max-height: 350px;overflow-y: auto;border: 1px solid #CCC;padding: 4px;}
-.popover{position:absolute;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;pointer-events: all}
-.HTML5editorAction .temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
-.HTML5editorAction .temoinSelect{background: white;border-right: 1px solid #CCC;display: block;margin-right: 12px;}
-.HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat 107% 8px;}
+.popover{position:absolute;top:100%;left:0;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;pointer-events: all}
+.HTML5editorAction.temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
+.HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat right;padding-right: 18px;}
