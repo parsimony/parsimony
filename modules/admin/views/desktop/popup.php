@@ -30,14 +30,14 @@
 					(typeof top.ParsimonyAdmin != "undefined" ? top.ParsimonyAdmin.resizeConfBox() : opener.top.ParsimonyAdmin.resizeConfBox());
 				
 				/* Notifications */
-				document.querySelector("form").onsubmit = function authorizeNotification(e) {
+				document.querySelector("form").addEventListener("submit", function(e) {
 					if (window.Notification.permission != "granted" && window.Notification.permission != "denied") {
 						e.preventDefault();
 						Notification.requestPermission(function() {
 							$("form").trigger("submit");
 						});
 					}
-				};
+				}, false);
 
 			}).on('click', ".adminzonetab a", function(event) {
 				event.preventDefault();
