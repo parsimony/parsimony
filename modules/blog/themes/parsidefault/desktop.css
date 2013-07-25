@@ -135,7 +135,7 @@ text-indent: 20px;
 line-height: 25px;
 padding: 0px 0px 5px 70px;}
 
-#mycategories{margin-top:15px}
+#mycategories {margin-top:15px}
 
 #mycategories   a {
     text-decoration:none;
@@ -223,7 +223,7 @@ overflow: hidden;
 }
 
 /* Pagination */
-.pagination a{
+.pagination a {
     display:block;width: 20px;height: 15px;margin:5px;float:left;
     background-image: -moz-linear-gradient(top,white,#EFEFEF);
     background-image: -webkit-gradient(linear,left top,left bottom,from(white),to(#EFEFEF));
@@ -234,14 +234,14 @@ overflow: hidden;
     border: 1px solid #CCC;text-align:center;color: black;padding: 5px;vertical-align: middle;text-decoration:none;
     behavior : url(/lib/csspie/PIE.htc) ;
 }
-.pagination a.active{
+.pagination a.active {
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
     behavior : url(/lib/csspie/PIE.htc) ;
 }
 
-.pagination a:hover{
+.pagination a:hover {
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,white);
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(white));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=white);
@@ -249,14 +249,14 @@ overflow: hidden;
     behavior : url(/lib/csspie/PIE.htc) ;
 }
 
-#mycalendar .calendar{position: relative;text-align:center}
+#mycalendar .calendar {position: relative;text-align:center}
 #mycalendar .day {
 float:left;
 width:28px;
 height:28px;
 line-height:28px;}
 
-#mycalendar .day a{
+#mycalendar .day a {
 display:block;
 width:100%;
 height:100%}
@@ -284,23 +284,23 @@ color:#484848;
 line-height:28px;
 text-decoration:none}
 
-#mycalendar .calendarNav a span{
+#mycalendar .calendarNav a span {
 display:none}
 
 #mycalendar .monthTitle {font-weight:bold;color:#484848;line-height:28px}
 
 #mycalendar .weekTitle {font-weight:bold;}
 
-#cloudtags{margin-top: 15px}
-#cloudtags .xsmall{font-size:x-small}
-#cloudtags .small{font-size:small}
-#cloudtags .medium{font-size:medium}
-#cloudtags .large{font-size:large}
-#cloudtags .xlarge{font-size:x-large}
+#cloudtags {margin-top: 15px}
+#cloudtags .xsmall {font-size:x-small}
+#cloudtags .small {font-size:small}
+#cloudtags .medium {font-size:medium}
+#cloudtags .large {font-size:large}
+#cloudtags .xlarge {font-size:x-large}
 
-#recentpostscol{margin-top: 15px}
+#recentpostscol {margin-top: 15px}
 
-.parsiTitle{color: #5D5D5D;font-size: 10px;font-weight: 500;letter-spacing: 1.1px;line-height: 25px;text-transform: uppercase;}
+.parsiTitle {color: #5D5D5D;font-size: 10px;font-weight: 500;letter-spacing: 1.1px;line-height: 25px;text-transform: uppercase;}
 
 #about {
 	width : 280px ;
@@ -311,4 +311,8 @@ display:none}
 	width : 312px ;
 	height : 226px ;
 }
-#mycontact{width: 275px;}
+#mycontact {width: 275px;}
+#slogan {}
+#slogan h3 {position: relative;
+margin: 0 0 10px;
+color: #777777;}
