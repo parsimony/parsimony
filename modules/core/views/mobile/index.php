@@ -11,13 +11,13 @@
 	    var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 	    var TOKEN = '<?php echo TOKEN ?>';
 	</script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
         <meta name="generator" content="Parsimony">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>
-        <?php \app::$request->page->addCSSFile(BASE_PATH . 'lib/mobile.css'); ?>
+        <?php \app::$request->page->addCSSFile('lib/mobile.css'); ?>
 	<?php echo app::$request->page->printMetas() ?>
         <?php echo app::$request->page->printInclusions() ?>
 	<?php echo app::$request->page->head ?>
