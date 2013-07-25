@@ -312,7 +312,7 @@ border-radius: 0 10px 0 0;cursor: pointer;box-shadow: inset 0 1px 0 #3C3C3C;bord
 #panelcss .colorpicker{z-index: 9999999999999;}
 #panelcss .colorpicker input{background: transparent !important;}
 .colorpicker2{width: 48px !important;border-radius: 2px 0 0 2px !important;}
-.colorpicker3{background-image: url(admin/img/transparent.png);cursor:pointer;width: 17px;height: 17px;border: 1px solid #dfdfdf;border-left: 0;vertical-align: middle;margin-top: -2px;display: inline-block;}
+.colorpicker3{background-image: url(admin/img/transparent.png);cursor:pointer;width: 17px;height: 17px;border: 1px solid #dfdfdf;border-left: 0;vertical-align: middle;margin-top: -4px;display: inline-block;}
 
 /* CSS TOOL Metrics : margin, padding */
 #metrics {margin-top: 15px;}

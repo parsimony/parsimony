@@ -79,7 +79,7 @@ include_once('modules/core/classes/field.php');
     #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
     #field_list .myfield:hover span{display:block}
     #update_table{display: none;font-size: 12px;}
-    #update_field > div{font-size: 14px;display: none;}
+    #update_field > div{display: none;}
     .table {z-index:60;position:absolute; color:#484848;line-height:18px;cursor:pointer;
 font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
     .table:hover{box-shadow: 0px 0px 9px #777;}
@@ -91,7 +91,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     .table .property:last-child{ border-radius: 0 0 3px 3px; }
     .ombre{box-shadow: 0px 0px 20px #34afb6;}
     .dragActive { border:4px dotted #b634af; border-radius:50px;}
-    label{font-size: 13px;line-height: 26px;width: 140px;display: block;float: left;padding-left: 10px;}
+    label{line-height: 26px;width: 140px;display: inline-block;padding-left: 10px;}
     h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: #1b74a4;}
     .title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
     #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
@@ -124,7 +124,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     .tooltab tbody{border-top: 1px solid whitesmoke}
     .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
     .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-    #toolbar{font-weight: normal;line-height: 36px;}
+    #toolbar{font-weight: normal;line-height: 36px;color:#FBFBFB}
     .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
     #extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
     #btnLinkToExternal{margin-bottom: 15px;}
@@ -142,6 +142,8 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
     input[disabled] {background:#ddd}
     #connectorchoice{margin-left: 10px;}
     .behaviorProperty {width: 136px;line-height: 17px;height:20px}
+	#rightsidebar{font-size:12px;}
+	#rightsidebar input[type='text']{width:159px}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
@@ -704,7 +706,7 @@ font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-sh
 			$html .= '<div id="update_' . $class . '">
 <input type="hidden" name="module">
 <input type="hidden" name="entity">
-<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url('.BASE_PATH.'admin/img/icons.png);"></span>' . t('Field Settings', FALSE) . '</h2>
+<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url('.BASE_PATH.'admin/img/icons.png);"></span>' . t('Field Settings', FALSE) . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
