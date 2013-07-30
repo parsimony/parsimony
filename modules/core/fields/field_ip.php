@@ -40,23 +40,23 @@ namespace core\fields;
 
 class field_ip extends \field {
 
-    /**
-     * Build a field_numeric field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'INT'
-     * @param integer $characters_max by default '2'
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '[0-9]*'
-     */
-    public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = '45', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|
-	(\A([0-9a-f]{1,4}:){1,1}(:[0-9a-f]{1,4}){1,6}\Z)|
+	/**
+	 * Build a field_numeric field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'INT'
+	 * @param integer $characters_max by default '2'
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '[0-9]*'
+	 */
+	public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = '45', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|
+(\A([0-9a-f]{1,4}:){1,1}(:[0-9a-f]{1,4}){1,6}\Z)|
 (\A([0-9a-f]{1,4}:){1,2}(:[0-9a-f]{1,4}){1,5}\Z)|
 (\A([0-9a-f]{1,4}:){1,3}(:[0-9a-f]{1,4}){1,4}\Z)|
 (\A([0-9a-f]{1,4}:){1,4}(:[0-9a-f]{1,4}){1,3}\Z)|
@@ -73,28 +73,26 @@ class field_ip extends \field {
 (\A([0-9a-f]{1,4}:){1,4}(:[0-9a-f]{1,4}){1,1}:(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\Z)|
 (\A(([0-9a-f]{1,4}:){1,5}|:):(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\Z)|
 (\A:(:[0-9a-f]{1,4}){1,5}:(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\Z)', $visibility = 7, $ipv6 = TRUE) {
-	$this->constructor(func_get_args());
+		$this->constructor(func_get_args());
     }
 
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
     public function validate($value) {
         if($this->required && empty($value)) return $_SERVER["REMOTE_ADDR"];
         else return $value;
-	$ipv4 = filter_var($value, FILTER_VALIDATE_IP);
-	$ipv6 = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
-	if ($ipv4) {
-	    return $ipv4;
-	} elseif ($ipv6) {
-	    return $ipv6;
-	}else{
-	    return FALSE;
-	}
+		$ipv4 = filter_var($value, FILTER_VALIDATE_IP);
+		$ipv6 = filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+		if ($ipv4) {
+			return $ipv4;
+		} elseif ($ipv6) {
+			return $ipv6;
+		}else{
+			return FALSE;
+		}
     }
-
 }
-
 ?>
