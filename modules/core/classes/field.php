@@ -107,10 +107,6 @@ class field {
         $this->constructor(func_get_args());
         $this->msg_error = 'Invalid ' . $name;
     }
-    
-    public function __wakeup() {
-         $this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
-     }
 
     /**
      * Build field arguments
