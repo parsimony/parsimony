@@ -78,7 +78,7 @@ $view = $this->getConfig('view');
     #resultpreview .pagination{display:none}
     #recipiant_sql_cont{position:relative;width: 1200px;overflow-x: auto;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:182px}
     .aggregate,.aggregate{width:100%}
-    h3{color: #2E63A5;padding: 7px 0;}
+    #accordionBlockConfig h3{color: #2E63A5;padding: 7px 0;}
     #recipiant_sql input[type="text"].table {border:none !important;}
     #recipiant_sql input[type="text"]{padding: 5px 3px 2px 2px;}
     a{text-decoration: none;}
@@ -116,6 +116,18 @@ $view = $this->getConfig('view');
 	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/padlockclosed.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
 </style>
+<?php if($this->getConfig('mode') == 'r' ): ?>
+	<label class="placeholder"><?php echo t('Pagination', FALSE); ?></label>
+	<div style="display:inline-block;width:200px">
+		<?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+		if ($this->getConfig('pagination') == 1)
+			echo ' checked="checked"';
+		?> />
+	</div>
+	<div style="display:inline-block;width:315px">
+		<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+	</div>
+<?php else: ?>
 <div class="tabs">
     <ul>
         <li class="active"><a href="#tabs-admin-query"><?php echo t('Query Editor', FALSE); ?></a></li>
@@ -667,3 +679,4 @@ $view = $this->getConfig('view');
 <style>
 .adminzonecontent{min-width:1200px}
 </style>
+<?php endif; ?>

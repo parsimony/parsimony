@@ -80,7 +80,7 @@ class view implements \Iterator {
      * @param field $args
      * @return string
      */
-    public function __call($name, $args) { 
+    public function __call($name, $args) {
         return $this->fields[$name];
     }
     
@@ -260,9 +260,9 @@ class view implements \Iterator {
      * Build the query and his PDO statement with SQL infos already set to this object
      * @return bool
      */
-    public function buildQuery() {
+    public function buildQuery($forceRebuild = FALSE) {
         \app::dispatchEvent('beforeBuildQuery', array());
-        if(!isset($this->SQL['query']) || isset($this->SQL['wheres'])){ // query cache
+        if(!isset($this->SQL['query']) || isset($this->SQL['wheres']) || $forceRebuild){ // query cache
             $query = 'SELECT ';
             foreach ($this->getFields() as $field) {
                 $id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;

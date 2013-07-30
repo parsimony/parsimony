@@ -304,31 +304,61 @@ abstract class block {
      * @static 
      * @param string $moduleName Module name where the block is created
      * @param string $blockName Block name to create
+	 * @param string $extends
+	 * @param string $configs
      */
-    /*public static function build($moduleName, $blockName) {
+    public static function build($moduleName, $blockName, $extends, $configs, $viewPath) {
 
         $moduleName = tools::sanitizeString($moduleName);
-        $blockName = tools::sanitizeString($blockName);
-        $dir = 'modules/' . $moduleName . '/blocks/' . $blockName;
-        tools::createDirectory('modules/' . $moduleName . '/blocks/' . $blockName);
-        $template = '<?php
-        namespace ' . $moduleName . '\blocks;
-        class ' . $blockName . ' extends \block {
-        public function saveConfigs() {
-        }
-        }
-        ?>';
-        if(is_dir($dir)){
-        file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/block.php', $template);
-        file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/adminView.php', '');       
-        file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/view.php', '');
-            return TRUE;
-        }else{
-            return False;
-        }
-        
-    }*/
-    
+		$blockName = tools::sanitizeString($blockName);
+		$licence = str_replace('{{module}}', $blockName, file_get_contents("modules/admin/licence.txt"));
+		$dir = 'modules/' . $moduleName . '/blocks/' . $blockName;
+		tools::createDirectory('modules/' . $moduleName . '/blocks/' . $blockName);
+		list($moduleFrom, $b, $nameFrom) = explode('\\', $extends);
+		$template = '<?php
+' . $licence . '
+	
+namespace '.$moduleName.'\blocks;
+
+/**
+ * @title '.$blockName.'
+ * @description '.$blockName.'
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @block_category '.$moduleName.'
+ * @modules_dependencies '.$moduleFrom.':1
+ */
+
+class '.$blockName.' extends \\'.$extends.' {
+
+	public function __construct($id) {
+		parent::__construct($id);
+		$configs = \''.$configs.'\';
+		$this->configs = unserialize(base64_decode($configs));
+	}
+
+	public function getAdminView() {
+		ob_start();
+		include(\'modules/'.$moduleFrom.'/blocks/'.$nameFrom.'/adminView.php\');
+		return ob_get_clean();
+	}
+
+}
+?>';
+        if (is_dir($dir)) {
+			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/block.php', $template);
+			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/icon.png', file_get_contents('modules/' . $moduleFrom . '/blocks/' . $nameFrom . '/icon.png'));
+			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/view.php', file_get_contents($viewPath, FILE_USE_INCLUDE_PATH));
+			$return = array('eval' => '', 'notification' => t('Block has been created', FALSE), 'notificationType' => 'positive');
+		} else {
+			$return = array('eval' => '', 'notification' => t('Block has\'nt been created', FALSE), 'notificationType' => 'negative');
+		}
+		\app::$response->setHeader('X-XSS-Protection', '0');
+		\app::$response->setHeader('Content-type', 'application/json');
+		return json_encode($return);
+	}
+ 
     /**
      * Returns JS to eval in iframe admin when an ajax refresh occur 
      * @param string type og refresh

@@ -128,47 +128,48 @@ class admin extends \module {
      * @return string 
      */
     protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content) {
-        $tempBlock = new $popBlock($idBlock);
-	if(!empty($content) &&  method_exists($tempBlock, 'setContent')) $tempBlock->setContent($content); /* external DND */
-        $idBlock = $tempBlock->getId(); /* In case of sanitizing */
-        if ($this->checkIfIdExists($idBlock,$stop_typecont)) {
-            return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
-        }
-	$block = $this->$stop_typecont->search_block($parentBlock);
-        $block->addBlock($tempBlock, $id_next_block);
-	
-	/* If exists : Add default block CSS in current theme  */
-	if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
-	    $css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
-	    if(!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css')){
-		file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css',file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css'));
-	    }
-	    $cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
-	    foreach ($css->getAllSselectors() as $selector) {
-		$newSelector = '#'.$idBlock.' '.$selector;
-		if (!$cssCurrentTheme->selectorExists($newSelector)) {
-		    $cssCurrentTheme->addSelector($newSelector);
+		$tempBlock = new $popBlock($idBlock);
+		if (!empty($content) && method_exists($tempBlock, 'setContent')) $tempBlock->setContent($content); /* external DND */
+		$idBlock = $tempBlock->getId(); /* To sanitize id */
+		if ($this->checkIfIdExists($idBlock, $stop_typecont)) {
+			return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
 		}
-		foreach ($css->extractSelectorRules($selector) as $property => $value) {
-		    $value = str_replace('BASE_PATH',BASE_PATH,$value);
-		    if (!$cssCurrentTheme->propertyExists($newSelector, $property)) {
-                        $cssCurrentTheme->addProperty($newSelector, $property, $value);
-                    } else {
-                        $cssCurrentTheme->updateProperty($newSelector, $property, $value);
-                    }
+		$block = $this->$stop_typecont->search_block($parentBlock);
+		$block->addBlock($tempBlock, $id_next_block);
+
+		/* If exists : Add default block CSS in current theme  */
+		if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
+			$css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
+			if (!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css')) {
+				file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css', file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css'));
+			}
+			$cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
+			foreach ($css->getAllSselectors() as $selector) {
+				$newSelector = '#' . $idBlock . ' ' . $selector;
+				if (!$cssCurrentTheme->selectorExists($newSelector)) {
+					$cssCurrentTheme->addSelector($newSelector);
+				}
+				foreach ($css->extractSelectorRules($selector) as $property => $value) {
+					$value = str_replace('BASE_PATH', BASE_PATH, $value);
+					if (!$cssCurrentTheme->propertyExists($newSelector, $property)) {
+						$cssCurrentTheme->addProperty($newSelector, $property, $value);
+					} else {
+						$cssCurrentTheme->updateProperty($newSelector, $property, $value);
+					}
+				}
+			}
+			$cssCurrentTheme->save();
 		}
-	    }
-	    $cssCurrentTheme->save();
+		\app::$request->page = new \page(999, 'core');
+		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
+		$this->saveAll();
+		if ($this->$stop_typecont->search_block($idBlock) != NULL) {
+			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
+		}
+		else
+			$return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
+		return $this->returnResult($return);
 	}
-        $this->saveAll();
-	
-        if ($this->$stop_typecont->search_block($idBlock) != NULL) {
-            \app::$request->page = new \page(999, 'core');
-	    $return = array('eval' => $tempBlock->ajaxRefresh('add'), 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
-        }else
-            $return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
-        return $this->returnResult($return);
-    }
 
     /**
      * Save the block configs
@@ -182,7 +183,7 @@ class admin extends \module {
      * @param string $cssClasses
      * @return string 
      */
-    protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
+    protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 	$block = $this->$typeProgress->search_block($idBlock);
         
         if(!empty($headerTitle)) $block->setConfig('headerTitle', $headerTitle);
@@ -208,6 +209,8 @@ class admin extends \module {
         else $block->removeConfig('CSSFiles');
         if(!empty($JSFiles)) $block->setConfig('JSFiles', $JSFiles);
         else $block->removeConfig('JSFiles');
+		if(!empty($mode)) $block->setConfig('mode', $mode);
+        else $block->removeConfig('mode');
 
 	\app::$request->page = new \page(999, 'core');
         if(isset($_POST['getVars'])){
@@ -497,10 +500,9 @@ class admin extends \module {
      * Get the view of the configuration block
      * @param string $typeProgress
      * @param string $idBlock
-     * @param string $parentBlock
      * @return string|false
      */
-    protected function getViewConfigBlockAction($typeProgress, $idBlock, $parentBlock) {
+    protected function getViewConfigBlockAction($typeProgress, $idBlock) {
 	$block = $this->$typeProgress->search_block($idBlock);
 	ob_start();
 	require('modules/admin/views/desktop/manageBlock.php');
@@ -1410,30 +1412,6 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
      */
     protected function savePictureAction($file, $code) {
 	return \tools::file_put_contents($file, base64_decode($code));
-    }
- 
-    
-    /**
-     * Build a new block in a given module
-     * @param string $choosenmodule
-     * @param string $name_block
-     * @return string 
-     */
-    protected function buildNewBlockAction($choosenmodule, $name_block) {
-	if (isset($name_block) && isset($choosenmodule) && !empty($choosenmodule)) {
-	    if (!empty($name_block)) {
-		if (!file_exists('modules/' . $choosenmodule . '/blocks/' . $name_block)) {
-		    \block::build($choosenmodule, $name_block);
-		} else {
-		    $return = array('eval' => '', 'notification' => t('The Block name already exists', FALSE), 'notificationType' => 'negative');
-		}
-	    } else {
-		$return = array('eval' => '', 'notification' => t('The Block name is required', FALSE), 'notificationType' => 'negative');
-	    }
-	    //$message = t('The Block name is required', FALSE);
-	    $return = array('eval' => 'ParsimonyAdmin.displayConfBox("' . BASE_PATH . 'admin/action","Block","choosenmodule=' . $choosenmodule . '&name_block=' . $name_block . '&action=displayModifyBlock");', 'notification' => 'The Block name is saved', 'notificationType' => 'positive');
-	}
-	return $this->returnResult($return);
     }
 
     /**

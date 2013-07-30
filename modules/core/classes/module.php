@@ -469,61 +469,64 @@ class module {
      * @param string $name module name
      * @param string $title module title
      */
-    public static function build($name, $title) {
-	$reservedKeywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
-	
-	if (!is_dir('modules/' . $name) && !is_numeric($name) && !in_array($name, $reservedKeywords)) {
-	    $name = str_replace('-','',str_replace('_','',tools::sanitizeString($name)));
-	    tools::createDirectory('modules/' . $name);
-	    $template = '<?php
-            namespace ' . $name . ';
+	public static function build($name, $title) {
+		$reservedKeywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
 
-            /**
-             * @title ' . str_replace('\'', '\\\'', $title) . '
-             * @description ' . str_replace('\'', '\\\'', $title) . '
-             * @version 1
-             * @browsers all
-             * @php_version_min 5.3
-             */
+		if (!is_dir('modules/' . $name) && !is_numeric($name) && !in_array($name, $reservedKeywords)) {
+			$name = str_replace('-', '', str_replace('_','',tools::sanitizeString($name)));
+			$licence = str_replace('{{module}}', $name, file_get_contents("modules/admin/licence.txt"));
+			tools::createDirectory('modules/' . $name);
+			$template = '<?php
+' . $licence . '
 
-            class ' . $name . ' extends \module {
-                protected $name = \'' . str_replace('\'', '\\\'', $name) . '\';
-            }
-            ?>';
-	    file_put_contents('modules/' . $name . '/module.php', $template);
-	    include('modules/' . $name . '/module.php');
-	    $name2 = $name . '\\' . $name;
-	    $mod = new $name2($name);
+namespace ' . $name . ';
+
+/**
+ * @title ' . str_replace('\'', '\\\'', $title) . '
+ * @description ' . str_replace('\'', '\\\'', $title) . '
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ */
+
+class ' . $name . ' extends \module {
+	protected $name = \'' . str_replace('\'', '\\\'', $name) . '\';
+}
+?>';
+			file_put_contents('modules/' . $name . '/module.php', $template);
+			include('modules/' . $name . '/module.php');
+			$name2 = $name . '\\' . $name;
+			$mod = new $name2($name);
             $page = new \page(1, $name);
-	    $page->setModule($name);
-	    $page->setTitle('Index ' . $name);
-	    $page->setRegex('@^index$@');
-	    /* Set rights forbidden for non admins, admins are allowed by default */
+			$page->setModule($name);
+			$page->setTitle('Index ' . $name);
+			$page->setRegex('@^index$@');
+			/* Set rights forbidden for non admins, admins are allowed by default */
             foreach (\app::getModule('core')->getEntity('role') as $role) {
-		if($role->state == 0){
-                    $mod->setRights($role->id_role, 0);
-                    $page->setRights($role->id_role, 0);
-                }
-	    }
-	    $mod->addPage($page);
-	    $mod->save();
-	    if (PROFILE == 'www')
-		$config = new \config('config.php', TRUE);
-	    else
-		$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
-	    $config->add('$config[\'modules\'][\'active\'][\'' . $name . '\']', '0');
-	    return $config->save();
-	}else {
-	    return FALSE;
-	}
+				if($role->state == 0){
+					$mod->setRights($role->id_role, 0);
+					$page->setRights($role->id_role, 0);
+				}
+			}
+			$mod->addPage($page);
+			$mod->save();
+			if (PROFILE == 'www')
+			$config = new \config('config.php', TRUE);
+			else
+			$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
+			$config->add('$config[\'modules\'][\'active\'][\'' . $name . '\']', '0');
+			return $config->save();
+		}else {
+			return FALSE;
+		}
     }
 
     public function __sleep() {
-	$props = get_object_vars($this);
-	unset($props['model']);
-	unset($props['title']);
-	unset($props['name']);
-	return array_keys($props);
+		$props = get_object_vars($this);
+		unset($props['model']);
+		unset($props['title']);
+		unset($props['name']);
+		return array_keys($props);
     }
 
 }
