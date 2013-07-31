@@ -766,6 +766,7 @@ include_once('modules/core/classes/field.php');
 				foreach ($params as $ssparam) {
 					$args [$ssparam->name] = $field->{$ssparam->name};
 				}
+				$args['required'] = (int) $args['required'];
 				$args['oldName'] = $field->name;
 				echo '<div class="property" id="property_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';
 			}
