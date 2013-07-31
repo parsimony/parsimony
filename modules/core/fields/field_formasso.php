@@ -84,7 +84,7 @@ class field_formasso extends \field {
 
             $vars2 = $vars[$this->name];
 
-            if(!isset($vars[$idEntity]) || empty($vars[$idEntity])) $id = $entity->order($idEntity,'desc')->limit(1)->fetch()->$idEntity->value;
+            if(!isset($vars[$idEntity]) || empty($vars[$idEntity])) $id = $entity->order($idEntity,'desc')->limit(1)->fetch()->$idEntity;
             else $id = $vars[$idEntity];
 
             $foreignEntity = \app::getModule($this->module)->getEntity($this->entity_foreign);
@@ -96,7 +96,7 @@ class field_formasso extends \field {
             foreach ($vars2 as $idForeign => $value) {
                 if (substr($idForeign,0,3) == 'new') {
                     $foreignEntity->insertInto(array($idNameForeignEntity => '', $foreignEntity->getBehaviorTitle() => trim($value)));
-                    $idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = \'' . trim(str_replace("'","\'",$value)) . '\'')->fetch()->$idNameForeignEntity->value;
+                    $idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = \'' . trim(str_replace("'","\'",$value)) . '\'')->fetch()->$idNameForeignEntity;
                 }
                 $assoEntity->insertInto(array($assoEntity->getId()->name => '', $idEntity => $id, $idNameForeignEntity => $idForeign));
             }
