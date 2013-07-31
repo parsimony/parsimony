@@ -45,7 +45,7 @@ class form extends \block {
 			/* If new file contains errors */
 			if ($testIfHasError === TRUE) {
 				/* If there's no errors, Save new file */
-				if ($this->getConfig('regenerateview') == 1) {
+				if ($this->getConfig('regenerateview') == 0) {
 					\tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity')));
 				} else {
 					\tools::file_put_contents($pathOfView, $_POST['editor']);
