@@ -98,7 +98,7 @@
 	<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
         <?php if (PROFILE == 'www'): ?>
             <div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
-        <?php endif; ?>
+        <?php endif; ?>			
         <div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization', FALSE); ?></a></div>
         <?php /*<div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences', FALSE); ?></a></div>*/ ?>
@@ -106,6 +106,7 @@
         <div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security', FALSE); ?></a></div>
 	<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax', FALSE); ?></a></div>
         <div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version', FALSE); ?></a></div>
     </div>
@@ -128,16 +129,16 @@
                     <div id="tabsb-1" class="admintabs">
                         <h2><?php echo t('Database'); ?> </h2>
                         <div class="placeholder">
-                            <label class="label" for="host"><?php echo t('Host', FALSE); ?></label><input name="config[db][host]" type="text" value="<?php echo app::$config['db']['host'] ?>">
+                            <label class="label" for="host"><?php echo t('Host', FALSE); ?></label><input name="config[db][host]" type="text" value="<?php echo s(app::$config['db']['host']); ?>">
                         </div>
                         <div class="placeholder">
-                            <label class="label" for="dbname"><?php echo t('DBname', FALSE); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo app::$config['db']['dbname'] ?>">
+                            <label class="label" for="dbname"><?php echo t('DBname', FALSE); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo s(app::$config['db']['dbname']); ?>">
                         </div>
                         <div class="placeholder">
                             <label class="label" for="user"><?php echo t('User', FALSE); ?></label><input  name="config[db][user]" type="text" value="<?php echo app::$config['db']['user'] ?>">
                         </div>
                         <div class="placeholder">
-                            <label class="label" for="password"><?php echo t('Password', FALSE); ?></label><input  name="config[db][pass]" type="text" value="<?php echo app::$config['db']['pass'] ?>">
+                            <label class="label" for="password"><?php echo t('Password', FALSE); ?></label><input  name="config[db][pass]" type="text" value="<?php echo s(app::$config['db']['pass']); ?>">
                         </div>
                     </div>
                 <?php endif; ?>
@@ -147,10 +148,10 @@
                         <label class="label" for="maxage"><?php echo t('MaxAge', FALSE); ?></label><input name="config[cache][max-age]" type="text" value="<?php echo s(app::$config['cache']['max-age']); ?>">
                     </div>
                     <div class="placeholder">
-                        <label class="label" for="cachecontrol"><?php echo t('CacheControl', FALSE); ?></label><input name="config[cache][cache-control]" type="text" value="<?php echo app::$config['cache']['cache-control']; ?>">
+                        <label class="label" for="cachecontrol"><?php echo t('CacheControl', FALSE); ?></label><input name="config[cache][cache-control]" type="text" value="<?php echo s(app::$config['cache']['cache-control']); ?>">
                     </div>
                     <div class="placeholder">
-                        <label class="label" for="authdExt"><?php echo t('Authorized Extensions', FALSE); ?></label><input name="config[extensions_auth]" type="text" value="<?php echo app::$config['extensions_auth']; ?>">
+                        <label class="label" for="authdExt"><?php echo t('Authorized Extensions', FALSE); ?></label><input name="config[extensions_auth]" type="text" value="<?php echo s(app::$config['extensions_auth']); ?>">
                     </div>
                     <div class="placeholder">
                         <label class="label" for="enablecache"><?php echo t('Enable Cache', FALSE); ?></label>
@@ -278,7 +279,7 @@
 	    <div id="tabsb-6" class="admintabs">
                 <h2><?php echo t('Security', FALSE); ?></h2>
                 <div class="placeholder">
-                    <label class="label"><?php echo t('Allowed IP for Admin', FALSE); ?></label><input name="config[security][allowedipadmin]" type="text" value="<?php echo app::$config['security']['allowedipadmin'] ?>">
+                    <label class="label"><?php echo t('Allowed IP for Admin', FALSE); ?></label><input name="config[security][allowedipadmin]" type="text" value="<?php echo s(app::$config['security']['allowedipadmin']); ?>">
                 </div>
             </div>
 	    <div id="tabsb-7" class="admintabs">
@@ -305,6 +306,10 @@
             </div>
              <div id="tabsb-8" class="admintabs">
                 <h2><?php echo t('Mailing'); ?> </h2>
+				<div class="placeholder">
+					<label class="label" for="config[mail][adminMail]"><?php echo t('E-mail Address', FALSE); ?></label>
+					<input name="config[mail][adminMail]" type="email" value="<?php echo s(app::$config['mail']['adminMail']); ?>">
+				</div>
                 <div class="placeholder">
                     <label class="label" for="config[mail][type]"><?php echo t('Send Type', FALSE); ?></label>
                     <select name="config[mail][type]" onclick="if(this.value=='smtp'){ $('#confsmtp').show()}else{$('#confsmtp').hide()}">
@@ -316,10 +321,10 @@
                 </div>
                 <div id="confsmtp"<?php if(app::$config['mail']['type'] != 'smtp') echo ' style="display:none"'; ?>>
                     <div class="placeholder">
-                        <label class="label" for="server"><?php echo t('Server', FALSE); ?></label><input  name="config[mail][server]" type="text" value="<?php echo app::$config['mail']['server'] ?>">
+                        <label class="label" for="server"><?php echo t('Server', FALSE); ?></label><input  name="config[mail][server]" type="text" value="<?php echo s(app::$config['mail']['server']); ?>">
                     </div>
                     <div class="placeholder">
-                        <label class="label" for="port"><?php echo t('Port', FALSE); ?></label><input  name="config[mail][port]" type="text" value="<?php echo app::$config['mail']['port'] ?>">
+                        <label class="label" for="port"><?php echo t('Port', FALSE); ?></label><input  name="config[mail][port]" type="text" value="<?php echo s(app::$config['mail']['port']); ?>">
                     </div>
                 </div>
             </div>
@@ -360,6 +365,12 @@
                 <input type="button" value="Update to lastest nightly version" class="updateVersion" data-urlupdate="http://nodeload.github.com/parsimony/parsimony_cms/legacy.zip/master">
                 </div>
             </div>
+			 <div id="tabsb-11" class="admintabs">
+				<div class="placeholder">
+                    <label class="label" for="config[sitename]"><?php echo t('Site name', FALSE); ?></label>
+					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']);?>">
+				</div>
+			</div>
             <?php if (PROFILE == 'www'): ?>
                 <input type="hidden" name="file" value="config.php">
             <?php else: ?>

@@ -314,7 +314,18 @@ class tools {
         
     }
     
-    /**
+	public static function dateToTimeAgo($date) {
+		$rest = time()-strtotime($date); 
+		$say = '';
+		if($rest <= 60){$say = $rest . 'second'.($rest > 1 ? "s" : '');}
+		elseif($rest <=3600){$rest=(int)($rest/60); $say = $rest.' ' .t('minute',false).($rest > 1 ? "s" : '');}
+		elseif($rest <=86400){ $rest=(int)($rest/3600); $say = $rest.' ' .t('hour',false).($rest > 1 ? "s" : '');}
+		elseif($rest <= 2592000){$rest=(int)($rest/86400); $say = $rest.' ' .t('day',false). ($rest > 1 ? "s" : '');}
+		elseif($rest <= 31104000){$rest=(int)($rest/2592000); $say = $rest.' ' .t('month',false). ($rest > 1 ? "s" : '');}
+		echo $say .' ago';	
+	}
+
+	/**
      * Sanitize a string come from fied WYSIWYG or block WYSIWYG
      * @param string $str to sanitize
      * @param $plugins list of wysiwyg's plugins separated by comma
