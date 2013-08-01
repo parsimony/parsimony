@@ -284,7 +284,7 @@ class tools {
      * @return array
      */
     public static function sendMail($to, $from, $replyTo, $subject, $body) {
-        include 'lib/phpmailer/class.phpmailer.php';
+        include_once('lib/phpmailer/class.phpmailer.php');
         $mailer = new \PHPMailer();
 
         if(\app::$config['mail']['type'] == 'smtp'){
