@@ -52,7 +52,6 @@ function blockAdminBlocks() {
 	//Dispatch menu action event : configure / design / delete
         $(document).add('#config_tree_selector').on('click.creation',".config_destroy, .cssblock, .configure_block",function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            console.dir(blockInst);
 			eval("blockInst." + this.dataset.action + ".apply(this, [e]);");
         })
 	/* Hide overlay when user don't pick a block */

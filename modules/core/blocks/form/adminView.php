@@ -71,7 +71,7 @@
 	<div id="formupdate" style="display:none" class="placeholder">
 		<?php echo t('Allow you to map a request param to this form to transform it in form update. Request param must be an ID to find the sql row associated.', FALSE); ?>
 		<label><?php echo t('Request param name', FALSE); ?></label>
-		<input type="text" name="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
+		<input type="text" name="updateparam" id="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
 	</div>
 	<div style="padding:9px 0">
 	    <label><?php echo t('Lock the view', FALSE); ?></label>
@@ -101,7 +101,7 @@
 					return false;
 				}
 			}
-			$.post(BASE_PATH + 'core/callBlock', {module: "<?php $mod = $_POST['typeProgress'] == 'theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo THEME; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', args: "module=" + db[0] + "&entity=" + db[1]}, function(data) {
+			$.post(BASE_PATH + 'core/callBlock', {module: "<?php $mod = $_POST['typeProgress'] == 'theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo THEME; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', args: "module=" + db[0] + "&entity=" + db[1] + "&update=" + document.getElementById('updateparam').value}, function(data) {
 				codeEditor.setValue(data);
 				codeEditor.refresh();
 			});

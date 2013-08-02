@@ -84,11 +84,11 @@ class form extends \block {
 		$this->setConfig('fail', $_POST['fail']);
 	}
 
-	public function generateViewAction($module, $entity) {
+	public function generateViewAction($module, $entity, $update = FALSE) {
 		$entity = \app::getModule($module)->getEntity($entity);
 		$html = '<?php
 if(isset($_POST[\'add\'])){
-	$res = $entity->insertInto($_POST);
+	$res = $entity->' . ($update ? 'update' : 'insertInto') . '($_POST);
 	if($res === TRUE || is_numeric($res)){
 		echo \'<div class="notify positive">\'.t($this->getConfig(\'success\')).\'</div>\';
 	}else{
