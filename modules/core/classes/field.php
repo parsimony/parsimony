@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core\classes
@@ -140,9 +140,11 @@ class field {
     /**
      * Set field value
      * @param string $value
+	 * @return field
      */
     public function setValue($value) {
         $this->value = $value;
+		return $this;
     }
 
     /**
@@ -156,6 +158,7 @@ class field {
     /**
      * Set field label
      * @param string $label
+	 * @return field
      */
     public function setLabel($label) {
         $this->label = $label;
@@ -165,6 +168,7 @@ class field {
     /**
      * Set field entity name
      * @param string $name
+	 * @return field
      */
     public function setEntity($name) {
         $this->entity = $name;
@@ -174,6 +178,7 @@ class field {
     /**
      * Set field visibility
      * @param int $visibility
+	 * @return field
      */
     public function setVisibility($visibility) {
         $this->visibility = $visibility;
@@ -289,23 +294,23 @@ class field {
     
     /**
      * Display Updating Form
-     * @param string $value optional
      * @return string
      */
-    public function form($value = FALSE) {
+    public function form() {
         ob_start();
         $row = $this->row;
-	$fieldName = $row->getName().'_'.$this->name;
-	if($value !== FALSE){
-	    $fieldName .= '_'.$row->getId()->value;
-	}
-	?>
-	<div class="field placeholder">
-	<?php
-        include($this->fieldPath . '/form.php');
-	?>
-	</div>
-	<?php
+		$fieldName = $row->getName().'_'.$this->name;
+		$value = $this->value;
+		if($value !== FALSE){
+			$fieldName .= '_'.$row->getId()->value;
+		}
+		?>
+		<div class="field placeholder">
+		<?php
+			include($this->fieldPath . '/form.php');
+		?>
+		</div>
+		<?php
         return ob_get_clean();
     }
     
