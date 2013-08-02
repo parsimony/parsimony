@@ -37,35 +37,17 @@ namespace core\blocks;
  * @php_version_min 5.3
  * @modules_dependencies core:1
  */
-
 class page extends \block {
-    
-    public function getAdminView(){
-	return t('No config for this block').'<script type="text/javascript">$(document).ready(function() {window.setTimeout(\'$(".adminzonetab a[href=#accordionBlockConfigGeneral]").trigger("click");\', 500);});</script>';
-    }
 
-    public function display() {
-	$rep_cache = PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/';
-	$fichier_cache = 'var/cache/' . $rep_cache . THEME . '_' . MODULE . '_' . \app::$request->page->getId() . '_' . $this->id . '.cache';
-	$secondes = $this->getConfig('maxAge');
-	$html = '';
-	if (file_exists($fichier_cache) && filemtime($fichier_cache) + $secondes > time() && $secondes != 0) {
-	    ob_start();
-	    require($fichier_cache);
-	    $html .= ob_get_clean();
-	} else {
-	    if ($this->getConfig('tag') !== false)
-		$balise = $this->getConfig('tag');
-	    else
-		$balise = 'div';
-	    $html = '<' . $balise . ' id="' . $this->id . '" data-page="' . \app::$request->page->getId() . '" class="parsiblock block_container container_page ' . (string) $this->getConfig('cssClasses') . '">';
-	    $html .= parent::display();
-	    $html .= '</' . $balise . ' >';
-	    if ($secondes != 0)
-		tools::file_put_contents($fichier_cache, $html);
+	public function getAdminView() {
+		return t('No config for this block') . '<script type="text/javascript">$(document).ready(function() {window.setTimeout(\'$(".adminzonetab a[href=#accordionBlockConfigGeneral]").trigger("click");\', 500);});</script>';
 	}
-	return $html;
-    }
+
+	public function display() {
+		$this->setConfig('cssClasses', 'block_container container_page' . $this->getConfig('cssClasses'));
+		$this->setConfig('attributes', 'data-page="' . \app::$request->page->getId() . '"');
+		return parent::display();
+	}
 
 }
 
