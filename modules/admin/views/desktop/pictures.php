@@ -127,6 +127,7 @@ function pictureEditor(completename){
     var dataURL;
     var extension;
     var completename = completename;
+	var finalname;
     var datapic;
     var croptarget = document.getElementById("crop");
     var undotarget = document.getElementById("undo");
@@ -141,6 +142,10 @@ function pictureEditor(completename){
     var pair;
     var deg;
     var originx;
+	finalname = completename;
+	extension = finalname.substr((~-finalname.lastIndexOf(".") >>> 0) + 2);
+    if(extension == 'jpg') extension == 'jpeg';
+    finalname = finalname.replace('<?php echo BASE_PATH ?>','');
 
 this.draw = function(){
     ctx.strokeStyle = 'white';
@@ -193,10 +198,8 @@ this.drawScene = function () {
         canvas.width = imgw;
         canvas.height = imgh;
         ratio = imgw / imgh;
-        /* Extension */
-        extension = completename.substr((~-completename.lastIndexOf(".") >>> 0) + 2);
-        if(extension == 'jpg') extension == 'jpeg';
-        completename = completename.replace('<?php echo BASE_PATH ?>','');
+        completename = finalname;
+
         this.initValues();
         this.drawScene(imgw,imgh);
         dataURL = canvas.toDataURL("image/"+extension);
@@ -512,7 +515,7 @@ this.rotate = function(pair){
     /* UPLOAD */
     $(".savePic").on("click", function(ev) { 
         datapic = datapic.replace(/^data:image\/(png|jpg|gif|jpeg);base64,/, "");
-        var filepath = '<?php echo PROFILE_PATH ?>' + completename ;
+        var filepath = '<?php echo PROFILE_PATH ?>' + finalname ;
         $.post("<?php echo BASE_PATH; ?>admin/savePicture", { file: filepath, code : datapic },
            function(data) {
            $('#tabs li.active.pict').removeClass("unsaved");
