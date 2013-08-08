@@ -357,14 +357,14 @@ var ParsimonyAdmin = {
     execResult :   function (obj){
 	if (obj.notification == null) 
 	    var obj = JSON.parse(obj);
-
+	
 	if(obj.eval != null) eval(obj.eval);
 	var headParsiFrame = ParsimonyAdmin.$iframe.contents().find("head");
 	if(obj.jsFiles){
 	    obj.jsFiles = JSON.parse(obj.jsFiles);
 	    $.each(obj.jsFiles, function(index, url) { 
 		if (!$("script[scr='" + url + "']",headParsiFrame).length) {
-		    ParsimonyAdmin.$currentBody.append('<script type="text/javascript" src="' + url + '"></script>');
+		    ParsimonyAdmin.$currentBody.append('<script type="text/javascript" src="' +  BASE_PATH + url + '"></script>');
 		}
 	    });
 	}
@@ -372,10 +372,9 @@ var ParsimonyAdmin = {
 	    obj.CSSFiles = JSON.parse(obj.CSSFiles);
 	    $.each(obj.CSSFiles, function(index, url) {
 		if (!$('link[href="' + url + '"]',headParsiFrame).length) {
-		    ParsimonyAdmin.$currentBody.append('<link rel="stylesheet" type="text/css" href="' + url + '">');
+		    ParsimonyAdmin.$currentBody.append('<link rel="stylesheet" type="text/css" href="' +  BASE_PATH + url + '">');
 		}
-	    });
-             
+	    });  
 	}
 	if (obj.notification) 
 	    ParsimonyAdmin.notify(obj.notification,obj.notificationType);

@@ -1,4 +1,30 @@
 <?php
+/**
+ * Parsimony
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to contact@parsimony-cms.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Parsimony to newer
+ * versions in the future. If you wish to customize Parsimony for your
+ * needs please refer to http://www.parsimony.mobi for more information.
+ *
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright  Julien Gras et Benoît Lorillot
+ * @version  Release: 1.0
+ * @category  Parsimony
+ * @package core/blocks
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 namespace core\blocks;
 
@@ -33,6 +59,7 @@ class form extends \block {
 			$this->setConfig('module', $module);
 			$this->setConfig('entity', $entity);
 			$this->setConfig('regenerateview', $_POST['regenerateview']);
+			$this->setConfig('updateparam', $_POST['updateparam']);
 
 			$pathOfView = PROFILE_PATH . $this->getConfig('pathOfView');
 
@@ -45,7 +72,7 @@ class form extends \block {
 			/* If new file contains errors */
 			if ($testIfHasError === TRUE) {
 				/* If there's no errors, Save new file */
-				if ($this->getConfig('regenerateview') == 1) {
+				if ($this->getConfig('regenerateview') == 0) {
 					\tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity')));
 				} else {
 					\tools::file_put_contents($pathOfView, $_POST['editor']);
@@ -57,11 +84,11 @@ class form extends \block {
 		$this->setConfig('fail', $_POST['fail']);
 	}
 
-	public function generateViewAction($module, $entity) {
+	public function generateViewAction($module, $entity, $update = FALSE) {
 		$entity = \app::getModule($module)->getEntity($entity);
 		$html = '<?php
 if(isset($_POST[\'add\'])){
-	$res = $entity->insertInto($_POST);
+	$res = $entity->' . ($update ? 'update' : 'insertInto') . '($_POST);
 	if($res === TRUE || is_numeric($res)){
 		echo \'<div class="notify positive">\'.t($this->getConfig(\'success\')).\'</div>\';
 	}else{
@@ -112,6 +139,9 @@ if(isset($_POST[\'add\'])){
 		if($this->getConfig('module')){
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
 			$entity->prepareFieldsForDisplay();
+			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
+				$entity->select()->where($entity->getId()->name . " = " . \app::$request->getParam($this->getConfig('updateparam')))->fetch();
+			}
 			include($this->getConfig('pathOfView'));
 		}else {
 			echo t('Please configure this block');

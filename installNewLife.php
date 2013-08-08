@@ -632,13 +632,12 @@ while (1) {
 	    'field_textarea' => 'core\fields\field_textarea',
 	    'field_user' => 'core\fields\field_user',
 	    'field_ip' => 'core\fields\field_ip',
-	    'field_vote' => 'core\fields\field_vote',
 	    'field_foreignkey' => 'core\fields\field_foreignkey',
 	    'field_formasso' => 'core\fields\field_formasso'
 	);
 	    app::$aliasClasses = $config['aliasClasses'];
             define('PROFILE_PATH','profiles/www/modules/');
-	    $toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_vote','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
+	    $toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 	    
 	    foreach($config['aliasClasses'] AS $alias => $class){
 		if(in_array($alias,$toInclude)){

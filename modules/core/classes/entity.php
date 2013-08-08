@@ -313,48 +313,51 @@ abstract class entity implements \Iterator {
      * @param array $vars
      * @return array
      */
-    protected function prepareValues(array $vars, $type= 'INSERT') {
-        $values = array();
-        $val = 'insert';
-        if($type === 'UPDATE') {
-            $idName = $this->getId()->name;
-            if(isset($vars[$idName])){
-                $val = $vars[$idName];
-            } else {
-                throw new \Exception(t('ID must be filled to update', FALSE));
-            }
-        }
-        foreach ($this->getFields() as $name => $field) {
-            if ($type === 'INSERT' || isset($vars[$name])) { // to allow only the update of some properties
-                $columns = $field->getColumns();
-                if (count($columns) === 1){
-                    /* If the field has one column */
-                    $value = isset($vars[$name]) && $field->getRights($_SESSION['id_role']) & constant($type)  ? $vars[$name] : '';
-                    $value = $field->validate($value,$val, $vars);
-                }else{
-                    /* If the field has severals columns */
-                    $columnsValues = array_intersect_key($vars, array_flip($columns));
-                    $value = $field->validate($columnsValues,$val, $vars);
-                }
-                if ($value === FALSE)
-                    return $field->label . ', ' . $field->msg_error; // return error message
-		else 
-		    $field->setValue($value);
-                
-                /* If field is a field_formasso */
-                if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
-                    foreach ($columns AS $column)
-                        if (count($columns) === 1)
-                            $values[':' . $column] = $value;
-                        else {
-                            foreach ($value AS $key => $val)
-                                $values[':' . $key] = $val;
-                        }
-                }
-            }
-        }
-        return $values;
-    }
+    protected function prepareValues(array $vars, $type = 'INSERT') {
+		$values = array();
+		$val = 'insert';
+		if ($type === 'UPDATE') {
+			$idName = $this->getId()->name;
+			if (isset($vars[$idName])) {
+				$val = $vars[$idName];
+			} elseif (is_numeric($this->$idName->value)) {
+				$val = $this->$idName->value;
+			} else {
+				throw new \Exception(t('ID must be filled to update', FALSE));
+			}
+		}
+		foreach ($this->getFields() as $name => $field) {
+			if ($type === 'INSERT' || isset($vars[$name])) { // to allow only the update of some properties
+				$columns = $field->getColumns();
+				if (count($columns) === 1) {
+					/* If the field has one column */
+					$value = isset($vars[$name]) && $field->getRights($_SESSION['id_role']) & constant($type) ? $vars[$name] : '';
+					$value = $field->validate($value, $val, $vars);
+				} else {
+					/* If the field has severals columns */
+					$columnsValues = array_intersect_key($vars, array_flip($columns));
+					$value = $field->validate($columnsValues, $val, $vars);
+				}
+				if ($value === FALSE)
+					return $field->label . ', ' . $field->msg_error; // return error message
+				else
+					$field->setValue($value);
+
+				/* If field is a field_formasso */
+				if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
+					foreach ($columns AS $column){
+						if (count($columns) === 1)
+							$values[':' . $column] = $value;
+						else {
+							foreach ($value AS $key => $val)
+								$values[':' . $key] = $val;
+						}
+					}
+				}
+			}
+		}
+		return $values;
+	}
 
     /**
      * Display the view of entity fields
@@ -392,10 +395,11 @@ abstract class entity implements \Iterator {
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & INSERT) {
 					$className = get_class($field);
+					$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
                     if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE)); //false is important
+                        $col2 .= $field->form();
                     else
-                        $col1 .= $field->form((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
+                        $col1 .= $field->form();
                 } 
             }
             $html .= '<h2 style="position:relative">' . t('Add in', false) . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save', FALSE) . '" name="add"></h2><div class="cols">';
@@ -429,12 +433,14 @@ abstract class entity implements \Iterator {
             foreach ($this->getFields() as $field) {
                 if ($field->visibility & UPDATE) {
 					$className = get_class($field);
-					if ($className == \app::$aliasClasses['field_formasso'])
-						$col2 .= $field->form($this->getId()->value);
+					if ($className == \app::$aliasClasses['field_formasso']){
+						$field->setValue($this->getId()->value);
+						$col2 .= $field->form();
+					}
                     if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form($field->value);
+                        $col2 .= $field->form();
                     else
-                        $col1 .= $field->form($field->value);
+                        $col1 .= $field->form();
                 }
             }
             $html .= '<h2 style="position:relative">' . t('Record', FALSE) . ' N°' . $this->getId()->value;

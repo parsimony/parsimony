@@ -52,7 +52,7 @@ function blockAdminBlocks() {
 	//Dispatch menu action event : configure / design / delete
         $(document).add('#config_tree_selector').on('click.creation',".config_destroy, .cssblock, .configure_block",function(e){
             var blockInst = (typeof $this.blocks["block_" + this.classList[1]] != "undefined") ? $this.blocks["block_" + this.classList[1]] : $this.blocks['block_block'];
-            eval("blockInst." + this.dataset.action + ".apply(this, [e]);");
+			eval("blockInst." + this.dataset.action + ".apply(this, [e]);");
         })
 	/* Hide overlay when user don't pick a block */
         .on('mouseover.creation',"body", function(event) {
@@ -320,7 +320,7 @@ function block() {
             if(inProgress.parent().closest(".block_container").attr("id") == "treedom_content") parentId = inProgress.parent().closest("#treedom_content").data('page');
             else parentId = inProgress.parent().closest(".block_container").attr('id').replace("treedom_","");
         }
-        ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",$(this).attr('title'),"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + $(this).attr('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page'));
+        ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action",this.getAttribute('title') + " #" + ParsimonyAdmin.inProgress,"TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + this.getAttribute('rel') +"&IDPage=" + $(".container_page",ParsimonyAdmin.currentBody).data('page'));
     }
     
     this.onDesign = function (e) {

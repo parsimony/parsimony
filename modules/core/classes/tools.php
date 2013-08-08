@@ -284,7 +284,7 @@ class tools {
      * @return array
      */
     public static function sendMail($to, $from, $replyTo, $subject, $body) {
-        include 'lib/phpmailer/class.phpmailer.php';
+        include_once('lib/phpmailer/class.phpmailer.php');
         $mailer = new \PHPMailer();
 
         if(\app::$config['mail']['type'] == 'smtp'){
@@ -322,7 +322,8 @@ class tools {
 		elseif($rest <=86400){ $rest=(int)($rest/3600); $say = $rest.' ' .t('hour',false).($rest > 1 ? "s" : '');}
 		elseif($rest <= 2592000){$rest=(int)($rest/86400); $say = $rest.' ' .t('day',false). ($rest > 1 ? "s" : '');}
 		elseif($rest <= 31104000){$rest=(int)($rest/2592000); $say = $rest.' ' .t('month',false). ($rest > 1 ? "s" : '');}
-		echo $say .' ago';	
+		elseif($rest <= 373248000){$rest=(int)($rest/31104000); $say = $rest.' ' .t('year',false). ($rest > 1 ? "s" : '');}
+		return $say .' ago';	
 	}
 
 	/**

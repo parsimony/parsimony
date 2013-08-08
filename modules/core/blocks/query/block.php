@@ -138,7 +138,7 @@ class query extends \block {
 		$mess = $message . ' ' . t('in line') . ' ' . $line;
 		if ($code == 0 || $code == 2 || $code == 8 || $code == 256 || $code == 512 || $code == 1024 || $code == 2048 || $code == 4096 || $code == 8192 || $code == 16384) {
 			/* If it's a low level error, we save but we notice the dev */
-			if ($this->getConfig('regenerateview') == 1) {
+			if ($this->getConfig('regenerateview') == 0) {
 				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $this->generateViewAction($_POST['properties']));
 			} else {
 				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $_POST['editor']);

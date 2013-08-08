@@ -32,6 +32,8 @@
 	#regenerateview:hover{background: url('<?php echo BASE_PATH ?>admin/img/padlockopen.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH ?>admin/img/padlockclosed.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
+	.parsiplusone {display: inline-block;vertical-align: top;cursor: cell;
+			   background: url("<?php echo BASE_PATH; ?>admin/img/add.png") no-repeat;width: 16px;height: 16px;}
 </style>
 <?php if ($this->getConfig('mode') !== 'r') : ?>
 	<div class="placeholder">
@@ -63,6 +65,14 @@
     <input type="text" name="fail" value="<?php echo $this->getConfig('fail'); ?>">
 </div>
 <?php if ($this->getConfig('mode') !== 'r') : ?>
+	<div style="line-height: 16px;margin: 7px;cursor: pointer;" onclick="$('#formupdate').toggle();">
+		<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Form Update', FALSE); ?>
+	</div>
+	<div id="formupdate" style="display:none" class="placeholder">
+		<?php echo t('Allow you to map a request param to this form to transform it in form update. Request param must be an ID to find the sql row associated.', FALSE); ?>
+		<label><?php echo t('Request param name', FALSE); ?></label>
+		<input type="text" name="updateparam" id="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
+	</div>
 	<div style="padding:9px 0">
 	    <label><?php echo t('Lock the view', FALSE); ?></label>
 	    <input type="hidden" value="0" name="regenerateview" />
@@ -91,7 +101,7 @@
 					return false;
 				}
 			}
-			$.post(BASE_PATH + 'core/callBlock', {module: "<?php $mod = $_POST['typeProgress'] == 'theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo THEME; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', args: "module=" + db[0] + "&entity=" + db[1]}, function(data) {
+			$.post(BASE_PATH + 'core/callBlock', {module: "<?php $mod = $_POST['typeProgress'] == 'theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo THEME; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', args: "module=" + db[0] + "&entity=" + db[1] + "&update=" + document.getElementById('updateparam').value}, function(data) {
 				codeEditor.setValue(data);
 				codeEditor.refresh();
 			});

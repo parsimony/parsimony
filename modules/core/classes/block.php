@@ -211,8 +211,7 @@ abstract class block {
         $html = '';
         $balise = 'div';
         $maxAge = 0;
-        $headerTitle = '';
-        $CSSclasses = '';
+        $headerTitle = $CSSclasses = $attributes = '';
         $ajaxLoad = FALSE;
         
         foreach($this->configs AS $name => $config){
@@ -236,6 +235,9 @@ abstract class block {
                     break;
                 case 'cssClasses':
                    $CSSclasses .= ' '.$config;
+                    break;
+				case 'attributes':
+                   $attributes .= ' '.$config;
                     break;
                 case 'ajaxReload':
                    if((int)$config > 0) \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
@@ -265,7 +267,7 @@ abstract class block {
             include($cacheFile);
             $html .= ob_get_clean();
         } else {
-            $html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock block_'.$this->blockName. $CSSclasses . '">'.$headerTitle;
+            $html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock block_'.$this->blockName. $CSSclasses . '"' . $attributes . '>'.$headerTitle;
             if ($ajaxLoad === FALSE) {
                 /* Catch all exceptions or error in order to keep tha page structure in creation mode */
                 try {
