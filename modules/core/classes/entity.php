@@ -360,21 +360,27 @@ abstract class entity implements \Iterator {
 	}
 
     /**
-     * Display the view of entity fields
-     * @return string
+     * Return dataset
+     * @return array
      */
     public function display() {
-        if($this->getRights($_SESSION['id_role']) & DISPLAY){
-            if (!isset($this->_SQL['stmt']))
-                $this->buildQuery();
-            $html = '';
-            foreach ($this->getFields() as $name => $field) {
-                $html .= '<div class="' . $name . '">' . $field . '</div>';
-            }
-            return $html;
-        }else{
-            throw new \Exception(t('Display forbidden on ' . $this->_tableName, FALSE));
-        }
+		if($this->getRights($_SESSION['id_role']) & DISPLAY){
+			$dataset = array();
+			if($this->buildQuery()){
+				foreach ($this as $row) {
+					$line = array();
+					foreach ($row->getFields() as $name => $field) {
+						if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {
+							$line[$name] = $field->value;
+						}
+					}
+					$dataset[] = $line;
+				}
+			}
+			return $dataset;
+		}else{
+			throw new \Exception(t('Display forbidden on ' . $this->_tableName, FALSE));
+		}
     }
 
     /**
@@ -383,35 +389,35 @@ abstract class entity implements \Iterator {
      * @return string
      */
     public function getViewAddForm() {
-        if($this->getRights($_SESSION['id_role']) & INSERT){
-            if (!isset($this->_SQL['stmt']))
-                $this->buildQuery();
-            $html = '<form method="post" class="form" action="">
-            <input type="hidden" name="TOKEN" value="' . TOKEN . '" />
-            <input type="hidden" name="action" value="addNewEntry">
-            <input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
-            $col1 = '';
-            $col2 = '';
-            foreach ($this->getFields() as $field) {
-                if ($field->visibility & INSERT) {
-					$className = get_class($field);
-					$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
-                    if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form();
-                    else
-                        $col1 .= $field->form();
-                } 
-            }
-            $html .= '<h2 style="position:relative">' . t('Add in', false) . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save', FALSE) . '" name="add"></h2><div class="cols">';
-            $html .= '<div class="col col1">' . $col1 . '</div>';
-            if (!empty($col2))
-                $html .= '<div class="col col2">' . $col2 . '</div>';
-            $html .= '</div><div class="clearboth"></div></form>';
-            return $html;
-        }else{
-            throw new \Exception(t('Insert forbidden on ' . $this->_tableName, FALSE));
-        }
-    }
+		if($this->getRights($_SESSION['id_role']) & INSERT){
+			$html = '<form method="post" class="form" action="">
+			<input type="hidden" name="TOKEN" value="' . TOKEN . '" />
+			<input type="hidden" name="action" value="addNewEntry">
+			<input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
+			$col1 = '';
+			$col2 = '';
+			if($this->buildQuery()){
+				foreach ($this->getFields() as $field) {
+					if ($field->visibility & INSERT) {
+						$className = get_class($field);
+						$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
+						if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
+							$col2 .= $field->form();
+						else
+							$col1 .= $field->form();
+					} 
+				}
+				$html .= '<h2 style="position:relative">' . t('Add in', false) . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save', FALSE) . '" name="add"></h2><div class="cols">';
+				$html .= '<div class="col col1">' . $col1 . '</div>';
+				if (!empty($col2))
+					$html .= '<div class="col col2">' . $col2 . '</div>';
+				$html .= '</div><div class="clearboth"></div></form>';
+			}
+			return $html;
+		}else{
+			throw new \Exception(t('Insert forbidden on ' . $this->_tableName, FALSE));
+		}
+	}
 
     /**
      * Get the view of updating form
@@ -420,40 +426,38 @@ abstract class entity implements \Iterator {
      */
     public function getViewUpdateForm() {
         if($this->getRights($_SESSION['id_role']) & UPDATE){
-            if (!isset($this->_SQL['stmt']))
-                $this->buildQuery();
-            if (!$this->_SQL['stmt']->fetch())
-                return '';
-            $html = '<form method="post" class="form" action="">
-            <input type="hidden" name="TOKEN" value="' . TOKEN . '" />
-            <input type="hidden" name="action" value="updateEntry">
-            <input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
-            $col1 = '';
-            $col2 = '';
-            foreach ($this->getFields() as $field) {
-                if ($field->visibility & UPDATE) {
-					$className = get_class($field);
-					if ($className == \app::$aliasClasses['field_formasso']){
-						$field->setValue($this->getId()->value);
-						$col2 .= $field->form();
+			$html = '<form method="post" class="form" action="">
+			<input type="hidden" name="TOKEN" value="' . TOKEN . '" />
+			<input type="hidden" name="action" value="updateEntry">
+			<input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
+			$col1 = '';
+			$col2 = '';
+           if($this->buildQuery()){
+				foreach ($this->getFields() as $field) {
+					if ($field->visibility & UPDATE) {
+						$className = get_class($field);
+						if ($className == \app::$aliasClasses['field_formasso']){
+							$field->setValue($this->getId()->value);
+							$col2 .= $field->form();
+						}
+						if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
+							$col2 .= $field->form();
+						else
+							$col1 .= $field->form();
 					}
-                    if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
-                        $col2 .= $field->form();
-                    else
-                        $col1 .= $field->form();
-                }
-            }
-            $html .= '<h2 style="position:relative">' . t('Record', FALSE) . ' N°' . $this->getId()->value;
-            $html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
-            if ($this->getRights($_SESSION['id_role']) & DELETE)
-                $html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';
+				}
+				$html .= '<h2 style="position:relative">' . t('Record', FALSE) . ' N°' . $this->getId()->value;
+				$html .= '<div style="position:absolute;right:3px;top:3px;"><input type="submit" name="update" value="' . t('Update', FALSE) . '">';
+				if ($this->getRights($_SESSION['id_role']) & DELETE)
+					$html .= '<input type="submit" name="delete" value="' . t('Delete', FALSE) . '" onclick="if(!confirm(\'' . t('Are you sure you want to delete ?', FALSE) . '\')) {event.preventDefault();return FALSE;}">';
 
-            $html .= '</div></h2><div class="cols">';
-            $html .= '<div class="col col1">' . $col1 . '</div>';
-            if (!empty($col2))
-                $html .= '<div class="col col2">' . $col2 . '</div>';
-            $html .= '</div><div class="clearboth"></div></form>';
-            return $html;
+				$html .= '</div></h2><div class="cols">';
+				$html .= '<div class="col col1">' . $col1 . '</div>';
+				if (!empty($col2))
+					$html .= '<div class="col col2">' . $col2 . '</div>';
+				$html .= '</div><div class="clearboth"></div></form>';
+		   }
+		   return $html;
         }else{
             throw new \Exception(t('Update forbidden on ' . $this->_tableName, FALSE));
         }
@@ -669,9 +673,9 @@ abstract class entity implements \Iterator {
      * @return field|false
      */
     public function getField($name) {
-	if (isset($this->$name)) {
-	    return $this->$name;
-	}
+		if (isset($this->$name)) {
+			return $this->$name;
+		}
         return FALSE;
     }
 
@@ -695,8 +699,7 @@ abstract class entity implements \Iterator {
     }
 
     /**
-     * 
-     * 
+     * Clean entity for storing
      */
     public function __sleep() {
         $this->purgeSQL();
@@ -799,62 +802,63 @@ abstract class entity implements \Iterator {
 
     /**
      * Build SQL Query 
-     * @return bool 
+     * @return bool
      */
-    public function buildQuery() {
-        $this->beforeSelect();
-        $query = 'SELECT ';
-        if (isset($this->_SQL['selects'])) {
-            $query .= implode(',', $this->_SQL['selects']);
-        } else {
-            $query .= '*';
+    public function buildQuery($forceRebuild = FALSE) {
+		if (!isset($this->_SQL['stmt']) || $forceRebuild) { // cache
+			$this->beforeSelect();
+			$query = 'SELECT ';
+			if (isset($this->_SQL['selects'])) {
+				$query .= implode(',', $this->_SQL['selects']);
+			} else {
+				$query .= '*';
+			}
+			$query .= ' FROM ' . $this->_tableName;
+			if (isset($this->_SQL['joins'])) {
+				foreach ($this->_SQL['joins'] AS $join) {
+					$query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+				}
+			}
+			if (isset($this->_SQL['wheres'])) {
+				$wheres = array();
+				foreach ($this->_SQL['wheres'] AS $property => $where) {
+					$wheres[] = $where;
+				}
+				$query .= ' WHERE ' . implode(' AND ', $wheres);
+			}
+			if (isset($this->_SQL['orders'])) {
+				$orders = array();
+				foreach ($this->_SQL['orders'] AS $property => $order) {
+					$orders[] = $property . ' ' . $order;
+				}
+				$query .= ' ORDER BY ' . implode(',', $orders);
+			}
+			if (isset($this->_SQL['limit'])) {
+				$query .= ' LIMIT ' . $this->_SQL['limit'];
+			}
+			$this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
+			$this->_SQL['stmt'] = \PDOconnection::getDB()->query($this->_SQL['query'], \PDO::FETCH_INTO, $this);
+			$this->prepareFieldsForDisplay();
+		}
+		if (is_object($this->_SQL['stmt'])) {
+			return TRUE;
         }
-        $query .= ' FROM ' . $this->_tableName;
-        if (isset($this->_SQL['joins'])) {
-            foreach ($this->_SQL['joins'] AS $join) {
-                $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
-            }
-        }
-        if (isset($this->_SQL['wheres'])) {
-            $wheres = array();
-            foreach ($this->_SQL['wheres'] AS $property => $where) {
-                $wheres[] = $where;
-            }
-            $query .= ' WHERE ' . implode(' AND ', $wheres);
-        }
-        if (isset($this->_SQL['orders'])) {
-            $orders = array();
-            foreach ($this->_SQL['orders'] AS $property => $order) {
-                $orders[] = $property . ' ' . $order;
-            }
-            $query .= ' ORDER BY ' . implode(',', $orders);
-        }
-        if (isset($this->_SQL['limit'])) {
-            $query .= ' LIMIT ' . $this->_SQL['limit'];
-        }
-        $this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
-        $this->_SQL['stmt'] = \PDOconnection::getDB()->query($this->_SQL['query'], \PDO::FETCH_INTO, $this);
-        $this->prepareFieldsForDisplay();
-        if (is_object($this->_SQL['stmt'])) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+		return FALSE;
     }
     
     /* Iterator interface */
 
     /**
-     * Rewind the cursor to the first row 
+     * Return first data row
      * @return entity object
      */
     public function fetch() {
         foreach ($this as $obj) {
             return $obj;
-        }
+		}
     }
-
-    /**
+	
+	/**
      * Rewind the cursor to the first row
      */
     public function rewind() {

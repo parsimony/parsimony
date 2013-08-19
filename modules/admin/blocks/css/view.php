@@ -29,9 +29,6 @@
 app::$request->page->addCSSFile('lib/colorpicker/colorpicker.css');
 app::$request->page->addJSFile('lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile('admin/blocks/css/script.js','footer');
-if(strlen(strstr($_SERVER['HTTP_USER_AGENT'],"Firefox")) > 0 ){ 
-    app::$request->page->addJSFile('lib/firefoxCompatibility/html5slider.js');
-}
 
 /* We get and store client side all CSS selectors from theme style */
 $pathTheme =  THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
