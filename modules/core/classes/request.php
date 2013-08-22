@@ -35,332 +35,330 @@ namespace core\classes;
  */
 class request {
 
-    /** @var string function */
-    protected $method;
+	/** @var string function */
+	protected $method;
 
-    /** @var string URL */
-    protected $URL;
+	/** @var string URL */
+	protected $URL;
 
-    /** @var string second part of URL */
-    protected $secondPartURL;
+	/** @var string second part of URL */
+	protected $secondPartURL;
 
-    /** @var array of params */
-    protected $params = array();
+	/** @var array of params */
+	protected $params = array();
 
-    /** @var string module */
-    protected $module;
+	/** @var string module */
+	protected $module;
 
-    /** @var page Page object */
-    public $page;
+	/** @var page Page object */
+	public $page;
 
-    /** @var string locale language */
-    protected $locale;
+	/** @var string locale language */
+	protected $locale;
 
-    /** @var string device */
-    protected $device;
-    
-    /**
-     * Init a new request
-     * @param string $url
-     */
-    public function __construct($URL) {
-        
-        $this->URL = $URL;
-        
-        /* Determine HTTP request */
-	$this->initMethod($_SERVER['REQUEST_METHOD']);
-        
-	/* Determine locale */
-	$this->determineLocale();
+	/** @var string device */
+	protected $device;
 
-        /* Rights */
-	define('DISPLAY', 1);
-	define('INSERT', 2);
-	define('UPDATE', 4);
-	define('DELETE', 8);
+	/**
+	 * Init a new request
+	 * @param string $url
+	 */
+	public function __construct($URL) {
 
-	/* Determine role of user */
-	$this->determineRole();
+		$this->URL = $URL;
 
-	/* MODULE : search module */
-	$this->determineModule();
+		/* Determine HTTP request */
+		$this->initMethod($_SERVER['REQUEST_METHOD']);
 
-	if ($this->determineToken() === FALSE) { /* If we don't have a Token */
+		/* Determine locale */
+		$this->determineLocale();
 
-	    /* Determine device where we are */
-	    $this->determineDevice();
-            
-	    /* Define THEME */	    
-            if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
-                define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
-                define('THEME', $_COOKIE['THEME']);
-	    }else{
-                define('THEMEMODULE', app::$config['THEMEMODULE']);
-                define('THEME', app::$config['THEME']);
-            }
+			/* Rights */
+		define('DISPLAY', 1);
+		define('INSERT', 2);
+		define('UPDATE', 4);
+		define('DELETE', 8);
 
-	    /* CRSF + TOKEN */
-	    $this->createNewToken();
+		/* Determine role of user */
+		$this->determineRole();
+
+		/* MODULE : search module */
+		$this->determineModule();
+
+		if ($this->determineToken() === FALSE) { /* If we don't have a Token */
+
+			/* Determine device where we are */
+			$this->determineDevice();
+
+			/* Define THEME */
+			if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+				define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
+				define('THEME', $_COOKIE['THEME']);
+			}else{
+				define('THEMEMODULE', app::$config['THEMEMODULE']);
+				define('THEME', app::$config['THEME']);
+			}
+
+			/* CRSF + TOKEN */
+			$this->createNewToken();
+		}
+
 	}
 
-    }
-
-    /**
-     * Get Locale
-     * @return string locale language
-     */
-    public function getLocale() {
-	return $this->locale;
-    }
-
-    /**
-     * Get Param from current HTTP request (GET,POST,PUT,DELETE)
-     * @param string $param
-     * @return string|false
-     */
-    public function getParam($param) {
-	if (isset($this->params[$param]))
-	    return $this->params[$param];
-	else
-	    return FALSE;
-    }
-
-    /**
-     * Get all Params from current HTTP request (GET,POST,PUT,DELETE)
-     * @return array $param
-     */
-    public function getParams() {
-	return $this->params;
-    }
-
-    /**
-     * Set Params
-     * @param array $params
-     */
-    public function setParams(array $params) {
-	$this->params = array_merge($this->params, $params);
-    }
-    
-    /**
-     * Set Param
-     * @param string $key
-     * @param string $value
-     */
-    public function setParam($key, $value) {
-	$this->params[$key] =  $value;
-    }
-
-    /**
-     * Get all Params from current HTTP request (GET,POST,PUT,DELETE)
-     * @return array $param
-     */
-    public function isAjax() {
-	if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-	    return TRUE;
-	} else {
-	    return FALSE;
+	/**
+	 * Get Locale
+	 * @return string locale language
+	 */
+	public function getLocale() {
+		return $this->locale;
 	}
-    }
 
-    /**
-     * Detetermine Locale from current HTTP request
-     */
-    protected function determineLocale() {
-	if (isset($_COOKIE['locale']) && isset(self::$locales[$_COOKIE['locale']]))
-	    $this->locale = $_COOKIE['locale'];
-	else
-	    $this->locale = app::$config['localization']['default_language'];
-	setlocale(LC_ALL, $this->locale);
-	date_default_timezone_set(app::$config['localization']['timezone']);
-	$pathCache = 'var/cache/' . $this->locale . '-lang';
-	$lang = '';
-	if (is_file($pathCache . '.php')) {
-	    include $pathCache . '.php';
-	} else {
-	    foreach (app::$config['modules']['active'] as $moduleName => $type) {
-		if (is_file('modules/' . $moduleName . '/locale/' . $this->locale . '.php'))
-		    include('modules/' . $moduleName . '/locale/' . $this->locale . '.php');
-	    }
-	    $config = new \config($pathCache . '.php', TRUE);
-	    $config->setVariable('lang');
-	    $config->saveConfig($lang);
-	    \tools::file_put_contents($pathCache . '.js', substr($config->getContent(), 5, false));
+	/**
+	 * Get Param from current HTTP request (GET,POST,PUT,DELETE)
+	 * @param string $param
+	 * @return string|false
+	 */
+	public function getParam($param) {
+		if (isset($this->params[$param]))
+			return $this->params[$param];
+		else
+			return FALSE;
 	}
-	app::$lang = $lang;
-    }
 
-    /**
-     * Detetermine constants thanks to token
-     * @return bool
-     */
-    protected function determineToken() {
-	if (isset($_POST['TOKEN'])) {
-	    if (isset($_SESSION['tokens'][$_POST['TOKEN']])) {
-		define('TOKEN', $_POST['TOKEN']); // verif good token
-		define('THEMETYPE', $_SESSION['tokens'][TOKEN]['THEMETYPE']);
-		define('THEME', $_SESSION['tokens'][TOKEN]['THEME']);
-		define('THEMEMODULE', $_SESSION['tokens'][TOKEN]['THEMEMODULE']);
-		define('MODULE', $_SESSION['tokens'][TOKEN]['MODULE']);
-		return TRUE;
-	    }
+	/**
+	 * Get all Params from current HTTP request (GET,POST,PUT,DELETE)
+	 * @return array $param
+	 */
+	public function getParams() {
+		return $this->params;
 	}
-	return FALSE;
-    }
 
-    /**
-     * Detect device of visitor
-     */
-    protected function determineDevice() {
-	if (!isset($_COOKIE['device'])) {
-            $_COOKIE['device'] = \app::$config['devices']['defaultDevice'];
-            if(count(\app::$devices) > 1){
-                foreach (\app::$devices AS $device) {
-                    if ($device['detectFnc']() === TRUE) {
-                        $_COOKIE['device'] = $device['name'];
-                        break;
-                    }
-                }
-            }
+	/**
+	 * Set Params
+	 * @param array $params
+	 */
+	public function setParams(array $params) {
+		$this->params = array_merge($this->params, $params);
 	}
-        define('THEMETYPE', $_COOKIE['device']);
-    }
 
-    /**
-     * Determine Module
-     */
-    protected function determineModule() {
-	if (empty($this->URL))
-	    $this->URL = 'index';
-	$this->URL = explode('/', $this->URL, 2);
-	if (isset(\app::$config['modules']['active'][$this->URL[0]])) {
-	    $this->module = $this->URL[0];
-	    if (isset($this->URL[1]))
-		$this->secondPartURL = $this->URL[1];
-	}else {
-            /* We test if core Module can respond */
-            if(method_exists(app::getModule('core'), $this->URL[0] . 'Action')){
-                $this->module = 'core';
-            }else{
-                $this->module = \app::$config['modules']['default'];
-            }
-	    $this->secondPartURL = $_GET['parsiurl'];
+	/**
+	 * Set Param
+	 * @param string $key
+	 * @param string $value
+	 */
+	public function setParam($key, $value) {
+		$this->params[$key] = $value;
 	}
-	if (empty($this->secondPartURL))
-	    $this->secondPartURL = 'index';
-    }
 
-    /**
-     * Generate TOKEN
-     */
-    protected function createNewToken() {
-	$module = app::getModule($this->module);
-        $moduleName = $module->getName();
-	define('MODULE', $moduleName);
-	if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName])) {
-	    $token = sha1(THEMETYPE . THEMEMODULE . THEME . $moduleName . \app::$config['security']['salt'] . time()); // change salt
-	    $_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $moduleName);
-	    $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName] = $token;
-	    define('TOKEN', $token);
-	} else {
-	    define('TOKEN', $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName]);
+	/**
+	 * Get all Params from current HTTP request (GET,POST,PUT,DELETE)
+	 * @return array $param
+	 */
+	public function isAjax() {
+		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
-    }
 
-    /**
-     * Dispatch Request
-     * @return response|string
-     */
-    public function dispatch() {
-        $module = app::getModule($this->module);
-        if($module->getRights($_SESSION['id_role']) === 1 || $this->module === 'core'){
-            if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
-                //if Page not found
-                return app::$response->setContent(app::getModule('core')->getView('404', 'desktop'), 404);
-            }
-        }else{
-           return app::$response->setContent(app::getModule('core')->getView('403', 'desktop'), 403); 
-        }
-    }
+	/**
+	 * Detetermine Locale from current HTTP request
+	 */
+	protected function determineLocale() {
+		if (isset($_COOKIE['locale']) && isset(self::$locales[$_COOKIE['locale']]))
+			$this->locale = $_COOKIE['locale'];
+		else
+			$this->locale = app::$config['localization']['default_language'];
+		setlocale(LC_ALL, $this->locale);
+		date_default_timezone_set(app::$config['localization']['timezone']);
+		$pathCache = 'var/cache/' . $this->locale . '-lang';
+		$lang = '';
+		if (is_file($pathCache . '.php')) {
+			include $pathCache . '.php';
+		} else {
+			foreach (app::$config['modules']['active'] as $moduleName => $type) {
+				if (is_file('modules/' . $moduleName . '/locale/' . $this->locale . '.php'))
+					include('modules/' . $moduleName . '/locale/' . $this->locale . '.php');
+			}
+			$config = new \config($pathCache . '.php', TRUE);
+			$config->setVariable('lang');
+			$config->saveConfig($lang);
+			\tools::file_put_contents($pathCache . '.js', substr($config->getContent(), 5, false));
+		}
+		app::$lang = $lang;
+	}
 
-    /**
-     * Determine Role & permissions
-     */
-    protected function determineRole() {
-	if (\app::getClass('user')->VerifyConnexion() === TRUE &&
-		( empty(app::$config['security']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['security']['allowedipadmin']))) {
-            
-            /* Mainly to use in query block */
-            $this->setParams(array('id_user' => $_SESSION['id_user'],
-                                    'id_role' => $_SESSION['id_role'],
-                                    'behavior' => $_SESSION['behavior'],
-                                    'login' => $_SESSION['login']));
-            
-            if($_SESSION['behavior'] > 0){
-                /* Add admin module */
-                \app::$config['modules']['active']['admin'] = 1;
-                /* If user is a creator we display errors and active admin module*/
-                if($_SESSION['behavior'] === 2){
-                    error_reporting(-1);
-                    ini_set('display_errors', 1);
-                    set_error_handler('\core\classes\app::errorHandler');
-                    set_exception_handler('\core\classes\app::exceptionHandler');
-                    register_shutdown_function('\core\classes\app::errorHandlerFatal');
-                }
-                // check if it's admin role or not
-                if (!isset($_GET['parsiframe']) && $this->method === 'GET')
-                    define('PARSI_ADMIN', 1);
-            }
-            
-	}else{
-	    $_SESSION['behavior'] = 0;
-	    $_SESSION['id_role'] = 6;
-        }
-    }
+	/**
+	 * Detetermine constants thanks to token
+	 * @return bool
+	 */
+	protected function determineToken() {
+		if (isset($_POST['TOKEN'])) {
+			if (isset($_SESSION['tokens'][$_POST['TOKEN']])) {
+				define('TOKEN', $_POST['TOKEN']); // verif good token
+				define('THEMETYPE', $_SESSION['tokens'][TOKEN]['THEMETYPE']);
+				define('THEME', $_SESSION['tokens'][TOKEN]['THEME']);
+				define('THEMEMODULE', $_SESSION['tokens'][TOKEN]['THEMEMODULE']);
+				define('MODULE', $_SESSION['tokens'][TOKEN]['MODULE']);
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
 
-    /**
-     * Init method HTTP and Secure incoming vars
-     * @param string $method optional
-     */
-    protected function initMethod($method = 'GET') {
-        $this->method = $method;
-        
-        /* Regardless of the method (POST, PUT, DELETE), GET method is always treated ! */
-        array_walk_recursive($_GET, function(&$v, &$k) {
-            $v = str_replace(chr(0), '', $v);
-        });
-	$this->params = $_GET;
-        
-        if($method !== 'GET'){
-            switch ($method) {
-                case 'POST':
-                    array_walk_recursive($_POST, function(&$v, &$k) {
-                        $v = str_replace(chr(0), '', $v);
-                    });
-                    $this->params = array_merge($this->params, $_POST);
-                    break;
-                case 'PUT':
-                    parse_str(file_get_contents("php://input"), $_PUT);
-                    array_walk_recursive($_PUT, function(&$v, &$k) {
-                        $v = str_replace(chr(0), '', $v);
-                    });
-                    $this->params = array_merge($this->params, $_PUT);
-                    break;
-                case 'DELETE':
-                    parse_str(file_get_contents("php://input"), $_DELETE);
-                    array_walk_recursive($_DELETE, function(&$v, &$k) {
-                        $v = str_replace(chr(0), '', $v);
-                    });
-                    $this->params = array_merge($this->params, $_DELETE);
-                    break;
-            }
-        }
-    }
+	/**
+	 * Detect device of visitor
+	 */
+	protected function determineDevice() {
+		if (!isset($_COOKIE['device'])) {
+			$_COOKIE['device'] = \app::$config['devices']['defaultDevice'];
+			if(count(\app::$devices) > 1){
+				foreach (\app::$devices AS $device) {
+					if ($device['detectFnc']() === TRUE) {
+						$_COOKIE['device'] = $device['name'];
+						break;
+					}
+				}
+			}
+		}
+		define('THEMETYPE', $_COOKIE['device']);
+	}
 
-    /**
-     * Locales
-     * array of Locales
-     */
-    static public $locales = array(
+	/**
+	 * Determine Module
+	 */
+	protected function determineModule() {
+		if (empty($this->URL))
+			$this->URL = 'index';
+		$this->URL = explode('/', $this->URL, 2);
+		if (isset(\app::$config['modules']['active'][$this->URL[0]])) {
+			$this->module = $this->URL[0];
+			if (isset($this->URL[1]))
+				$this->secondPartURL = $this->URL[1];
+		}else {
+			/* We test if core Module can respond */
+			if(method_exists(app::getModule('core'), $this->URL[0] . 'Action')){
+				$this->module = 'core';
+			}else{
+				$this->module = \app::$config['modules']['default'];
+			}
+			$this->secondPartURL = $_GET['parsiurl'];
+		}
+		if (empty($this->secondPartURL))
+			$this->secondPartURL = 'index';
+	}
+
+	/**
+	 * Generate TOKEN
+	 */
+	protected function createNewToken() {
+		$module = app::getModule($this->module);
+		$moduleName = $module->getName();
+		define('MODULE', $moduleName);
+		if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName])) {
+			$token = sha1(THEMETYPE . THEMEMODULE . THEME . $moduleName . \app::$config['security']['salt'] . time()); // change salt
+			$_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $moduleName);
+			$_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName] = $token;
+			define('TOKEN', $token);
+		} else {
+			define('TOKEN', $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName]);
+		}
+	}
+
+	/**
+	 * Dispatch Request
+	 * @return response|string
+	 */
+	public function dispatch() {
+		$module = app::getModule($this->module);
+		if($module->getRights($_SESSION['id_role']) === 1 || $this->module === 'core'){
+			if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
+				//if Page not found
+				return app::$response->setContent(app::getModule('core')->getView('404', 'desktop'), 404);
+			}
+		}else{
+		   return app::$response->setContent(app::getModule('core')->getView('403', 'desktop'), 403); 
+		}
+	}
+
+	/**
+	 * Determine Role & permissions
+	 */
+	protected function determineRole() {
+		if (\app::getClass('user')->VerifyConnexion() === TRUE &&
+			( empty(app::$config['security']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['security']['allowedipadmin']))) {
+
+			/* Mainly to use in query block */
+			$this->setParams(array('id_user' => $_SESSION['id_user'],
+									'id_role' => $_SESSION['id_role'],
+									'behavior' => $_SESSION['behavior'],
+									'login' => $_SESSION['login']));
+
+			if($_SESSION['behavior'] > 0){
+				/* Add admin module */
+				\app::$config['modules']['active']['admin'] = 1;
+				/* If user is a creator we display errors and active admin module*/
+				if($_SESSION['behavior'] === 2){
+					error_reporting(-1);
+					ini_set('display_errors', 1);
+
+				}
+				// check if it's admin role or not
+				if (!isset($_GET['parsiframe']) && $this->method === 'GET')
+					define('PARSI_ADMIN', 1);
+			}
+
+		}else{
+			$_SESSION['behavior'] = 0;
+			$_SESSION['id_role'] = 6;
+		}
+	}
+
+	/**
+	 * Init method HTTP and Secure incoming vars
+	 * @param string $method optional
+	 */
+	protected function initMethod($method = 'GET') {
+		$this->method = $method;
+
+		/* Regardless of the method (POST, PUT, DELETE), GET method is always treated ! */
+		array_walk_recursive($_GET, function(&$v, &$k) {
+			$v = str_replace(chr(0), '', $v);
+		});
+		$this->params = $_GET;
+
+		if($method !== 'GET'){
+			switch ($method) {
+				case 'POST':
+					array_walk_recursive($_POST, function(&$v, &$k) {
+						$v = str_replace(chr(0), '', $v);
+					});
+					$this->params = array_merge($this->params, $_POST);
+					break;
+				case 'PUT':
+					parse_str(file_get_contents("php://input"), $_PUT);
+					array_walk_recursive($_PUT, function(&$v, &$k) {
+						$v = str_replace(chr(0), '', $v);
+					});
+					$this->params = array_merge($this->params, $_PUT);
+					break;
+				case 'DELETE':
+					parse_str(file_get_contents("php://input"), $_DELETE);
+					array_walk_recursive($_DELETE, function(&$v, &$k) {
+						$v = str_replace(chr(0), '', $v);
+					});
+					$this->params = array_merge($this->params, $_DELETE);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * Locales
+	 * array of Locales
+	 */
+	static public $locales = array(
 	'af_AF' => 'Afrikaans',
 	'sq_SQ' => 'Albanian',
 	'ar_DZ' => 'Arabic (Algeria)',
@@ -455,7 +453,7 @@ class request {
 	'no_NO' => 'Norwegian (Bokmal)',
 	'nn_NO' => 'Norwegian (Nynorsk)',
 	'or_OR' => 'Oriya',
-        'fa_IR' => 'Persian (Iran)',
+	'fa_IR' => 'Persian (Iran)',
 	'pl_PL' => 'Polish',
 	'pt_BR' => 'Portuguese (Brazil)',
 	'pt_PT' => 'Portuguese (Portugal)',

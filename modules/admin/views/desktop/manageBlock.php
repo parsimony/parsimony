@@ -65,29 +65,30 @@ if (is_object($block) == NULL) {
 		});
 	</script>
 	<style>
-	    #posNewCSSFile ,#posNewJSFile{width: 70px;margin: 0;}
-	    #cssFilesCont > div, #jsFilesCont > div{padding:7px;margin:2px 0;border:1px solid #ddd}
-	    .rem{float: left;padding: 0 5px;cursor: pointer;}
-	    .blockhead{width: 45%;float: left;clear: none;margin: 0 2%;}
-	    .clear{clear : both}
-	    .padd{padding-top: 5px;}
-	    #block_conf select[multiple]{background-image: none !important}
-	    #block_conf select[multiple]:enabled:hover{background-image: none !important}
+		#posNewCSSFile ,#posNewJSFile{width: 70px;margin: 0;}
+		#cssFilesCont > div, #jsFilesCont > div{padding:7px;margin:2px 0;border:1px solid #ddd}
+		.rem{float: left;padding: 0 5px;cursor: pointer;}
+		.blockhead{width: 45%;float: left;clear: none;margin: 0 2%;}
+		.clear{clear : both}
+		.padd{padding-top: 5px;}
+		#block_conf select[multiple]{background-image: none !important}
+		#block_conf select[multiple]:enabled:hover{background-image: none !important}
 	</style>
 	<div id="block_conf" class="adminzone">
-	    <div class="adminzonemenu">
+		<div id="conf_box_title"><?php echo t('Configuration').' #'.$_POST['idBlock']; ?></div>
+		<div class="adminzonemenu">
 			<div class="firstpanel adminzonetab"><a href="#accordionBlockConfig" class="ellipsis"><?php echo t('Specific', FALSE); ?></a></div>
 			<div class="adminzonetab"><a href="#accordionBlockConfigGeneral" class="ellipsis"><?php echo t('General', FALSE); ?></a></div>
-	    </div>
-	    <div class="adminzonecontent">
+		</div>
+		<div class="adminzonecontent">
 			<form method="POST" id="form_confs" target="formResult" action="" style="height: 100%;">
 				<div id="accordionBlockConfig" class="admintabs">
 					<?php
 					echo $block->getAdminView();
 					?>
 					<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
-	                <input type="hidden" name="getVars" />
-	                <input type="hidden" name="postVars" />
+					<input type="hidden" name="getVars" />
+					<input type="hidden" name="postVars" />
 					<input type="hidden" name="idBlock" value="<?php echo $_POST['idBlock']; ?>" />
 					<input type="hidden" name="parentBlock" value="<?php echo $_POST['parentBlock']; ?>" />
 					<input type="hidden" name="IDPage" value="<?php echo $_POST['IDPage']; ?>" />
@@ -236,7 +237,7 @@ if (is_object($block) == NULL) {
 				</div>
 				<input type="submit" class="none" id="save_configs">
 			</form>
-	    </div>
+		</div>
 		<div class="adminzonefooter">
 			<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
 		</div>

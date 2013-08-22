@@ -25,63 +25,60 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-app::$request->page->addJSFile('admin/blocks/blocks/script.js','footer');
-$arrayScript = array();
+app::$request->page->addJSFile('admin/blocks/blocks/block.js', 'footer');
 ?>
 <ul class="blocks" style="width:216px">
-    <?php
-    $activeModule = \app::$config['modules']['active'];
-    unset($activeModule[MODULE]);
-    $activeModule = array_merge(array(MODULE => '1'),\app::$config['modules']['active']);
-    $blocksCat = array();
+	<?php
+	$activeModule = \app::$config['modules']['active'];
 
-    foreach ($activeModule as $module => $type) {
-	$moduleobj = \app::getModule($module);
-	if (file_exists('modules/' . $moduleobj->getName() . '/blocks')) {
-	    if ($moduleobj->getName() != 'admin') {
-		$blocklist = glob('modules/' . $moduleobj->getName() . '/blocks/*/block.php');
+	/* Put active module at the top of the list, and remove admin */
+	unset($activeModule[MODULE]);
+	$activeModule = array_merge(array(MODULE => '1'), $activeModule);
+	unset($activeModule['admin']);
+
+	$blocksCat = array();
+	$stylableElements = array();
+	foreach ($activeModule as $module => $type) {
+		$blocklist = glob('modules/' . $module . '/blocks/*/block.php');
 		foreach ((is_array($blocklist) ? $blocklist : array()) as $path) {
-		    $blockName = substr(strrchr(substr($path, 0, -10), '/block.php'), 1);
-		    if ($blockName !== 'error404' && $blockName !== 'page') {
-			$blockClassName = $moduleobj->getName() . '\blocks\\' . $blockName;
-			$reflect = new ReflectionClass('\\' . $blockClassName);
-                        $blockInfos = \tools::getClassInfos($reflect);
-			if (!isset($blockInfos['allowed_types']) || (isset($blockInfos['allowed_types']) && strstr(','.str_replace(' ', '', $blockInfos['allowed_types']).',',','.THEMETYPE.','))) {
-			    if (isset($blockInfos['block_category']))
-				$categBlock = $blockInfos['block_category'];
-			    else
-				$categBlock = $moduleobj->getName();
-			    if (!isset($blocksCat[$categBlock]))
-				$blocksCat[$categBlock] = '';
-                            if(isset($blockInfos['description'])) $description = ucfirst(s($blockInfos['description']));
-			    $blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))).'" data-tooltip="'.$description. '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . 'modules/' . $moduleobj->getName() . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
+			$blockName = substr(strrchr(substr($path, 0, -10), '/block.php'), 1);
+			if ($blockName !== 'page') {
+				$blockClassName = $module . '\blocks\\' . $blockName;
+				$reflect = new ReflectionClass('\\' . $blockClassName);
+				$blockInfos = \tools::getClassInfos($reflect);
+				if (!isset($blockInfos['allowed_types']) || (isset($blockInfos['allowed_types']) && strstr(',' . str_replace(' ', '', $blockInfos['allowed_types']) . ',', ',' . THEMETYPE . ','))) {
+					if (isset($blockInfos['block_category']))
+						$categBlock = $blockInfos['block_category'];
+					else
+						$categBlock = $module;
+					if (!isset($blocksCat[$categBlock]))
+						$blocksCat[$categBlock] = '';
+					if (isset($blockInfos['description']))
+						$description = ucfirst(s($blockInfos['description']));
+					$blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))) . '" data-tooltip="' . $description . '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . 'modules/' . $module . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
+				}
 			}
-		    }
-                    if(is_file('modules/'.$moduleobj->getName() . '/blocks/' . $blockName . '/script.js')){
-                        \app::$request->page->addJSFile($moduleobj->getName() . '/blocks/' . $blockName . '/script.js');
-                        $arrayScript[] = $blockName;
-                    }
+			/* List default stylables selecteurs */
+			if (is_file('modules/' . $module . '/blocks/' . $blockName . '/default.css')) {
+				$css = new css('modules/' . $module . '/blocks/' . $blockName . '/default.css');
+				$CSSValues = $css->getCSSValues();
+				if(!isset($stylableElements[$module.'_'.$blockName])) $stylableElements[$module.'_'.$blockName] = array();
+				foreach ($CSSValues as $selecteur => $components) {
+					preg_match('@\{(.*)\}@', $components['b'], $res);
+					if (!empty($res)) {
+						$stylableElements[$module.'_'.$blockName][$res[1]] = $selecteur;
+					}
+				}
+				
+			}
 		}
-	    }
 	}
-    }
-    foreach ($blocksCat as $title => $blocks) {
-	echo '<div class="titleTab ellipsis"><span class="sprite sprite-bloc"></span> ' . t(ucfirst($title),FALSE) . '</div>';
-	echo '<div id="blocks_' . $title . '" style="padding:0px;">';
-	echo $blocks;
-	echo '</div>';
-    }
-    ?>
+	foreach ($blocksCat as $title => $blocks) {
+		echo '<div class="titleTab ellipsis"><span class="sprite sprite-bloc"></span> ' . t(ucfirst($title), FALSE) . '</div>';
+		echo '<div id="blocks_' . $title . '">' . $blocks . '</div>';
+	}
+		?>
 </ul>
 <script>
-    $(document).ready(function() {
-        var mod = new blockAdminBlocks();
-        mod.setBlock(new block());
-        <?php
-        foreach($arrayScript AS $nameBlock)
-            echo 'mod.setBlock(new block_'.$nameBlock.'());'
-        ?>
-        ParsimonyAdmin.setPlugin(mod);
-    });
+ParsimonyAdmin.stylableElements = <?php echo json_encode($stylableElements); ?>;
 </script>

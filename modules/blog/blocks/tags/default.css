@@ -1,5 +1,16 @@
+/* {tags list} */
+ul{}
+/* {tags items} */
+li{}
+/* {links} */
+a{}
+/* {x small tags} */
 .xsmall{font-size:x-small}
+/* {small tags} */
 .small{font-size:small}
+/* {medium tags} */
 .medium{font-size:medium}
+/* {large tags} */
 .large{font-size:large}
+/* {x large tags} */
 .xlarge{font-size:x-large}

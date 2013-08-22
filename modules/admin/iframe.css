@@ -10,8 +10,8 @@ body{overflow: hidden;}
 /* Marker drag n drop blocks */
 #container #dropInPage{position:relative;z-index:999995;height: 0px;pointer-events:none}
 #container #dropInPageChild{position: absolute;border-radius: 3px;border: 1px solid #96005b;background: #c8007a;width: 100%;height: 8px;top: -4px;}
-#container .block_container.column #dropInPage{float:left;width: 5px;height:100%}
-#container .block_container.column #dropInPageChild{height: 30px;}
+#container .core_container.column #dropInPage{float:left;width: 5px;height:100%}
+#container .core_container.column #dropInPageChild{height: 30px;}
 .dropInContainer{padding: 10px 0px;}
 .dropInContainerChild{padding: 10px 10px;position: relative;border: 1px dashed #276D7F;text-align: center;margin: 0px 10px;text-shadow: 1px 1px 0px white;
 font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
@@ -20,7 +20,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 .selection-container{outline:1px solid #007BC8;}
 
 /* Editinplace */
-.creationMode .parsieditinline:hover, .creationMode .block_wysiwyg:hover,.previewMode .parsieditinline:hover,.previewMode .block_wysiwyg:hover{outline:none;}
+.creationMode .parsieditinline:hover, .creationMode .core_wysiwyg:hover,.previewMode .parsieditinline:hover,.previewMode .core_wysiwyg:hover{outline:none;}
 .editMode a{pointer-events:none}
 
 /* CSS Picker */

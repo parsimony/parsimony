@@ -182,8 +182,8 @@ position: relative;}
     margin : 15px 0 0 ;
 }
 
-.block_tags ul {list-style:none}
-.block_tags a {
+.blog_tags ul {list-style:none}
+.blog_tags a {
 text-decoration: none;
 color: #259BDB;
 font-size: 15px;

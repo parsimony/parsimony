@@ -25,17 +25,18 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 ?>
-<div>
-    <select onchange="parent.ParsimonyAdmin.changeLocale(this.value)" id="languages" style="width:300px">
-        <?php
-        foreach (\request::$locales AS $code => $locale) {
-            if (isset($_COOKIE['locale']) && isset(\request::$locales['locales'][$_COOKIE['locale']]) && $_COOKIE['locale'] == $code)
-                echo '<option value="' . $code . '" selected="selected">' . $locale . '</option>';
-            else
-                echo '<option value="' . $code . '">' . $locale . '</option>';
-        }
-        ?>
-    </select>
+
+<div class="content">
+	<div id="conf_box_title"><?php echo t('Current Language') ?></div>
+	<select onchange="parent.ParsimonyAdmin.changeLocale(this.value)" id="languages" style="width:300px">
+		<?php
+		foreach (\request::$locales AS $code => $locale) {
+			if (isset($_COOKIE['locale']) && isset(\request::$locales['locales'][$_COOKIE['locale']]) && $_COOKIE['locale'] == $code)
+				echo '<option value="' . $code . '" selected="selected">' . $locale . '</option>';
+			else
+				echo '<option value="' . $code . '">' . $locale . '</option>';
+		}
+		?>
+	</select>
 </div>

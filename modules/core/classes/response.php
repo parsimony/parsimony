@@ -35,206 +35,206 @@ namespace core\classes;
  */
 class response {
 
-    /**
-     * @var integer status of HTTP response
-     */
-    protected $status;
+	/**
+	 * @var integer status of HTTP response
+	 */
+	protected $status;
 
-    /**
-     * @var string format of HTTP response
-     */
-    protected $format = 'html';
+	/**
+	 * @var string format of HTTP response
+	 */
+	protected $format = 'html';
 
-    /**
-     * @var string charset of HTTP response
-     */
-    protected $charset = 'utf-8';
+	/**
+	 * @var string charset of HTTP response
+	 */
+	protected $charset = 'utf-8';
 
-    /**
-     * @var array of headers 
-     */
-    protected $headers = array();
+	/**
+	 * @var array of headers 
+	 */
+	protected $headers = array();
 
-    /** @var theme object */
-    protected $theme;
+	/** @var theme object */
+	protected $theme;
 
-    /** @var string $body */
-    protected $body = '';
+	/** @var string $body */
+	protected $body = '';
 
-    /**
-     * Construct the HTTP response
-     */
-    public function __construct($status = 200) {
-        $this->status = $status;
-    }
-    /**
-     * Get content to client
-     * @param mixed $body optional
-     */
-     public function getContent() {
-        return $this->body;
-     }
-     
-    /**
-     * Send content to client
-     * @param mixed $body optional
-     */
-    public function setContent($body = '', $status = FALSE) {
-	if($status !== FALSE) $this->setStatus($status);
-        if (is_object($body) && get_class($body) == 'core\classes\page') { /* If it's a page object */
+	/**
+	 * Construct the HTTP response
+	 */
+	public function __construct($status = 200) {
+		$this->status = $status;
+	}
+	/**
+	 * Get content to client
+	 * @param mixed $body optional
+	 */
+	 public function getContent() {
+		return $this->body;
+	 }
 
-            app::$request->page = $body;
-            
-            \app::dispatchEvent('pageLoad');
+	/**
+	 * Send content to client
+	 * @param mixed $body optional
+	 */
+	public function setContent($body = '', $status = FALSE) {
+		if($status !== FALSE) $this->setStatus($status);
+		if (is_object($body) && get_class($body) == 'core\classes\page') { /* If it's a page object */
 
-            /* THEME */
-            $this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-            $structure = $body->getStructure();
-            $script='';
-            if (defined('PARSI_ADMIN')) {
-                $adm = new \admin\blocks\toolbar("admintoolbar");
-                $this->body = $adm->display();
-            } else {
-                if ($structure === TRUE)
-                    $this->body = $this->theme->display();
-                else
-                    $this->body = $body->display();
-                   
-                if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
-                    \app::$request->page->addJSFile('lib/editinline.js');
-                    $timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
-                    if ($_SESSION['behavior'] > 1) $script = 'window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";';
-                    $this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';'.$script.'if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
-                }
-            }
-	    if ($structure === TRUE){
-                $view = 'core/views/desktop/index.php';
-                if(stream_resolve_include_path('core/views/'.THEMETYPE.'/index.php')) $view = 'core/views/'.THEMETYPE.'/index.php';
-		ob_start();
-		include($view);
-		$this->body = ob_get_clean();
-	    }
-        }else {
-            $this->body = $body;
-        }
-        header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
-        header('Content-type: ' . app::$mimeTypes[$this->format] . '; charset=' . $this->charset);
-        foreach ($this->headers AS $label => $header) {
-            header($label . ': ' . $header);
-        }
-        return $this->body;
-    }
+			app::$request->page = $body;
 
-    /**
-     * Set HTTP status
-     * @param integer $status
-     */
-    public function setStatus($status) {
-        if (isset(self::$HTTPstatus[$status]))
-            $this->status = $status;
-        else
-            throw new \Exception(t('Parsimony doesn\'t know this HTTP status', FALSE));
-    }
+			\app::dispatchEvent('pageLoad');
 
-    /**
-     * Get HTTP status
-     * @return integer
-     */
-    public function getStatus() {
-        return $this->status;
-    }
+			/* THEME */
+			$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
+			$structure = $body->getStructure();
+			$script='';
+			if (defined('PARSI_ADMIN')) {
+				$adm = new \admin\blocks\toolbar("admintoolbar");
+				$this->body = $adm->display();
+			} else {
+				if ($structure === TRUE)
+					$this->body = $this->theme->display();
+				else
+					$this->body = $body->display();
 
-    /**
-     * Set format of response
-     * @param string $format
-     */
-    public function setFormat($format) {
-        if (isset(app::$mimeTypes[$format]))
-            $this->format = $format;
-        else
-            throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));
-    }
+				if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
+					\app::$request->page->addJSFile('lib/editinline.js');
+					$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
+					if ($_SESSION['behavior'] > 1) $script = 'window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";';
+					$this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';'.$script.'if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
+				}
+			}
+			if ($structure === TRUE){
+				$view = 'core/views/desktop/index.php';
+				if(stream_resolve_include_path('core/views/'.THEMETYPE.'/index.php')) $view = 'core/views/'.THEMETYPE.'/index.php';
+				ob_start();
+				include($view);
+				$this->body = ob_get_clean();
+			}
+		}else {
+			$this->body = $body;
+		}
+		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
+		header('Content-type: ' . app::$mimeTypes[$this->format] . '; charset=' . $this->charset);
+		foreach ($this->headers AS $label => $header) {
+			header($label . ': ' . $header);
+		}
+		return $this->body;
+	}
 
-    /**
-     * Get format of response
-     * @return string
-     */
-    public function getFormat() {
-        return $this->format;
-    }
+	/**
+	 * Set HTTP status
+	 * @param integer $status
+	 */
+	public function setStatus($status) {
+		if (isset(self::$HTTPstatus[$status]))
+			$this->status = $status;
+		else
+			throw new \Exception(t('Parsimony doesn\'t know this HTTP status', FALSE));
+	}
 
-    /**
-     * Set header of response
-     * @param string $label
-     * @param string $head
-     */
-    public function setHeader($label, $head) {
-        $this->headers[$label] = $head;
-    }
+	/**
+	 * Get HTTP status
+	 * @return integer
+	 */
+	public function getStatus() {
+		return $this->status;
+	}
 
-    /**
-     * Set header of response
-     * @param string $label
-     * @return string
-     */
-    public function getHeader($label) {
-        return $this->headers[$label];
-    }
+	/**
+	 * Set format of response
+	 * @param string $format
+	 */
+	public function setFormat($format) {
+		if (isset(app::$mimeTypes[$format]))
+			$this->format = $format;
+		else
+			throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));
+	}
 
-    /**
-     * HTTP status codes
-     * array of status
-     */
-    static public $HTTPstatus = array(
-        100 => 'Continue',
-        101 => 'Switching Protocols',
-        118 => 'Connexion timed out',
-        200 => 'OK',
-        201 => 'Created',
-        202 => 'Accepted',
-        203 => 'Non-Authoritative Information',
-        204 => 'No Content',
-        205 => 'Reset Content',
-        206 => 'Partial Content',
-        300 => 'Multiple Choices',
-        301 => 'Moved Permanently',
-        302 => 'Found',
-        303 => 'See Other',
-        304 => 'Not Modified',
-        305 => 'Use Proxy',
-        307 => 'Temporary Redirect',
-        310 => 'Too Many Redirect',
-        324 => 'Empty Response',
-        400 => 'Bad Request',
-        401 => 'Unauthorized',
-        403 => 'Forbidden',
-        404 => 'Not Found',
-        405 => 'Method Not Allowed',
-        406 => 'Not Acceptable',
-        407 => 'Proxy Authentication Required',
-        408 => 'Request Timeout',
-        409 => 'Conflict',
-        410 => 'Gone',
-        411 => 'Length Required',
-        412 => 'Precondition Failed',
-        413 => 'Request Entity Too Large',
-        414 => 'Request-URI Too Long',
-        415 => 'Unsupported Media Type',
-        416 => 'Requested Range Not Satisfiable',
-        417 => 'Expectation Failed',
-        426 => 'Upgrade Required',
-	428 => 'Precondition Required',
-	429 => 'Too Many Requests',
-	431 => 'Request Header Fields Too Large',
-        500 => 'Internal Server Error',
-        501 => 'Not Implemented',
-        502 => 'Bad Gateway',
-        503 => 'Service Unavailable',
-        504 => 'Gateway Timeout',
-        505 => 'HTTP Version Not Supported',
-        509 => 'Bandwidth Limit Exceeded',
-	511 => 'Network Authentication Required'
-    );
+	/**
+	 * Get format of response
+	 * @return string
+	 */
+	public function getFormat() {
+		return $this->format;
+	}
+
+	/**
+	 * Set header of response
+	 * @param string $label
+	 * @param string $head
+	 */
+	public function setHeader($label, $head) {
+		$this->headers[$label] = $head;
+	}
+
+	/**
+	 * Set header of response
+	 * @param string $label
+	 * @return string
+	 */
+	public function getHeader($label) {
+		return $this->headers[$label];
+	}
+
+	/**
+	 * HTTP status codes
+	 * array of status
+	 */
+	static public $HTTPstatus = array(
+		100 => 'Continue',
+		101 => 'Switching Protocols',
+		118 => 'Connexion timed out',
+		200 => 'OK',
+		201 => 'Created',
+		202 => 'Accepted',
+		203 => 'Non-Authoritative Information',
+		204 => 'No Content',
+		205 => 'Reset Content',
+		206 => 'Partial Content',
+		300 => 'Multiple Choices',
+		301 => 'Moved Permanently',
+		302 => 'Found',
+		303 => 'See Other',
+		304 => 'Not Modified',
+		305 => 'Use Proxy',
+		307 => 'Temporary Redirect',
+		310 => 'Too Many Redirect',
+		324 => 'Empty Response',
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		405 => 'Method Not Allowed',
+		406 => 'Not Acceptable',
+		407 => 'Proxy Authentication Required',
+		408 => 'Request Timeout',
+		409 => 'Conflict',
+		410 => 'Gone',
+		411 => 'Length Required',
+		412 => 'Precondition Failed',
+		413 => 'Request Entity Too Large',
+		414 => 'Request-URI Too Long',
+		415 => 'Unsupported Media Type',
+		416 => 'Requested Range Not Satisfiable',
+		417 => 'Expectation Failed',
+		426 => 'Upgrade Required',
+		428 => 'Precondition Required',
+		429 => 'Too Many Requests',
+		431 => 'Request Header Fields Too Large',
+		500 => 'Internal Server Error',
+		501 => 'Not Implemented',
+		502 => 'Bad Gateway',
+		503 => 'Service Unavailable',
+		504 => 'Gateway Timeout',
+		505 => 'HTTP Version Not Supported',
+		509 => 'Bandwidth Limit Exceeded',
+		511 => 'Network Authentication Required'
+	);
 
 }
 

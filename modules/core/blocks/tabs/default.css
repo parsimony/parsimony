@@ -1,5 +1,8 @@
+/* {tabs container} */
 .tabsContainer {padding:0;margin:0;width:100%;overflow:hidden;background:#F1F0F0}
+/* {tab} */
 .tabsContainer li {list-style:none;}
+/* {link tab} */
 .tabsContainer a {
 	color: #555;
 	text-decoration: none;
@@ -22,7 +25,7 @@
 	text-align: center;
 	padding:0 10px;
 }
-	
+/* {link tab hover} */
 .tabsContainer a:hover {
 	background-image: -moz-linear-gradient(top, #fafafa, #dddddd);
 	background-image: -ms-linear-gradient(top, #fafafa, #dddddd);
@@ -31,5 +34,7 @@
 	background-image: linear-gradient(top, #fafafa, #dddddd);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#dddddd', GradientType=0);
 }
+/* {first link tab} */
 .tabsContainer li:first-child a {border-left: 1px solid #CCC;border-radius: 7px 0 0;}
+/* {last link tab} */
 .tabsContainer li:last-child a {border-radius: 0 7px 0 0;}

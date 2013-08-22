@@ -26,10 +26,13 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
+
 <div class="adminzone" id="admin_profile" style="padding-left: 0px;">
-    <div class="adminzonecontent">
-	<?php
-	echo str_replace('action=""','target="formResult" action=""',\app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->getViewUpdateForm(TRUE));
-	?>
-    </div>
+	<div id="conf_box_title"><?php echo t('My profile') ?></div>
+	<div class="adminzonemenu"></div>
+	<div class="adminzonecontent">
+		<?php
+		echo str_replace('action=""', 'target="formResult" action=""', \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->fetch()->getViewUpdateForm(TRUE));
+		?>
+	</div>
 </div>

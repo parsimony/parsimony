@@ -1,11 +1,31 @@
+/* {calendar} */
 .calendar{text-align:center}
+/* {a day} */
 .day {float:left;width:28px;height:28px;line-height:28px;}
+/* {a link day} */
 .day a{display:block;width:100%;height:100%}
+/* {days link which has post} */
 .day.hasposts a {text-decoration:none;color:#259BDB;}
+/* {days which are in this month} */
 .day.thisMonth {background:#f9f9f9}
+/* {days which has posts} */
 .day.hasposts {background-color: #f3f3f3;}
+/* {month title} */
 .monthTitle {font-weight:bold;color:#484848;line-height:28px}
+/* {week title} */
 .weekTitle {font-weight:bold;}
+/* {calendar navigation} */
 .calendarNav {position: absolute;top: 0;right: 10px;}
+/* {calendar navigation links} */
 .calendarNav a {color:#484848;line-height:28px;text-decoration:none}
 .calendarNav a span{display:none}
+/* {calendar inner} */
+.calendarInner {}
+/* {a week} */
+.week {}
+/* {days which aren't in this month} */
+.day.out {}
+/* {link previous month} */
+.prevMonth {}
+/* {link next month} */
+.nextMonth {}
