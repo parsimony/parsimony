@@ -78,7 +78,7 @@ if (isset($_POST['connexion'])) {
         <title><?php echo t('Login', false); ?></title> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
         <meta name='robots' content='noindex,nofollow' /> 
-        <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>admin/style.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>admin/css/ui.css">
         <style>
             #header{position: fixed;min-width: 1250px;width: 100%;z-index: 999999;height: 40px;color: #555;text-shadow: white 0 1px 0;text-decoration: none;font-weight: bold;background-color: #F3F3F3;background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E9EF),to(#FEFEFE));box-shadow: 0 2px 6px #443;top: 0;left: 0;padding-top: 5px;}
             #header a{color: #555;text-decoration: none;cursor: pointer;padding: 0;height: 28px;}
