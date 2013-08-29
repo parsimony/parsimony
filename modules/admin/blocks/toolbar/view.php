@@ -82,31 +82,26 @@ echo $admin->display();
 <div id="toolbarEditMode">
 	<div style="float:left"><input type="image" src="<?php echo BASE_PATH; ?>admin/img/undo.png" id="toolbarEditModeUndo" class="tooltip toolbarEditModeCommands" data-tooltip="<?php echo t('Undo'); ?>" data-command="undo" /><input type="image" src="<?php echo BASE_PATH; ?>admin/img/redo.png" value="<?php echo t('Redo'); ?>" id="toolbarEditModeRedo" class="tooltip toolbarEditModeCommands" data-tooltip="<?php echo t('Undo'); ?>"  data-command="redo" /></div><div style="float:right"><input type="button" style="width: 140px;" value="<?php echo t('Save modifications'); ?>" id="toolbarEditModeSave" /></div>
 </div>
-<div id="admin_core">
-	<div id="conf_box_overlay" class="none">
-		<div id="conf_box_load">
-			<div id="followingBalls_1" class="followingBalls"></div>
-			<div id="followingBalls_2" class="followingBalls"></div>
-			<div id="followingBalls_3" class="followingBalls"></div>
-			<div id="followingBalls_4" class="followingBalls"></div>
-		</div>
-		<iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" class="conf_box" style="overflow: hidden"></iframe>
-		<div id="conf_box_content_inline" class="conf_box"></div>
-		<form method="POST" target="conf_box_content_iframe" id="conf_box_form" action="<?php echo BASE_PATH . 'admin/action' ?>" class="none">
-			<input type="hidden" name="vars" value="" id="conf_box_form_vars" />
-		</form>
+<div id="conf_box_overlay" class="none">
+	<div id="conf_box_load">
+		<div id="followingBalls_1" class="followingBalls"></div>
+		<div id="followingBalls_2" class="followingBalls"></div>
+		<div id="followingBalls_3" class="followingBalls"></div>
+		<div id="followingBalls_4" class="followingBalls"></div>
 	</div>
-	<div id="dialog" style="display:none;width: 450px;">
-		<span id="conf_box_close" onclick="top.ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
-		<div id="conf_box_title"><?php echo t('Entrez un identifiant pour ce nouveau bloc') ?></div>
-		<div style="text-align: center;padding: 20px 0;background:#fbfbfb"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
-		<div style="text-align: right;padding: 10px;background: #E2E2E2;border-top: 1px solid #BBB;">
-			<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>" style="margin-right: 10px;" />
-			<input type="button" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" />
-		</div>
-	</div>
-	<iframe name="formResult" id="formResult" src="" class="none"></iframe>
+	<iframe name="conf_box_content_iframe" id="conf_box_content_iframe" src="" class="conf_box"></iframe>
+	<div id="conf_box_content_inline" class="conf_box"></div>
 </div>
+<div id="dialog" style="display:none;width: 450px;">
+	<span id="conf_box_close" onclick="top.ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
+	<div id="conf_box_title"><?php echo t('Entrez un identifiant pour ce nouveau bloc') ?></div>
+	<div style="text-align: center;padding: 20px 0;background:#fbfbfb"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
+	<div style="text-align: right;padding: 10px;background: #E2E2E2;border-top: 1px solid #BBB;">
+		<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>" style="margin-right: 10px;" />
+		<input type="button" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" />
+	</div>
+</div>
+<iframe name="formResult" id="formResult" src="" class="none"></iframe>
 <div id="shelter">
 	<div id="dropInPage" class="marqueurdragndrop">
 		<div id="dropInPageChild"></div>

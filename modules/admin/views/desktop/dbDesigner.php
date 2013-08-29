@@ -64,94 +64,94 @@ include_once('modules/core/classes/field.php');
 <style>.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
 </style>
 <style type="text/css">
-    .ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
-    body{margin:0;padding:0;height:100%;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
-    select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    #container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
-    #canvas{position:absolute;width:100%;height:100%}
-    ._jsPlumb_endpoint{cursor: pointer;z-index: 50}
-    ._jsPlumb_connector{cursor: pointer;}
-    #field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
-    #field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
-    #field_list .myfield:hover{background-color: #CBD8E8;}
-    #field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
-    #field_list .myfield:hover span{display:block}
-    #update_table{display: none;font-size: 12px;}
-    #update_field > div{display: none;}
-    .table {z-index:60;position:absolute; color:#484848;line-height:18px;cursor:pointer;
+	.ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
+	body{margin:0;padding:0;height:100%;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+	select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
+	select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
+	#container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+	#canvas{position:absolute;width:100%;height:100%}
+	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
+	._jsPlumb_connector{cursor: pointer;}
+	#field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
+	#field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
+	#field_list .myfield:hover{background-color: #CBD8E8;}
+	#field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
+	#field_list .myfield:hover span{display:block}
+	#update_table{display: none;font-size: 12px;}
+	#update_field > div{display: none;}
+	.table {z-index:60;position:absolute; color:#484848;line-height:18px;cursor:pointer;
 			font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
-    .table:hover{box-shadow: 0px 0px 9px #777;}
-    .ui-draggable-dragging:hover{box-shadow: #666 0px 1px 3px;} /*perf enhancement on drag table */
-    .property{position:relative;cursor: pointer;border-bottom: dotted #ddd 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-size: 12px;font-weight: normal;}
-    .property.current_property,.table .property:hover{background-color: rgb(231,242,255)}
-    .property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
-    .property[type_class=field_foreignkey]::before{ content:"#"; }
-    .table .property:last-child{ border-radius: 0 0 3px 3px; }
-    .ombre{box-shadow: 0px 0px 20px #34afb6;}
-    .dragActive { border:4px dotted #b634af; border-radius:50px;}
-    label{line-height: 26px;width: 140px;display: inline-block;padding-left: 10px;}
-    h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: #1b74a4;}
-    .title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
-    #leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
-    #rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
-    #deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
-    .property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
-    #outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
-    h3{margin:10px 0;font-size:16px;padding-left: 5px;}
-    .component{font-size: 11px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
-    .component:hover{opacity:1}
-    .rightbar{padding: 3px 0}
-    #editor:hover{display:table}
-    .connection{color:#2E63A5;text-transform: capitalize;}
-    .popup{text-align: left;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;overflow: hidden;border-radius: 2px;width: 50%;position: relative;margin: 0 auto;top: 110px;z-index: 999998;display: none;background-color: #fbfbfb;}
-    .question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #e5e5e5;margin: 11px;line-height: 20px;}
-    .question input{margin-right: 10px;}
-    .conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
-    .entity2,.entity1{font-weight:bold}
-    .title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
-    input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");top: 3px;}
-    .tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
-    .toolimg{position: absolute;top:5px;left:15px;}
-    .toolfield{position: relative;}
-    .tooldef{font-size:12px;font-style: italic;margin: 10px 5px;line-height : 15px;width: 250px;white-space: normal;}
-    .tooltype{margin: 0px 5px;}
-    .tooltab{margin: 10px 5px 0;font-size: 10px;font-family: inherit;color: white;border-top: 1px solid whitesmoke;border-left: 1px solid whitesmoke;border-bottom: 1px solid whitesmoke;}
-    .tooltab td{width:60px;height:40px;text-align: center;vertical-align: middle;border-right: 1px solid whitesmoke}
-    /*     tbody td:first-child{margin:0 10px}*/
-    .tooltab td input{width: 50px;font-size: inherit;height: 20px;}
-    .tooltab tbody{border-top: 1px solid whitesmoke}
-    .tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
-    .boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-    #toolbar{font-weight: normal;line-height: 36px;color:#FBFBFB}
-    .specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
-    #extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
-    #btnLinkToExternal{margin-bottom: 15px;}
-    .dragActive2 {z-index: 1;border-radius: 100px;font-size: 12px;text-align: center;background: #1b74a4;color: #fff;padding: 17px 5px;}
-    #save.haveToSave{color: white;font-weight: bold;
+	.table:hover{box-shadow: 0px 0px 9px #777;}
+	.ui-draggable-dragging:hover{box-shadow: #666 0px 1px 3px;} /*perf enhancement on drag table */
+	.property{position:relative;cursor: pointer;border-bottom: dotted #ddd 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-size: 12px;font-weight: normal;}
+	.property.current_property,.table .property:hover{background-color: rgb(231,242,255)}
+	.property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
+	.property[type_class=field_foreignkey]::before{ content:"#"; }
+	.table .property:last-child{ border-radius: 0 0 3px 3px; }
+	.ombre{box-shadow: 0px 0px 20px #34afb6;}
+	.dragActive { border:4px dotted #b634af; border-radius:50px;}
+	label{line-height: 26px;width: 140px;display: inline-block;padding-left: 10px;}
+	h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: #1b74a4;}
+	.title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
+	#leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
+	#rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
+	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
+	.property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
+	#outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
+	h3{margin:10px 0;font-size:16px;padding-left: 5px;}
+	.component{font-size: 11px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
+	.component:hover{opacity:1}
+	.rightbar{padding: 3px 0}
+	#editor:hover{display:table}
+	.connection{color:#2E63A5;text-transform: capitalize;}
+	.popup{text-align: left;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;overflow: hidden;border-radius: 2px;width: 50%;position: relative;margin: 0 auto;top: 110px;z-index: 999998;display: none;background-color: #fbfbfb;}
+	.question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #e5e5e5;margin: 11px;line-height: 20px;}
+	.question input{margin-right: 10px;}
+	.conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
+	.entity2,.entity1{font-weight:bold}
+	.title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
+	input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");top: 3px;}
+	.tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
+	.toolimg{position: absolute;top:5px;left:15px;}
+	.toolfield{position: relative;}
+	.tooldef{font-size:12px;font-style: italic;margin: 10px 5px;line-height : 15px;width: 250px;white-space: normal;}
+	.tooltype{margin: 0px 5px;}
+	.tooltab{margin: 10px 5px 0;font-size: 10px;font-family: inherit;color: white;border-top: 1px solid whitesmoke;border-left: 1px solid whitesmoke;border-bottom: 1px solid whitesmoke;}
+	.tooltab td{width:60px;height:40px;text-align: center;vertical-align: middle;border-right: 1px solid whitesmoke}
+	/*     tbody td:first-child{margin:0 10px}*/
+	.tooltab td input{width: 50px;font-size: inherit;height: 20px;}
+	.tooltab tbody{border-top: 1px solid whitesmoke}
+	.tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
+	.boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
+	#toolbar{font-weight: normal;line-height: 36px;color:#FBFBFB}
+	.specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
+	#extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
+	#btnLinkToExternal{margin-bottom: 15px;}
+	.dragActive2 {z-index: 1;border-radius: 100px;font-size: 12px;text-align: center;background: #1b74a4;color: #fff;padding: 17px 5px;}
+	#save.haveToSave{color: white;font-weight: bold;
 					 background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
-    #conf_box_overlay{z-index: 9999;}
-    #notify {top:35px}
-    #currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
-    .hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
-    input[disabled] {background:#ddd}
-    #connectorchoice{margin-left: 10px;}
-    .behaviorProperty {width: 136px;line-height: 17px;height:20px}
+	#conf_box_overlay{z-index: 9999;}
+	#notify {top:35px}
+	#currentModule{font-weight: bold;height: 22px;line-height: 20px;padding-left: 5px;margin-left: 10px;}
+	.hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
+	input[disabled] {background:#ddd}
+	#connectorchoice{margin-left: 10px;}
+	.behaviorProperty {width: 136px;line-height: 17px;height:20px}
 	#rightsidebar{font-size:12px;}
 	#rightsidebar input[type='text']{width:159px}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="tooltip-new-fields" class="none toolfield">
-    <p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
+	<p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
 </div>
 
 <div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -170,8 +170,8 @@ include_once('modules/core/classes/field.php');
 	</table>
 </div>
 <div id="tooltip-field_numeric" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_numeric/icon.png"><span class="tooltitle"><?php echo t('Numeric Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).'); ?></p>
-    <div class="tooltype"> SQL Type : INT 2 by default</div>
+	<p class="tooldef ellipsis"><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).'); ?></p>
+	<div class="tooltype"> SQL Type : INT 2 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -191,8 +191,8 @@ include_once('modules/core/classes/field.php');
 </div> 
 
 <div id="tooltip-field_decimal" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_decimal/icon.png"><span class="tooltitle"><?php echo t('Decimal Field') ?></span></div>    
-    <p class="tooldef ellipsis"> <?php echo t('A Decimal Field is a data field that holds fixed-precision decimal numbers.') ?></p>
-    <div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
+	<p class="tooldef ellipsis"> <?php echo t('A Decimal Field is a data field that holds fixed-precision decimal numbers.') ?></p>
+	<div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -212,8 +212,8 @@ include_once('modules/core/classes/field.php');
 </div> 
 
 <div id="tooltip-field_price" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_price/icon.png"><span class="tooltitle"><?php echo t('Price Field') ?></span></div>
-    <p class="tooldef ellipsis"> <?php echo 'A Price Field stores a money value in your entity. ' ?></p>
-    <div class="tooltype"> SQL Type : DECIMAL 7,2 by default</div>
+	<p class="tooldef ellipsis"> <?php echo 'A Price Field stores a money value in your entity. ' ?></p>
+	<div class="tooltype"> SQL Type : DECIMAL 7,2 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -233,8 +233,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_percent" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_percent/icon.png"><span class="tooltitle"><?php echo t('Percent Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A Percent Field specializes in handling percentage data and displays a value between 0 and 100. ' ?></p>
-    <div class="tooltype"> SQL Type : DECIMAL 5,2 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A Percent Field specializes in handling percentage data and displays a value between 0 and 100. ' ?></p>
+	<div class="tooltype"> SQL Type : DECIMAL 5,2 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -254,8 +254,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_mail" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_mail/icon.png"><span class="tooltitle"><?php echo t('Mail Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A Mail Field is used when the data entered by the user has to be an email. ' ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A Mail Field is used when the data entered by the user has to be an email. ' ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -275,8 +275,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_password" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_password/icon.png"><span class="tooltitle"><?php echo t('Password Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A password field stores in sha-1 hash the password + a salt. It displays a password input type.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A password field stores in sha-1 hash the password + a salt. It displays a password input type.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -296,8 +296,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_state" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_state/icon.png"><span class="tooltitle"><?php echo t('State Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A State field manages the status of an Entity. The state can be used as a Boolean (True / False) or can contain several values (Yes,Perhaps,No) separated by a comma (CSV). '; ?></p>
-    <div class="tooltype"> SQL Type : INT 2 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A State field manages the status of an Entity. The state can be used as a Boolean (True / False) or can contain several values (Yes,Perhaps,No) separated by a comma (CSV). '; ?></p>
+	<div class="tooltype"> SQL Type : INT 2 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -329,8 +329,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_date" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Date Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A date field is a component for presenting date and time.'; ?></p>
-    <div class="tooltype"> SQL Type : DATETIME by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A date field is a component for presenting date and time.'; ?></p>
+	<div class="tooltype"> SQL Type : DATETIME by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -350,8 +350,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_publication" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Publication Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A Publication Field contains the published or scheduled date. It provides a Visibility Mode (public, private, protected by password) and also a workflow with different status like Pending, Draft and Published. '; ?></p>
-    <div class="tooltype"> SQL Type : DATETIME by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A Publication Field contains the published or scheduled date. It provides a Visibility Mode (public, private, protected by password) and also a workflow with different status like Pending, Draft and Published. '; ?></p>
+	<div class="tooltype"> SQL Type : DATETIME by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -371,8 +371,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_progress" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_progress/icon.png"><span class="tooltitle"><?php echo t('Progress Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A Progress Field creates a progress bar. '; ?></p>
-    <div class="tooltype"> SQL Type : INT 3 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A Progress Field creates a progress bar. '; ?></p>
+	<div class="tooltype"> SQL Type : INT 3 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -392,8 +392,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_image" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"><span class="tooltitle"><?php echo t('Image Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field is used to store the path and display a configurable image in drag n drop.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field is used to store the path and display a configurable image in drag n drop.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -406,26 +406,26 @@ include_once('modules/core/classes/field.php');
 			<tr>
 				<td><img title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"></td>
 				<td>     
-                    <div class="boxDropImage">
-                        <input style="height: 25px;width: 120px;" type="file">
-                        <label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
-                    </div>
-                </td>
+					<div class="boxDropImage">
+						<input style="height: 25px;width: 120px;" type="file">
+						<label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
+					</div>
+				</td>
 				<td style="width: 145px;">       
-                    <div class="boxDropImage" style="margin-top: 20px">
-                        <input style="height: 25px;width: 120px;" type="file">
-                        <label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
-                    </div>
-                    <img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png">
-                </td>
+					<div class="boxDropImage" style="margin-top: 20px">
+						<input style="height: 25px;width: 120px;" type="file">
+						<label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
+					</div>
+					<img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png">
+				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 
 <div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -445,8 +445,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_url_rewriting" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url_rewriting/icon.png"><span class="tooltitle"><?php echo t('Url rewriting Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field is a unique identifier of a record for the SEO generated by the title of your record (i.e. This is my article, /this-is-my-article).<br> URL rewriting allows to provide a better search engine optimization.<br> URL\'s appearance is modified to have more relevant links to web pages.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field is a unique identifier of a record for the SEO generated by the title of your record (i.e. This is my article, /this-is-my-article).<br> URL rewriting allows to provide a better search engine optimization.<br> URL\'s appearance is modified to have more relevant links to web pages.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -466,8 +466,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_wysiwyg" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_wysiwyg/icon.png"><span class="tooltitle"><?php echo t('WYSIWIG Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field is used to display a rich content such as text, images or videos.'; ?></p>
-    <div class="tooltype"> SQL Type : LONGTEXT by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field is used to display a rich content such as text, images or videos.'; ?></p>
+	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -487,8 +487,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_textarea" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_textarea/icon.png"><span class="tooltitle"><?php echo t('Text Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field holds any type of character with a maximum length of 4,294,967,295.'; ?></p>
-    <div class="tooltype"> SQL Type : LONGTEXT by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field holds any type of character with a maximum length of 4,294,967,295.'; ?></p>
+	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -508,8 +508,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_user" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_user/icon.png"><span class="tooltitle"><?php echo t('User Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony.'; ?></p>
-    <div class="tooltype"> SQL Type : INT 11 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony.'; ?></p>
+	<div class="tooltype"> SQL Type : INT 11 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -529,8 +529,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_ip" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_ip/icon.png"><span class="tooltitle"><?php echo t('IP Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field allows to store an IP address.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR 45 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field allows to store an IP address.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR 45 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -550,8 +550,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_vote" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_vote/icon.png"><span class="tooltitle"><?php echo t('Vote Field') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'This field is under construction.'; ?></p>
-    <div class="tooltype"> SQL Type : FLOAT 20 by default</div>
+	<p class="tooldef ellipsis"><?php echo 'This field is under construction.'; ?></p>
+	<div class="tooltype"> SQL Type : FLOAT 20 by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -571,8 +571,8 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="tooltip-field_formasso" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_formasso/icon.png"><span class="tooltitle"><?php echo t('N:N Association Form') ?></span></div>
-    <p class="tooldef ellipsis"><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship.'; ?></p>
-    <div class="tooltype"> SQL Type : VARCHAR by default</div>
+	<p class="tooldef ellipsis"><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship.'; ?></p>
+	<div class="tooltype"> SQL Type : VARCHAR by default</div>
 	<table class="tooltab">
 		<thead>
 			<tr>
@@ -592,19 +592,19 @@ include_once('modules/core/classes/field.php');
 </div>
 
 <div id="toolbar">
-    <a href="#" onclick="setTimeout(function() {var ww = window.open(window.location, '_self');ww.close();}, 0);" style="padding:0;height:28px;">
-        <img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
-    </a>
-    <div class="toolbarbonus inline-block">
-        <div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
+	<a href="#" onclick="setTimeout(function() {var ww = window.open(window.location, '_self');ww.close();}, 0);" style="padding:0;height:28px;">
+		<img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
+	</a>
+	<div class="toolbarbonus inline-block">
+		<div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
 			<?php echo t('Connector', FALSE); ?>
-            <form action="" method="POST" style="display:inline-block;margin: 0;">
-                <select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice', this.value, 999);$(this).parent().trigger('submit');">
-                    <option>Bezier</option>
-                    <option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart') echo ' selected="selected"'; ?>>Flowchart</option>
-                </select>
-                <span style="padding-left: 35px;"><?php echo t('Current Module', FALSE); ?></span>
-                <select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
+			<form action="" method="POST" style="display:inline-block;margin: 0;">
+				<select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice', this.value, 999);$(this).parent().trigger('submit');">
+					<option>Bezier</option>
+					<option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart') echo ' selected="selected"'; ?>>Flowchart</option>
+				</select>
+				<span style="padding-left: 35px;"><?php echo t('Current Module', FALSE); ?></span>
+				<select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
 					<?php
 					foreach (\app::$config['modules']['active'] as $moduleName => $module) {
 						if ($moduleName == $_POST['module']) {
@@ -616,40 +616,40 @@ include_once('modules/core/classes/field.php');
 							echo '<option ' . $selected . '>' . $moduleName . '</option>';
 					}
 					?>
-                </select> 
-            </form>
-        </div>
-        <div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
+				</select> 
+			</form>
+		</div>
+		<div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
 			<?php echo t('Add an Entity', FALSE); ?>
-            <form id="add_table" style="display:inline-block;margin: 0;">
-                <input type="text" id="table_name" style="padding:1px;">
-                <input type="submit" style="height: 22px;" value="<?php echo t('Add', FALSE); ?>"> 
-            </form>
-        </div>
-        <div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
-            <input type="button" id="save" class="areaWrite" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
-        </div>
-    </div>
+			<form id="add_table" style="display:inline-block;margin: 0;">
+				<input type="text" id="table_name" style="padding:1px;">
+				<input type="submit" style="height: 22px;" value="<?php echo t('Add', FALSE); ?>"> 
+			</form>
+		</div>
+		<div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
+			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
+		</div>
+	</div>
 </div>
 <div id="notify"></div>
 <div id="container_bdd">
-    <canvas id="outline" width="150" height="100"></canvas>
-    <div id="conf_box_overlay" class="none ">
-        <div id="popup" class="popup">   
-            <div class="title_popup"><?php echo t('Cardinality', FALSE); ?>
-                <span class="conf_box_close ui-icon ui-icon-closethick right"></span>
-            </div>
-            <div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity1"></span> " ?</div>
-            <div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
-            <div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
-        </div>
-        <div id="popup2" class="popup" style="text-align: center;width:300px;">
-            <div class="title_popup"><?php echo t('Link to another module', FALSE); ?>
-                <span class="conf_box_close ui-icon ui-icon-closethick right"></span>
-            </div>
-            <div style="line-height: 30px;margin-top: 10px;color: #333;">Choose a table</div>
-            <div style="margin:10px 0 20px">
-                <select id="linkToExternal">
+	<canvas id="outline" width="150" height="100"></canvas>
+	<div id="conf_box_overlay" class="none ">
+		<div id="popup" class="popup">   
+			<div class="title_popup"><?php echo t('Cardinality', FALSE); ?>
+				<span class="conf_box_close ui-icon ui-icon-closethick right"></span>
+			</div>
+			<div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity1"></span> " ?</div>
+			<div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
+			<div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
+		</div>
+		<div id="popup2" class="popup" style="text-align: center;width:300px;">
+			<div class="title_popup"><?php echo t('Link to another module', FALSE); ?>
+				<span class="conf_box_close ui-icon ui-icon-closethick right"></span>
+			</div>
+			<div style="line-height: 30px;margin-top: 10px;color: #333;">Choose a table</div>
+			<div style="margin:10px 0 20px">
+				<select id="linkToExternal">
 					<?php
 					foreach (\app::$config['modules']['active'] as $moduleName => $module) {
 						if ($moduleName != 'admin' && $moduleName != $_POST['module']) {
@@ -659,15 +659,15 @@ include_once('modules/core/classes/field.php');
 						}
 					}
 					?>
-                </select>
-            </div>          
-            <input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
-        </div>
-    </div>
-    <div id="leftsidebar" class="areaWrite">
-        <div>
-            <h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
-            <div id="field_list">
+				</select>
+			</div>          
+			<input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
+		</div>
+	</div>
+	<div id="leftsidebar" class="areaWrite">
+		<div>
+			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
+			<div id="field_list">
 				<?php
 				$aliasClasses = array_flip(\app::$aliasClasses);
 				foreach ($aliasClasses AS $class => $alias) {
@@ -722,13 +722,13 @@ include_once('modules/core/classes/field.php');
 ' . t('In which form display the field ?', FALSE) . '
 </div>
 <div class="visibilityform">
-    <input data-form="form-display" checked="checked" type="checkbox" value="1">
-    <span class="ellipsis" for="display" style="width:70px;display:inline-block">' . t('Display', FALSE) . '</span>
-    <input data-form="form-add" checked="checked" type="checkbox" value="2">
-    <span class="ellipsis" for="add" style="width:70px;display:inline-block;">' . t('Add', FALSE) . '</span>
-    <input type="checkbox" checked="checked" value="4" data-form="form-update">
-    <span class="ellipsis" for="update" style="width:70px;display:inline-block;">' . t('Update', FALSE) . '</span>
-    <input type="hidden" name="visibility">
+	<input data-form="form-display" checked="checked" type="checkbox" value="1">
+	<span class="ellipsis" for="display" style="width:70px;display:inline-block">' . t('Display', FALSE) . '</span>
+	<input data-form="form-add" checked="checked" type="checkbox" value="2">
+	<span class="ellipsis" for="add" style="width:70px;display:inline-block;">' . t('Add', FALSE) . '</span>
+	<input type="checkbox" checked="checked" value="4" data-form="form-update">
+	<span class="ellipsis" for="update" style="width:70px;display:inline-block;">' . t('Update', FALSE) . '</span>
+	<input type="hidden" name="visibility">
 </div>
 </div>
 </div>';
@@ -743,10 +743,10 @@ include_once('modules/core/classes/field.php');
 					}
 				}
 				?>
-            </div>
-        </div>
-    </div>
-    <div id="canvas">
+			</div>
+		</div>
+	</div>
+	<div id="canvas">
 		<?php
 		foreach ($moduleObj->getModel() as $entityName => $entity) {
 			$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
@@ -773,25 +773,25 @@ include_once('modules/core/classes/field.php');
 			echo '</div>';
 		}
 		?>
-    </div>
-    <div id="rightsidebar" class="areaWrite" style="z-index:999">
-        <div id="update_table">
-            <h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
-            <div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
-            <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
-            <div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><select class="behaviorProperty" name="behaviorTitle"></select></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><select class="behaviorProperty" name="behaviorDescription"></select></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><select class="behaviorProperty" name="behaviorKeywords"></select></div>
-                <div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><select class="behaviorProperty" name="behaviorImage"></select></div>
-                <input type="submit" class="save_table areaWrite" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
-            </div>
-        </div>
-        <div id="update_field">
+	</div>
+	<div id="rightsidebar" class="areaWrite" style="z-index:999">
+		<div id="update_table">
+			<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
+			<div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
+			<div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
+			<div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><select class="behaviorProperty" name="behaviorTitle"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><select class="behaviorProperty" name="behaviorDescription"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><select class="behaviorProperty" name="behaviorKeywords"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><select class="behaviorProperty" name="behaviorImage"></select></div>
+				<input type="submit" class="save_table areaWrite" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
+			</div>
+		</div>
+		<div id="update_field">
 			<?php echo $html; ?>
-        </div>
-    </div>
-    <span id="deletator" class="ui-icon ui-icon-closethick"></span>
+		</div>
+	</div>
+	<span id="deletator" class="ui-icon ui-icon-closethick"></span>
 </div>
 <script>
 	function enc(str) {

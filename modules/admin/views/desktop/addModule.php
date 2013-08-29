@@ -37,8 +37,8 @@
 		});
 	});
 </script>
-<div id="conf_box_title"><?php echo t('Manage Rights') ?></div>
 <div id="addmodule" class="adminzone">
+	<div id="conf_box_title"><?php echo t('Manage Rights') ?></div>
 	<div class="adminzonemenu">
 		<?php /*<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download', FALSE); ?></a></div>*/ ?>
 		<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Create Module', FALSE); ?></a></div>
