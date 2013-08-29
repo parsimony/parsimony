@@ -477,15 +477,24 @@ var ParsimonyAdmin = {
 		if (url.substring(0, 1) != "#") {
 			Parsimony.popin.classList.remove("open");
 			ParsimonyAdmin.returnToShelter();
-			$("#conf_box_form").attr("action", url).empty();
-			if (typeof params != "undefined") {
-				var vars = params.split(/&/);
-				for (var i = 0; i < vars.length; i++) {
+			var form = document.createElement("form");
+			form.setAttribute("action", url);
+			form.setAttribute("method", "POST");
+			form.setAttribute("target", "conf_box_content_iframe");
+			if (typeof params == "string") {
+				var vars = (params + "&popup=yes").split(/&/);
+				for (var i = 0, len = vars.length; i < len; i++) {
 					var myvar = vars[i].split(/=/);
-					$("#conf_box_form").append('<input type="hidden" name="' + myvar[0] + '" value="' + myvar[1] + '">');
+					var field = document.createElement("input");
+					field.setAttribute("name", myvar[0]);
+					field.setAttribute("value", myvar[1]);
+					form.appendChild(field);
 				}
 			}
-			$("#conf_box_form").append('<input type="hidden" name="popup" value="yes">').trigger("submit");
+			if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
+				document.body.appendChild(form);
+			form.submit();
+			form.remove();
 			document.getElementById("conf_box_content_inline").style.display = "none";
 			Parsimony.popin.style.display = "block";
 		} else {
