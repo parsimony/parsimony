@@ -1,5 +1,6 @@
 <?php
-app::$request->page->addCSSFile('admin/style.css');
+app::$request->page->addCSSFile('admin/css/main.css');
+app::$request->page->addCSSFile('admin/css/ui.css');
 app::$request->page->addCSSFile('lib/tooltip/parsimonyTooltip.css', 'footer');
 app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css', 'footer');
 app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js', 'footer');

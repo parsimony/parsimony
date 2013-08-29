@@ -92,7 +92,7 @@ var ParsimonyAdmin = {
 		var iframeStyle = document.createElement("link");
 		iframeStyle.setAttribute("rel", "stylesheet");
 		iframeStyle.setAttribute("type", "text/css");
-		iframeStyle.setAttribute("href", BASE_PATH + "admin/iframe.css");
+		iframeStyle.setAttribute("href", BASE_PATH + "admin/css/iframe.css");
 		ParsimonyAdmin.currentDocument.getElementsByTagName('head')[0].appendChild(iframeStyle);
 
 		/* Init mode */

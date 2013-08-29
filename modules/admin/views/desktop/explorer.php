@@ -33,7 +33,7 @@
  */
 app::$request->page->addCSSFile('lib/cms.css');
 app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
-app::$request->page->addCSSFile('modules/admin/style.css');
+app::$request->page->addCSSFile('modules/admin/css/ui.css');
 app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
 app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
