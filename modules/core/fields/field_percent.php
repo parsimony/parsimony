@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parsimony
  *
@@ -36,54 +37,49 @@ namespace core\fields;
  * @php_version_min 5.3
  * @modules_dependencies core:1
  */
-
 class field_percent extends \field {
 
-    /**
-     * Build a field_numeric field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'INT'
-     * @param integer $characters_max by default '2'
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '[0-9]*'
-     */
-    public function __construct($module, $entity, $name, $type = 'DECIMAL', $characters_max = '5,2', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '[0-9\.,]*', $visibility = 7) {
-        $this->constructor(func_get_args());
-    }
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
-    public function validate($value) {
-        $value = abs(str_replace(',', '.',$value));
-        // abs return absolute value or int(0)
-        if(!$this->required && empty($value)) return $value;
-	if(strstr($this->characters_max, ',')){
-	    $cutMax = explode(',',$this->characters_max);
-	    $cutValue = explode('.',$value);
-            $cut = $cutMax[0] - $cutMax[1];
-	    if(count($cutValue) > 1){
-		if(strlen($cutValue[0]) <= $cut && strlen($cutValue[1]) <= $cutMax[1]){
-		    return $value;
-		}
-	    }elseif(strlen($cutValue[0]) <= $cut){
-		return $value;
-	    }
-	}else{
-	    if(strlen($value) <= $this->characters_max){
-		return $value;
-	    }
+	/**
+	 * Build a field_numeric field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'INT'
+	 * @param integer $characters_max by default '2'
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '^[0-9\.,]*$'
+	 */
+	public function __construct($module, $entity, $name, $type = 'DECIMAL', $characters_max = '5,2', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[0-9\.,]*$', $visibility = 7) {
+		$this->constructor(func_get_args());
 	}
-	return FALSE;
-    }
+
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
+	public function validate($value) {
+		if (!$this->required && empty($value))
+			return '';
+		$value = (float) str_replace(',', '.', $value);
+		if ($value >= 0){
+			$cutMax = explode(',', $this->characters_max);
+			$cutValue = explode('.', $value);
+			$length = strlen(str_replace('.', '', $value)); /* test min/max without the dot */
+			if (is_numeric($value)
+					&& $length >= $this->characters_min 
+					&& $length <= ((int) $cutMax[0]) 
+					&& (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])) {
+				return $value;
+			}
+		}
+		return FALSE;
+	}
 
 }
 

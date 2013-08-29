@@ -29,9 +29,9 @@
 echo $this->displayLabel($fieldName);
  ?>
 <select name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>"> 
-    <?php
-    $states = explode(',', $this->states);
-    foreach ($states as $key => $state) : ?>
-	<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>
-    <?php endforeach; ?>
+	<?php
+	$states = explode(',', $this->states);
+	foreach ($states as $key => $state) : ?>
+		<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>
+	<?php endforeach; ?>
 </select>

@@ -40,78 +40,79 @@ namespace core\fields;
 
 class field_image extends \field {
 
-    /**
-     * Build a field_image field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'varchar'
-     * @param integer $characters_max by default '255'
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '[0-9]*'
-     * @param string $width by default ''
-     * @param string $height by default ''
-     * @param string $path by default 'images'
-     */
-    public function __construct($module, $entity, $name, $type='varchar', $characters_max='255', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $width='100', $height='100', $path='files') {
-        $this->constructor(func_get_args());
-    }
+	/**
+	 * Build a field_image field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'varchar'
+	 * @param integer $characters_max by default '255'
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '[0-9]*'
+	 * @param string $width by default ''
+	 * @param string $height by default ''
+	 * @param string $path by default 'images'
+	 */
+	public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $width = '100', $height = '100', $path = 'files') {
+		$this->constructor(func_get_args());
+	}
 
-    /**
-     * Set width
-     * @param string $width
-     */
-    public function setWidth($width) {
-        $this->width = $width;
-        return $this;
-    }
+	/**
+	 * Set width
+	 * @param string $width
+	 */
+	public function setWidth($width) {
+		$this->width = $width;
+		return $this;
+	}
 
-    /**
-     * Set height
-     * @param string $height
-     */
-    public function setHeight($height) {
-        $this->height = $height;
-        return $this;
-    }
-    
-    /**
-     * Upload file
-     * @param string $path
-     * @return string 
-     */
-    public function uploadAction() {
-	$maxUploadSize = str_replace('m','000000',strtolower(ini_get('upload_max_filesize')));
-        try {
-            $upload = new \core\classes\upload($maxUploadSize, 'image', PROFILE_PATH . $this->module . '/' . $this->path . '/');
-            $result = $upload->upload($_FILES['fileField']);
-        } catch (\Exception $exc) {
-	    \app::$response->setHeader('X-XSS-Protection', '0');
-	    \app::$response->setHeader('Content-type', 'application/json');
-	    if (ob_get_level()) ob_clean();
-	    return json_encode(array('eval' => '', 'notification' => $exc->getMessage(), 'notificationType' => 'negative'));
-        }
+	/**
+	 * Set height
+	 * @param string $height
+	 */
+	public function setHeight($height) {
+		$this->height = $height;
+		return $this;
+	}
+
+	/**
+	 * Upload file
+	 * @param string $path
+	 * @return string 
+	 */
+	public function uploadAction() {
+		$maxUploadSize = str_replace('m','000000',strtolower(ini_get('upload_max_filesize')));
+		try {
+			$upload = new \core\classes\upload($maxUploadSize, 'image', PROFILE_PATH . $this->module . '/' . $this->path . '/');
+			$result = $upload->upload($_FILES['fileField']);
+		} catch (\Exception $exc) {
+		\app::$response->setHeader('X-XSS-Protection', '0');
+		\app::$response->setHeader('Content-type', 'application/json');
+		if (ob_get_level())
+			ob_clean();
+		return json_encode(array('eval' => '', 'notification' => $exc->getMessage(), 'notificationType' => 'negative'));
+	}
 	if($result !== FALSE){
-	    $arr = $_FILES['fileField'];
-	    $arr['name'] = $result;
-	    $params = @getimagesize($path.'/'.$result);
-	    list($width, $height, $type, $attr) = $params;
-	    if($params){
-		$arr['x'] = $width;
-		$arr['y'] = $height;
-		$arr['type'] = $type;
-	    }
-	    unset($arr['tmp_name']);
-	    \app::$response->setHeader('Content-type', 'application/json');
-	    return json_encode($arr);
+		$arr = $_FILES['fileField'];
+		$arr['name'] = $result;
+		$params = @getimagesize($path.'/'.$result);
+		list($width, $height, $type, $attr) = $params;
+		if($params){
+			$arr['x'] = $width;
+			$arr['y'] = $height;
+			$arr['type'] = $type;
+		}
+		unset($arr['tmp_name']);
+		\app::$response->setHeader('Content-type', 'application/json');
+		return json_encode($arr);
 	}else
-	    return FALSE;
-    }
+		return FALSE;
+	}
 
 }
 

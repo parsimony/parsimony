@@ -40,86 +40,94 @@ namespace core\fields;
 
 class field_publication extends \field {
 
-    /**
-     * Build a field_publication field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'datetime'
-     * @param integer $characters_max by default ''
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '.*'
-     */
-    public function __construct($module, $entity, $name, $type='datetime', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7) {
-        $this->constructor(func_get_args());
-    }
-    
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
-    public function validate($value) {
-	 return $value;
-    }
-    
-    /**
-     * Add a column after the last existing field 
-     * @param string $fieldBefore
-     * @return bool
-     */
-    public function addColumn($fieldBefore = '') {
-        if (empty($fieldBefore))
-            $pos = ' FIRST ';
-        else
-            $pos = ' AFTER ' . $fieldBefore;
-        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . ' DATETIME NOT NULL '.$pos) && 
-            \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_status INT(1) NOT NULL '.$pos ) && 
-            \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_visibility VARCHAR(25) NOT NULL '.$pos);
-    }
+	/**
+	 * Build a field_publication field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'datetime'
+	 * @param integer $characters_max by default ''
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '.*'
+	 */
+	public function __construct($module, $entity, $name, $type = 'datetime', $characters_max = '', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7) {
+		$this->constructor(func_get_args());
+	}
 
-    /**
-     * Alter the order of columns
-     * @param string $fieldBefore
-     * @param string $oldName optional
-     * @return bool
-     */
-    public function alterColumn($fieldBefore = '', $oldName = FALSE) {
-        return TRUE;
-    }
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
+	public function validate($value) {
+		if(is_array($value) && isset($value[$this->name]) && isset($value[$this->name . '_status']) && isset($value[$this->name . '_visibility'])
+				&& is_numeric($value[$this->name . '_status']) && $value[$this->name . '_status'] >= 0 && $value[$this->name . '_status'] <= 2
+				&& is_numeric($value[$this->name . '_visibility']) && $value[$this->name . '_visibility'] >= 0 && $value[$this->name . '_visibility'] <= 2){
+			if (preg_match('#^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$#', $value[$this->name], $date)) {
+				if (checkdate($date[2], $date[3], $date[1])) {
+					return $value;
+				}
+			}
+		}
+		return FALSE;
+	}
 
-    /**
-     * Delete a column 
-     * @return bool
-     */
-    public function deleteColumn() {
-        return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . ';
-            ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_status' . ';
-            ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_visibility');
-         
-    }
+	/**
+	 * Add a column after the last existing field 
+	 * @param string $fieldBefore
+	 * @return bool
+	 */
+	public function addColumn($fieldBefore = '') {
+		if (empty($fieldBefore))
+			$pos = ' FIRST ';
+		else
+			$pos = ' AFTER ' . $fieldBefore;
+		return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . ' DATETIME NOT NULL '.$pos.';
+			ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_status INT(1) NOT NULL '.$pos.';
+			ALTER TABLE ' . $this->module . '_' . $this->entity . ' ADD ' . $this->name . '_visibility VARCHAR(25) NOT NULL '.$pos);
+	}
 
-    /**
-     * Fill SQL Features
-     * @return string
-     */
-    public function sqlModel() {
-        return $this->name . ' ' . $this->type . ' NOT NULL ,' . $this->name . '_status INT(1) NOT NULL,' . $this->name . '_visibility VARCHAR(25) NOT NULL';
-    }
-    
-    /**
-     * List SQLcolumns
-     * @return array
-     */
-    public function getColumns(){
-        return array($this->name . '_visibility',$this->name . '_status',$this->name);
-    }
+	/**
+	 * Alter the order of columns
+	 * @param string $fieldBefore
+	 * @param string $oldName optional
+	 * @return bool
+	 */
+	public function alterColumn($fieldBefore = '', $oldName = FALSE) {
+		return TRUE;
+	}
 
+	/**
+	 * Delete a column 
+	 * @return bool
+	 */
+	public function deleteColumn() {
+		return \PDOconnection::getDB()->exec('ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . ';
+			ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_status' . ';
+			ALTER TABLE ' . $this->module . '_' . $this->entity . ' DROP ' . $this->name . '_visibility');
+
+	}
+
+	/**
+	 * Fill SQL Features
+	 * @return string
+	 */
+	public function sqlModel() {
+		return $this->name . ' ' . $this->type . ' NOT NULL ,' . $this->name . '_status INT(1) NOT NULL,' . $this->name . '_visibility VARCHAR(25) NOT NULL';
+	}
+
+	/**
+	 * List SQLcolumns
+	 * @return array
+	 */
+	public function getColumns(){
+		return array($this->name . '_visibility',$this->name . '_status',$this->name);
+	}
 
 }
 

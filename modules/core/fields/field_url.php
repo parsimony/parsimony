@@ -40,39 +40,40 @@ namespace core\fields;
 
 class field_url extends \field {
 
-    /**
-     * Build a field_url field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'varchar'
-     * @param integer $characters_max by default '255'
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)'
-     */
-    public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)', $visibility = 7) {
-        $this->constructor(func_get_args());
-    }
+	/**
+	 * Build a field_url field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'varchar'
+	 * @param integer $characters_max by default '255'
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)'
+	 */
+	public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)', $visibility = 7) {
+		$this->constructor(func_get_args());
+	}
 
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
-    public function validate($value) {
-        if (strlen($value) <= $this->characters_max)
-            if (!$this->required && empty($value))
-                return $value;
-            else
-                return filter_var($value, FILTER_VALIDATE_URL);
-        else
-            return FALSE;
-    }
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
+	public function validate($value) {
+		$length = strlen($value);
+		if ($length >= $this->characters_min && $length <= $this->characters_max) {
+			if (!$this->required && empty($value))
+				return '';
+			else
+				return filter_var($value, FILTER_VALIDATE_URL);
+		}
+		return FALSE;
+	}
 
 }
 

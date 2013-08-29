@@ -28,18 +28,18 @@
 if(isset($this->unique) && $this->unique):
 ?>
 <script>
-    $(document).ready(function() {
-	$(document).on("blur keyup", "#<?php echo $fieldName  ?>", function(){
-	    $.post(BASE_PATH + '<?php echo $this->module; ?>/callField',{module:"<?php echo $this->module; ?>", entity:"<?php echo $this->entity; ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value + "<?php if($row) echo '&id='.$row->getId()->value ?>"}, function(data){
-		if(data == 1){
-		    $(".info_<?php echo $fieldName ?>").empty();
-		}else{
-		    $(".info_<?php echo $fieldName ?>").text("<?php echo t('It already exists, please choose another') ?>");
-		}
-	    });
+	$(document).ready(function() {
+		$(document).on("blur keyup", "#<?php echo $fieldName ?>", function(){
+			$.post(BASE_PATH + '<?php echo $this->module; ?>/callField',{module:"<?php echo $this->module; ?>", entity:"<?php echo $this->entity; ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value + "<?php if($row) echo '&id='.$row->getId()->value ?>"}, function(data){
+				if(data == 1){
+					$(".info_<?php echo $fieldName ?>").empty();
+				}else{
+					$(".info_<?php echo $fieldName ?>").text("<?php echo t('It already exists, please choose another') ?>");
+				}
+			});
+		});
+		$("#<?php echo $fieldName ?>").trigger("keyup");
 	});
-	$("#<?php echo $fieldName  ?>").trigger("keyup");
-    });
 </script>
 <?php
 endif;
@@ -47,5 +47,5 @@ echo $this->displayLabel($fieldName);
 ?>
 <input type="text" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
 <?php if(isset($this->unique) && $this->unique): ?>
-    <div class="infoUnique info_<?php echo $fieldName ?>"></div>
+	<div class="infoUnique info_<?php echo $fieldName ?>"></div>
 <?php endif; ?>

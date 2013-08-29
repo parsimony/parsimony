@@ -27,8 +27,8 @@
  */
 ?>
 <div class="placeholder">
-    <label for="filter_<?php echo $this->name ?>">
+	<label for="filter_<?php echo $this->name ?>">
 	<?php echo $this->label ?>
-    </label>
-    <input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
+	</label>
+	<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
 </div>

@@ -40,59 +40,65 @@ namespace core\fields;
 
 class field_mail extends \field {
 
-    /**
-     * Build a field_mail field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'varchar'
-     * @param integer $characters_max by default '255'
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$'
-     */
-    public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$', $visibility = 7, $unique = FALSE) {
-        $this->constructor(func_get_args());
-    }
+	/**
+	 * Build a field_mail field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'varchar'
+	 * @param integer $characters_max by default '255'
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$'
+	 */
+	public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$', $visibility = 7, $unique = FALSE) {
+		$this->constructor(func_get_args());
+	}
 
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
-    public function validate($value) {
-        $args = func_get_args();
-	if(isset($this->unique) && $this->unique && isset($args[1])){
-            if($args[1] == 'insert') $args[1] = false;
-	    if($this->checkUniqueAction($value, $args[1]) == 0) return FALSE;
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
+	public function validate($value) {
+		$length = strlen($value);
+		if($length >= $this->characters_min && $length <= $this->characters_max){
+			if (!$this->required && empty($value))
+				return '';
+			else{
+				$args = func_get_args();
+				if($this->unique && isset($args[1])){
+					if($args[1] === 'insert')
+						$args[1] = FALSE;
+					if($this->checkUniqueAction($value, $args[1]) == 0)
+						return FALSE;
+				}
+				return filter_var($value, FILTER_VALIDATE_EMAIL);
+			}
+		}
+		return FALSE;
 	}
-        if (strlen($value) <= $this->characters_max)
-            if (!$this->required && empty($value))
-                return $value;
-            else
-                return filter_var($value, FILTER_VALIDATE_EMAIL);
-        else
-            return FALSE;
-    }
-    
-    public function checkUniqueAction($chars, $id = false) {
-	if($this->unique){
-            $entity = clone \app::getModule($this->module)->getEntity($this->entity);
-            $obj = $entity->where($this->module . '_' . $this->entity .'.'.$this->name.' = "'.$chars.'"');
-            if($id != false && is_numeric($id)) $obj = $obj->where($entity->getId()->name.' != '.$id);
-            $obj = $obj->fetch();
-	    if(!$obj){
-		return '1';
-	    }else{
-		return '0';
-	    }
+
+	public function checkUniqueAction($chars, $id = FALSE) {
+		$entity = \app::getModule($this->module)->getEntity($this->entity);
+		$query = 'SELECT ' . $this->name . ' FROM ' . $this->module . '_' . $this->entity . ' WHERE ' . $this->name .' = :chars';
+		$params = array(':chars' => $chars);
+		if($id !== FALSE) {
+			$query .= ' AND '.$entity->getId()->name.' != :id';
+			$params[':id'] = $id;
+		}
+		$sth = \PDOconnection::getDB()->prepare($query);
+		$sth->execute($params);
+		if($sth->fetch() !== FALSE){
+			return '0';
+		}else{
+			return '1';
+		}
 	}
-	return FALSE;
-    }
 
 }
 

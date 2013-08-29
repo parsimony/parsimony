@@ -34,33 +34,33 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 <?php echo s($this->value); ?>
 </div>
 <div id="upload_image_<?php echo $row->getId()->value; ?>" style="position: relative;">
-    <div id="image_thumb_<?php echo $row->getId()->value; ?>" class="field-image-previewContainer">
-	    <img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this->value); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>" class="field-image-preview" />
-    </div>
-    <div class="field-image-inputContainer" style="position: absolute;top:0;width:30px;">
+	<div id="image_thumb_<?php echo $row->getId()->value; ?>" class="field-image-previewContainer">
+		<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this->value); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>" class="field-image-preview" />
+	</div>
+	<div class="field-image-inputContainer" style="position: absolute;top:0;width:30px;">
 	<input type="file" class="field-image-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;margin: 0;width:30px;" />
-        <div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1;"><a href="#" style="color: white;background: #444;padding: 0px 4px;text-decoration: none;">Edit</a></div>
-    </div>
-    <input type="hidden" id="image_<?php echo $row->getId()->value; ?>" name="<?php echo $this->name ?>" value="<?php echo  s($this->value) ?>" />
+		<div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1;"><a href="#" style="color: white;background: #444;padding: 0px 4px;text-decoration: none;">Edit</a></div>
+	</div>
+	<input type="hidden" id="image_<?php echo $row->getId()->value; ?>" name="<?php echo $this->name ?>" value="<?php echo  s($this->value) ?>" />
 </div>
 <script LANGUAGE="JavaScript" type="text/javascript"> 
-    $(document).ready(function(){
-	    $("#upload_image_<?php echo $row->getId()->value; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->module; ?>/callField",
-	    ajaxFileParams: {
-            module: "<?php echo $this->module; ?>", 
-            entity: "<?php echo $this->entity; ?>", 
-            fieldName:"<?php echo $this->name; ?>", 
-            method:'upload', 
-            args:''
-            },
-	    stop:function(response){
-		document.getElementById('img_<?php echo $row->getId()->value; ?>').innerHTML = response.name;
-                $('#img_<?php echo $row->getId()->value; ?>').attr('data-modified','1');
-                $("#image_<?php echo $row->getId()->value; ?>").val(response.name);
-		var thumb = $("#image_thumb_<?php echo $row->getId()->value; ?>");
-		thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
-	    }
+	$(document).ready(function(){
+		$("#upload_image_<?php echo $row->getId()->value; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->module; ?>/callField",
+			ajaxFileParams: {
+				module: "<?php echo $this->module; ?>", 
+				entity: "<?php echo $this->entity; ?>", 
+				fieldName:"<?php echo $this->name; ?>", 
+				method:'upload', 
+				args:''
+				},
+			stop:function(response){
+			document.getElementById('img_<?php echo $row->getId()->value; ?>').innerHTML = response.name;
+					$('#img_<?php echo $row->getId()->value; ?>').attr('data-modified','1');
+					$("#image_<?php echo $row->getId()->value; ?>").val(response.name);
+			var thumb = $("#image_thumb_<?php echo $row->getId()->value; ?>");
+			thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
+			}
+		});
 	});
-    });
 </script>
 <?php endif; ?>

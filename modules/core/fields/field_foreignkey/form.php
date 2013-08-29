@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * Parsimony
  *
@@ -25,25 +26,28 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 echo $this->displayLabel($fieldName);
 
 $foreignID = $this->value;
-$sth = PDOconnection::getDB()->query('SELECT * FROM ' . PREFIX . $this->moduleLink.'_'.$this->link); // used ->getEntity() but there was interference because of cache
-if(is_object($sth)){
-    $sth->setFetchMode(PDO::FETCH_OBJ);
-    echo '<select name="'.$this->name.'"><option></option>';
-    $properties = app::getModule($this->moduleLink)->getEntity($this->link)->getFields();
-    foreach ($sth as $key => $line) {
-        $text = $this->templatelink;
-        foreach ($properties as $key => $field) {
-            if(get_class($field)==\app::$aliasClasses['field_ident']) $id = $key;
-            if(isset($line->$key)) $text = str_replace('%'.$key.'%',$line->$key, $text);
-        }
-        if($line->$id == $foreignID) $selected = ' selected="selected"';
-        else $selected = '';
-        echo  '<option value="'.$line->$id.'"'.$selected.'>'.$text.'</option>';
-    }
-    echo '</select>';
+$sth = PDOconnection::getDB()->query('SELECT * FROM ' . PREFIX . $this->moduleLink . '_' . $this->link); // used ->getEntity() but there was interference because of cache
+if (is_object($sth)) {
+	$sth->setFetchMode(PDO::FETCH_OBJ);
+	echo '<select name="' . $this->name . '"><option></option>';
+	$properties = app::getModule($this->moduleLink)->getEntity($this->link)->getFields();
+	foreach ($sth as $key => $line) {
+		$text = $this->templatelink;
+		foreach ($properties as $key => $field) {
+			if (get_class($field) == \app::$aliasClasses['field_ident'])
+				$id = $key;
+			if (isset($line->$key))
+				$text = str_replace('%' . $key . '%', $line->$key, $text);
+		}
+		if ($line->$id == $foreignID)
+			$selected = ' selected="selected"';
+		else
+			$selected = '';
+		echo '<option value="' . $line->$id . '"' . $selected . '>' . $text . '</option>';
+	}
+	echo '</select>';
 }
 ?>

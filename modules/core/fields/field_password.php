@@ -40,17 +40,19 @@ namespace core\fields;
 
 class field_password extends \field {
 
-    /**
-     * Validate field
-     * @param string $value
-     * @return string
-     */
-    public function validate($value) {
-        if(!$this->required && empty($value))
-                return $value;
-        if(!empty($value)) return sha1($value.\app::$config['security']['salt']);
-        else return '';
-    }
+	/**
+	 * Validate field
+	 * @param string $value
+	 * @return string
+	 */
+	public function validate($value) {
+		if (!empty($value)) {
+			return sha1($value . \app::$config['security']['salt']);
+		} elseif ($this->required) {
+			return FALSE;
+		}
+		return '';
+	}
 
 }
 

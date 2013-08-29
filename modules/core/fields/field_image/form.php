@@ -31,33 +31,33 @@ echo $this->displayLabel($fieldName);
  ?>
 <div class="uploadimg">
 <div id="upload_image_<?php echo $fieldName?>">
-    <div id="image_thumb_<?php echo $fieldName; ?>" class="field-image-previewContainer<?php if(empty($value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
-	    <div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name',FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
-	    <img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/<?php echo s($value) ?>&x=150&y=150" class="field-image-preview" />
-    </div>
-    <div class="field-image-inputContainer" style="position: relative">
+	<div id="image_thumb_<?php echo $fieldName; ?>" class="field-image-previewContainer<?php if(empty($value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
+		<div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name',FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
+		<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/<?php echo s($value) ?>&x=150&y=150" class="field-image-preview" />
+	</div>
+	<div class="field-image-inputContainer" style="position: relative">
 	<input type="file" class="field-image-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;height:20px;cursor:pointer;margin: 0;" />
 	<div class="field-image-inputText" style="cursor:pointer;line-height: 20px;z-index:1"><a href="#"><?php echo t('Choose an image or Drag & Drop it'); ?></a></div>
-    </div>
-    <input type="hidden" id="image_<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
+	</div>
+	<input type="hidden" id="image_<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
 </div>
 </div>
 <script LANGUAGE="JavaScript" type="text/javascript">
-    $(document).ready(function(){
-	$("#upload_image_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->module; ?>/callField",
-	    ajaxFileParams: {
-            module: "<?php echo $this->module; ?>", 
-            entity: "<?php echo $this->entity; ?>", 
-            fieldName:"<?php echo $this->name; ?>", 
-            method:'upload', 
-            args:''
-            },
-	    stop:function(response){
-		$("#image_<?php echo $fieldName; ?>").val(response.name);
-		var thumb = $("#image_thumb_<?php echo $fieldName; ?>");
-		$(".field-image-fileNameLink",thumb).text(response.name).attr("href",response.name);
-		thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
-	    }
+	$(document).ready(function(){
+		$("#upload_image_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->module; ?>/callField",
+			ajaxFileParams: {
+				module: "<?php echo $this->module; ?>", 
+				entity: "<?php echo $this->entity; ?>", 
+				fieldName:"<?php echo $this->name; ?>", 
+				method:'upload', 
+				args:''
+				},
+			stop:function(response){
+			$("#image_<?php echo $fieldName; ?>").val(response.name);
+			var thumb = $("#image_thumb_<?php echo $fieldName; ?>");
+			$(".field-image-fileNameLink",thumb).text(response.name).attr("href",response.name);
+			thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
+			}
+		});
 	});
-    });
 </script>

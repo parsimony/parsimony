@@ -31,7 +31,7 @@ app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
 echo $this->displayLabel($fieldName);
 ?>
 <div style="padding-top: 24px;width:700px">
-    <textarea cols="50" rows="14" id="<?php echo $fieldName; ?>" class="<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><?php echo s($value) ?></textarea>
+	<textarea cols="50" rows="14" id="<?php echo $fieldName; ?>" class="<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><?php echo s($value) ?></textarea>
 </div>
 <script>
 	var HTML5editor<?php echo $fieldName; ?> = new wysiwyg();

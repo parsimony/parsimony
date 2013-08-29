@@ -40,35 +40,35 @@ namespace core\fields;
 
 class field_wysiwyg extends \field {
 
-    /**
-     * Build a field_code field
-     * @param string $module
-     * @param string $entity 
-     * @param string $name 
-     * @param string $type by default 'longtext'
-     * @param integer $characters_max by default ''
-     * @param integer $characters_min by default 0
-     * @param string $label by default ''
-     * @param string $text_help by default ''
-     * @param string $msg_error by default invalid
-     * @param string $default by default ''
-     * @param bool $required by default true
-     * @param string $regex by default '.*'
-     * @param integer $visibility by default '7'
-     */
-    public function __construct($module, $entity, $name, $type='longtext', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor') {
-        $this->constructor(func_get_args());
-    }
-    
-    /**
-     * Validate the value of Field
-     * @param string $value
-     * @return string|false
-     */
-    public function validate($value) {
-        return \tools::sanitize($value, $this->wysiwygModules);
-    }
-    
+	/**
+	 * Build a field_code field
+	 * @param string $module
+	 * @param string $entity 
+	 * @param string $name 
+	 * @param string $type by default 'longtext'
+	 * @param integer $characters_max by default ''
+	 * @param integer $characters_min by default 0
+	 * @param string $label by default ''
+	 * @param string $text_help by default ''
+	 * @param string $msg_error by default invalid
+	 * @param string $default by default ''
+	 * @param bool $required by default true
+	 * @param string $regex by default '.*'
+	 * @param integer $visibility by default '7'
+	 */
+	public function __construct($module, $entity, $name, $type='longtext', $characters_max='', $characters_min=0, $label='', $text_help='', $msg_error='invalid', $default='', $required=TRUE, $regex='.*', $visibility = 7, $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor') {
+		$this->constructor(func_get_args());
+	}
+
+	/**
+	 * Validate the value of Field
+	 * @param string $value
+	 * @return string|false
+	 */
+	public function validate($value) {
+		return \tools::sanitize($value, $this->wysiwygModules);
+	}
+
 }
 
 ?>
