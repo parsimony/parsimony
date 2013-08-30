@@ -925,7 +925,7 @@ class admin extends \module {
 	 */
 	protected function getViewUpdateFormAction($module, $entity, $id) {
 		$obj = \app::getModule($module)->getEntity($entity);
-		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=' . $id)->getViewUpdateForm(TRUE));
+		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=' . $id)->fetch()->getViewUpdateForm());
 	}
 
 	/**
@@ -955,7 +955,7 @@ class admin extends \module {
 		unset($_POST['entity']);
 		$res = $obj->insertInto($_POST);
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => '$(\'a[rel="' . $module . ' - ' . $entity . '"]\').trigger("click");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been added', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been added', FALSE), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
 		}else{
@@ -983,7 +983,7 @@ class admin extends \module {
 			$res = $obj->where($obj->getId()->name.' = '.$_POST[$obj->getId()->name])->delete();
 		}
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => '$(\'a[rel="' . $module . ' - ' . $entity . '"]\').trigger("click");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE), 'notificationType' => 'negative');
 		}else{

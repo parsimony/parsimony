@@ -1,6 +1,5 @@
 body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
-#admintoolbar{font-size: 13px;height: 100%;width: 100%;text-align: center;
-	      -moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
+#admintoolbar{font-size: 13px;text-align: center;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 
 /*############## SideBars ################# */
 

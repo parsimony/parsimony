@@ -89,8 +89,7 @@
 	#modifmodel3 span.ui-icon-closethick {display: none;}
 	#modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
 	.updateBTN{text-align: center;width: 20px;padding:2px}
-	.adminzone{margin-bottom: 0;}
-	.adminzonecontent{min-width:900px;padding-bottom:0}
+	.adminzonecontent{min-width:900px;bottom:0}
 </style>
 <div class="adminzone">
 	<div id="conf_box_title"><?php echo ucfirst(t($obj->getTitle())) ?></div>
@@ -105,7 +104,7 @@
 	</div>
 	<div id="contentajax" class="adminzonecontent">
 		<div id="datagridajax" class="admintabs">
-			<?php
+			<?php 
 		$modifModel = TRUE;
 			include('modules/admin/views/desktop/datagrid.php');
 			?>

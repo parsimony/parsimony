@@ -32,7 +32,7 @@
 	<div class="adminzonemenu"></div>
 	<div class="adminzonecontent">
 		<?php
-		echo str_replace('action=""', 'target="formResult" action=""', \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->fetch()->getViewUpdateForm(TRUE));
+		echo str_replace('action=""', 'target="formResult" action=""', \app::getModule('core')->getEntity('user')->getById($_SESSION['id_user'])->fetch()->getViewUpdateForm());
 		?>
 	</div>
 </div>
