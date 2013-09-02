@@ -60,14 +60,14 @@ $daysOfThisMonth = array();
 for ($i = 1; $i <= $maxday; $i++)
     $daysOfThisMonth[$i] = 0;
 
-$query = \PDOconnection::getDB()->query('SELECT publicationGMT FROM '.PREFIX.'blog_post WHERE '.PREFIX.'publicationGMT BETWEEN \'' . gmdate('Y-m-d H:i:s', $firstDayOfMonth) . '\' AND \'' . gmdate('Y-m-d H:i:s', mktime(0, 0, 0, $thisMonth, $maxday, $thisYear)) . '\'');
-if(is_object($query)){
-    $recposts = $query->fetchAll(\PDO::FETCH_ASSOC);
-    if (!empty($recposts)) {
+$query = \PDOconnection::getDB()->prepare('SELECT publicationGMT FROM '.PREFIX.'blog_post WHERE '.PREFIX.'publicationGMT BETWEEN :datestart AND :dateend');
+$query->execute(array(':datestart' => gmdate('Y-m-d H:i:s', $firstDayOfMonth), ':dateend' => gmdate('Y-m-d H:i:s', mktime(0, 0, 0, $thisMonth, $maxday, $thisYear))));
+$recposts = $query->fetchAll(\PDO::FETCH_ASSOC);
+if (!empty($recposts) !== FALSE) {
 	foreach ($recposts as $key => $post) {
-	    $daysOfThisMonth[date('j', strtotime($post['publicationGMT']))]++;
+		$daysOfThisMonth[date('j', strtotime($post['publicationGMT']))]++;
 	}
-    }
+}
 ?>
 <div class="calendar">
     <div class="monthTitle"><?php echo t($monthNames[$thisMonth - 1]) . ' ' . $thisYear; ?></div>
@@ -120,4 +120,3 @@ if(is_object($query)){
         <?php endif; ?>
     </div>
 </div>
-<?php } ?>

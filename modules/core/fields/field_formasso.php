@@ -91,12 +91,13 @@ class field_formasso extends \field {
 			$idNameForeignEntity = $foreignEntity->getId()->name;
 			$assoEntity = \app::getModule($this->module)->getEntity($this->entity_asso);
 
-			$assoEntity->where($idEntity. ' = '.$id)->delete();
+			$assoEntity->delete($id);
 
 			foreach ($vars2 as $idForeign => $value) {
 				if (substr($idForeign,0,3) == 'new') {
 					$foreignEntity->insertInto(array($idNameForeignEntity => '', $foreignEntity->getBehaviorTitle() => trim($value)));
-					$idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = \'' . trim(str_replace("'","\'",$value)) . '\'')->fetch()->$idNameForeignEntity;
+					\app::$request->setParam('titleformasso' , trim($value)); // set value to be used in prepared query
+					$idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = :titleformasso')->fetch()->$idNameForeignEntity;
 				}
 				$assoEntity->insertInto(array($assoEntity->getId()->name => '', $idEntity => $id, $idNameForeignEntity => $idForeign));
 			}

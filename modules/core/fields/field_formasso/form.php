@@ -90,7 +90,8 @@ if($row){
 	$idNameForeignEntity = $foreignEntity->getId()->name;
 	$titleForeignEntity = $foreignEntity->getBehaviorTitle();
 	$assoEntity = \app::getModule($this->module)->getEntity($this->entity_asso);
-	foreach ($assoEntity->select()->join($this->module.'_'.$this->entity_asso.'.'.$idNameForeignEntity, $this->module.'_'.$this->entity_foreign.'.'.$idNameForeignEntity)->where($idNameEntity.' = '.$row->getId()->value) AS $line) {
+	\app::$request->setParam('idformasso' , $row->getId()->value); // set value to be used in prepared query
+	foreach ($assoEntity->select()->join($this->module.'_'.$this->entity_asso.'.'.$idNameForeignEntity, $this->module.'_'.$this->entity_foreign.'.'.$idNameForeignEntity)->where($idNameEntity.' = :idformasso') AS $line) {
 		echo '<div style="float:left;padding:3px"><span class="ui-icon ui-icon-circle-close" style="float:left;cursor:pointer"></span>' . $line->$titleForeignEntity . '<input type="hidden" name="'.$this->name.'[' . $line->$idNameForeignEntity . ']" value="' . $line->$titleForeignEntity . '" /></div>';
 	}
 }

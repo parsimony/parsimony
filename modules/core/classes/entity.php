@@ -289,21 +289,19 @@ abstract class entity implements \Iterator {
 
 	/**
 	 * Delete in DB 
-	 * @param string $id
+	 * @param int $id
 	 * @return bool
 	 */
-	public function delete() {
-		if($this->getRights($_SESSION['id_role']) & UPDATE){
+	public function delete($id) {
+		if ($this->getRights($_SESSION['id_role']) & UPDATE) {
 			$this->beforeDelete();
-			$query = 'DELETE FROM ' . PREFIX . $this->_tableName;
-			if (isset($this->_SQL['wheres'])) {
-				$query .= ' WHERE ' . implode(' AND ', $this->_SQL['wheres']);
-			}
-			$res = PDOconnection::getDB()->exec($query);
+			$query = 'DELETE FROM ' . PREFIX . $this->_tableName . ' WHERE ' . $this->getId()->name . ' = :id';
+			$res = PDOconnection::getDB()->prepare($query);
+			$res->execute(array(':id' => $id));
 			$this->afterDelete();
 			\app::dispatchEvent('afterDelete', array(&$this));
 			return $res;
-		}else{
+		} else {
 			throw new \Exception(t('Delete forbidden on ' . $this->_tableName, FALSE));
 		}
 	}
@@ -468,15 +466,11 @@ abstract class entity implements \Iterator {
 	  * @return pagination object
 	  */
 	 public function getPagination() {
-		 if (isset($this->_SQL['limit'])) {
-			 $limit = explode(',', $this->_SQL['limit']);
-			 if (count($limit) > 1)
-				 $diff = (int) trim($limit[1]);
-			 else
-				 $diff = (int) trim($this->_SQL['limit']);
-			 return new \pagination(strstr($this->_SQL['query'], 'limit', true), $diff);
-		 }
-	 }
+        if (isset($this->_SQL['pagination']))
+            return $this->_SQL['pagination'];
+        else
+            return FALSE;
+    }
 
 	 /** *************************************************************
 	  * ************************* EVENTS *************
@@ -805,45 +799,80 @@ abstract class entity implements \Iterator {
 	  * @return bool
 	  */
 	 public function buildQuery($forceRebuild = FALSE) {
-		 if (!isset($this->_SQL['stmt']) || $forceRebuild) { // cache
-			 $this->beforeSelect();
-			 $query = 'SELECT ';
-			 if (isset($this->_SQL['selects'])) {
-				 $query .= implode(',', $this->_SQL['selects']);
-			 } else {
-				 $query .= '*';
-			 }
-			 $query .= ' FROM ' . $this->_tableName;
-			 if (isset($this->_SQL['joins'])) {
-				 foreach ($this->_SQL['joins'] AS $join) {
-					 $query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
-				 }
-			 }
-			 if (isset($this->_SQL['wheres'])) {
-				 $wheres = array();
-				 foreach ($this->_SQL['wheres'] AS $property => $where) {
-					 $wheres[] = $where;
-				 }
-				 $query .= ' WHERE ' . implode(' AND ', $wheres);
-			 }
-			 if (isset($this->_SQL['orders'])) {
-				 $orders = array();
-				 foreach ($this->_SQL['orders'] AS $property => $order) {
-					 $orders[] = $property . ' ' . $order;
-				 }
-				 $query .= ' ORDER BY ' . implode(',', $orders);
-			 }
-			 if (isset($this->_SQL['limit'])) {
-				 $query .= ' LIMIT ' . $this->_SQL['limit'];
-			 }
-			 $this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
-			 $this->_SQL['stmt'] = \PDOconnection::getDB()->query($this->_SQL['query'], \PDO::FETCH_INTO, $this);
-			 $this->prepareFieldsForDisplay();
-		 }
-		 if (is_object($this->_SQL['stmt'])) {
-			 return TRUE;
-		 }
-		 return FALSE;
+		if (!isset($this->_SQL['stmt']) || $forceRebuild) { // cache
+			$this->beforeSelect();
+			$query = 'SELECT ';
+			if (isset($this->_SQL['selects'])) {
+				$query .= implode(',', $this->_SQL['selects']);
+			} else {
+				$query .= '*';
+			}
+			$query .= ' FROM ' . $this->_tableName;
+			if (isset($this->_SQL['joins'])) {
+				foreach ($this->_SQL['joins'] AS $join) {
+					$query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+				}
+			}
+			$vars = array(); // init here for pagination
+			if (isset($this->_SQL['wheres'])) {
+				foreach ($this->_SQL['wheres'] AS $where) {
+					if (strstr($where, ':') !== FALSE) {
+						preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
+						foreach ($matches[1] AS $param) {
+							$value = \app::$request->getParam($param);
+							if (!empty($value)) {
+								if (is_array($value)) {
+									$nb = count($value);
+									$str = array();
+									for ($i = 0; $i < $nb; $i++) {
+										$str[] = ':' . $param . $i;
+										$vars[':' . $param . $i] = $value[$i];
+									}
+									$where = str_replace(':' . $param, implode(',', $str), $where);
+								} else {
+									$vars[':' . $param] = strlen($value) > 0 ? $value : '';
+								}
+							}
+						}
+					}
+					// Frame the "where" if several sql conditions
+					if (strstr($where, '&&') || strstr($where, '||') || stristr($where, ' or ') || stristr($where, ' and '))
+						$wheres[] = '(' . $where . ')';
+					else 
+						$wheres[] = $where;
+			   }
+			   if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
+			}
+			if (isset($this->_SQL['orders'])) {
+				$orders = array();
+				foreach ($this->_SQL['orders'] AS $property => $order) {
+					$orders[] = $property . ' ' . $order;
+				}
+				$query .= ' ORDER BY ' . implode(',', $orders);
+			}
+			if (isset($this->_SQL['limit'])) {
+				$limit = ' LIMIT 0,' . $this->_SQL['limit'];
+                if (isset($this->_SQL['pagination']) && $this->_SQL['pagination'] === TRUE) {
+                    $this->_SQL['pagination'] = new \pagination($query, $this->_SQL['limit'], $vars);
+                    $start = $this->_SQL['pagination']->getCurrentPage() * $this->_SQL['limit'] - $this->_SQL['limit'];
+                    $limit = ' LIMIT ' . $start . ',' . $this->_SQL['limit'];
+                }
+                $query .= $limit;
+			}
+			$this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
+			if(!empty($vars)){ 
+				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
+				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
+				$this->_SQL['stmt']->execute($vars);
+			}else{
+				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
+			}
+			$this->prepareFieldsForDisplay();
+		}
+		if (is_object($this->_SQL['stmt'])) {
+			return TRUE;
+		}
+		return FALSE;
 	 }
 
 	 /* Iterator interface */

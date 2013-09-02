@@ -140,7 +140,7 @@ if(isset($_POST[\'add\'])){
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
 			$entity->prepareFieldsForDisplay();
 			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
-				$entity->select()->where($entity->getId()->name . " = " . \app::$request->getParam($this->getConfig('updateparam')))->fetch();
+				$entity->select()->where($entity->getId()->name . " = :" . $this->getConfig('updateparam'))->fetch();
 			}
 			include($this->getConfig('pathOfView'));
 		}else {

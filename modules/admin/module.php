@@ -72,29 +72,6 @@ class admin extends \module {
 	}
 
 	/**
-	 * Edit In Line
-	 * @param string $module
-	 * @param string $model
-	 * @param string $property
-	 * @param string $id
-	 * @param string $value
-	 * @return string 
-	 */
-	protected function editInLineAction($module, $model, $property, $id, $value) {
-		unset($_POST['action']);
-		$obj = \app::getModule($module)->getEntity($model);
-		$query = 'UPDATE ' . $module . '_' . $model . ' SET ' . $property . ' = \' ' . addslashes($value) . '\'';
-		$query .= ' WHERE ' . $obj->getId()->name . '=' . $id . ';';
-		$res = \PDOconnection::getDB()->exec($query);
-		if ($res) {
-			$return = array('eval' => '', 'notification' => t('The data has been saved', FALSE), 'notificationType' => 'positive');
-		} else {
-			$return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');
-		}
-		return $this->returnResult($return);
-	}
-
-	/**
 	 * Check If Id Exists 
 	 * @param string $id
 	 * @return bool 
@@ -843,12 +820,13 @@ class admin extends \module {
 	 */
 	protected function searchDataAction($module, $entity, $search, $limit = 10) {
 		$obj = \app::getModule($module)->getEntity($entity);
-		$sql = '';
+		$wheres = array();
 		foreach ($obj->getFields() as $field) {
-				if(get_class($field) != \app::$aliasClasses['field_formasso'])
-			$sql .= ' ' . $field->name . ' like \'%' . addslashes($search) . '%\' OR';
+				if(get_class($field) !== \app::$aliasClasses['field_formasso'])
+					$wheres[] = $field->name . ' like :where' . $field->name;
+				\app::$request->setParam('where' . $field->name , '%' . $search . '%'); // set value to be used in prepared query
 		}
-		$obj = $obj->where(substr($sql, 0, -3))->limit($limit);
+		$obj = $obj->where(implode(' OR ', $wheres))->limit($limit);
 		$modifModel = TRUE; /* To enable edit link */
 		ob_start();
 		require('modules/admin/views/desktop/datagrid.php');
@@ -925,7 +903,8 @@ class admin extends \module {
 	 */
 	protected function getViewUpdateFormAction($module, $entity, $id) {
 		$obj = \app::getModule($module)->getEntity($entity);
-		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=' . $id)->fetch()->getViewUpdateForm());
+		\app::$request->setParam('idviewupdate' , $id); // set value to be used in prepared query
+		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=:idviewupdate')->fetch()->getViewUpdateForm());
 	}
 
 	/**
@@ -980,7 +959,7 @@ class admin extends \module {
 			$res = $obj->update($_POST);
 		} elseif (isset($_POST['delete'])) {
 			unset($_POST['delete']);
-			$res = $obj->where($obj->getId()->name.' = '.$_POST[$obj->getId()->name])->delete();
+			$res = $obj->delete($_POST[$obj->getId()->name]);
 		}
 		if(is_numeric($res) || $res == 1){
 			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
@@ -1074,7 +1053,8 @@ class admin extends \module {
 		/* Save behavior for roles */
 		if (!empty($type)) {
 			foreach ($type as $numRole => $role) {
-			\app::getModule('core')->getEntity('role')->where('id_role = '.$numRole)->update(array('id_role' => $numRole, 'state' => $role ));
+				\app::$request->setParam('idrole' , $numRole); // set value to be used in prepared query
+				\app::getModule('core')->getEntity('role')->update(array('id_role' => $numRole, 'state' => $role ));
 			}
 		}
 
