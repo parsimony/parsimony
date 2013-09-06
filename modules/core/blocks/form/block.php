@@ -37,19 +37,13 @@ namespace core\blocks;
  * @block_category database
  * @modules_dependencies core:1
  */
-class form extends \block {
+class form extends code {
 
 	public function __construct($id) {
 		parent::__construct($id);
 		$this->setConfig('regenerateview', 0);
 		$this->setConfig('success', 'Success');
 		$this->setConfig('fail', 'Fail');
-		if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
-			$pathOfView = MODULE . '/views/' . THEMETYPE;
-		} else {
-			$pathOfView = THEMEMODULE . '/views/' . THEMETYPE;
-		}
-		$this->setConfig('pathOfView', $pathOfView . '/' . $this->id . '.php');
 	}
 
 	public function saveConfigs() {
@@ -61,7 +55,7 @@ class form extends \block {
 			$this->setConfig('regenerateview', $_POST['regenerateview']);
 			$this->setConfig('updateparam', $_POST['updateparam']);
 
-			$pathOfView = PROFILE_PATH . $this->getConfig('pathOfView');
+			$viewPath = PROFILE_PATH . $this->getConfig('viewPath');
 
 			/* Test for errors in view and save */
 			\app::addListener('error', array($this, 'catchError'));
@@ -73,9 +67,9 @@ class form extends \block {
 			if ($testIfHasError === TRUE) {
 				/* If there's no errors, Save new file */
 				if ($this->getConfig('regenerateview') == 0) {
-					\tools::file_put_contents($pathOfView, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity')));
+					\tools::file_put_contents($viewPath, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity')));
 				} else {
-					\tools::file_put_contents($pathOfView, $_POST['editor']);
+					\tools::file_put_contents($viewPath, $_POST['editor']);
 				}
 			}
 		}
@@ -112,9 +106,9 @@ if(isset($_POST[\'add\'])){
 			/* If it's a low level error, we save but we notice the dev */
 			if ($this->getConfig('regenerateview') == 1) {
 				list($module, $entity) = explode(' - ', $_POST['entity']);
-				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfView'), $this->generateViewAction($module, $entity));
+				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $this->generateViewAction($module, $entity));
 			} else {
-				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfView'), $_POST['editor']);
+				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $_POST['editor']);
 			}
 			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
 		} else {
@@ -123,15 +117,6 @@ if(isset($_POST[\'add\'])){
         if (ob_get_level()) ob_clean();
 		echo json_encode($return);
 		exit;
-	}
-
-	public function forkAction($newBlock, $newModule) {
-		$configs = $this->getConfigs();
-		$viewPath = $configs['pathOfView'];
-		$configs['pathOfView'] = 'modules/' . $newModule . '/blocks/' . $newBlock . '/view.php';
-		$configs['mode'] = 'r';
-		$configs = base64_encode(serialize($configs));
-		return self::build($newModule, $newBlock, get_class($this), $configs, $viewPath);
 	}
 	
 	public function getView() {
@@ -142,18 +127,12 @@ if(isset($_POST[\'add\'])){
 			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
 				$entity->select()->where($entity->getId()->name . " = :" . $this->getConfig('updateparam'))->fetch();
 			}
-			include($this->getConfig('pathOfView'));
+			include($this->getConfig('viewPath'));
 		}else {
 			echo t('Please configure this block');
 		}
 		return ob_get_clean();
 	}
-
-	public function destruct() {
-		$path = PROFILE_PATH . $this->getConfig('pathOfView');
-		if (is_file($path) === TRUE) {
-			rename($path, $path . '.back');
-		}
-	}
+	
 }
 ?>

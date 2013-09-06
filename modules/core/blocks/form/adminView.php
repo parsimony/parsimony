@@ -57,12 +57,12 @@
 <?php endif; ?>
 <br>
 <div class="placeholder">
-    <label><?php echo t('Success Message', FALSE); ?></label>
-    <input type="text" name="success" value="<?php echo $this->getConfig('success'); ?>">
+	<label><?php echo t('Success Message', FALSE); ?></label>
+	<input type="text" name="success" value="<?php echo $this->getConfig('success'); ?>">
 </div>
 <div class="placeholder">
-    <label><?php echo t('Fail Message', FALSE); ?></label>
-    <input type="text" name="fail" value="<?php echo $this->getConfig('fail'); ?>">
+	<label><?php echo t('Fail Message', FALSE); ?></label>
+	<input type="text" name="fail" value="<?php echo $this->getConfig('fail'); ?>">
 </div>
 <?php if ($this->getConfig('mode') !== 'r') : ?>
 	<div style="line-height: 16px;margin: 7px;cursor: pointer;" onclick="$('#formupdate').toggle();">
@@ -74,16 +74,16 @@
 		<input type="text" name="updateparam" id="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
 	</div>
 	<div style="padding:9px 0">
-	    <label><?php echo t('Lock the view', FALSE); ?></label>
-	    <input type="hidden" value="0" name="regenerateview" />
-	    <input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
+		<label><?php echo t('Lock the view', FALSE); ?></label>
+		<input type="hidden" value="0" name="regenerateview" />
+		<input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
 	if ($this->getConfig('regenerateview') == 1)
 		echo ' checked="checked"';
 	?> />
 	</div>
 	<br>
 	<?php
-	$path = PROFILE_PATH . $this->getConfig('pathOfView');
+	$path = PROFILE_PATH . $this->getConfig('viewPath');
 	$editorMode = 'application/x-httpd-php';
 	include('modules/admin/views/desktop/editor.php');
 	?>

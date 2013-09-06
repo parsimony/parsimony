@@ -37,32 +37,15 @@ namespace core\blocks;
  * @php_version_min 5.3
  * @modules_dependencies core:1
  */
-class wysiwyg extends \block {
-
-	public function __construct($id) {
-		parent::__construct($id);
-		if (isset($_POST['typeProgress']) && $_POST['typeProgress'] == 'Theme')
-			$path = THEMEMODULE . '/views/' . THEMETYPE . '/' . $this->id . '.php';
-		else
-			$path = MODULE . '/views/' . THEMETYPE . '/' . $this->id . '.php';
-		if (!is_file($path))
-			\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Put your content in this area', false) . '</h1>');
-		$this->setConfig('path', $path);
-	}
-
-	public function getView() {
-		ob_start();
-		include($this->getConfig('path'));
-		return ob_get_clean();
-	}
+class wysiwyg extends code {
 
 	public function saveConfigs() {
-		\tools::file_put_contents(PROFILE_PATH . $this->getConfig('path'), $_POST['editor']);
+		\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $_POST['editor']);
 	}
 
 	public function setContent($html) {
 		if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
-			return \tools::file_put_contents(PROFILE_PATH . $this->getConfig('path'), \tools::sanitize($html));
+			return \tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), \tools::sanitize($html));
 		}
 		return FALSE;
 	}
@@ -78,20 +61,5 @@ class wysiwyg extends \block {
 		return json_encode($return);
 	}
 
-	public function forkAction($newBlock, $newModule) {
-		$configs = $this->getConfigs();
-		$viewPath = $configs['path'];
-		$configs['path'] = 'modules/' . $newModule . '/blocks/' . $newBlock . '/view.php';
-		$configs['mode'] = 'r';
-		$configs = base64_encode(serialize($configs));
-		return self::build($newModule, $newBlock, get_class($this), $configs, $viewPath);
-	}
-
-	public function destruct() {
-		$path = PROFILE_PATH . $this->getConfig('path');
-		if (is_file($path) === TRUE) {
-			rename($path, $path . '.back');
-		}
-	}
 }
 ?>

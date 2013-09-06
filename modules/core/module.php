@@ -147,8 +147,8 @@ class core extends \module {
 	    \app::$request->page->addCSSFile('core/css/ajaxNav.css','footer');
 	}
 	if (!defined('PARSI_ADMIN') || !PARSI_ADMIN) {
-	    \app::$request->page->addCSSFile(\app::$config['modules']['default'].'/css/' . THEMETYPE . '.css');
-	    \app::$request->page->addCSSFile( THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
+	    \app::$request->page->addCSSFile(\app::$config['modules']['default'].'/css/' . THEMETYPE . '/style.css');
+	    \app::$request->page->addCSSFile( THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 	}
     }
 

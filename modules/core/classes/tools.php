@@ -183,14 +183,14 @@ class tools {
 			$dir_backup = 'var/backup/' . PROFILE . '/' . dirname($file) . '/';
 			self::createDirectory($dir_backup);
 			file_put_contents($dir_backup . basename($file) . '-' . time() . '.bak', $content);
-				$delest = glob($dir_backup.'*.bak');
-				if(is_array($delest)){
-					foreach ($delest as $filename) {
-						if ( filemtime($filename) <= time()-60*60*24*4 ) {
-							unlink($filename);
-						}
+			$delest = glob($dir_backup.'*.bak');
+			if(is_array($delest)){
+				foreach ($delest as $filename) {
+					if ( filemtime($filename) <= time()-60*60*24*4 ) {
+						unlink($filename);
 					}
 				}
+			}
 		}
 		self::createDirectory(dirname($file));
 		if(empty($content)) $content = ' ';

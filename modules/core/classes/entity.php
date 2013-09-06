@@ -437,8 +437,7 @@ abstract class entity implements \Iterator {
 						if ($className == \app::$aliasClasses['field_formasso']){
 							$field->setValue($this->getId()->value);
 							$col2 .= $field->form();
-						}
-						if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
+						}elseif ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
 							$col2 .= $field->form();
 						else
 							$col1 .= $field->form();
@@ -465,12 +464,12 @@ abstract class entity implements \Iterator {
 	  * Get pagination
 	  * @return pagination object
 	  */
-	 public function getPagination() {
-        if (isset($this->_SQL['pagination']))
-            return $this->_SQL['pagination'];
-        else
-            return FALSE;
-    }
+	public function getPagination() {
+	   if (isset($this->_SQL['pagination']))
+		   return $this->_SQL['pagination'];
+	   else
+		   return FALSE;
+	}
 
 	 /** *************************************************************
 	  * ************************* EVENTS *************

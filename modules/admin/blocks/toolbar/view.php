@@ -11,7 +11,7 @@ app::$request->page->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 ?>
 <script type="text/javascript">
 
-	var CSSTHEMEPATH = "<?php echo THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>.css";
+	var CSSTHEMEPATH = "<?php echo THEMEMODULE ?>/themes/<?php echo THEME ?>/<?php echo THEMETYPE ?>/style.css";
 	var CSSPAGEPATH = "<?php echo MODULE . '/css/' . THEMETYPE ?>.css";
 
 	$(document).ready(function() {

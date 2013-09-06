@@ -31,7 +31,7 @@ app::$request->page->addJSFile('lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile('admin/blocks/css/block.js','footer');
 
 /* We get and store client side all CSS selectors from theme style */
-$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
+$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 $css = new css(PROFILE_PATH . $pathTheme);
 $CSSValues = $css->getCSSValues();
 ?>
@@ -69,7 +69,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 	   <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
 		<input type="text" placeholder="e.g. #selector" data-optionsurl="" class="autocomplete" id="current_selector_update" spellcheck="false" />
 	</div>
-	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>.css" />
+	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>/style.css" />
 	<div id="changecssformcode" class="subTabsContainer">
 		<div id="switchtovisuel" class="ssTabCSS">Visuel</div>
 		<div id="switchtocode" class="ssTabCSS">Code</div>

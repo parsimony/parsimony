@@ -58,41 +58,20 @@ class admin extends \module {
 	public function controller($action, $httpMethod = 'GET') {
 		if($httpMethod === 'POST'){
 			$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel', 'uptodate');
-			if ($_SESSION['behavior'] === 0 || ( $_SESSION['behavior'] === 1  && in_array($action, $justForCreators)))
+			if ($_SESSION['behavior'] === 0 || ( $_SESSION['behavior'] === 1  && in_array($action, $justForCreators))){
 				return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
+			}
 			if (!empty($action)) {
 				$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
 				$this->module = \app::getModule(MODULE);
-				if(isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) $this->page = $this->module->getPage($_POST['IDPage']);
+				if(isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) {
+					\app::$request->page = $this->page = $this->module->getPage($_POST['IDPage']);
+				}
 				return parent::controller($action, 'POST');
 			}
 		}else{
 			parent::controller($action, $httpMethod);
 		}
-	}
-
-	/**
-	 * Check If Id Exists 
-	 * @param string $id
-	 * @return bool 
-	 */
-	private function checkIfIdExists($id, $themetype = 'desktop') {
-		if ($this->theme->search_block($id) != NULL)
-			return TRUE;
-
-		foreach (\app::$config['modules']['active'] as $module => $type) {
-			$moduleObj = \app::getModule($module);
-			foreach ($moduleObj->getPages() as $page) {
-				$block = $page->search_block($id);
-				if ($block != NULL)
-					return TRUE;
-			}
-			/*if (is_file('modules/' . $module . '/views/desktop/' . $id . '.php'))
-			return TRUE;*/
-			if (is_file(PROFILE_PATH . $module . '/views/'.$themetype.'/' . $id . '.php'))
-				return TRUE;
-		}
-		return FALSE;
 	}
 
 	/**
@@ -106,10 +85,21 @@ class admin extends \module {
 	 */
 	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content) {
 		$tempBlock = new $popBlock($idBlock);
-		if (!empty($content) && method_exists($tempBlock, 'setContent')) $tempBlock->setContent($content); /* external DND */
-		$idBlock = $tempBlock->getId(); /* To sanitize id */
-		if ($this->checkIfIdExists($idBlock, $stop_typecont)) {
-			return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists, please choose antother', FALSE)));
+		$idBlock = $tempBlock->getId(); /* To sanitize id */	
+		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
+			if($stop_typecont === 'theme') {
+				if ($tempBlock->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
+					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother', FALSE)));
+				}
+			} else {
+				if ($tempBlock->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
+					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother', FALSE)));
+				}
+			}
+		}
+
+		if (!empty($content) && method_exists($tempBlock, 'setContent')){ /* external DND */
+			$tempBlock->setContent($content);
 		}
 		$block = $this->$stop_typecont->search_block($parentBlock);
 		$block->addBlock($tempBlock, $id_next_block);
@@ -117,10 +107,10 @@ class admin extends \module {
 		/* If exists : Add default block CSS in current theme  */
 		if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
 			$css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
-			if (!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css')) {
-				file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css', file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css'));
+			if (!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css')) {
+				file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css', file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css'));
 			}
-			$cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css');
+			$cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
 				$newSelector = '#' . $idBlock . ' ' . $selector;
 				if (!$cssCurrentTheme->selectorExists($newSelector)) {
@@ -137,7 +127,6 @@ class admin extends \module {
 			}
 			$cssCurrentTheme->save();
 		}
-		\app::$request->page = new \page(999, 'core');
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
 		if ($this->$stop_typecont->search_block($idBlock) != NULL) {
@@ -240,11 +229,15 @@ class admin extends \module {
 	 * @return string
 	 */
 	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock) {
-		$block = $this->$typeProgress->search_block($parentBlock);
-		$block->rmBlock($idBlock);
+		$parent = $this->$typeProgress->search_block($parentBlock);
+		$block = $this->$typeProgress->search_block($idBlock);
+		if(is_object($block) && method_exists($block, 'destruct')){
+			$block->destruct();
+		}
+		$parent->rmBlock($idBlock);
 		$test = $this->$typeProgress->search_block($idBlock);
 		if ($test == NULL){
-			$path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '.css';
+			$path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 			if(is_file($path)){
 				$css = new \css($path);
 				$css->deleteSelector('#' . $idBlock);
@@ -457,25 +450,30 @@ class admin extends \module {
 	 */
 	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
 		//start
-		if (empty($start_typecont)) {
-			$temp = substr($popBlock, 0, -10);
-			$newblock = new $temp($idBlock);
-		} else {
-			$block = $this->$start_typecont->search_block($idBlock);  	
-				$blockparent = $this->$start_typecont->search_block($startParentBlock);
-			$blockparent->rmBlock($idBlock);
-			$this->saveAll();
-			$newblock = $block;
-		}
+		$block = $this->$start_typecont->search_block($idBlock);  	
+		$blockparent = $this->$start_typecont->search_block($startParentBlock);
+		$blockparent->rmBlock($idBlock);
+
 		//stop
 		if ($id_next_block === '' || $id_next_block === 'undefined')
 			$id_next_block = FALSE;
-		$block2 = $this->$stop_typecont->search_block($parentBlock);
-		$block2->addBlock($newblock, $id_next_block);
-		$this->saveAll();
-		if ($this->$stop_typecont->search_block($idBlock) != NULL)
+		$block2 = $this->$stop_typecont->search_block($parentBlock); /* Get the parent */
+		$block2->addBlock($block, $id_next_block); /* add the block in his parent */
+		if ($this->$stop_typecont->search_block($idBlock) !== NULL){
+			if (method_exists($block, 'onMove')) { /* init path of views */
+				if($stop_typecont === 'theme') {
+					if ($block->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
+						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother', FALSE)));
+					}
+				} else {
+					if ($block->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
+						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother', FALSE)));
+					}
+				}
+			}
+			$this->saveAll();
 			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","dropInPage");', 'notification' => t('The move has been saved', FALSE), 'notificationType' => 'positive');
-		else
+		}else
 			$return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
 		return $this->returnResult($return);
 	}
@@ -682,7 +680,7 @@ class admin extends \module {
 				$code = str_replace($base.'http://', 'http://', $code);
 				$allCSS .= $code;
 			}
-			file_put_contents(PROFILE_PATH . $thememodule . '/themes/' . $name . '/desktop.css', utf8_encode($allCSS));
+			tools::file_put_contents(PROFILE_PATH . $thememodule . '/themes/' . $name . '/desktop/style.css', utf8_encode($allCSS));
 			$body = $html->find('body');
 			$tree = $this->domToArray($body[0]);
 			$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));

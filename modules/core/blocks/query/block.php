@@ -37,24 +37,18 @@ namespace core\blocks;
  * @block_category database
  * @modules_dependencies core:1
  */
-class query extends \block {
+class query extends code {
 
-	protected $pathOfViewFile;
+	protected $viewPath;
 
 	public function __construct($id) {
 		parent::__construct($id);
 		$this->setConfig('regenerateview', 0);
-		if (isset($_POST['stop_typecont']) && $_POST['stop_typecont'] == 'page') {
-			$pathOfView = MODULE . '/views/' . THEMETYPE;
-		} else {
-			$pathOfView = THEMEMODULE . '/views/' . THEMETYPE;
-		}
-		$this->setConfig('pathOfViewFile', $pathOfView . '/' . $this->id . '.php');
 	}
 
 	public function saveConfigs() {
 
-		$pathOfViewFile = PROFILE_PATH . $this->getConfig('pathOfViewFile');
+		$viewPath = PROFILE_PATH . $this->getConfig('viewPath');
 
 		/* Mode Read/Write */
 		if ($_POST['mode'] === '') {
@@ -96,9 +90,9 @@ class query extends \block {
 			if ($testIfHasError === TRUE) {
 				/* If there's no errors, Save new file */
 				if ($this->getConfig('regenerateview') == 0) {
-					\tools::file_put_contents($pathOfViewFile, $this->generateViewAction($_POST['properties']));
+					\tools::file_put_contents($viewPath, $this->generateViewAction($_POST['properties']));
 				} else {
-					\tools::file_put_contents($pathOfViewFile, $_POST['editor']);
+					\tools::file_put_contents($viewPath, $_POST['editor']);
 				}
 			}
 		}
@@ -139,15 +133,15 @@ class query extends \block {
 		if ($code == 0 || $code == 2 || $code == 8 || $code == 256 || $code == 512 || $code == 1024 || $code == 2048 || $code == 4096 || $code == 8192 || $code == 16384) {
 			/* If it's a low level error, we save but we notice the dev */
 			if ($this->getConfig('regenerateview') == 0) {
-				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $this->generateViewAction($_POST['properties']));
+				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $this->generateViewAction($_POST['properties']));
 			} else {
-				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('pathOfViewFile'), $_POST['editor']);
+				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $_POST['editor']);
 			}
 			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
 		} else {
 			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error', FALSE) . ' : ' . $mess, 'notificationType' => 'negative');
 		}
-        if (ob_get_level()) ob_clean();
+		if (ob_get_level()) ob_clean();
 		echo json_encode($return);
 		exit;
 	}
@@ -157,7 +151,7 @@ class query extends \block {
 		\app::addListener('beforeBuildQuery', array($this, 'process'));
 		$view = $this->getConfig('view');
 		if ($view != FALSE) {
-			include($this->getConfig('pathOfViewFile'));
+			include($this->getConfig('viewPath'));
 		} else {
 			echo t('Please check the query configuration');
 		}
@@ -177,7 +171,7 @@ class query extends \block {
 					if ($filter) {
 						foreach ($view->getFields() AS $field) {
 							$name = $field->module . '_' . $field->entity . '_' . $field->name;
-                            if(isset($selected[$name]['filter']) && $selected[$name]['filter']) echo $field->displayFilter();
+							if(isset($selected[$name]['filter']) && $selected[$name]['filter']) echo $field->displayFilter();
 						}
 					}
 					if ($sort) {
@@ -203,15 +197,6 @@ class query extends \block {
 		}
 	}
 
-	public function forkAction($newBlock, $newModule) {
-		$configs = $this->getConfigs();
-		$viewPath = $configs['pathOfViewFile'];
-		$configs['pathOfViewFile'] = 'modules/' . $newModule . '/blocks/' . $newBlock . '/view.php';
-		$configs['mode'] = 'r';
-		$configs = base64_encode(serialize($configs));
-		return self::build($newModule, $newBlock, get_class($this), $configs, $viewPath);
-	}
-
 	public function process() {
 		$view = $this->getConfig('view');
 		if (is_object($view)) {
@@ -232,9 +217,30 @@ class query extends \block {
 			}
 		}
 	}
+	
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+		$oldPath = $this->getConfig('viewPath');
+		if ($typeProgress === 'theme')
+			$path = $module . '/themes/' . $name . '/' . $themeType . '/views/' . $this->id . '.php';
+		else
+			$path = $module . '/pages/views/' . $themeType . '/' . $name . '_' . $this->id . '.php';
+		
+		if (is_file($path) === FALSE) { /* check if a view with this path already exists in profile */
+			$this->setConfig('viewPath', $path); /* save the new path */
+			if (!empty($oldPath) && stream_resolve_include_path($oldPath) !== FALSE) { /* Check if we have to move an old view  : moveBlock */
+				\tools::file_put_contents(PROFILE_PATH . $path, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));
+				if(is_file(PROFILE_PATH . $oldPath))
+					rename(PROFILE_PATH . $oldPath, PROFILE_PATH . $oldPath . '.back'); //do only for profile, not modules
+			} else { /* add block */
+				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area', false) . '</h1>');
+			}
+		} else {
+			return FALSE; // a view with this ID already exists
+		}
+	}
 
 	public function destruct() {
-		$path = PROFILE_PATH . $this->getConfig('pathOfViewFile');
+		$path = PROFILE_PATH . $this->getConfig('viewPath');
 		if (is_file($path) === TRUE) {
 			rename($path, $path . '.back');
 		}

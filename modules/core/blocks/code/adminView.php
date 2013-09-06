@@ -26,13 +26,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if($this->getConfig('mode') !== 'r' ) {
+if ($this->getConfig('mode') !== 'r') {
+	$viewPath = $this->getConfig('viewPath');
 	/* In case the file isn't in PROFILES/ */
-	if(!is_file(PROFILE_PATH.$this->getConfig('pathCode')) && is_file('modules/'.$this->getConfig('pathCode'))){
-		\tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('pathCode')));
-		copy('modules/'.$this->getConfig('pathCode'), PROFILE_PATH.$this->getConfig('pathCode'));
+	if (!is_file(PROFILE_PATH . $viewPath) && is_file('modules/' . $viewPath)) {
+		\tools::createDirectory(dirname(PROFILE_PATH . $this->getConfig('viewPath')));
+		copy('modules/' .$viewPath, PROFILE_PATH . $viewPath);
 	}
-	$path = PROFILE_PATH.$this->getConfig('pathCode');
+	$path = PROFILE_PATH . $viewPath;
 	$editorMode = 'application/x-httpd-php';
 	include('modules/admin/views/desktop/editor.php');
 }

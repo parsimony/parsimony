@@ -25,15 +25,15 @@
  * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-if($this->getConfig('mode') !== 'r' ) {
+if ($this->getConfig('mode') !== 'r') {
+	$viewPath = $this->getConfig('viewPath');
 	/* In case the file isn't in PROFILES/ */
-	if(!is_file(PROFILE_PATH.$this->getConfig('path')) && is_file('modules/'.$this->getConfig('path'))){
-		\tools::createDirectory(dirname(PROFILE_PATH.$this->getConfig('path')));
-		copy('modules/'.$this->getConfig('path'), PROFILE_PATH.$this->getConfig('path'));
+	if (!is_file(PROFILE_PATH . $viewPath) && is_file('modules/' . $viewPath)) {
+		\tools::createDirectory(dirname(PROFILE_PATH . $viewPath));
+		copy('modules/' . $viewPath, PROFILE_PATH . $viewPath);
 	}
 
-	$path = PROFILE_PATH.$this->getConfig('path');
+	$path = PROFILE_PATH . $viewPath;
 	include('modules/admin/views/desktop/editor.php');
 }
 ?>

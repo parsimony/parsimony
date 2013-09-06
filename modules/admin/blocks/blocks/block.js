@@ -79,8 +79,9 @@ function blockAdminBlocks() {
 			var elmt = $("#" + ParsimonyAdmin.inProgress, ParsimonyAdmin.currentBody);
 			evt.dataTransfer.setDragImage(elmt[0], 15, 15);
 			var startTypeCont = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
-			if(elmt.parent().closest(".core_container").hasClass("container_page")) startIdParentBlock = elmt.parent().closest(".core_container").data('page');
-			else startIdParentBlock = elmt.parent().closest(".core_container").attr('id');
+			var parentContainer = elmt.closest(".core_container");
+			if(parentContainer.hasClass("core_page")) startIdParentBlock = parentContainer.data('page');
+			else startIdParentBlock = parentContainer.attr('id');
 			if(startIdParentBlock == 'content') startIdParentBlock = $(".container_page",ParsimonyAdmin.currentBody).data('page');
 			evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:ParsimonyAdmin.inProgress,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
 			evt.dataTransfer.effectAllowed = 'copyMove';
@@ -92,8 +93,6 @@ function blockAdminBlocks() {
 			var idBlock = document.getElementById("dialog-id").value;
 			var obj = JSON.parse(document.getElementById("dialog-id-options").value);
 			if (idBlock != '') {
-				if (obj.idNextBlock == '' || obj.stopIdParentBlock == '' || ParsimonyAdmin.whereIAm("dropInTree") == '')
-					alert("stop");
 				var content = '';
 				if (typeof obj.content != "undefined")
 					content = obj.content;
@@ -204,8 +203,6 @@ function blockAdminBlocks() {
 				/* Move block action */
 				if (evt.dataTransfer.getData("parsimony/moveblock").length > 0) {
 					var obj = JSON.parse(evt.dataTransfer.getData("parsimony/moveblock"));
-					if (obj.idBlock == '' || idNextBlock == '' || obj.startIdParentBlock == '' || stopIdParentBlock == '' || obj.startTypeCont == '' || ParsimonyAdmin.whereIAm("dropInTree") == '')
-						alert("stop");
 					$this.changeBlockPosition('', obj.idBlock, idNextBlock, obj.startIdParentBlock, stopIdParentBlock, obj.startTypeCont, ParsimonyAdmin.whereIAm("dropInTree"), "moveBlock");
 				} else {
 					/* Add a block or other types of things */
