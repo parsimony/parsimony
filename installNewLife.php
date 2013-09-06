@@ -625,7 +625,6 @@ while (1) {
 	    'field_date' => 'core\fields\field_date',
 	    'field_publication' => 'core\fields\field_publication',
 	    'field_image' => 'core\fields\field_image',
-	    'field_flash' => 'core\fields\field_flash',
 	    'field_url' => 'core\fields\field_url',
 	    'field_url_rewriting' => 'core\fields\field_url_rewriting',
 	    'field_wysiwyg' => 'core\fields\field_wysiwyg',
