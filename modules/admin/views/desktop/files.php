@@ -35,27 +35,27 @@ $array_img= array('.jpeg', '.png', '.gif', '.jpg');
 $extKo = array('.obj');
 $files = glob($dirPath . '/*');
 foreach ((is_array($files) ? $files : array()) as $filename) :
-    if (is_dir($filename)) :
-        $filename = str_replace('//','/',$filename); //fix      
-        ?>
-	<div class="explorer_file dir">
-	    <img src="<?php echo BASE_PATH ?>admin/img/dir.png">
-	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
-	</div>
+	if (is_dir($filename)) :
+		$filename = str_replace('//','/',$filename); //fix
+		?>
+		<div class="explorer_file dir">
+			<img src="<?php echo BASE_PATH ?>admin/img/dir.png">
+			<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+		</div>
 	<?php
-    elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
-	    (empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
+	elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
+		(empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
 	?>
 	<div class="explorer_file">
-	    <?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
-                <img onclick="" src="<?php echo BASE_PATH.'thumbnail?x=50&y=50&path='.$filename; ?>"> 
-	    <?php else: ?>
-	        <img src="<?php echo BASE_PATH ?>admin/img/file.png">
-	     <?php endif; ?>
-	    <div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+		<?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
+				<img src="<?php echo BASE_PATH.$filename; ?>?x=50&y=50"> 
+		<?php else: ?>
+			<img src="<?php echo BASE_PATH ?>admin/img/file.png">
+		 <?php endif; ?>
+		<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>
 	<?php
-    endif;
+	endif;
 endforeach;
 ?>
 </div>

@@ -22,7 +22,7 @@ $config['cache']['max-age'] = '2592000999865';
 $config['cache']['active'] = '0';
 
 //Extensions auth
-$config['extensions_auth'] = 'js,png,css,jpg,jpeg,gif,swf,ico,xml,mp3,wmv,avi,mpeg,html';
+$config['extensions_auth'] = 'png,jpg,jpeg,gif,ico,js,css';
 
 //Security
 $config['security']['allowedipadmin'] = '';

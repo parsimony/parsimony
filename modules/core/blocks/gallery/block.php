@@ -39,28 +39,28 @@ namespace core\blocks;
  */
 
 class gallery extends \block {
-    
-    public function saveConfigs() {
-        $this->setConfig('img', $_POST['img']);
-        $this->setConfig('width', $_POST['width']);
-        $this->setConfig('height', $_POST['height']);
-    }
 
-    public function __construct($id) {
-        parent::__construct($id);
-        $img =  array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
-        $this->setConfig('img', $img);
-        $this->setConfig('width', '500');
-        $this->setConfig('height', '250');       
-    }
-    
-    public function ajaxRefresh($type = FALSE) {
-	if ($type == 'add') {
-	    return parent::ajaxRefresh($type);
-	} else {
-	    return 'document.getElementById("parsiframe").contentWindow.location.reload()';
+	public function saveConfigs() {
+		$this->setConfig('img', $_POST['img']);
+		$this->setConfig('width', $_POST['width']);
+		$this->setConfig('height', $_POST['height']);
 	}
-    }
+
+	public function __construct($id) {
+		parent::__construct($id);
+		$img = array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
+		$this->setConfig('img', $img);
+		$this->setConfig('width', '500px');
+		$this->setConfig('height', '250px');
+	}
+
+	public function ajaxRefresh($type = FALSE) {
+	if ($type == 'add') {
+		return parent::ajaxRefresh($type);
+	} else {
+		return 'document.getElementById("parsiframe").contentWindow.location.reload()';
+	}
+	}
 
 }
 ?>

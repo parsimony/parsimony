@@ -39,8 +39,8 @@
 				if(typeof response.name != "undefined"){
 				$("input[name=imgPath]").val(response.name);
 				$("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + response.name + '</span>');
-				var src = "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' . PROFILE_PATH . $this->module . '/files'; ?>/" + response.name ;
-				var srcclone = "<?php echo BASE_PATH . 'thumbnail?x=100&y=100&crop=1&path=' . PROFILE_PATH . $this->module . '/files'; ?>/" + response.name ;
+				var src = "<?php echo BASE_PATH . $this->module . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1" ;
+				var srcclone = "<?php echo BASE_PATH . $this->module . '/files'; ?>/" + response.name + "?x=100&y=100&crop=1" ;
 				$("#preview .imgf").attr( 'src' ,src );
 				$("span#width").text(response.x + 'px');
 				$("span#height").text(response.y + 'px');
@@ -61,12 +61,12 @@
 				}
 			}
 		});
-	});    
+	});
 	$(document).on('click','#images img' , function(event){
 		event.preventDefault();
 		$('.mark').removeClass('mark'); 
 		$('#images img').css('border','1px solid #CCC');
-		$(this).css('border', '1px solid #276D7F');                
+		$(this).css('border', '1px solid #276D7F');
 		var imgsrc = $(this).attr('src');
 		var imgname = $(this).parent().find('input.name').val();
 		var imgtitle = $(this).parent().find('input.title').val();
@@ -74,7 +74,7 @@
 		var imgurl = $(this).parent().find('input.url').val();
 		var imgdescription = $(this).parent().find('input.description').val();
 		if(imgname !=''){ 
-			$('#preview img').attr('src', "<?php echo BASE_PATH . 'thumbnail?x=150&y=150&crop=1&path=' . PROFILE_PATH . $this->module ?>/files/"+imgname);
+			$('#preview img').attr('src', "<?php echo BASE_PATH . $this->module ?>/files/" + imgname + "?x=150&y=150&crop=1");
 		}
 
 		$("#preview .title").html('<span> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + imgname + '</span>');
@@ -82,9 +82,9 @@
 		$('#previewalt').val(imgalt);
 		$('#previewurl').val(imgurl);
 		$('#previewdescription').val(imgdescription);
-		$(this).addClass('mark');  
+		$(this).addClass('mark');
 	});
-	$(document).on('change','#specificsettings input',function() {   
+	$(document).on('change','#specificsettings input',function() { 
 		var previewtitle = $('#previewtitle').val();
 		var previewalt = $('#previewalt').val();
 		var previewurl = $('#previewurl').val();
@@ -117,7 +117,7 @@
 	#dropareaInner{}
 	/* Overridde CSS for test */
 	.gradStyle{
-	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0  1px  0  #ffffff ;
+	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;
 	background: #eee;
 	background: -webkit-gradient(linear, left top, left bottom, from( #ffffff), to( #f1f1f1));
 	background: -webkit-linear-gradient( #ffffff, #f1f1f1); 
@@ -159,11 +159,11 @@
 				}?>
 			</div>
 
-			<img class="imgf" src="<?php echo BASE_PATH; ?>thumbnail?x=150&y=150&crop=1&path=<?php
+			<img class="imgf" src="<?php
 		if ($firstimage != '') {
-			echo stream_resolve_include_path( 'core/files/' . $firstimage['name']);
+			echo BASE_PATH . 'core/files/' . $firstimage['name'];
 		}
-		?>" alt="" >
+		?>?x=150&y=150&crop=1" alt="" >
 
 		</div>
 
@@ -204,7 +204,7 @@
 		?>
 		<div class="template"> 
 			<span onclick="$(this).parent().remove()" class="deleteimg ui-icon ui-icon-closethick"></span>
-			<img title="" src="<?php echo BASE_PATH ?>thumbnail?x=100&y=100&crop=1&path=<?php echo stream_resolve_include_path('core/files/'. $id) ?>" alt="">
+			<img title="" src="<?php echo BASE_PATH . 'core/files/'. $id ?>?x=100&y=100&crop=1" alt="">
 			<input type="hidden" name="img[<?php echo $id ?>][name]" class="name" value="<?php echo $id; ?>" />
 			<input type="hidden" name="img[<?php echo $id ?>][title]" class="title" value="<?php echo $image['title']; ?>" />
 			<input type="hidden" name="img[<?php echo $id ?>][alt]" class="alt" value="<?php echo $image['alt']; ?>" />

@@ -35,7 +35,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 </div>
 <div id="upload_image_<?php echo $row->getId()->value; ?>" style="position: relative;">
 	<div id="image_thumb_<?php echo $row->getId()->value; ?>" class="field-image-previewContainer">
-		<img src="<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH.$this->module.'/'.$this->path.'/'.s($this->value); ?>&x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>" class="field-image-preview" />
+		<img src="<?php echo BASE_PATH . $this->module.'/'.$this->path.'/'.s($this->value); ?>?x=<?php echo $this->width; ?>&y=<?php echo $this->height; ?>" class="field-image-preview" />
 	</div>
 	<div class="field-image-inputContainer" style="position: absolute;top:0;width:30px;">
 	<input type="file" class="field-image-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;margin: 0;width:30px;" />
@@ -58,7 +58,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 					$('#img_<?php echo $row->getId()->value; ?>').attr('data-modified','1');
 					$("#image_<?php echo $row->getId()->value; ?>").val(response.name);
 			var thumb = $("#image_thumb_<?php echo $row->getId()->value; ?>");
-			thumb.show().find("img").attr("src","<?php echo BASE_PATH; ?>thumbnail?path=<?php echo PROFILE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "&x=150&y=150");
+			thumb.show().find("img").attr("src","<?php echo BASE_PATH . $this->module; ?>/<?php echo $this->path; ?>/" + response.name + "?x=150&y=150");
 			}
 		});
 	});

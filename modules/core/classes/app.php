@@ -82,7 +82,7 @@ namespace core\classes {
 				self::$config = $config;
 
 				/* Check if it's a file */
-				if ($this->sendFile() === FALSE) {
+				if ($this->sendFile($_GET['parsiurl']) === FALSE) {
 
 					/* If it isn't a file, Parsimony will search and display the good page */
 					define('BASE_PATH', $config['BASE_PATH']);
@@ -151,25 +151,62 @@ namespace core\classes {
 		 * Test if it's a file and send it to visitor
 		 * @return bool
 		 */
-		protected function sendFile() {
-			if (!empty($_GET['parsiurl'])) {
-				$ext = pathinfo($_GET['parsiurl'], PATHINFO_EXTENSION);
-				if ($ext && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
-					$path = stream_resolve_include_path($_GET['parsiurl']);
-					if ($path !== FALSE) {
-						$gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
-						/* We use native functions for perfs purposes */
-						header('HTTP/1.1 200 OK', true, 200);
-						header('Last-Modified: ' . $gmtime);
-						header('Expires: ' . gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
-						header('Cache-Control: ' . self::$config['cache']['cache-control'] . ';max-age=' . self::$config['cache']['max-age']);
-						header('Content-type: ' . self::$mimeTypes[$ext]);
-						echo file_get_contents($path, FILE_USE_INCLUDE_PATH);
-						return TRUE;
+		protected function sendFile($path) {
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			if (!empty($ext) && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
+				$path = stream_resolve_include_path($path);
+				if ($path !== FALSE) {
+					if(count($_GET) > 1 && in_array($ext, array('png', 'jpg', 'jpeg', 'gif'))){ /* if it's an image and there is more than parsiurl param */
+						$path = $this->imageFile($path);
 					}
+					$gmtime = gmdate('D, d M Y H:i:s T', filemtime($path));
+					/* We use native functions for perfs purposes */
+					header('HTTP/1.1 200 OK', true, 200);
+					header('Last-Modified: ' . $gmtime);
+					header('Expires: ' . gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
+					header('Cache-Control: ' . self::$config['cache']['cache-control'] . ';max-age=' . self::$config['cache']['max-age']);
+					header('Content-type: ' . self::$mimeTypes[$ext]);
+					echo file_get_contents($path);
+					return TRUE;
 				}
 			}
 			return FALSE;
+		}
+		
+		/**
+		 * Process images
+		 * @return string
+		 */
+		protected function imageFile($path) {
+			$params = array_intersect_key($_GET, array('x' => '', 'y' => '', 'adapt' => '', 'crop' => ''));
+			$params['path'] = $path;
+			
+			/* Adaptive imgs */
+			$resMax = 0;
+			if (isset($params['adapt']) && isset($_COOKIE['resMax'])) {
+				$resMax = $params['adapt'] = ceil($_COOKIE['resMax'] / 100) * 100; /* to limit amount of cached images versions */
+				if (isset($params['x']) && $params['x'] > $resMax) {
+					$params['x'] = $resMax;
+				}
+			}
+			
+			$cachePath = 'var/cache/' . str_replace('/', '_',http_build_query($params, '', '_')); /* get only allowed vars and secure generated path */
+			if (!is_file($cachePath)) { /* if cache doesn't exists */
+				include('modules/core/classes/img.php');
+				$img = new img($path);
+
+				if (isset($params['x']) && isset($params['y'])) {
+					if (isset($params['crop'])) {
+						$img->crop($params['x'], $params['y']);
+					} else {
+						$img->resize($params['x'], $params['y']);
+					}
+				} elseif ($resMax > 0) { /* If there isn't x and y params we resize img to max Resolution of user's screen */
+					$img->resize($resMax, 9999);
+				}
+				$img->save($cachePath, 80);
+			}
+			return $cachePath;
 		}
 
 		/**
@@ -338,70 +375,70 @@ namespace core\classes {
 		/**
 		* Type MIME
 		*/
-	   static public $mimeTypes = array(
-		   'txt' => 'text/plain',
-		   'htm' => 'text/html',
-		   'html' => 'text/html',
-		   'php' => 'text/html',
-		   'css' => 'text/css',
-		   'js' => 'application/x-javascript',
-		   'json' => 'application/json',
-		   'xml' => 'application/xml',
-		   'swf' => 'application/x-shockwave-flash',
-		   'flv' => 'video/x-flv',
-		   // images
-		   'png' => 'image/png',
-		   'jpe' => 'image/jpeg',
-		   'jpeg' => 'image/jpeg',
-		   'jpg' => 'image/jpeg',
-		   'gif' => 'image/gif',
-		   'bmp' => 'image/bmp',
-		   'ico' => 'image/vnd.microsoft.icon',
-		   'tiff' => 'image/tiff',
-		   'tif' => 'image/tiff',
-		   'svg' => 'image/svg+xml',
-		   'svgz' => 'image/svg+xml',
-		   // archives
-		   'zip' => 'application/zip',
-		   'rar' => 'application/x-rar-compressed',
-		   'exe' => 'application/x-msdownload',
-		   'msi' => 'application/x-msdownload',
-		   'cab' => 'application/vnd.ms-cab-compressed',
-		   // audio/video
-		   'mp3' => 'audio/mpeg',
-		   'qt' => 'video/quicktime',
-		   'mov' => 'video/quicktime',
-		   // adobe
-		   'pdf' => 'application/pdf',
-		   'psd' => 'image/vnd.adobe.photoshop',
-		   'ai' => 'application/postscript',
-		   'eps' => 'application/postscript',
-		   'ps' => 'application/postscript',
-		   // ms office
-		   'doc' => 'application/msword',
-		   'rtf' => 'application/rtf',
-		   'xls' => 'application/vnd.ms-excel',
-		   'ppt' => 'application/vnd.ms-powerpoint',
-		   // open office
-		   'odt' => 'application/vnd.oasis.opendocument.text',
-		   'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-	   );
+		static public $mimeTypes = array(
+			'txt' => 'text/plain',
+			'htm' => 'text/html',
+			'html' => 'text/html',
+			'php' => 'text/html',
+			'css' => 'text/css',
+			'js' => 'application/x-javascript',
+			'json' => 'application/json',
+			'xml' => 'application/xml',
+			'swf' => 'application/x-shockwave-flash',
+			'flv' => 'video/x-flv',
+			// images
+			'png' => 'image/png',
+			'jpe' => 'image/jpeg',
+			'jpeg' => 'image/jpeg',
+			'jpg' => 'image/jpeg',
+			'gif' => 'image/gif',
+			'bmp' => 'image/bmp',
+			'ico' => 'image/vnd.microsoft.icon',
+			'tiff' => 'image/tiff',
+			'tif' => 'image/tiff',
+			'svg' => 'image/svg+xml',
+			'svgz' => 'image/svg+xml',
+			// archives
+			'zip' => 'application/zip',
+			'rar' => 'application/x-rar-compressed',
+			'exe' => 'application/x-msdownload',
+			'msi' => 'application/x-msdownload',
+			'cab' => 'application/vnd.ms-cab-compressed',
+			// audio/video
+			'mp3' => 'audio/mpeg',
+			'qt' => 'video/quicktime',
+			'mov' => 'video/quicktime',
+			// adobe
+			'pdf' => 'application/pdf',
+			'psd' => 'image/vnd.adobe.photoshop',
+			'ai' => 'application/postscript',
+			'eps' => 'application/postscript',
+			'ps' => 'application/postscript',
+			// ms office
+			'doc' => 'application/msword',
+			'rtf' => 'application/rtf',
+			'xls' => 'application/vnd.ms-excel',
+			'ppt' => 'application/vnd.ms-powerpoint',
+			// open office
+			'odt' => 'application/vnd.oasis.opendocument.text',
+			'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+		);
 
 	}
 
-	}
+}
 
 	namespace {
 
 	/**
 	 *  These 2 functions are the only procedural functions of Parsimony
 	 */
-	if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) {
+	if (isset($_SESSION['behavior']) && $_SESSION['behavior'] === 2) {
 
 		function t($text, $modAdmin = TRUE) {
 			$before = '';
 			$after = '';
-			if ($modAdmin != false) {
+			if ($modAdmin !== FALSE) {
 				$before = '<span data-key="' . $text . '" class="translation">';
 				$after = '</span>';
 			}
@@ -422,12 +459,12 @@ namespace core\classes {
 
 		function t($text, $params = FALSE) {
 			if (isset(app::$lang[$text])) {
-				if ($params)
+				if ($params !== FALSE)
 					return vsprintf(app::$lang[$text], $params);
 				else
 					return app::$lang[$text] ;
 			}else {
-				if ($params)
+				if ($params !== FALSE)
 					return vsprintf($text, $params);
 				else
 					return $text;

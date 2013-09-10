@@ -38,44 +38,40 @@ namespace core\blocks;
  */
 
 class image extends \block {
-    
-    public function saveConfigs() {
-        
-	if (isset($_POST['imgPath'])) {
-	    $this->setConfig('imgPath', $this->module . '/files/' . $_POST['imgPath']);
-	    $this->setConfig('width', $_POST['width']);
-	    $this->setConfig('height', $_POST['height']);
-            $this->setConfig('title', $_POST['title']);
-            $this->setConfig('alt', $_POST['alt']);
-            $this->setConfig('url', $_POST['url']);
-            if(isset($_POST['fancybox'])){
-                $this->setConfig('fancybox', '1');
-            }else{
-                $this->setConfig('fancybox', '0');
-            }
-            
-	}
-    }
-    
-    public function setContent($fileName) {
-        if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
-	    $this->setConfig('imgPath',$fileName);
-            return TRUE;
-        }
-	return FALSE;
-    }
-    
-    
-    public function __construct($id) {
-            parent::__construct($id);
-            $this->setConfig('imgPath','core/files/Parsimony.png');
-	    $this->setConfig('width', '200');
-	    $this->setConfig('height', '200');
-            $this->setConfig('title', 'parsimony');
-            $this->setConfig('alt', 'Parsimony');
-            $this->setConfig('fancybox', '0');
 
-    }
+	public function saveConfigs() {
+
+		if (isset($_POST['imgPath'])) {
+			$this->setConfig('imgPath', $this->module . '/files/' . $_POST['imgPath']);
+			$this->setConfig('width', $_POST['width']);
+			$this->setConfig('height', $_POST['height']);
+			$this->setConfig('title', $_POST['title']);
+			$this->setConfig('alt', $_POST['alt']);
+			$this->setConfig('url', $_POST['url']);
+			if(isset($_POST['fancybox'])){
+				$this->setConfig('fancybox', '1');
+			}else{
+				$this->setConfig('fancybox', '0');
+			}
+		}
+	}
+
+	public function setContent($fileName) {
+		if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
+		$this->setConfig('imgPath',$fileName);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+
+	public function __construct($id) {
+		parent::__construct($id);
+		$this->setConfig('imgPath','core/files/Parsimony.png');
+		$this->setConfig('title', 'parsimony');
+		$this->setConfig('alt', 'Parsimony');
+		$this->setConfig('fancybox', '0');
+	}
 
 }
 
