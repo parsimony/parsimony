@@ -580,9 +580,11 @@ var ParsimonyAdmin = {
 		window.location.reload();
 	},
 	setCookie: function(name, value, days) {
+		if (days) {
 		var date = new Date();
-		date.setTime(date.getDate() + days);
-		value += "; expires=" + date.toGMTString();
+			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+			value += "; expires=" + date.toGMTString();
+		}
 		document.cookie = name + "=" + value + "; path=/";
 	},
 	getCookie: function(name) {
