@@ -68,7 +68,7 @@ class field_url_rewriting extends \field {
 
 	public function checkUniqueAction($chars, $id = FALSE) {
 		$entity = \app::getModule($this->module)->getEntity($this->entity);
-		$query = 'SELECT ' . $this->name . ' FROM ' . $this->module . '_' . $this->entity . ' WHERE ' . $this->name .' = :chars';
+		$query = 'SELECT ' . $this->name . ' FROM ' . PREFIX . $this->module . '_' . $this->entity . ' WHERE ' . $this->name .' = :chars';
 		$params = array(':chars' => $chars);
 		if($id !== FALSE) {
 			$query .= ' AND '.$entity->getId()->name.' != :id';
