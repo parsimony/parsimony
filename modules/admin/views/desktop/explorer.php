@@ -35,14 +35,6 @@ app::$request->page->addCSSFile('lib/cms.css');
 app::$request->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
 app::$request->page->addCSSFile('modules/admin/css/ui.css');
 app::$request->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/xml/xml.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/css/css.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/javascript/javascript.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/php/php.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/htmlmixed/htmlmixed.js');
-app::$request->page->addJSFile('lib/CodeMirror/mode/clike/clike.js');
-app::$request->page->addJSFile('lib/CodeMirror/addon/search/searchcursor.js');
-app::$request->page->addJSFile('lib/CodeMirror/addon/search/search.js');
 app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
