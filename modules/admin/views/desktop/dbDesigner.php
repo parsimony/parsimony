@@ -84,10 +84,9 @@ include_once('modules/core/classes/field.php');
 			font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
 	.table:hover{box-shadow: 0px 0px 9px #777;}
 	.ui-draggable-dragging:hover{box-shadow: #666 0px 1px 3px;} /*perf enhancement on drag table */
-	.property{position:relative;cursor: pointer;border-bottom: dotted #ddd 1px;padding: 2px 10px;padding-right:15px;padding-left:20px;background-repeat:no-repeat;background-position: 2px 3px ;font-size: 12px;font-weight: normal;}
+	.property{position:relative;cursor: pointer;border-bottom: dotted #ddd 1px;padding: 2px 10px;padding-right:15px;padding-left:22px;background-repeat:no-repeat;background-position: 2px 3px ;font-size: 12px;font-weight: normal;}
 	.property.current_property,.table .property:hover{background-color: rgb(231,242,255)}
 	.property[type_class=field_ident]{cursor: pointer;text-decoration:underline}
-	.property[type_class=field_foreignkey]::before{ content:"#"; }
 	.table .property:last-child{ border-radius: 0 0 3px 3px; }
 	.ombre{box-shadow: 0px 0px 20px #34afb6;}
 	.dragActive { border:4px dotted #b634af; border-radius:50px;}
