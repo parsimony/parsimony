@@ -287,13 +287,13 @@ class tools {
 		include_once('lib/phpmailer/class.phpmailer.php');
 		$mailer = new \PHPMailer();
 
-		if(\app::$config['mail']['type'] == 'smtp'){
+		if(\app::$config['mail']['type'] === 'smtp'){
 			$mailer->IsSMTP();
 			$mailer->Host = \app::$config['mail']['server'];
 			$mailer->Port = \app::$config['mail']['port'];
-		}elseif ( \app::$config['mail']['type']=='sendmail') {
+		}elseif ( \app::$config['mail']['type'] === 'sendmail') {
 			$mailer->IsSendmail();
-		}elseif ( \app::$config['mail']['type']=='qmail') {
+		}elseif ( \app::$config['mail']['type'] === 'qmail') {
 			$mailer->IsQmail();
 		}
 		if(strstr($to,',') !== FALSE){

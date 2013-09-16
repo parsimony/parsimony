@@ -112,6 +112,7 @@ define('INSERT', 2);
 define('UPDATE', 4);
 define('DELETE', 8);
 
+set_time_limit(0); /* fix for mail */
 set_include_path('.' . PATH_SEPARATOR . './www/modules/' . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './modules/core/'); // set include path
 define('BASE_PATH',preg_replace('@//+@', '/',str_replace('\\','/',dirname($_SERVER['PHP_SELF']).'/')));
 
