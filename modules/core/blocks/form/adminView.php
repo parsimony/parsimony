@@ -27,10 +27,10 @@
  */
 ?>
 <style>
-	#regenerateview{pointer-events: none;background-image: url('<?php echo BASE_PATH ?>admin/img/padlockopen.png');width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
-	#regenerateview:checked{background-image: url('<?php echo BASE_PATH ?>admin/img/padlockclosed.png')}
-	#regenerateview:hover{background: url('<?php echo BASE_PATH ?>admin/img/padlockopen.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
-	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH ?>admin/img/padlockclosed.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview{pointer-events: none;background: url('<?php echo BASE_PATH ?>admin/img/spritelockunlock.png');width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
+	#regenerateview:checked{background: url('<?php echo BASE_PATH ?>admin/img/spritelockunlock.png') 0 -33px no-repeat}
+	#regenerateview:hover{background: url('<?php echo BASE_PATH ?>admin/img/spritelockunlock.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH ?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
 	.parsiplusone {display: inline-block;vertical-align: top;cursor: cell;
 			   background: url("<?php echo BASE_PATH; ?>admin/img/add.png") no-repeat;width: 16px;height: 16px;}

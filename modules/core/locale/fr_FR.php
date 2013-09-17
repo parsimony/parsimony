@@ -248,3 +248,6 @@ $lang['Other'] = 'Autre';
 $lang['Fonts'] = 'Polices de caractères';
 $lang['Criteria'] = 'Critères';
 $lang['The format is not supported'] = 'Le format n\'est pas compatible';
+$lang['Excerpt'] = 'Extrait';
+$lang['Enable comments ?'] = 'Activer les commentaires ?';
+$lang['Update'] = 'Mettre à jour';
