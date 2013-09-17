@@ -44,20 +44,18 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 
 <style>
     body{min-width: 500px;background: #fff;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
-    #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:100%;display:table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
+    #explorerWrap{background: #fff;font-family: arial, sans-serif;font-size: 13px;width: 100%;height:100%;display:table;}
     #explorer{display: table-cell;width: 200px;overflow-y: auto;height: 100%;border-right: 1px solid #D3D5DB;vertical-align: top;list-style: none;padding: 0;margin: 0;background: #f9f9f9;}
     #explorer ul{display:none;list-style: none;}
     #explorer li.file{display:none}
     #explorer ul{padding-left:20px}
     #explorer > ul li{display:none;}
-    #explorer .icondir{background:url(<?php echo BASE_PATH; ?>admin/img/directory.png) no-repeat;float: left;margin-right: 6px;width: 16px;height: 16px;margin-top: 3px;}
-    #explorer li.dir{padding-left: 15px;line-height: 25px;cursor: pointer;color: #333;border: 1px solid transparent;}
-    #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));
-    background: -moz-linear-gradient(top, #fafbfd, #ebf3fd);background: -webkit-gradient(linear, center top, center bottom, from(#fafbfd), to(#ebf3fd));}
+    #explorer .icondir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 5px -84px no-repeat;}
+    #explorer li.dir{padding-left: 25px;line-height: 25px;cursor: pointer;color: #333;border: 1px solid transparent;}
+    #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background-color: #ebf3fd;}
     #path{background: white;border-bottom: 1px solid #D3D5DB;padding: 5px;color: #333;line-height: 20px;}
-    #rightPart{display:table-cell;position: relative;/*-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/}
+    #rightPart{display:table-cell;position: relative;}
     #explorerfiles{min-width:465px;height:100%;overflow: hidden;}
-    #explorer > li.dir{padding-left:7px }
     #tabs li {cursor: pointer;display: inline-block;margin-left : 1px;background: #BBB;line-height: 15px;height: 26px;margin-top: 5px;border-bottom: 0;}
     #tabs li > div {border-bottom: 0;padding: 5px 4px;color: rgb(255, 255, 255);}
     #tabs .active, #tabs li:hover {background: #F8F8F8;}
@@ -82,7 +80,9 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     .unsaved{font-weight:bold}
     .unsaved .name:after{ content:"*";}
     .explorer_file_name {position: absolute;bottom: 2px;text-overflow: ellipsis;white-space: nowrap;width: 85px;overflow: hidden;padding: 0 4px;font-size: 13px;line-height: 30px;}
-    .explorer_file {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 10px;}
+    .explorer_file {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 6px;}
+	.explorer_file.file{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 21px -136px no-repeat;}
+	.explorer_file.dir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 24px 10px no-repeat;}
     #dirsandfiles{bottom: 0;right: 0;top: 72px;left: 10px;position: absolute;overflow: auto;}
     #editpictures{display: none;}
 </style>
@@ -311,7 +311,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             if ($object->getBasename() != '.' && $object->getBasename() != '..') {
                 if ($object->isDir()){
                     $name = str_replace('\\','/',$name);
-                    echo '<li class="dir" path="' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '"><span class="icondir"></span>' . $object->getBasename() .'</li>' ;
+                    echo '<li class="dir icondir" path="' . str_replace(dirname($_SERVER['SCRIPT_FILENAME']).'/'.PROFILE_PATH, '', $name) . '">' . $object->getBasename() .'</li>' ;
                 }
             }
             $depth = $objects->getDepth();

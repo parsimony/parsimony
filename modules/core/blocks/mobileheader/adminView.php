@@ -27,32 +27,39 @@
  */
 ?>
 <style>
-    .boxes{border: 1px solid #CCC;
-	   margin-left: 5px;
-	   margin-top: 8px;
-	   background: #EDEFF4;
-	   padding: 8px 0;}
-    #accordionBlockConfig label{padding-left: 10px;
-	  color: #555;
-	  text-shadow: 0px 1px 0px #ccc;
-	  font-size: 15px;
-	  letter-spacing: 1.5px;display: inline-block;
-	  width: 180px;
-	  text-align: left;
-	  margin: 15px 0 4px 80px;}
-    .title{padding-left: 10px;
-	   color: #276D7F;
-	   text-shadow: 0px 1px 0px white;
-	   font-size: 15px;
-	   letter-spacing: 1.5px;}
-    #accordionBlockConfig input{width: 240px;}
+	.boxes {
+		padding: 8px 0px 12px;
+		margin-right: 20px;
+		border-bottom: 1px solid #CCC;
+		box-shadow: 0px 2px 1px #fff;
+	}
+    #accordionBlockConfig label {
+		padding-left: 10px;
+		font-size: 15px;
+		letter-spacing: 1.5px;
+		display: inline-block;
+		width: 180px;
+		text-align: left;
+		margin: 15px 0 4px 50px;
+		color: #777;
+		text-shadow: white 0 1px 0;
+	}
+	.title {
+		padding-left: 10px;
+		color: #777;
+		text-shadow: 0px 1px 0px white;
+		letter-spacing: 1.5px;
+		font-size: 20px;
+		line-height: 30px;
+	}
 
 </style>
 <div class="boxes">
     <label><?php echo t('Title') ?></label><input type="text" name="text" value="<?php echo $this->getConfig('text'); ?>">
 </div>
 <div class="boxes">
-    <label><?php echo t('Color') ?></label><input type="color" name="color" value="<?php if($this->getConfig('color')) echo $this->getConfig('color'); else echo '#7C8DB6'; ?>">
+    <label><?php echo t('Color') ?></label><input type="color" name="color" value="<?php if ($this->getConfig('color')) echo $this->getConfig('color');
+else echo '#7C8DB6'; ?>">
 </div>
 <div class="boxes">
     <div class="title"><?php echo t('Left Button') ?></div>

@@ -39,18 +39,17 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 		$filename = str_replace('//','/',$filename); //fix
 		?>
 		<div class="explorer_file dir">
-			<img src="<?php echo BASE_PATH ?>admin/img/dir.png">
 			<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 		</div>
-	<?php
-	elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
-		(empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
-	?>
-	<div class="explorer_file">
+		<?php
+		elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
+			(empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
+		?>
 		<?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
-				<img src="<?php echo BASE_PATH.$filename; ?>?x=50&y=50"> 
+		<div class="explorer_file">
+				<img src="<?php echo BASE_PATH.$filename; ?>?x=55&y=55"> 
 		<?php else: ?>
-			<img src="<?php echo BASE_PATH ?>admin/img/file.png">
+		<div class="explorer_file file">
 		 <?php endif; ?>
 		<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
 	</div>

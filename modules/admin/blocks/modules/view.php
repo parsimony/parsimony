@@ -41,13 +41,13 @@ foreach ($activeModule as $module => $type) {
 	if (!isset($moduleInfos['displayAdmin']) || $moduleInfos['displayAdmin'] == 4) {
 		$icon = '';
 		if (is_file('modules/' . $module . '/icon.png'))
-			$icon = 'background:url(' . BASE_PATH . $module . '/icon.png)';
+			$icon = ' style="background:url(' . BASE_PATH . $module . '/icon.png) 4px 4px no-repeat"';
 		$adminHTML = $moduleobj->displayAdmin();
 		if ($adminHTML == FALSE)
 			$htmlConfig = '';
 		else
-			$htmlConfig = '<a href="#modules/settings/' . $module . '" class="action floatright" style="display:block;margin:3px; line-height:0;" title="' . t('Administration Module', FALSE) . ' ' . ucfirst(s($moduleInfos['title'])) . '"><img src="' . BASE_PATH . 'admin/img/config.png"/></a>';
-			echo '<div class="titleTab ellipsis"><span style="margin: 5px 7px 0px 7px;' . $icon . '" class="sprite sprite-module floatleft"></span> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
+			$htmlConfig = '<a href="#modules/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module', FALSE) . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
+			echo '<div class="titleTab ellipsis"' . $icon . '"> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
 		$display = '';
 		if ($module != MODULE)
 			$display = 'none';
@@ -105,5 +105,5 @@ foreach ($activeModule as $module => $type) {
 	}
 }
 if ($_SESSION['behavior'] === 2): ?>		
-	<div class="titleTab ellipsis" style="padding-left: 31px;"><span class="ui-icon ui-icon-plus" style="top: 5px;  left: 6px;  position: absolute;"></span><a href="#modules/add" style="color: #444;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module"><?php echo t('Add a Module', FALSE); ?></a></div>
+	<div class="titleTab ellipsis" style="padding-left: 31px;background: none"><span class="ui-icon ui-icon-plus" style="top: -2px;  left: 0;  position: absolute;"></span><a href="#modules/add" style="color: #444;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module"><?php echo t('Add a Module', FALSE); ?></a></div>
 <?php endif; ?>

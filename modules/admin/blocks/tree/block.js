@@ -7,7 +7,7 @@ function blockAdminTree() {
 			$('#treelegend2').slideToggle();
 		}).on('click', '.arrow_tree', function(event) {
 			event.stopPropagation();
-			$(this).toggleClass('down');
+			this.classList.toggle('down');
 			$(this).nextAll('ul,li').toggleClass('none');
 		});
 

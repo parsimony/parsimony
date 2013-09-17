@@ -128,138 +128,46 @@ button[disabled],input[type='button'][disabled],input[type='submit'][disabled],b
 }
 
 /* Checkbox and radio */
-input[type='checkbox'] {
-	box-shadow: inset 0 1px 2px white,
-		0 1px 2px rgba(0, 0, 0, .2);
-	-webkit-appearance: none;
-	-webkit-margin-start: 0;
-	-webkit-margin-end: 3px;
-	background: -webkit-linear-gradient(#fafafa, #dcdcdc);
-	background: linear-gradient(#fafafa, #dcdcdc);
+input[type="checkbox"], input[type="radio"]{
+	position: relative;
+	background: rgba(191,185,169,.2);
+	height: 16px;
+	cursor: pointer;
 	border-radius: 3px;
-	border: 1px solid #a0a0a0;
-	display: inline-block;
-	height: 16px;
-	margin-bottom: 0;
-	margin-top: 0;
-	position: relative;
-	top: 3px;
-	vertical-align: baseline;
-	width: 16px;
-}
-
-input[type='checkbox']:disabled {
-	opacity: .75;
-}
-
-input[type='checkbox']:not(:disabled):not(:active):hover {
-	background: -webkit-linear-gradient(#fff, #e6e6e6);
-	background: linear-gradient(#fff, #e6e6e6);
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-input[type='checkbox']:not(:disabled):active {
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
-	background: -webkit-linear-gradient(#f0f0f0, #bebebe);
-	background: linear-gradient(#f0f0f0, #bebebe);
-	border: 1px solid #808080;
-text-shadow: 0 1px 0 rgba(255, 255, 255, .25);
-}
-
-input[type='checkbox']:checked::before {
-	color: #808080;
-	content: url("admin/img/checkmark.png");
-	font-size: 13px;
-	height: 16px;
-	left: 2px;
-	position: absolute;
-}
-
-input[type='radio'] {
-	box-shadow: inset 0 1px 2px white,
-		0 1px 2px rgba(0, 0, 0, .2);
-	-webkit-appearance: none;
-	-webkit-margin-start: 0;
-	-webkit-margin-end: 3px;
-	-webkit-transition: border 500ms;
-	background: -webkit-linear-gradient(#fafafa, #dcdcdc);
-	background: linear-gradient(#fafafa, #dcdcdc);
-	border-radius: 100%;
-	border: 1px solid #a0a0a0;
-	display: inline-block;
-	height: 15px;
-	margin-bottom: 0;
-	position: relative;
-	top: 3px;
-	vertical-align: baseline;
-	width: 15px;
-}
-
-input[type='radio']:disabled {
-	opacity: .75;
-}
-
-input[type='radio']:not(:disabled):not(:active):hover {
-	background: -webkit-linear-gradient(#fff, #e6e6e6);
-	background: linear-gradient(#fff, #e6e6e6);
-text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-input[type='radio']:not(:disabled):active {
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
-	background: -webkit-linear-gradient(#f0f0f0, #bebebe);
-	background: -webkit-moz-gradient(#f0f0f0, #bebebe);
-	border: 1px solid #808080;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, .25);
-}
-
-input[type='radio']:checked::before {
-	box-shadow: 0 1px 0 rgba(255, 255, 255, .5);
-	-webkit-margin-start: 4px;
-	background: #808080;
-	border-radius: 10px;
-	content: '';
-	display: inline-block;
-	font-size: 13px;
-	font-weight: 400;
-	height: 5px;
-	left: 0;
-	margin-top: 4px;
-	opacity: 1;
-	position: absolute;
-	top: 0;
-	vertical-align: top;
-	width: 5px;
-}
-
-html[dir='rtl'] input[type='radio']:checked::before {
-	right: 0;
-}
-
-input[type='radio']:active:checked::before {
-	background: #606060;
-}
-
-input[type='checkbox']:focus,
-input[type='radio']:focus {
-	box-shadow: inset 0 1px 2px white,
-		0 1px 2px rgba(0, 0, 0, .2),
-		0 0 1px #c0c0c0,
-		0 0 1px #c0c0c0,
-		0 0 1px #c0c0c0;
-	-webkit-transition: border-color 200ms;
-	border-color: #4080fa;
+	width:16px;
 	outline: none;
+	-webkit-appearance:none;
+	box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);
+}
+input[type="checkbox"]:hover, input[type="radio"]:hover {
+	background-color: rgba(191,185,169,.4)
+}
+input[type="radio"] {
+	border-radius: 25px;
+}
+input[type="checkbox"]:checked {
+	background-color: rgba(191,185,169,.2);
+}
+input[type="checkbox"]:checked:after {
+	content: "✔";
+    width:16px;
+    height:16px;
+	font-size: 12px;
+	padding: 1px 3px;
+    margin:0;
+	color: #555;
+	position: absolute;
 }
 
-label:hover > input[type=checkbox]:disabled ~ span,
-label:hover > input[type=radio]:disabled ~ span {
-	color: #888;
-}
-
-label:hover > input[type=checkbox]:not(:disabled) ~ span,
-label:hover > input[type=radio]:not(:disabled) ~ span {
-	color: #222;
+input[type="radio"]:checked:after {
+	content: "●";
+	position: relative;
+	top: -4px;
+	left: 3px;
+	font-size: 16px;
+	padding: 0;
+	color: #555;
+	position: absolute;
 }
 
 /* Sliders */

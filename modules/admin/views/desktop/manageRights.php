@@ -39,7 +39,6 @@ $role = app::getModule('core')->getEntity('role');
 	.rolecss{color: #555;text-transform: capitalize;margin-left: 10px;}
 	/*.disabled{background-color: #F1F1F1;}*/
 	.fieldbg{background-color: rgb(250, 252, 251) !important;}
-	input[type='checkbox'] {top : 2px !important;}
 	.fieldname{padding : 0 10px 0 30px; text-align:left !important;}
 	.legmod{display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #DFDFDF;border-radius: 5px;background-color: #F1F1F1;
 			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
@@ -150,10 +149,11 @@ $(document).ready(function() {
 								echo ' none';
 							echo '">';
 							?>
-						   <div id="enablemodule">
-								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?> ?</label><input type="hidden" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
+							<div id="enablemodule">
+								<input type="hidden" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
 								<input type="checkbox" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($line->id_role)) echo 'checked'; ?>>
-						   </div>
+								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?></label>
+							</div>
 						   <?php $module = app::getModule($moduleName);
 								$models = $module->getModel();
 								if(count($models) > 0) : ?>

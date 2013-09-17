@@ -74,7 +74,7 @@ app::$request->page->addJSFile('admin/blocks/blocks/block.js', 'footer');
 		}
 	}
 	foreach ($blocksCat as $title => $blocks) {
-		echo '<div class="titleTab ellipsis"><span class="sprite sprite-bloc"></span> ' . t(ucfirst($title), FALSE) . '</div>';
+		echo '<div class="titleTab ellipsis">' . t(ucfirst($title), FALSE) . '</div>';
 		echo '<div id="blocks_' . $title . '">' . $blocks . '</div>';
 	}
 		?>

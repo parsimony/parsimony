@@ -38,17 +38,19 @@ $CSSValues = $css->getCSSValues();
 <script>
 ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues)); ?>;
 </script>
-
-
 	<div id="toolChanges">
-		<button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>admin/img/275.png');width: 28px;height: 28px;"></div></button>
-		<button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"><div style="background-image: url('<?php echo BASE_PATH;?>admin/img/12.png');width: 38px;height: 35px;margin-top: -1px;"></div></button>
+		<button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"></button>
+		<button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"></button>
 		<span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
 		<div id="listchanges" class="none"></div>
 	</div>
-	<div style="text-align: right;font-size: 11px;">
-		<div onclick="blockAdminCSS.findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" style="color: #777;padding-right: 5px;cursor: pointer">+ Media queries</div>
-	</div>
+	<div id="mediaquerieslabel">Media queries</div>
+	<input type="checkbox" name="slide" id="checkmedia" onclick="blockAdminCSS.findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" />
+	<label for="checkmedia" id="labelmedia">
+	  <div id="btnmedia">
+		<span></span>
+	  </div>  
+	</label>
 	<div id="mediaqueries" style="text-align: right;font-size: 11px;" class="none">
 		<div id="formAddMedia" style="line-height: 30px;text-align: left;padding-left:7px;border-top:1px solid #F3F3F3;">
 			Screen width From <input type="text" style="width:27px;text-align:right" id="mdqMinWidthValue" placeholder="&infin;" />px 
@@ -137,11 +139,11 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 							<label>Margin</label>
 							<input style="left: 89px;top: 7px;" class="spinner repr_top prop_margin-top" data-css="margin-top" data-sufix="px" type="text">
 							<input style="left: 5px;top: 61px;" class="spinner repr_left prop_margin-left" data-css="margin-left" data-sufix="px" type="text">
-							<input style="left: 173px;top: 60px;" class="spinner repr_right prop_margin-right" data-css="margin-right" data-sufix="px" type="text">
+							<input style="left: 173px;top: 61px;" class="spinner repr_right prop_margin-right" data-css="margin-right" data-sufix="px" type="text">
 							<input style="left: 89px;top: 113px;" class="spinner repr_bottom prop_margin-bottom" data-css="margin-bottom" data-sufix="px" type="text">
 							<input class="resultcss liveconfig prop_margin" data-css="margin" style="left: 49px;top: -52px;width: 140px;" type="text">
 						</div>
-						<div class="padding representation border" init="0" style="position: absolute;top: 36px;left: 45px;width: 123px;height: 75px;">
+						<div class="padding representation border" init="0" style="position: absolute;top: 36px;left: 46px;width: 125px;height: 75px;">
 							<label>Padding</label>
 							<input style="left: 44px;top: 10px;" class="spinner repr_top prop_padding-top" data-css="padding-top" data-sufix="px" type="text">
 							<input style="left: 4px;top: 30px;" class="spinner repr_left prop_padding-left" data-css="padding-left" data-sufix="px" type="text">
@@ -299,10 +301,10 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 				</div>
 				<div class="alignement" style="padding: 7px 0;">
 					<label style="width:60px">Text Align</label>
-					<div data-val="left" class="optionAlign">[</div>
-					<div data-val="center" class="optionAlign">-</div>
-					<div data-val="right" class="optionAlign">]</div>
-					<div data-val="justify" class="optionAlign">J</div>
+					<div data-val="left" class="optionAlign" style="background: url(<?php echo BASE_PATH;?>lib/HTML5editor/sprites777.png) no-repeat -126px -29px;"></div>
+					<div data-val="center" class="optionAlign" style="background: url(<?php echo BASE_PATH;?>lib/HTML5editor/sprites777.png) no-repeat -157px -29px;"></div>
+					<div data-val="right" class="optionAlign" style="background: url(<?php echo BASE_PATH;?>lib/HTML5editor/sprites777.png) no-repeat -189px -29px;"></div>
+					<div data-val="justify" class="optionAlign" style="background: url(<?php echo BASE_PATH;?>lib/HTML5editor/sprites777.png) no-repeat -221px -29px;"></div>
 					<input class="liveconfig prop_text-align none" data-css="text-align" id="text_align" type="text">
 				</div>
 				<div class="shadowWidget text-shadow">

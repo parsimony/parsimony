@@ -71,8 +71,10 @@ color: rgb(73, 71, 71);letter-spacing: 1.5px;cursor: pointer;clear:both;position
 #left_sidebar .subSidebar{right: -20px;}
 
 .subSidebarOnglet{border: 1px solid #999;height: 20px;width: 21px;text-align: center;color: #666;font-weight: bold;padding: 1px;cursor: pointer;border-bottom: 0;}
-#panelblocks .sprite{margin: 5px 3px 0px 7px;}
-.contenttab span.panelblocks{background:url(admin/img/bloc.png) no-repeat 2px;}
+#panelblocks .titleTab{padding-left:12px;}
+#modules .titleTab {padding-left:25px;background-image: url(admin/img/defaultsprite.png);background-position: 5px -1137px;background-repeat: no-repeat;}
+#modules .titleTab span{margin: 5px 7px 0px 7px;}
+#modules .titleTab .configmodule{display: block;float:right;margin: 5px;line-height: 0;background: url(admin/img/config.png) no-repeat;width: 16px;height: 16px;}
 .contenttab{position: relative;height: 100%;}
 
 /* Sidebar left */
@@ -151,7 +153,7 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;margin: 0 10px 11px 11px;}
 #treelegend2 fieldset{border: 1px solid #CCC;color: #555 !important; border-radius: 3px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
 #treelegend2 fieldset span{line-height: 20px;}
 #tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;letter-spacing: 1.1px;}
-#tree .tree_selector{position:relative;clear:both;line-height: 20px;font-size: 12px;display: block;}
+#tree .tree_selector{position:relative;clear:both;line-height: 20px;font-size: 12px;}
 #tree ul ,#tree li {margin-left:15px;cursor:pointer;font-size: 13px;text-transform: capitalize;border-left: 1px dotted #999;line-height: 20px;  }
 #tree span.move_block{cursor:move;}
 #tree li.tree_selector{border-top: 1px solid #999;border-bottom: 1px solid #555;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;cursor: pointer;}
@@ -179,15 +181,21 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;margin: 0 10px 11px 11px;}
 /*.currentDOM:first-child{font-weight:bold;background-color: #999 !important}*/
 
 /* Panel CSS */
-#savemycss,#reinitcss{vertical-align: bottom;}
-#savemycss{border: 0;border-radius: 5px 0 0 5px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;}
-#reinitcss{border: 0;border-left: 1px #FCFCFC solid;position: relative;left: -1px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;}
-#toolChanges{display:none;margin: 0 10px 10px;background:#EBEBEB;border-radius:5px;border: 1px solid #CCC;color: #919191;;font-size: 11px;}
+#savemycss,#reinitcss{vertical-align: bottom;box-shadow: none;outline:0}
+#savemycss:hover,#reinitcss:hover{box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);}
+#savemycss{border: 0;border-radius: 5px 0 0 5px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;background: url(admin/img/btncss.png) no-repeat 13px 5px;}
+#reinitcss{border: 0;position: relative;left: -1px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;background: url(admin/img/btncss.png) no-repeat 13px -24px;}
+#toolChanges{display:none;margin: 0 10px 5px;background:#EBEBEB;border-radius:5px;border: 1px solid #E0E0E0;color: #919191;;font-size: 11px;}
 #current_selector_update{letter-spacing: 1px;color: #555;font-size: 13px !important;border: 1px solid #C1C1C1 !important;width:100% !important;border-radius:initial !important;display:inline-block !important;position:relative !important;height: 30px !important;padding-left: 25px !important;background: #FFF !important;}
 #panelcss{color: #444;line-height:25px}
-#panelcss input[type='text']{border: 1px solid rgb(219, 219, 219);width: 38px;padding: 2px;border-radius: 2px;font-size: 11px;height: 17px;text-shadow: none;}
 #panelcss label{display: inline-block;min-width: 50px;}
-#panelcss select{width: 60px;height: 17px;border: 1px solid rgb(219, 219, 219);background-color: rgb(254, 254, 254);}
+#panelcss select, #panelcss input[type="range"],#panelcss input[type="text"] {	width: 38px;font-size: 11px;height: 17px;
+	text-shadow: none;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45) inset, 0 1px 0 #E5E5E5;
+	-moz-appearance: none;-webkit-appearance: none;	
+	outline: none;border: 1px solid #C1C1C1;color: #333;border-radius: 2px;	background: #F2F2F2;
+}
+#panelcss select{width: 60px;height: 17px;position: relative;top: 4px;background: #f2f2f2 url("admin/img/select.png") no-repeat center right;border: 1px solid rgb(219, 219, 219);}
+#panelcss input[type="range"] {	height: 6px;padding:0;}
 #panelcss .panelcss_tab{padding: 8px;width: 230px;padding-top: 10px;background: #F9F9F9;}
 #changecsscode{font-size: 11px;}
 #panelcss_tab_background label{width: 100px;}
@@ -214,8 +222,8 @@ background: linear-gradient(top, white, #F2F2F2);}
 #nbChanges{padding-left: 30px;color: #444;cursor:pointer;line-height: 30px;}
 #listchanges{position: relative;background: #FAFAFA;border-radius: 0 0 5px 5px;line-height: 15px;z-index: 9;}
 #listchanges .selector{padding:0 5px;cursor: help;}
-#panelcss input[placeholder]{border:0;background: transparent}
-#panelcss input[placeholder]:focus{border: 1px solid rgb(193, 193, 193);background: rgb(255, 255, 255);}
+#panelcss input[placeholder]{border:0;background: transparent;box-shadow: none;}
+#panelcss input[placeholder]:focus{border: 1px solid rgb(193, 193, 193);background: #fff;}
 /* When CSS panel is in code OR form mode */
 .CSSCode #css_panel, .CSSForm #css_panel{display:block}
 #panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{background: rgb(236, 236, 236);}
@@ -269,6 +277,7 @@ height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: 
 .CSSForm #changecssform{display:block}
 .CSSForm #changecsscode{display:none}
 #changecssform{position: relative;width:100%;font-size: 11px;}
+#changecssform input,#changecssform select{border:0 !important}
 
 /*  Media queries */
 #mediaqueriesdisplay{position: fixed;width: 100%;left: 0;bottom: 0;z-index: 99;padding-top: 10px;line-height: 10px;background-color: #272727;
@@ -296,7 +305,7 @@ border-radius: 0 10px 0 0;cursor: pointer;box-shadow: inset 0 1px 0 #3C3C3C;bord
 #panelcss .colorpicker{z-index: 9999999999999;}
 #panelcss .colorpicker input{background: transparent !important;}
 .colorpicker2{width: 48px !important;border-radius: 2px 0 0 2px !important;}
-.colorpicker3{background-image: url(admin/img/transparent.png);cursor:pointer;width: 17px;height: 17px;border: 1px solid #dfdfdf;border-left: 0;vertical-align: middle;margin-top: -4px;display: inline-block;}
+.colorpicker3{background-image: url(admin/img/transparent.png);cursor:pointer;width: 17px;height: 18px;border: 1px solid #dfdfdf;border-left: 0;vertical-align: middle;margin-top: -3px;display: inline-block;}
 
 /* CSS TOOL Metrics : margin, padding */
 #metrics {margin-top: 15px;}
@@ -305,7 +314,7 @@ border-radius: 0 10px 0 0;cursor: pointer;box-shadow: inset 0 1px 0 #3C3C3C;bord
 border-top: 0;border-right: 0;min-width: initial;}
 #metrics .margin {display: inline-block;background: whiteSmoke !important;text-align: center;}
 #metrics .padding {border: 1px white dashed;display: inline-block;text-align: center;}
-#panelcss .graph .representation{border-top: 1px solid gainsboro;border-right: 1px solid gainsboro;border-left: 1px solid gainsboro;border-bottom: 1px solid gainsboro;background: #F9F9F9;}
+#panelcss .graph .representation{border-top: 1px solid gainsboro;border-right: 1px solid gainsboro;border-left: 1px solid gainsboro;border-bottom: 1px solid gainsboro;background: #E7E7E7;border-radius: 4px;}
 #panelcss .graph input{width:33px}
 
 /* CSS shadows */
@@ -339,7 +348,8 @@ border-top: 0;border-right: 0;min-width: initial;}
 /* ############## Top Toolbar parts #####################*/
 
 /* Top Toolbar Menu */
-#toolbar a{line-height: 36px;padding:5px 15px;color:#fff;text-decoration: none;cursor:pointer;}
+#toolbar a{color:#fff;text-decoration: none;}
+#toolbar .menu a{line-height: 36px;padding:5px 15px;}
 #admin #toolbar ul{margin: 0px;padding-left: 0px;text-align: left;}
 #toolbar .menu > li:hover{box-shadow: inset 1px 0px 7px #000;}
 #toolbar .menu > li a{display: block;width: 100%;height:100%;padding: 0px 15px;}
@@ -351,7 +361,7 @@ background-image: -moz-linear-gradient(top, #242424,#313131);
 background-image: linear-gradient(top, #242424,#313131);
 }
 #toolbar ul li:hover ul{display:block}
-#toolbar ul > li.subMenu > a{background: url(admin/img/fleche.png) 95% 15px no-repeat;}
+#toolbar ul > li.subMenu > a{background-image: url(admin/img/fleche.png);background-position: 95% 15px; background-repeat: no-repeat;}
 #toolbar ul > li:hover > a{color:#fff;}
 #toolbar ul ul{display:none;z-index:2000;z-index: 1000000;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);background: white;background: rgba(255, 255, 255, 0.97);position: absolute;border: 1px solid #DFDFDF;border-top: none;float:none}
 #toolbar ul ul li{float:none;border:0;position:relative}
@@ -372,14 +382,18 @@ background-image: linear-gradient(top, #242424,#313131);
 .changeVersion li{color: #555;cursor: pointer;min-width:140px;line-height:30px;white-space: nowrap;padding: 0px 15px}
 .changeVersion li:hover{color: #FFF;}
 
-/* Top Toolbar right part */
-#toolbar .rightpart{margin-right:10px;}
-#toolbar .rightpart a {line-height:18px;padding:5px}
-
 /* Top Toolbar middle part */
-#toolbar .orientation > span{margin: 3px 6px;padding: 3px 2px;cursor:pointer}
-#toolbar .orientation > span.active {border-bottom: 1px solid white;}
+#toolbar .orientation span{display: inline-block;background: url(/parsimony_cms/admin/img/sprite_menu_admin.png)  0 0 no-repeat;padding-left:20px;height:16px;margin-left: 5px;cursor:pointer;margin-top:2px}
+#toolbar .orientation span.landscape {background-position: 0 -32px; }
 #info_themetype,#currentRes{text-transform: capitalize}
+
+/* Icons */
+.toolbarsprite{line-height:26px;margin-left: 15px;display: inline-block;background-image: url(/parsimony_cms/admin/img/sprite_menu_admin.png) !important;background-repeat:no-repeat}
+.multisite-icon{background-position: 13px -119px !important;width: 16px;height: 34px}
+.info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 5px}
+.language-icon{background-position: 0 -155px;padding-left:20px;}
+.userprofile-icon{background-position: 0 -92px;padding-left:20px;}
+.close-icon{background-position:0 -64px;width: 16px;height: 16px;margin-top: 5px}
 
 /* ######### Conf box - Inline Popup ############## */
 .conf_box{position:relative;display: inline-block;top:70px;max-width: 95%;max-height: 83%;visibility:hidden;opacity :0.6;transition: transform 0.3s, opacity 0.3s;transform: scale(0.9);
@@ -504,8 +518,17 @@ margin:0}
 #CSSProps a{line-height:23px;padding: 0 5px;clear:both;border-bottom: #E0E0E0 solid 1px;display:block;text-decoration: none;color: #444;font-size: 11px;}
 #CSSProps a:last-child{border-bottom:0}
 
+/* madia queries */
 .mediaQueriesTitle{padding: 3px;background: #F5F3F3;color: #444;font-size: 9px;line-height: 13px;}
-
+#mediaquerieslabel{font-size: 11px;display: inline-block; padding: 3px 15px;}
+#btnmedia{width: 29px;height: 8px;margin-bottom: -1px;background:#44C5EC;border-radius:80px;position:relative;
+			box-shadow:inset 0 1px 2px #AAA;}
+		#checkmedia{display:none;}
+		#labelmedia{cursor: pointer;display: inline-block;}
+		#checkmedia + #labelmedia span{position: absolute;background: #FFF;display: block;
+			left: -2px;top: -1px;width: 10px;height: 10px;transition: .1s;border-radius: 25px;box-shadow: 0 1px 2px #AAA;}
+		#checkmedia:checked + #labelmedia span{margin-left:25px;}
+		#checkmedia:checked + #labelmedia #btnmedia{background:#D3D3D3;}
 /* Transitions */
 .notransition{
 	transition:none !important;-webkit-transition:none !important;
@@ -531,13 +554,10 @@ margin:0}
 .sprite-filesiconON{ background-position: 0 -803px; width: 24px; height: 24px; } 
 .sprite-fleche{ background-position: 0 -877px; width: 6px; height: 6px; } 
 .modules .icons{ background-position: 7px -1000px; } 
-.sprite-landscape{ background-position: 0 -1081px; width: 15px; height: 10px; } 
 .sprite-module{ background-position: 0 -1141px; width: 16px; height: 16px; } 
-.sprite-multi{ background-position: 0 -1207px; width: 12px; height: 18px; } 
 .sprite-picker{ background-position: 0 -1275px; width: 16px; height: 16px; } 
 .sprite-pickericon{ background-position: 0 -1341px; width: 24px; height: 24px; } 
 .sprite-pickericonON{ background-position: 0 -1415px; width: 24px; height: 24px; } 
-.sprite-portrait{ background-position: 0 -1489px; width: 10px; height: 15px; } 
 .sprite-savecss{ background-position: 0 -1554px; width: 24px; height: 24px; } 
 .paneltree .icons{ background-position: 7px -1621px; } 
 .panelcss .icons{ background-position: 7px -1695px; }

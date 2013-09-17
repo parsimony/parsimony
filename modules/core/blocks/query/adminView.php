@@ -110,10 +110,10 @@ $view = $this->getConfig('view');
 	#generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
 	.removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
 	#queryCanvasWrapper{position: relative;height:320px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');}
-	#regenerateview{background-image: url('<?php echo BASE_PATH?>admin/img/padlockopen.png');width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
-	#regenerateview:checked{background-image: url('<?php echo BASE_PATH?>admin/img/padlockclosed.png')}
-	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/padlockopen.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
-	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/padlockclosed.png') rgb(251, 251, 251);box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') no-repeat;width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
+	#regenerateview:checked{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') 0 -33px no-repeat}
+	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
@@ -595,7 +595,7 @@ $view = $this->getConfig('view');
 		if (!empty($tab_selected)) {
 			foreach ($tab_selected AS $selected) {
 				?>
-				   addProperty("", "<?php echo $selected['table']; ?>", "<?php echo $selected['property']; ?>", <?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo $selected['where'] ?>", "<?php echo $selected['or'] ?>", "<?php echo $selected['order'] ?>", "<?php echo (isset($selected['filter']) ? 'true' : 'false') ?>", "<?php echo (isset($selected['sort']) ? 'true' : 'false') ?>");
+				   addProperty("", "<?php echo $selected['table']; ?>", "<?php echo $selected['property']; ?>", <?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", "<?php echo (isset($selected['filter']) ? 'true' : 'false') ?>", "<?php echo (isset($selected['sort']) ? 'true' : 'false') ?>");
 				<?php
 			}
 		}

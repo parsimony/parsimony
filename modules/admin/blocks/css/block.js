@@ -295,7 +295,7 @@ function blockAdminCSS() {
 				e.preventDefault(); // to avoid submit form and save css
 			}
 		})
-				.on('keyup.creation', "#current_selector_update", function(event) {
+		.on('keyup.creation', "#current_selector_update", function(event) {
 			event.stopPropagation();
 			if (event.which !== 13) { // if not [enter]
 				if (event.type === 'keyup') {
@@ -369,7 +369,6 @@ function blockAdminCSS() {
 			}
 
 			obj.querySelector('.resultcss').value = result;
-			alert(e.type);
 			trigger(obj.querySelector('.resultcss'), e.type);
 		})
 		.on('keyup.creation change.creation init.creation', '.resultcss', function() {

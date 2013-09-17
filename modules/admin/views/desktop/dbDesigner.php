@@ -110,7 +110,6 @@ include_once('modules/core/classes/field.php');
 	.conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
 	.entity2,.entity1{font-weight:bold}
 	.title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
-	input[type='checkbox']:checked::before {content: url("../admin/img/checkmark.png");top: 3px;}
 	.tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
 	.toolimg{position: absolute;top:5px;left:15px;}
 	.toolfield{position: relative;}
