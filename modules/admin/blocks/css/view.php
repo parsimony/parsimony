@@ -45,7 +45,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 		<div id="listchanges" class="none"></div>
 	</div>
 	<div id="mediaquerieslabel">Media queries</div>
-	<input type="checkbox" name="slide" id="checkmedia" onclick="blockAdminCSS.findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" />
+	<input type="checkbox" name="slide" id="checkmedia" onclick="Parsimony.blocks['admin_css'].findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" />
 	<label for="checkmedia" id="labelmedia">
 	  <div id="btnmedia">
 		<span></span>

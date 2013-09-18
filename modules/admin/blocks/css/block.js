@@ -1121,6 +1121,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 	var matches = this.findSelectorsByElement(elmt);
 	var found = false;
 	var delta = 0;
+	var $this = this;
 	var nbStylesheet, nbRules;
 	for (var file in matches) {
 		/* We delete all selectors of iframe.css and lib/_*_.css */
@@ -1133,7 +1134,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 					/* If a proposal already exists we remove it from proposal list */
 					if (file == CSSTHEMEPATH && proposals.indexOf(selector) > -1)
 						delete proposals[proposals.indefOf(selector)];
-					this.addSelectorCSS(file, selector.selector, "", selector.nbStylesheet, (selector.nbRule + delta), selector.media, selector.nbMedia);
+					$this.addSelectorCSS(file, selector.selector, "", selector.nbStylesheet, (selector.nbRule + delta), selector.media, selector.nbMedia);
 					found = true;
 				}
 			}
@@ -1143,12 +1144,12 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 
 				/* Add proposals */
 				if (proposals.length > 0) {
-					proposals.forEach(function(selector) {
+					for (var key in proposals) {
 						nbRules++;
-						this.addSelectorCSS(CSSTHEMEPATH, selector, "", nbStylesheet, nbRules, "", "");
-						ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(selector + "{}", nbRules);
+						$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", "");
+						ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
 						delta++;
-					});
+					}
 				}
 			}
 			delete selectors['nbStylesheet'];
@@ -1167,7 +1168,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 				/* We set cssText value to selector's textarea */
 				var id = 'idcss' + item.nbStylesheet + "_" + item.nbRule + "_" + item.nbMedia;
 				document.getElementById(id).value = item.cssText;
-				this.codeEditors[id].draw(false);
+				$this.codeEditors[id].draw(false);
 				// Add new selectors to ParsimonyAdmin.CSSValues to save initial behavior
 				if (typeof ParsimonyAdmin.CSSValues[item.filePath] == "undefined")
 					ParsimonyAdmin.CSSValues[item.filePath] = {};
@@ -1193,10 +1194,10 @@ blockAdminCSS.prototype.addNewSelectorCSS = function(path, selector) {
 
 blockAdminCSS.prototype.addSelectorCSS = function(url, selector, styleCSS, nbstyle, nbrule, media, nbmedia) {
 	var id = 'idcss' + nbstyle + "_" + nbrule + "_" + nbmedia;
-	var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="$(\'#panelcss\').removeClass(\'CSSCode\');blockAdminCSS.displayCSSConf(\'' + url + '\',\'' + selector + '\',\'' + (media || "") + '\')"> ' + t('Visual') + ' </div></div>';
+	var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="$(\'#panelcss\').removeClass(\'CSSCode\');Parsimony.blocks[\'admin_css\'].displayCSSConf(\'' + url + '\',\'' + selector + '\',\'' + (media || "") + '\')"> ' + t('Visual') + ' </div></div>';
 	if (typeof media != "undefined" && media.toString().length > 0)
 		code += '<div class="mediaQueriesTitle">' + media + '</div>';
-	code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + blockAdminCSS.formatCSS(styleCSS) + '</textarea>';
+	code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + Parsimony.blocks['admin_css'].formatCSS(styleCSS) + '</textarea>';
 	$("#changecsscode").append(code);
 	this.codeEditors[id] = new CSSlight(document.getElementById(id));
 }
@@ -1351,8 +1352,8 @@ function CSSlight(elmt) {
 				value = lines.join("\n");
 			}
 
-			blockAdminCSS.setCss(blockAdminCSS.currentRule, value);
-			blockAdminCSS.setCssChange(this.textarea.dataset.path, decodeURIComponent(this.textarea.dataset.selector), this.textarea.value, this.textarea.dataset.media);
+			Parsimony.blocks['admin_css'].setCss(Parsimony.blocks['admin_css'].currentRule, value);
+			Parsimony.blocks['admin_css'].setCssChange(this.textarea.dataset.path, decodeURIComponent(this.textarea.dataset.selector), this.textarea.value, this.textarea.dataset.media);
 		}
 	}
 
@@ -1364,7 +1365,7 @@ function CSSlight(elmt) {
 	this.format = function(e) {
 		e.preventDefault();
 		var data = e.clipboardData.getData('text/plain') || "";
-		document.execCommand('insertText', false, blockAdminCSS.formatCSS(data));
+		document.execCommand('insertText', false, Parsimony.blocks['admin_css'].formatCSS(data));
 	}
 
 	this.draw(false);
