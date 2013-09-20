@@ -383,12 +383,12 @@ background-image: linear-gradient(top, #242424,#313131);
 .changeVersion li:hover{color: #FFF;}
 
 /* Top Toolbar middle part */
-#toolbar .orientation span{display: inline-block;background: url(/parsimony_cms/admin/img/sprite_menu_admin.png)  0 0 no-repeat;padding-left:20px;height:16px;margin-left: 5px;cursor:pointer;margin-top:2px}
+#toolbar .orientation span{display: inline-block;background: url(admin/img/sprite_menu_admin.png)  0 0 no-repeat;padding-left:20px;height:16px;margin-left: 5px;cursor:pointer;margin-top:2px}
 #toolbar .orientation span.landscape {background-position: 0 -32px; }
 #info_themetype,#currentRes{text-transform: capitalize}
 
 /* Icons */
-.toolbarsprite{line-height:26px;margin-left: 15px;display: inline-block;background-image: url(/parsimony_cms/admin/img/sprite_menu_admin.png) !important;background-repeat:no-repeat}
+.toolbarsprite{line-height:26px;margin-left: 15px;display: inline-block;background-image: url(admin/img/sprite_menu_admin.png) !important;background-repeat:no-repeat}
 .multisite-icon{background-position: 13px -119px !important;width: 16px;height: 34px}
 .info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 5px}
 .language-icon{background-position: 0 -155px;padding-left:20px;}
