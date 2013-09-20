@@ -27,9 +27,6 @@
  */
 
 echo $this->displayLabel($fieldName);
-
  ?>
-<input type="password" onkeyup="if(this.value.length > 0) this.setAttribute('name','<?php echo $this->name ?>'); else this.removeAttribute('name');" id="<?php echo $fieldName ?>" value="" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required && $value === FALSE) echo 'required' ?> />
-<div>
-	<input type="checkbox" class="checkPass" onclick="if(this.checked) document.getElementById('<?php echo $fieldName ?>').type = 'text'; else document.getElementById('<?php echo $fieldName ?>').type = 'password';"> <?php echo t('Check Password'); ?>
-</div>
+<input type="hidden" name="<?php echo $this->name ?>" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="0" />
+<input type="checkbox" name="<?php echo $this->name ?>" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="1" <?php if($value == 1) echo ' checked="checked"' ?> />

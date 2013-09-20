@@ -130,6 +130,7 @@ class core extends \module {
 			'field_textarea' => 'core\fields\field_textarea',
 			'field_user' => 'core\fields\field_user',
 			'field_ip' => 'core\fields\field_ip',
+			'field_boolean' => 'core\fields\field_boolean',
 			'field_foreignkey' => 'core\fields\field_foreignkey',
 			'field_formasso' => 'core\fields\field_formasso'
 		);

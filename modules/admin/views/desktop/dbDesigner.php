@@ -131,11 +131,10 @@ include_once('modules/core/classes/field.php');
 					 background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
-					 background-image: -o-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
 	#conf_box_overlay{z-index: 9999;}
 	#notify {top:35px}
-	#currentModule{font-weight: boldpadding-left: 5px;margin-left: 10px;position: relative;top: 4px;}
+	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;position: relative;top: 4px;}
 	.hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
 	input[disabled] {background:#ddd}
 	#connectorchoice{margin-left: 10px;position: relative;top: 4px;}
@@ -747,7 +746,9 @@ include_once('modules/core/classes/field.php');
 	</div>
 	<div id="canvas">
 		<?php
+		$oldSchema = array();
 		foreach ($moduleObj->getModel() as $entityName => $entity) {
+			$oldSchema[$entityName] = array();
 			$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
 			$className = $reflect->getShortName();
 			$modelInfos = \tools::getClassInfos($reflect);
@@ -755,6 +756,7 @@ include_once('modules/core/classes/field.php');
 			echo '<div class="table" data-attributs=\'' . s(json_encode($tab)) . '\' id="table_' . $className . '" style="top:' . $modelInfos['top'] . ';left:' . $modelInfos['left'] . ';"><div class="title">' . $className . '</div>';
 			$parameters = $entity->getFields();
 			foreach ($parameters as $propertyName => $field) {
+				$oldSchema[$entityName][$propertyName] = '';
 				$class = get_class($field);
 				if (isset($aliasClasses[$class])) {
 					$class = $aliasClasses[$class];
@@ -793,6 +795,7 @@ include_once('modules/core/classes/field.php');
 	<span id="deletator" class="ui-icon ui-icon-closethick"></span>
 </div>
 <script>
+	var oldSchema = '<?php echo json_encode($oldSchema) ?>';
 	function enc(str) {
 		return str.toString().replace('"', '\\"');
 	}
@@ -1136,7 +1139,7 @@ include_once('modules/core/classes/field.php');
 					propertylist = propertylist.substring(0, propertylist.length - 1) + '}},';
 				});
 				propertylist = propertylist.substring(0, propertylist.length - 1) + ']';
-				$.post('saveModel', {module: '<?php echo $_POST['module'] ?>', list: propertylist}, function(data) {
+				$.post('saveModel', {module: '<?php echo $_POST['module'] ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
 					ParsimonyAdmin.notify(t('New Data Model has been Saved') + data, "positive");
 					$(".new").removeClass("new");
 				});

@@ -399,7 +399,7 @@ abstract class entity implements \Iterator {
 					if ($field->visibility & INSERT) {
 						$className = get_class($field);
 						$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
-						if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
+						if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_boolean'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
 							$col2 .= $field->form();
 						else
 							$col1 .= $field->form();
@@ -437,7 +437,7 @@ abstract class entity implements \Iterator {
 						if ($className == \app::$aliasClasses['field_formasso']){
 							$field->setValue($this->getId()->value);
 							$col2 .= $field->form();
-						}elseif ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
+						}elseif ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_boolean'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
 							$col2 .= $field->form();
 						else
 							$col1 .= $field->form();
@@ -806,10 +806,10 @@ abstract class entity implements \Iterator {
 			} else {
 				$query .= '*';
 			}
-			$query .= ' FROM ' . $this->_tableName;
+			$query .= ' FROM ' . PREFIX . $this->_tableName;
 			if (isset($this->_SQL['joins'])) {
 				foreach ($this->_SQL['joins'] AS $join) {
-					$query .= ' ' . $join['type'] . ' ' . strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+					$query .= ' ' . $join['type'] . ' ' . PREFIX .  strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
 				}
 			}
 			$vars = array(); // init here for pagination

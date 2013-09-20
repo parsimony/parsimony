@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Parsimony
  *
@@ -25,11 +25,10 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-echo $this->displayLabel($fieldName);
-
- ?>
-<input type="password" onkeyup="if(this.value.length > 0) this.setAttribute('name','<?php echo $this->name ?>'); else this.removeAttribute('name');" id="<?php echo $fieldName ?>" value="" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required && $value === FALSE) echo 'required' ?> />
-<div>
-	<input type="checkbox" class="checkPass" onclick="if(this.checked) document.getElementById('<?php echo $fieldName ?>').type = 'text'; else document.getElementById('<?php echo $fieldName ?>').type = 'password';"> <?php echo t('Check Password'); ?>
+?>
+<div class="placeholder">
+	<label for="<?php echo $this->name ?>">
+	<?php echo $this->label ?>
+	</label>
+	<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
 </div>

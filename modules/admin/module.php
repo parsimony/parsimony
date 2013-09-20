@@ -62,11 +62,6 @@ class admin extends \module {
 				return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
 			}
 			if (!empty($action)) {
-				$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-				$this->module = \app::getModule(MODULE);
-				if(isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) {
-					\app::$request->page = $this->page = $this->module->getPage($_POST['IDPage']);
-				}
 				return parent::controller($action, 'POST');
 			}
 		}else{
@@ -84,6 +79,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content) {
+		$this->initObjects();
 		$tempBlock = new $popBlock($idBlock);
 		$idBlock = $tempBlock->getId(); /* To sanitize id */	
 		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
@@ -150,6 +146,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
+		$this->initObjects();
 		$block = $this->$typeProgress->search_block($idBlock);
 
 		if(!empty($headerTitle)) $block->setConfig('headerTitle', $headerTitle);
@@ -229,6 +226,7 @@ class admin extends \module {
 	 * @return string
 	 */
 	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock) {
+		$this->initObjects();
 		$parent = $this->$typeProgress->search_block($parentBlock);
 		$block = $this->$typeProgress->search_block($idBlock);
 		if(is_object($block) && method_exists($block, 'destruct')){
@@ -449,6 +447,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
+		$this->initObjects();
 		//start
 		$block = $this->$start_typecont->search_block($idBlock);  	
 		$blockparent = $this->$start_typecont->search_block($startParentBlock);
@@ -485,6 +484,7 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function getViewConfigBlockAction($typeProgress, $idBlock) {
+		$this->initObjects();
 		$block = $this->$typeProgress->search_block($idBlock);
 		ob_start();
 		require('modules/admin/views/desktop/manageBlock.php');
@@ -622,6 +622,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function explorerAction() {
+		$this->initObjects();
 		/* Init a page */
 		\app::$request->page = new \page(999);
 		return $this->getView('explorer','desktop');
@@ -847,6 +848,7 @@ class admin extends \module {
 	}
 
 	public function structureTree($obj) {
+		$this->initObjects();
 		$idPage = '';
 		if($obj->getId() == 'content') $idPage = ' data-page="'.\app::$request->page->getId().'"';
 		$html = '<ul class="tree_selector container parsicontainer" style="clear:both" id="treedom_' . $obj->getId() . '"'.$idPage.'><span class="arrow_tree"></span>' . $obj->getId();
@@ -1142,46 +1144,47 @@ class admin extends \module {
 	 * Save model
 	 * @return string
 	 */
-	protected function saveModelAction($module,$list) {
+	protected function saveModelAction($module, $list, $oldSchema) {
 		$schema = json_decode($list);
+		$oldSchema = json_decode($oldSchema, TRUE);
 		$tableExists = array();
-			/* Get roles ids with behavior anonymous */
-			$rolesBehaviorAnonymous = array();
-			foreach (\app::getModule('core')->getEntity('role') as $role) {
-				if($role->state == 0){
-					$rolesBehaviorAnonymous[] = $role->id_role;
-				}
+		/* Get roles ids with behavior anonymous */
+		$rolesBehaviorAnonymous = array();
+		foreach (\app::getModule('core')->getEntity('role') as $role) {
+			if($role->state == 0){
+				$rolesBehaviorAnonymous[] = $role->id_role;
 			}
+		}
+		
 		if (is_array($schema)) {
 			foreach ($schema as $table) {
 
-			if ($table->name != $table->oldName) include_once('modules/' . $module . '/model/' . $table->oldName . '.php');
+				/* Prepare entity's properties */
+				$tplProp = '';
+				$tplParam = '';
+				$tplAssign = '';
+				$args = array();
+				$matchOldNewNames = array();
+				foreach ($table->properties as $fieldName => $property) {
+					list($name, $type) = explode(':', $fieldName);
+					$tplProp .= "\t".'protected $' . $name . ';'.PHP_EOL; //generates attributes
+					$tplParam .= '\\' . $type . ' $' . $name . ','; //generates the constructor parameters
+					$tplAssign .= "\t\t".'$this->' . $name . ' = $' . $name . ";\n"; //generates assignments in the constructor
+					$reflectionObj = new \ReflectionClass($type);
+					$property = json_encode($property);
+					$property = json_decode($property, true);
 
-			$tplProp = '';
-			$tplParam = '';
-			$tplAssign = '';
-			$args = array();
-			$matchOldNewNames = array();
-
-			foreach ($table->properties as $fieldName => $property) {
-				list($name, $type) = explode(':', $fieldName);
-				$tplProp .= '    protected $' . $name . ";\n\r"; //generates attributes
-				$tplParam .= '\\' . $type . ' $' . $name . ','; //generates the constructor parameters
-				$tplAssign .= '        $this->' . $name . ' = $' . $name . ";\n"; //generates assignments in the constructor
-				$reflectionObj = new \ReflectionClass($type);
-				$property = json_encode($property);
-				$property = json_decode($property, true);
-
-						$field = $reflectionObj->newInstanceArgs($property);
-						/* Set rights forbidden for non admins, admins are allowed by default */
-						foreach ($rolesBehaviorAnonymous as $id_role) {
-							$field->setRights($id_role, 0);
-						}
-				$args[] = $field;
-				if(isset($property['oldName']) && ($property['oldName'] != $name && !empty($property['oldName']))) $matchOldNewNames[$name] = $property['oldName'];
-			}
-			$tpl = 
-		'<?php
+					$field = $reflectionObj->newInstanceArgs($property);
+					/* Set rights forbidden for non admins, admins are allowed by default */
+					foreach ($rolesBehaviorAnonymous as $id_role) {
+						$field->setRights($id_role, 0);
+					}
+					$args[] = $field;
+					if(isset($property['oldName']) && ($property['oldName'] != $name && !empty($property['oldName']))) $matchOldNewNames[$name] = $property['oldName'];
+				}
+				
+				/* Prepare entity's php file */
+			$tpl = '<?php
 namespace ' . $module . '\model;
 /**
 * Description of entity ' . $table->name . '
@@ -1193,77 +1196,86 @@ class ' . $table->name . ' extends \entity {
 
 ' . $tplProp . '
 
-public function __construct(' . substr($tplParam, 0, -1) . ') {
-	parent::__construct();
+	public function __construct(' . substr($tplParam, 0, -1) . ') {
+		parent::__construct();
 ' . $tplAssign . '
-}
+	}
 ';
 
-			$model = 'modules/' . $module . '/model/' . $table->name . '.php';
-			if (!is_file($model)) {
-				$tpl .= '// DON\'T TOUCH THE CODE ABOVE ##########################################################'.PHP_EOL.'}'.PHP_EOL.'?>';
-			} else {
-				$code = file_get_contents($model);
-				$tpl = preg_replace('@<\?php(.*)}(.*)?(ABOVE ##########################################################)?@Usi', $tpl, $code);
-			}
+				$model = 'modules/' . $module . '/model/' . $table->name . '.php';
+				if (!is_file($model)) {
+					$tpl .= '// DON\'T TOUCH THE CODE ABOVE ##########################################################'.PHP_EOL.'}'.PHP_EOL.'?>';
+				} else {
+					$code = file_get_contents($model);
+					$tpl = preg_replace('@<\?php(.*)}(.*)?(ABOVE ##########################################################)?@Usi', $tpl, $code);
+				}
+				
+				\tools::file_put_contents($model, $tpl);
+				include($model);
+				$oldObjModel = FALSE;
+				if (is_file('modules/' . $module . '/model/' . $table->oldName . '.' . \app::$config['dev']['serialization'])) {
+					$oldObjModel = \tools::unserialize('modules/' . $module . '/model/' . $table->oldName);
+				}
 
-			\tools::file_put_contents($model, $tpl);
-			include_once($model);
-			$oldFields = array();
-			$oldObjModel = FALSE;
-			if (is_file('modules/' . $module . '/model/' . $table->oldName . '.'.\app::$config['dev']['serialization'])) {
-				$oldObjModel = \tools::unserialize('modules/' . $module . '/model/' . $table->oldName);
-				$oldFields = $oldObjModel->getFields();
-			}
+				// Change table Name if changes
+				if ($table->name !== $table->oldName) {
+					\PDOconnection::getDB()->exec('ALTER TABLE ' . PREFIX . $module . '_' . $table->oldName . ' RENAME TO ' . $module . '_' . $table->name . ';');
+					unlink('modules/' . $module . '/model/' . $table->oldName . '.php');
+					unlink('modules/' . $module . '/model/' . $table->oldName . '.' . \app::$config['dev']['serialization']);
+				}
+				
+				// make a reflection object
+				$reflectionObj = new \ReflectionClass($module . '\\model\\' . $table->name);
+				
+				$newObj = $reflectionObj->newInstanceArgs($args);
 
-			// Change table Name if has change
-			if ($table->name != $table->oldName) {
-				\PDOconnection::getDB()->exec('ALTER TABLE ' .PREFIX . $module . '_' . $table->oldName . ' RENAME TO ' . $module . '_' . $table->name . ';');
-				unlink('modules/' . $module . '/model/' . $table->oldName . '.php');
-				unlink('modules/' . $module . '/model/' . $table->oldName .  '.' .\app::$config['dev']['serialization']);
-				//require_once('modules/' . $module . '/model/' . $table->name . '.php');
-			}
-			// make a reflection object
-			$reflectionObj = new \ReflectionClass($module . '\\model\\' . $table->name);
-			$newObj = $reflectionObj->newInstanceArgs($args);
+				/* Set entity's properties */
+				$newObj->setTitle($table->title);
+				$newObj->behaviorTitle = $table->behaviorTitle;
+				$newObj->behaviorDescription = $table->behaviorDescription;
+				$newObj->behaviorKeywords = $table->behaviorKeywords;
+				$newObj->behaviorImage = $table->behaviorImage;
+				/* Set entity's rights */
+				if (is_object($oldObjModel)) {
+					$newObj->setAllRights($oldObjModel->getAllRights());
+				} else {
 					/* Set rights forbidden for non admins, admins are allowed by default */
 					foreach ($rolesBehaviorAnonymous as $id_role) {
 						$newObj->setRights($id_role, 0);
 					}
-					$newObj->setTitle($table->title);
-			$newObj->behaviorTitle = $table->behaviorTitle;
-			$newObj->behaviorDescription = $table->behaviorDescription;
-			$newObj->behaviorKeywords = $table->behaviorKeywords;
-			$newObj->behaviorImage = $table->behaviorImage;
-					if(is_object($oldObjModel)) $newObj->setAllRights($oldObjModel->getAllRights());
-			if ($oldObjModel != FALSE) {
-				$nameFieldBefore = '';
-				foreach ($args as $fieldName => $field) {
-				if (isset($oldFields[$field->name])) {
-					$field->alterColumn($nameFieldBefore);
-				} elseif (isset($matchOldNewNames[$field->name])) {
-					$field->alterColumn($nameFieldBefore,$matchOldNewNames[$field->name]);
-				} else {
-					$field->addColumn($nameFieldBefore);
 				}
-				if(get_class($field) != \app::$aliasClasses['field_formasso']) $nameFieldBefore = $field->name;
+				if ($oldObjModel !== FALSE) {
+					$nameFieldBefore = '';
+					foreach ($args as $fieldName => $field) {
+						if (isset($oldSchema[$field->entity]) && isset($oldSchema[$field->entity][$field->name])) {
+							$field->alterColumn($nameFieldBefore);
+						} elseif (isset($matchOldNewNames[$field->name])) {
+							$field->alterColumn($nameFieldBefore, $matchOldNewNames[$field->name]);
+						} else {
+							$field->addColumn($nameFieldBefore);
+						}
+						if (get_class($field) !== \app::$aliasClasses['field_formasso'])
+							$nameFieldBefore = $field->name;
+					}
+					if(!empty($oldSchema[$field->entity])){
+						foreach ($oldSchema[$field->entity] as $fieldName => $value) {
+							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) )
+								$field->deleteColumn();
+						}
+					}
+					
+				}else {
+					$newObj->createTable();
 				}
-				foreach ($oldObjModel->getFields() as $fieldName => $field) {
-				if (is_object($field) && (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ))
-					$field->deleteColumn();
-				}
-			}else {
-				$newObj->createTable();
-			}
-			\tools::serialize('modules/' . $module . '/model/' . $table->name , $newObj);
-			$tableExists[] = $table->name;
+				\tools::serialize('modules/' . $module . '/model/' . $table->name , $newObj);
+				$tableExists[] = $table->name;
 			}
 		}
-			$entities = glob('modules/' . $module . '/model/*.php');
+		$entities = glob('modules/' . $module . '/model/*.php');
 		foreach (is_array($entities) ? $entities : array() as $filename) {
 			$modelName = substr(substr(strrchr($filename, "/"), 1), 0, -4);
 			if (!in_array($modelName, $tableExists)) {
-			\app::getModule($module)->getEntity($modelName)->deleteTable();
+				\app::getModule($module)->getEntity($modelName)->deleteTable();
 			}
 		}
 		return ' ';
@@ -1399,12 +1411,21 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	protected function savePictureAction($file, $code) {
 		return \tools::file_put_contents($file, base64_decode($code));
 	}
+	
+	private function initObjects() {
+		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
+		$this->module = \app::getModule(MODULE);
+		if (isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) {
+			\app::$request->page = $this->page = $this->module->getPage($_POST['IDPage']);
+		}
+	}
 
 	/**
 	 * Wrap result of an action in an instance of Page in order to display it in a popup
 	 * @return string 
 	 */
 	protected function actionAction() {
+		$this->initObjects();
 		/* Init a page */
 		\app::$request->page = new \page(99, 'core');
 		if (isset($_POST['action'])) {
@@ -1424,10 +1445,10 @@ public function __construct(' . substr($tplParam, 0, -1) . ') {
 	 * @param string $role
 	 * @return integer
 	 */
-	public function getRights($role) {
-		if($_SESSION['behavior'] > 0)
+	public function getRights($role) { /* to respect prototype */
+		if ($_SESSION['behavior'] > 0)
 			return 1;
-		else 
+		else
 			return 0;
 	}
 

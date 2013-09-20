@@ -87,7 +87,6 @@ $lang['fr']['Is your domain a Second Level domain'] = 'Le nom de domaine est t\'
 $lang['fr']['Yes'] = 'Oui';
 $lang['fr']['No'] = 'Non';
 $lang['fr']['What is it ?'] = 'Qu\'est ce que c\'est ?';
-$lang['fr']['Synchronise with parsimony.mobi in order to access to downloadable modules'] = 'Synchroniser avec Parsimony.mobi pour accéder aux modules téléchargeables';
 $lang['fr']['at least 6 characters alphanumeric'] = 'au minimum 6 caractères alphanumériques';
 $lang['fr']['at least 8 characters alphanumeric'] = 'au minimum 8 caractères alphanumériques';
 $lang['fr']['Login must contains at least 6 characters alphanumeric'] = 'L\' identifiant doit contenir au minimum 6 caractères alphanumériques';
@@ -592,59 +591,60 @@ while (1) {
             break 2;
         case 5:
 	    
-	    include('modules/core/classes/app.php');
-	    class_alias('core\classes\app','app');
-	    include('config.php');
-            define('PREFIX',$config['db']['prefix']);
-	    app::$config = $config;
-		 $config['aliasClasses'] = array('app' => 'core\classes\app',
-	    'request' => 'core\classes\request',
-	    'response' => 'core\classes\response',
-	    'block' => 'core\classes\block',
-	    'tools' => 'core\classes\tools',
-	    'view' => 'core\classes\view',
-	    'module' => 'core\classes\module',
-	    'PDOconnection' => 'core\classes\PDOconnection',
-	    'config' => 'core\classes\config',
-	    'entity' => 'core\classes\entity',
-	    'theme' => 'core\classes\theme',
-	    'page' => 'core\classes\page',
-	    'css' => 'core\classes\css',
-	    'user' => 'core\classes\user',
-	    'pagination' => 'core\classes\pagination',
-	    'img' => 'core\classes\img',
-	    'field' => 'core\classes\field',
-	    'field_ident' => 'core\fields\field_ident',
-	    'field_string' => 'core\fields\field_string',
-	    'field_numeric' => 'core\fields\field_numeric',
-	    'field_decimal' => 'core\fields\field_decimal',
-	    'field_price' => 'core\fields\field_price',
-	    'field_percent' => 'core\fields\field_percent',
-	    'field_mail' => 'core\fields\field_mail',
-	    'field_password' => 'core\fields\field_password',
-	    'field_state' => 'core\fields\field_state',
-	    'field_date' => 'core\fields\field_date',
-	    'field_publication' => 'core\fields\field_publication',
-	    'field_image' => 'core\fields\field_image',
-	    'field_url' => 'core\fields\field_url',
-	    'field_url_rewriting' => 'core\fields\field_url_rewriting',
-	    'field_wysiwyg' => 'core\fields\field_wysiwyg',
-	    'field_textarea' => 'core\fields\field_textarea',
-	    'field_user' => 'core\fields\field_user',
-	    'field_ip' => 'core\fields\field_ip',
-	    'field_foreignkey' => 'core\fields\field_foreignkey',
-	    'field_formasso' => 'core\fields\field_formasso'
-	);
-	    app::$aliasClasses = $config['aliasClasses'];
-            define('PROFILE_PATH','profiles/www/modules/');
-	    $toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
-	    
-	    foreach($config['aliasClasses'] AS $alias => $class){
-		if(in_array($alias,$toInclude)){
-		    include('modules/'.  str_replace('\\', '/', $class).'.php');
-		    class_alias($class,$alias);
-		}
-	    }
+			include('modules/core/classes/app.php');
+			class_alias('core\classes\app','app');
+			include('config.php');
+			define('PREFIX',$config['db']['prefix']);
+			app::$config = $config;
+			 $config['aliasClasses'] = array('app' => 'core\classes\app',
+				'request' => 'core\classes\request',
+				'response' => 'core\classes\response',
+				'block' => 'core\classes\block',
+				'tools' => 'core\classes\tools',
+				'view' => 'core\classes\view',
+				'module' => 'core\classes\module',
+				'PDOconnection' => 'core\classes\PDOconnection',
+				'config' => 'core\classes\config',
+				'entity' => 'core\classes\entity',
+				'theme' => 'core\classes\theme',
+				'page' => 'core\classes\page',
+				'css' => 'core\classes\css',
+				'user' => 'core\classes\user',
+				'pagination' => 'core\classes\pagination',
+				'img' => 'core\classes\img',
+				'field' => 'core\classes\field',
+				'field_ident' => 'core\fields\field_ident',
+				'field_string' => 'core\fields\field_string',
+				'field_numeric' => 'core\fields\field_numeric',
+				'field_decimal' => 'core\fields\field_decimal',
+				'field_price' => 'core\fields\field_price',
+				'field_percent' => 'core\fields\field_percent',
+				'field_mail' => 'core\fields\field_mail',
+				'field_password' => 'core\fields\field_password',
+				'field_state' => 'core\fields\field_state',
+				'field_date' => 'core\fields\field_date',
+				'field_publication' => 'core\fields\field_publication',
+				'field_image' => 'core\fields\field_image',
+				'field_url' => 'core\fields\field_url',
+				'field_url_rewriting' => 'core\fields\field_url_rewriting',
+				'field_wysiwyg' => 'core\fields\field_wysiwyg',
+				'field_textarea' => 'core\fields\field_textarea',
+				'field_user' => 'core\fields\field_user',
+				'field_ip' => 'core\fields\field_ip',
+				'field_boolean' => 'core\fields\field_boolean',
+				'field_foreignkey' => 'core\fields\field_foreignkey',
+				'field_formasso' => 'core\fields\field_formasso'
+			);
+			app::$aliasClasses = $config['aliasClasses'];
+			define('PROFILE_PATH','profiles/www/modules/');
+			$toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
+
+			foreach($config['aliasClasses'] AS $alias => $class){
+				if(in_array($alias,$toInclude)){
+					include('modules/'.  str_replace('\\', '/', $class).'.php');
+					class_alias($class,$alias);
+				}
+			}
 
 	    //create SQL tables
             include('modules/core/module.php');
@@ -654,34 +654,29 @@ while (1) {
             $blog = new \blog\blog('blog');
             $blog->install();
 
-	    echo '<div style="display:none">';
+			echo '<div style="display:none">';
             $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'state' => '1','id_role' => '1'));
             $blog->getEntity('tag')->insertInto(array('id_tag' => '1', 'name' => 'Article','url' => 'article'));
             $blog->getEntity('tag_post')->insertInto(array('id_tag_post' => '1', 'id_tag' => '1','id_post' => '1'));
             $blog->getEntity('category')->insertInto(array('id_category' => '1', 'name' => 'General','id_parent' => null,'url' => 'general','description' => ''));
             $blog->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1','id_post' => '1'));
             $blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World','url' => 'my-first-post','content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>','excerpt' => '','publicationGMT' => gmdate('Y-m-d H:i:s', time()),'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1','has_comment' => '1','ping_status' => '1'));
-	    echo '</div>';
+			echo '</div>';
             $configObj = new \core\classes\config('config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
             $configObj->saveConfig($update);
 	    
-	    //unlock site
-	    $index = file('index.php');
-	    if(trim($index[1]) == 'include(\'installNewLife.php\');exit;'){
-		unset($index[1]);
-		file_put_contents('index.php', implode('',$index));
-	    }
-	    
-	    //lock install
-	    $install = file('installNewLife.php');
-	    $install[0] = '<?php exit; ';
-	    file_put_contents('installNewLife.php',  implode('',$install));
-	    
-	    //synchronize with parsimony.mobi
-	    if(isset($_POST['synchro'])){
-		//do synchro
-	    }
+			//unlock site
+			$index = file('index.php');
+			if(trim($index[1]) == 'include(\'installNewLife.php\');exit;'){
+				unset($index[1]);
+				file_put_contents('index.php', implode('',$index));
+			}
+
+			//lock install
+			$install = file('installNewLife.php');
+			$install[0] = '<?php exit; ';
+			file_put_contents('installNewLife.php',  implode('',$install));
             ?>
             <h1 style="text-align: center;"><?php echo tr('Congratulations, Parsimony is now ready'); ?></h1>
 
@@ -789,7 +784,6 @@ $content = ob_get_clean();
                 background: #EFF0F0;
                 background: -webkit-gradient(linear, left top, left bottom, from(#EDEFF0), to(white));
                 background: -moz-linear-gradient(top, #EDEFF0, white);
-                background: -o-linear-gradient(top, #EDEFF0, white);
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#edeff0', endColorstr='#ffffff');
                 margin-right: 40px;
 		padding-left: 5px;
@@ -799,7 +793,7 @@ $content = ob_get_clean();
                 box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
                 -webkit-user-select: none;
                 background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
-		background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+				background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
                 border: 1px solid #AAA;
                 color: #444;
                 font-size: inherit;
@@ -842,7 +836,6 @@ $content = ob_get_clean();
                 background-image: -webkit-linear-gradient(left, whiteSmoke, #DDD);
                 background-image: -moz-linear-gradient(left, whiteSmoke, #DDD);
                 background-image: -ms-linear-gradient(left, whiteSmoke, #DDD);
-                background-image: -o-linear-gradient(left, whiteSmoke, #DDD);
                 background-image: linear-gradient(to right, whiteSmoke, #DDD);
             }
             .next:hover,.prev:hover{
@@ -851,7 +844,6 @@ $content = ob_get_clean();
                 background-image: -webkit-linear-gradient(left, #fff, #86F024);
                 background-image: -moz-linear-gradient(left, #fff, #86F024);
                 background-image: -ms-linear-gradient(left, #fff, #86F024);
-                background-image: -o-linear-gradient(left, #fff, #86F024);
                 background-image: linear-gradient(to right, #fff, #86F024);
             }
             .prev{
@@ -859,7 +851,6 @@ $content = ob_get_clean();
                 background-image: -webkit-linear-gradient(right, whiteSmoke, #DDD);
                 background-image: -moz-linear-gradient(right, whiteSmoke, #DDD);
                 background-image: -ms-linear-gradient(right, whiteSmoke, #DDD);
-                background-image: -o-linear-gradient(right, whiteSmoke, #DDD);
                 background-image: linear-gradient(to left, whiteSmoke, #DDD);
             }
             .prev:hover{
@@ -867,7 +858,6 @@ $content = ob_get_clean();
                 background-image: -webkit-linear-gradient(right, #fff, #86F024);
                 background-image: -moz-linear-gradient(right, #fff, #86F024);
                 background-image: -ms-linear-gradient(right, #fff, #86F024);
-                background-image: -o-linear-gradient(right, #fff, #86F024);
                 background-image: linear-gradient(to left, #fff, #86F024);
             }
 
@@ -956,10 +946,9 @@ $content = ob_get_clean();
 		    -webkit-appearance: button;-moz-appearance:button;appearance:button;
 		    border-radius: 2px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		    -webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;
-		    -moz-user-select: none;-o-user-select: none;-webkit-user-select: none;user-select: none;
+		    -moz-user-select: none;-webkit-user-select: none;user-select: none;
 		    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    background-image:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
-		    background-image:-o-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
 		    font-size: 13px;
 		    margin: 0 7px 4px 0;
 	    }
