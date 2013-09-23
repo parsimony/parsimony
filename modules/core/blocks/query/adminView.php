@@ -85,7 +85,7 @@ $view = $this->getConfig('view');
 	.propertyJoin{width:199px;line-height:25px;font-weight: bold;font-family: sans-serif}
 	.propertyJoinLeft{text-align: right;padding-right: 7px}
 	.propertyJoinRight{text-align: left;padding-left: 7px}
-	.bloctitle {border-radius: 3px;color: white;background: #1b74a4;}
+	.bloctitle {border-radius: 3px;color: white;background: #1b74a4;cursor:move;}
 	.bloctitle input {text-shadow: none;font-size: 13px;border : none !important;color: white;}
 	input.filter,input.sort{margin:3px 0}
 	#linksWrapper{padding:5px;border-bottom:1px solid #ddd;border-left:1px solid #ddd;position: absolute;right:0;width:525px;background: #fff;display:none;z-index: 999;}
@@ -115,6 +115,7 @@ $view = $this->getConfig('view');
 	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
+	.ui-state-highlight{border:#ccc 70px solid;float:left;}
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination', FALSE); ?></label>
@@ -600,6 +601,10 @@ $view = $this->getConfig('view');
 			}
 		}
 		?>
+		$( "#recipiant_sql" ).sortable({
+			placeholder: "ui-state-highlight",
+			handle: ".bloctitle"
+		  });
 	});
 
 	function draw(){
