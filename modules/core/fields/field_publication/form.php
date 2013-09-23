@@ -28,7 +28,7 @@
 
 $visibility = $this->name . '_visibility';
 $status = $this->name . '_status';
-if($value != FALSE) $stamp = strtotime(s($value));
+if($value !== FALSE) $stamp = strtotime(s($value));
 else $stamp = time();
 ?>
 <script>
@@ -41,7 +41,9 @@ else $stamp = time();
 <style>
 	.pubstatus input.active, .pubstatus input:hover{color: #777;box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);}
 	.pubstatus input {float: left;width: 30%;padding: 3px;cursor: pointer;}
-	.sticky{margin:2px 0 2px 5px;}
+	.visib{margin:2px 0 2px 5px;}
+	.visib label{padding: 4px 8px;display: inline-block;}
+	.visib input[type='radio']{position: relative;top: 3px}
 	.slide{cursor:pointer}
 </style>
 <?php
@@ -50,29 +52,25 @@ echo $this->displayLabel($fieldName);
 <div id="publishForm<?php echo $fieldName; ?>">
 	<div class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;"><?php echo t('Visibility', False) ?> :</span> <span class="visibstatus"></span></div>
 	<div class="none">
-		<div class="sticky">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="public" data-name="public" data-name="public"  value="0"><label for="visibility-public"class="public"><?php echo t('Public', False) ?></label>
+		<div class="visib">
+			<input type="radio" name="<?php echo $this->name ?>_visibility" class="public" data-name="Public" data-name="public" data-val="1" value="1"><label><?php echo t('Public', False) ?></label>
 		</div>
-		<div class="sticky" style="padding-left: 15px;">
-			<input class="stick" data-name="stick" type="checkbox" data-val="1" value="1">
-			<label class="stick"><?php echo t('Stick this post to the front page', False) ?></label>
+		<div class="visib">
+			<input type="radio" name="<?php echo $this->name ?>_visibility" class="private" data-name="Private" data-val="0" value="0"><label><?php echo t('Private', False) ?></label>
 		</div>
-		<div class="sticky hidestick">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="private" data-name="private" data-val="2" value="2"><label for="visibility-public" data-name="private" class="private"><?php echo t('Private', False) ?></label>
-		</div>
-		<div class="sticky hidestick">
-			<input type="radio" class="password" data-name="password" name="<?php echo $this->name ?>_visibility" data-val="3" value="3"><label for="visibility-public" class="password"><?php echo t('Password protected', False) ?></label>
+		<div class="visib">
+			<input type="radio" class="password" data-name="Password" name="<?php echo $this->name ?>_visibility" data-val="2" value="2"><label><?php echo t('Password protected', False) ?></label>
 			<input style="margin-top: 5px" class="none passname" type="text">
 		</div>
 	</div>
-	<input type="hidden" class="visibilitystatus" name="<?php echo $this->name ?>_visibility">
-
-	<div style="padding: 2px 0 0" class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;" for="<?php echo $this->name ?>">Status :</span> <span class="pubstatuslabel"></span></div>
+	<div style="padding: 2px 0 0" class="slide">
+		<span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;" for="<?php echo $this->name ?>">Status :</span> <span class="pubstatuslabel"></span>
+	</div>
 	<div class="pubstatus none" style="margin: 5px 0">
-		<input type="button" style="border-radius: 5px 0 0 5px;" data-val="2" value="<?php echo t('Pending', FALSE); ?>" data-ident="Pending">
-		<input type="button" style="" value="<?php echo t('Draft', FALSE); ?>" data-val="1" data-ident="Draft">
-		<input type="button" style="border-radius: 0 5px 5px 0;" data-val="0" value="<?php echo t('Publish', FALSE); ?>" data-ident="Publish" class="publish">
-		<input type="hidden" value="" class="publishstatus" name="<?php echo $this->name . '_status' ?>">
+		<input type="button" style="border-radius: 5px 0 0 5px;" data-val="2" value="<?php echo t('Pending', FALSE); ?>">
+		<input type="button" value="<?php echo t('Draft', FALSE); ?>" data-val="1">
+		<input type="button" style="border-radius: 0 5px 5px 0;" data-val="0" value="<?php echo t('Publish', FALSE); ?>" class="publish">
+		<input type="hidden" class="publishstatus" name="<?php echo $this->name . '_status' ?>">
 	</div>
 	<div style="clear: both;padding: 5px 0;min-width: 237px;" >
 		<span style="font-weight: bold;"><?php echo t('Publish', false); ?> <?php echo t('Immediately', false); ?></span><span style="padding-left:5px"><?php echo t('Or', false); ?></span>
@@ -114,38 +112,16 @@ echo $this->displayLabel($fieldName);
 			$('.datestatus', myForm).val(sqltime);
 		})
 				
-		.on('change','.sticky input',function(){
-			var idst = '';
-			if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
-				idst = t('Public');
-			}else if($('input.password', myForm).prop("checked") == true) idst = $('label.password', myForm).text();
-			else idst = $('label.' + $(this).data("name"), myForm).text();
-			$('.visibstatus', myForm).text(idst);
-			var visibilitystatus = $(this).val();
-			if($(this).hasClass('stick')) visibilitystatus = $('input.stick', myForm).val();
-			$('.visibilitystatus', myForm).val(visibilitystatus);
+		.on('change','.visib input',function(){
+			$('.visibstatus', myForm).text($(this).data("name"));
 		})
 		
-		.on('change','.sticky input[type=radio]',function(){
-			$('input.stick').prop("checked", false);
-			if($(this).hasClass('public')){
-				$('input.stick', myForm).parent().show();
-				$('input.passname', myForm).hide();
-			}else if($(this).hasClass('password')){
+		.on('change','.visib input[type=radio]',function(){
+			if($(this).hasClass('password')){
 				$('input.passname', myForm).show();
-				$('.visibilitystatus', myForm).val($('input.passname', myForm).val());
 			}else{
-				$('input.stick', myForm).parent().hide();
 				$('input.passname', myForm).hide();
 			}
-		})
-				
-		.on('keyup','input.passname',function(){
-			var str = $(this).val();
-			if(!str || str.length === 0 && $('.visibilitystatus', myForm).val()== str){
-				$('input.passname', myForm).attr('pattern','<?php echo $this->regex ?>').attr('required','');
-			}
-			$('.visibilitystatus', myForm).val(str);
 		})
 			
 		.on('click','.publish',function(){
@@ -155,41 +131,41 @@ echo $this->displayLabel($fieldName);
 		.on('click','.pubstatus input',function(){
 			$('.pubstatus input', myForm).removeClass('active');
 			$(this).addClass('active');
-			var pub = $(this).data("ident");
-			$('.pubstatuslabel', myForm).text(t(pub)); 
-			if(pub == "Pending"){
+			$('.pubstatuslabel', myForm).text(this.value);
+			var pub = $(this).data("val");
+			if(pub == "2"){
 				pub = t('Save as Pending');
 				$('.publishstatus', myForm).val('2');
-			}else if(pub == "Draft"){
+			}else if(pub == "1"){
 				pub = t('Save Draft');
 				$('.publishstatus', myForm).val('1');
 			}else {
 				pub = t('Publish');
 				$('.publishstatus', myForm).val('0');
 			}
-			if($('input.stick', myForm).prop("checked") == false && $('input.public', myForm).prop("checked") == true) {
-				$('.publishstatus', myForm).val('0');
-			}
 			$('input[name="add"]', myForm).val(pub);
 		})
 				
 		.on('click','.slide',function(){
-			$(this).next().slideToggle();
+			$(this).next().slideToggle("fast");
 		});
 
 	<?php 
 	/* For update */
 	if($value != FALSE): ?>
-	if("<?php echo s($row->$visibility); ?>" == 0 || "<?php echo s($row->$visibility); ?>" == 1 || "<?php echo s($row->$visibility); ?>" == 2){
-		$('.sticky input[data-val="<?php echo s($row->$visibility); ?>"]').trigger('click');
-	}else{
-		$('.sticky input[data-val="3"]').trigger('click');
-		$('.passname').val("<?php echo s($row->$visibility); ?>");
-	}
+		if("<?php echo s($row->$visibility); ?>" <= 2){
+			$('.visib input[value="<?php echo $row->$visibility; ?>"]').trigger('click');
+		}else{
+			$('.visib input[data-val="2"]').trigger('click');
+			$('.passname').val("<?php echo s($row->$visibility); ?>");
+		}
 
-	$('.pubstatus input[data-val="<?php echo s($row->$status); ?>"]').trigger('click');
+		$('.pubstatus input[data-val="<?php echo s($row->$status); ?>"]').trigger('click');
+	<?php else: /* For form add */ ?> 
+		$('.pubstatus input[data-val="0"]').trigger('click');
+		$('.public', myForm).trigger('click');
 	<?php endif; ?>
-	$('.public', myForm).trigger('click');
+	
 	$('.datesql', myForm).trigger('change');
 	$('.datesql',myForm).trigger('change');
 });

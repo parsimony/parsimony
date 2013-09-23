@@ -75,6 +75,7 @@ $view = $this->getConfig('view');
 	.datagrid{padding-top:5px}
 	.tabsadmin{width: 42%;text-align: center;margin-left: 2%;}
 	.textdbquery{font-size: 12px;letter-spacing: 1px;line-height: 20px;z-index: 999;position:relative;padding: 4px;}
+	.textdbquery input[type="checkbox"]{position:relative;top:4px}
 	#resultpreview .pagination{display:none}
 	#recipiant_sql_cont{position:relative;width: 1200px;overflow-x: auto;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:182px}
 	.aggregate,.aggregate{width:100%}
@@ -110,17 +111,17 @@ $view = $this->getConfig('view');
 	#generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
 	.removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
 	#queryCanvasWrapper{position: relative;height:320px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');}
-	#regenerateview{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') no-repeat;width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
-	#regenerateview:checked{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') 0 -33px no-repeat}
-	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
-	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') 0 -33px no-repeat;width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
+	#regenerateview:checked{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') no-repeat}
+	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
+	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
 	.ui-state-highlight{border:#ccc 70px solid;float:left;}
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination', FALSE); ?></label>
 	<div style="display:inline-block;width:200px">
-		<?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+		<?php echo t('Active Pagination', FALSE); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 		if ($this->getConfig('pagination') == 1)
 			echo ' checked="checked"';
 		?> />
@@ -237,7 +238,7 @@ $view = $this->getConfig('view');
 					<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
 					<div class="clearboth textdbquery">
 						<div style="display:inline-block;width:200px">
-							<?php echo t('Active Pagination', FALSE); ?> : <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+							<?php echo t('Active Pagination', FALSE); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 							if ($this->getConfig('pagination') == 1)
 								echo ' checked="checked"';
 							?> />

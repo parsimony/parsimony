@@ -660,7 +660,7 @@ while (1) {
             $blog->getEntity('tag_post')->insertInto(array('id_tag_post' => '1', 'id_tag' => '1','id_post' => '1'));
             $blog->getEntity('category')->insertInto(array('id_category' => '1', 'name' => 'General','id_parent' => null,'url' => 'general','description' => ''));
             $blog->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1','id_post' => '1'));
-            $blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World','url' => 'my-first-post','content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>','excerpt' => '','publicationGMT' => gmdate('Y-m-d H:i:s', time()),'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1','has_comment' => '1','ping_status' => '1'));
+            $blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World','url' => 'my-first-post','content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>','excerpt' => '','publicationGMT' => gmdate('Y-m-d H:i:s', time()),'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1','has_comment' => '1','ping_status' => '1','is_sticky' => '0'));
 			echo '</div>';
             $configObj = new \core\classes\config('config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
