@@ -806,10 +806,10 @@ abstract class entity implements \Iterator {
 			} else {
 				$query .= '*';
 			}
-			$query .= ' FROM ' . PREFIX . $this->_tableName;
+			$query .= ' FROM ' . $this->_tableName;
 			if (isset($this->_SQL['joins'])) {
 				foreach ($this->_SQL['joins'] AS $join) {
-					$query .= ' ' . $join['type'] . ' ' . PREFIX .  strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
+					$query .= ' ' . $join['type'] . ' ' .  strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
 				}
 			}
 			$vars = array(); // init here for pagination
@@ -858,7 +858,7 @@ abstract class entity implements \Iterator {
                 }
                 $query .= $limit;
 			}
-			$this->_SQL['query'] = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
+			$this->_SQL['query'] = $query = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
 			if(!empty($vars)){ 
 				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
 				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);

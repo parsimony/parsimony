@@ -38,26 +38,12 @@ namespace core\fields;
  */
 
 class field_boolean extends \field {
-
-	/**
-	 * Build a field_boolean field
-	 * @param string $module
-	 * @param string $entity 
-	 * @param string $name 
-	 * @param string $type by default 'BOOLEAN'
-	 * @param integer $characters_max by default ''
-	 * @param integer $characters_min by default 0
-	 * @param string $label by default ''
-	 * @param string $text_help by default ''
-	 * @param string $msg_error by default invalid
-	 * @param string $default by default ''
-	 * @param bool $required by default true
-	 * @param string $regex by default '^[0-1]$'
-	 * @param string $states by default 'on,off'
-	 */
-	public function __construct($module, $entity, $name, $type = 'BOOLEAN', $characters_max = '', $characters_min = 1, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[0-1]$', $visibility = 7, $states = 'on,off') {
-		$this->constructor(func_get_args());
-	}
+	
+	protected $type = 'BOOLEAN';
+	protected $characters_max = '';
+	protected $characters_min = 1;
+	protected $regex = '^[0-1]$';
+	protected $states = 'on,off';
 	
 	/**
 	 * Validate field

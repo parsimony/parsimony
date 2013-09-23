@@ -40,9 +40,9 @@ namespace core\fields;
 
 class field_url_rewriting extends \field {
 
-	public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[a-z0-9-]*$', $visibility = 7, $propertyToURL = '', $unique = FALSE) {
-		$this->constructor(func_get_args());
-	}
+	protected $regex = '^[a-z0-9-]*$';
+	protected $propertyToURL = '';
+	protected $unique = FALSE;
 
 	public function validate($value) {
 		$length = strlen($value);

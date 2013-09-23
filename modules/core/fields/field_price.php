@@ -39,24 +39,9 @@ namespace core\fields;
  */
 class field_price extends \field {
 
-	/**
-	 * Build a field_numeric field
-	 * @param string $module
-	 * @param string $entity 
-	 * @param string $name 
-	 * @param string $type by default 'INT'
-	 * @param integer $characters_max by default '2'
-	 * @param integer $characters_min by default 0
-	 * @param string $label by default ''
-	 * @param string $text_help by default ''
-	 * @param string $msg_error by default invalid
-	 * @param string $default by default ''
-	 * @param bool $required by default true
-	 * @param string $regex by default '^[0-9\.,]*$'
-	 */
-	public function __construct($module, $entity, $name, $type = 'DECIMAL', $characters_max = '7,2', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[0-9\.,]*$', $visibility = 7) {
-		$this->constructor(func_get_args());
-	}
+	protected $type = 'DECIMAL';
+	protected $characters_max = '7,2';
+	protected $regex = '^[0-9\.,]*$';
 
 	/**
 	 * Validate field

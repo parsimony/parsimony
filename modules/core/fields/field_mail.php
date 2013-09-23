@@ -39,25 +39,9 @@ namespace core\fields;
  */
 
 class field_mail extends \field {
-
-	/**
-	 * Build a field_mail field
-	 * @param string $module
-	 * @param string $entity 
-	 * @param string $name 
-	 * @param string $type by default 'varchar'
-	 * @param integer $characters_max by default '255'
-	 * @param integer $characters_min by default 0
-	 * @param string $label by default ''
-	 * @param string $text_help by default ''
-	 * @param string $msg_error by default invalid
-	 * @param string $default by default ''
-	 * @param bool $required by default true
-	 * @param string $regex by default '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$'
-	 */
-	public function __construct($module, $entity, $name, $type = 'varchar', $characters_max = '255', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$', $visibility = 7, $unique = FALSE) {
-		$this->constructor(func_get_args());
-	}
+	
+	protected $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$';
+	protected $unique = FALSE;
 
 	/**
 	 * Validate field

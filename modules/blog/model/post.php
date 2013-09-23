@@ -39,6 +39,7 @@ class post extends \entity {
 
 	}
 
+
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
 public function afterInsert($vars) {

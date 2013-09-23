@@ -667,6 +667,7 @@ include_once('modules/core/classes/field.php');
 			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
 			<div id="field_list">
 				<?php
+				function filterprops($val){ return $val !== NULL;};
 				$aliasClasses = array_flip(\app::$aliasClasses);
 				foreach ($aliasClasses AS $class => $alias) {
 					if (preg_match('#field#', $alias))
@@ -682,12 +683,10 @@ include_once('modules/core/classes/field.php');
 						}
 						$field = new $class($_POST['module'], '', '');
 						$fieldInfos = \tools::getClassInfos($field);
-						$args = array();
-						$ssmethod = new ReflectionMethod($class, '__construct');
-						$params = $ssmethod->getParameters();
-						foreach ($params as $ssparam) {
-							$args[$ssparam->name] = $field->{$ssparam->name};
-						}
+						$reflect = new ReflectionClass($class);
+						$args = $reflect->getDefaultProperties();
+						$args = array_filter($args, 'filterprops');
+						unset($args['row']);
 						$args['oldName'] = $field->name;
 						$args['required'] = (int) $args['required'];
 						if ($class == 'field_ident' || $class == 'field_foreignkey')
@@ -761,12 +760,15 @@ include_once('modules/core/classes/field.php');
 				if (isset($aliasClasses[$class])) {
 					$class = $aliasClasses[$class];
 				}
-				$ssmethod = new ReflectionMethod($class, '__construct');
-				$params = $ssmethod->getParameters();
+				$reflect = new ReflectionClass($field);
+				$params = $reflect->getDefaultProperties();
 				$args = array();
-				foreach ($params as $ssparam) {
-					$args [$ssparam->name] = $field->{$ssparam->name};
+				foreach ($params as $name => $defaultValue) {
+					$args[$name] = $field->$name;
 				}
+				unset($args['fieldPath']);
+				unset($args['row']);
+				unset($args['value']);
 				$args['required'] = (int) $args['required'];
 				$args['oldName'] = $field->name;
 				echo '<div class="property" id="property_' . $className . '_' . $propertyName . '" data-attributs=\'' . s(json_encode($args)) . '\' type_class="' . $class . '">' . $propertyName . '</div>';

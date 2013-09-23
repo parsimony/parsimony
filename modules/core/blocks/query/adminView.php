@@ -245,13 +245,13 @@ $view = $this->getConfig('view');
 							<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
 						</div>
 						<div style="display:inline-block;width:110px">
-							<?php echo t('Filters', FALSE); ?> : <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
+							<?php echo t('Filters', FALSE); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
 							if ($this->getConfig('filter') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
 						<div style="display:inline-block;">
-							<?php echo t('Sort', FALSE); ?> : <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
+							<?php echo t('Sort', FALSE); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
 							if ($this->getConfig('sort') == 1)
 								echo ' checked="checked"';
 							?> />

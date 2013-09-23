@@ -40,25 +40,12 @@ namespace core\fields;
 
 class field_date extends \field {
 
-	/**
-	 * Build a field_date field
-	 * @param string $module
-	 * @param string $entity 
-	 * @param string $name 
-	 * @param string $type by default 'datetime'
-	 * @param integer $characters_max by default ''
-	 * @param integer $characters_min by default 0
-	 * @param string $label by default ''
-	 * @param string $text_help by default ''
-	 * @param string $msg_error by default invalid
-	 * @param string $default by default ''
-	 * @param bool $required by default true
-	 * @param string $regex by default '^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$'
-	 * @param string $use by default 'normal'
-	 */
-	public function __construct($module, $entity, $name, $type = 'datetime', $characters_max = '', $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$', $visibility = 7, $use = 'normal', $templateDisplay = '%d %B %Y ,%H:%M', $templateForms = '%year% / %month% / %day% %hour% : %minute% : %second%') {
-		$this->constructor(func_get_args());
-	}
+	protected $type = 'DATETIME';
+	protected $characters_max = '';
+	protected $regex = '^(\d{4})-(\d{2})-(\d{2}) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$';
+	protected $use = 'normal';
+	protected $templateDisplay = '%d %B %Y ,%H:%M';
+	protected $templateForms = '%year% / %month% / %day% %hour% : %minute% : %second%';
 
 	/**
 	 * Validate field

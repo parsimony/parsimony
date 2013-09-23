@@ -1165,22 +1165,26 @@ class admin extends \module {
 				$tplAssign = '';
 				$args = array();
 				$matchOldNewNames = array();
-				foreach ($table->properties as $fieldName => $property) {
+				foreach ($table->properties as $fieldName => $fieldProps) {
 					list($name, $type) = explode(':', $fieldName);
 					$tplProp .= "\t".'protected $' . $name . ';'.PHP_EOL; //generates attributes
 					$tplParam .= '\\' . $type . ' $' . $name . ','; //generates the constructor parameters
 					$tplAssign .= "\t\t".'$this->' . $name . ' = $' . $name . ";\n"; //generates assignments in the constructor
 					$reflectionObj = new \ReflectionClass($type);
-					$property = json_encode($property);
-					$property = json_decode($property, true);
+					$fieldProps = json_encode($fieldProps);
+					$fieldProps = json_decode($fieldProps, true);
+					if(isset($fieldProps['oldName']) && ($fieldProps['oldName'] != $name && !empty($fieldProps['oldName']))) $matchOldNewNames[$name] = $fieldProps['oldName'];
+					unset($fieldProps['oldName']);
 
-					$field = $reflectionObj->newInstanceArgs($property);
-					/* Set rights forbidden for non admins, admins are allowed by default */
-					foreach ($rolesBehaviorAnonymous as $id_role) {
-						$field->setRights($id_role, 0);
+					$field = $reflectionObj->newInstanceArgs(array('module' => $fieldProps['module'], 'entity' => $fieldProps['entity'], 'name' => $fieldName, 'properties' => $fieldProps));
+					if(!isset($fieldProps['rights'])){
+						/* Set rights forbidden for non admins, admins are allowed by default */
+						foreach ($rolesBehaviorAnonymous as $id_role) {
+							$field->setRights($id_role, 0);
+						}
 					}
 					$args[] = $field;
-					if(isset($property['oldName']) && ($property['oldName'] != $name && !empty($property['oldName']))) $matchOldNewNames[$name] = $property['oldName'];
+					
 				}
 				
 				/* Prepare entity's php file */
@@ -1211,7 +1215,7 @@ class ' . $table->name . ' extends \entity {
 				}
 				
 				\tools::file_put_contents($model, $tpl);
-				include($model);
+				include_once($model);
 				$oldObjModel = FALSE;
 				if (is_file('modules/' . $module . '/model/' . $table->oldName . '.' . \app::$config['dev']['serialization'])) {
 					$oldObjModel = \tools::unserialize('modules/' . $module . '/model/' . $table->oldName);

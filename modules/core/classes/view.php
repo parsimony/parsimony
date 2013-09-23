@@ -141,6 +141,17 @@ class view implements \Iterator {
 			if($hidden) {
 				$obj->setVisibility(0); // keep this field invisible
 			}
+			
+			$columns = $obj->getColumns();
+			if(count($columns) > 1){
+				unset($columns[0]);
+				foreach ($columns as $name) {
+					$this->SQL['selects'][$name] = $name;
+				}
+			}
+			
+			
+			
 			$this->setField($alias, $obj);
 		}
 		return $this;
@@ -270,12 +281,12 @@ class view implements \Iterator {
 					$currentEntity = \app::getModule($field->module)->getEntity($field->entity);
 					$foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
 					$idNameForeignEntity = $foreignEntity->getId()->name;
-				$this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
-				$this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
-				$this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
-				$this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
+					$this->SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+					$this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
+					$this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
+					$this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
 				} elseif (!isset($this->fields[$id])) {
-				$this->select($field->module . '_' . $field->entity . '.' . $id, TRUE);
+					$this->select($field->module . '_' . $field->entity . '.' . $id, TRUE);
 				}
 			}
 			$query .= implode(',',$this->SQL['selects']);
@@ -296,7 +307,7 @@ class view implements \Iterator {
 						preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
 						foreach($matches[1] AS $param){
 							$value = \app::$request->getParam($param);
-							if(!empty($value)){
+							if($value !== FALSE){
 								if(is_array($value)){
 									$nb = count($value);
 									$str = array();

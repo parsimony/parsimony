@@ -43,39 +43,46 @@ class field {
 
 	/** @var string field value */
 	protected $value;
+	
 	// SQL Features
+	
 	/** @var string SQL name */
 	protected $name;
 
 	/** @var string SQL type */
-	protected $type;
+	protected $type = 'VARCHAR';
 
 	/** @var integer SQL Max characters */
-	protected $characters_max;
+	protected $characters_max = 255;
 
 	/** @var integer SQL Min characters */
-	protected $characters_min;
+	protected $characters_min = 0;
 
 	/** @var string SQL Default */
-	protected $default;
+	protected $default = '';
 
 	/** @var bool SQL Requirement */
-	protected $required;
+	protected $required = TRUE;
+	
 	// Interface
+	
 	/** @var string label */
-	protected $label;
+	protected $label = '';
 
 	/** @var string text help */
-	protected $text_help;
+	protected $text_help = '';
 
 	/** @var string msg error */
-	protected $msg_error;
+	protected $msg_error = 'Invalid';
+	
 	// Verif
 	/** @var string regex */
-	protected $regex;
+	protected $regex = '^.*$';
 
 	/** @var string visibility */
-	protected $visibility;
+	protected $visibility = 7;
+	
+	//others
 
 	/** @var string visibility */
 	protected $rights;
@@ -84,43 +91,18 @@ class field {
 	protected $fieldPath;
 
 	/** @var object of the entity container */
-	public $row = "";
+	public $row = '';
 
 	/**
 	 * Build field
 	 * @param string $module
 	 * @param string $entity 
 	 * @param string $name 
-	 * @param string $type by default 'VARCHAR'
-	 * @param bool $unique by default false
-	 * @param integer $characters_max by default 255
-	 * @param integer $characters_min by default 0
-	 * @param string $label by default ''
-	 * @param string $text_help by default ''
-	 * @param string $msg_error by default invalid
-	 * @param string $default by default ''
-	 * @param bool $required by default true
-	 * @param string $regex by default '.*'
-	 * @param string $visibility by default '.*'
+	 * @param array $properties
 	 */
-	public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'Invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7) {
-		$this->constructor(func_get_args());
-		$this->msg_error = 'Invalid ' . $name;
-	}
-
-	/**
-	 * Build field arguments
-	 * @param string $args
-	 */
-	protected function constructor($args) {
-		$method = new \ReflectionMethod($this, '__construct');
-		$params = $method->getParameters();
-		foreach ($params as $key => $param) {
-			$namevar = $param->getName();
-			if ($param->isOptional() && (!isset($args[$key]) || $args[$key] == null))
-				$this->$namevar = $param->getDefaultValue();
-			else
-				$this->$namevar = $args[$key];
+	public function __construct($module, $entity, $name, $properties = array()) {
+		foreach($properties AS $property => $value){
+			$this->$property = $value;
 		}
 		$this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
 	}
@@ -194,12 +176,17 @@ class field {
 	}
 
 	public function __sleep() {
-		$fields = get_object_vars($this);
-		unset($fields['views']);
-		unset($fields['row']);
-		unset($fields['hasUpdateRight']);
-		if(isset($fields['editInline'])) unset($fields['editInline']);
-		return array_keys($fields);
+		$reflect = new \ReflectionClass($this);
+		$defaultValues = $reflect->getDefaultProperties();
+		$properties = get_object_vars($this);
+		unset($properties['views']);
+		unset($properties['row']);
+		foreach ($properties AS $name => $value) {
+			if(isset($defaultValues[$name]) && $properties[$name] == $defaultValues[$name]) {
+				unset($properties[$name]);
+			}
+		}
+		return array_keys($properties);
 	}
 
 	/**

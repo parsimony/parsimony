@@ -314,6 +314,12 @@ class request {
 		}else{
 			$_SESSION['behavior'] = 0;
 			$_SESSION['id_role'] = 6;
+			
+			/* Mainly to use in query block */
+			$this->setParams(array('id_user' => FALSE,
+									'id_role' => 6,
+									'behavior' => 0,
+									'login' => FALSE));
 		}
 	}
 

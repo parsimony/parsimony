@@ -40,10 +40,8 @@ namespace core\fields;
 
 class field_string extends \field {
 
-	public function __construct($module, $entity, $name, $type = 'VARCHAR', $characters_max = 255, $characters_min = 0, $label = '', $text_help = '', $msg_error = 'invalid', $default = '', $required = TRUE, $regex = '.*', $visibility = 7, $unique = FALSE){
-		$this->constructor(func_get_args());
-	}
-
+	protected $unique = FALSE;
+	
 	public function validate($value) {
 		$length = strlen($value);
 		if ($length >= $this->characters_min && $length <= $this->characters_max) {
