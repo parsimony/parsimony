@@ -637,8 +637,7 @@ while (1) {
 			);
 			app::$aliasClasses = $config['aliasClasses'];
 			define('PROFILE_PATH','profiles/www/modules/');
-			$toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
-
+			$toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_boolean','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 			foreach($config['aliasClasses'] AS $alias => $class){
 				if(in_array($alias,$toInclude)){
 					include('modules/'.  str_replace('\\', '/', $class).'.php');
@@ -655,12 +654,12 @@ while (1) {
             $blog->install();
 
 			echo '<div style="display:none">';
-            $core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'],'mail' => $_POST['mail'],'pass' => $_POST['pass1'],'state' => '1','id_role' => '1'));
-            $blog->getEntity('tag')->insertInto(array('id_tag' => '1', 'name' => 'Article','url' => 'article'));
-            $blog->getEntity('tag_post')->insertInto(array('id_tag_post' => '1', 'id_tag' => '1','id_post' => '1'));
-            $blog->getEntity('category')->insertInto(array('id_category' => '1', 'name' => 'General','id_parent' => null,'url' => 'general','description' => ''));
-            $blog->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1','id_post' => '1'));
-            $blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World','url' => 'my-first-post','content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>','excerpt' => '','publicationGMT' => gmdate('Y-m-d H:i:s', time()),'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1','has_comment' => '1','ping_status' => '1','is_sticky' => '0'));
+			$core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'], 'mail' => $_POST['mail'], 'pass' => $_POST['pass1'], 'registration' => '', 'state' => '1', 'id_role' => '1'));
+			$blog->getEntity('tag')->insertInto(array('id_tag' => '1', 'name' => 'Article', 'url' => 'article'));
+			$blog->getEntity('tag_post')->insertInto(array('id_tag_post' => '1', 'id_tag' => '1', 'id_post' => '1'));
+			$blog->getEntity('category')->insertInto(array('id_category' => '1', 'name' => 'General', 'id_parent' => null, 'url' => 'general', 'description' => ''));
+			$blog->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1', 'id_post' => '1'));
+			$blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World', 'url' => 'my-first-post', 'content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>', 'excerpt' => '', 'publicationGMT' => gmdate('Y-m-d H:i:s', time()), 'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1', 'has_comment' => '1', 'ping_status' => '1', 'is_sticky' => '0'));
 			echo '</div>';
             $configObj = new \core\classes\config('config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
