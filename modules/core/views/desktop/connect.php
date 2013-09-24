@@ -95,10 +95,10 @@ if (isset($_POST['connexion'])) {
             input:-webkit-autofill {background-color: white !important;}
             #content > form input[type="text"],#content > form input[type="password"]{width:200px;height:30px;border-radius:8px;border:solid 1px #888}
             .jquery-shadow {position: relative;}
-            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-transform: rotate(-3deg); -moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);-o-transform: rotate(-3deg);transform: rotate(-3deg);}
-            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-moz-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-webkit-transform: rotate(-3deg);-moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);-o-transform: rotate(-3deg);transform: rotate(-3deg);}
+            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-transform: rotate(-3deg); -moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);transform: rotate(-3deg);}
+            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-moz-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-webkit-transform: rotate(-3deg);-moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);transform: rotate(-3deg);}
             .jquery-shadow::before, .jquery-shadow::after {content: "";position: absolute;z-index: -2;}
-            .jquery-shadow-lifted::after {right: 10px;left: auto;-webkit-transform: rotate(3deg);-moz-transform: rotate(3deg);-ms-transform: rotate(3deg);-o-transform: rotate(3deg);transform: rotate(3deg);}
+            .jquery-shadow-lifted::after {right: 10px;left: auto;-webkit-transform: rotate(3deg);-moz-transform: rotate(3deg);-ms-transform: rotate(3deg);transform: rotate(3deg);}
             .jquery-shadow::before, .jquery-shadow::after {content: "";position: absolute;z-index: -2;}
         </style>
     </head>  

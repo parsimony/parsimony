@@ -85,6 +85,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 	.explorer_file.dir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 24px 10px no-repeat;}
     #dirsandfiles{bottom: 0;right: 0;top: 72px;left: 10px;position: absolute;overflow: auto;}
     #editpictures{display: none;}
+	#uploadProgress span{display: block;background:#aaa;position:absolute;height:100%;}
 </style>
 <script>
     
@@ -147,10 +148,17 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
                 var obj = $("#explorerfiles").data('uploadParams');
                 obj.path = $("#path").text();
                 $("#explorerfiles").data('uploadParams',obj);
-                console.log("Start load : " + file.name)
-            },
-	    onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
-	    stop:function(response){
+				var marker = document.createElement('div');
+				marker.className = "explorer_file file";
+				marker.id = "uploadProgress";
+				marker.innerHTML = '<span></span><div class="explorer_file_name" path="">' + file.name + '</div>';
+		 		document.getElementById("dirsandfiles").appendChild(marker);
+			},
+			onProgress:function(file, progress){
+				document.querySelector("#uploadProgress span").style.width = progress + "%";
+			},
+			stop:function(response){
+				document.getElementById("uploadProgress").remove();
                 if(typeof response.name != "undefined"){
                     list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
                 }else{
@@ -337,9 +345,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
                 $dirPath = $path;
                 include('pictures.php');
                 ?>
-                
             </div> 
-                
         </div>
     </div>
 </div>

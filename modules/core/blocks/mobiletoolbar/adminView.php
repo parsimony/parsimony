@@ -49,7 +49,6 @@
 		background: -webkit-linear-gradient( #ffffff, #f1f1f1); 
 		background: -moz-linear-gradient( #ffffff, #f1f1f1);
 		background: -ms-linear-gradient( #ffffff, #f1f1f1);
-		background: -o-linear-gradient( #ffffff, #f1f1f1);
 		background: linear-gradient( #ffffff, #f1f1f1);
     }
 	.image{width: 40px;height: 40px;}

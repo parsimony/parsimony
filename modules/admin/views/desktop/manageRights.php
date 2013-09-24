@@ -41,7 +41,7 @@ $role = app::getModule('core')->getEntity('role');
 	.fieldbg{background-color: rgb(250, 252, 251) !important;}
 	.fieldname{padding : 0 10px 0 30px; text-align:left !important;}
 	.legmod{display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #DFDFDF;border-radius: 5px;background-color: #F1F1F1;
-			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
+			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 			background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
 	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #CCC;margin: 10px;border-radius: 8px;padding-bottom: 10px;}</style>
 <script>

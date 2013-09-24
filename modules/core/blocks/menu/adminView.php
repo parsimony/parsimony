@@ -68,7 +68,6 @@
         background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-linear-gradient( #ffffff, #f1f1f1); 
         background: url(img/arrow_move.png) no-repeat 7px 6px, -moz-linear-gradient( #ffffff, #f1f1f1);
         background: url(img/arrow_move.png) no-repeat 7px 6px, -ms-linear-gradient( #ffffff, #f1f1f1);
-        background: url(img/arrow_move.png) no-repeat 7px 6px, -o-linear-gradient( #ffffff, #f1f1f1);
         background: url(img/arrow_move.png) no-repeat 7px 6px, linear-gradient( #ffffff, #f1f1f1);
     }
 </style>

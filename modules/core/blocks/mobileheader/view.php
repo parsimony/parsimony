@@ -49,7 +49,6 @@
                 background: <?php echo $this->getConfig('color') ?>;
                 background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .1)), color-stop(.5, transparent), to(transparent));
                 background-image: -moz-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
-                background-image: -o-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
                 background-image: linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
     }
     .viewtitle h1 {
@@ -84,7 +83,6 @@
         background: <?php echo $this->getConfig('color') ?>;
                 background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .1)), color-stop(.5, transparent), to(transparent));
                 background-image: -moz-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
-                background-image: -o-linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
                 background-image: linear-gradient(rgba(255, 255, 255, .1) 50%, transparent 50%, transparent);
         border-image: initial;
     }
