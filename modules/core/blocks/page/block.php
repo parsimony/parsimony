@@ -44,7 +44,7 @@ class page extends \block {
 	}
 
 	public function display() {
-		$this->setConfig('cssClasses', 'core_container' . $this->getConfig('cssClasses'));
+		$this->setConfig('cssClasses', 'core_container ' . $this->getConfig('cssClasses'));
 		$this->setConfig('attributes', 'data-page="' . \app::$request->page->getId() . '"');
 		return parent::display();
 	}
