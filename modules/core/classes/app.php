@@ -316,6 +316,7 @@ namespace core\classes {
 			if(error_reporting() == 0){
 				return true; // continue script execution
 			}
+			$GLOBALS['lastError'] = array('type' => $code, 'message' => $message, 'file' => $file, 'line' => $line);
 			/* convert errors ( E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE) in exceptions */ 
 			throw new \ErrorException($message, $code, $code, $file, $line);
 		}
@@ -325,15 +326,14 @@ namespace core\classes {
 		 * @static function
 		 */
 		public static function errorHandlerFatal() {
-
-			$lastError = error_get_last();
+			$lastError = is_array($GLOBALS['lastError']) ? $GLOBALS['lastError'] : error_get_last();
 			if(isset($lastError['type'])){ // for error type :  1, 4, 256
 				$code = $lastError['type'];
 				$file = $lastError['file'];
 				$line = $lastError['line'];
 				$message = $lastError['message'];
-				self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);
-				if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) {
+				self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);{
+				if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) 
 					if (ob_get_level()) ob_clean();
 					if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 						echo json_encode(array('notification' => $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
@@ -350,7 +350,7 @@ namespace core\classes {
 		 * @static function
 		 * @param exception object $e
 		 */
-		public static function exceptionHandler($e) { 
+		public static function exceptionHandler($e) {
 			self::errorLog($e->getCode(), $e->getFile(), $e->getLine(), $e->getMessage());
 			return TRUE; // continue script execution
 		}
@@ -367,8 +367,8 @@ namespace core\classes {
 			self::dispatchEvent('error', array($code, $file, $line, $message));
 
 			/* Log error */
-			if (is_file(\app::$config['DOCUMENT_ROOT'] . '/modules/core/errors.log'))
-				file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/modules/core/errors.log', $message.'-||-'.$file.'-||-'. $line , FILE_APPEND);
+			if (is_dir(\app::$config['DOCUMENT_ROOT'] . '/var'))
+				file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/var/errors.log', $message.' - in - '.$file.' - on line - '. $line.PHP_EOL , FILE_APPEND);
 
 		}
 
