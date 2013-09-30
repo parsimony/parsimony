@@ -326,7 +326,7 @@ namespace core\classes {
 		 * @static function
 		 */
 		public static function errorHandlerFatal() {
-			$lastError = is_array($GLOBALS['lastError']) ? $GLOBALS['lastError'] : error_get_last();
+			$lastError = isset($GLOBALS['lastError']) && is_array($GLOBALS['lastError']) ? $GLOBALS['lastError'] : error_get_last();
 			if(isset($lastError['type'])){ // for error type :  1, 4, 256
 				$code = $lastError['type'];
 				$file = $lastError['file'];
