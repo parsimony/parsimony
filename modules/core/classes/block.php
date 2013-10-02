@@ -185,7 +185,7 @@ abstract class block {
 	 */
 	public function getView() {
 		ob_start();
-		include($this->module . '/blocks/' . $this->blockName . '/view.php'); 
+		include($this->moduleName . '/blocks/' . $this->blockName . '/view.php'); 
 		return ob_get_clean();
 	}
 
@@ -195,7 +195,7 @@ abstract class block {
 	 */
 	public function getAdminView() {
 		ob_start();
-		include($this->module . '/blocks/' . $this->blockName . '/adminView.php');
+		include($this->moduleName . '/blocks/' . $this->blockName . '/adminView.php');
 		return ob_get_clean();
 	}
 
@@ -258,13 +258,13 @@ abstract class block {
 			}
 		}
 
-		$cacheFile = 'var/cache/' . PROFILE_PATH . $this->module . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
+		$cacheFile = 'var/cache/' . PROFILE_PATH . $this->moduleName . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
 		if ($maxAge > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxAge > time()) {
 			ob_start();
 			include($cacheFile);
 			$html .= ob_get_clean();
 		} else {
-			$html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock '.$this->module.'_'.$this->blockName. $CSSclasses . '"' . $attributes . '>'.$headerTitle;
+			$html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock '.$this->moduleName.'_'.$this->blockName. $CSSclasses . '"' . $attributes . '>'.$headerTitle;
 			if ($ajaxLoad === FALSE) {
 				/* Catch all exceptions or error in order to keep tha page structure in creation mode */
 				try {
@@ -294,7 +294,7 @@ abstract class block {
 	public function __get($property) {
 		$className = get_class($this);
 		if ($className !== 'page')
-			list( $module, $block, $blockName) = explode("\\", $className);
+			list( $moduleName, $block, $blockName) = explode("\\", $className);
 		return $$property;
 	}
 
