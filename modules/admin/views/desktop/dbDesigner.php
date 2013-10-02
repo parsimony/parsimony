@@ -689,6 +689,9 @@ include_once('modules/core/classes/field.php');
 						unset($args['row']);
 						$args['oldName'] = $field->name;
 						$args['required'] = (int) $args['required'];
+						$args['module'] = $_POST['module'];
+						$args['entity'] = '';
+						$args['name'] = '';
 						if ($class == 'field_ident' || $class == 'field_foreignkey')
 							$none = ' style="display:none"';
 						else
