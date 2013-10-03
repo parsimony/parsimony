@@ -67,6 +67,10 @@
 			var input = document.querySelector('#tabsb-9 input[type="checkbox"][name="config[devices][' + this.value + ']"]');
 			input.classList.add('hidden');
 			input.checked = true;
+		}).on('click', '#addext', function() {
+			var ext = $('#extname').val() ;
+			var mime =  $('#extmime').val();
+			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remext" onclick="$(this).parent().remove();">X</div></div>')
 		});
 	});
 </script>
@@ -76,6 +80,10 @@
 	.adminzone td input{margin-left: 30px;}
 	#updateVersionLoad{display:none}
 	.hidden{pointer-events: none;opacity: 0.5}
+	#authorizedextensions {position: relative;top: 25px;}
+	#authorizedextensions > div {padding: 7px;margin: 2px 0;border: 1px solid #ddd;}
+	.remext {float: right;padding: 0 5px;cursor: pointer;}
+	#extname{width: 40px;}
 </style>
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
@@ -110,7 +118,7 @@
 						</select>
 					</div>
 				</div>
-				<?php if (PROFILE == 'www'): ?>
+				<?php if (PROFILE === 'www'): ?>
 					<div id="tabsb-1" class="admintabs">
 						<h2><?php echo t('Database'); ?> </h2>
 						<div class="placeholder">
@@ -136,9 +144,6 @@
 						<label class="label" for="cachecontrol"><?php echo t('CacheControl', FALSE); ?></label><input name="config[cache][cache-control]" type="text" value="<?php echo s(app::$config['cache']['cache-control']); ?>">
 					</div>
 					<div class="placeholder">
-						<label class="label" for="authdExt"><?php echo t('Authorized Extensions', FALSE); ?></label><input name="config[extensions_auth]" type="text" value="<?php echo s(app::$config['extensions_auth']); ?>">
-					</div>
-					<div class="placeholder">
 						<label class="label" for="enablecache"><?php echo t('Enable Cache', FALSE); ?></label>
 						<select name="config[cache][active]" id="languages"><option value="1"><?php echo t('Enabled', FALSE); ?></option><option value="0"><?php echo t('Disabled', FALSE); ?></option></select>
 					</div>
@@ -160,7 +165,8 @@
 					</div>
 					<div class="placeholder">
 						<label class="label" for="TimeZone"><?php echo t('TimeZone', FALSE); ?></label>
-						<select name="config[localization][timezone]" id="timezone">  <?php
+						<select name="config[localization][timezone]" id="timezone"> 
+							<?php
 							$timezone_identifiers = DateTimeZone::listIdentifiers();
 							$continent = '';
 							foreach ($timezone_identifiers as $value) {
@@ -179,31 +185,10 @@
 									echo '<option value="' . $value . '"' . $selected . '>' . $city . '</option>';
 								}
 							}
-?>
+							?>
 							</optgroup></select>
 					</div>
 				</div>
-				<?php /*
-				  <div id="tabsb-4" class="admintabs">
-				  <h2><?php echo t('Preferences'); ?></h2>
-				  <div class="placeholder">
-				  <label class="label" for="conteneurColor"><?php echo t('Color of the Container', FALSE); ?></label>
-				  <input class="colorpicker2" id="conteneurColor" pattern="#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})" name="config[preferences][conteneurColor]" type="text" value="<?php echo app::$config['preferences']['conteneurColor']; ?>">
-				  </div>
-				  <div class="placeholder">
-				  <label class="label" for="blockColor"><?php echo t('Color of the Block', FALSE); ?></label>
-				  <input class="colorpicker2" id="blockColor" pattern="#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})" name="config[preferences][blockColor]" type="text" value="<?php echo app::$config['preferences']['blockColor']; ?>">
-				  </div>
-				  <div class="placeholder">
-				  <label class="label" for="cssPickerColor"><?php echo t('Color of the CSS Picker', FALSE); ?></label>
-				  <input class="colorpicker2" id="cssPickerColor" pattern="#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})" name="config[preferences][cssPickerColor]" type="text" value="<?php echo app::$config['preferences']['cssPickerColor']; ?>">
-				  </div>
-				  <div class="placeholder">
-				  <label class="label" for="translateColor"><?php echo t('Color of the Traductor', FALSE); ?></label>
-				  <input class="colorpicker2" id="translateColor" pattern="#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})" name="config[preferences][translateColor]" type="text" value="<?php echo app::$config['preferences']['translateColor']; ?>">
-				  </div>
-				  </div>
-				 */ ?>
 				<div id="tabsb-5" class="admintabs">
 					<h2><?php echo t('Module management', FALSE); ?></h2>
 
@@ -264,6 +249,21 @@
 				<div class="placeholder">
 					<label class="label"><?php echo t('Allowed IP for Admin', FALSE); ?></label><input name="config[security][allowedipadmin]" type="text" value="<?php echo s(app::$config['security']['allowedipadmin']); ?>">
 				</div>
+				<div class="placeholder">
+					<label class="label" for="authdExt"><?php echo t('Authorized Extensions', FALSE); ?></label>
+					<div id="authorizedextensions">
+					<?php
+						foreach (app::$config['ext'] AS $ext => $mime) {
+							echo '<input type="hidden" name="config[ext][' . $ext . ']" value="removeThis"><div>' . $ext . ' : ' . $mime . '<input type="hidden" name="config[ext][' . $ext . ']" value="' . $mime . '"><div class="remext" onclick="$(this).parent().remove();">X</div></div>';
+						}
+					?>
+					</div>
+				</div>
+				<div style="margin:40px 0">
+					<label><?php echo t('Add extenssion', FALSE); ?></label>
+					<input type="text" id="extname" placeholder="jpg"> whith mime <input type="text" placeholder="image/jpeg" id="extmime">
+					<input type="button" id="addext" value="Add">
+				</div>
 			</div>
 			<div id="tabsb-7" class="admintabs">
 				<h2><?php echo t('Development', FALSE); ?></h2>
@@ -271,21 +271,11 @@
 					<label class="label"><?php echo t('Status', FALSE); ?></label>
 					<select name="config[dev][status]">
 						<option value="dev"><?php echo t('Development', FALSE); ?></option>
-						<option value="prod"<?php if (app::$config['dev']['status'] == 'prod') echo ' selected="selected"'; ?>><?php echo t('Production', FALSE); ?></option>
+						<option value="prod"<?php if (app::$config['dev']['status'] === 'prod') echo ' selected="selected"'; ?>><?php echo t('Production', FALSE); ?></option>
 					</select>
 				</div>
 				<div><?php echo t('Development = concatenation of CSS and JavaScript files is updated each time a change is made', FALSE); ?></div>
 				<div><?php echo t('Production = CSS & JavaScript files are not updated after each modification and are cached', FALSE); ?></div>
-
-				<?php /*
-				  <div class="placeholder">
-				  <label class="label"><?php echo t('Serialization', FALSE); ?></label>
-				  <select name="config[dev][serialization]">
-				  <option value="obj"><?php echo t('Object', FALSE); ?></option>
-				  <option value="json"<?php if(app::$config['dev']['serialization']=='json') echo ' selected="selected"'; ?>><?php echo t('Json', FALSE); ?></option>
-				  </select>
-				  </div>
-				 * */ ?>
 			</div>
 			<div id="tabsb-8" class="admintabs">
 				<h2><?php echo t('Mailing'); ?> </h2>

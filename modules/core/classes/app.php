@@ -153,7 +153,7 @@ namespace core\classes {
 		 */
 		protected function sendFile($path) {
 			$ext = pathinfo($path, PATHINFO_EXTENSION);
-			if (!empty($ext) && strstr(',' . self::$config['extensions_auth'] . ',', ',' . $ext . ',')) {
+			if (isset(self::$config['ext'][$ext])) {
 				$path = stream_resolve_include_path($path);
 				if ($path !== FALSE) {
 					if(count($_GET) > 1 && in_array($ext, array('png', 'jpg', 'jpeg', 'gif'))){ /* if it's an image and there is more than parsiurl param */
@@ -165,7 +165,7 @@ namespace core\classes {
 					header('Last-Modified: ' . $gmtime);
 					header('Expires: ' . gmdate('D, d M Y H:i:s', time() + self::$config ['cache']['max-age']) . ' GMT');
 					header('Cache-Control: ' . self::$config['cache']['cache-control'] . ';max-age=' . self::$config['cache']['max-age']);
-					header('Content-type: ' . self::$mimeTypes[$ext]);
+					header('Content-type: ' . self::$config['ext'][$ext]);
 					echo file_get_contents($path);
 					return TRUE;
 				}
@@ -371,58 +371,6 @@ namespace core\classes {
 				file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/var/errors.log', $message.' - in - '.$file.' - on line - '. $line.PHP_EOL , FILE_APPEND);
 
 		}
-
-		/**
-		* Type MIME
-		*/
-		static public $mimeTypes = array(
-			'txt' => 'text/plain',
-			'htm' => 'text/html',
-			'html' => 'text/html',
-			'php' => 'text/html',
-			'css' => 'text/css',
-			'js' => 'application/x-javascript',
-			'json' => 'application/json',
-			'xml' => 'application/xml',
-			'swf' => 'application/x-shockwave-flash',
-			'flv' => 'video/x-flv',
-			// images
-			'png' => 'image/png',
-			'jpe' => 'image/jpeg',
-			'jpeg' => 'image/jpeg',
-			'jpg' => 'image/jpeg',
-			'gif' => 'image/gif',
-			'bmp' => 'image/bmp',
-			'ico' => 'image/vnd.microsoft.icon',
-			'tiff' => 'image/tiff',
-			'tif' => 'image/tiff',
-			'svg' => 'image/svg+xml',
-			'svgz' => 'image/svg+xml',
-			// archives
-			'zip' => 'application/zip',
-			'rar' => 'application/x-rar-compressed',
-			'exe' => 'application/x-msdownload',
-			'msi' => 'application/x-msdownload',
-			'cab' => 'application/vnd.ms-cab-compressed',
-			// audio/video
-			'mp3' => 'audio/mpeg',
-			'qt' => 'video/quicktime',
-			'mov' => 'video/quicktime',
-			// adobe
-			'pdf' => 'application/pdf',
-			'psd' => 'image/vnd.adobe.photoshop',
-			'ai' => 'application/postscript',
-			'eps' => 'application/postscript',
-			'ps' => 'application/postscript',
-			// ms office
-			'doc' => 'application/msword',
-			'rtf' => 'application/rtf',
-			'xls' => 'application/vnd.ms-excel',
-			'ppt' => 'application/vnd.ms-powerpoint',
-			// open office
-			'odt' => 'application/vnd.oasis.opendocument.text',
-			'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-		);
 
 	}
 

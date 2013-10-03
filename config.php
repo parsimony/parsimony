@@ -22,7 +22,20 @@ $config['cache']['max-age'] = '2592000999865';
 $config['cache']['active'] = '0';
 
 //Extensions auth
-$config['extensions_auth'] = 'png,jpg,jpeg,gif,ico,js,css';
+$config['ext']['png'] = 'image/png';
+$config['ext']['jpg'] = 'image/jpeg';
+$config['ext']['jpeg'] = 'image/jpeg';
+$config['ext']['gif'] = 'image/gif';
+$config['ext']['ico'] = 'image/vnd.microsoft.icon';
+$config['ext']['svg'] = 'image/svg+xml';
+$config['ext']['js'] = 'application/x-javascript';
+$config['ext']['css'] = 'text/css';
+$config['ext']['html'] = 'text/html';
+$config['ext']['json'] = 'application/json';
+$config['ext']['xml'] = 'application/xml';
+$config['ext']['pdf'] = 'application/pdf';
+$config['ext']['zip'] = 'application/zip';
+$config['ext']['rar'] = 'application/x-rar-compressed';
 
 //Security
 $config['security']['allowedipadmin'] = '';
@@ -46,12 +59,6 @@ $config['dev']['serialization'] = 'obj';
 //Localization
 $config['localization']['default_language'] = 'en_EN';
 $config['localization']['timezone'] = 'America/Adak';
-
-//Preferences
-$config['preferences']['conteneurColor'] = '#ffffff';
-$config['preferences']['blockColor'] = '#ffffff';
-$config['preferences']['cssPickerColor'] = '#ffffff';
-$config['preferences']['translateColor'] = '#ffffff';
 
 //General
 $config['general']['ajaxnav'] = '0';

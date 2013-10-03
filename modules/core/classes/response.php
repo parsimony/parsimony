@@ -118,7 +118,7 @@ class response {
 			$this->body = $body;
 		}
 		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
-		header('Content-type: ' . app::$mimeTypes[$this->format] . '; charset=' . $this->charset);
+		header('Content-type: ' . \app::$config['ext'][$this->format] . '; charset=' . $this->charset);
 		foreach ($this->headers AS $label => $header) {
 			header($label . ': ' . $header);
 		}
@@ -149,7 +149,7 @@ class response {
 	 * @param string $format
 	 */
 	public function setFormat($format) {
-		if (isset(app::$mimeTypes[$format]))
+		if (isset(\app::$config['ext'][$format]))
 			$this->format = $format;
 		else
 			throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));
