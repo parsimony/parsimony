@@ -42,7 +42,7 @@ class image extends \block {
 	public function saveConfigs() {
 
 		if (isset($_POST['imgPath'])) {
-			$this->setConfig('imgPath', $this->module . '/files/' . $_POST['imgPath']);
+			$this->setConfig('imgPath', $this->moduleName . '/files/' . $_POST['imgPath']);
 			$this->setConfig('width', $_POST['width']);
 			$this->setConfig('height', $_POST['height']);
 			$this->setConfig('title', $_POST['title']);

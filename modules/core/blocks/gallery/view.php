@@ -66,7 +66,7 @@
 		?>
 		<div class="slide"> 
 			<a href="<?php echo $image['url']; ?>" title="<?php echo $image['title']; ?>" target="_blank">
-				<img title="<?php echo $image['title']; ?>" style="width:<?php echo $this->getConfig('width'); ?>px;height:<?php echo $this->getConfig('height'); ?>px;" src="<?php echo BASE_PATH ?><?php echo $this->module . '/files/' . $id ?>">
+				<img title="<?php echo $image['title']; ?>" style="width:<?php echo $this->getConfig('width'); ?>px;height:<?php echo $this->getConfig('height'); ?>px;" src="<?php echo BASE_PATH ?><?php echo $this->moduleName . '/files/' . $id ?>">
 			</a>
 			<div class="caption">
 				<p><?php echo $image['title']; ?></p>
