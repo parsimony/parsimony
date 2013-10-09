@@ -95,7 +95,7 @@ class code extends \block {
 		if ($typeProgress === 'theme')
 			$path = $module . '/themes/' . $name . '/' . $themeType . '/views/' . $this->id . '.php';
 		else
-			$path = $module . '/pages/views/' . $themeType . '/' . $name . '_' . $this->id . '.php';
+			$path = $module . '/pages/views/' . $themeType . '/' . $this->id . '.php';
 		
 		if (is_file($path) === FALSE) { /* check if a view with this path already exists in profile */
 			$this->setConfig('viewPath', $path); /* save the new path */
