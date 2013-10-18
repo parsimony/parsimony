@@ -605,6 +605,7 @@ while (1) {
 				'module' => 'core\classes\module',
 				'PDOconnection' => 'core\classes\PDOconnection',
 				'config' => 'core\classes\config',
+				'queryBuilder' => 'core\classes\queryBuilder',
 				'entity' => 'core\classes\entity',
 				'theme' => 'core\classes\theme',
 				'page' => 'core\classes\page',
@@ -637,7 +638,7 @@ while (1) {
 			);
 			app::$aliasClasses = $config['aliasClasses'];
 			define('PROFILE_PATH','profiles/www/modules/');
-			$toInclude = array('config', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_boolean','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
+			$toInclude = array('config', 'queryBuilder', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_boolean','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 			foreach($config['aliasClasses'] AS $alias => $class){
 				if(in_array($alias,$toInclude)){
 					include('modules/'.  str_replace('\\', '/', $class).'.php');

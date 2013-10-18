@@ -104,6 +104,7 @@ class core extends \module {
 			'module' => 'core\classes\module',
 			'PDOconnection' => 'core\classes\PDOconnection',
 			'config' => 'core\classes\config',
+			'queryBuilder' => 'core\classes\queryBuilder',
 			'entity' => 'core\classes\entity',
 			'theme' => 'core\classes\theme',
 			'page' => 'core\classes\page',
