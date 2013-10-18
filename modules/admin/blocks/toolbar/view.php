@@ -16,6 +16,20 @@ app::$request->page->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 
 	$(document).ready(function() {
 		ParsimonyAdmin.initBefore();
+		<?php
+		/* Define active panels */
+		if (isset($_COOKIE['leftToolbarPanel'])) {
+			echo '$(".' . $_COOKIE['leftToolbarPanel'] . '").trigger("click");';
+		} else {
+			echo '$(".modules").trigger("click")';
+		}
+		if (isset($_COOKIE['rightToolbarPanel'])) {
+			echo '$(".' . $_COOKIE['rightToolbarPanel'] . '").trigger("click");';
+		} else {
+			echo '$(".paneltree").trigger("click")';
+		}
+		?>
+		
 		$(ParsimonyAdmin.currentDocument).ready(function() {
 			if (!ParsimonyAdmin.isInit)
 				ParsimonyAdmin.init();
@@ -30,53 +44,47 @@ $admin = new \core\blocks\container("admin");
 $menutop = new \admin\blocks\menu("toolbar");
 $admin->addBlock($menutop);
 
-/* Define active panels */
-$leftPan = 'modules';
-if (isset($_COOKIE['leftToolbarPanel'])) {
-	$leftPan = $_COOKIE['leftToolbarPanel'];
-}
-$rightPan = 'paneltree';
-if (isset($_COOKIE['rightToolbarPanel'])) {
-	$rightPan = $_COOKIE['rightToolbarPanel'];
-}
-
 /* Sidebar Left */
-$leftSidebar = new \admin\blocks\adminsidebar("left_sidebar");
-
+$leftSidebar = new \core\blocks\container("left_sidebar");
+$leftSidebar->setConfig('cssClasses', 'sidebar');
 /* Modules */
 $block = new \admin\blocks\modules("modules");
-if ($leftPan != 'modules') $block->setConfig('cssClasses', 'none');
+$block->setConfig('headerTitle', 'Modules');
 $leftSidebar->addBlock($block);
 
 if ($_SESSION['behavior'] == 2):
 	/* Blocks */
 	$block = new \admin\blocks\blocks("panelblocks");
-	if ($leftPan != 'panelblocks') $block->setConfig('cssClasses', 'none');
+	$block->setConfig('headerTitle', 'Blocks');
+	$leftSidebar->addBlock($block);
+	
+	$block = new \admin\blocks\manage("manage");
+	$block->setConfig('headerTitle', 'Manage');
 	$leftSidebar->addBlock($block);
 
-	$admin->addBlock($leftSidebar);
 
 	/* Sidebar Right */
-	$rightSidebar = new \admin\blocks\adminsidebar("right_sidebar");
-	$rightSidebar->setSide('right');
-
+	$rightSidebar = new \core\blocks\container("right_sidebar");
+	$rightSidebar->setConfig('cssClasses', 'sidebar');
 	/* Tree */
 	$block = new \admin\blocks\tree("paneltree");
-	if ($rightPan != 'paneltree') $block->setConfig('cssClasses', 'none');
+	$block->setConfig('headerTitle', 'Tree');
 	$rightSidebar->addBlock($block);
 
 	/* CSS */
 	$block = new \admin\blocks\css("panelcss");
-	if ($rightPan != 'panelcss') $block->setConfig('cssClasses', 'none');
+	$block->setConfig('headerTitle', 'CSS');
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
 
 	/* Theme */
 	$block = new \admin\blocks\themes("themes");
-	if ($rightPan != 'themes') $block->setConfig('cssClasses', 'none');
+	$block->setConfig('headerTitle', 'Themes');
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
 endif;
+
+$admin->addBlock($leftSidebar);
 
 echo $admin->display();
 ?>

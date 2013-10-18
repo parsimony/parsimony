@@ -28,5 +28,5 @@
 
 if($this->value != '0000-00-00 00:00:00'):
  ?>
-<div class="align_center ellipsis"><?php echo date('d m Y', strtotime($this->value)); ?></div>
+<div class="ellipsis"><?php echo date('d m Y', strtotime($this->value)); ?></div>
 <?php endif; ?>

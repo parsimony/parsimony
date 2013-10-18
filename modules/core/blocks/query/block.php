@@ -57,6 +57,7 @@ class query extends code {
 			$this->setConfig('selected', $_POST['properties']);
 			$this->setConfig('filter', $_POST['filter']);
 			$this->setConfig('sort', $_POST['sort']);
+			$this->setConfig('group', $_POST['group']);
 			$this->setConfig('regenerateview', $_POST['regenerateview']);
 			if (isset($_POST['tables']))
 				$this->setConfig('tables', $_POST['tables']);
@@ -99,21 +100,22 @@ class query extends code {
 	}
 
 	public function generateViewAction($properties, $pagination = '', $filter = '', $sort = '') {
-		$view_code = '';
-		if ($this->getConfig('filter') || $this->getConfig('sort') || ($filter == 1) || ($sort == 1))
-			$view_code .= '<?php echo $this->getFilters(); ?>' . PHP_EOL . PHP_EOL;
-		$view_code .= '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
-		$view_code .= "\t" . '<?php foreach ($view as $line) : ?>' . PHP_EOL;
+		$view_code = '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
+		$view_code .= "\t" . '<?php foreach ($view as $row) : ?>' . PHP_EOL;
 		$view_code .= "\t\t" . '<div class="itemscope">' . PHP_EOL;
 		$myView = new \view();
 		if (!empty($properties)) {
 			$myView = $myView->initFromArray($properties);
 			foreach ($myView->getFields() AS $sqlName => $field) {
-				if (substr($sqlName, 0, 3) !== 'id_')
-					$displayLine = '()';
-				else
-					$displayLine = '';
-				$view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $line->' . $sqlName . $displayLine . '; ?></div>' . PHP_EOL;
+				$name = $field->module . '_' . $field->entity . '_' . $field->name;
+				if(isset($properties[$name]['display'])){
+					if (get_class($field) !== 'core\fields\field_ident')
+						$displayLine = '()';
+					else
+						$displayLine = '';
+					$view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $row->' . $sqlName . $displayLine . '; ?></div>' . PHP_EOL;
+				}
+				
 			}
 		} else {
 			$view_code .= "\t\t\t<?php //You have to create your query before ?>" . PHP_EOL;
@@ -158,60 +160,44 @@ class query extends code {
 		return ob_get_clean();
 	}
 
-	public function getFilters() {
-		$view = $this->getConfig('view');
-		$selected = $this->getConfig('selected');
-		if (is_object($view)) {
-			$filter = $this->getConfig('filter');
-			$sort = $this->getConfig('sort');
-			if ($filter || $sort) {
-				?>
-				<form method="POST" action="" class="filter sort">
-					<?php
-					if ($filter) {
-						foreach ($view->getFields() AS $field) {
-							$name = $field->module . '_' . $field->entity . '_' . $field->name;
-							if(isset($selected[$name]['filter']) && $selected[$name]['filter']) echo $field->displayFilter();
-						}
-					}
-					if ($sort) {
-						?>
-						<select name="tri"><option></option>
-							<?php
-							foreach ($view->getFields() AS $field) {
-								$name = $field->module . '_' . $field->entity . '_' . $field->name;
-								if (isset($selected[$name]['sort']) && $selected[$name]['sort']) {
-									?>
-									<option value="<?php echo $field->name ?>_asc" <?php if (isset($_POST['tri']) && $_POST['tri'] == $field->name . '_asc') echo ' selected="selected"' ?>><?php echo $field->label ?> ASC</option>
-									<option value="<?php echo $field->name ?>_desc" <?php if (isset($_POST['tri']) && $_POST['tri'] == $field->name . '_desc') echo ' selected="selected"' ?>><?php echo $field->label ?> DESC</option>
-									<?php
-								}
-							}
-							?>
-						</select>
-				<?php } ?>
-					<input type="submit">
-				</form>
-				<?php
-			}
-		}
-	}
-
 	public function process() {
 		$view = $this->getConfig('view');
 		if (is_object($view)) {
-			$filter = $this->getConfig('filter');
-			$sort = $this->getConfig('sort');
-			if ($filter || $sort) {
-				foreach ($view->getFields() AS $field) {
-					if ($filter && isset($_POST['filter'][$field->name]) && !empty($_POST['filter'][$field->name])) {
-						$view->where($field->module . '_' . $field->entity . '.' . $field->name . ' ' . $field->sqlFilter($_POST['filter'][$field->name]));
+			$selected = $this->getConfig('selected');
+			if(isset($_POST['filter']) && is_array($_POST['filter']) && $this->getConfig('filter') ){
+				$_POST['filter'] = array_filter($_POST['filter']);//remove all empty() values
+				foreach ($_POST['filter'] as $property => $value) {
+					$field = $view->getField($property);
+					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					if($field !== FALSE && isset($selected[$name]['filter'])){ /* IF field exists and filter is allowed */
+						$filterRes = $field->sqlFilter($_POST['filter'][$field->name]);
+						if(!empty($filterRes)){
+							$view->where($filterRes);
+						}
 					}
-					if ($sort && isset($_POST['tri']) && !empty($_POST['tri'])) {
-						$cut = strrpos($_POST['tri'], '_');
-						$sort = substr($_POST['tri'], $cut + 1);
-						if ($sort == 'asc' || $sort == 'desc')
-							$view->order($field->module . '_' . $field->entity . '.' . substr($_POST['tri'], 0, $cut), $sort);
+				}
+			}
+			
+			if(isset($_POST['group']) && is_array($_POST['group']) && $this->getConfig('group') ){
+				foreach ($_POST['group'] as $property => $value) {
+					$field = $view->getField($property);
+					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					if($field !== FALSE && isset($selected[$name]['group'])){ /* IF field exists and group is allowed */
+						$view->groupBy($field->sqlGroup($_POST['group'][$field->name]));
+					}
+				}
+			}
+			
+			if (isset($_POST['sort']) && is_array($_POST['sort']) && $this->getConfig('sort')) {
+				$_POST['sort'] = array_filter($_POST['sort']);//remove all empty() values
+				foreach ($_POST['sort'] as $property => $value) {
+					$field = $view->getField($property);
+					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					if($field !== FALSE && isset($selected[$name]['sort'])){ /* IF field exists and sort is allowed */
+						$cut = strrpos($_POST['sort'], '_');
+						$sort = substr($_POST['sort'], $cut + 1);
+						if ($sort === 'asc' || $sort === 'desc')
+							$view->order($field->module . '_' . $field->entity . '.' . substr($_POST['sort'], 0, $cut), $sort);
 					}
 				}
 			}
@@ -225,7 +211,7 @@ class query extends code {
 		else
 			$path = $module . '/pages/views/' . $themeType . '/' . $this->id . '.php';
 		
-		if (is_file($path) === FALSE) { /* check if a view with this path already exists in profile */
+		if (is_file(PROFILE_PATH . $path) === FALSE) { /* check if a view with this path already exists in profile */
 			$this->setConfig('viewPath', $path); /* save the new path */
 			if (!empty($oldPath) && stream_resolve_include_path($oldPath) !== FALSE) { /* Check if we have to move an old view  : moveBlock */
 				\tools::file_put_contents(PROFILE_PATH . $path, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));

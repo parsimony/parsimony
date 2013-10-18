@@ -95,8 +95,8 @@ $(document).ready(function() {
 	<div class="adminzonemenu">
 		<?php
 		$class = ' firstpanel';
-		foreach ($role->select() as $key => $line) {
-			echo '<div class="adminzonetab' . $class . '"><a href="#tabs-' . $line->id_role . '" class="ellipsis">' . ucfirst($line->name) . '</a></div>';
+		foreach ($role->select() as $key => $row) {
+			echo '<div class="adminzonetab' . $class . '"><a href="#tabs-' . $row->id_role . '" class="ellipsis">' . ucfirst($row->name) . '</a></div>';
 			$class = '';
 		}
 		?>
@@ -104,10 +104,10 @@ $(document).ready(function() {
 	<div class="adminzonecontent">
 		<form action="" method="POST" target="formResult">
 			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
-			<?php foreach ($role->select() as $key => $line) : ?>
-				<div id="tabs-<?php echo $line->id_role; ?>" class="admintabs">
+			<?php foreach ($role->select() as $key => $row) : ?>
+				<div id="tabs-<?php echo $row->id_role; ?>" class="admintabs">
 					<div style="padding:0 10px">
-						<h2 class="rolecss"><?php echo t('%s role', array($line->name)); ?></h2>
+						<h2 class="rolecss"><?php echo t('%s role', array($row->name)); ?></h2>
 						<table style="width:100%">
 							<thead>
 								<tr>
@@ -119,10 +119,10 @@ $(document).ready(function() {
 							</thead>
 							<tbody>
 								<tr>
-									<td class="entities" style="width: 160px;"><?php echo t('Status of', FALSE); ?> <span style="text-transform: capitalize"><?php echo $line->name; ?></span></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $line->id_role; ?>]" value="0" <?php if($line->state == "0") echo 'checked="checked"';  ?> /></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $line->id_role; ?>]" value="1" <?php if($line->state == "1") echo 'checked="checked"';  ?> /></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $line->id_role; ?>]" value="2" <?php if($line->state == "2") echo 'checked="checked"';  ?> /></td>
+									<td class="entities" style="width: 160px;"><?php echo t('Status of', FALSE); ?> <span style="text-transform: capitalize"><?php echo $row->name; ?></span></td>
+									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="0" <?php if($row->state == "0") echo 'checked="checked"';  ?> /></td>
+									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="1" <?php if($row->state == "1") echo 'checked="checked"';  ?> /></td>
+									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="2" <?php if($row->state == "2") echo 'checked="checked"';  ?> /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -132,7 +132,7 @@ $(document).ready(function() {
 					<div style="clear:both"></div> 
 					<fieldset class="fieldsetmod">
 						<legend class="legmod"><label class="modulename"><?php echo t('Module', FALSE); ?> :</label>
-							<select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $line->id_role ?>-' + this.value).show()">
+							<select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $row->id_role ?>-' + this.value).show()">
 								<?php
 								$modules = \app::$config['modules']['active'];
 								unset($modules['admin']);
@@ -144,15 +144,15 @@ $(document).ready(function() {
 						</legend>
 						<?php
 						foreach (\app::$config['modules']['active'] as $moduleName => $type) {
-							echo '<div id="rights-' . $line->id_role. '-' . $moduleName . '" class="rightbox';
+							echo '<div id="rights-' . $row->id_role. '-' . $moduleName . '" class="rightbox';
 							if ($moduleName != 'core')
 								echo ' none';
 							echo '">';
 							?>
 							<div id="enablemodule">
-								<input type="hidden" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
-								<input type="checkbox" name="modulerights[<?php echo $line->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($line->id_role)) echo 'checked'; ?>>
-								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $line->name)) ;?></label>
+								<input type="hidden" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
+								<input type="checkbox" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($row->id_role)) echo 'checked'; ?>>
+								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $row->name)) ;?></label>
 							</div>
 						   <?php $module = app::getModule($moduleName);
 								$models = $module->getModel();
@@ -167,7 +167,7 @@ $(document).ready(function() {
 									$obj = new \stdClass();
 									foreach ($models as $modelName => $model) {
 										$myModel = $module->getEntity($modelName);
-										$rights = $myModel->getRights($line->id_role);
+										$rights = $myModel->getRights($row->id_role);
 										$obj->$modelName = new \stdClass();
 										$obj->$modelName->rights = $rights;
 										$obj->$modelName->fields = new \stdClass();
@@ -181,7 +181,7 @@ $(document).ready(function() {
 													<td><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . '></td>';
 
 											foreach ($myModel->getFields() as $fieldName => $field) {
-												$rights = $field->getRights($line->id_role);
+												$rights = $field->getRights($row->id_role);
 												if($rights === null) $rights = 0;
 												$obj->$modelName->fields->$fieldName = $rights;
 													echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
@@ -193,7 +193,7 @@ $(document).ready(function() {
 											}
 									 }
 
-									echo '<input type="hidden" class="modelSerialize" name="modelsrights[' . $line->id_role . '][' . $moduleName . ']" value=\''.  json_encode($obj).'\'>';
+									echo '<input type="hidden" class="modelSerialize" name="modelsrights[' . $row->id_role . '][' . $moduleName . ']" value=\''.  json_encode($obj).'\'>';
 
 									 ?>
 								</tbody>
@@ -214,13 +214,13 @@ $(document).ready(function() {
 									 <?php
 									 foreach ($pages as $id_page => $page) {
 										$displayChecked = '';
-										if ($page->getRights($line->id_role) & DISPLAY)
+										if ($page->getRights($row->id_role) & DISPLAY)
 											$displayChecked = 'checked="checked"';
 										?>
 										<tr class="line">
 										   <?php echo '
 										   <td class="secondtd" style="width:200px;">' . s($page->getTitle()) . '</td>
-										<td><input type="hidden" name="pagesrights[' . $line->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $line->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . '></td>';
+										<td><input type="hidden" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . '></td>';
 									}
 									?>
 										</tr>

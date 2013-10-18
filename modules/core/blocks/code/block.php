@@ -97,7 +97,7 @@ class code extends \block {
 		else
 			$path = $module . '/pages/views/' . $themeType . '/' . $this->id . '.php';
 		
-		if (is_file($path) === FALSE) { /* check if a view with this path already exists in profile */
+		if (is_file(PROFILE_PATH . $path) === FALSE) { /* check if a view with this path already exists in profile */
 			$this->setConfig('viewPath', $path); /* save the new path */
 			if (!empty($oldPath) && stream_resolve_include_path($oldPath) !== FALSE) { /* Check if we have to move an old view  : moveBlock */
 				\tools::file_put_contents(PROFILE_PATH . $path, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));

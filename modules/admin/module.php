@@ -97,7 +97,7 @@ class admin extends \module {
 		if (!empty($content) && method_exists($tempBlock, 'setContent')){ /* external DND */
 			$tempBlock->setContent($content);
 		}
-		$block = $this->$stop_typecont->search_block($parentBlock);
+		$block = $this->$stop_typecont->searchBlock($parentBlock);
 		$block->addBlock($tempBlock, $id_next_block);
 
 		/* If exists : Add default block CSS in current theme  */
@@ -125,7 +125,7 @@ class admin extends \module {
 		}
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
-		if ($this->$stop_typecont->search_block($idBlock) != NULL) {
+		if ($this->$stop_typecont->searchBlock($idBlock) != NULL) {
 			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
 		}
 		else
@@ -147,7 +147,7 @@ class admin extends \module {
 	 */
 	protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 		$this->initObjects();
-		$block = $this->$typeProgress->search_block($idBlock);
+		$block = $this->$typeProgress->searchBlock($idBlock);
 
 		if(!empty($headerTitle)) $block->setConfig('headerTitle', $headerTitle);
 		else $block->removeConfig('headerTitle');
@@ -227,13 +227,13 @@ class admin extends \module {
 	 */
 	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock) {
 		$this->initObjects();
-		$parent = $this->$typeProgress->search_block($parentBlock);
-		$block = $this->$typeProgress->search_block($idBlock);
+		$parent = $this->$typeProgress->searchBlock($parentBlock);
+		$block = $this->$typeProgress->searchBlock($idBlock);
 		if(is_object($block) && method_exists($block, 'destruct')){
 			$block->destruct();
 		}
 		$parent->rmBlock($idBlock);
-		$test = $this->$typeProgress->search_block($idBlock);
+		$test = $this->$typeProgress->searchBlock($idBlock);
 		if ($test == NULL){
 			$path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 			if(is_file($path)){
@@ -418,7 +418,7 @@ class admin extends \module {
 				$filePath = PROFILE_PATH . $file;
 				$cssFile = new \css($filePath);
 				if(!empty($selectors)){
-					foreach ($selectors AS $selector => $rule) {
+					foreach ($selectors AS $rule) {
 						$code = trim($rule['value']);
 						if(!empty($code)){
 							if (!$cssFile->selectorExists($rule['selector'], $rule['media'])) {
@@ -449,16 +449,16 @@ class admin extends \module {
 	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
 		$this->initObjects();
 		//start
-		$block = $this->$start_typecont->search_block($idBlock);  	
-		$blockparent = $this->$start_typecont->search_block($startParentBlock);
+		$block = $this->$start_typecont->searchBlock($idBlock);  	
+		$blockparent = $this->$start_typecont->searchBlock($startParentBlock);
 		$blockparent->rmBlock($idBlock);
 
 		//stop
 		if ($id_next_block === '' || $id_next_block === 'undefined')
 			$id_next_block = FALSE;
-		$block2 = $this->$stop_typecont->search_block($parentBlock); /* Get the parent */
+		$block2 = $this->$stop_typecont->searchBlock($parentBlock); /* Get the parent */
 		$block2->addBlock($block, $id_next_block); /* add the block in his parent */
-		if ($this->$stop_typecont->search_block($idBlock) !== NULL){
+		if ($this->$stop_typecont->searchBlock($idBlock) !== NULL){
 			if (method_exists($block, 'onMove')) { /* init path of views */
 				if($stop_typecont === 'theme') {
 					if ($block->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
@@ -485,7 +485,7 @@ class admin extends \module {
 	 */
 	protected function getViewConfigBlockAction($typeProgress, $idBlock) {
 		$this->initObjects();
-		$block = $this->$typeProgress->search_block($idBlock);
+		$block = $this->$typeProgress->searchBlock($idBlock);
 		ob_start();
 		require('modules/admin/views/desktop/manageBlock.php');
 		return ob_get_clean();
@@ -840,7 +840,7 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function datagridAction($module, $entity, $page, $limit = 10) {
-		$obj = \app::getModule($module)->getEntity($entity)->limit((($page - 1) * $limit) . ','.$limit);
+		$obj = \app::getModule($module)->getEntity($entity)->limit($limit);
 		$modifModel = TRUE; /* To enable edit link */
 		ob_start();
 		require('modules/admin/views/desktop/datagrid.php');
@@ -874,23 +874,23 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function datagridPreviewAction(array $properties = array(), array $relations = array(), $pagination = false, $nbitem = 5) {
-		$maview = new \view();
+		$view = new \view();
 		if (!empty($properties)) {
-			if (isset($relations)) $maview = $maview->initFromArray($properties, $relations);
-			else $maview = $maview->initFromArray($properties);
-			if ($pagination) $maview->limit($nbitem);
-			else $maview->limit(10);
+			if (isset($relations)) $view = $view->initFromArray($properties, $relations);
+			else $view = $view->initFromArray($properties);
+			$view->limit(10);
 		} else {
 			return t('No data for this query.', FALSE);
 		}
-		$maview->buildQuery();
-		$obj = $maview;
+		$view->buildQuery(TRUE);
+		$obj = $view;
 		ob_start();
 		$sql = $obj->getSQL();
 		$search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
 		$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
 		echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
 		require('modules/admin/views/desktop/datagrid.php');
+		echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
 		return ob_get_clean();
 	}
 
@@ -903,6 +903,7 @@ class admin extends \module {
 	 */
 	protected function getViewUpdateFormAction($module, $entity, $id) {
 		$obj = \app::getModule($module)->getEntity($entity);
+		$obj->prepareFieldsForDisplay();
 		\app::$request->setParam('idviewupdate' , $id); // set value to be used in prepared query
 		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=:idviewupdate')->fetch()->getViewUpdateForm());
 	}
@@ -1127,10 +1128,10 @@ class admin extends \module {
 				$fieldObj->saveEditInline($wysiwyg->html, $wysiwyg->id);
 			}else{
 				if(empty($wysiwyg->theme)){
-				$blockObj = & \app::getModule($wysiwyg->module)->getPage($wysiwyg->idPage)->search_block($id);
+				$blockObj = & \app::getModule($wysiwyg->module)->getPage($wysiwyg->idPage)->searchBlock($id);
 				}else{
 				$theme = \theme::get($wysiwyg->module, $wysiwyg->theme, THEMETYPE);
-				$blockObj = $theme->search_block($id, $theme);
+				$blockObj = $theme->searchBlock($id, $theme);
 				}
 				$blockObj->setContent($wysiwyg->html);
 			}

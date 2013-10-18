@@ -46,9 +46,9 @@ foreach (\app::$config['modules']['active'] AS $module => $type) {
 			    $table = explode('_', $prop[0], 2);
 			    $entity = \app::getModule($table[0])->getEntity($table[1]);
 
-			    foreach ($entity as $line) {
+			    foreach ($entity as $row) {
 				$url = $page->getRegex();
-				$url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], substr($page->getRegex(), 2, -2));
+				$url = str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $row->$prop[1], substr($page->getRegex(), 2, -2));
 				$urls[] = 'http://' . DOMAIN . '/' . $module . '/' . $url;
 			    }
 			}

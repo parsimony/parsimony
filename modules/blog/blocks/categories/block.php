@@ -57,22 +57,22 @@ class categories extends \block {
 	$finalTree = array();
 	$list = array();
 	$subtree = '';
-	foreach ($obj as $key => $line) {
-	    $thisref = &$finalTree[$line->id_category];
-	    $thisref['parent_id'] = $line->id_parent;
-	    $thisref['name'] = $line->name;
-            $thisref['url'] = $line->url;
-	    if (!is_array($exclude) || (is_array($exclude) && !in_array($line->id_category, $exclude)) || $admin) {
-		if ($line->id_category == 0) {
-		    $list[$line->id_category] = &$thisref;
-		} else {
-		    $finalTree[$line->id_parent]['children'][$line->id_category] = &$thisref;
+	foreach ($obj as $key => $row) {
+			$thisref = &$finalTree[$row->id_category];
+			$thisref['parent_id'] = $row->id_parent;
+			$thisref['name'] = $row->name;
+			$thisref['url'] = $row->url;
+			if (!is_array($exclude) || (is_array($exclude) && !in_array($row->id_category, $exclude)) || $admin) {
+				if ($row->id_category == 0) {
+					$list[$row->id_category] = &$thisref;
+				} else {
+					$finalTree[$row->id_parent]['children'][$row->id_category] = &$thisref;
+				}
+			}
+			if ($display != 'no' && $row->id_category == $display && !$admin) {
+				$subtree = array($row->id_category => &$thisref);
+			}
 		}
-	    }
-	    if ($display != 'no' && $line->id_category == $display && !$admin) {
-		$subtree = array($line->id_category => &$thisref);
-	    }
-	}
 	if (!empty($subtree))
 	    return $subtree;
 	elseif(isset($finalTree[0]['children']))

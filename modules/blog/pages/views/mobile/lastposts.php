@@ -1,9 +1,9 @@
 <?php if (!$view->isEmpty()) : ?>
-	<?php foreach ($view as $key => $line) : ?>
+	<?php foreach ($view as $key => $row) : ?>
 		<div class="itemscope">
-			<a href="<?php echo BASE_PATH.$line->url; ?>">	
-				<div class="itemprop publicationGMT" style="float:left"><?php echo strftime('%b %d %Y', strtotime($line->publicationGMT));?></div>		
-				<div class="itemprop title"><?php echo $line->title; ?></div>
+			<a href="<?php echo BASE_PATH.$row->url; ?>">	
+				<div class="itemprop publicationGMT" style="float:left"><?php echo strftime('%b %d %Y', strtotime($row->publicationGMT));?></div>		
+				<div class="itemprop title"><?php echo $row->title; ?></div>
 			</a>
 		</div>
 	<?php endforeach; ?>

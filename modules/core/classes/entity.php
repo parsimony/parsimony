@@ -38,7 +38,7 @@ namespace core\classes;
  *      echo $user->pseudo;
  * }
  */
-abstract class entity implements \Iterator {
+abstract class entity extends queryBuilder implements \Iterator {
 
 	/** @var string _module name */
 	protected $_module;
@@ -66,10 +66,7 @@ abstract class entity implements \Iterator {
 
 	/** @var array of _rights */
 	protected $_rights = array();
-
-	/** @var array of SQL properties in order to build SQL Query */
-	protected $_SQL = array();
-
+	
 	/**
 	 * Constructor: init entity vars
 	 */
@@ -77,8 +74,6 @@ abstract class entity implements \Iterator {
 		list( $this->_module, $entity, $this->_entityName) = explode('\\', get_class($this));
 		$this->_tableName = $this->_module . '_' . $this->_entityName;
 	}
-
-
 
 	/**
 	 * Get the name of a given entity
@@ -192,7 +187,7 @@ abstract class entity implements \Iterator {
 			if ($sqlField != FALSE)
 				$sql .= $sqlField . ',';
 		}
-		$sql = substr($sql, 0, -1) . ') ENGINE=MyISAM DEFAULT CHARSET=utf8;';
+		$sql = substr($sql, 0, -1) . ') ENGINE=InnoDB DEFAULT CHARSET=utf8;'; /* InnoDB to support transactions */
 		return (bool) PDOconnection::getDB()->exec($sql);
 	}
 
@@ -361,21 +356,32 @@ abstract class entity implements \Iterator {
 	 * Return dataset
 	 * @return array
 	 */
-	public function display() {
+	public function display($format = 'json') {
 		if($this->getRights($_SESSION['id_role']) & DISPLAY){
-			$dataset = array();
-			if($this->buildQuery()){ 
-				foreach ($this as $row) {
-					$line = array();
-					foreach ($row->getFields() as $name => $field) {
-						if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {
-							$line[$name] = $field->value;
-						}
-					}
-					$dataset[] = $line;
+			$id = $this->getId()->name;
+			$displayedField = array();
+			foreach ($this->getFields() as $name => $field) {
+				if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {
+					$displayedField[] = $name;
 				}
 			}
-			return $dataset;
+
+			$dataset = array();
+			if($this->buildQuery()){
+				foreach ($this as $row) {
+					$line = array();
+					foreach ($displayedField as $name) {
+						if($format === 'lightjson'){
+							$line[] = $row->$name->value;
+						}else{
+							$line[$name] = $row->$name->value;
+						}
+					}
+					$dataset[$row->$id->value] = $line;
+				}
+			}
+			return json_encode($dataset, JSON_PRETTY_PRINT);
+			
 		}else{
 			throw new \Exception(t('Display forbidden on ' . $this->_tableName, FALSE));
 		}
@@ -459,18 +465,7 @@ abstract class entity implements \Iterator {
 			 throw new \Exception(t('Update forbidden on ' . $this->_tableName, FALSE));
 		 }
 	 }
-
-	 /**
-	  * Get pagination
-	  * @return pagination object
-	  */
-	public function getPagination() {
-	   if (isset($this->_SQL['pagination']))
-		   return $this->_SQL['pagination'];
-	   else
-		   return FALSE;
-	}
-
+	 
 	 /** *************************************************************
 	  * ************************* EVENTS *************
 	  * *************************************************** */
@@ -669,7 +664,7 @@ abstract class entity implements \Iterator {
 		 if (isset($this->$name)) {
 			 return $this->$name;
 		 }
-		 return FALSE;
+		 return new \field_string ($this->_module, $this->_entityName, $name, array('label' => $name, 'views' =>array('display' => 'modules/core/fields/field_string/display.php', 'grid' => 'modules/core/fields/field_string/grid.php'))); /* emulate prepareFieldsForDisplay() */
 	 }
 
 	 /**
@@ -731,13 +726,12 @@ abstract class entity implements \Iterator {
 		 }
 	 }
 
-
 	 /**
 	  * Select in DB 
 	  * @param $clauses
 	  * @return entity object
 	  */
-	 public function select($clause = '') {
+	 public function select($clause = '', $hidden = false) {
 		 $this->_SQL = array();
 		 $selects = explode(',', $clause);
 		 if (!empty($clause)) {
@@ -747,195 +741,6 @@ abstract class entity implements \Iterator {
 			 }
 		 }
 		 return $this;
-	 }
-
-	 /**
-	  * Set a WHERE clause
-	  * @param string $property
-	  * @param string $condition
-	  * @return view object
-	  */
-	 public function where($condition) {
-		 $this->_SQL['wheres'][] = $condition;
-		 return $this;
-	 }
-
-	 /**
-	  * Limit the results of Query 
-	  * @param string $limit
-	  * @return entity object 
-	  */
-	 public function limit($limit) {
-		 $this->_SQL['limit'] = $limit;
-		 return $this;
-	 }
-
-	 /**
-	  * Set Order of the query
-	  * @param string $property
-	  * @param string $order
-	  * @return view object
-	  */
-	 public function order($property, $order) {
-		 $this->_SQL['orders'][$property] = $order;
-		 return $this;
-	 }
-
-	 /**
-	  * Set a table to Join
-	  * @param string $propertyLeft ID of left table
-	  * @param string $propertyRight ID of right table
-	  * @param string $type of join
-	  * @return view object
-	  */
-	 public function join($propertyLeft, $propertyRight, $type = 'left outer join') {
-		 $this->_SQL['joins'][] = array('propertyLeft' => $propertyLeft, 'propertyRight' => $propertyRight, 'type' => $type);
-		 return $this;
-	 }
-
-	 /**
-	  * Build SQL Query 
-	  * @return bool
-	  */
-	 public function buildQuery($forceRebuild = FALSE) {
-		if (!isset($this->_SQL['stmt']) || $forceRebuild) { // cache
-			$this->beforeSelect();
-			$query = 'SELECT ';
-			if (isset($this->_SQL['selects'])) {
-				$query .= implode(',', $this->_SQL['selects']);
-			} else {
-				$query .= '*';
-			}
-			$query .= ' FROM ' . $this->_tableName;
-			if (isset($this->_SQL['joins'])) {
-				foreach ($this->_SQL['joins'] AS $join) {
-					$query .= ' ' . $join['type'] . ' ' .  strstr($join['propertyRight'], '.', true) . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
-				}
-			}
-			$vars = array(); // init here for pagination
-			if (isset($this->_SQL['wheres'])) {
-				foreach ($this->_SQL['wheres'] AS $where) {
-					if (strstr($where, ':') !== FALSE) {
-						preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
-						foreach ($matches[1] AS $param) {
-							$value = \app::$request->getParam($param);
-							if (!empty($value)) {
-								if (is_array($value)) {
-									$nb = count($value);
-									$str = array();
-									for ($i = 0; $i < $nb; $i++) {
-										$str[] = ':' . $param . $i;
-										$vars[':' . $param . $i] = $value[$i];
-									}
-									$where = str_replace(':' . $param, implode(',', $str), $where);
-								} else {
-									$vars[':' . $param] = strlen($value) > 0 ? $value : '';
-								}
-							}
-						}
-					}
-					// Frame the "where" if several sql conditions
-					if (strstr($where, '&&') || strstr($where, '||') || stristr($where, ' or ') || stristr($where, ' and '))
-						$wheres[] = '(' . $where . ')';
-					else 
-						$wheres[] = $where;
-			   }
-			   if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
-			}
-			if (isset($this->_SQL['orders'])) {
-				$orders = array();
-				foreach ($this->_SQL['orders'] AS $property => $order) {
-					$orders[] = $property . ' ' . $order;
-				}
-				$query .= ' ORDER BY ' . implode(',', $orders);
-			}
-			if (isset($this->_SQL['limit'])) {
-				$limit = ' LIMIT 0,' . $this->_SQL['limit'];
-                if (isset($this->_SQL['pagination']) && $this->_SQL['pagination'] === TRUE) {
-                    $this->_SQL['pagination'] = new \pagination($query, $this->_SQL['limit'], $vars);
-                    $start = $this->_SQL['pagination']->getCurrentPage() * $this->_SQL['limit'] - $this->_SQL['limit'];
-                    $limit = ' LIMIT ' . $start . ',' . $this->_SQL['limit'];
-                }
-                $query .= $limit;
-			}
-			$this->_SQL['query'] = $query = str_replace($this->_tableName, PREFIX.$this->_tableName, strtolower($query));
-			if(!empty($vars)){ 
-				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
-				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
-				$this->_SQL['stmt']->execute($vars);
-			}else{
-				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
-			}
-			$this->prepareFieldsForDisplay();
-		}
-		if (is_object($this->_SQL['stmt'])) {
-			return TRUE;
-		}
-		return FALSE;
-	 }
-
-	 /* Iterator interface */
-
-	 /**
-	  * Return first data row
-	  * @return entity object
-	  */
-	 public function fetch() {
-		 foreach ($this as $obj) {
-			 return $obj;
-		 }
-	 }
-
-	 /**
-	  * Rewind the cursor to the first row
-	  */
-	 public function rewind() {
-		 if($this->buildQuery()){
-			 if($this->_SQL['stmt']->fetch() !== FALSE){
-				 return $this->_SQL['position'] = 0;
-			 }
-		 }
-		 $this->_SQL['position'] = FALSE;
-	 }
-
-	 /**
-	  * Get the current row
-	  * @return entity object
-	  */
-	 public function current() {
-		 return $this;
-	 }
-
-	 /**
-	  * Get the position of cursor
-	  * @return integer
-	  */
-	 public function key() {
-		 return $this->_SQL['position'];
-	 }
-
-	 /**
-	  * Move forward to the next row 
-	  */
-	 public function next() {
-		 if($this->_SQL['stmt']->fetch() !== FALSE){
-			 $this->_SQL['position']++;
-		 }else{
-			 $this->_SQL['position'] = FALSE;
-		 }
-	 }
-
-	 /**
-	  * Check if current position is valid
-	  * @return object|false
-	  */
-	 public function valid() {
-		 if($this->_SQL['position'] !== FALSE){
-			 return TRUE;
-		 }else{
-			 $this->afterSelect();
-			 return FALSE;
-		 }
 	 }
 
 }

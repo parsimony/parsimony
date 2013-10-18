@@ -121,8 +121,8 @@ class menu extends \block {
                             $table = explode('_', $prop[0], 2);
                             $entity = \app::getModule($table[0])->getEntity($table[1]);
                             $entityTitle = $entity->getBehaviorTitle();
-                            foreach ($entity as $line) {
-                                $dynamicURL .= '<li><a href="' . str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $line->$prop[1], $url) . '">' . $line->$entityTitle . '</a></li>';
+                            foreach ($entity as $row) {
+                                $dynamicURL .= '<li><a href="' . str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $row->$prop[1], $url) . '">' . $row->$entityTitle . '</a></li>';
                             }
                         }
                     }

@@ -819,17 +819,30 @@ function blockAdminCSS() {
 				var x = document.getElementById("rotatex").value;
 				var y = document.getElementById("rotatey").value;
 				var z = document.getElementById("rotatez").value;
-				if (!ParsimonyAdmin.currentBody.classList.contains("threed"))
-					ParsimonyAdmin.currentBody.classList.add("threed");
-				var style = 'rotateX(' + (x / 10) + 'deg) rotateY(' + (y / 10) + 'deg) translateZ(' + z + 'px);box-shadow: ' + (-(y / 10)) + 'px ' + (x / 10) + 'px 3px #aaa;background-color:#fff';
+				ParsimonyAdmin.currentBody.classList.add("threed");
+				if(x >= 0){
+					ParsimonyAdmin.currentBody.classList.remove("threedTop");
+					ParsimonyAdmin.currentBody.classList.add("threedBottom");
+				}else{
+					ParsimonyAdmin.currentBody.classList.remove("threedBottom");
+					ParsimonyAdmin.currentBody.classList.add("threedTop");
+				}
+				if(y >= 0){
+					ParsimonyAdmin.currentBody.classList.remove("threedRight");
+					ParsimonyAdmin.currentBody.classList.add("threedLeft");
+				}else{
+					ParsimonyAdmin.currentBody.classList.remove("threedLeft");
+					ParsimonyAdmin.currentBody.classList.add("threedRight");
+				}
+				var style = 'rotateX(' + (x / 10) + 'deg) rotateY(' + (y / 10) + 'deg) translateZ(' + z + 'px);';
 				if (typeof ParsimonyAdmin.currentBody.style.transform != "undefined") {
-					ParsimonyAdmin.currentBody.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+					ParsimonyAdmin.currentBody.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
 					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';}', "0");
+					$this.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';transform-style: preserve-3d;}', "0");
 				} else {
-					ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) perspective(1000px)';
+					ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
 					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';}', "0");
+					$this.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';-webkit-transform-style: preserve-3d;}', "0");
 				}
 			});
 		});
@@ -1273,7 +1286,7 @@ blockAdminCSS.prototype.openCSSCode = function() {
 }
 
 blockAdminCSS.prototype.openCSSPanel = function() {
-	$("#right_sidebar .contenttab > .active").removeClass("active");
+	//$("#right_sidebar .contenttab > .active").removeClass("active"); // todo
 	$(".panelcss").addClass("active");
 }
 

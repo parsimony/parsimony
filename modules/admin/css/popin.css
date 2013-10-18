@@ -4,18 +4,18 @@ body{overflow: hidden;}
 .tabs ul li.active {background: rgb(236, 236, 236);}
 .tabs ul li {display: inline-block;position: relative;color: #333;float: left;padding: 0px;cursor: pointer;text-align: center;}
 .tabs ul li a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
-.adminzone{height:100%;width:100%;position: absolute;/*background: #ECECEC;*/font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;min-height: 600px;min-width: 600px;}
-.adminzone .pagination a {height: 20px ;line-height: 20px;padding:0}
-.adminzone table{border-color: #99BCE8;}
-.adminzone th,.adminzone thead{border:1px solid #DFDFDF;text-align:center;padding-top:8px}
-.adminzone thead{letter-spacing: 1.5px;border-style: solid;border: 1px solid #DFDFDF;color: #464646;border-bottom-color: #DFDFDF;text-shadow: white 0 1px 0;
-box-shadow: 0 1px 0 white;background-color: #F1F1F1;
-background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
-background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
-background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
-.adminzone th{font-weight:normal;line-height: 28px;font-size: 14px;box-shadow: #F4F8FD 0 1px 0px 0 inset;}
+.adminzone{height:100%;width:100%;position: absolute;font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;min-height: 600px;min-width: 600px;}
+/* Pagination */
+.pagination a {display: inline-block;color: #444;padding: 5px;text-decoration: none;margin-top: 10px;margin-left: 10px;}
+.pagination a.active,.pagination a:hover{border-bottom: 2px solid rgb(45, 193, 238);}
+
+.adminzone th,.adminzone thead{text-align:left;}
+.adminzone thead{border: 0;color: #464646;}
+.adminzone th:first-child,.adminzone td:first-child{padding-left:15px}
+.adminzone th:last-child,.adminzone td:last-child{padding-right:15px}
+.adminzone th{line-height: 28px;}
 #tabsconfig th{min-width: 80px;} 
-.adminzone td{vertical-align: middle;border: 1px solid #DDD;text-align: left;text-overflow:ellipsis;}
+.adminzone td{vertical-align: middle;border: 1px solid #f0f0f0;border-left:0;border-right:0;text-align: left;text-overflow:ellipsis;}
 .adminzone tbody tr{background:white}
 .adminzone .adminzonemenu{width: 150px;position: absolute;left: 0;top: 40px;bottom: 0;background: #ECECEC;z-index: 99999;}
 .adminzone .adminzonemenu h2{color: #555;padding: 5px 10px;font-size: 15px;}

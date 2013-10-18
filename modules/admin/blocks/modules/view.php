@@ -40,8 +40,8 @@ foreach ($activeModule as $module => $type) {
 	$moduleInfos = \tools::getClassInfos($moduleobj);
 	if (!isset($moduleInfos['displayAdmin']) || $moduleInfos['displayAdmin'] == 4) {
 		$icon = '';
-		if (is_file('modules/' . $module . '/icon.png'))
-			$icon = ' style="background:url(' . BASE_PATH . $module . '/icon.png) 4px 4px no-repeat"';
+		/*if (is_file('modules/' . $module . '/icon.png'))
+			$icon = ' style="background:url(' . BASE_PATH . $module . '/icon.png) 4px 4px no-repeat"';*/
 		$adminHTML = $moduleobj->displayAdmin();
 		if ($adminHTML == FALSE)
 			$htmlConfig = '';
@@ -53,11 +53,29 @@ foreach ($activeModule as $module => $type) {
 			$display = 'none';
 		?>
 		<div class="moduleParts <?php echo $display; ?>" data-module="<?php echo $module; ?>">
-			<div class="datatopages subTabsContainer">
-				<div rel="pages" class="ssTab ellipsis switchtodata active" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($module); ?>"><?php echo t('Pages', FALSE); ?>                  </div>
-				<div rel="models" class="ssTab db ellipsis switchtopages" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content', FALSE); ?></div> 
-			</div>
-			<ul class="none models tabPanel">
+			<div rel="pages" class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($module); ?>"><?php echo t('Pages', FALSE); ?>                  </div>
+			<ul class="pages tabPanel" style="display:block;">
+				<?php
+				foreach ($moduleobj->getPages() as $id_page => $page) {
+					if ($module === \app::$config['modules']['default'])
+						$pageURL = BASE_PATH . $page->getURL();
+					else
+						$pageURL = BASE_PATH . $module . '/' . $page->getURL();
+					?>
+					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
+						<?php echo ucfirst(s($page->getTitle())); ?>
+						<a href="#modules/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page', FALSE); ?>"></a>
+					</li>
+					<?php
+				}
+				?>
+				<a href="#modules/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in', FALSE) . ' ' . ucfirst($module); ?>">
+					<span class="ui-icon ui-icon-plus" style="position: relative;top: 4px;float: left;left: -1px;"></span>
+					<?php echo t('Add A Page', FALSE); ?>
+				</a>
+			</ul>
+			<div rel="models" class="db ellipsis subtitle" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content', FALSE); ?></div> 
+			<ul class=" models ">
 				<?php
 				$models = $moduleobj->getModel();
 				if (count($models) > 0) {
@@ -80,30 +98,10 @@ foreach ($activeModule as $module => $type) {
 					</li>
 				<?php endif; ?>
 			</ul>
-			<ul class="pages tabPanel" style="display:block;">
-				<?php
-				foreach ($moduleobj->getPages() as $id_page => $page) {
-					if ($module === \app::$config['modules']['default'])
-						$pageURL = BASE_PATH . $page->getURL();
-					else
-						$pageURL = BASE_PATH . $module . '/' . $page->getURL();
-					?>
-					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
-						<?php echo ucfirst(s($page->getTitle())); ?>
-						<a href="#modules/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page', FALSE); ?>"></a>
-					</li>
-					<?php
-				}
-				?>
-				<a href="#modules/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in', FALSE) . ' ' . ucfirst($module); ?>">
-					<span class="ui-icon ui-icon-plus" style="position: relative;top: 2px;float: left;"></span>
-					<?php echo t('Add A Page', FALSE); ?>
-				</a>
-			</ul>
 		</div>
 		<?php
 	}
 }
 if ($_SESSION['behavior'] === 2): ?>		
-	<div class="titleTab ellipsis" style="padding-left: 31px;background: none"><span class="ui-icon ui-icon-plus" style="top: -2px;  left: 0;  position: absolute;"></span><a href="#modules/add" style="color: #444;text-decoration: none" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module"><?php echo t('Add a Module', FALSE); ?></a></div>
+	<div class="ellipsis"><a href="#modules/add" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module">+ <?php echo t('Add a Module', FALSE); ?></a></div>
 <?php endif; ?>

@@ -44,6 +44,10 @@ class field_state extends \field {
 	protected $characters_max = 2;
 	protected $regex = '^[0-9]*$';
 	protected $states = '';
+	
+	public function getAllValues() {
+		return explode(',', $this->states);
+	}
 
 }
 

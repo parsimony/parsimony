@@ -55,22 +55,21 @@ class pagination {
      * @param string $query
      * @param integer $itemsPerPage
      */
-    public function __construct($query, $itemsPerPage=10, $args = array()) {
+    public function __construct($query, $itemsPerPage = 10, $args = array()) {
         $this->itemsPerPage = $itemsPerPage;
         if (!isset(self::$cache[$query]) || !empty($args)) {
-            $page = PDOconnection::getDB()->prepare(preg_replace('#select (.*) from#', 'SELECT count(*) FROM', strtolower($query)));
+            $page = PDOconnection::getDB()->prepare('SELECT count(*) FROM ('. strtolower($query) . ') AS paginationtottal'); /* subquery to allow us to count even there is a group by */
             $page->execute($args);
             if ($page) {
                 $page = $page->fetch();
                 $this->nbRow = $page[0];
-                //echo $this->nbRow;
                 self::$cache[$query] = $this->nbRow;
             }
             $this->nbPages = ceil($this->nbRow / $itemsPerPage);
         }
         // Current Page
         $this->currentPage = app::$request->getParam('page');
-        if (!$this->currentPage)
+        if (!$this->currentPage) /* 0 <-! or FALSE */
             $this->currentPage = 1;
     }
 
@@ -80,6 +79,14 @@ class pagination {
      */
     public function getCurrentPage() {
         return $this->currentPage;
+    }
+	
+	/**
+     * Get number of row
+     * @return integer
+     */
+    public function getNbRow() {
+        return $this->nbRow;
     }
 
     /**
@@ -93,7 +100,7 @@ class pagination {
         }
         if ($this->itemsPerPage > 1) {
             for ($i = 1; $i <= $this->nbPages; $i++) {
-                if ($this->currentPage == $i)
+                if ($this->currentPage === $i)
                     $actif = ' active';
                 else
                     $actif = '';

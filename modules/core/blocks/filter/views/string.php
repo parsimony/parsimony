@@ -22,13 +22,13 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/fields
+ * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<div class="placeholder">
-	<label for="filter_<?php echo $this->name ?>">
-	<?php echo $this->label ?>
+<div class="stringfilter <?php echo $property ?>_filter">
+	<label for="<?php echo $property ?>_filter" class="filtertitle">
+		<?php echo $field->label ?>
 	</label>
-	<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
+	<input type="text" name="filter[<?php echo $property ?>]" id="<?php echo $property ?>_filter" value="<?php if (isset($_POST['filter'][$property])) echo s($_POST['filter'][$property]) ?>"/>
 </div>

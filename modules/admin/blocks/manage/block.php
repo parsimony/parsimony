@@ -22,13 +22,22 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/fields
+ * @package admin/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+namespace admin\blocks;
+
+/**
+ * @title Blocks
+ * @description display admin blocks
+ * @version 1
+ * @browsers all
+ * @php_version_min 5.3
+ * @modules_dependencies core:1, admin:1
+ */
+
+class manage extends \block {
+
+}
 ?>
-<div class="placeholder">
-	<label for="filter_<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	</label>
-	<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
-</div>

@@ -1,12 +1,12 @@
 <?php if (!$view->isEmpty()) : ?>
-	<?php foreach ($view as $key => $line) : ?>
+	<?php foreach ($view as $key => $row) : ?>
 		<div class="itemscope">		
-			<div class="itemprop publicationGMT" style="float:right"><?php echo strftime('%b %d %Y', strtotime($line->publicationGMT));?></div>		
+			<div class="itemprop publicationGMT" style="float:right"><?php echo strftime('%b %d %Y', strtotime($row->publicationGMT));?></div>		
 		<div style="display:inline">
-			<div class="itemprop title"><a href="<?php echo BASE_PATH.$line->url; ?>"><?php echo $line->title /*->display() */; ?></a></div>
+			<div class="itemprop title"><a href="<?php echo BASE_PATH.$row->url; ?>"><?php echo $row->title /*->display() */; ?></a></div>
 			
-			<div class="itemprop content"><?php  echo $line->content; ?></div>
-			<div style="display:inline" class="itemprop author"><?php echo t('By').' '.$line->pseudo; ?></div>
+			<div class="itemprop content"><?php  echo $row->content; ?></div>
+			<div style="display:inline" class="itemprop author"><?php echo t('By').' '.$row->pseudo; ?></div>
 		</div>
 		</div>
 	<?php endforeach; ?>

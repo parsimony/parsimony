@@ -76,6 +76,20 @@ class field_date extends \field {
 		}
 		return FALSE;
 	}
+	
+	public function sqlGroup($group) {
+		$sql = '';
+		$name = $this->module . '_' . $this->entity . '.' . $this->name;
+		switch($group){
+			case 'day':
+				$sql .= 'DAY(' . $name . ') + ';
+			case 'month':
+				$sql .= 'MONTH(' . $name . ') + ';
+			case 'year':
+				$sql .= 'YEAR(' . $name . ')';
+		}
+		return $sql;
+	}
 
 }
 

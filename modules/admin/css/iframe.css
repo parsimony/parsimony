@@ -1,5 +1,35 @@
 /* CSS Picker 3D KEEP IN FIRST */
 .threed *{}
+.threed {-webkit-transform: scale(0.7);-webkit-transform-origin: center;
+transform: scale(0.2);transform-origin: center;}
+.threedLeft *::after {
+top: 0;left: 0;right: auto;bottom:0;width: 30px;height: 100%;background-color: #ccc;
+content: " ";position: absolute;
+-webkit-transform: rotateY(90deg);-webkit-transform-origin: 0 0;
+transform: rotateY(90deg);transform-origin: 0 0;
+}
+
+.threedRight *::after {
+top: 0;right: 0;bottom:0;left: auto;width: 30px;height: 100%;
+background-color: #ccc;content: " ";position: absolute;
+-webkit-transform: translateX(100%) rotateY(90deg);-webkit-transform-origin: 0 0;
+transform: translateX(100%) rotateY(90deg);transform-origin: 0 0;
+}
+.threedTop *::before {
+top: 0;right: 0;left: 0;bottom:auto;width: auto;height: 30px;
+background-color: #aaa;content: " ";position: absolute;
+-webkit-transform: rotateX(-90deg);-webkit-transform-origin: 0 0;
+transform: rotateX(-90deg);transform-origin: 0 0;
+}
+
+.threedBottom *::before {
+bottom: 0;right: 0;left: 0;top:auto;width: auto;height: 30px;
+background-color: #aaa;content: " ";position: absolute;
+-webkit-transform-origin: 0 0;-webkit-transform: translateY(100%) rotateX(-90deg);
+transform-origin: 0 0;transform: translateY(100%) rotateX(-90deg);
+}
+.threedLeft *.cssPicker::after,.threedRight *.cssPicker::after{background-color: pink;}
+.threedTop *.cssPicker::before,.threedBottom *.cssPicker::before{background-color: pink;}
 
 body{overflow: hidden;} 
 
@@ -24,7 +54,7 @@ font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
 .editMode a{pointer-events:none}
 
 /* CSS Picker */
-.cssPicker{outline: 1px solid rgb(255, 0, 251);background: rgba(250, 153, 238, 0.38) !important;}
+.cssPicker{/*outline: 1px solid rgb(255, 0, 251);*/background: rgba(250, 153, 238, 0.38) !important;}
 
 /* Selection */
 html ::selection {background: #00D5FF;color: #ffffff;}

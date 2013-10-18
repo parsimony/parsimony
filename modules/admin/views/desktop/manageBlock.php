@@ -142,8 +142,8 @@ if (is_object($block) == NULL) {
 								<?php
 								$allowedRoles = (array) $block->getConfig('allowedRoles');
 								$obj = \app::getModule('core')->getEntity('role');
-								foreach ($obj as $line) {
-									echo '<option value="' . $line->id_role . '"' . (in_array($line->id_role, $allowedRoles) ? ' selected="selected"' : '') . '>' . $line->name . '</option>';
+								foreach ($obj as $row) {
+									echo '<option value="' . $row->id_role . '"' . (in_array($row->id_role, $allowedRoles) ? ' selected="selected"' : '') . '>' . $row->name . '</option>';
 								}
 								?>
 							</select>

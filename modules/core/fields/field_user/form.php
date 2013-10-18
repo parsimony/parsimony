@@ -31,7 +31,7 @@ echo $this->displayLabel($fieldName);
 <select name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>">
 	<?php
 	$users = \app::getModule('core')->getEntity('user')->select();
-	foreach ($users AS $line) :?>
-	<option value="<?php echo $line->id_user; ?>"<?php if($value == $line->id_user) echo ' selected="selected"' ?>><?php echo $line->pseudo; ?></option>
+	foreach ($users as $row) :?>
+	<option value="<?php echo $row->id_user; ?>"<?php if($value == $row->id_user) echo ' selected="selected"' ?>><?php echo $row->pseudo; ?></option>
 	<?php endforeach; ?>
 </select>

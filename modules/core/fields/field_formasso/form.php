@@ -35,10 +35,10 @@ $mode = '';
 $mode = \app::getModule($this->module)->getEntity($this->entity_foreign);
 $words = array();
 $tit = $mode->getBehaviorTitle();
-foreach ($mode->select() AS $line) {
+foreach ($mode->select() as $row) {
 	$obj = new stdClass;
-	$obj->label = $line->$tit;
-	$obj->value = $line->getId()->value;
+	$obj->label = $row->$tit;
+	$obj->value = $row->getId()->value;
 	$words[] = $obj; 
 }
 
@@ -91,8 +91,8 @@ if($row){
 	$titleForeignEntity = $foreignEntity->getBehaviorTitle();
 	$assoEntity = \app::getModule($this->module)->getEntity($this->entity_asso);
 	\app::$request->setParam('idformasso' , $row->getId()->value); // set value to be used in prepared query
-	foreach ($assoEntity->select()->join($this->module.'_'.$this->entity_asso.'.'.$idNameForeignEntity, $this->module.'_'.$this->entity_foreign.'.'.$idNameForeignEntity)->where($idNameEntity.' = :idformasso') AS $line) {
-		echo '<div style="float:left;padding:3px"><span class="ui-icon ui-icon-circle-close" style="float:left;cursor:pointer"></span>' . $line->$titleForeignEntity . '<input type="hidden" name="'.$this->name.'[' . $line->$idNameForeignEntity . ']" value="' . $line->$titleForeignEntity . '" /></div>';
+	foreach ($assoEntity->select()->join($this->module.'_'.$this->entity_asso.'.'.$idNameForeignEntity, $this->module.'_'.$this->entity_foreign.'.'.$idNameForeignEntity)->where($idNameEntity.' = :idformasso') as $row) {
+		echo '<div style="float:left;padding:3px"><span class="ui-icon ui-icon-circle-close" style="float:left;cursor:pointer"></span>' . $row->$titleForeignEntity . '<input type="hidden" name="'.$this->name.'[' . $row->$idNameForeignEntity . ']" value="' . $row->$titleForeignEntity . '" /></div>';
 	}
 }
 ?>

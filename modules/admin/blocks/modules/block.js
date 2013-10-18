@@ -10,7 +10,9 @@ function blockAdminModules() {
 	}
 	
 	this.model = function(module, entity) {
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=" + module + " - " + entity + "&action=getViewAdminModel");
+		$(".models .sublist").removeClass("active");
+		$('[href="#modules/model/' + module + '/' + entity + '"]').addClass("active");
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=" + module + " - " + entity + "&action=getViewAdminModel", true);
 	}
 	
 	this.page = function(module, idPage) {

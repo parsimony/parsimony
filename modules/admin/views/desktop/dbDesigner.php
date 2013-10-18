@@ -45,7 +45,6 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 include_once('modules/core/classes/field.php');
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/css/main.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/css/ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
@@ -65,6 +64,11 @@ include_once('modules/core/classes/field.php');
 <style>.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
 </style>
 <style type="text/css">
+	#toolbar{position: fixed;left:0;right:0;min-width: 980px;z-index: 2;height:35px;color: white;
+font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradient(top, #333333, #222222);
+			box-shadow: 0px 1px 0px rgb(41, 41, 41);border-bottom: 1px solid rgb(17, 17, 17);}
+	
+	
 	.ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
 	body{margin:0;padding:0;height:100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 	select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png"), -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
@@ -97,7 +101,7 @@ include_once('modules/core/classes/field.php');
 	#rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
 	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
 	.property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
-	#outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 999998;}
+	#outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 1;}
 	h3{margin:10px 0;font-size:16px;padding-left: 5px;}
 	.component{font-size: 11px;cursor:help;padding:4px 2px;background-color: #F1F5F9;border: 1px solid #97B2D2;opacity:0.6}
 	.component:hover{opacity:1}

@@ -34,7 +34,7 @@
                 if(method_exists($obj, "prepareFieldsForDisplay")) $obj->prepareFieldsForDisplay();
                 foreach ($obj->getFields() as $field) :
                     if (get_class($field) !== 'core\fields\field_formasso') :
-                        if ($field->visibility & DISPLAY && substr($field->views['grid'],-8) === 'grid.php') :
+                        if ($field->visibility & DISPLAY) :
                             ?>
                         <th><?php echo t(ucfirst(trim($field->label))); ?></th>
                             <?php
@@ -43,7 +43,7 @@
                 endforeach;
                 if (isset($modifModel)):
                     ?>
-                <th><span class="ui-icon ui-icon-pencil"></span></th>
+                <th></th>
                     <?php
                 endif;
                 ?>
@@ -58,13 +58,14 @@
                     $id = $obj->getId()->name;
                     $title = $obj->getBehaviorTitle();
                 }
-                
-                foreach ($obj as $line) :
+                $obj->setPagination(TRUE);
+				if(get_class($obj) === 'core\classes\view') $obj->buildQuery(TRUE);//to force rebuild view
+                foreach ($obj as $row) :
                     ?>
                     <tr class="line">
                         <?php
                         foreach ($obj->getFields() as $field) :
-                            if ($field->visibility & DISPLAY && substr($field->views['grid'],-8) === 'grid.php') :
+                            if ($field->visibility & DISPLAY) :
                                 $fieldName = $field->name;
                                 $class = '';
                                 if ($fieldName === $id) {
@@ -75,7 +76,15 @@
                                 }
                                 if (get_class($field) !== 'core\fields\field_formasso') :
                                     ?>
-                                <td class="column<?php echo $class; ?>"><?php echo $line->$fieldName()->displayGrid(); ?></td>
+                                <td class="column<?php echo $class; ?>">
+									<?php
+									if(substr($field->views['grid'],-8) === 'grid.php'){ /* to alias fields values */
+										echo $row->$fieldName()->displayGrid();
+									}else{
+										echo $row->$fieldName;
+									}
+									?>
+								</td>
                                     <?php
                                 endif;
                             endif;

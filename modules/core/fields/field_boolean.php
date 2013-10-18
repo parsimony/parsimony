@@ -56,6 +56,10 @@ class field_boolean extends \field {
 		}
 		return $value;
 	}
+	
+	public function getAllValues() {
+		return explode(',', $this->states);
+	}
 
 }
 

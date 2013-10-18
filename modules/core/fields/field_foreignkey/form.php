@@ -34,19 +34,19 @@ if (is_object($sth)) {
 	$sth->setFetchMode(PDO::FETCH_OBJ);
 	echo '<select name="' . $this->name . '"><option></option>';
 	$properties = app::getModule($this->moduleLink)->getEntity($this->link)->getFields();
-	foreach ($sth as $key => $line) {
+	foreach ($sth as $key => $row) {
 		$text = $this->templatelink;
 		foreach ($properties as $key => $field) {
 			if (get_class($field) == \app::$aliasClasses['field_ident'])
 				$id = $key;
-			if (isset($line->$key))
-				$text = str_replace('%' . $key . '%', $line->$key, $text);
+			if (isset($row->$key))
+				$text = str_replace('%' . $key . '%', $row->$key, $text);
 		}
-		if ($line->$id == $foreignID)
+		if ($row->$id == $foreignID)
 			$selected = ' selected="selected"';
 		else
 			$selected = '';
-		echo '<option value="' . $line->$id . '"' . $selected . '>' . $text . '</option>';
+		echo '<option value="' . $row->$id . '"' . $selected . '>' . $text . '</option>';
 	}
 	echo '</select>';
 }

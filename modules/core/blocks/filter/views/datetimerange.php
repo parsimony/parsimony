@@ -22,13 +22,15 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/fields
+ * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 ?>
-<div class="placeholder">
-	<label for="<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	</label>
-<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
+<div class="daterangefilter <?php echo $property ?>_filter">
+    <label for="<?php echo $property ?>_filter_start" class="filtertitle">
+	<?php echo $field->label ?>
+    </label>
+    <input type="datetime-local" name="filter[<?php echo $property ?>][start]" id="<?php echo $property ?>_filter_start"  value="<?php if(isset($_POST['filter'][$property]['start'])) echo $_POST['filter'][$property]['start'] ?>" />
+	<input type="datetime-local" name="filter[<?php echo $property ?>][end]" id="<?php echo $property ?>_filter_end"  value="<?php if(isset($_POST['filter'][$property]['end'])) echo $_POST['filter'][$property]['end'] ?>" />
 </div>

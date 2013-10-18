@@ -3,27 +3,17 @@ function blockAdminToolbar() {
 	this.initBefore = function() {
 
 		/* Tabs */
-		$('.sidebar').on('click', '.icons', function() {
-			var elmt = this.parentNode;
-			var rel = elmt.getAttribute("rel");
-			var parent = $(elmt).closest(".contenttab");
-			$(".parsiblock", parent).hide();
-			if (elmt.classList.contains('active')) {
-				elmt.classList.remove('active');
-				rel = '';
-			} else {
-				$(".mainTab", parent).removeClass('active');
-				elmt.classList.add('active');
+		$('#admin').on('click', '.icons', function() {
+			$(".active", this.parentNode).removeClass("active");
+			if(!document.body.classList.contains('close' + this.dataset.sidebar) && document.getElementById(this.dataset.panel).style.display == 'block'){
+				document.body.classList.add('close' + this.dataset.sidebar);
+			}else{
+				this.classList.add("active");
+				$("#" + this.dataset.sidebar + "_sidebar .parsiblock").hide();
+				$("#" + this.dataset.panel).show();
+				document.body.classList.remove('close' + this.dataset.sidebar);
 			}
-			ParsimonyAdmin.setCookie($(elmt).closest(".sidebar").data("side") + "ToolbarPanel", rel, 999);
-		});
-
-		$('#admin').on('click', '.ssTab', function() {
-			var parent = $(this.parentNode.parentNode);
-			parent.find(".tabPanel").hide();
-			parent.find("." + this.getAttribute('rel')).show();
-			parent.find(".ssTab").removeClass('active');
-			this.classList.add('active');
+			ParsimonyAdmin.setCookie(this.dataset.sidebar + "ToolbarPanel", this.dataset.panel, 999);
 		});
 
 	}

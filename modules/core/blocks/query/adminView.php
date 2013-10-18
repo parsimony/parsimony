@@ -187,7 +187,7 @@ $view = $this->getConfig('view');
 		<div class="innerTabs" style="margin-top:10px">
 			<ul>
 				<li class="active"><a href="#tabs-criterias"><?php echo t('Criterias', FALSE); ?></a></li>
-				<li><a href="#tabs-result"><?php echo t('Result', FALSE); ?></a></li>
+				<li><a href="#tabs-result"><?php echo t('Result', FALSE); ?> <span id="labelresult"></span></a></li>
 			</ul>
 			<div class="innerPanel" id="tabs-criterias">
 				<div id="pattern_sql" class="queryblock floatleft none">
@@ -219,6 +219,7 @@ $view = $this->getConfig('view');
 					<div><input class="or" type="text"></div>
 					<div class="align_center"><input class="filter" type="checkbox" checked="checked"></div>
 					<div class="align_center"><input class="sort" type="checkbox" checked="checked"></div>
+					<div class="align_center"><input class="group" type="checkbox" checked="checked"></div>
 				</div>         
 				<div id="form" action="" style="clear: both;position: relative">
 					<div class="caption">
@@ -229,8 +230,9 @@ $view = $this->getConfig('view');
 						<div><?php echo t('Display', FALSE); ?></div>
 						<div><?php echo t('Criteria', FALSE); ?></div>
 						<div><?php echo t('Or', FALSE); ?></div>
-						<div class="filter"><?php echo t('Filter', FALSE); ?></div>
-						<div class="sort"><?php echo t('Sort', FALSE); ?></div>
+						<div class="filter"><?php echo t('Filterable', FALSE); ?></div>
+						<div class="sort"><?php echo t('Sortable', FALSE); ?></div>
+						<div class="group"><?php echo t('Groupable', FALSE); ?></div>
 					</div>
 					<div id="recipiant_sql_cont" class="fs">
 						<div id="recipiant_sql"></div>
@@ -247,14 +249,20 @@ $view = $this->getConfig('view');
 							<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
 						</div>
 						<div style="display:inline-block;width:110px">
-							<?php echo t('Filters', FALSE); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
+							<?php echo t('Filterable', FALSE); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
 							if ($this->getConfig('filter') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
-						<div style="display:inline-block;">
-							<?php echo t('Sort', FALSE); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
+						<div style="display:inline-block;width:110px">
+							<?php echo t('Sortable', FALSE); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
 							if ($this->getConfig('sort') == 1)
+								echo ' checked="checked"';
+							?> />
+						</div>
+						<div style="display:inline-block;">
+							<?php echo t('Groupable', FALSE); ?> <input type="hidden" value="0" name="group" /><input type="checkbox" id="group" name="group" value="1" <?php
+							if ($this->getConfig('group') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
@@ -273,9 +281,9 @@ $view = $this->getConfig('view');
 							$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
 							echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
 							$obj = $view;
-							if ($this->getConfig('pagination') != 1)
-								$obj->limit(10);
+							$obj->limit(10);
 							include('modules/admin/views/desktop/datagrid.php');
+							echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
 						}
 						?>
 					</div>
@@ -309,6 +317,8 @@ $view = $this->getConfig('view');
 		else $('.filter').hide();
 		if($('#sort').is(':checked') ) $('.sort').show();
 		else $('.sort').hide();
+		if($('#group').is(':checked') ) $('.group').show();
+		else $('.group').hide();
 	}
 
 	function checkRelations() {
@@ -377,7 +387,7 @@ $view = $this->getConfig('view');
 		}
 	}
 
-	function addProperty(propELMT, tableName, tableProperty, display, aggregate, where, or, order, filter, sort) {
+	function addProperty(propELMT, tableName, tableProperty, display, aggregate, where, or, order, filter, sort, group) {
 		var sqlscheme = $("#pattern_sql").clone();
 		sqlscheme.attr("id","");
 		var nameProp = tableName + "_" + tableProperty;
@@ -407,6 +417,7 @@ $view = $this->getConfig('view');
 		$(".order",sqlscheme).attr('name','properties[' + nameProp + '][order]').val(order);
 		$(".filter",sqlscheme).attr('name','properties[' + nameProp + '][filter]')[0].checked = filter;
 		$(".sort",sqlscheme).attr('name','properties[' + nameProp + '][sort]')[0].checked = sort;
+		$(".group",sqlscheme).attr('name','properties[' + nameProp + '][group]')[0].checked = group;
 		sqlscheme.appendTo("#recipiant_sql").slideDown();
 	}
 
@@ -463,7 +474,7 @@ $view = $this->getConfig('view');
 
 	$('#queryCanvas').on("click",".property",function() {
 		if($(".queryblock[property=" + $(this).parent().attr('table') + "_" + $(this).text().trim() + "]").length==0){
-			addProperty(this, $(this).parent().attr('table'), $(this).text().trim(), true, "", "", "", "", true, true);
+			addProperty(this, $(this).parent().attr('table'), $(this).text().trim(), true, "", "", "", "", true, true, true);
 			$("#generate_query").trigger("click");
 		}
 	});
@@ -485,7 +496,7 @@ $view = $this->getConfig('view');
 			$("#resultpreview").html(data);
 		});
 		if(!$("#regenerateview").is(":checked")){
-			$.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').serialize()},function(data){
+			$.post(BASE_PATH + 'core/callBlock',{module:"<?php $mod = $_POST['typeProgress']=='theme' ? THEMEMODULE : MODULE; echo $mod; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
 			codeEditor.setValue(data);
 			codeEditor.refresh();
 			});
@@ -597,7 +608,7 @@ $view = $this->getConfig('view');
 		if (!empty($tab_selected)) {
 			foreach ($tab_selected AS $selected) {
 				?>
-				   addProperty("", "<?php echo $selected['table']; ?>", "<?php echo $selected['property']; ?>", <?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", "<?php echo (isset($selected['filter']) ? 'true' : 'false') ?>", "<?php echo (isset($selected['sort']) ? 'true' : 'false') ?>");
+				   addProperty("", "<?php echo $selected['table']; ?>", "<?php echo $selected['property']; ?>", <?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", <?php echo (isset($selected['filter']) ? 'true' : 'false') ?>, <?php echo (isset($selected['sort']) ? 'true' : 'false') ?>, <?php echo (isset($selected['group']) ? 'true' : 'false') ?>);
 				<?php
 			}
 		}

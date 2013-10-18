@@ -101,6 +101,9 @@ class field {
 	 * @param array $properties
 	 */
 	public function __construct($module, $entity, $name, $properties = array()) {
+		$this->module = $module;
+		$this->entity = $entity;
+		$this->name = $name;
 		foreach($properties AS $property => $value){
 			$this->$property = $value;
 		}
@@ -210,7 +213,7 @@ class field {
 	 * @param int $id
 	 * @return string
 	 */
-	public function displayEditInline(&$row = '', $authorID = FALSE) {
+	public function displayEditInline(&$row = '', $authorID = FALSE) { /* todo */
 		/*if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
 			\app::$request->page->addJSFile('lib/editinline.js');
 			$this->displayView = 'editinline.php';
@@ -276,7 +279,7 @@ class field {
 	 */
 	public function displayFilter() {
 		ob_start();
-		include($this->fieldPath . '/form_filter.php');
+		echo '';
 		return ob_get_clean();
 	}
 
@@ -398,7 +401,53 @@ class field {
 	 * @return string
 	 */
 	public function sqlFilter($filter) {
-		return 'like \'%' . $filter . '%\'';
+		$fieldName = $this->row->getName() . '_' . $this->name;
+		$name = $this->module . '_' . $this->entity . '.' . $this->name;
+		if (is_array($filter)) {
+			if (isset($filter[0])) {
+				foreach ($filter as $key => &$value) {
+					$paramName = $fieldName . '_in' . $key;
+					\app::$request->setParam($paramName, $value);
+					$value = $paramName;
+				}
+				return $name . ' IN (:' . implode(',:', $filter) . ')';
+			} else {
+				$start = isset($filter['start']) && !empty($filter['start']);
+				$end = isset($filter['end']) && !empty($filter['end']);
+				if ($start === TRUE && $end === TRUE) {
+					\app::$request->setParam($fieldName . '_start', $filter['start']);
+					\app::$request->setParam($fieldName . '_end', $filter['end']);
+					return $name . ' BETWEEN :' . $fieldName . '_start' . ' AND :' . $fieldName . '_end';
+				} elseif ($start === TRUE) {
+					\app::$request->setParam($fieldName . '_start', $filter['start']);
+					return $name . ' >= :' . $fieldName . '_start';
+				} elseif ($end === TRUE) {
+					\app::$request->setParam($fieldName . '_end', $filter['end']);
+					return $name . ' <= :' . $fieldName . '_end';
+				}
+				return '';
+			}
+		} else {
+			\app::$request->setParam($fieldName, '%' . $filter . '%');
+			return $name . ' like :' . $fieldName;
+		}
+	}
+	
+	public function sqlGroup($group) {
+		return $this->module . '_' . $this->entity . '.' . $this->name;
+	}
+	
+	public function getAllValues() {
+		$table = $this->module . '_' . $this->entity;
+		$result = \PDOconnection::getDB()->query('select ' . PREFIX . $table . '.' . $this->name . ' from ' . PREFIX . $table . ' group by ' . PREFIX . $table . '.' . $this->name);
+		if (is_object($result)) {
+			$values = $result->fetchAll(\PDO::FETCH_COLUMN);
+			if (is_array($values)) {
+				$values = array_combine($values, $values);
+				return $values;
+			}
+		}
+		return array();
 	}
 
 	/**

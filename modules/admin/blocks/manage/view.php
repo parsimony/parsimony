@@ -22,13 +22,22 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/fields
+ * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 ?>
-<div class="placeholder">
-	<label for="filter_<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	</label>
-<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
-</div>
+<ul>
+	<li class="titleTab">
+		<a href="#modules/settings/admin"><?php echo t('General', FALSE); ?></a>
+	</li>
+	<li class="titleTab">
+		<a href="#modules/permissions"><?php echo t('Permissions', FALSE); ?></a>
+	</li>
+	<li class="titleTab">
+		<a href="#modules/model/core/role"><?php echo t('Manage Roles', FALSE); ?></a>
+	</li>
+	<li class="titleTab">
+		<a href="#modules/model/core/user"><?php echo t('Manage Users', FALSE); ?></a>
+	</li>
+</ul>

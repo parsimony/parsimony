@@ -27,7 +27,7 @@
  */
 app::$request->page->addJSFile('admin/blocks/blocks/block.js', 'footer');
 ?>
-<ul class="blocks" style="width:216px">
+<ul class="blocks">
 	<?php
 	$activeModule = \app::$config['modules']['active'];
 

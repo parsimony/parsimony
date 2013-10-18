@@ -22,13 +22,23 @@
  * @copyright  Julien Gras et Benoît Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
- * @package core/fields
+ * @package core/blocks
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?>
-<div class="placeholder">
-	<label for="filter_<?php echo $this->name ?>">
-	<?php echo $this->label ?>
-	</label>
-	<input type="text" autocomplete="off" name="filter[<?php echo $this->name ?>]" id="filter_<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php if(isset($_POST['filter'][$this->name]))echo $_POST['filter'][$this->name] ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> />
-</div>
+
+$result = $field->getAllValues();
+if (!empty($result)):
+	?>
+	<div class="choicefilter <?php echo $property ?>_filter">
+	    <label class="filtertitle">
+		<?php echo $field->label ?>
+		</label>
+		<ul>
+			<?php foreach ($result as $value => $label) : ?>
+				<li>
+					<input type="checkbox" name="filter[<?php echo $property ?>][]" id="<?php echo $property . '_filter_' . s($value); ?>" value="<?php echo s($value) ?>"<?php if (isset($_POST['filter']) && isset($_POST['filter'][$property]) && in_array($value, $_POST['filter'][$property])) echo ' checked="checked"' ?>><label for="<?php echo $property . '_filter_' . s($value); ?>"><?php echo s($label) ?></label>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+	</div>
+<?php endif; ?>
