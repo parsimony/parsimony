@@ -834,15 +834,15 @@ function blockAdminCSS() {
 					ParsimonyAdmin.currentBody.classList.remove("threedLeft");
 					ParsimonyAdmin.currentBody.classList.add("threedRight");
 				}
-				var style = 'rotateX(' + (x / 10) + 'deg) rotateY(' + (y / 10) + 'deg) translateZ(' + z + 'px);';
+				var style = 'rotateX(' + (x / 10) + 'deg) rotateY(' + (y / 10) + 'deg) translateZ(' + z + 'px)';
 				if (typeof ParsimonyAdmin.currentBody.style.transform != "undefined") {
 					ParsimonyAdmin.currentBody.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
 					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';transform-style: preserve-3d;}', "0");
+					$this.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';transform-style: preserve-3d;background-color:#f9f9f9;}', "0");
 				} else {
 					ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
 					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';-webkit-transform-style: preserve-3d;}', "0");
+					$this.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';-webkit-transform-style: preserve-3d;background-color:#f9f9f9}', "0");
 				}
 			});
 		});

@@ -83,7 +83,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 		<div class="clearboth"></div>
 		Y <input type="range" class="ch" id="rotatey" min="-40" max="40" value="0">
 	<div class="clearboth"></div>
-		Z <input type="range" class="ch" id="rotatez" min="0" max="1000" value="300">
+		Z <input type="range" class="ch" id="rotatez" min="60" max="400" value="100">
 	</div>
 	<div id="css_panel" class="none">
 		<div id="changecssform" class="clearboth none swicthcsscode">

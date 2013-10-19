@@ -41,9 +41,8 @@ audio:not([controls]) {display: none;height: 0;}
 /* Parsimony CSS */
 
 /* clearfix for blocks */
-.parsiblock:before,.parsiblock:after {content: " ";display: table;}
-.parsiblock:after {clear: both;}
-.parsiblock {*zoom: 1;}
+.parsiblock::before,.parsiblock::after {content: " ";display: table;}
+.parsiblock::after {clear: both;}
 .clearboth{clear:both;}
 
 /* editinplace */
