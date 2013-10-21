@@ -38,7 +38,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 <ul style="flex-grow:1;display: flex;align-items: center;">
 	<?php if ($_SESSION['behavior'] === 2): ?>
 		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling', FALSE); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
-		<form method="POST" class="none" action="/parsimony_cms/admin/dbDesigner" target="_blank"></form>
+		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"></form>
 	<?php endif; ?>
 	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer', FALSE); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
 	<li class="edit" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
