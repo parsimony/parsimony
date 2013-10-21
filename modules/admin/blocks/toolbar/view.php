@@ -21,12 +21,12 @@ app::$request->page->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		if (isset($_COOKIE['leftToolbarPanel'])) {
 			echo '$(".' . $_COOKIE['leftToolbarPanel'] . '").trigger("click");';
 		} else {
-			echo '$(".modules").trigger("click")';
+			echo '$(".modules").trigger("click");';
 		}
 		if (isset($_COOKIE['rightToolbarPanel'])) {
 			echo '$(".' . $_COOKIE['rightToolbarPanel'] . '").trigger("click");';
 		} else {
-			echo '$(".paneltree").trigger("click")';
+			echo '$(".paneltree").trigger("click");';
 		}
 		?>
 		
