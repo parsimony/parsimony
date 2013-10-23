@@ -27,11 +27,11 @@
  */
 app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 ?>
-<ul class="creation" style="width:200px;">
-	<li class="icons modules sprite floatleft" data-panel="modules" data-sidebar="left"></li>
-	<li class="icons panelblocks sprite floatleft" data-panel="panelblocks" data-sidebar="left"></li>
+<ul class="creation leftSidebarMenu" data-sidebar="left" style="width:200px;">
+	<li class="icons modules sprite floatleft" data-panel="modules"></li>
+	<li class="icons panelblocks sprite floatleft" data-panel="panelblocks"></li>
 	<?php if ($_SESSION['behavior'] === 2): ?>
-		<li class="icons sprite floatleft panelmanage" data-panel="manage" data-sidebar="left"></li>
+		<li class="icons sprite floatleft panelmanage" data-panel="manage"></li>
 	<?php endif; ?>
 </ul>
 
@@ -142,8 +142,8 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 		</div>
 <?php endif; ?>
 </div>
-<ul class="creation" style="width:230px;">
-	<li class="icons sprite paneltree floatright" data-panel="paneltree" data-sidebar="right"></li>
-	<li class="icons sprite panelcss floatright" data-panel="panelcss" data-sidebar="right"></li>
-	<li class="icons sprite themes floatright" data-panel="themes" data-sidebar="right"></li>
+<ul class="creation rightSidebarMenu" data-sidebar="right" style="width:230px;">
+	<li class="icons sprite paneltree floatright" data-panel="paneltree"></li>
+	<li class="icons sprite panelcss floatright" data-panel="panelcss"></li>
+	<li class="icons sprite themes floatright" data-panel="themes"></li>
 </ul>

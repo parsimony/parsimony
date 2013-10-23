@@ -676,6 +676,18 @@ var ParsimonyAdmin = {
 		}, func);
 		//$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");
 	},
+	displayPanel: function(id) {
+		var panel = document.getElementById(id);
+		var sidebar = panel.parentNode;
+		$(".parsiblock",sidebar).hide();
+		panel.style.display = "block";
+		if(sidebar.id == "left_sidebar"){
+			$(".leftSidebarMenu .active").removeClass("active");
+		}else{
+			$(".rightSidebarMenu .active").removeClass("active");
+		}
+		$("." + panel.id).addClass("active");
+	},	
 	removeEmptyTextNodes: function(elem) {
 		var children = elem.childNodes;
 		var child;

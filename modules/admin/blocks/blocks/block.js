@@ -8,8 +8,7 @@ function blockAdminBlocks() {
 
 	this.startDragging = function() {
 		ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage"));
-		$("#right_sidebar .mainTab").removeClass("active");
-		$(".paneltree").addClass("active");
+		ParsimonyAdmin.displayPanel("paneltree");
 	}
 
 	this.changeBlockPosition = function(blockType, idBlock, idNextBlock, startIdParentBlock, stopIdParentBlock, startTypeCont, stopTypeCont, action, content) {

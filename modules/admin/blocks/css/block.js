@@ -1286,8 +1286,7 @@ blockAdminCSS.prototype.openCSSCode = function() {
 }
 
 blockAdminCSS.prototype.openCSSPanel = function() {
-	//$("#right_sidebar .contenttab > .active").removeClass("active"); // todo
-	$(".panelcss").addClass("active");
+	ParsimonyAdmin.displayPanel("panelcss");
 }
 
 

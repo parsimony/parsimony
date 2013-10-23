@@ -1,7 +1,6 @@
-body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;margin-left:200px;}
-body.creationMode{margin-right:230px;}
-body.previewMode{margin-left:0;}
-body.closeleft{margin-left:0;}
+body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
+body.creationMode{margin-right:230px;margin-left:200px;}
+body.previewMode,body.closeleft{margin-left:0;}
 body.closeright{margin-right:0;}
 
 body.closeleft #left_sidebar{left:-200px}
