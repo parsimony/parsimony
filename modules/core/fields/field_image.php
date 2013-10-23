@@ -61,6 +61,42 @@ class field_image extends \field {
 		$this->height = $height;
 		return $this;
 	}
+	
+	public function validate($value) {
+		
+		if (is_array($value) && isset($value['path']) && isset($value['dataURL'])) {
+			$fileName = str_replace('..', '', $value['path']); /* secure relative path */
+			
+			/* find an unused name */
+			$fileInfo = pathinfo($fileName);
+			$base = $fileInfo['filename'];
+			$ext = $fileInfo['extension'];
+			$path = PROFILE_PATH . $this->module . '/' . $this->path . '/';
+			$nbn = 0;
+			while (is_file($path . $fileName)) {
+				$fileName = $base . '_' . $nbn . '.' . $ext;
+				$nbn++;
+			}
+			if (!is_dir($path))
+				\tools::createDirectory($path);
+			
+			/* decode dataURL */
+			$cut = explode(',', $value['dataURL']);  
+			$dataURL = $cut[1];  
+			$dataURL = base64_decode(str_replace(' ','+',$dataURL));
+			//echo str_replace(' ','+',$value['dataURL']);exit;
+			/* save and check image */
+			if (file_put_contents($path . $fileName, $dataURL)) {
+				if ($img = @GetImageSize($path . $fileName)) {
+					return $fileName;
+				} else {
+					return FALSE;
+				}
+			}
+		} else {
+			return parent::validate($value);
+		}
+	}
 
 	/**
 	 * Upload file
