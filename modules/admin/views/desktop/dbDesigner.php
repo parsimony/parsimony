@@ -99,7 +99,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
 	#leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
 	#rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
-	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
+	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
 	.property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
 	#outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 1;}
 	h3{margin:10px 0;font-size:16px;padding-left: 5px;}
@@ -111,7 +111,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.popup{text-align: left;font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;overflow: hidden;border-radius: 2px;width: 50%;position: relative;margin: 0 auto;top: 110px;z-index: 999998;display: none;background-color: #fbfbfb;}
 	.question{font-size: 14px;color: #333;padding: 5px;border: 1px solid #e5e5e5;margin: 11px;line-height: 20px;}
 	.question input{margin-right: 10px;}
-	.conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
+	.conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
 	.entity2,.entity1{font-weight:bold}
 	.title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
 	.tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}

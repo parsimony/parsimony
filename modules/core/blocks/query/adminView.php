@@ -46,23 +46,24 @@ $view = $this->getConfig('view');
 	.queryblock:hover .removeButton{display:block}
 	.tabs{min-width: 1000px;}
 	.innerTabs ul li a {padding: 0 7px;line-height: 23px;}
-	.queryblock{position: relative;margin:1px 2px;border-radius:3px;padding:1px;border: 1px solid #e7e7e7 ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;background: #F7F7F7;}
+	#tabs-criterias{margin-top:10px}
+	.queryblock{position: relative;box-shadow: 1px 1px 1px #e7e7e7;font-weight: bold;color: #383838;text-shadow: 0 1px 0 #ffffff;background: #fefefe;padding-bottom: 10px;margin-right: 5px;margin-left: 5px;}
 	.queryblock a{top: 2px;right: 2px;position: absolute;}
 	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
 	._jsPlumb_connector{cursor: pointer;}
 	.property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
 	.property:hover{background-color: rgb(231,242,255);}
-	.caption{width: 77px;position: absolute;left: -5px;background: #fbfbfb;z-index: 100;float: left;height: 100%;}
-	.caption div{line-height: 25px;padding-left: 5px;border-bottom: #EFEFEF 1px solid;font-weight: bold;letter-spacing: 1.2px;}
+	.caption{position: absolute;left: 5px;z-index: 100;float: left;padding: 10px 0;}
+	.caption div{line-height: 28px;letter-spacing: 1.2px;}
 	#recipiant_sql{width: 10000px;padding-left: 70px;}
 	#recipiant_sql .property{font-weight: normal;padding:5px;width: 130px;background: transparent;border: none;box-shadow:initial;}
 	#recipiant_sql input.property{pointer-events: none}
 	#recipiant_sql .table{background: transparent;border: none;box-shadow:initial;}
 	#recipiant_sql .selector{width:100%}
-	#recipiant_sql select{width:100%;margin-bottom: 0px;margin-top: 5px;}
+	#recipiant_sql select{width: 100%;margin-top: 5px;background-color: #fafafa;}
 	#recipiant_sql .where input{width:110px}
-	#recipiant_sql input[type="checkbox"]{margin-bottom: 2px;margin-top: 3px;}
-	 #recipiant_sql textarea, #recipiant_sql input[type="text"],  #recipiant_sql input[type="password"], #recipiant_sql input[type="file"], #recipiant_sql select{border: 1px solid #e7e7e7;}
+	#recipiant_sql input[type="checkbox"]{margin-bottom: 1px;margin-top: 4px;}
+	 #recipiant_sql textarea, #recipiant_sql input[type="text"],  #recipiant_sql input[type="password"], #recipiant_sql input[type="file"], #recipiant_sql select{border: 1px solid transparent !important;}
 	#schema_sql{position:absolute;height:300px;width: 185px;z-index: 999;display:none;background-color: rgb(245, 245, 245);}
 	.schemasql{color:#383838;letter-spacing: 1.1px;padding-top: 3px;}
 	.schemasql a{text-decoration: none;color: #333;font-weight: bolder;text-transform: capitalize;padding-left: 4px;}
@@ -77,16 +78,18 @@ $view = $this->getConfig('view');
 	.textdbquery{font-size: 12px;letter-spacing: 1px;line-height: 20px;z-index: 999;position:relative;padding: 4px;}
 	.textdbquery input[type="checkbox"]{position:relative;top:4px}
 	#resultpreview .pagination{display:none}
-	#recipiant_sql_cont{position:relative;width: 1200px;overflow-x: auto;padding: 0px 0px;background: white;margin: 6px 2px 0 0;min-height:182px}
+	#recipiant_sql_cont{position: relative;width: 1200px;overflow-x: auto;background: #fafafa;min-height: 222px;padding: 10px 0;}
 	.aggregate,.aggregate{width:100%}
 	#accordionBlockConfig h3{color: #2E63A5;padding: 7px 0;}
-	#recipiant_sql input[type="text"].table {border:none !important;}
-	#recipiant_sql input[type="text"]{padding: 5px 3px 2px 2px;}
+	#recipiant_sql input[type="text"]{background-color: #fafafa;width: 130px;}
+	#recipiant_sql input[type="text"].property{background-color: transparent;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
+	#recipiant_sql .borderb{border-bottom: 3px solid rgb(45, 193, 238);}
+	#recipiant_sql input[type="text"].table{border: none !important;background-color: transparent;padding-left: 15px;text-transform: capitalize;}
 	a{text-decoration: none;}
 	.propertyJoin{width:199px;line-height:25px;font-weight: bold;font-family: sans-serif}
 	.propertyJoinLeft{text-align: right;padding-right: 7px}
 	.propertyJoinRight{text-align: left;padding-left: 7px}
-	.bloctitle {border-radius: 3px;color: white;background: #1b74a4;cursor:move;}
+	.bloctitle {background: transparent;cursor:move;}
 	.bloctitle input {text-shadow: none;font-size: 13px;border : none !important;color: white;}
 	input.filter,input.sort{margin:3px 0}
 	#linksWrapper{padding:5px;border-bottom:1px solid #ddd;border-left:1px solid #ddd;position: absolute;right:0;width:525px;background: #fff;display:none;z-index: 999;}
@@ -105,18 +108,27 @@ $view = $this->getConfig('view');
 	.labelConnectorsd:hover{background:#eee;cursor:pointer}
 	.inaccessible{opacity:0.1}
 	.accessible{opacity:0.5}
-	.deletator{display:none;cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png);}
+	.deletator{display:none;cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
 	.deletator2{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;}
 	.tableCont .deletator{display:block;}
 	#generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
-	.removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px; whiteSmoke;display: none;overflow: hidden;width: 16px;height: 16px;}
-	#queryCanvasWrapper{position: relative;height:320px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');}
+	.removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;display: none;overflow: hidden;width: 16px;height: 16px;}
+	#queryCanvasWrapper{position: relative;height:320px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');border-bottom: 1px solid #eaeaea;}
 	#regenerateview{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') 0 -33px no-repeat;width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
 	#regenerateview:checked{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') no-repeat}
 	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview:checked:hover {background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
 	#regenerateview[type='checkbox']:checked::before{content : " "}
 	.ui-state-highlight{border:#ccc 70px solid;float:left;}
+	#form{clear: both;position: relative;margin-left: 10px;}
+	.sqlorder{margin: 0 10px;}
+	.sqltotal{margin: 0 10px;padding-top: 5px;}
+	#recipiant_sql input[type="text"].where,#recipiant_sql input[type="text"].or {margin: 0 10px;}
+	#recipiant_sql input[type="text"].where:hover, #recipiant_sql input[type="text"].or:hover,#recipiant_sql input[type="text"].where:focus, #recipiant_sql input[type="text"].or:focus{background: #ececec;}
+	#recipiant_sql input[type="text"].property{background-color: transparent;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
+	#recipiant_sql select:enabled:hover{background-color: #ececec;}
+	#recipiant_sql .checkb{line-height: 13px;padding: 3px 0 0;}
+	
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination', FALSE); ?></label>
@@ -184,7 +196,7 @@ $view = $this->getConfig('view');
 			</div>
 			<div id="queryCanvas" style="width:100%;height:100%"></div>
 		</div>
-		<div class="innerTabs" style="margin-top:10px">
+		<div class="innerTabs">
 			<ul>
 				<li class="active"><a href="#tabs-criterias"><?php echo t('Criterias', FALSE); ?></a></li>
 				<li><a href="#tabs-result"><?php echo t('Result', FALSE); ?> <span id="labelresult"></span></a></li>
@@ -195,8 +207,8 @@ $view = $this->getConfig('view');
 						<span class="removeButton"></span>
 					</a>
 					<div class="bloctitle"><input class="property" type="text" value=""></div>
-					<div><input class="table" type="text" value=""></div>
-					<div class="sqlselect">
+					<div class="borderb"><input class="table" type="text" value=""></div>
+					<div class="sqltotal">
 						<select class="aggregate">
 							<option value=""></option>
 							<option value="groupby"><?php echo t('GROUP', FALSE); ?></option>
@@ -207,25 +219,25 @@ $view = $this->getConfig('view');
 							<option value="sum"><?php echo t('SUM', FALSE); ?></option>
 						</select>
 					</div>
-					<div>
+					<div class="sqlorder">
 						<select class="order">
 							<option value=""></option>
 							<option value="asc"><?php echo t('Ascending', FALSE); ?></option>
 							<option value="desc"><?php echo t('Descending', FALSE); ?></option>
 						</select>
 					</div>
-					<div class="align_center"><input class="display" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="display" type="checkbox" checked="checked"></div>
 					<div style="padding: 3px 0;"><input class="where" type="text"></div>
 					<div><input class="or" type="text"></div>
-					<div class="align_center"><input class="filter" type="checkbox" checked="checked"></div>
-					<div class="align_center"><input class="sort" type="checkbox" checked="checked"></div>
-					<div class="align_center"><input class="group" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="filter" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="sort" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="group" type="checkbox" checked="checked"></div>
 				</div>         
-				<div id="form" action="" style="clear: both;position: relative">
+				<div id="form" action="">
 					<div class="caption">
-						<div><?php echo t('Property', FALSE); ?></div>
-						<div><?php echo t('Entity', FALSE); ?></div>
-						<div><?php echo t('Total', FALSE); ?></div>
+						<div style="line-height: 24px;"><?php echo t('Property', FALSE); ?></div>
+						<div style="line-height: 21px;"><?php echo t('Entity', FALSE); ?></div>
+						<div style="padding-top: 10px;"><?php echo t('Total', FALSE); ?></div>
 						<div><?php echo t('Order', FALSE); ?></div>
 						<div><?php echo t('Display', FALSE); ?></div>
 						<div><?php echo t('Criteria', FALSE); ?></div>

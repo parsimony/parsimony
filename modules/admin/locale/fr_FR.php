@@ -291,4 +291,5 @@ $lang['Your Attention Please : If you change the name of the table, you will bre
 $lang['Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.']= 'Votre Attention : Si vous changez le nom de la propriété, vous allez désactiver toutes vos requêtes déjà effectuées avec l\'ancien nom.';
 $lang['Development = concatenation of CSS and JavaScript files is updated each time a change is made'] = 'Development = concaténation des fichiers CSS et javascript à chaque modification';                    
 $lang['Production = CSS & JavaScript files are not updated after each modification and are cached'] = 'Production = les fichiers CSS et javascript ne sont pas recontactés à chaque modification et ils restent en cache';       
+$lang['Enter an ID for the new block'] = 'Entrez un identifiant pour ce nouveau bloc';
 ?>

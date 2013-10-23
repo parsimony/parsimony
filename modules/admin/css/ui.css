@@ -225,7 +225,6 @@ background-image: linear-gradient(top,#F9F9F9,#ECECEC);
 
 /* ################ Icon CSS Sprite of Jquery UI ################## */
 .ui-icon {padding: 8px 9px 8px 7px; width: 16px; height: 16px;background-color:transparent; background-image: url(admin/img/icons.png);display: block;overflow: hidden;}
-.ui-icon-white{background-image: url(admin/img/icons_white.png);padding: 8px 9px 8px 7px; width: 16px; height: 16px;background-color:transparent;display: block;overflow: hidden;}
 .ui-icon-arrowthick-2-e-w { background-position: -160px -48px; }
 .ui-icon-arrow-4 { background-position: 0 -80px; }
 .ui-icon-extlink { background-position: -32px -80px; }

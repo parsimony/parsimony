@@ -92,7 +92,7 @@
 	#modifmodel3 .adminzonetab a:hover {background: #ccc;}
 	#modifmodel3 .adminzonetab:hover span.ui-icon-closethick {display: inline-block;position: absolute;right: 0;margin: 1px -2px 0px 0px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;}
 	#modifmodel3 span.ui-icon-closethick {display: none;}
-	#modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons_white.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
+	#modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
 	.updateBTN{text-align: center;width: 20px;padding:2px}
 	.adminzone{background: #fefefe;padding-top: 15px;}
 	.adminzonecontent{min-width:900px;bottom:initial;top:initial;left:0;border-left:0;background: transparent}

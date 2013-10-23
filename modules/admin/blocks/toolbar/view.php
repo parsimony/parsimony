@@ -103,11 +103,11 @@ echo $admin->display();
 </div>
 <div id="dialog" style="display:none;width: 450px;">
 	<span id="conf_box_close" onclick="top.ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
-	<div id="conf_box_title"><?php echo t('Entrez un identifiant pour ce nouveau bloc') ?></div>
-	<div style="text-align: center;padding: 20px 0;background:#fbfbfb"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
-	<div style="text-align: right;padding: 10px;background: #E2E2E2;border-top: 1px solid #BBB;">
-		<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>" style="margin-right: 10px;" />
-		<input type="button" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" />
+	<div id="conf_box_title"><?php echo t('Enter an ID for the new block') ?></div>
+	<div id="dialog-input"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
+	<div id="dialog-ac">
+		<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>"/>
+		<input type="button" id="dialog-cancel" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" />
 	</div>
 </div>
 <iframe name="formResult" id="formResult" src="" class="none"></iframe>
