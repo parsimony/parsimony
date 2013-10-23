@@ -137,11 +137,7 @@ color: #777;
 			?>
 			<div class="adminzonetab" style="float: right;margin:20px"><a href="#addmodel" id="addmodelbtn"><?php echo t('Add', FALSE); ?></a></div>
 		</div>
-		<div id="datagridajaxsearch" class="admintabs">
-			<?php
-			include('modules/admin/views/desktop/datagrid.php');
-			?>
-		</div>
+		<div id="datagridajaxsearch" class="admintabs"></div>
 		<div id="addmodel" class="admintabs none">
 			<?php
 			echo str_replace('action=""','target="formResult" action=""',$obj->getViewAddForm(TRUE));

@@ -271,13 +271,14 @@ abstract class block {
 					$view = $this->getView();
 					$html .= $view;
 				} catch (\Exception $e) {
-					if($_SESSION['behavior'] == 2){
+					if($_SESSION['behavior'] === 2){
 						/* Display Error or exception just for the dev */
 						ob_clean();
 						$html .= '<div class="PHPError"><div class="titleError"><strong>Block </strong>#'.$this->getId().' </div>';
 						$html .= '<div class="error"> <strong>'.t('Error').' '.t('in line').' </strong>'.$e->getLine().' : </strong>'.$e->getMessage().'</div>';
 						$html .= '<div class="file"><strong>File : </strong>'.$e->getFile().'</div></div>';
 					}
+					unset($GLOBALS['lastError']); /* to avoid to display error at the end of page load*/
 				}
 			}
 			$html .= '</' . $balise . '>';

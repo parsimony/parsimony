@@ -167,12 +167,6 @@ class view extends queryBuilder implements \Iterator {
 		return $this;
 	}
 
-	public function isEmpty() {
-		$this->buildQuery();
-		if (is_object($this->_SQL['stmt'])) return !(bool)$this->_SQL['stmt']->fetch();
-		else return TRUE;
-	}
-
 	/**
 	 * Return properties in order to serialize it
 	 * @return array of SQL properties

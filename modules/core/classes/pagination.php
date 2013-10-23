@@ -94,25 +94,28 @@ class pagination {
      * @return string
      */
     public function __toString() {
-        $html = '<div class="pagination">';
-        if ($this->currentPage > 1) {
-            $html .= '<a href="?page=1" data-page="1"> << </a>';
-        }
-        if ($this->itemsPerPage > 1) {
-            for ($i = 1; $i <= $this->nbPages; $i++) {
-                if ($this->currentPage === $i)
-                    $actif = ' active';
-                else
-                    $actif = '';
-                $html .= '<a href="?page=' . $i . '" data-page="' . $i . '" class="' . $actif . '">' . $i . '</a> ';
-            }
-        }
+		if($this->nbPages > 1){
+			$html = '<div class="pagination">';
+			if ($this->currentPage > 1) {
+				$html .= '<a href="?page=1" data-page="1"> << </a>';
+			}
+			if ($this->itemsPerPage > 1) {
+				for ($i = 1; $i <= $this->nbPages; $i++) {
+					if ($this->currentPage === $i)
+						$actif = ' active';
+					else
+						$actif = '';
+					$html .= '<a href="?page=' . $i . '" data-page="' . $i . '" class="' . $actif . '">' . $i . '</a> ';
+				}
+			}
 
-        if ($this->currentPage < $this->nbPages) {
-            $html .= '<a href="?page=' . $this->nbPages . '" data-page="' . $this->nbPages . '"> >> </a>';
-        }
-        $html .= '</div>';
-        return $html;
+			if ($this->currentPage < $this->nbPages) {
+				$html .= '<a href="?page=' . $this->nbPages . '" data-page="' . $this->nbPages . '"> >> </a>';
+			}
+			$html .= '</div>';
+			return $html;
+		}
+        return '';
     }
 
 }

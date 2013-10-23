@@ -78,7 +78,6 @@ class query extends code {
 			$myView->setPagination(TRUE);
 		if ($this->getConfig('nbitem') != '')
 			$myView->limit($this->getConfig('nbitem'));
-		$myView->buildQuery(TRUE);
 
 		$this->setConfig('view', $myView);
 

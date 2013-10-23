@@ -288,6 +288,7 @@ $view = $this->getConfig('view');
 					<div id="resultpreview">
 						<?php
 						if (is_object($view)) {
+							$view->buildQuery();
 							$sql = $view->getSQL();
 							$search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
 							$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');

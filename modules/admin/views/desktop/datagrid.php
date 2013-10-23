@@ -25,80 +25,67 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+$id = '';
+$title = '';
+if($obj instanceof \entity){
+	$obj->prepareFieldsForDisplay();
+	$id = $obj->getId()->name;
+	$title = $obj->getBehaviorTitle();
+}
+$obj->setPagination(TRUE);
+$obj->buildQuery(TRUE);
+$fields = $obj->getFields();
+$aliasClasses = array_flip(\app::$aliasClasses);
 ?>
+<style>.field_formasso{display:none}</style>
 <div class="datagridWrapper">
     <table class="datagrid">
         <thead>
             <tr>
                 <?php
-                if(method_exists($obj, "prepareFieldsForDisplay")) $obj->prepareFieldsForDisplay();
-                foreach ($obj->getFields() as $field) :
-                    if (get_class($field) !== 'core\fields\field_formasso') :
-                        if ($field->visibility & DISPLAY) :
-                            ?>
-                        <th><?php echo t(ucfirst(trim($field->label))); ?></th>
-                            <?php
-                        endif;
-                    endif;
-                endforeach;
-                if (isset($modifModel)):
-                    ?>
-                <th></th>
-                    <?php
-                endif;
-                ?>
+                foreach ($fields as $field) :
+					if ($field->visibility & DISPLAY) : ?>
+						<th class="<?php echo $aliasClasses[get_class($field)]; ?>"><?php echo t(ucfirst($field->label), FALSE); ?></th>
+						<?php
+					endif;
+                endforeach; ?>
             </tr>
         </thead>
         <tbody>
             <?php
-            if ($obj !== FALSE) :
-                $id = '';
-                $title = '';
-                if($obj instanceof \entity){
-                    $id = $obj->getId()->name;
-                    $title = $obj->getBehaviorTitle();
-                }
-                $obj->setPagination(TRUE);
-				if(get_class($obj) === 'core\classes\view') $obj->buildQuery(TRUE);//to force rebuild view
-                foreach ($obj as $row) :
-                    ?>
-                    <tr class="line">
-                        <?php
-                        foreach ($obj->getFields() as $field) :
-                            if ($field->visibility & DISPLAY) :
-                                $fieldName = $field->name;
-                                $class = '';
-                                if ($fieldName === $id) {
-                                    $class = ' datagrid_id';
-                                }
-                                if ($fieldName === $title) {
-                                    $class .= ' datagrid_title';
-                                }
-                                if (get_class($field) !== 'core\fields\field_formasso') :
-                                    ?>
-                                <td class="column<?php echo $class; ?>">
-									<?php
-									if(substr($field->views['grid'],-8) === 'grid.php'){ /* to alias fields values */
-										echo $row->$fieldName()->displayGrid();
-									}else{
-										echo $row->$fieldName;
-									}
-									?>
+			if (!$obj->isEmpty()) :
+				foreach ($obj as $row) : ?>
+					<tr class="line">
+						<?php 
+						foreach ($fields as $field) :
+							if ($field->visibility & DISPLAY) :
+								$fieldName = $field->name;
+								$class = $aliasClasses[get_class($field)];
+								if ($fieldName === $id) {
+									$class .= ' datagrid_id';
+								}
+								if ($fieldName === $title) {
+									$class .= ' datagrid_title';
+								}
+								?>
+								<td class="column <?php echo $class; ?>">
+									<?php echo $row->$fieldName()->displayGrid(); ?>
 								</td>
-                                    <?php
-                                endif;
-                            endif;
-                        endforeach;
-                        if (isset($modifModel)):
-                            ?>
-                        <td class="updateBTN"><span class="ui-icon ui-icon-pencil"></span></td>
-                            <?php
-                        endif;
-                        ?>
-                    </tr>
-                    <?php
-                endforeach;
-            endif;
+								<?php
+							endif;
+						endforeach;
+						if (isset($modifModel)): ?>
+							<td class="updateBTN"><span class="ui-icon ui-icon-pencil"></span></td>
+							<?php
+						endif; ?>
+					</tr>
+					<?php
+				endforeach;
+			else: ?>
+				<tr class="line noResults"><td colspan="20"><?php echo t('No results'); ?></td></tr>
+			<?php
+			endif;
             ?>
         </tbody>
     </table>

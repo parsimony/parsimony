@@ -819,13 +819,15 @@ class admin extends \module {
 	 */
 	protected function searchDataAction($module, $entity, $search, $limit = 10) {
 		$obj = \app::getModule($module)->getEntity($entity);
+		$obj->prepareFieldsForDisplay();
 		$wheres = array();
 		foreach ($obj->getFields() as $field) {
-				if(get_class($field) !== \app::$aliasClasses['field_formasso'])
-					$wheres[] = $field->name . ' like :where' . $field->name;
-				\app::$request->setParam('where' . $field->name , '%' . $search . '%'); // set value to be used in prepared query
+			if ($field->type !== ''){ /* field_formasso */
+				$wheres[] = $field->sqlFilter($search);	
+			}
 		}
-		$obj = $obj->where(implode(' OR ', $wheres))->limit($limit);
+	
+		$obj->where(implode(' OR ', $wheres))->limit($limit);
 		$modifModel = TRUE; /* To enable edit link */
 		ob_start();
 		require('modules/admin/views/desktop/datagrid.php');
@@ -882,15 +884,16 @@ class admin extends \module {
 		} else {
 			return t('No data for this query.', FALSE);
 		}
-		$view->buildQuery(TRUE);
+		$view->setPagination(TRUE);
+		$view->buildQuery();
 		$obj = $view;
 		ob_start();
 		$sql = $obj->getSQL();
-		$search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
-		$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
-		echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
+		$search = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
+		$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ', '<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
+		echo '<div id="generatedsql">' . str_replace($search, $replace, $sql['query']) . '</div>';
 		require('modules/admin/views/desktop/datagrid.php');
-		echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
+		echo '<script> document.getElementById("labelresult").textContent = "( ' . $sql['pagination']->getNbRow() . ' )";</script>';
 		return ob_get_clean();
 	}
 
@@ -1259,13 +1262,15 @@ class ' . $table->name . ' extends \entity {
 						} else {
 							$field->addColumn($nameFieldBefore);
 						}
-						if (get_class($field) !== \app::$aliasClasses['field_formasso'])
+						if ($field->type !== ''){ /* field_formasso */
 							$nameFieldBefore = $field->name;
+						}
 					}
 					if(!empty($oldSchema[$field->entity])){
 						foreach ($oldSchema[$field->entity] as $fieldName => $value) {
-							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) )
+							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ){
 								$field->deleteColumn();
+							}
 						}
 					}
 					

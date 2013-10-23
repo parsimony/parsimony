@@ -217,7 +217,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			$query = 'INSERT INTO ' . PREFIX . $this->_tableName . '(';
 			$params = '';
 			foreach ($this->getFields() as $field) {
-				if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
+				if ($field->type !== ''){ /* field_formasso */
 					foreach ($field->getColumns() AS $column){
 						$query .= $column . ',';
 						$params .= ':' . $column . ',';
@@ -231,7 +231,6 @@ abstract class entity extends queryBuilder implements \Iterator {
 			if (!is_array($values)) 
 				return $values; // FALSE : error message
 			$res = $sth->execute($values);
-			$this->purgeSQL();
 			if($res !== FALSE) {
 				$lastId = $values[':'.$this->getId()->name] = \PDOconnection::getDB()->lastInsertId(); // should be before afterInsert
 				$this->afterInsert($values);
@@ -255,9 +254,10 @@ abstract class entity extends queryBuilder implements \Iterator {
 			if($vars === FALSE) return FALSE;
 			$query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
 			foreach ($this->getFields() as $name => $field) {
-				if (get_class($field) !== \app::$aliasClasses['field_formasso'] && isset($vars[$name]))
+				if ($field->type !== '' /* field_formasso */ && isset($vars[$name])){
 					foreach ($field->getColumns() AS $column)
 						$query .= $column . ' = :' . $column . ',';
+				}
 			}
 			$query = substr($query, 0, -1);
 			if (isset($this->_SQL['wheres'])) {
@@ -270,7 +270,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			if (!is_array($values)) 
 				return $values; // FALSE : error message
 			$res = $sth->execute($values);
-			$this->purgeSQL();
+			unset($this->_SQL['wheres']);
 			if($res !== FALSE) {
 				$this->afterUpdate($values);
 				\app::dispatchEvent('afterUpdate', array($vars, &$this));
@@ -676,21 +676,10 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 }
 
 	 /**
-	  * Clean the entity object
-	  */
-	 public function purgeSQL() {
-		 unset($this->_SQL['selects']);
-		 unset($this->_SQL['wheres']);
-		 unset($this->_SQL['joins']);
-		 unset($this->_SQL['orders']);
-		 unset($this->_SQL['limit']);
-	 }
-
-	 /**
 	  * Clean entity for storing
 	  */
 	 public function __sleep() {
-		 $this->purgeSQL();
+		 unset($this->_SQL);
 		 $properties = get_object_vars($this);
 		 unset($properties['fields']);
 		 $fields = array_keys($properties);

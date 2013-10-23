@@ -229,34 +229,36 @@ class queryBuilder {
 	 * Build the query and his PDO statement with SQL infos already set to this object
 	 * @return bool
 	 */
-	public function buildQuery($forceRebuild = true) {
-	
-		if(isset($this->_tableName)){ /* for entity */
-			$this->_SQL['froms'][$this->_tableName] = $this->_tableName;
-		}
+	public function buildQuery($forceRebuild = FALSE) {
+		
+		if (!isset($this->_SQL['stmt']) || $forceRebuild) { /* exec query once a page load */
+			
+			\app::dispatchEvent('beforeBuildQuery', array());
 
-		\app::dispatchEvent('beforeBuildQuery', array());
-		if(!isset($this->_SQL['query']) || isset($this->_SQL['wheres']) || !empty($_POST) || $forceRebuild){ // query cache
+			/* SELECT */
 			$query = 'SELECT ';
-			foreach ($this->getFields() as $field) {
-				$id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
-				if(get_class($field) === \app::$aliasClasses['field_formasso']){
-					$currentEntity = \app::getModule($field->module)->getEntity($field->entity);
-					$foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
-					$idNameForeignEntity = $foreignEntity->getId()->name;
-					$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT('. $field->module.'_'. $field->entity_foreign.'.'.$idNameForeignEntity . ',\'||\','. $field->module.'_'. $field->entity_foreign.'.'.$foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
-					$this->groupBy($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name);
-					$this->join($field->module.'_'.$field->entity.'.'.$currentEntity->getId()->name, $field->module.'_'.$field->entity_asso.'.'.$currentEntity->getId()->name, 'inner join');
-					$this->join($field->module.'_'.$field->entity_asso.'.'.$idNameForeignEntity, $field->module.'_'.$field->entity_foreign.'.'.$idNameForeignEntity, 'inner join');
-				} elseif ($this->getField($id) === FALSE) {
-					$this->select($field->module . '_' . $field->entity . '.' . $id, TRUE);
+			if(isset($this->_tableName)){ /* only for entity, to define selects */
+				$this->_SQL['selects']['*'] = '*';
+				foreach ($this->getFields() as $field) {
+					$id = app::getModule($field->module)->getEntity($field->entity)->getId()->name;
+					if (get_class($field) === \app::$aliasClasses['field_formasso']) {
+						$currentEntity = \app::getModule($field->module)->getEntity($field->entity);
+						$foreignEntity = \app::getModule($field->module)->getEntity($field->entity_foreign);
+						$idNameForeignEntity = $foreignEntity->getId()->name;
+						$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $field->module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $field->module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+						$this->groupBy($field->module . '_' . $field->entity . '.' . $currentEntity->getId()->name);
+						$this->join($field->module . '_' . $field->entity . '.' . $currentEntity->getId()->name, $field->module . '_' . $field->entity_asso . '.' . $currentEntity->getId()->name, 'inner join');
+						$this->join($field->module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $field->module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'inner join');
+					} elseif ($this->getField($id) === FALSE) {
+						$this->select($field->module . '_' . $field->entity . '.' . $id, TRUE);
+					}
 				}
+				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
 			}
-			if (isset($this->_SQL['selects'])) {
-				$query .= implode(',', $this->_SQL['selects']);
-			} else {
-				$query .= '*';
-			}
+			$query .= implode(',', $this->_SQL['selects']);
+
+
+			/* FROM */
 			if (count($this->_SQL['froms']) === 1 && empty($this->_SQL['joins'])) {
 				$query .= ' FROM ' . reset($this->_SQL['froms']);
 			} else {
@@ -270,6 +272,8 @@ class queryBuilder {
 					$query .= ' ' . $join['type'] . ' ' . $tableRight . ' ON ' . $join['propertyLeft'] . ' = ' . $join['propertyRight'];
 				}
 			}
+
+			/* WHERE */
 			$vars = array(); // init here for pagination
 			if (isset($this->_SQL['wheres'])) {
 				$wheres = array();
@@ -299,9 +303,13 @@ class queryBuilder {
 				}
 				if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
 			}
+
+			/* GROUP BY */
 			if (isset($this->_SQL['groupBys'])) {
 				$query .= ' GROUP BY ' . implode(' ,', $this->_SQL['groupBys']);
 			}
+
+			/* ORDER */
 			if (isset($this->_SQL['orders'])) {
 				$orders = array();
 				foreach ($this->_SQL['orders'] AS $property => $order) {
@@ -309,12 +317,17 @@ class queryBuilder {
 				}
 				$query .= ' ORDER BY ' . implode(',', $orders);
 			}
-			
-			if(PREFIX !== ''){/* must be before pagination */
-				foreach($this->_SQL['froms'] AS $table){
-					$query = str_replace($table, PREFIX.$table, $query);
+
+			/* DB PREFIX */
+			if (PREFIX !== '') {/* must be before pagination */
+				$query .= ' '; /* tip to replace from table */
+				foreach ($this->_SQL['froms'] AS $table) {
+					$query = str_replace($table . ' ', PREFIX . $table . ' ', $query);
+					$query = str_replace($table . '.', PREFIX . $table . '.', $query);
 				}
 			}
+
+			/* LIMIT */
 			if (isset($this->_SQL['limit'])) {
 				$limit = ' LIMIT 0,' . $this->_SQL['limit'];
 				if (isset($this->_SQL['pagination']) && $this->_SQL['pagination'] !== FALSE) {
@@ -324,25 +337,19 @@ class queryBuilder {
 				}
 				$query .= $limit;
 			}
-			$this->_SQL['valid'] = TRUE;
 			$this->_SQL['query'] = $query;
-		}else{
-			$query = $this->_SQL['query'];
-		}
 
-		if(!empty($vars)){
-			$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
-			$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
-			$this->_SQL['stmt']->execute($vars);
-		}else{
-			$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
+			/* EXEC query */
+			if(!empty($vars)){
+				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
+				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
+				$this->_SQL['stmt']->execute($vars);
+			}else{
+				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
+			}
+			$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
 		}
-
-		if (is_object($this->_SQL['stmt'])) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
+		return is_object($this->_SQL['stmt']);
 	}
 	
 	/* Iterator interface */
@@ -352,7 +359,7 @@ class queryBuilder {
 	  */
 	 public function rewind() {
 		 if($this->buildQuery()){
-			 if($this->_SQL['stmt']->fetch() !== FALSE){
+			 if($this->_SQL['firstFetch'] !== FALSE){
 				 return $this->_SQL['position'] = 0;
 			 }
 		 }
@@ -400,6 +407,12 @@ class queryBuilder {
 			 return FALSE;
 		 }
 	 }
+	 
+	 public function isEmpty() {
+		$this->buildQuery();
+		if (is_object($this->_SQL['stmt'])) return !(bool)$this->_SQL['firstFetch'];
+		else return TRUE;
+	}
 
 }
 
