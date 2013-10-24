@@ -212,8 +212,11 @@ class queryBuilder {
 	  * @return array
 	  */
 	 public function fetchAll($fetchStyle = \PDO::FETCH_INTO) {
-		 $this->buildQuery();
-		 return $this->_SQL['stmt']->fetchAll($fetchStyle);
+		 if($this->buildQuery()){
+			 return $this->_SQL['stmt']->fetchAll($fetchStyle);
+		 }else{
+			 return FALSE;
+		 }
 	 }
 	 
 	 /**
@@ -347,7 +350,6 @@ class queryBuilder {
 			}else{
 				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
 			}
-			$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
 		}
 		return is_object($this->_SQL['stmt']);
 	}
@@ -358,13 +360,16 @@ class queryBuilder {
 	  * Rewind the cursor to the first row
 	  */
 	 public function rewind() {
-		 if($this->buildQuery()){
-			 if($this->_SQL['firstFetch'] !== FALSE){
-				 return $this->_SQL['position'] = 0;
-			 }
-		 }
-		 $this->_SQL['position'] = FALSE;
-	 }
+		 if ($this->buildQuery()) {
+			if (!isset($this->_SQL['firstFetch'])) { /* first fetch could be exec by a rewind or isEmpty */
+				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
+			}
+			if ($this->_SQL['firstFetch'] !== FALSE) {
+				return $this->_SQL['position'] = 0;
+			}
+		}
+		$this->_SQL['position'] = FALSE;
+	}
 
 	 /**
 	  * Get the current row
@@ -409,9 +414,14 @@ class queryBuilder {
 	 }
 	 
 	 public function isEmpty() {
-		$this->buildQuery();
-		if (is_object($this->_SQL['stmt'])) return !(bool)$this->_SQL['firstFetch'];
-		else return TRUE;
+		if ($this->buildQuery()) {
+			if (!isset($this->_SQL['firstFetch'])) {
+				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
+			}
+			if (is_object($this->_SQL['stmt']))
+				return !(bool) $this->_SQL['firstFetch'];
+		}
+		return TRUE;
 	}
 
 }

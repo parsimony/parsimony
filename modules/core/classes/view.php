@@ -180,6 +180,7 @@ class view extends queryBuilder implements \Iterator {
 		unset($this->_SQL['valid']);
 		unset($this->_SQL['stmt']);
 		unset($this->_SQL['position']);
+		unset($this->_SQL['firstFetch']);
 		return array('fields', '_SQL');
 	}
 
