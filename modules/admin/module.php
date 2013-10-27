@@ -908,7 +908,7 @@ class admin extends \module {
 		$obj = \app::getModule($module)->getEntity($entity);
 		$obj->prepareFieldsForDisplay();
 		\app::$request->setParam('idviewupdate' , $id); // set value to be used in prepared query
-		return str_replace('action=""','target="formResult" action=""',$obj->where($obj->getId()->name. '=:idviewupdate')->fetch()->getViewUpdateForm());
+		return str_replace('action=""','target="formResult" action=""',$obj->where($module . '_' . $entity . '.' . $obj->getId()->name. '=:idviewupdate')->fetch()->getViewUpdateForm());
 	}
 
 	/**
