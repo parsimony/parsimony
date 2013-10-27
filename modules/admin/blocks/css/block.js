@@ -128,23 +128,23 @@ function blockAdminCSS() {
 		.on("click.creation", "#savemycss", function() {
 			/* Save changes */
 			$.post(BASE_PATH + "admin/saveCSS", {
-				changes: ParsimonyAdmin.CSSValuesChanges
+				changes: JSON.stringify(ParsimonyAdmin.CSSValuesChanges) /* encode to allow a [class="tt"] selectors */
 			}, function(data) {
 				ParsimonyAdmin.execResult(data);
-			});
-			/* Update CSSValues */
-			for (var file in ParsimonyAdmin.CSSValuesChanges) {
-				for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
-					if (ParsimonyAdmin.CSSValues[file] && ParsimonyAdmin.CSSValues[file][key]) {
-						ParsimonyAdmin.CSSValues[file][key].s = ParsimonyAdmin.CSSValuesChanges[file][key].selector;
-						ParsimonyAdmin.CSSValues[file][key].p = ParsimonyAdmin.CSSValuesChanges[file][key].value;
+				/* Update CSSValues */
+				for (var file in ParsimonyAdmin.CSSValuesChanges) {
+					for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
+						if (ParsimonyAdmin.CSSValues[file] && ParsimonyAdmin.CSSValues[file][key]) {
+							ParsimonyAdmin.CSSValues[file][key].s = ParsimonyAdmin.CSSValuesChanges[file][key].selector;
+							ParsimonyAdmin.CSSValues[file][key].p = ParsimonyAdmin.CSSValuesChanges[file][key].value;
+						}
 					}
 				}
-			}
-			/* Clean changes */
-			ParsimonyAdmin.CSSValuesChanges = {};
-			/* Reinit UI */
-			$this.checkChanges();
+				/* Clean changes */
+				ParsimonyAdmin.CSSValuesChanges = {};
+				/* Reinit UI */
+				$this.checkChanges();
+			});
 		})
 
 		/* Reinit changes */
@@ -1265,7 +1265,8 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 }
 
 blockAdminCSS.prototype.formatCSS = function(css) {
-	return css.replace(/:[^a-z0-9-]*/g, ": ").replace(/;[^a-z-]*/g, ";\n");
+	/* must manage with back : #ffffff and back: url(http://dom) */
+	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#]*/g, "$1$2 ");
 }
 
 blockAdminCSS.prototype.openCSSForm = function() {
@@ -1316,16 +1317,15 @@ function CSSlight(elmt) {
 		var highlighted = '';
 		var gutter = '<span class="CSSLightgutter"><span class="CSSLighthider"></span></span>';
 		var line = 2;
-		var search = ":";
+		var search = "[:\n]";
 		var error = false;
 		while (content.length > 0) {
-			var char = content.match(/[:;\n]/);
+			var regex = new RegExp(search);
+			var char = content.match(regex);
 			if (char !== null) {
-				if (!error && char[0] !== search)
-					error = true;
 				switch (char[0]) {
 					case "\n":
-						var search = ":";
+						var search = "[:\n]";
 						var cont = content.substring(0, char.index).trim();
 						if (cont.length > 0) {
 							error = true;
@@ -1335,11 +1335,11 @@ function CSSlight(elmt) {
 						line++;
 						break;
 					case ":":
-						var search = ";";
+						var search = "[;\n]";
 						highlighted += '<span class="' + (error ? "CSSLightother" : "CSSLightproperty") + '">' + content.substring(0, char.index) + '</span><span class="CSSLighttwopoints">:</span>';
 						break;
 					case ";":
-						var search = "\n";
+						var search = "[\n]";
 						highlighted += '<span class="' + (error ? "CSSLightother" : "CSSLightvalue") + '">' + content.substring(0, char.index) + '</span><span class="CSSLightcoma">;</span>';
 						break;
 				}

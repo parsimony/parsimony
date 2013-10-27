@@ -407,8 +407,8 @@ class admin extends \module {
 	 * @param string $selector
 	 * @return string 
 	 */
-	protected function saveCSSAction(array $changes = array()) {
-
+	protected function saveCSSAction($changes) {
+		$changes = json_decode($changes, TRUE);
 		if(!empty($changes)){
 			foreach ($changes AS $file => $selectors) {
 				/* If CSS file doesn't exists in profile/ dir, we create a copy from modules/ */
