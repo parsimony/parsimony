@@ -154,11 +154,7 @@ class queryBuilder {
 			list($module, $entity) = explode('_', $tableName, 2);
 			$this->fields[$alias] = new \field_ident ($module, $entity, $propertyName); /* $propertyName for name to keep his origin sql name  */
 			$this->fields[$alias]->setLabel($alias);
-			if(!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0);
-			else {
-				unset($this->_SQL['selects'][$propertyName]) ;
-				unset($this->fields[$propertyName]);
-			}
+			if(!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0); /* no display in datagrid */
 		}
 		return $this;
 	}

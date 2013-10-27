@@ -285,7 +285,7 @@ namespace core\classes {
 		 * @param string $eventName
 		 * @param array|string $callback optional
 		 */
-		public static function deleteListener($eventName) {
+		public static function removeListener($eventName) {
 			if (isset(self::$listeners[$eventName]))
 				unset(self::$listeners[$eventName]);
 		}

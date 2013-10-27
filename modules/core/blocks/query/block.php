@@ -201,6 +201,7 @@ class query extends code {
 				}
 			}
 		}
+		\app::removeListener('beforeBuildQuery'); /* have to filter once a page load  */
 	}
 	
 	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
