@@ -246,7 +246,12 @@ class tools {
 	 * @return bool
 	 */
 	public static function serialize($filename,$obj) {
-	   return \tools::file_put_contents($filename. '.obj', serialize($obj));
+		$serial = serialize($obj);
+		/* we save serialized objects with aliases names to allow to overreide classes and reduce file size */
+		foreach(\app::$aliasClasses AS $alias => $className){
+			$serial = str_replace('O:' . strlen($className) . ':"' . $className . '"', 'O:' . strlen($alias) . ':"' . $alias . '"', $serial);
+		}
+		return \tools::file_put_contents($filename. '.obj', $serial);
 	}
 
 	/**

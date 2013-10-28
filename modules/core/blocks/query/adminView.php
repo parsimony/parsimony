@@ -169,9 +169,9 @@ $view = $this->getConfig('view');
 										<?php
 										$obj = app::getModule($module)->getEntity($model);
 										foreach ($obj->getFields() AS $field) :
-												if (get_class($field) == 'core\fields\field_foreignkey')
+												if (get_class($field) == 'core\fields\foreignkey')
 													$link = ' link="' . $field->moduleLink . '_' . $field->link . '"';
-												elseif (get_class($field) == 'core\fields\field_user') 
+												elseif (get_class($field) == 'core\fields\user') 
 													$link = ' link="core_user"';
 												else
 													$link = '';

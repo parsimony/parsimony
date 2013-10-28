@@ -819,7 +819,6 @@ class admin extends \module {
 	 */
 	protected function searchDataAction($module, $entity, $search, $limit = 10) {
 		$obj = \app::getModule($module)->getEntity($entity);
-		$obj->prepareFieldsForDisplay();
 		$wheres = array();
 		foreach ($obj->getFields() as $field) {
 			if ($field->type !== ''){ /* field_formasso */
@@ -906,7 +905,6 @@ class admin extends \module {
 	 */
 	protected function getViewUpdateFormAction($module, $entity, $id) {
 		$obj = \app::getModule($module)->getEntity($entity);
-		$obj->prepareFieldsForDisplay();
 		\app::$request->setParam('idviewupdate' , $id); // set value to be used in prepared query
 		return str_replace('action=""','target="formResult" action=""',$obj->where($module . '_' . $entity . '.' . $obj->getId()->name. '=:idviewupdate')->fetch()->getViewUpdateForm());
 	}
@@ -1180,7 +1178,7 @@ class admin extends \module {
 					if(isset($fieldProps['oldName']) && ($fieldProps['oldName'] != $name && !empty($fieldProps['oldName']))) $matchOldNewNames[$name] = $fieldProps['oldName'];
 					unset($fieldProps['oldName']);
 
-					$field = $reflectionObj->newInstanceArgs(array('module' => $fieldProps['module'], 'entity' => $fieldProps['entity'], 'name' => $fieldName, 'properties' => $fieldProps));
+					$field = $reflectionObj->newInstanceArgs(array('name' => $fieldName, 'properties' => $fieldProps));
 					if(!isset($fieldProps['rights'])){
 						/* Set rights forbidden for non admins, admins are allowed by default */
 						foreach ($rolesBehaviorAnonymous as $id_role) {
@@ -1254,8 +1252,9 @@ class ' . $table->name . ' extends \entity {
 				}
 				if ($oldObjModel !== FALSE) {
 					$nameFieldBefore = '';
-					foreach ($args as $fieldName => $field) {
-						if (isset($oldSchema[$field->entity]) && isset($oldSchema[$field->entity][$field->name])) {
+					$newObj->__wakeup(); /* to insert entity's ref into fields */
+					foreach ($newObj->getFields() as $fieldName => $field) {
+						if (isset($oldSchema[$field->entity->getName()]) && isset($oldSchema[$field->entity->getName()][$field->name])) {
 							$field->alterColumn($nameFieldBefore);
 						} elseif (isset($matchOldNewNames[$field->name])) {
 							$field->alterColumn($nameFieldBefore, $matchOldNewNames[$field->name]);
@@ -1266,8 +1265,8 @@ class ' . $table->name . ' extends \entity {
 							$nameFieldBefore = $field->name;
 						}
 					}
-					if(!empty($oldSchema[$field->entity])){
-						foreach ($oldSchema[$field->entity] as $fieldName => $value) {
+					if(!empty($oldSchema[$field->entity->getName()])){
+						foreach ($oldSchema[$field->entity->getName()] as $fieldName => $value) {
 							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ){
 								$field->deleteColumn();
 							}

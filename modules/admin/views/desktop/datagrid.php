@@ -29,7 +29,6 @@
 $id = '';
 $title = '';
 if($obj instanceof \entity){
-	$obj->prepareFieldsForDisplay();
 	$id = $obj->getId()->name;
 	$title = $obj->getBehaviorTitle();
 }

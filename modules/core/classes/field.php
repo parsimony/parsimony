@@ -35,12 +35,6 @@ namespace core\classes;
  */
 class field {
 
-	/** @var string module name */
-	protected $module;
-
-	/** @var string entity name */
-	protected $entity;
-
 	/** @var string field value */
 	protected $value;
 	
@@ -87,11 +81,8 @@ class field {
 	/** @var string visibility */
 	protected $rights;
 
-	/** @var string field directory*/
-	protected $fieldPath;
-
 	/** @var object of the entity container */
-	public $row = '';
+	protected $entity = '';
 
 	/**
 	 * Build field
@@ -100,14 +91,11 @@ class field {
 	 * @param string $name 
 	 * @param array $properties
 	 */
-	public function __construct($module, $entity, $name, $properties = array()) {
-		$this->module = $module;
-		$this->entity = $entity;
+	public function __construct($name, $properties = array()) {
 		$this->name = $name;
 		foreach($properties AS $property => $value){
 			$this->$property = $value;
 		}
-		$this->fieldPath = 'modules/' . str_replace('\\', '/', get_class($this));
 	}
 
 	/**
@@ -118,8 +106,23 @@ class field {
 	public function __get($name) {
 		if (isset($this->$name))
 			return $this->$name;
-		else
+		else if ($name === 'views') {
+			$fieldPath = 'modules/' . str_replace('\\', '/', get_class($this)); /* __get can't recall himself */
+			/* Determine if current user has the right to editinline */
+			$rights = $this->getRights($_SESSION['id_role']);
+			if ($rights & DISPLAY) {
+				if ($rights & UPDATE) {
+					$this->views = array('display' => $fieldPath . '/editinline.php', 'grid' => $fieldPath . '/grid.php', 'form' => $fieldPath . '/form.php');
+				} else {
+					$this->views = array('display' => $fieldPath . '/display.php', 'grid' => $fieldPath . '/grid.php', 'form' => $fieldPath . '/form.php');
+				}
+			} else {
+				$this->views = array('display' => 'php://temp', 'grid' => 'php://temp'); // display nothing, to avoid a "if" in each field->display() call
+			}
+			return $this->views;
+		} else {
 			return FALSE;
+		}
 	}
 
 	/**
@@ -151,12 +154,12 @@ class field {
 	}
 
 	/**
-	 * Set field entity name
+	 * Set parent entity
 	 * @param string $name
 	 * @return field
 	 */
-	public function setEntity($name) {
-		$this->entity = $name;
+	public function setEntity(\entity $entity) {
+		$this->entity = $entity;
 		return $this;
 	}
 
@@ -183,8 +186,11 @@ class field {
 		$defaultValues = $reflect->getDefaultProperties();
 		$properties = get_object_vars($this);
 		unset($properties['views']);
-		unset($properties['row']);
-		foreach ($properties AS $name => $value) {
+		unset($properties['value']);
+		unset($properties['fieldPath']); /* todo remove */
+		unset($properties['entity']); /* todo remove */
+		unset($properties['module']); /* todo remove */
+		foreach ($properties AS $name => $value) { /* unset unchanged values */
 			if(isset($defaultValues[$name]) && $properties[$name] == $defaultValues[$name]) {
 				unset($properties[$name]);
 			}
@@ -197,11 +203,11 @@ class field {
 	 * Returns by default the display view of field. With editinline rights returns the editing view.
 	 * if behavior = 0 check if he has the right and if he is the autor of the content
 	 * if behavior > 0 check if id_role has the right
-	 * @param object &$row
+	 * @param object &$entity
 	 * @return string
 	 */
 	public function display() {
-		$row = $this->row;
+		$row = $this->entity;
 		ob_start();
 		include($this->views['display']);
 		return ob_get_clean();
@@ -223,7 +229,7 @@ class field {
 		/*$authorName = $row->getBehaviorAuthor()->name;*/
 		if (empty($this->displayView)) {
 			$this->displayView = 'display.php';
-			if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || $_SESSION['behavior'] >= 1) && app::getModule($this->module)->getEntity($this->entity)->getRights($_SESSION['id_role']) & UPDATE ) {
+			if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || $_SESSION['behavior'] >= 1) && app::getModule($this->entity->getModule())->getEntity($this->entity->getName())->getRights($_SESSION['id_role']) & UPDATE ) {
 				\app::$request->page->addJSFile('lib/editinline.js');
 				$this->displayView = 'editinline.php';
 			}
@@ -236,8 +242,8 @@ class field {
 	public function saveEditInline($data, $id) {
 		$data = $this->validate($data);
 		if ($data !== FALSE) {
-			$entityObj = \app::getModule($this->module)->getEntity($this->entity);
-			$res = \PDOconnection::getDB()->prepare('UPDATE ' .PREFIX . $this->module . '_' . $this->entity . ' SET ' . $this->name . ' = :data WHERE ' . $entityObj->getId()->name . '=:id');
+			$entityObj = \app::getModule($this->entity->getModule())->getEntity($this->entity->getName());
+			$res = \PDOconnection::getDB()->prepare('UPDATE ' .PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' SET ' . $this->name . ' = :data WHERE ' . $entityObj->getId()->name . '=:id');
 			$res->execute(array(':data' => $data, ':id' => $id));
 			if ($res !== FALSE) {
 				return TRUE;
@@ -274,31 +280,21 @@ class field {
 	}
 
 	/**
-	 * Display filter form
-	 * @return string
-	 */
-	public function displayFilter() {
-		ob_start();
-		echo '';
-		return ob_get_clean();
-	}
-
-	/**
 	 * Display Updating Form
 	 * @return string
 	 */
 	public function form() {
 		ob_start();
-		$row = $this->row;
-		$fieldName = $row->getName().'_'.$this->name;
+		$row = $this->entity;
+		$fieldName = $row->getName() . '_' . $this->name;
 		$value = $this->value;
-		if($value !== FALSE){
-			$fieldName .= '_'.$row->getId()->value;
+		if ($value !== FALSE) {
+			$fieldName .= '_' . $row->getId()->value;
 		}
-		?>
+?>
 		<div class="field placeholder">
 		<?php
-			include($this->fieldPath . '/form.php');
+			include($this->views['form']);
 		?>
 		</div>
 		<?php
@@ -342,7 +338,7 @@ class field {
 			$pos = ' FIRST ';
 		else
 			$pos = ' AFTER ' . $fieldBefore;
-		$sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' ADD ' . $this->sqlModel() . $pos;
+		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' ADD ' . $this->sqlModel() . $pos;
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
@@ -361,7 +357,7 @@ class field {
 			$name = $oldName;
 		else
 			$name = $this->name;
-		$sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
+		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
@@ -370,7 +366,7 @@ class field {
 	 * @return bool|int
 	 */
 	public function deleteColumn() {
-		$sql = 'ALTER TABLE ' . PREFIX . $this->module . '_' . $this->entity . ' DROP ' . $this->name;
+		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' DROP ' . $this->name;
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
@@ -401,8 +397,8 @@ class field {
 	 * @return string
 	 */
 	public function sqlFilter($filter) {
-		$fieldName = $this->row->getName() . '_' . $this->name;
-		$name = $this->module . '_' . $this->entity . '.' . $this->name;
+		$fieldName = $this->entity->getName()->getName() . '_' . $this->name;
+		$name = $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
 		if (is_array($filter)) {
 			if (isset($filter[0])) {
 				foreach ($filter as $key => &$value) {
@@ -434,11 +430,11 @@ class field {
 	}
 	
 	public function sqlGroup($group) {
-		return $this->module . '_' . $this->entity . '.' . $this->name;
+		return $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
 	}
 	
 	public function getAllValues() {
-		$table = $this->module . '_' . $this->entity;
+		$table = $this->entity->getModule() . '_' . $this->entity->getName();
 		$result = \PDOconnection::getDB()->query('select ' . PREFIX . $table . '.' . $this->name . ' from ' . PREFIX . $table . ' group by ' . PREFIX . $table . '.' . $this->name);
 		if (is_object($result)) {
 			$values = $result->fetchAll(\PDO::FETCH_COLUMN);

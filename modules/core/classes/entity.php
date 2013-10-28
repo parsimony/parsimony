@@ -105,7 +105,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	public function __call($name, $args) {
 		return $this->$name;
 	}
-
+	
 	/**
 	 * Update Rights
 	 * @param string $role
@@ -150,6 +150,14 @@ abstract class entity extends queryBuilder implements \Iterator {
 		foreach ($rights as $id_role => $right) {
 			$this->setRights($id_role, $right);
 		}
+	}
+	
+	/**
+	 * Get the module name
+	 * @return string
+	 */
+	public function getModule() {
+		return $this->_module;
 	}
 
 	/**
@@ -664,7 +672,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 if (isset($this->$name)) {
 			 return $this->$name;
 		 }
-		 return new \field_string ($this->_module, $this->_entityName, $name, array('label' => $name, 'views' =>array('display' => 'modules/core/fields/field_string/display.php', 'grid' => 'modules/core/fields/field_string/grid.php'))); /* emulate prepareFieldsForDisplay() */
+		 return new \field_string ($name, array('label' => $name, 'views' =>array('display' => 'modules/core/fields/field_string/display.php', 'grid' => 'modules/core/fields/field_string/grid.php'))); /* emulate prepareFieldsForDisplay() */
 	 }
 
 	 /**
@@ -679,40 +687,23 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * Clean entity for storing
 	  */
 	 public function __sleep() {
-		 unset($this->_SQL);
-		 $properties = get_object_vars($this);
-		 unset($properties['fields']);
-		 $fields = array_keys($properties);
-		 return $fields;
-	 }
-
-	 /**
-	  * Prepare fields for display
-	  */
-	 public function prepareFieldsForDisplay() {
-
-		 /* Determine if current user has the right to editinline */
-		 $displayView = 'display.php';
-		 if ($_SESSION['behavior'] > 0 && $this->getRights($_SESSION['id_role']) & UPDATE ) {
-			 $displayView = 'editinline.php';
-		 }
-
-		 /* Insert an entity reference in each field */
-		 $fields = $this->getFields();
-		 foreach ($fields as &$field) {
-			 $field->row = $this;
-			 $field->views = array();
-
-			 $fieldPath = $field->fieldPath;
-
-			 /* Display View */
-			 if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {
-				 $field->views['display'] = $fieldPath.'/'.$displayView;
-				 $field->views['grid'] = $fieldPath.'/grid.php';
-			 }else{
-				 $field->views['display'] = $field->views['grid'] = 'php://temp'; // display nothing, to avoid a "if" in each field->display() call
-			 }
-		 }
+		unset($this->_SQL);
+		$properties = get_object_vars($this);
+		unset($properties['fields']);
+		if(empty($this->behaviorTitle)){
+			unset($properties['behaviorTitle']);
+		}
+		if(empty($this->behaviorDescription)){
+			unset($properties['behaviorDescription']);
+		}
+		if(empty($this->behaviorKeywords)){
+			unset($properties['behaviorKeywords']);
+		}
+		if(empty($this->behaviorImage)){
+			unset($properties['behaviorImage']);
+		}
+		$fields = array_keys($properties);
+		return $fields;
 	 }
 
 	 /**
@@ -730,6 +721,15 @@ abstract class entity extends queryBuilder implements \Iterator {
 			 }
 		 }
 		 return $this;
+	 }
+	 
+	 
+	 public function __wakeup() {
+		  /* Insert an entity reference in each field */
+		 $fields = $this->getFields();
+		 foreach ($fields as &$field) {
+			 $field->setEntity($this);
+		 }
 	 }
 
 }

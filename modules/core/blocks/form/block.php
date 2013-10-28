@@ -61,7 +61,6 @@ class form extends code {
 			\app::addListener('error', array($this, 'catchError'));
 			/* Test if new file contains errors */
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
-			$entity->prepareFieldsForDisplay();
 			$testIfHasError = \tools::testSyntaxError($_POST['editor'], array('_this' => $this, 'entity' => $entity));
 			/* If new file contains errors */
 			if ($testIfHasError === TRUE) {
@@ -123,7 +122,6 @@ if(isset($_POST[\'add\'])){
 		ob_start();
 		if($this->getConfig('module')){
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
-			$entity->prepareFieldsForDisplay();
 			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
 				$entity->select()->where($entity->getId()->name . " = :" . $this->getConfig('updateparam'))->fetch();
 			}

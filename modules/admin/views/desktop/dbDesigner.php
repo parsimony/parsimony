@@ -41,8 +41,6 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 	</style>
 	<?php
 }
-
-include_once('modules/core/classes/field.php');
 ?>
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/css/ui.css" type="text/css" media="all" />
@@ -685,16 +683,14 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						if (isset($aliasClasses[$class])) {
 							$class = $aliasClasses[$class];
 						}
-						$field = new $class($_POST['module'], '', '');
+						$field = new $class('');
 						$fieldInfos = \tools::getClassInfos($field);
 						$reflect = new ReflectionClass($class);
 						$args = $reflect->getDefaultProperties();
 						$args = array_filter($args, 'filterprops');
-						unset($args['row']);
+						unset($args['entity']);
 						$args['oldName'] = $field->name;
 						$args['required'] = (int) $args['required'];
-						$args['module'] = $_POST['module'];
-						$args['entity'] = '';
 						$args['name'] = '';
 						if ($class == 'field_ident' || $class == 'field_foreignkey')
 							$none = ' style="display:none"';
@@ -703,8 +699,6 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
 						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 						$html .= '<div id="update_' . $class . '">
-<input type="hidden" name="module">
-<input type="hidden" name="entity">
 <h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url(' . BASE_PATH . 'admin/img/icons.png);"></span>' . t('Field Settings', FALSE) . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
@@ -774,7 +768,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					$args[$name] = $field->$name;
 				}
 				unset($args['fieldPath']);
-				unset($args['row']);
+				unset($args['entity']);
 				unset($args['value']);
 				$args['required'] = (int) $args['required'];
 				$args['oldName'] = $field->name;

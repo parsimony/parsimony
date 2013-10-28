@@ -108,7 +108,7 @@ class query extends code {
 			foreach ($myView->getFields() AS $sqlName => $field) {
 				$name = $field->module . '_' . $field->entity . '_' . $field->name;
 				if(isset($properties[$name]['display'])){
-					if (get_class($field) !== 'core\fields\field_ident')
+					if (get_class($field) !== 'core\fields\ident')
 						$displayLine = '()';
 					else
 						$displayLine = '';

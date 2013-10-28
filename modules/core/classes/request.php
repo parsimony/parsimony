@@ -302,9 +302,7 @@ class request {
 				if($_SESSION['behavior'] === 2){
 					error_reporting(-1);
 					ini_set('display_errors', 1);
-					set_error_handler('\core\classes\app::errorHandler');
-					set_exception_handler('\core\classes\app::exceptionHandler');
-					register_shutdown_function('\core\classes\app::errorHandlerFatal');
+					
 				}
 				// check if it's admin role or not
 				if (!isset($_GET['parsiframe']) && $this->method === 'GET')
