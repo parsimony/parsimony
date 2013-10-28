@@ -79,57 +79,51 @@ if (isset($_POST['connexion'])) {
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
         <meta name='robots' content='noindex,nofollow' /> 
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>admin/css/ui.css">
-        <style>
-            #header{position: fixed;min-width: 1250px;width: 100%;z-index: 999999;height: 40px;color: #555;text-shadow: white 0 1px 0;text-decoration: none;font-weight: bold;background-color: #F3F3F3;background-image: -moz-linear-gradient(bottom,#E5E9EF,#FEFEFE);background-image: -webkit-gradient(linear,left bottom,left top,from(#E5E9EF),to(#FEFEFE));box-shadow: 0 2px 6px #443;top: 0;left: 0;padding-top: 5px;}
-            #header a{color: #555;text-decoration: none;cursor: pointer;padding: 0;height: 28px;}
-            #header a:hover{color: rgba(191, 230, 255, 0.25);text-shadow: 0px 0px #0070A1;}
-            body{background: #EEE url(<?php echo BASE_PATH ?>admin/img/connect-page.png);text-align:center;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;}
-            #content{margin: 200px auto;position: relative;width: 503px;height: 253px;}
-            #img{float: left;width: 250px;height: 250px;margin: 0px auto;border-bottom-left-radius: 10px;background: #EEE;border: 1px solid #DDD;text-shadow: 0 1px 1px white;-webkit-box-shadow: 0 1px 1px #fff;-moz-box-shadow: 0 1px 1px #fff;box-shadow: 1px 1px 0px #fff, #F4F8FD 1px 1px 1px 0 inset;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;padding-top: 30px;}
+        <style>    
+            body{text-align: center;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;background: #fafafa;}
+            #content{margin: 200px auto;position: relative;width: 503px;height: 253px;box-shadow: 2px 2px 3px #CECECE, 0px 0px 4px #CACACA;}
+			#quote{font-size: 15px;letter-spacing: 1.5px;color: #555;display: inline-block;bottom: 8px;position: relative;}
+			input[type="text"], input[type="password"]{border-style: none;text-shadow: none;border-radius: 0px;padding: 4px;outline: none;background: white;padding-left: 12px;}
+			button, input[type='button'], input[type='submit'] {-webkit-user-select: none;-moz-user-select: none;background: rgb(45, 193, 238);color: #fafafa;font-size: inherit;margin-bottom: 0px;width: 200px;border: none;padding: 3px 12px 3px 12px;height: 35px;font-weight: bold;}
+			button:hover, input[type='button']:hover, input[type='submit']:hover{background: rgb(41, 170, 209);box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);border-color: none;color: #fefefe;}
+            #img{float: left;width: 250px;height: 250px;margin: 0px auto;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;padding-top: 30px;background: #fefefe;}
             label{font-size: 20px;line-height: 25px;}
-            label, div a{text-shadow: 0px 1px 0px white;font-size: 13px;line-height: 25px;letter-spacing: 1.5px;}
+            label, div a{font-size: 13px;line-height: 25px;font-weight: bold;}
             div a{font-size: 15px;line-height: 18px;}
-            #content form{width: 250px;height: 250px;border-top-right-radius: 10px;float: left;border-color: #DDD;border: 1px solid #DDD;text-shadow: 0 1px 1px white;-webkit-box-shadow: 0 1px 1px #fff;-moz-box-shadow: 0 1px 1px #fff;box-shadow: 0 1px 0px #fff;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;background: #EEE;box-shadow: 1px 1px 0px #fff, #F4F8FD 1px 1px 1px 0 inset;}
-            #content > form > div{padding:11px 17px;}
+            #content form{width: 250px;height: 250px;float: left;border-color: #DDD;text-shadow: 0 1px 1px white;padding: 6px 10px;color: #666;background: #fefefe;}
+            #content > form > div{padding:15px;}
             #content > form a{color: #555;}
-            input:-webkit-autofill {background-color: white !important;}
-            #content > form input[type="text"],#content > form input[type="password"]{width:200px;height:30px;border-radius:8px;border:solid 1px #888}
-            .jquery-shadow {position: relative;}
-            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-transform: rotate(-3deg); -moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);transform: rotate(-3deg);}
-            .jquery-shadow-lifted::before, .jquery-shadow-lifted::after {bottom: 20px;left: 10px;width: 100%;height: 20%;max-width: 485px;-webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-moz-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);-webkit-transform: rotate(-3deg);-moz-transform: rotate(-3deg);-ms-transform: rotate(-3deg);transform: rotate(-3deg);}
-            .jquery-shadow::before, .jquery-shadow::after {content: "";position: absolute;z-index: -2;}
-            .jquery-shadow-lifted::after {right: 10px;left: auto;-webkit-transform: rotate(3deg);-moz-transform: rotate(3deg);-ms-transform: rotate(3deg);transform: rotate(3deg);}
-            .jquery-shadow::before, .jquery-shadow::after {content: "";position: absolute;z-index: -2;}
+            input:-webkit-autofill {background-color: #fafafa !important;-webkit-box-shadow: 0 0 0px 30px #fafafa inset;color: #777 !important;} /* Removing input background color for Chrome autocomplete trick */
+            #content > form input[type="text"],#content > form input[type="password"]{width: 200px;height: 35px;background-color: #fafafa;border-left: 5px solid rgb(45, 193, 238);font-weight: bold;color: #777;}
+			.mail .login{display : none;}
+			.mail .display {display : block;}
+			.display{display : none;}
+			#mail{display:none;font-size: 15px;line-height: 18px;padding: 15px 0;}			
+			#back{color:rgb(45, 193, 238);cursor: pointer;font-weight: bold;text-align: left;}
+			#back:hover{color: rgb(41, 170, 209);}
         </style>
     </head>  
     <body> 
-        <div id="header" style="padding-top: 5px;">
-            <a href="http://parsimony.mobi" target="_blank" style="">
-                <img title="" src="<?php echo BASE_PATH; ?>admin/img/parsimony-logo.png" alt="" style="">
-            </a>
-            <div style="text-shadow: 0px 1px 0px white;font-size: 15px;letter-spacing: 1.5px;color: #555;display: inline-block;bottom: 8px;position: relative;">"<?php echo t('The ability to write code is pretty much a super power in today\'s society',false); ?>" <a style="letter-spacing: 1.5px;" href="http://twitter.com/#!/mattcutts/status/172448195723530240" target="blank">Matts Cutts</a>
-            </div>
-        </div>
+        
         <div id="content" class="box lifted jquery-shadow jquery-shadow-lifted">
             <div id="img">
                 <img src="<?php echo BASE_PATH; ?>core/img/logo-parsimony-big.png">
             </div>
             <form action="" method="POST"> 
-                <div style="text-align: left;"> 
-                    <label style="padding-left:3px;"><?php echo t('Username', false); ?></label>
-                    <input type="text" name="login" autofocus/>
+                <div style="text-align: left;" class="login">                    
+                    <input type="text" placeholder="<?php echo t('Username', false); ?>" name="login" autofocus/>
                 </div> 
-                <div style="text-align: left;"> 
-                    <label style="padding-left:3px;"><?php echo t('Password', false); ?></label>
-                    <input type="password" name="password" />
+                <div style="text-align: left;" class="login">         
+                    <input type="password" placeholder="<?php echo t('Password', false); ?>" name="password" />
                 </div>
-                <div> 
+                <div class="login"> 
                     <input style="font-size: 16px;" type="submit" name="connexion" value="<?php echo t('Login', false); ?>" /> 
                 </div>
                 <div style="font-weight: normal"> 
-                    <a style="text-decoration: none" href="" onclick="$('form').height(335);$('#img').height(311);$('#content').height(342);$(this).next().show();return false;"><?php echo t('Lost your password', false); ?></a> ?
-                    <div style="display:none;font-size: 15px;line-height: 18px;">
-                        <?php echo t('Your mail',FALSE) ?> : <input style="margin: 5px 0;" type="text" id="newmdp"/>
+                    <span id="back" class="display" onclick="document.getElementById('content').classList.toggle('mail');return false;">< Back to login</span>
+					<a class="login" style="text-decoration: none" href="" onclick="document.getElementById('content').classList.toggle('mail');return false;"><?php echo t('Lost your password', false); ?></a><span class="login"> ?</span>
+                    <div class="display">
+						<input style="margin : 40px 0 20px 0;" placeholder="<?php echo t('Enter your email',FALSE) ?>" type="text" id="newmdp"/>
                         <input type="button" value="<?php echo  t('Send',FALSE) ?>" id="newmdpgo" />
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Parsimony
  *
@@ -167,8 +167,7 @@ while (1) {
             break;
 
         case 1:
-            ?>
-            <h1><?php echo tr('Step'); ?> 1</h1>
+            ?>       
             <div>
                 <h2><?php echo tr('Default Language'); ?></h2>
                 <select name="lang" onchange="document.cookie = 'lang=' + this.value;window.location.reload()">
@@ -226,7 +225,7 @@ while (1) {
 
                         <p>16) <b class="c2">Modification of This License.</b> This License is Copyright © 2005 Lawrence Rosen. Permission is granted to copy, distribute, or communicate this License without modification. Nothing in this License permits You to modify this License as applied to the Original Work or to Derivative Works. However, You may modify the text of this License and copy, distribute or communicate your modified version (the "Modified License") and apply it to other original works of authorship subject to the following conditions: (i) You may not indicate in any way that your Modified License is the "Open Software License" or "OSL" and you may not use those names in the name of your Modified License; (ii) You must replace the notice specified in the first paragraph above with the notice "Licensed under &lt;insert your license name here&gt;" or with a notice of your own that is not confusingly similar to the notice in this License; and (iii) You may not claim that your original works are open source software unless your Modified License has been approved by Open Source Initiative (OSI) and You comply with its license review and certification process.</p>
 
-                        <p><a href="http://www.rosenlaw.com/OSL3.0-explained.pdf">A brief explanation of this license is available</a>.</p>
+                        <p>A brief explanation of this license is available<a id="osllink" href="http://www.rosenlaw.com/OSL3.0-explained.pdf">here</a>.</p>
                     </div>
                 </div>
                 <input type="hidden" name="step" value="validstep1" />
@@ -263,9 +262,7 @@ while (1) {
             break;
 
         case 2:
-            ?>
-            <h1><?php echo tr('Step'); ?> 2 : <?php echo tr('Server Settings'); ?></h1>
-
+            ?>        
             <h2><?php echo tr('Files and directories'); ?></h2>
             <?php
             $serverOK = TRUE;
@@ -430,7 +427,7 @@ while (1) {
                 ?>
             </optgroup>
             </select><br><br>
-            <div>
+            <div class="labeled">
                 <label><?php echo tr('Admin E-mail'); ?></label>
                 <input type="text" name="mailadmin" value="<?php if (isset($_POST['mailadmin'])) echo se($_POST['mailadmin']); ?>"><br>
                 <?php tr('The PHP "mail()" function is used by default'); ?>
@@ -447,12 +444,12 @@ while (1) {
 	     */
 	    ?>
 	    <div>
-                <label class="nocapital"><?php echo tr('Is your domain a Second Level domain'); ?>(ex : mysite<u>.co.uk</u>)</span></label>
+			<label class="nocapital"><?php echo tr('Is your domain a Second Level domain'); ?> ?</label>
+			<a id="secondlevel" href="<?php echo tr('http://en.wikipedia.org/wiki/Second-level_domain'); ?>" target="_blank"><?php echo tr('What is it ?'); ?><span> (ex : mysite<u>.co.uk</u>)</span></a>
                 <select name="sld">
 		    <option value="2"><?php echo tr('No'); ?></option>
 		    <option value="3" <?php if(isset($_POST['sld']) && $_POST['sld']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
-		</select><br>
-                <a href="<?php echo tr('http://en.wikipedia.org/wiki/Second-level_domain'); ?>" target="_blank" style="color:#444"><?php echo tr('What is it ?'); ?></a>
+		</select><br>            
             </div>
             <input type="hidden" name="step" value="validstep2" />
             <?php
@@ -491,8 +488,7 @@ while (1) {
             break;
 
         case 3:
-            ?>
-            <h1><?php echo tr('Step'); ?> 3</h1>
+            ?>         
             <h2><?php echo 'MySql '.tr('Database Settings'); ?></h2>
             <div>
                 <label><?php echo tr('Server'); ?> *</label>
@@ -559,8 +555,7 @@ while (1) {
             break;
         case 4:
 	    include('config.php');
-            ?>
-            <h1><?php echo tr('Step'); ?> 4</h1>
+            ?>     
             <h2><?php echo tr('Account Settings'); ?></h2>
             <div>
                 <label><?php echo tr('Site Name'); ?> * </label>
@@ -614,27 +609,27 @@ while (1) {
 				'pagination' => 'core\classes\pagination',
 				'img' => 'core\classes\img',
 				'field' => 'core\classes\field',
-				'field_ident' => 'core\fields\field_ident',
-				'field_string' => 'core\fields\field_string',
-				'field_numeric' => 'core\fields\field_numeric',
-				'field_decimal' => 'core\fields\field_decimal',
-				'field_price' => 'core\fields\field_price',
-				'field_percent' => 'core\fields\field_percent',
-				'field_mail' => 'core\fields\field_mail',
-				'field_password' => 'core\fields\field_password',
-				'field_state' => 'core\fields\field_state',
-				'field_date' => 'core\fields\field_date',
-				'field_publication' => 'core\fields\field_publication',
-				'field_image' => 'core\fields\field_image',
-				'field_url' => 'core\fields\field_url',
-				'field_url_rewriting' => 'core\fields\field_url_rewriting',
-				'field_wysiwyg' => 'core\fields\field_wysiwyg',
-				'field_textarea' => 'core\fields\field_textarea',
-				'field_user' => 'core\fields\field_user',
-				'field_ip' => 'core\fields\field_ip',
-				'field_boolean' => 'core\fields\field_boolean',
-				'field_foreignkey' => 'core\fields\field_foreignkey',
-				'field_formasso' => 'core\fields\field_formasso'
+				'field_ident' => 'core\fields\ident',
+				'field_string' => 'core\fields\string',
+				'field_numeric' => 'core\fields\numeric',
+				'field_decimal' => 'core\fields\decimal',
+				'field_price' => 'core\fields\price',
+				'field_percent' => 'core\fields\percent',
+				'field_mail' => 'core\fields\mail',
+				'field_password' => 'core\fields\password',
+				'field_state' => 'core\fields\state',
+				'field_date' => 'core\fields\date',
+				'field_publication' => 'core\fields\publication',
+				'field_image' => 'core\fields\image',
+				'field_url' => 'core\fields\url',
+				'field_url_rewriting' => 'core\fields\url_rewriting',
+				'field_wysiwyg' => 'core\fields\wysiwyg',
+				'field_textarea' => 'core\fields\textarea',
+				'field_user' => 'core\fields\user',
+				'field_ip' => 'core\fields\ip',
+				'field_boolean' => 'core\fields\boolean',
+				'field_foreignkey' => 'core\fields\foreignkey',
+				'field_formasso' => 'core\fields\formasso'
 			);
 			app::$aliasClasses = $config['aliasClasses'];
 			define('PROFILE_PATH','profiles/www/modules/');
@@ -699,11 +694,11 @@ $content = ob_get_clean();
         <div id="container">
             <div id="title"><img style="float:left;font-family:  Lucida Grande, sans-serif" src="http://parsimony.mobi/admin/img/parsimony-logo.png"><h1>Installation</h1></div>            <div id="content">
                 <ul id="breadcrumbs">
-                    <li><a href="#"<?php if ($step == 1) echo ' class="current"'; ?>><?php echo tr('License'); ?></a></li>
-                    <li><a href="#"<?php if ($step == 2) echo ' class="current"'; ?>><?php echo tr('Server'); ?></a></li>
-                    <li><a href="#"<?php if ($step == 3) echo ' class="current"'; ?>><?php echo tr('Database'); ?></a></li>
-                    <li><a href="#"<?php if ($step == 4) echo ' class="current"'; ?>><?php echo tr('Admin Account'); ?></a></li>
-                    <li><a href="#"<?php if ($step == 5) echo ' class="current"'; ?>><?php echo tr('Finish'); ?></a></li>
+                    <li <?php if ($step >= 1) echo ' class="current"'; ?>><a href="#"><?php echo tr('License'); ?></a></li>
+                    <li <?php if ($step >= 2) echo ' class="current"'; ?>><a href="#"><?php echo tr('Server'); ?></a></li>
+                    <li <?php if ($step >= 3) echo ' class="current"'; ?>><a href="#"><?php echo tr('Database'); ?></a></li>
+                    <li <?php if ($step >= 4) echo ' class="current"'; ?>><a href="#"><?php echo tr('Admin Account'); ?></a></li>
+                    <li <?php if ($step >= 5) echo ' class="current"'; ?>><a href="#"><?php echo tr('Finish'); ?></a></li>
                 </ul>
                 <div>
                     <form method="post" id="form" class="form">
@@ -730,228 +725,48 @@ $content = ob_get_clean();
             </div>
         </div>
         <style>
-            body{color:#484848;background: url(http://parsimony.mobi/admin/img/concrete_wall_3.png);font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;}
-
+            body{color: #484848;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;background: #fafafa;}
             #container{width:700px;margin:70px auto;}
-            #container h1{font-family: sans-serif;font-size: 21px;text-align: right;text-shadow: -2px -2px 0px #303030;color: rgba(191, 230, 255, 0.25);font-weight: bold;}
-            #container h2{font-family: sans-serif;font-size: 18px;text-shadow: -2px -2px 0px #303030;color: rgba(191, 230, 255, 0.25);font-weight: bold;}
-            #content{padding:5px;background: #fff;border-radius: 9px;box-shadow: 3px 1px 9px #999;}
+            #container h1{font-family: sans-serif;font-size: 21px;text-align: right;color: #303030;font-weight: bold;}
+            #container h2{font-family: sans-serif;font-size: 18px;color: #303030;font-weight: bold;}
+            #content{padding:10px;background: #fff;box-shadow: 3px 1px 9px #999;}
             #content p{padding:5px;}
             .containerNext{text-align: center;}
-
-            .positive{background:#D7FFB8;border:solid #5C8011 1px;}
-            .negative{background:#FFE5B5;border:solid #E0960B 1px;}
-            .normal{background:#eee;border:solid #333 1px;}
-            .notify{margin:5px 0;padding:4px;color:#444;border-radius:3px;}
+			#osllink{display: inline-block;border-bottom: 3px solid rgb(45, 193, 238);padding: 0 5px;line-height: 20px;}
+            .notify{margin: 5px 0;padding: 4px;color: #444;}
+			#secondlevel{font-weight: normal;display: block;text-align: left;margin: 2px 0 10px 0;font-size: 13px;color: rgb(45, 193, 238);display: block;padding: 0;line-height: 20px;}
             .notify span{font-weight: bold;text-transform: capitalize;}
-
-            * {
-                -moz-box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-            }
-            .form {
-                padding:5px 30px;
-                border-radius:5px;
-            }
-            .form label {
-                text-transform: capitalize;
-                padding: 8px 0;
-                border-radius: 5px;
-                min-width: 120px;
-                position: relative;
-                display: block;
-                text-align: left;
-                font-weight: bold;
-                color: #666;
-                text-shadow: 0px 1px 0px white;
-                font-size: 16px;
-            }
-            .form input[type="text"],.form input[type="password"]{
-                width: 340px;
-                height: 30px;
-                border-radius: 8px;
-                border: solid 1px #888;
-                border: none!important;
-                border-style: none;
-                box-shadow: 0 0px 2px rgba(0, 0, 0, .3),inset 0 1px 2px rgba(0, 0, 0, .2);
-                padding: 5px 0;
-                text-shadow: 0px 1px 0px white;
-                outline: none;
-                border: 1px solid #C1C1C1;
-                color: #333;
-                border-radius: 3px;
-                background: #EFF0F0;
-                background: -webkit-gradient(linear, left top, left bottom, from(#EDEFF0), to(white));
-                background: -moz-linear-gradient(top, #EDEFF0, white);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#edeff0', endColorstr='#ffffff');
-                margin-right: 40px;
-		padding-left: 5px;
-            }
-            input[type="button"], input[type="submit"] {
-                border-radius: 2px;
-                box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-                -webkit-user-select: none;
-                background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
-				background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
-                border: 1px solid #AAA;
-                color: #444;
-                font-size: inherit;
-                margin-bottom: 0px;
-                min-width: 4em;
-                padding: 3px 12px 3px 12px;
-                margin: 20px 278px;
-            }
-
-
-            ul{
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
-            #breadcrumbs{
-                background: #eee;
-                border-width: 1px;
-                border-style: solid;
-                border-color: #f5f5f5 #e5e5e5 #ccc;
-                border-radius: 5px;
-                box-shadow: 0 0 2px rgba(0,0,0,.2);
-                overflow: hidden;
-                width: 100%;
-            }
-
-            #breadcrumbs li{
-                float: left;
-            }
-
-            #breadcrumbs a,.next,.prev{
-                padding: .7em 1em .7em 2em;
-                float: left;
-                text-decoration: none;
-                color: #444;
-                position: relative;
-                text-shadow: 0 1px 0 rgba(255,255,255,.5);
-                background-color: #ddd;
-                background-image: -webkit-gradient(linear, left top, right bottom, from(whiteSmoke), to(#DDD));
-                background-image: -webkit-linear-gradient(left, whiteSmoke, #DDD);
-                background-image: -moz-linear-gradient(left, whiteSmoke, #DDD);
-                background-image: -ms-linear-gradient(left, whiteSmoke, #DDD);
-                background-image: linear-gradient(to right, whiteSmoke, #DDD);
-            }
-            .next:hover,.prev:hover{
-                background-color: #86F024;
-                background-image: -webkit-gradient(linear, left top, right bottom, from(#fff), to(#86F024));
-                background-image: -webkit-linear-gradient(left, #fff, #86F024);
-                background-image: -moz-linear-gradient(left, #fff, #86F024);
-                background-image: -ms-linear-gradient(left, #fff, #86F024);
-                background-image: linear-gradient(to right, #fff, #86F024);
-            }
-            .prev{
-                background-image: -webkit-gradient(linear, left top, right bottom, from(#DDD), to(whiteSmoke));
-                background-image: -webkit-linear-gradient(right, whiteSmoke, #DDD);
-                background-image: -moz-linear-gradient(right, whiteSmoke, #DDD);
-                background-image: -ms-linear-gradient(right, whiteSmoke, #DDD);
-                background-image: linear-gradient(to left, whiteSmoke, #DDD);
-            }
-            .prev:hover{
-                background-image: -webkit-gradient(linear, left top, right bottom, from(#fff), to(#86F024));
-                background-image: -webkit-linear-gradient(right, #fff, #86F024);
-                background-image: -moz-linear-gradient(right, #fff, #86F024);
-                background-image: -ms-linear-gradient(right, #fff, #86F024);
-                background-image: linear-gradient(to left, #fff, #86F024);
-            }
-
-            #breadcrumbs li:first-child a{
-                padding-left: 1em;
-                border-radius: 5px 0 0 5px;
-            }
-
-            #breadcrumbs a:hover{
-                background: #fff;
-            }
-
-            #breadcrumbs a::after,
-            #breadcrumbs a::before,.next::before,.next::after{
-                content: "";
-                position: absolute;
-                top: 50%;
-                margin-top: -1.5em;
-                border-top: 1.5em solid transparent;
-                border-bottom: 1.5em solid transparent;
-                border-left: 1em solid;
-                right: -1em;
-            }
-            
-            .prev::after{
-                content: "";
-                position: absolute;
-                top: 50%;
-                margin-top: -1.5em;
-                border-top: 1.5em solid transparent;
-                border-bottom: 1.5em solid transparent;
-                border-right: 1em solid;
-                left: -1em;
-            }
-
-            #breadcrumbs a::after,.next::after{
-                z-index: 2;
-                border-left-color: #ddd;
-            }
-
-            #breadcrumbs a::before,.next::before{
-                border-left-color: #ccc;
-                right: -1.1em;
-                z-index: 1;
-            }
-            
-            .prev::after{
-                z-index: 2;
-                border-right-color: #ddd;
-            }
-
-            .prev::before{
-                border-right-color: #ccc;
-                right: -1.1em;
-                z-index: 1;
-            }
-
-            #breadcrumbs a:hover::after,.next:hover::after,.prev:hover::after{
-                border-left-color: #fff;
-            }
-
-            #breadcrumbs .current,
-            #breadcrumbs .current:hover{
-                font-weight: bold;
-                background: none;
-                background: #ddd;
-            }
-
-            #breadcrumbs a.current:hover::after{
-                border-left-color: #ddd;
-            }
-            .next:hover::after{
-                border-left-color: #86F024;
-            }
-            .prev:hover::after{
-                border-right-color: #86F024;
-            }
-
+            * {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+            .form {padding:0px 30px;border-radius:5px;}
+            .form label {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
+            .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #fafafa;}
+            input[type="button"], input[type="submit"] {border-radius: 2px;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);-webkit-user-select: none;background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);border: 1px solid #AAA;color: #444;font-size: inherit;margin-bottom: 0px;min-width: 4em;padding: 3px 12px 3px 12px;margin: 20px 278px;}
+			a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
+            ul{margin: 0;padding: 0;list-style: none;}
+            #breadcrumbs{width: 100%;height: 55px;overflow-y: hidden;}
+            #breadcrumbs li{float: left;position: relative;width: 136px;left: 0px;}
+            #breadcrumbs a,.next,.prev{font-weight: bold;text-decoration: none;color: #444;text-align: center;}
+			.normal::before {position: relative;border-radius: 25px;background: #818080;font-weight: bold;content: "\21";left: -5px;color: #fefefe;width: 11px;height: 18px;font-size: 15px;display: inline-block;padding-left: 8px;padding-top: 1px;}
+            .positive::before{position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";left: -5px;}
+			.negative::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";left: -5px;top: 4px;}  
+			.prev::after{content: "";width: 0px;height: 0px;position: absolute;border-style: solid;margin-top: -5px;border-width: 20px 30px 20px 0;border-color: transparent #2dc1ee transparent transparent;margin-left: -102px;}
+			#breadcrumbs li.current:before {content: "";display: block;border-bottom: 3px solid #2dc1ee;position: absolute;width: 100%;height: 100%;top: 10px;z-index: 0;left: 30px;}
+			#breadcrumbs li:before {content: "";display: block;border-bottom: 3px solid #ececec;position: absolute;width: 100%;height: 100%;margin-left: -90px;top: 10px;left: -60px;z-index: 0;left: 30px;}
+			#breadcrumbs li:nth-child(5):before{width: 190px;}
+			#breadcrumbs li::after {border-radius: 25px;font-size: 15px;width: 25px;height: 20px;color: #FFF;display: block;background-color: #ECECEC;position: absolute;text-align: center;padding-top: 3px;margin: 0 auto;margin-top: 0px;margin-left: 58px;z-index: 1;}
+			#breadcrumbs li.current::after {background-color:  rgb(45, 193, 238);}
+            #breadcrumbs li:nth-child(1):after{content : "1"}
+			#breadcrumbs li:nth-child(2):after{content : "2"}
+			#breadcrumbs li:nth-child(3):after{content : "3"}
+			#breadcrumbs li:nth-child(4):after{content : "4"}
+			#breadcrumbs li:nth-child(5):after{content : "5"}
+			.next,.prev {color: #fefefe;background-color: #2dc1ee;}
+            .next::after{content: "";width: 0px;height: 0px;position: absolute;border-style: solid;margin-top: -5px;border-width: 20px 0 20px 30px;border-color: transparent transparent transparent #2dc1ee;margin-left: 10px;}         
             .containerNext{display: inline-block;}
             .btns{margin:0 auto;float:none;width:240px}
             label.nocapital{text-transform: none;}
-	    
-	    /* Select webkit */
-	    select:enabled:hover {box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);color: #333;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);}
-	    select {background-position: center right;background-repeat: no-repeat;border: 1px solid #AAA;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
-		    -webkit-appearance: button;-moz-appearance:button;appearance:button;
-		    border-radius: 2px;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-		    -webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;
-		    -moz-user-select: none;-webkit-user-select: none;user-select: none;
-		    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC"), -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
-		    background-image:-moz-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
-		    font-size: 13px;
-		    margin: 0 7px 4px 0;
-	    }
+			/* Select webkit */
+			select {padding: 3px;background-position: center right 4px;background-repeat: no-repeat;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;-moz-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC");font-size: 13px;margin: 0 7px 4px 0;background-color: #fafafa;color: rgb(73, 71, 71);border: none;}
         </style>
     </body>
 </html>
