@@ -172,7 +172,7 @@ class view extends queryBuilder implements \Iterator {
 	 */
 	public function __sleep() {
 		foreach ($this->fields as $key => $field) {
-			if(is_object($field)) $this->fields[$key] = array('module' => $field->module, 'entity' => $field->entity, 'fieldName' => $field->name);
+			if(is_object($field)) $this->fields[$key] = array('module' => $field->entity->getModule(), 'entity' => $field->entity->getName(), 'fieldName' => $field->name);
 		}
 		unset($this->_SQL['entities']);
 		unset($this->_SQL['displayView']);
