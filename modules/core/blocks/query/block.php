@@ -106,7 +106,7 @@ class query extends code {
 		if (!empty($properties)) {
 			$myView = $myView->initFromArray($properties);
 			foreach ($myView->getFields() AS $sqlName => $field) {
-				$name = $field->module . '_' . $field->entity . '_' . $field->name;
+				$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 				if(isset($properties[$name]['display'])){
 					if (get_class($field) !== 'core\fields\ident')
 						$displayLine = '()';
@@ -138,9 +138,9 @@ class query extends code {
 			} else {
 				\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $_POST['editor']);
 			}
-			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
+			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but') . ' : ' . $mess, 'notificationType' => 'normal');
 		} else {
-			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error', FALSE) . ' : ' . $mess, 'notificationType' => 'negative');
+			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error') . ' : ' . $mess, 'notificationType' => 'negative');
 		}
 		if (ob_get_level()) ob_clean();
 		echo json_encode($return);
@@ -167,7 +167,7 @@ class query extends code {
 				$_POST['filter'] = array_filter($_POST['filter']);//remove all empty() values
 				foreach ($_POST['filter'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 					if($field !== FALSE && isset($selected[$name]['filter'])){ /* IF field exists and filter is allowed */
 						$filterRes = $field->sqlFilter($_POST['filter'][$field->name]);
 						if(!empty($filterRes)){
@@ -180,7 +180,7 @@ class query extends code {
 			if(isset($_POST['group']) && is_array($_POST['group']) && $this->getConfig('group') ){
 				foreach ($_POST['group'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 					if($field !== FALSE && isset($selected[$name]['group'])){ /* IF field exists and group is allowed */
 						$view->groupBy($field->sqlGroup($_POST['group'][$field->name]));
 					}
@@ -191,12 +191,12 @@ class query extends code {
 				$_POST['sort'] = array_filter($_POST['sort']);//remove all empty() values
 				foreach ($_POST['sort'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->module . '_' . $field->entity . '_' . $field->name;
+					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 					if($field !== FALSE && isset($selected[$name]['sort'])){ /* IF field exists and sort is allowed */
 						$cut = strrpos($_POST['sort'], '_');
 						$sort = substr($_POST['sort'], $cut + 1);
 						if ($sort === 'asc' || $sort === 'desc')
-							$view->order($field->module . '_' . $field->entity . '.' . substr($_POST['sort'], 0, $cut), $sort);
+							$view->order($field->entity->getModule() . '_' . $field->entity->getName() . '.' . substr($_POST['sort'], 0, $cut), $sort);
 					}
 				}
 			}
@@ -218,7 +218,7 @@ class query extends code {
 				if(is_file(PROFILE_PATH . $oldPath))
 					rename(PROFILE_PATH . $oldPath, PROFILE_PATH . $oldPath . '.back'); //do only for profile, not modules
 			} else { /* add block */
-				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area', false) . '</h1>');
+				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area') . '</h1>');
 			}
 		} else {
 			return FALSE; // a view with this ID already exists
