@@ -34,6 +34,6 @@ if ($this->getConfig('mode') !== 'r') {
 	}
 
 	$path = PROFILE_PATH . $viewPath;
-	include('modules/admin/views/desktop/editor.php');
+	include('modules/admin/views/editor.php');
 }
 ?>

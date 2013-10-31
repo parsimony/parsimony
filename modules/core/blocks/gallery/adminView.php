@@ -38,7 +38,7 @@
 			stop:function(response){
 				if(typeof response.name != "undefined"){
 				$("input[name=imgPath]").val(response.name);
-				$("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + response.name + '</span>');
+				$("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name')) ?> : ' + response.name + '</span>');
 				var src = "<?php echo BASE_PATH . $this->moduleName . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1" ;
 				var srcclone = "<?php echo BASE_PATH . $this->moduleName . '/files'; ?>/" + response.name + "?x=100&y=100&crop=1" ;
 				$("#preview .imgf").attr( 'src' ,src );
@@ -77,7 +77,7 @@
 			$('#preview img').attr('src', "<?php echo BASE_PATH . $this->moduleName ?>/files/" + imgname + "?x=150&y=150&crop=1");
 		}
 
-		$("#preview .title").html('<span> <?php echo str_replace("'", "\'", t('Current Name', false)) ?> : ' + imgname + '</span>');
+		$("#preview .title").html('<span> <?php echo str_replace("'", "\'", t('Current Name')) ?> : ' + imgname + '</span>');
 		$('#previewtitle').val(imgtitle);
 		$('#previewalt').val(imgalt);
 		$('#previewurl').val(imgurl);
@@ -140,7 +140,7 @@
 <div>
 	<div id="droparea" class="inline-block container gradStyle">
 		<div style="width: 260px;text-align:center;padding-top: 5px;float: left;">
-			<label style="font-size: 18px;margin: 0px 0 0 10px;" class="ellipsis"><?php echo t('Choose Your Image', FALSE); ?></label>
+			<label style="font-size: 18px;margin: 0px 0 0 10px;" class="ellipsis"><?php echo t('Choose Your Image'); ?></label>
 			<input type="file" onchange="upload(this.files[0]);" style="margin: 8px 0 0 5px;"> 
 		</div>
 		<div style="color: #383838;border: 4px dashed #999;font-size: 15px;font-weight: normal;border-radius: 3px;text-align:center;margin-top: 15px;margin-left: 20px;padding: 14px;width: 377px;float: left;">
@@ -154,7 +154,7 @@
 				<?php
 				$firstimage = current($this->getConfig('img'));
 				if (stream_resolve_include_path('core/files/' . $firstimage['name'])) {
-					echo '<span id="currentname" style="margin-left: 5px;">' . t('Current Name', false) . ' : ' . $firstimage['name'] . '</span><br>';
+					echo '<span id="currentname" style="margin-left: 5px;">' . t('Current Name') . ' : ' . $firstimage['name'] . '</span><br>';
 				}?>
 			</div>
 
@@ -167,27 +167,27 @@
 		</div>
 
 		<div class="floatleft gradStyle" id="settings">
-			<div id="globalsettings"><span class="settings"><?php echo t('Global Settings', false); ?></span><br>
+			<div id="globalsettings"><span class="settings"><?php echo t('Global Settings'); ?></span><br>
 				<div class="labels" style="display: inline;">
-					<label style="width: 83px;" class="ellipsis"><?php echo t('Width', false); ?> (px): </label><input style="width: 40px;" type="text" name="width" value="<?php echo $this->getConfig('width'); ?>" />
+					<label style="width: 83px;" class="ellipsis"><?php echo t('Width'); ?> (px): </label><input style="width: 40px;" type="text" name="width" value="<?php echo $this->getConfig('width'); ?>" />
 				</div>
 				<div class="labels" style="display: inline;">
-					<label style="width: 83px;margin: 4px 0 4px 10px;" class="ellipsis"><?php echo t('Height', false); ?> (px): </label><input style="width: 40px;" type="text" name="height" value="<?php echo $this->getConfig('height'); ?>" />
+					<label style="width: 83px;margin: 4px 0 4px 10px;" class="ellipsis"><?php echo t('Height'); ?> (px): </label><input style="width: 40px;" type="text" name="height" value="<?php echo $this->getConfig('height'); ?>" />
 				</div>
 			</div>
 			<div id="specificsettings">
-				<span class="settings"><?php echo t('Specific Settings', false); ?></span>
+				<span class="settings"><?php echo t('Specific Settings'); ?></span>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Title', false); ?> : </label><input id="previewtitle" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Title'); ?> : </label><input id="previewtitle" type="text" value="" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Alternative Text', false); ?> : </label><input id="previewalt" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Alternative Text'); ?> : </label><input id="previewalt" type="text" value="" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('URL', false); ?> : </label><input id="previewurl" type="text" value="" />
+					<label class="ellipsis"><?php echo t('URL'); ?> : </label><input id="previewurl" type="text" value="" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Description', false); ?> : </label><input id="previewdescription" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Description'); ?> : </label><input id="previewdescription" type="text" value="" />
 				</div>
 			</div>
 		</div>

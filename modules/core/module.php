@@ -154,7 +154,7 @@ class core extends \module {
 	}
 
 	public function connectAction() {
-		return $this->getView('connect', 'desktop');
+		return $this->getView('connect');
 	}
 
 	public function loginAjaxAction() {
@@ -188,15 +188,16 @@ class core extends \module {
 	}
 
 	public function renewPassAction() {
-		if (isset($_POST ['mail']) && filter_var($_POST ['mail'], FILTER_VALIDATE_EMAIL)) {
-			return \app::getClass('user')->resetPassword(filter_var($_POST ['mail'], FILTER_VALIDATE_EMAIL));
+		$mail = app::$request->getParam('mail');
+		if ($mail !== FALSE && filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+			return \app::getClass('user')->resetPassword(filter_var($mail, FILTER_VALIDATE_EMAIL));
 		} else {
 			return t('Invalid E-mail');
 		}
 	}
 
 	public function sitemapAction() {
-		return $this->getView('sitemap', 'desktop');
+		return $this->getView('sitemap');
 	}
 
 	public function install() {

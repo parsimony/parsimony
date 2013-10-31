@@ -258,12 +258,12 @@ class module {
 
 	/**
 	 * GetView
+	 * @param string $name view name
 	 * @return string
 	 */
-	public function getView($name, $device = FALSE) {
-		$device = ($device !== FALSE) ? $device : THEMETYPE;
+	public function getView($name) {
 		ob_start();
-		include($this->name . '/views/' . $device . '/' . $name . '.php');
+		include($this->name . '/views/' . $name . '.php');
 		return ob_get_clean();
 	}
 

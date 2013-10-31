@@ -74,7 +74,7 @@ class img {
 					$this->picture = imagecreatefrompng($this->pathPicture);
 					break;
 				default:
-					return t('The file format is not compatible', False);
+					return t('The file format is not compatible');
 					break;
 			}
 		} else { /* Error img */

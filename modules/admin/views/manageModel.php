@@ -125,17 +125,17 @@ color: #777;
 </style>
 <div class="adminzone">
 	<div class="firstpanel adminzonetab"><a href="#datagridajax"> ☰ </a></div>
-	<input type="text" id="searchData" placeholder="<?php echo t('Search', FALSE); ?> ... ">
-	<div id="selections_search" class="none"><?php echo t('Selection', FALSE); ?>
+	<input type="text" id="searchData" placeholder="<?php echo t('Search'); ?> ... ">
+	<div id="selections_search" class="none"><?php echo t('Selection'); ?>
 		<div id="modifmodel3"></div>
 	</div>
 	<div id="contentajax" class="adminzonecontent">
 		<div id="datagridajax" class="admintabs" style="display: block">
 			<?php 
 			$modifModel = TRUE;
-			include('modules/admin/views/desktop/datagrid.php');
+			include('modules/admin/views/datagrid.php');
 			?>
-			<div class="adminzonetab" style="float: right;margin:20px"><a href="#addmodel" id="addmodelbtn"><?php echo t('Add', FALSE); ?></a></div>
+			<div class="adminzonetab" style="float: right;margin:20px"><a href="#addmodel" id="addmodelbtn"><?php echo t('Add'); ?></a></div>
 		</div>
 		<div id="datagridajaxsearch" class="admintabs"></div>
 		<div id="addmodel" class="admintabs none">

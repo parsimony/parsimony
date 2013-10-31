@@ -73,8 +73,8 @@
 	<div id="conf_box_title"><?php echo t('Manage this page') ?></div>
 	<?php endif; ?>
 	<div id="admin_page" class="adminzonemenu"> 
-		<div id="goto_page" class="adminzonetab notNew"><a href="#" class="ellipsis"><?php echo t('See', FALSE); ?></a></div>
-		<div id="delete_page" class="adminzonetab notNew"><a href="#" class="ellipsis"><?php echo t('Delete', FALSE); ?></a></div>   
+		<div id="goto_page" class="adminzonetab notNew"><a href="#" class="ellipsis"><?php echo t('See'); ?></a></div>
+		<div id="delete_page" class="adminzonetab notNew"><a href="#" class="ellipsis"><?php echo t('Delete'); ?></a></div>   
 	</div>
 	<div id="contentformpage"  class="adminzonecontent">
 		<form class="form" target="formResult" method="POST">
@@ -83,8 +83,8 @@
 			<input type="hidden" name="action" value="savePage">
 			<div class="tabs">
 				<ul>
-					<li class="active"><a href="#tabs-1"><?php echo t('URL & Rewriting', FALSE); ?></a></li>
-					<li><a href="#tabs-2"><?php echo t('SEO', FALSE); ?></a></li>
+					<li class="active"><a href="#tabs-1"><?php echo t('URL & Rewriting'); ?></a></li>
+					<li><a href="#tabs-2"><?php echo t('SEO'); ?></a></li>
 				</ul>
 				<div class="clearboth" style="padding-top: 10px;"></div>
 				<div id="tabs-1" class="panel">
@@ -92,13 +92,13 @@
 					echo '<input type="hidden" name="module" value="' . s($module->getName()) . '">';
 					?>
 					<div class="placeholder">
-						<label for="title"><?php echo t('Title', FALSE); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
+						<label for="title"><?php echo t('Title'); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
 					</div>
 					<div class="placeholder inputregex">
-						<label for="title"><?php echo t('URL', FALSE); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr($page->getRegex(), 2, -2)); ?>">
+						<label for="title"><?php echo t('URL'); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr($page->getRegex(), 2, -2)); ?>">
 					</div>
 					<div style="top: 5px;position: relative;left: 7px;text-overflow:ellipsis;font-size:13px">
-						<span for="genereURL"><?php echo t('URL', FALSE); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php
+						<span for="genereURL"><?php echo t('URL'); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php
 								$modulename = $module->getName();
 								if ($modulename != \app::$config['modules']['default'])
 									echo $modulename;
@@ -106,7 +106,7 @@
 					</div>
 					<?php if ($_SESSION['behavior'] == 2): ?>
 						<div style="position: absolute;left: 570px;top: 82px;cursor:pointer;color: #333;line-height: 15px;" onclick="$('#tabs-admin-querieur').toggle();">
-							<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Dynamic page', FALSE); ?>
+							<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Dynamic page'); ?>
 						</div>
 					<?php endif; ?>
 					<div id="pageOverride" style="position: relative;top: 16px;left: 7px;"></div>
@@ -115,26 +115,26 @@
 						<?php $components = $page->getURLcomponents(); ?>
 							<div id="tabs-admin-querieur" class="none" style="">
 								<fieldset id="tabs-admin-query" style="background: none;">
-									<legend><?php echo t('URL Builder', False); ?></legend>
+									<legend><?php echo t('URL Builder'); ?></legend>
 									<div class="showcomponent <?php if (empty($components)) echo 'none'; ?>">
 										<div id="col">
-											<div><?php echo t('Name', FALSE); ?></div>
-											<div><?php echo t('Component', FALSE); ?></div>
-											<div><?php echo t('Regex', FALSE); ?></div>
-											<div><?php echo t('Default Value', FALSE); ?></div>
+											<div><?php echo t('Name'); ?></div>
+											<div><?php echo t('Component'); ?></div>
+											<div><?php echo t('Regex'); ?></div>
+											<div><?php echo t('Default Value'); ?></div>
 										</div> 
 										<div id="abc" class="none paramdyn">
 											<div class="parsiname"><input type="text" style="width:100px"></div>
-											<div class="type"><?php echo t('Regex', FALSE); ?></div>
+											<div class="type"><?php echo t('Regex'); ?></div>
 											<div class="regex"><input type="text" style="width:100px"></div>
 											<div class="modelProperty" style="display:none"><input type="hidden"></div>
 											<div class="val"><input type="text" style="width:100px"></div>
-											<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+											<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?'); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
 										</div>
 										<div id="abcd" class="none paramstatique">
 											<div class="text"><input type="text" style="width:100px"></div>
-											<div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text', FALSE); ?></div>
-											<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+											<div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text'); ?></div>
+											<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?'); ?>'))$(this).parent().parent().remove();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
 										</div>
 										<div id="container">
 											<?php
@@ -144,20 +144,20 @@
 														?>
 														<div class="paramdyn">
 															<div class="parsiname"><input value="<?php echo $component['name']; ?>" name="URLcomponents[<?php echo $idc; ?>][name]" style="width:100px" type="text" ></div>
-															<div class="type"><?php echo t('Regex', FALSE); ?></div>
+															<div class="type"><?php echo t('Regex'); ?></div>
 
 															<div class="regex"><input value="<?php echo $component['regex']; ?>" name="URLcomponents[<?php echo $idc; ?>][regex]" type="text" style="width:100px" ></div>
 															<div class="modelProperty" style="display:none"><input value="<?php if (isset($component['modelProperty'])) echo $component['modelProperty']; ?>" name="URLcomponents[<?php echo $idc; ?>][modelProperty]" type="hidden"></div>
 															<div class="val"><input value="<?php echo $component['val']; ?>" name="URLcomponents[<?php echo $idc; ?>][val]" type="text" style="width:100px"></div>
-															<div class="del" style="text-align:center"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+															<div class="del" style="text-align:center"><a href="" onClick="if(confirm('<?php echo t('Are you sure to delete this component ?'); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
 														</div>
 														<?php
 													} else {
 														?>
 														<div class="paramstatique">
 															<div class="text" colspan="3"><input type="text" class="cent" name="URLcomponents[<?php echo $idc ?>][text]" value="<?php echo $component['text'] ?>"></div>
-															<div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text', FALSE); ?></div>
-															<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?', FALSE); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
+															<div class="type" style="line-height: 30px;height: 90px;"><?php echo t('Text'); ?></div>
+															<div class="del"><a href="" onClick="if (confirm('<?php echo t('Are you sure to delete this component ?'); ?>'))$(this).parent().parent().remove();genereregex();return false;"><span class="ui-icon ui-icon-closethick"></span></a></div>
 														</div>
 													<?php
 												}
@@ -166,9 +166,9 @@
 										?>
 										</div>
 									</div>
-									<div style="clear: both;padding-top: 15px;"><?php echo t('To create your URL, Choose between these elements :', False); ?></div>
+									<div style="clear: both;padding-top: 15px;"><?php echo t('To create your URL, Choose between these elements :'); ?></div>
 									<div id="schema_sql" class="choicebuilder" style="width: 175px;">
-										<div class="choicetitle"><?php echo t('A SQL property', False); ?> :</div>
+										<div class="choicetitle"><?php echo t('A SQL property'); ?> :</div>
 										<?php
 										$models = $module->getModel();
 										$allowedField = array('ident' => '1', 'string' => 'example', 'numeric' => '1', 'numeric' => '1', 'url_rewriting' => 'example', 'user' => '1');
@@ -194,39 +194,39 @@
 										<div class="clearboth"></div>
 									</div>
 									<div class="choicebuilder">
-										<div class="choicetitle"><?php echo t('A regex parameter', False); ?> :</div>
+										<div class="choicetitle"><?php echo t('A regex parameter'); ?> :</div>
 										<input type="text" style="width: 120px;margin-right: 10px;" id="paramname">
-										<select id="paramregex"><option value="(.*)"></span><?php echo t('Text', False); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric', False); ?></option></select>
-										<input type="button" id="addparam" value="<?php echo t('Add Text Component', False); ?>">
+										<select id="paramregex"><option value="(.*)"></span><?php echo t('Text'); ?></option><option value="([0-9]*)"></span><?php echo t('Numeric'); ?></option></select>
+										<input type="button" id="addparam" value="<?php echo t('Add Text Component'); ?>">
 									</div>
 									<div class="choicebuilder">
-										<div class="choicetitle"><?php echo t('A simple textual parameter :', False); ?></div>
-										<input type="button" id="addtextcomposant" value="<?php echo t('Add Text Component', False); ?>">
+										<div class="choicetitle"><?php echo t('A simple textual parameter :'); ?></div>
+										<input type="button" id="addtextcomposant" value="<?php echo t('Add Text Component'); ?>">
 									</div>
 								</fieldset>
-								<div class="none"><a href="#" onClick="$('input[name=\'regex\']');return false;"><?php echo t('Dynamise your page with numbers', FALSE); ?></a> <a href="#" onClick="$(this).next().slideToggle();return false;"><?php echo t('Dynamise your page with String', FALSE); ?></a></div>
+								<div class="none"><a href="#" onClick="$('input[name=\'regex\']');return false;"><?php echo t('Dynamise your page with numbers'); ?></a> <a href="#" onClick="$(this).next().slideToggle();return false;"><?php echo t('Dynamise your page with String'); ?></a></div>
 								<div class="clearboth"></div>
 							</div>
 						<?php endif; ?>
 					</div>
 				</div>
 				<div id="tabs-2" class="fields_to_update panel none">
-					<div class="placeholder"><label for="meta[description]"><?php echo t('Description', FALSE); ?></label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
-					<div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords', FALSE); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
-					<div class="placeholder"><label for="meta[author]"><?php echo t('Author', FALSE); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
+					<div class="placeholder"><label for="meta[description]"><?php echo t('Description'); ?></label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
+					<div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords'); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
+					<div class="placeholder"><label for="meta[author]"><?php echo t('Author'); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
 					<div class="placeholder">
-						<label style="border-bottom: 1px solid #C1C1C1;"><?php echo t('Robots', FALSE); ?></label>
+						<label style="border-bottom: 1px solid #C1C1C1;"><?php echo t('Robots'); ?></label>
 						<input type="hidden" name="meta[robots]" id="SEOrobots" value="<?php echo s($page->getMeta('robots')); ?>" /><br><br>
 						<table class="robots">
 							<tbody>
 							<tr>
-								<td><?php echo t('No index', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noindex" <?php if (strstr($page->getMeta('robots'), 'noindex')) echo ' checked="checked"'; ?> /></td>
+								<td><?php echo t('No index'); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noindex" <?php if (strstr($page->getMeta('robots'), 'noindex')) echo ' checked="checked"'; ?> /></td>
 							</tr>
 							<tr>
-								<td><?php echo t('No follow', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="nofollow" <?php if (strstr($page->getMeta('robots'), 'nofollow')) echo ' checked="checked"'; ?> /></td>
+								<td><?php echo t('No follow'); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="nofollow" <?php if (strstr($page->getMeta('robots'), 'nofollow')) echo ' checked="checked"'; ?> /></td>
 							</tr>
 							<tr>
-								<td><?php echo t('No archive', FALSE); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noarchive" <?php if (strstr($page->getMeta('robots'), 'noarchive')) echo ' checked="checked"'; ?> /></td>
+								<td><?php echo t('No archive'); ?></td><td class="opt"><input type="checkbox" class="robotsOptions" data-option="noarchive" <?php if (strstr($page->getMeta('robots'), 'noarchive')) echo ' checked="checked"'; ?> /></td>
 							</tr>
 							</tbody>
 						</table>
@@ -237,7 +237,7 @@
 		</form>
 	</div>
 	<div class="adminzonefooter">
-		<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
+		<div id="save_page" class="save ellipsis"><?php echo t('Save'); ?></div>
 	</div>
 </div>
 <script type="text/javascript">

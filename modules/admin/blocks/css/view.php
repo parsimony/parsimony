@@ -68,7 +68,7 @@ ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues
 <?php /* We create a form in order to reset easily all values by .reset(), but not media queries inputs  */ ?>
 <form method="POST" id="form_css" action="javascript:void(0);" target="formResult">
 	<div id="selectorcontainer">
-	   <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker', FALSE); ?>"><span class="sprite sprite-picker"></span></div>
+	   <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker'); ?>"><span class="sprite sprite-picker"></span></div>
 		<input type="text" placeholder="e.g. #selector" data-optionsurl="" class="autocomplete" id="current_selector_update" spellcheck="false" />
 	</div>
 	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>/style.css" />

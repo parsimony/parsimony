@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 if (is_object($block) == NULL) {
-	echo t('No config for this block', false);
+	echo t('No config for this block');
 } else {
 	?>
 	<script type="text/javascript">
@@ -77,8 +77,8 @@ if (is_object($block) == NULL) {
 	<div id="block_conf" class="adminzone">
 		<div id="conf_box_title"><?php echo t('Configuration').' #'.$_POST['idBlock']; ?></div>
 		<div class="adminzonemenu">
-			<div class="firstpanel adminzonetab"><a href="#accordionBlockConfig" class="ellipsis"><?php echo t('Specific', FALSE); ?></a></div>
-			<div class="adminzonetab"><a href="#accordionBlockConfigGeneral" class="ellipsis"><?php echo t('General', FALSE); ?></a></div>
+			<div class="firstpanel adminzonetab"><a href="#accordionBlockConfig" class="ellipsis"><?php echo t('Specific'); ?></a></div>
+			<div class="adminzonetab"><a href="#accordionBlockConfigGeneral" class="ellipsis"><?php echo t('General'); ?></a></div>
 		</div>
 		<div class="adminzonecontent">
 			<form method="POST" id="form_confs" target="formResult" action="" style="height: 100%;">
@@ -99,13 +99,13 @@ if (is_object($block) == NULL) {
 					<div class="clear">
 						<h3>HTML, CSS & cache</h3>
 						<div class="placeholder blockhead">
-							<label> <?php echo t('Header Title', FALSE); ?></label> <input type="text" name="headerTitle" value="<?php echo $block->getConfig('headerTitle') ?>">
+							<label> <?php echo t('Header Title'); ?></label> <input type="text" name="headerTitle" value="<?php echo $block->getConfig('headerTitle') ?>">
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Add CSS Classes', FALSE); ?></label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
+							<label><?php echo t('Add CSS Classes'); ?></label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('HTML5 Tags', FALSE); ?> :</label>
+							<label><?php echo t('HTML5 Tags'); ?> :</label>
 							<select name="tag" style="height : 25px">
 								<?php if ($block->getConfig('tag') !== false) echo '<option value="' . $block->getConfig('tag') . '">' . $block->getConfig('tag') . '</option>' ?>
 								<option value="div">div</option>
@@ -119,13 +119,13 @@ if (is_object($block) == NULL) {
 							</select>
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Cache Seconds', FALSE); ?></label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
+							<label><?php echo t('Cache Seconds'); ?></label> <input type="text" name="maxAge" value="<?php echo $block->getConfig('maxAge') ?>">
 						</div>
 					</div>
 					<div class="clear padd"> 
 						<h3>Display</h3>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Only for the following modules', FALSE); ?></label>
+							<label><?php echo t('Only for the following modules'); ?></label>
 							<select name="allowedModules[]" multiple="multiple">
 								<?php
 								$allowedModules = (array) $block->getConfig('allowedModules');
@@ -137,7 +137,7 @@ if (is_object($block) == NULL) {
 							</select>
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Permissions: only for the selected groups', FALSE); ?></label>
+							<label><?php echo t('Permissions: only for the selected groups'); ?></label>
 							<select name="allowedRoles[]" multiple="multiple">
 								<?php
 								$allowedRoles = (array) $block->getConfig('allowedRoles');
@@ -152,22 +152,22 @@ if (is_object($block) == NULL) {
 					<div class="clear padd"> 
 						<h3>Ajax load</h3>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Reload the block every X seconds', FALSE); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>">
+							<label><?php echo t('Reload the block every X seconds'); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>">
 						</div>
 						<div class="placeholder blockhead"> 
-							<label><?php echo t('Ajax On Page Load', FALSE); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') !== false && $block->getConfig('ajaxLoad') != 0) echo ' checked="checked"'; ?>>
+							<label><?php echo t('Ajax On Page Load'); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') !== false && $block->getConfig('ajaxLoad') != 0) echo ' checked="checked"'; ?>>
 						</div>
 					</div>
 					<div class="clear padd"> 
 						<h3>Include CSS & JS</h3>
 						<div class="placeholder blockhead">
-							<label><?php echo t('CSS Files', FALSE); ?> :</label>
+							<label><?php echo t('CSS Files'); ?> :</label>
 							<input type="text" id="newCSSFile" placeholder="http://example.com/css.css or lib/fancybox/example.css">
 							<select id="posNewCSSFile">
 								<option value="header">Header</option>
 								<option value="footer">Footer</option>
 							</select>
-							<input type="button" id="btnNewCSSFile" value="<?php echo t('Add CSS File', FALSE); ?>">
+							<input type="button" id="btnNewCSSFile" value="<?php echo t('Add CSS File'); ?>">
 							<div id="cssFilesCont">
 								<?php
 								$files = $block->getConfig('CSSFiles');
@@ -180,13 +180,13 @@ if (is_object($block) == NULL) {
 							</div>
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('JS Files', FALSE); ?> :</label>
+							<label><?php echo t('JS Files'); ?> :</label>
 							<input type="text" id="newJSFile" placeholder="http://example.com/css.css or lib/fancybox/example.js">
 							<select id="posNewJSFile">
 								<option value="header">Header</option>
 								<option value="footer">Footer</option>
 							</select>
-							<input type="button" id="btnNewJSFile" value="<?php echo t('Add JS File', FALSE); ?>">
+							<input type="button" id="btnNewJSFile" value="<?php echo t('Add JS File'); ?>">
 							<div id="jsFilesCont">
 								<?php
 								$files = $block->getConfig('JSFiles');
@@ -208,7 +208,7 @@ if (is_object($block) == NULL) {
 					</div>
 					<?php if(method_exists($block, 'forkAction')): ?>
 						<div class="clear padd">
-							<h3><?php echo t('Export this configuration in a new block', FALSE); ?></h3>
+							<h3><?php echo t('Export this configuration in a new block'); ?></h3>
 							<div class="placeholder blockhead">
 								<?php
 								$ownModules = \app::$config['modules']['active'];
@@ -216,9 +216,9 @@ if (is_object($block) == NULL) {
 								unset($ownModules['blog']);
 								if(count($ownModules) > 0):
 									?>
-									<label><?php echo t('Name of the new block', FALSE); ?></label>
+									<label><?php echo t('Name of the new block'); ?></label>
 									<input type="text" id="nameNewBlock">
-									<label><?php echo t('Target module', FALSE); ?></label>
+									<label><?php echo t('Target module'); ?></label>
 									<select id="nameTargetModule" name="module" >
 										<?php
 										foreach ($ownModules as $moduleName => $module) {
@@ -227,7 +227,7 @@ if (is_object($block) == NULL) {
 										}
 										?>
 									</select>
-									<input type="button" id="createNewBlock" value="<?php echo t('Fork', FALSE); ?>">
+									<input type="button" id="createNewBlock" value="<?php echo t('Fork'); ?>">
 								<?php else: ?>
 									You have to create at least one module.
 								<?php endif; ?>
@@ -239,7 +239,7 @@ if (is_object($block) == NULL) {
 			</form>
 		</div>
 		<div class="adminzonefooter">
-			<div id="save_page" class="save ellipsis"><?php echo t('Save', FALSE); ?></div>
+			<div id="save_page" class="save ellipsis"><?php echo t('Save'); ?></div>
 		</div>
 	</div>
 	<?php

@@ -376,50 +376,7 @@ namespace core\classes {
 
 }
 
-	namespace {
-
-	/**
-	 *  These 2 functions are the only procedural functions of Parsimony
-	 */
-	if (isset($_SESSION['behavior']) && $_SESSION['behavior'] === 2) {
-
-		function t($text, $modAdmin = TRUE) {
-			$before = '';
-			$after = '';
-			if ($modAdmin !== FALSE) {
-				$before = '<span data-key="' . $text . '" class="translation">';
-				$after = '</span>';
-			}
-			if (isset(app::$lang[$text])) {
-				if (is_array($modAdmin))
-					return $before . vsprintf(app::$lang[$text], $modAdmin) . $after;
-				else
-					return $before . app::$lang[$text] . $after;
-			} else {
-				if (is_array($modAdmin))
-					return $before . vsprintf($text, $modAdmin) . $after;
-				else
-					return $before . $text . $after;
-			}
-		}
-
-	} else {
-
-		function t($text, $params = FALSE) {
-			if (isset(app::$lang[$text])) {
-				if ($params !== FALSE)
-					return vsprintf(app::$lang[$text], $params);
-				else
-					return app::$lang[$text] ;
-			}else {
-				if ($params !== FALSE)
-					return vsprintf($text, $params);
-				else
-					return $text;
-			}
-		}
-
-	}
+namespace {
 
 	function s($text) {
 		return htmlentities($text, ENT_QUOTES | ENT_IGNORE, 'utf-8');

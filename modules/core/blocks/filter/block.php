@@ -57,8 +57,23 @@ class filter extends \block {
 					include('modules/core/blocks/filter/views/'.$template.'.php');
 				}
 			}
+			echo '<div class="groupfilter"><h2>Group by</h2>';
+			foreach ($selected as $value) {
+				if(isset($value['filter'])){
+					$table = $value['table'];
+					$property = $value['property'];
+					list($module, $entity) = explode('_', $table, 2);
+					$field = \app::getModule($module)->getEntity($entity)->getField($property);
+					if(get_class($field) === 'core\fields\date'){
+						echo '<div>' . $property . ' : <select name="group['.$property.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+					}else{
+						echo '<div>' . $property . ' : <input type="checkbox" name="group['.$property.']"></div>';
+					}
+				}
+			}
 		}
-		echo '<select name="group[datecreation]"><option></option><option>day</option><option>month</option><option>year</option></select><input type="submit"></form>';
+		
+		echo '</div><input type="submit"></form>';
 		return ob_get_clean();
 	}
 

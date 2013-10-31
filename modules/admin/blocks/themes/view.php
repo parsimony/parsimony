@@ -65,22 +65,22 @@ foreach ($modules as $moduleName => $mode) {
 		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
 			<div class="themeOptions">
-				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" type="button" value="<?php echo t('Preview', FALSE) ?>" />
+				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
 				<?php if($themeName !== app::$config['THEME']): ?>
 					<form method="POST" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
 						<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 						<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 						<input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
-						<input class="input" type="submit" value="<?php echo t('Choose', FALSE) ?>" />
+						<input class="input" type="submit" value="<?php echo t('Choose') ?>" />
 					</form>
 				<?php endif; ?>
-				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate', FALSE) ?>" />
+				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
 				<?php if($themeName !== app::$config['THEME']): ?>
 					<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
 						<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 						<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 						<input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
-						<input class="input" type="submit" value="<?php echo t('Delete', FALSE) ?>" />
+						<input class="input" type="submit" value="<?php echo t('Delete') ?>" />
 					</form>
 				<?php endif; ?>
 			</div>
@@ -90,18 +90,18 @@ foreach ($modules as $moduleName => $mode) {
 	}
 }
 ?>
-	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> + <?php echo t('New', FALSE); ?> Theme</a>
+	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> + <?php echo t('New'); ?> Theme</a>
 	</ul>	
 </div> 
 <div id="themenew">
 	<form method="POST" id="themeFormAdd" target="formResult" action="<?php echo BASE_PATH; ?>admin/addTheme">
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
 		<div class="placeholder">
-			<label for="name"><?php echo t('Theme Name', FALSE); ?></label>
+			<label for="name"><?php echo t('Theme Name'); ?></label>
 			<input type="text" style="width: 190px;" name="name" required="required"/>                       
 		</div>
 		<div class="placeholder">
-			<label><?php echo t('Module', FALSE); ?></label>
+			<label><?php echo t('Module'); ?></label>
 			<select name="thememodule">
 				<?php
 				$modules = \app::$config['modules']['active'];
@@ -114,18 +114,18 @@ foreach ($modules as $moduleName => $mode) {
 			</select>
 		</div>
 		<div class="placeholder" style="width: 190px;">
-			<label style="display: inline-block;position: relative;"><?php echo t('Pattern', FALSE) ;?></label>
-			<div style="margin: 8px 0;"><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank', FALSE) ?></div>
-			<?php /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL', FALSE) ?> : <input type="text" name="url" style="width:150px;" ></div>*/ ?>
+			<label style="display: inline-block;position: relative;"><?php echo t('Pattern') ;?></label>
+			<div style="margin: 8px 0;"><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank') ?></div>
+			<?php /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL') ?> : <input type="text" name="url" style="width:150px;" ></div>*/ ?>
 			<div id="duplicatepattern">
 				<div><input type="radio" name="patterntype" value="template" style="float:left;margin:0" /><h4 id="patternName"></h4></div>
 				<img id="patternIMG" src="" />
 				<input type="hidden" name="template" value=""  />
 			</div>
 		</div>
-		<input type="submit" style="width: 90%;margin:15px;" value="<?php echo t('Create Theme', FALSE); ?>" />
+		<input type="submit" style="width: 90%;margin:15px;" value="<?php echo t('Create Theme'); ?>" />
 	</form>
-	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> < <?php echo t('Cancel', FALSE); ?></a>
+	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> < <?php echo t('Cancel'); ?></a>
 </div>
 
 

@@ -71,7 +71,7 @@
 <div ondragover="return false" id="droparea">
 	<div class="inline-block dragndropimage">
 		<div class="img inline-block dragndropimageInner">
-			<label style="font-size: 17px;margin-top: 5px;display: inline-block;"><?php echo t('Choose Your Image', FALSE); ?></label>
+			<label style="font-size: 17px;margin-top: 5px;display: inline-block;"><?php echo t('Choose Your Image'); ?></label>
 			<input type="file" style="margin: 15px 0 0 0px;"> 
 			<div class="boxDropImage">
 				<label style="font-weight: normal;"><?php echo t('Drag n\' Drop your New Image In this Window', FALSE); ?></label>
@@ -100,30 +100,30 @@
 $size = array(0,0);
 $pathIMG = stream_resolve_include_path($this->getConfig('imgPath'));
 if($pathIMG) $size = @getimagesize($pathIMG);
-echo '<label>' . t('Width', false) . ' : </label> <span id="width">' . $size[0] . 'px' . '</span> ; <label>' . t('Height', false) . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
+echo '<label>' . t('Width') . ' : </label> <span id="width">' . $size[0] . 'px' . '</span> ; <label>' . t('Height') . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
 			</div>
 		</div>
 
 	</div>
 	<br><br>
-	<h2><?php echo t('Change the image settings', false); ?></h2>
+	<h2><?php echo t('Change the image settings'); ?></h2>
 	<div class="placeholder" style="display: inline-block;width:338px">
-		<label><?php echo t('Width', false); ?> (px): </label><input type="text" name="width" placeholder="100% by default" value="<?php if ($this->getConfig('width')) echo s($this->getConfig('width')); ?>" />
+		<label><?php echo t('Width'); ?> (px): </label><input type="text" name="width" placeholder="100% by default" value="<?php if ($this->getConfig('width')) echo s($this->getConfig('width')); ?>" />
 	</div>
 	<div class="placeholder" style="display: inline-block;width:338px">
-		<label><?php echo t('Height', false); ?> (px): </label><input type="text" name="height" value="<?php if ($this->getConfig('height')) echo s($this->getConfig('height')); ?>" />
+		<label><?php echo t('Height'); ?> (px): </label><input type="text" name="height" value="<?php if ($this->getConfig('height')) echo s($this->getConfig('height')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('Title', false); ?> : </label><input type="text" name="title" value="<?php if ($this->getConfig('title')) echo s($this->getConfig('title')); ?>" />
+		<label><?php echo t('Title'); ?> : </label><input type="text" name="title" value="<?php if ($this->getConfig('title')) echo s($this->getConfig('title')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('Alternative Text', false); ?> : </label><input type="text" name="alt" value="<?php if ($this->getConfig('alt')) echo s($this->getConfig('alt')); ?>" />
+		<label><?php echo t('Alternative Text'); ?> : </label><input type="text" name="alt" value="<?php if ($this->getConfig('alt')) echo s($this->getConfig('alt')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('URL', false); ?> : </label><input type="text" name="url" value="<?php if ($this->getConfig('url')) echo s($this->getConfig('url')); ?>" />
+		<label><?php echo t('URL'); ?> : </label><input type="text" name="url" value="<?php if ($this->getConfig('url')) echo s($this->getConfig('url')); ?>" />
 	</div>
 	<div>
-		<label><?php echo t('Fancy Box', false); ?> : </label>
+		<label><?php echo t('Fancy Box'); ?> : </label>
 		<input type="checkbox" name="fancybox" <?php
 			if ($this->getConfig('fancybox') == '1') {
 			echo 'checked="checked"';

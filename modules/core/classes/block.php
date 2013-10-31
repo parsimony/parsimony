@@ -350,7 +350,7 @@ class '.$blockName.' extends \\'.$extends.' {
 			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/block.php', $template);
 			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/icon.png', file_get_contents('modules/' . $moduleFrom . '/blocks/' . $nameFrom . '/icon.png'));
 			file_put_contents('modules/' . $moduleName . '/blocks/' . $blockName . '/view.php', file_get_contents($viewPath, FILE_USE_INCLUDE_PATH));
-			$return = array('eval' => '', 'notification' => t('Block has been created', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => '', 'notification' => t('Block has been created'), 'notificationType' => 'positive');
 		} else {
 			$return = array('eval' => '', 'notification' => t('Block has\'nt been created', FALSE), 'notificationType' => 'negative');
 		}

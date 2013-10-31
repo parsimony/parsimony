@@ -71,9 +71,9 @@ class code extends \block {
 		if ($code == 0 || $code == 2 || $code == 8 || $code == 256 || $code == 512 || $code == 1024 || $code == 2048 || $code == 4096 || $code == 8192 || $code == 16384) {
 			/* If it's a low level error, we save but we notice the dev */
 			\tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), $_POST['editor']);
-			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but', FALSE) . ' : ' . $mess, 'notificationType' => 'normal');
+			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Saved but') . ' : ' . $mess, 'notificationType' => 'normal');
 		} else {
-			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error', FALSE) . ' : ' . $mess, 'notificationType' => 'negative');
+			$return = array('eval' => '$("#' . $this->getId() . '",ParsimonyAdmin.currentBody).html("' . $mess . '");', 'notification' => t('Error') . ' : ' . $mess, 'notificationType' => 'negative');
 		}
 		if (ob_get_level())
 			ob_clean();
@@ -104,7 +104,7 @@ class code extends \block {
 				if(is_file(PROFILE_PATH . $oldPath))
 					rename(PROFILE_PATH . $oldPath, PROFILE_PATH . $oldPath . '.back'); //do only for profile, not modules
 			} else { /* add block */
-				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area', false) . '</h1>');
+				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area') . '</h1>');
 			}
 		} else {
 			return FALSE; // a view with this ID already exists

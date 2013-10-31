@@ -4,8 +4,8 @@ $techName = str_replace('\\', '__', str_replace('/', '__', str_replace('.', '', 
 ?>
 <div class="panel" id="tab-<?php echo $techName ?>" data-path="<?php echo PROFILE_PATH.$path; ?>">
 <div class="toolbarEditor">
-    <input type="button" class="saveCode" value="<?php echo t('Save', FALSE); ?>" />
-    <select class="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
+    <input type="button" class="saveCode" value="<?php echo t('Save'); ?>" />
+    <select class="historyfile" style="width:100px"><option value="none"><?php echo t('History'); ?></option>
 	<?php
         $backups = glob('var/backup/' . PROFILE . '/' . PROFILE_PATH . $path . '-*.bak');
         if(is_array($backups)){
@@ -17,13 +17,13 @@ $techName = str_replace('\\', '__', str_replace('/', '__', str_replace('.', '', 
         }
 	?>
     </select>
-    <input type="button" onclick="replaces('<?php echo $techName ?>')" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
-    <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
+    <input type="button" onclick="replaces('<?php echo $techName ?>')" style="float: right;" value="<?php echo t('Format'); ?>" />
+    <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace'); ?>" />
     <div class="subToolbarEditor">
 	<input type="text" id="query" >
-	<input type="button" onclick="search('<?php echo $techName ?>')" value="<?php echo t('Search', FALSE); ?>" />
+	<input type="button" onclick="search('<?php echo $techName ?>')" value="<?php echo t('Search'); ?>" />
 	<input type="text" id="replace">
-	<input type="button" onclick="replaces('<?php echo $techName ?>')" value="<?php echo t('Replace', FALSE); ?>" />
+	<input type="button" onclick="replaces('<?php echo $techName ?>')" value="<?php echo t('Replace'); ?>" />
     </div>
 </div>
 <div style="clear:both"></div>

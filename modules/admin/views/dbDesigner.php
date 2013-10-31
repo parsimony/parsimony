@@ -149,7 +149,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	<p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
 </div>
 
-<div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
+<div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -169,7 +169,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		</tbody>
 	</table>
 </div>
-<div id="tooltip-field_numeric" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_numeric/icon.png"><span class="tooltitle"><?php echo t('Numeric Field') ?></span></div>
+<div id="tooltip-field_numeric" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/numeric/icon.png"><span class="tooltitle"><?php echo t('Numeric Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).'); ?></p>
 	<div class="tooltype"> SQL Type : INT 2 by default</div>
 	<table class="tooltab">
@@ -190,7 +190,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div> 
 
-<div id="tooltip-field_decimal" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_decimal/icon.png"><span class="tooltitle"><?php echo t('Decimal Field') ?></span></div>    
+<div id="tooltip-field_decimal" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/decimal/icon.png"><span class="tooltitle"><?php echo t('Decimal Field') ?></span></div>    
 	<p class="tooldef ellipsis"> <?php echo t('A Decimal Field is a data field that holds fixed-precision decimal numbers.') ?></p>
 	<div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
 	<table class="tooltab">
@@ -211,7 +211,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div> 
 
-<div id="tooltip-field_price" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_price/icon.png"><span class="tooltitle"><?php echo t('Price Field') ?></span></div>
+<div id="tooltip-field_price" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/price/icon.png"><span class="tooltitle"><?php echo t('Price Field') ?></span></div>
 	<p class="tooldef ellipsis"> <?php echo 'A Price Field stores a money value in your entity. ' ?></p>
 	<div class="tooltype"> SQL Type : DECIMAL 7,2 by default</div>
 	<table class="tooltab">
@@ -232,7 +232,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_percent" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_percent/icon.png"><span class="tooltitle"><?php echo t('Percent Field') ?></span></div>
+<div id="tooltip-field_percent" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/percent/icon.png"><span class="tooltitle"><?php echo t('Percent Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A Percent Field specializes in handling percentage data and displays a value between 0 and 100. ' ?></p>
 	<div class="tooltype"> SQL Type : DECIMAL 5,2 by default</div>
 	<table class="tooltab">
@@ -253,7 +253,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_mail" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_mail/icon.png"><span class="tooltitle"><?php echo t('Mail Field') ?></span></div>
+<div id="tooltip-field_mail" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/mail/icon.png"><span class="tooltitle"><?php echo t('Mail Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A Mail Field is used when the data entered by the user has to be an email. ' ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -274,7 +274,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_password" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_password/icon.png"><span class="tooltitle"><?php echo t('Password Field') ?></span></div>
+<div id="tooltip-field_password" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/password/icon.png"><span class="tooltitle"><?php echo t('Password Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A password field stores in sha-1 hash the password + a salt. It displays a password input type.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -295,7 +295,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_state" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_state/icon.png"><span class="tooltitle"><?php echo t('State Field') ?></span></div>
+<div id="tooltip-field_state" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/state/icon.png"><span class="tooltitle"><?php echo t('State Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A State field manages the status of an Entity. The state can be used as a Boolean (True / False) or can contain several values (Yes,Perhaps,No) separated by a comma (CSV). '; ?></p>
 	<div class="tooltype"> SQL Type : INT 2 by default</div>
 	<table class="tooltab">
@@ -328,7 +328,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_date" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Date Field') ?></span></div>
+<div id="tooltip-field_date" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/date/icon.png"><span class="tooltitle"><?php echo t('Date Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A date field is a component for presenting date and time.'; ?></p>
 	<div class="tooltype"> SQL Type : DATETIME by default</div>
 	<table class="tooltab">
@@ -349,7 +349,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_publication" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_date/icon.png"><span class="tooltitle"><?php echo t('Publication Field') ?></span></div>
+<div id="tooltip-field_publication" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/date/icon.png"><span class="tooltitle"><?php echo t('Publication Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A Publication Field contains the published or scheduled date. It provides a Visibility Mode (public, private, protected by password) and also a workflow with different status like Pending, Draft and Published. '; ?></p>
 	<div class="tooltype"> SQL Type : DATETIME by default</div>
 	<table class="tooltab">
@@ -370,7 +370,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_progress" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_progress/icon.png"><span class="tooltitle"><?php echo t('Progress Field') ?></span></div>
+<div id="tooltip-field_progress" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/progress/icon.png"><span class="tooltitle"><?php echo t('Progress Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A Progress Field creates a progress bar. '; ?></p>
 	<div class="tooltype"> SQL Type : INT 3 by default</div>
 	<table class="tooltab">
@@ -391,7 +391,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_image" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"><span class="tooltitle"><?php echo t('Image Field') ?></span></div>
+<div id="tooltip-field_image" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/image/icon.png"><span class="tooltitle"><?php echo t('Image Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field is used to store the path and display a configurable image in drag n drop.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -404,7 +404,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		</thead>
 		<tbody>
 			<tr>
-				<td><img title="" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png"></td>
+				<td><img title="" src="<?php echo BASE_PATH ?>core/fields/image/icon.png"></td>
 				<td>     
 					<div class="boxDropImage">
 						<input style="height: 25px;width: 120px;" type="file">
@@ -416,14 +416,14 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						<input style="height: 25px;width: 120px;" type="file">
 						<label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
 					</div>
-					<img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/field_image/icon.png">
+					<img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/image/icon.png">
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 
-<div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
+<div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -444,7 +444,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_url_rewriting" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_url_rewriting/icon.png"><span class="tooltitle"><?php echo t('Url rewriting Field') ?></span></div>
+<div id="tooltip-field_url_rewriting" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/url_rewriting/icon.png"><span class="tooltitle"><?php echo t('Url rewriting Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field is a unique identifier of a record for the SEO generated by the title of your record (i.e. This is my article, /this-is-my-article).<br> URL rewriting allows to provide a better search engine optimization.<br> URL\'s appearance is modified to have more relevant links to web pages.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
 	<table class="tooltab">
@@ -465,7 +465,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_wysiwyg" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_wysiwyg/icon.png"><span class="tooltitle"><?php echo t('WYSIWIG Field') ?></span></div>
+<div id="tooltip-field_wysiwyg" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/wysiwyg/icon.png"><span class="tooltitle"><?php echo t('WYSIWIG Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field is used to display a rich content such as text, images or videos.'; ?></p>
 	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
 	<table class="tooltab">
@@ -486,7 +486,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_textarea" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_textarea/icon.png"><span class="tooltitle"><?php echo t('Text Field') ?></span></div>
+<div id="tooltip-field_textarea" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/textarea/icon.png"><span class="tooltitle"><?php echo t('Text Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field holds any type of character with a maximum length of 4,294,967,295.'; ?></p>
 	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
 	<table class="tooltab">
@@ -507,7 +507,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_user" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_user/icon.png"><span class="tooltitle"><?php echo t('User Field') ?></span></div>
+<div id="tooltip-field_user" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/user/icon.png"><span class="tooltitle"><?php echo t('User Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony.'; ?></p>
 	<div class="tooltype"> SQL Type : INT 11 by default</div>
 	<table class="tooltab">
@@ -528,7 +528,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_ip" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_ip/icon.png"><span class="tooltitle"><?php echo t('IP Field') ?></span></div>
+<div id="tooltip-field_ip" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/ip/icon.png"><span class="tooltitle"><?php echo t('IP Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field allows to store an IP address.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR 45 by default</div>
 	<table class="tooltab">
@@ -549,7 +549,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_vote" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_vote/icon.png"><span class="tooltitle"><?php echo t('Vote Field') ?></span></div>
+<div id="tooltip-field_vote" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/vote/icon.png"><span class="tooltitle"><?php echo t('Vote Field') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'This field is under construction.'; ?></p>
 	<div class="tooltype"> SQL Type : FLOAT 20 by default</div>
 	<table class="tooltab">
@@ -570,7 +570,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</table>
 </div>
 
-<div id="tooltip-field_formasso" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/field_formasso/icon.png"><span class="tooltitle"><?php echo t('N:N Association Form') ?></span></div>
+<div id="tooltip-field_formasso" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/formasso/icon.png"><span class="tooltitle"><?php echo t('N:N Association Form') ?></span></div>
 	<p class="tooldef ellipsis"><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship.'; ?></p>
 	<div class="tooltype"> SQL Type : VARCHAR by default</div>
 	<table class="tooltab">
@@ -597,13 +597,13 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</a>
 	<div class="toolbarbonus inline-block">
 		<div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
-			<?php echo t('Connector', FALSE); ?>
+			<?php echo t('Connector'); ?>
 			<form action="" method="POST" style="display:inline-block;margin: 0;">
 				<select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice', this.value, 999);$(this).parent().trigger('submit');">
 					<option>Bezier</option>
 					<option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart') echo ' selected="selected"'; ?>>Flowchart</option>
 				</select>
-				<span style="padding-left: 35px;"><?php echo t('Current Module', FALSE); ?></span>
+				<span style="padding-left: 35px;"><?php echo t('Current Module'); ?></span>
 				<select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
 					<?php
 					foreach (\app::$config['modules']['active'] as $moduleName => $module) {
@@ -620,14 +620,14 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			</form>
 		</div>
 		<div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
-			<?php echo t('Add an Entity', FALSE); ?>
+			<?php echo t('Add an Entity'); ?>
 			<form id="add_table" style="display:inline-block;margin: 0;">
 				<input type="text" id="table_name" style="padding:1px;">
-				<input type="submit" style="height: 19px;line-height: 12px;" value="<?php echo t('Add', FALSE); ?>"> 
+				<input type="submit" style="height: 19px;line-height: 12px;" value="<?php echo t('Add'); ?>"> 
 			</form>
 		</div>
 		<div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
-			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save', FALSE); ?>" style="height: 22px;margin-top: 1px;" />
+			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save'); ?>" style="height: 22px;margin-top: 1px;" />
 		</div>
 	</div>
 </div>
@@ -636,15 +636,15 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	<canvas id="outline" width="150" height="100"></canvas>
 	<div id="conf_box_overlay" class="none ">
 		<div id="popup" class="popup">   
-			<div class="title_popup"><?php echo t('Cardinality', FALSE); ?>
+			<div class="title_popup"><?php echo t('Cardinality'); ?>
 				<span class="conf_box_close ui-icon ui-icon-closethick right"></span>
 			</div>
-			<div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity1"></span> " ?</div>
-			<div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1', FALSE); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
-			<div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several', FALSE); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several', FALSE); ?> " <span class="entity2"></span> " ?</div>
+			<div class="question"><input type="button" id="button1" value="✔">(1 <span class="entity2"></span> - &infin; <span class="entity1"></span>) -- <?php echo t('For 1'); ?> " <span class="entity2"></span>",<?php echo ' ' . t('are there several'); ?> " <span class="entity1"></span> " ?</div>
+			<div class="question"><input type="button" id="button2" value="✔">(1 <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For 1'); ?> " <span class="entity1"></span>",<?php echo ' ' . t('are there several'); ?> " <span class="entity2"></span> " ?</div>
+			<div class="question"><input type="button" id="button3" value="✔">(&infin; <span class="entity1"></span> - &infin; <span class="entity2"></span>) -- <?php echo t('For several'); ?> " <span class="entity1"></span> " ,<?php echo ' ' . t('are there several'); ?> " <span class="entity2"></span> " ?</div>
 		</div>
 		<div id="popup2" class="popup" style="text-align: center;width:300px;">
-			<div class="title_popup"><?php echo t('Link to another module', FALSE); ?>
+			<div class="title_popup"><?php echo t('Link to another module'); ?>
 				<span class="conf_box_close ui-icon ui-icon-closethick right"></span>
 			</div>
 			<div style="line-height: 30px;margin-top: 10px;color: #333;">Choose a table</div>
@@ -661,12 +661,12 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					?>
 				</select>
 			</div>          
-			<input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link', FALSE); ?>">
+			<input type="button" id="btnLinkToExternal" value="<?php echo t('Do the Link'); ?>">
 		</div>
 	</div>
 	<div id="leftsidebar" class="areaWrite">
 		<div>
-			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields', FALSE); ?></h2>
+			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields'); ?></h2>
 			<div id="field_list">
 				<?php
 				function filterprops($val){ return $val !== NULL;};
@@ -699,33 +699,33 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
 						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 						$html .= '<div id="update_' . $class . '">
-<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url(' . BASE_PATH . 'admin/img/icons.png);"></span>' . t('Field Settings', FALSE) . '</h2>
-<div class="rightbar"><label class="ellipsis">' . t('Name', FALSE) . ' </label><input type="text" name="name">
-<label class="ellipsis">' . t('Field', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
+<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url(' . BASE_PATH . 'admin/img/icons.png);"></span>' . t('Field Settings') . '</h2>
+<div class="rightbar"><label class="ellipsis">' . t('Name') . ' </label><input type="text" name="name">
+<label class="ellipsis">' . t('Field') . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
-<div><h3>' . t('SQL Properties', FALSE) . '</h3>
-	<div class="rightbar"><label class="ellipsis">' . t('Type', FALSE) . ' </label><div class="inline-block" style="position:relative;top:3px"><input type="hidden" name="type">' . $field->type . '</div></div>
-	<div class="rightbar" style="clear: both;"><label class="ellipsis">' . t('Max Characters', FALSE) . ' </label><input type="text" name="characters_max"></div>
-	<div class="rightbar"><label class="ellipsis">' . t('Min Characters', FALSE) . ' </label><input type="text" name="characters_min"></div>
+<div><h3>' . t('SQL Properties') . '</h3>
+	<div class="rightbar"><label class="ellipsis">' . t('Type') . ' </label><div class="inline-block" style="position:relative;top:3px"><input type="hidden" name="type">' . $field->type . '</div></div>
+	<div class="rightbar" style="clear: both;"><label class="ellipsis">' . t('Max Characters') . ' </label><input type="text" name="characters_max"></div>
+	<div class="rightbar"><label class="ellipsis">' . t('Min Characters') . ' </label><input type="text" name="characters_min"></div>
 </div>
-<div><h3>' . t('Form View', FALSE) . '</h3>
-<div  class="rightbar"><label class="ellipsis">' . t('Label', FALSE) . ' </label><input type="text" name="label"></div>
-<div class="rightbar"><label class="ellipsis">' . t('Text help', FALSE) . ' </label><input type="text" name="text_help"></div>
-<div class="rightbar"><label class="ellipsis">' . t('Error Message', FALSE) . '</label><input type="text" name="msg_error"></div>
-<div class="rightbar"><label class="ellipsis">' . t('Default Values', FALSE) . '</label><input type="text" name="default"></div>
-<div class="rightbar"><label class="ellipsis">' . t('Required', FALSE) . '</label><select style="font-size:13px;height:26px" name="required"><option value="1">' . t('True') . '</option><option value="0">' . t('False') . '</option></select></div>
-<div class="rightbar"><label class="ellipsis">' . t('Regex', FALSE) . '</label><input type="text" name="regex"></div>
+<div><h3>' . t('Form View') . '</h3>
+<div  class="rightbar"><label class="ellipsis">' . t('Label') . ' </label><input type="text" name="label"></div>
+<div class="rightbar"><label class="ellipsis">' . t('Text help') . ' </label><input type="text" name="text_help"></div>
+<div class="rightbar"><label class="ellipsis">' . t('Error Message') . '</label><input type="text" name="msg_error"></div>
+<div class="rightbar"><label class="ellipsis">' . t('Default Values') . '</label><input type="text" name="default"></div>
+<div class="rightbar"><label class="ellipsis">' . t('Required') . '</label><select style="font-size:13px;height:26px" name="required"><option value="1">' . t('True') . '</option><option value="0">' . t('False') . '</option></select></div>
+<div class="rightbar"><label class="ellipsis">' . t('Regex') . '</label><input type="text" name="regex"></div>
 <div class="rightbar" style="padding:5px 10px 10px 10px;">
 <div style="padding:3px 0px;">
-' . t('In which form display the field ?', FALSE) . '
+' . t('In which form display the field ?') . '
 </div>
 <div class="visibilityform">
 	<input data-form="form-display" checked="checked" type="checkbox" value="1">
-	<span class="ellipsis" for="display" style="width:70px;display:inline-block">' . t('Display', FALSE) . '</span>
+	<span class="ellipsis" for="display" style="width:70px;display:inline-block">' . t('Display') . '</span>
 	<input data-form="form-add" checked="checked" type="checkbox" value="2">
-	<span class="ellipsis" for="add" style="width:70px;display:inline-block;">' . t('Add', FALSE) . '</span>
+	<span class="ellipsis" for="add" style="width:70px;display:inline-block;">' . t('Add') . '</span>
 	<input type="checkbox" checked="checked" value="4" data-form="form-update">
-	<span class="ellipsis" for="update" style="width:70px;display:inline-block;">' . t('Update', FALSE) . '</span>
+	<span class="ellipsis" for="update" style="width:70px;display:inline-block;">' . t('Update') . '</span>
 	<input type="hidden" name="visibility">
 </div>
 </div>
@@ -737,7 +737,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 							$html .= ob_get_clean();
 							$html .= '</fieldset>';
 						}
-						$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field areaWrite" value="' . t('Validate', FALSE) . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
+						$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field areaWrite" value="' . t('Validate') . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
 					}
 				}
 				?>
@@ -780,15 +780,15 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</div>
 	<div id="rightsidebar" class="areaWrite" style="z-index:999">
 		<div id="update_table">
-			<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings', FALSE) ?></h2>
-			<div class="rightbar"><label class="ellipsis"><?php echo t('Name', FALSE); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
-			<div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><input type="text" name="title"></div>
-			<div><h3><?php echo t('Fields Behaviour', FALSE); ?></h3>
-				<div class="rightbar"><label class="ellipsis"><?php echo t('Title', FALSE); ?> </label><select class="behaviorProperty" name="behaviorTitle"></select></div>
-				<div class="rightbar"><label class="ellipsis"><?php echo t('Description', FALSE); ?> </label><select class="behaviorProperty" name="behaviorDescription"></select></div>
-				<div class="rightbar"><label class="ellipsis"><?php echo t('Keywords', FALSE); ?></label><select class="behaviorProperty" name="behaviorKeywords"></select></div>
-				<div class="rightbar"><label class="ellipsis"><?php echo t('Image', FALSE); ?></label><select class="behaviorProperty" name="behaviorImage"></select></div>
-				<input type="submit" class="save_table areaWrite" value="<?php echo t('Validate', FALSE); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
+			<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings') ?></h2>
+			<div class="rightbar"><label class="ellipsis"><?php echo t('Name'); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
+			<div class="rightbar"><label class="ellipsis"><?php echo t('Title'); ?> </label><input type="text" name="title"></div>
+			<div><h3><?php echo t('Fields Behaviour'); ?></h3>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Title'); ?> </label><select class="behaviorProperty" name="behaviorTitle"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Description'); ?> </label><select class="behaviorProperty" name="behaviorDescription"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Keywords'); ?></label><select class="behaviorProperty" name="behaviorKeywords"></select></div>
+				<div class="rightbar"><label class="ellipsis"><?php echo t('Image'); ?></label><select class="behaviorProperty" name="behaviorImage"></select></div>
+				<input type="submit" class="save_table areaWrite" value="<?php echo t('Validate'); ?>" style="width: 50%;margin: 5px 0 10px 25%;">
 			</div>
 		</div>
 		<div id="update_field">
@@ -800,7 +800,11 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 <script>
 	var oldSchema = '<?php echo json_encode($oldSchema) ?>';
 	function enc(str) {
-		return str.toString().replace('"', '\\"');
+		if(str != null){ /* for ex : behaviorTitle, etc.. */
+			return str.toString().replace('"', '\\"');
+		}else{
+			return "";
+		}
 	}
 	$(document).on("change", '.visibilityform input[type="checkbox"]', function(e) {
 		var nb = 0;

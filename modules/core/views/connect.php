@@ -67,7 +67,7 @@ if (isset($_POST['connexion'])) {
         exit;
     } else {
         echo '<div style="top: 35px;position: relative;display: block;background: #EEE;border: 1px solid #DDD;box-shadow: 1px 2px 3px #888, -1px -1px 3px #888;padding: 10px 15px 5px 15px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;">'
-        . t('The username or password you entered is incorrect', FALSE) . '</div>';
+        . t('The username or password you entered is incorrect') . '</div>';
     }
 }
 
@@ -75,7 +75,7 @@ if (isset($_POST['connexion'])) {
 <!DOCTYPE html> 
 <html> 
     <head> 
-        <title><?php echo t('Login', false); ?></title> 
+        <title><?php echo t('Login'); ?></title> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
         <meta name='robots' content='noindex,nofollow' /> 
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>admin/css/ui.css">
@@ -111,17 +111,17 @@ if (isset($_POST['connexion'])) {
             </div>
             <form action="" method="POST"> 
                 <div style="text-align: left;" class="login">                    
-                    <input type="text" placeholder="<?php echo t('Username', false); ?>" name="login" autofocus/>
+                    <input type="text" placeholder="<?php echo t('Username'); ?>" name="login" autofocus/>
                 </div> 
                 <div style="text-align: left;" class="login">         
-                    <input type="password" placeholder="<?php echo t('Password', false); ?>" name="password" />
+                    <input type="password" placeholder="<?php echo t('Password'); ?>" name="password" />
                 </div>
                 <div class="login"> 
-                    <input style="font-size: 16px;" type="submit" name="connexion" value="<?php echo t('Login', false); ?>" /> 
+                    <input style="font-size: 16px;" type="submit" name="connexion" value="<?php echo t('Login'); ?>" /> 
                 </div>
                 <div style="font-weight: normal"> 
                     <span id="back" class="display" onclick="document.getElementById('content').classList.toggle('mail');return false;">< Back to login</span>
-					<a class="login" style="text-decoration: none" href="" onclick="document.getElementById('content').classList.toggle('mail');return false;"><?php echo t('Lost your password', false); ?></a><span class="login"> ?</span>
+					<a class="login" style="text-decoration: none" href="" onclick="document.getElementById('content').classList.toggle('mail');return false;"><?php echo t('Lost your password'); ?></a><span class="login"> ?</span>
                     <div class="display">
 						<input style="margin : 40px 0 20px 0;" placeholder="<?php echo t('Enter your email',FALSE) ?>" type="text" id="newmdp"/>
                         <input type="button" value="<?php echo  t('Send',FALSE) ?>" id="newmdpgo" />
@@ -142,9 +142,9 @@ if (isset($_POST['connexion'])) {
                 $("#newmdpgo").on("click", function(){
                     $.post('<?php echo BASE_PATH; ?>renewPass',{mail:$("#newmdp").val()}, function(data) {
                         if(data == 1){
-                            alert('<?php echo t('A new PassWord has been sent to your E-mail account', FALSE); ?>'); 
+                            alert('<?php echo t('A new PassWord has been sent to your E-mail account'); ?>'); 
                         }else if(data == 0){
-                            alert('<?php echo t('Error on mail send', FALSE); ?>');
+                            alert('<?php echo t('Error on mail send'); ?>');
                         }else{
                             alert(data);
                         }

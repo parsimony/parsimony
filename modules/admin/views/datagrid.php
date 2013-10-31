@@ -57,9 +57,8 @@ $aliasClasses = array_flip(\app::$aliasClasses);
 				foreach ($obj as $row) : ?>
 					<tr class="line">
 						<?php 
-						foreach ($fields as $field) :
+						foreach ($fields as $fieldName => $field) : /* use fieldName to reach value of fields because of alias */
 							if ($field->visibility & DISPLAY) :
-								$fieldName = $field->name;
 								$class = $aliasClasses[get_class($field)];
 								if ($fieldName === $id) {
 									$class .= ' datagrid_id';

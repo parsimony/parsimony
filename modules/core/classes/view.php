@@ -52,11 +52,6 @@ class view extends queryBuilder implements \Iterator {
 	 */
 	protected $SQL = array();
 
-	/**
-	 * @var array $displayView
-	 */
-	public $displayView = array();
-
 	public function __wakeup() {
 		/* !!TODO REMOVE!! */
 		if(isset($this->SQL) && !empty($this->SQL)){
@@ -71,13 +66,16 @@ class view extends queryBuilder implements \Iterator {
 		 */
 		foreach ($this->fields as $key => &$field) {
 			extract($field);
-			$name = $module.'_'.$entity;
+			$name = $module . '_' . $entity;
 			if(!isset($this->entities[$name])){
 				$this->entities[$name] = app::getModule($module)->getEntity($entity);
 			}
-			$field = $this->entities[$name]->getField($key);
+			if($name !== $key){/* use $key for alias */
+				$field = new \field_string ($fieldName, array('label' => $key, 'entity' => $this->entities[$name] /* only for alias //emulate wakeup entity */, 'views' => array('display' => 'modules/core/fields/string/display.php', 'grid' => 'modules/core/fields/string/grid.php'))); /* emulate prepareFieldsForDisplay() */
+			}else{
+				$field = $this->entities[$name]->getField($fieldName); 
+			}
 			$this->{$key} = &$field->getValue();
-			$field->row = $this->entities[$name];
 		}
 	}
 
@@ -92,11 +90,11 @@ class view extends queryBuilder implements \Iterator {
 	}
 
 	/**
-	 * Set a field
+	 * Set a field / compatibility between entity and view classes
 	 * @param string $name the property to update
 	 * @param field $fieldValue 
 	 */
-	public function setField($name, $field) { 
+	public function setField($name, $field) {
 		$this->fields[$name] = $field;
 	}
 
@@ -157,11 +155,8 @@ class view extends queryBuilder implements \Iterator {
 				$this->order($p['table'] . '.' . $p['property'], $p['order']);
 			}
 		}
-
-		/* Simulate a part of __sleep() */
-		foreach ($this->fields as $key => $field) {
-			if(is_object($field)) $this->fields[$key] = array('module' => $field->module, 'entity' => $field->entity, 'fieldName' => $field->name);
-		}
+		/* to fill parent entity reference in each field */
+		$this->__sleep();
 		$this->__wakeup();
 		return $this;
 	}
@@ -172,10 +167,10 @@ class view extends queryBuilder implements \Iterator {
 	 */
 	public function __sleep() {
 		foreach ($this->fields as $key => $field) {
-			if(is_object($field)) $this->fields[$key] = array('module' => $field->entity->getModule(), 'entity' => $field->entity->getName(), 'fieldName' => $field->name);
+			$this->fields[$key] = array('module' => $field->entity->getModule(), 'entity' => $field->entity->getName(), 'fieldName' => $field->name);
 		}
 		unset($this->_SQL['entities']);
-		unset($this->_SQL['displayView']);
+		unset($this->_SQL['displayView']); /* todo remove */
 		unset($this->_SQL['valid']);
 		unset($this->_SQL['stmt']);
 		unset($this->_SQL['position']);

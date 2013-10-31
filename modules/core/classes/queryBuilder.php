@@ -152,8 +152,8 @@ class queryBuilder {
 			$alias = $propertyName . '_nb';
 			$this->_SQL['selects'][$alias] = $function . '(' . $property . ') AS ' . $alias; 
 			list($module, $entity) = explode('_', $tableName, 2);
-			$this->fields[$alias] = new \field_ident ($propertyName); /* $propertyName for name to keep his origin sql name  */
-			$this->fields[$alias]->setLabel($alias);
+			$this->fields[$alias] = new \field_string ($propertyName); /* $propertyName for name to keep i origin sql name  */
+			$this->fields[$alias]->setEntity(\app::getModule($module)->getEntity($entity)); /* to reference its entity parent */
 			if(!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0); /* no display in datagrid */
 		}
 		return $this;
@@ -237,7 +237,7 @@ class queryBuilder {
 			/* SELECT */
 			$query = 'SELECT ';
 			if(isset($this->_tableName)){ /* only for entity, to define selects */
-				$this->_SQL['selects']['*'] = '*';
+				$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
 				foreach ($this->getFields() as $field) {
 					$module = $field->entity->getModule();
 					$entity = $field->entity->getName();
@@ -260,7 +260,7 @@ class queryBuilder {
 
 
 			/* FROM */
-			if (count($this->_SQL['froms']) === 1 && empty($this->_SQL['joins'])) {
+			if (/*count($this->_SQL['froms']) === 1 && */empty($this->_SQL['joins'])) {
 				$query .= ' FROM ' . reset($this->_SQL['froms']);
 			} else {
 				$firstTable = reset($this->_SQL['joins']);

@@ -93,7 +93,7 @@ app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
     .subToolbarEditor input[type="button"]{padding: 2px 12px 3px 12px;}
 </style>
 <div class="toolbarEditor">
-    <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History', FALSE); ?></option>
+    <select id="historyfile" style="width:100px"><option value="none"><?php echo t('History'); ?></option>
 	<?php
         $backups = glob('var/backup/' . PROFILE . '/' . $path . '-*.bak');
         if(is_array($backups)){
@@ -105,13 +105,13 @@ app::$request->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
         }
 	?>
     </select>
-    <input type="button" onclick="codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format', FALSE); ?>" />
-    <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace', FALSE); ?>" />
+    <input type="button" onclick="codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));" style="float: right;" value="<?php echo t('Format'); ?>" />
+    <input type="button" onclick="$(this).next().slideToggle('fast');" style="float: right;" value="<?php echo t('Search / Replace'); ?>" />
     <div class="subToolbarEditor">
 	<input type="text" id="query" >
-	<input type="button" onclick="search()" value="<?php echo t('Search', FALSE); ?>" />
+	<input type="button" onclick="search()" value="<?php echo t('Search'); ?>" />
 	<input type="text" id="replace">
-	<input type="button" onclick="replaces()" value="<?php echo t('Replace', FALSE); ?>" />
+	<input type="button" onclick="replaces()" value="<?php echo t('Replace'); ?>" />
     </div>
 </div>
 <div style="clear:both"></div>

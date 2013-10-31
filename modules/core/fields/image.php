@@ -77,21 +77,22 @@ class image extends \field {
 				$fileName = $base . '_' . $nbn . '.' . $ext;
 				$nbn++;
 			}
-			if (!is_dir($path))
-				\tools::createDirectory($path);
+			if (!is_dir($path . $fileInfo['dirname'] . '/'))  /*  $fileInfo['dirname'] in case that filename contains a part of dirname */
+				\tools::createDirectory($path . $fileInfo['dirname'] . '/');
 			
 			/* decode dataURL */
 			$cut = explode(',', $value['dataURL']);  
 			$dataURL = $cut[1];  
-			$dataURL = base64_decode(str_replace(' ','+',$dataURL));
-			//echo str_replace(' ','+',$value['dataURL']);exit;
+			$dataURL = base64_decode(str_replace(' ', '+', $dataURL));
 			/* save and check image */
 			if (file_put_contents($path . $fileName, $dataURL)) {
 				if ($img = @GetImageSize($path . $fileName)) {
 					return $fileName;
 				} else {
-					return FALSE;
+					return FALSE; /* file is not an image */
 				}
+			}else{
+				return FALSE; /* can't write image */
 			}
 		} else {
 			return parent::validate($value);

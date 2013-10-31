@@ -37,10 +37,10 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 
 <ul style="flex-grow:1;display: flex;align-items: center;">
 	<?php if ($_SESSION['behavior'] === 2): ?>
-		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling', FALSE); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
+		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling'); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
 		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"></form>
 	<?php endif; ?>
-	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer', FALSE); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
+	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
 	<li class="edit" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
 			document.body.classList.toggle('closeleft')">☰</li>
 </ul>
@@ -58,7 +58,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 <ul class="menu" style="flex-grow:2;display: flex;justify-content: center">
 	<?php if (\app::$config['domain']['multisite']): ?>
 		<li class="subMenu" style="height:35px">
-			<a href="#" class="toolbarsprite multisite-icon" data-title="<?php echo t('My domains', FALSE); ?>"></a>
+			<a href="#" class="toolbarsprite multisite-icon" data-title="<?php echo t('My domains'); ?>"></a>
 			<ul>
 				<?php
 				foreach (glob('profiles/*', GLOB_ONLYDIR) AS $domainPath):
@@ -78,7 +78,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 	<?php endif; ?>
 	<?php if (count(\app::$devices) > 1): ?>
 		<li class="subMenu">
-			<a href="#" id="info_themetype" data-title="<?php echo t('Version', FALSE); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
+			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
 			<ul id="changeDevice" class="changeVersion">
 				<?php foreach (\app::$devices AS $device): ?>
 					<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
@@ -108,7 +108,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 			;
 			this.classList.toggle('landscape');"></span>
 		<select id="changeorientation" class="none">
-			<option value="portrait"><?php echo t('Portrait', FALSE); ?></option><option value="landscape"<?php if (isset($_COOKIE['landscape']) && $_COOKIE['landscape'] === 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape', FALSE); ?></option>
+			<option value="portrait"><?php echo t('Portrait'); ?></option><option value="landscape"<?php if (isset($_COOKIE['landscape']) && $_COOKIE['landscape'] === 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape'); ?></option>
 		</select>
 	</li>
 </ul>
@@ -125,7 +125,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo BASE_PATH; ?>logout" class="toolbarspriteblack close-icon"><?php echo t('Logout', false); ?></a>
+					<a href="<?php echo BASE_PATH; ?>logout" class="toolbarspriteblack close-icon"><?php echo t('Logout'); ?></a>
 				</li>
 			</ul>
 		</li>

@@ -59,7 +59,7 @@ class admin extends \module {
 		if($httpMethod === 'POST'){
 			$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel', 'uptodate');
 			if ($_SESSION['behavior'] === 0 || ( $_SESSION['behavior'] === 1  && in_array($action, $justForCreators))){
-				return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied', FALSE), 'notificationType' => 'negative')), 200);
+				return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied'), 'notificationType' => 'negative')), 200);
 			}
 			if (!empty($action)) {
 				return parent::controller($action, 'POST');
@@ -85,11 +85,11 @@ class admin extends \module {
 		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
 			if($stop_typecont === 'theme') {
 				if ($tempBlock->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
-					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother', FALSE)));
+					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother')));
 				}
 			} else {
 				if ($tempBlock->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
-					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother', FALSE)));
+					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother')));
 				}
 			}
 		}
@@ -126,10 +126,10 @@ class admin extends \module {
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
 		if ($this->$stop_typecont->searchBlock($idBlock) != NULL) {
-			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
 		}
 		else
-			$return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
 	}
 
@@ -200,7 +200,7 @@ class admin extends \module {
 				$block->setConfig($configName, $val);
 			}
 		}
-		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		$this->saveAll(); // save objects in last to avoid call __sleep() before getting content of the block ( this->display in ajaxRefresh() ), eg. block query
 		return $this->returnResult($return);
 	}
@@ -242,9 +242,9 @@ class admin extends \module {
 				$css->save();
 			}
 			$this->saveAll();
-			$return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted'), 'notificationType' => 'positive');
 		}else
-			$return = array('eval' => '', 'notification' => t('Container block cannot be deleted', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('Container block cannot be deleted'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
 	}
 
@@ -280,7 +280,7 @@ class admin extends \module {
 		$page->setRegex('@^' . $regex . '$@');
 		$moduleObj->updatePage($page); //modif
 		if (\tools::serialize(PROFILE_PATH . $module . '/module', $moduleObj)) {
-			$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The page has been saved', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The page has been saved'), 'notificationType' => 'positive');
 			return $this->returnResult($return);
 		}
 	}
@@ -323,7 +323,7 @@ class admin extends \module {
 		}
 		$module = $moduleObj;
 		ob_start();
-		include ('modules/admin/views/desktop/managePage.php');
+		include ('modules/admin/views/managePage.php');
 		return ob_get_clean();
 	}
 
@@ -340,7 +340,7 @@ class admin extends \module {
 		$module->save();
 		$url = '';
 		if($module->getName() != 'core') $url = $module->getName().'/';
-		$return = array('eval' => 'window.location = "' . BASE_PATH . $url . 'index";', 'notification' => t('The page has been deleted', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => 'window.location = "' . BASE_PATH . $url . 'index";', 'notification' => t('The page has been deleted'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -431,7 +431,7 @@ class admin extends \module {
 				}
 			}
 		}
-		$return = array('eval' => '', 'notification' => t('The style sheet has been saved', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => '', 'notification' => t('The style sheet has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -462,18 +462,18 @@ class admin extends \module {
 			if (method_exists($block, 'onMove')) { /* init path of views */
 				if($stop_typecont === 'theme') {
 					if ($block->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
-						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother', FALSE)));
+						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother')));
 					}
 				} else {
 					if ($block->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
-						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother', FALSE)));
+						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother')));
 					}
 				}
 			}
 			$this->saveAll();
-			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","dropInPage");', 'notification' => t('The move has been saved', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","dropInPage");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
 		}else
-			$return = array('eval' => '', 'notification' => t('Error on drop', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
 	}
 
@@ -487,7 +487,7 @@ class admin extends \module {
 		$this->initObjects();
 		$block = $this->$typeProgress->searchBlock($idBlock);
 		ob_start();
-		require('modules/admin/views/desktop/manageBlock.php');
+		require('modules/admin/views/manageBlock.php');
 		return ob_get_clean();
 	}
 
@@ -496,7 +496,7 @@ class admin extends \module {
 	 * @return string|false 
 	 */
 	protected function getViewConfigThemesAction() {
-		return $this->getView('manageThemes','desktop');
+		return $this->getView('manageThemes');
 	}
 
 	/**
@@ -504,7 +504,7 @@ class admin extends \module {
 	 * @return string|false 
 	 */
 	protected function getViewTranslationAction() {
-		return $this->getView('manageTranslation','desktop');
+		return $this->getView('manageTranslation');
 	}
 
 	/**
@@ -512,7 +512,7 @@ class admin extends \module {
 	 * @return string|false 
 	 */
 	protected function getViewAddModuleAction() {
-		return $this->getView('addModule','desktop');
+		return $this->getView('addModule');
 	}
 
 	/**
@@ -520,7 +520,7 @@ class admin extends \module {
 	 * @return string|false 
 	 */
 	protected function getViewAddBlockAction() {
-		return $this->getView('addBlock','desktop');
+		return $this->getView('addBlock');
 	}
 
 	/**
@@ -543,7 +543,7 @@ class admin extends \module {
 		$config = new \config($path, TRUE);
 		$config->setVariable('lang');
 		$config->saveConfig($lang);
-		$return = array('eval' => '$(\'span[data-key="' . $key . '"]\',ParsimonyAdmin.currentBody).html("' . $val . '")', 'notification' => t('The translation has been saved', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => '$(\'span[data-key="' . $key . '"]\',ParsimonyAdmin.currentBody).html("' . $val . '")', 'notification' => t('The translation has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -614,7 +614,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function dbDesignerAction() {
-		return $this->getView('dbDesigner','desktop');
+		return $this->getView('dbDesigner');
 	}
 
 	/**
@@ -625,7 +625,7 @@ class admin extends \module {
 		$this->initObjects();
 		/* Init a page */
 		\app::$request->page = new \page(999);
-		return $this->getView('explorer','desktop');
+		return $this->getView('explorer');
 	}
 
 	/**
@@ -633,7 +633,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function filesAction($dirPath) {
-		return $this->getView('files','desktop');
+		return $this->getView('files');
 	}
 
 	/**
@@ -641,7 +641,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function explorerEditorAction($file) {
-		return $this->getView('explorerEditor','desktop');
+		return $this->getView('explorerEditor');
 	}
 
 	/**
@@ -710,9 +710,9 @@ class admin extends \module {
 			/* Set theme in preview mode */
 			setcookie('THEMEMODULE', $thememodule, time()+60*60*24*30, '/');
 			setcookie('THEME', $name, time()+60*60*24*30, '/');
-			$return = array('eval' => 'top.window.location.reload()', 'notification' => t('The Theme has been created', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'top.window.location.reload()', 'notification' => t('The Theme has been created'), 'notificationType' => 'positive');
 		} else {
-			$return = array('eval' => '', 'notification' => t('The Theme has not been created, theme already exists', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('The Theme has not been created, theme already exists'), 'notificationType' => 'negative');
 		}
 		return $this->returnResult($return);
 	}
@@ -732,7 +732,7 @@ class admin extends \module {
 				$configObj->saveConfig($update);
 				setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
 			setcookie('THEME', $name, time()+60*60*24*30, '/');
-			$return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload(); ParsimonyAdmin.loadBlock("themes")', 'notification' => t('The Theme has been changed', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload(); ParsimonyAdmin.loadBlock("themes")', 'notification' => t('The Theme has been changed'), 'notificationType' => 'positive');
 		} else {
 			$return = array('eval' => '', 'notification' => t('The Theme has\'nt been changed', FALSE), 'notificationType' => 'negative');
 		}
@@ -749,7 +749,7 @@ class admin extends \module {
 		if (is_dir(PROFILE_PATH . $THEMEMODULE . '/themes/' . $name)) {
 			\tools::rmdir(PROFILE_PATH . $THEMEMODULE . '/themes/' . $name);
 		}
-		$return = array('eval' => "$('#theme_".$name."').remove()", 'notification' => t('The Theme has been deleted', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => "$('#theme_".$name."').remove()", 'notification' => t('The Theme has been deleted'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -761,9 +761,9 @@ class admin extends \module {
 	 */
 	protected function addModuleAction($name_module, $name_titre) {
 		if (\module::build($name_module, $name_titre)) {
-			$return = array('eval' => 'top.window.location.href = "' . BASE_PATH . $name_module . '/index"', 'notification' => t('The Module has been created', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'top.window.location.href = "' . BASE_PATH . $name_module . '/index"', 'notification' => t('The Module has been created'), 'notificationType' => 'positive');
 		} else {
-			$return = array('eval' => '', 'notification' => t('Module already exists, please choose another name', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('Module already exists, please choose another name'), 'notificationType' => 'negative');
 		}
 		return $this->returnResult($return);
 	}
@@ -773,7 +773,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function getViewUserProfileAction() {
-		return $this->getView('userProfile','desktop');
+		return $this->getView('userProfile');
 	}
 
 	/**
@@ -806,7 +806,7 @@ class admin extends \module {
 		$configObj = new \config($file, TRUE);
 
 		$configObj->saveConfig($config);
-		$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The Config has been saved', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -829,7 +829,7 @@ class admin extends \module {
 		$obj->where(implode(' OR ', $wheres))->limit($limit);
 		$modifModel = TRUE; /* To enable edit link */
 		ob_start();
-		require('modules/admin/views/desktop/datagrid.php');
+		require('modules/admin/views/datagrid.php');
 		return ob_get_clean();
 	}
 
@@ -844,7 +844,7 @@ class admin extends \module {
 		$obj = \app::getModule($module)->getEntity($entity)->limit($limit);
 		$modifModel = TRUE; /* To enable edit link */
 		ob_start();
-		require('modules/admin/views/desktop/datagrid.php');
+		require('modules/admin/views/datagrid.php');
 		return ob_get_clean();
 	}
 
@@ -881,7 +881,7 @@ class admin extends \module {
 			else $view = $view->initFromArray($properties);
 			$view->limit(10);
 		} else {
-			return t('No data for this query.', FALSE);
+			return t('No data for this query.');
 		}
 		$view->setPagination(TRUE);
 		$view->buildQuery();
@@ -891,7 +891,7 @@ class admin extends \module {
 		$search = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
 		$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ', '<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
 		echo '<div id="generatedsql">' . str_replace($search, $replace, $sql['query']) . '</div>';
-		require('modules/admin/views/desktop/datagrid.php');
+		require('modules/admin/views/datagrid.php');
 		echo '<script> document.getElementById("labelresult").textContent = "( ' . $sql['pagination']->getNbRow() . ' )";</script>';
 		return ob_get_clean();
 	}
@@ -918,7 +918,7 @@ class admin extends \module {
 		list($module, $model) = explode(' - ', $model);
 		$obj = \app::getModule($module)->getEntity($model)->limit('10');
 		ob_start();
-		require('modules/admin/views/desktop/manageModel.php');
+		require('modules/admin/views/manageModel.php');
 		return ob_get_clean();
 	}
 
@@ -936,7 +936,7 @@ class admin extends \module {
 		unset($_POST['entity']);
 		$res = $obj->insertInto($_POST);
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been added', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been added'), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
 		}else{
@@ -964,7 +964,7 @@ class admin extends \module {
 			$res = $obj->delete($_POST[$obj->getId()->name]);
 		}
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified'), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE), 'notificationType' => 'negative');
 		}else{
@@ -978,7 +978,7 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function getViewAdminRightsAction() {
-		return $this->getView('manageRights','desktop');
+		return $this->getView('manageRights');
 	}
 
 	/**
@@ -986,7 +986,7 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function getViewAdminLanguageAction() {
-		return $this->getView('manageLanguage','desktop');
+		return $this->getView('manageLanguage');
 	}
 
 	/**
@@ -1112,7 +1112,7 @@ class admin extends \module {
 				}
 		}
 
-		$return = array('eval' => '', 'notification' => t('The Permissions have been saved', FALSE), 'notificationType' => 'positive');
+		$return = array('eval' => '', 'notification' => t('The Permissions have been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 
@@ -1137,7 +1137,7 @@ class admin extends \module {
 				$blockObj->setContent($wysiwyg->html);
 			}
 			}
-			$return = array('eval' => '', 'notification' => t('Modifications have been saved', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => '', 'notification' => t('Modifications have been saved'), 'notificationType' => 'positive');
 		}
 		return $this->returnResult($return);
 	}
@@ -1254,7 +1254,7 @@ class ' . $table->name . ' extends \entity {
 					$nameFieldBefore = '';
 					$newObj->__wakeup(); /* to insert entity's ref into fields */
 					foreach ($newObj->getFields() as $fieldName => $field) {
-						if (isset($oldSchema[$field->entity->getName()]) && isset($oldSchema[$field->entity->getName()][$field->name])) {
+						if (isset($oldSchema[$table->name]) && isset($oldSchema[$table->name][$field->name])) {
 							$field->alterColumn($nameFieldBefore);
 						} elseif (isset($matchOldNewNames[$field->name])) {
 							$field->alterColumn($nameFieldBefore, $matchOldNewNames[$field->name]);
@@ -1265,10 +1265,12 @@ class ' . $table->name . ' extends \entity {
 							$nameFieldBefore = $field->name;
 						}
 					}
-					if(!empty($oldSchema[$field->entity->getName()])){
-						foreach ($oldSchema[$field->entity->getName()] as $fieldName => $value) {
+					if(isset($oldSchema[$table->name])){
+						foreach ($oldSchema[$table->name] as $fieldName => $value) {
 							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ){
-								$field->deleteColumn();
+								$sql = 'ALTER TABLE ' . PREFIX . $module . '_' . $table->name. ' DROP ' . $fieldName;
+								\PDOconnection::getDB()->exec($sql);
+								//$field->deleteColumn();  //removed to avoid old includes
 							}
 						}
 					}
@@ -1441,7 +1443,7 @@ class ' . $table->name . ' extends \entity {
 			$content = $this->controller($_POST['action'], 'POST');
 			if (isset($_POST['popup']) && $_POST['popup'] === 'yes') {
 			ob_start();
-			require('modules/admin/views/desktop/popup.php');
+			require('modules/admin/views/popup.php');
 			return ob_get_clean();
 			} else {
 			return $content;

@@ -83,18 +83,18 @@
 </div>
 <div id="design-menu">
     <div class="placeholder">
-        <label><?php echo t('Menu', FALSE); ?></label>
+        <label><?php echo t('Menu'); ?></label>
         <select name="position"><option value="0">Horizontal</option><option value="1" <?php if ($this->getConfig('position') == 1) echo ' selected="selected"'; ?>>Vertical</option></select>
     </div>
     <fieldset id="linkmenu">
-        <legend><?php echo t('Add Links', FALSE); ?></legend>
+        <legend><?php echo t('Add Links'); ?></legend>
         <fieldset id="linkmenuAdd">
-            <div class="title1"><?php echo t('Add A Link Manually', FALSE); ?></div>
-            <input type="text" id="input_title" placeholder="<?php echo t('Title', FALSE); ?>" />
+            <div class="title1"><?php echo t('Add A Link Manually'); ?></div>
+            <input type="text" id="input_title" placeholder="<?php echo t('Title'); ?>" />
             <input type="text" id="input_url"  placeholder="http://" />
-            <input type="button" value="<?php echo t('Add', FALSE); ?>" id="add-menu-item">
+            <input type="button" value="<?php echo t('Add'); ?>" id="add-menu-item">
         </fieldset>
-        <div class="title2"><?php echo t('Choose An Existing Link', FALSE); ?></div>
+        <div class="title2"><?php echo t('Choose An Existing Link'); ?></div>
         <ul id="addPageItem" class="parsimenu">
             <?php
             foreach (\app::$config['modules']['active'] as $module => $mode) {
@@ -122,7 +122,7 @@
         </ul>
     </fieldset>
     <fieldset id="previewmenu">
-        <legend><?php echo t('Preview Menu', FALSE); ?></legend>
+        <legend><?php echo t('Preview Menu'); ?></legend>
         <ol class="sortable">
             <?php
             $menu = json_decode($this->getConfig('menu'), true);

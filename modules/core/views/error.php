@@ -41,10 +41,10 @@
     </head>
     <body>
 	<div id="message">
-	    <div><span class="label"><?php echo t('Code', False) ?></span>: <?php echo $code ?></div>
-	    <div><span class="label"><?php echo t('File', False) ?> </span>: <?php echo $file ?></div>
-	    <div><span class="label"><?php echo t('In line', False) ?> </span>: <?php echo $line ?></div>
-	    <div><span class="label"><?php echo t('Message', False) ?> </span>: <?php echo $message ?></div>
+	    <div><span class="label"><?php echo t('Code') ?></span>: <?php echo $code ?></div>
+	    <div><span class="label"><?php echo t('File') ?> </span>: <?php echo $file ?></div>
+	    <div><span class="label"><?php echo t('In line') ?> </span>: <?php echo $line ?></div>
+	    <div><span class="label"><?php echo t('Message') ?> </span>: <?php echo $message ?></div>
 	</div>
     </body>
 </html>

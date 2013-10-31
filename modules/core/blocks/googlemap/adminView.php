@@ -27,13 +27,13 @@
  */
 ?>
 <div class="placeholder">
-    <label><?php echo t('Address', false); ?></label><input type="text" name="adress" value="<?php echo $this->getConfig('adress'); ?>" />
+    <label><?php echo t('Address'); ?></label><input type="text" name="adress" value="<?php echo $this->getConfig('adress'); ?>" />
 </div>
 <div class="placeholder">
-    <label><?php echo t('Town', false); ?></label><input type="text" name="town" value="<?php echo $this->getConfig('town'); ?>" />
+    <label><?php echo t('Town'); ?></label><input type="text" name="town" value="<?php echo $this->getConfig('town'); ?>" />
 </div>
 <div class="placeholder">
-    <label><?php echo t('Country', false); ?></label><input type="text" name="country" value="<?php echo $this->getConfig('country'); ?>" />
+    <label><?php echo t('Country'); ?></label><input type="text" name="country" value="<?php echo $this->getConfig('country'); ?>" />
 </div>
 <?php
 if (($this->getConfig('language')) != '') {
@@ -44,11 +44,11 @@ if (($this->getConfig('language')) != '') {
 ?> 
 
 <div class="placeholder">
-    <label><?php echo t('Language (Optional)', false); ?></label><input type="text" name="language" value="<?php echo $lang ?>" />
+    <label><?php echo t('Language (Optional)'); ?></label><input type="text" name="language" value="<?php echo $lang ?>" />
 </div>
 
 <div>
-    <label style="display:inline-block;width:60px"><?php echo t('View', false); ?></label>
+    <label style="display:inline-block;width:60px"><?php echo t('View'); ?></label>
     <select name="view" style="width:100px">
         <?php
                 
@@ -57,27 +57,27 @@ if (($this->getConfig('language')) != '') {
         } else {
             $select = '';
         }
-        echo '<option value="m" ' . $select . ' >'. t('Map', false).'</option>';
+        echo '<option value="m" ' . $select . ' >'. t('Map').'</option>';
 
         if (($this->getConfig('view')) == 'h') {
             $select = 'selected="selected"';
         } else {
             $select = '';
         }
-        echo '<option value="h" ' . $select . ' >'. t('Hybrid', false).'</option>';
+        echo '<option value="h" ' . $select . ' >'. t('Hybrid').'</option>';
          
         if (($this->getConfig('view')) == 'k') {
         $select = 'selected="selected"';
         } else {
         $select = '';
-        } echo '<option value="k" ' . $select . ' >'. t('Satellite', false).'</option>';
+        } echo '<option value="k" ' . $select . ' >'. t('Satellite').'</option>';
 
         if (($this->getConfig('view')) == 'p') {
         $select = 'selected="selected"';
         } else {
         $select = '';
         }
-        echo '<option value="p" ' . $select . ' >'. t('Terrain', false).'</option>';
+        echo '<option value="p" ' . $select . ' >'. t('Terrain').'</option>';
         
         
 ?>
@@ -86,7 +86,7 @@ if (($this->getConfig('language')) != '') {
 </div>
 <br>
 <div>
-    <label style="display:inline-block;width:60px"><?php echo t('Zoom', false); ?></label>
+    <label style="display:inline-block;width:60px"><?php echo t('Zoom'); ?></label>
     <select name="zoom" style="width:100px">
         <?php
         for ($i = 1; $i <= 20; $i++) {
@@ -113,5 +113,5 @@ if (($this->getConfig('language')) != '') {
         console.log(adressjs);
     });
 </script>
-<br><label style="display:inline-block;text-decoration: underline;width: 100%; text-align: center"><?php echo t('Preview The Map', false); ?></label><br><br>
+<br><label style="display:inline-block;text-decoration: underline;width: 100%; text-align: center"><?php echo t('Preview The Map'); ?></label><br><br>
 <iframe id="googlemapid" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<?php echo $this->getConfig('adress') . ',' . $this->getConfig('town') . ',' . $this->getConfig('country'); ?>&amp;oe=utf-8&amp;ie=UTF8&amp;hl=<?php echo $this->getConfig('language') ?>&amp;hq=&amp;hnear=<?php echo $this->getConfig('adress') . ',' . $this->getConfig('town') . ',' . $this->getConfig('country') ?>&amp;t=<?php echo $this->getConfig('view') ?>&amp;z=<?php echo $this->getConfig('zoom') ?>&amp;vpsrc=0&amp;output=embed"></iframe>

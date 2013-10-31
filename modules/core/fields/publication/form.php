@@ -50,16 +50,16 @@ else $stamp = time();
 echo $this->displayLabel($fieldName);
 ?>
 <div id="publishForm<?php echo $fieldName; ?>">
-	<div class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;"><?php echo t('Visibility', False) ?> :</span> <span class="visibstatus"></span></div>
+	<div class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;"><?php echo t('Visibility') ?> :</span> <span class="visibstatus"></span></div>
 	<div class="none">
 		<div class="visib">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="public" data-name="Public" data-name="public" data-val="1" value="1"><label><?php echo t('Public', False) ?></label>
+			<input type="radio" name="<?php echo $this->name ?>_visibility" class="public" data-name="Public" data-name="public" data-val="1" value="1"><label><?php echo t('Public') ?></label>
 		</div>
 		<div class="visib">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="private" data-name="Private" data-val="0" value="0"><label><?php echo t('Private', False) ?></label>
+			<input type="radio" name="<?php echo $this->name ?>_visibility" class="private" data-name="Private" data-val="0" value="0"><label><?php echo t('Private') ?></label>
 		</div>
 		<div class="visib">
-			<input type="radio" class="password" data-name="Password" name="<?php echo $this->name ?>_visibility" data-val="2" value="2"><label><?php echo t('Password protected', False) ?></label>
+			<input type="radio" class="password" data-name="Password" name="<?php echo $this->name ?>_visibility" data-val="2" value="2"><label><?php echo t('Password protected') ?></label>
 			<input style="margin-top: 5px" class="none passname" type="text">
 		</div>
 	</div>
@@ -67,21 +67,21 @@ echo $this->displayLabel($fieldName);
 		<span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;" for="<?php echo $this->name ?>">Status :</span> <span class="pubstatuslabel"></span>
 	</div>
 	<div class="pubstatus none" style="margin: 5px 0">
-		<input type="button" style="border-radius: 5px 0 0 5px;" data-val="2" value="<?php echo t('Pending', FALSE); ?>">
-		<input type="button" value="<?php echo t('Draft', FALSE); ?>" data-val="1">
-		<input type="button" style="border-radius: 0 5px 5px 0;" data-val="0" value="<?php echo t('Publish', FALSE); ?>" class="publish">
+		<input type="button" style="border-radius: 5px 0 0 5px;" data-val="2" value="<?php echo t('Pending'); ?>">
+		<input type="button" value="<?php echo t('Draft'); ?>" data-val="1">
+		<input type="button" style="border-radius: 0 5px 5px 0;" data-val="0" value="<?php echo t('Publish'); ?>" class="publish">
 		<input type="hidden" class="publishstatus" name="<?php echo $this->name . '_status' ?>">
 	</div>
 	<div style="clear: both;padding: 5px 0;min-width: 237px;" >
-		<span style="font-weight: bold;"><?php echo t('Publish', false); ?> <?php echo t('Immediately', false); ?></span><span style="padding-left:5px"><?php echo t('Or', false); ?></span>
-		<span style="padding-left:5px" class="slide"><?php echo t('Edit Planning', false); ?> <img src="<?php echo BASE_PATH ?>admin/img/calendar.gif" style="padding-left:5px;cursor:pointer"/></span>
+		<span style="font-weight: bold;"><?php echo t('Publish'); ?> <?php echo t('Immediately'); ?></span><span style="padding-left:5px"><?php echo t('Or'); ?></span>
+		<span style="padding-left:5px" class="slide"><?php echo t('Edit Planning'); ?> <img src="<?php echo BASE_PATH ?>admin/img/calendar.gif" style="padding-left:5px;cursor:pointer"/></span>
 		<div class="none publishcl">
 			<?php
 			$locale = \app::$request->getLocale();
 			$lang = '<input type="text" class="datesql adddd" value="' . date('d', $stamp) . '" />';
 			$m = date('m', $stamp);
 			$select = ' <select type="text" class="datesql addmm">';
-			$month = array('01' => t('Jan', false), '02' => t('Feb', false), '03' => t('Mar', false), '04' => t('Apr', false), '05' => t('May', false), '06' => t('Jun', false), '07' => t('Jul', false), '08' => t('Aug', false), '09' => t('Sep', false), '10' => t('Oct', false), '11' => t('Nov', false), '12' => t('Dec', false));
+			$month = array('01' => t('Jan'), '02' => t('Feb'), '03' => t('Mar'), '04' => t('Apr'), '05' => t('May'), '06' => t('Jun'), '07' => t('Jul'), '08' => t('Aug'), '09' => t('Sep'), '10' => t('Oct'), '11' => t('Nov'), '12' => t('Dec'));
 			foreach ($month as $key => $month) {
 				if ($key == $m)
 					$select .= '<option value="' . $key . '" selected="selected">' . $key . '-' . $month . '</option>';

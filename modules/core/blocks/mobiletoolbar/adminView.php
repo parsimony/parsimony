@@ -65,20 +65,20 @@
 
 <div id="design-menu">
     <div id="linkmenu">
-		<h2><?php echo t('Add Links', FALSE); ?></h2>
+		<h2><?php echo t('Add Links'); ?></h2>
         <div id="linkmenuAdd">
-            <div class="title1"><?php echo t('Add A Link Manually', FALSE); ?></div>
-            <input type="text" id="input_title" placeholder="<?php echo t('Title', FALSE); ?>" />
+            <div class="title1"><?php echo t('Add A Link Manually'); ?></div>
+            <input type="text" id="input_title" placeholder="<?php echo t('Title'); ?>" />
             <input type="text" id="input_url"  placeholder="http://" />
             <input type="hidden" id="input_icon" />
             <div id="imgglyphish">
 
             </div>
-            <input type="button" value="<?php echo t('Add', FALSE); ?>" id="add-menu-item">
+            <input type="button" value="<?php echo t('Add'); ?>" id="add-menu-item">
         </div>
     </div>
     <div id="previewmenu">
-        <h2><?php echo t('Preview Menu', FALSE); ?></h2>
+        <h2><?php echo t('Preview Menu'); ?></h2>
         <ol class="sortable">
 			<?php
 			$menu = $this->getConfig('menu');

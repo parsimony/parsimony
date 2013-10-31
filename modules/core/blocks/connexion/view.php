@@ -36,7 +36,7 @@ if (\app::getClass('user')->VerifyConnexion()) :
         <div class="none error"></div>
         <div class="connectLogin"><label><?php echo t('User'); ?> : </label><input type="text" name="login" class="login" /></div>
         <div class="connectPassword"><label><?php echo t('Password'); ?> : </label><input type="password" name="password" class="password" /></div>
-        <div class="connectSubmit"><input type="submit" value="<?php echo t('Login', false); ?>" /></div>
+        <div class="connectSubmit"><input type="submit" value="<?php echo t('Login'); ?>" /></div>
     </form>
     <script>
         $(document).ready(function() {

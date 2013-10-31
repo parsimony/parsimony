@@ -119,7 +119,7 @@ $(document).ready(function() {
 							</thead>
 							<tbody>
 								<tr>
-									<td class="entities" style="width: 160px;"><?php echo t('Status of', FALSE); ?> <span style="text-transform: capitalize"><?php echo $row->name; ?></span></td>
+									<td class="entities" style="width: 160px;"><?php echo t('Status of'); ?> <span style="text-transform: capitalize"><?php echo $row->name; ?></span></td>
 									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="0" <?php if($row->state == "0") echo 'checked="checked"';  ?> /></td>
 									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="1" <?php if($row->state == "1") echo 'checked="checked"';  ?> /></td>
 									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="2" <?php if($row->state == "2") echo 'checked="checked"';  ?> /></td>
@@ -131,7 +131,7 @@ $(document).ready(function() {
 
 					<div style="clear:both"></div> 
 					<fieldset class="fieldsetmod">
-						<legend class="legmod"><label class="modulename"><?php echo t('Module', FALSE); ?> :</label>
+						<legend class="legmod"><label class="modulename"><?php echo t('Module'); ?> :</label>
 							<select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $row->id_role ?>-' + this.value).show()">
 								<?php
 								$modules = \app::$config['modules']['active'];
@@ -157,10 +157,10 @@ $(document).ready(function() {
 						   <?php $module = app::getModule($moduleName);
 								$models = $module->getModel();
 								if(count($models) > 0) : ?>
-						   <h2><?php echo t('Models', FALSE); ?></h2>
+						   <h2><?php echo t('Models'); ?></h2>
 							<table style="margin: 0 auto">
 								<thead>
-									<tr><th><?php echo t('Name', FALSE); ?></th><th><?php echo t('Display', FALSE); ?></th><th><?php echo t('Insert', FALSE); ?></th><th><?php echo t('Update', FALSE); ?></th><th><?php echo t('Delete', FALSE); ?></th></tr>
+									<tr><th><?php echo t('Name'); ?></th><th><?php echo t('Display'); ?></th><th><?php echo t('Insert'); ?></th><th><?php echo t('Update'); ?></th><th><?php echo t('Delete'); ?></th></tr>
 								</thead>
 								<tbody class="modelArea">
 									<?php
@@ -206,8 +206,8 @@ $(document).ready(function() {
 							<table style="margin: 0 auto">
 								<thead>
 									<tr>
-										<th><?php echo t('Name', FALSE) ?></th>
-										<th><?php echo t('Display', FALSE) ?></th>
+										<th><?php echo t('Name') ?></th>
+										<th><?php echo t('Display') ?></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -241,6 +241,6 @@ $(document).ready(function() {
 			</form>
 	</div>
 	<div class="adminzonefooter">
-		<div id="save_page" class="save ellipsis" onclick="$('form').trigger('submit');return false;"><?php echo t('Save', FALSE); ?></div>
+		<div id="save_page" class="save ellipsis" onclick="$('form').trigger('submit');return false;"><?php echo t('Save'); ?></div>
 	</div>
 </div>

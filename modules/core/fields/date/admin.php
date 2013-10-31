@@ -27,18 +27,18 @@
  */
  ?>
 <div>
-	<label><?php echo t('Use', FALSE) ;?></label>
+	<label><?php echo t('Use') ;?></label>
 	<select name="use">
-		<option value="normal"><?php echo t('Normal', FALSE) ;?></option>
-		<option value="creation"><?php echo t('Creation Date', FALSE) ;?></option>
-		<option value="update"><?php echo t('Update Date', FALSE) ;?></option>
+		<option value="normal"><?php echo t('Normal') ;?></option>
+		<option value="creation"><?php echo t('Creation Date') ;?></option>
+		<option value="update"><?php echo t('Update Date') ;?></option>
 	</select>
 </div>
 <div>
-	<label><?php echo t('Template display', FALSE) ;?></label>
+	<label><?php echo t('Template display') ;?></label>
 	<input type="text" name="templateDisplay">
 </div>
 <div>
-	<label><?php echo t('Template forms', FALSE) ;?></label>
+	<label><?php echo t('Template forms') ;?></label>
 	<input type="text" name="templateForms">
 </div>

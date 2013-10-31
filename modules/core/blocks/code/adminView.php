@@ -35,6 +35,6 @@ if ($this->getConfig('mode') !== 'r') {
 	}
 	$path = PROFILE_PATH . $viewPath;
 	$editorMode = 'application/x-httpd-php';
-	include('modules/admin/views/desktop/editor.php');
+	include('modules/admin/views/editor.php');
 }
 ?>

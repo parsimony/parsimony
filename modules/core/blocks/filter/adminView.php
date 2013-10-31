@@ -47,4 +47,5 @@ if ($block) {
 	}
 }
 ?>
+			Block ident:<br>
 <input type="text" name="blockquery" value="<?php if($this->getConfig('blockquery')) echo $this->getConfig('blockquery'); ?>">

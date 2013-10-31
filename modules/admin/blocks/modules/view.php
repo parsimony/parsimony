@@ -46,14 +46,14 @@ foreach ($activeModule as $module => $type) {
 		if ($adminHTML == FALSE)
 			$htmlConfig = '';
 		else
-			$htmlConfig = '<a href="#modules/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module', FALSE) . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
+			$htmlConfig = '<a href="#modules/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
 			echo '<div class="titleTab ellipsis"' . $icon . '"> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
 		$display = '';
 		if ($module != MODULE)
 			$display = 'none';
 		?>
 		<div class="moduleParts <?php echo $display; ?>" data-module="<?php echo $module; ?>">
-			<div rel="pages" class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in', FALSE) . ' ' . ucfirst($module); ?>"><?php echo t('Pages', FALSE); ?>                  </div>
+			<div rel="pages" class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?>                  </div>
 			<ul class="pages tabPanel" style="display:block;">
 				<?php
 				foreach ($moduleobj->getPages() as $id_page => $page) {
@@ -64,17 +64,17 @@ foreach ($activeModule as $module => $type) {
 					?>
 					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
 						<?php echo ucfirst(s($page->getTitle())); ?>
-						<a href="#modules/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page', FALSE); ?>"></a>
+						<a href="#modules/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
 					</li>
 					<?php
 				}
 				?>
-				<a href="#modules/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in', FALSE) . ' ' . ucfirst($module); ?>">
+				<a href="#modules/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
 					<span class="ui-icon ui-icon-plus" style="position: relative;top: 4px;float: left;left: -1px;"></span>
-					<?php echo t('Add A Page', FALSE); ?>
+					<?php echo t('Add A Page'); ?>
 				</a>
 			</ul>
-			<div rel="models" class="db ellipsis subtitle" title="<?php echo t('Content', FALSE) . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content', FALSE); ?></div> 
+			<div rel="models" class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
 			<ul class=" models ">
 				<?php
 				$models = $moduleobj->getModel();
@@ -90,8 +90,8 @@ foreach ($activeModule as $module => $type) {
 					}
 				}
 				if ($_SESSION['behavior'] === 2): ?>
-					<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer', FALSE) . ' ' . ucfirst($module); ?>">
-						<?php echo t('Database Designer', FALSE) ?>
+					<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer') . ' ' . ucfirst($module); ?>">
+						<?php echo t('Database Designer') ?>
 						<form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">
 							<input type="hidden" name="module" value="<?php echo $module; ?>">
 						</form>
@@ -103,5 +103,5 @@ foreach ($activeModule as $module => $type) {
 	}
 }
 if ($_SESSION['behavior'] === 2): ?>		
-	<div class="ellipsis"><a href="#modules/add" title="<?php echo t('Add a Module', FALSE); ?>" id="add-module">+ <?php echo t('Add a Module', FALSE); ?></a></div>
+	<div class="ellipsis"><a href="#modules/add" title="<?php echo t('Add a Module'); ?>" id="add-module">+ <?php echo t('Add a Module'); ?></a></div>
 <?php endif; ?>

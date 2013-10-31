@@ -27,7 +27,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace core\classes;
+namespace core\classes{
 
 /**
  *  Response Class 
@@ -62,12 +62,6 @@ class response {
 	protected $body = '';
 
 	/**
-	 * Construct the HTTP response
-	 */
-	public function __construct($status = 200) {
-		$this->status = $status;
-	}
-	/**
 	 * Get content to client
 	 * @param mixed $body optional
 	 */
@@ -79,18 +73,18 @@ class response {
 	 * Send content to client
 	 * @param mixed $body optional
 	 */
-	public function setContent($body = '', $status = FALSE) {
-		if($status !== FALSE) $this->setStatus($status);
-		if (is_object($body) && get_class($body) == 'core\classes\page') { /* If it's a page object */
+	public function setContent($body = '', $status = 200) {
+		$this->setStatus($status);
+		if ($body instanceof page) { /* If it's a page object */
 
-			app::$request->page = $body;
+			$page = \app::$request->page = $body;
 
 			\app::dispatchEvent('pageLoad');
 
 			/* THEME */
 			$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
 			$structure = $body->getStructure();
-			$script='';
+			$script = '';
 			if (defined('PARSI_ADMIN')) {
 				$adm = new \admin\blocks\toolbar("admintoolbar");
 				$this->body = $adm->display();
@@ -101,17 +95,15 @@ class response {
 					$this->body = $body->display();
 
 				if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
-					\app::$request->page->addJSFile('lib/editinline.js');
+					$page->addJSFile('lib/editinline.js');
 					$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
 					if ($_SESSION['behavior'] > 1) $script = 'window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";';
 					$this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';'.$script.'if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
 				}
 			}
 			if ($structure === TRUE){
-				$view = 'core/views/desktop/index.php';
-				if(stream_resolve_include_path('core/views/'.THEMETYPE.'/index.php')) $view = 'core/views/'.THEMETYPE.'/index.php';
 				ob_start();
-				include($view);
+				include('core/views/index.php');
 				$this->body = ob_get_clean();
 			}
 		}else {
@@ -235,6 +227,53 @@ class response {
 		509 => 'Bandwidth Limit Exceeded',
 		511 => 'Network Authentication Required'
 	);
+
+}
+}
+namespace {
+
+	/**
+	 *  t() must bedefined here
+	 */
+	if ($_SESSION['behavior'] === 2) {
+
+		function t($text, $params = FALSE) {
+			$before = '';
+			$after = '';
+			if (isset($_GET['parsiframe'])) {
+				$before = '<span data-key="' . $text . '" class="translation">';
+				$after = '</span>';
+			}
+			if (isset(app::$lang[$text])) {
+				if ($params !== FALSE)
+					return $before . vsprintf(app::$lang[$text], $params) . $after;
+				else
+					return $before . app::$lang[$text] . $after;
+			} else {
+				if ($params !== FALSE)
+					return $before . vsprintf($text, $params) . $after;
+				else
+					return $before . $text . $after;
+			}
+		}
+
+	} else {
+
+		function t($text, $params = FALSE) {
+			if (isset(app::$lang[$text])) {
+				if ($params !== FALSE)
+					return vsprintf(app::$lang[$text], $params);
+				else
+					return app::$lang[$text] ;
+			}else {
+				if ($params !== FALSE)
+					return vsprintf($text, $params);
+				else
+					return $text;
+			}
+		}
+
+	}
 
 }
 

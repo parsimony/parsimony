@@ -260,9 +260,9 @@ class field {
 	 */
 	public function saveEditInlineAction($data, $id) {
 		if ($this->saveEditInline($data, $id)) {
-			$return = array('eval' => '', 'notification' => t('The data have been saved', FALSE), 'notificationType' => 'positive');
+			$return = array('eval' => '', 'notification' => t('The data have been saved'), 'notificationType' => 'positive');
 		}else{
-			$return = array('eval' => '', 'notification' => t('The data has not been saved', FALSE), 'notificationType' => 'negative');
+			$return = array('eval' => '', 'notification' => t('The data has not been saved'), 'notificationType' => 'negative');
 		}
 		\app::$response->setHeader('X-XSS-Protection', '0');
 		\app::$response->setHeader('Content-type', 'application/json');

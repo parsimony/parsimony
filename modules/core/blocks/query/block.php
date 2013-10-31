@@ -108,13 +108,12 @@ class query extends code {
 			foreach ($myView->getFields() AS $sqlName => $field) {
 				$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 				if(isset($properties[$name]['display'])){
-					if (get_class($field) !== 'core\fields\ident')
+					if ($field instanceof field_ident)
 						$displayLine = '()';
 					else
 						$displayLine = '';
 					$view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $row->' . $sqlName . $displayLine . '; ?></div>' . PHP_EOL;
 				}
-				
 			}
 		} else {
 			$view_code .= "\t\t\t<?php //You have to create your query before ?>" . PHP_EOL;

@@ -131,26 +131,26 @@ $view = $this->getConfig('view');
 	
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
-	<label class="placeholder"><?php echo t('Pagination', FALSE); ?></label>
+	<label class="placeholder"><?php echo t('Pagination'); ?></label>
 	<div style="display:inline-block;width:200px">
-		<?php echo t('Active Pagination', FALSE); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+		<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 		if ($this->getConfig('pagination') == 1)
 			echo ' checked="checked"';
 		?> />
 	</div>
 	<div style="display:inline-block;width:315px">
-		<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+		<?php echo t('This block shows at most') . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items'); ?><br>
 	</div>
 <?php else: ?>
 <div class="tabs">
 	<ul>
-		<li class="active"><a href="#tabs-admin-query"><?php echo t('Query Editor', FALSE); ?></a></li>
-		<li><a href="#tabs-admin-template"><?php echo t('View', FALSE); ?></a></li>
+		<li class="active"><a href="#tabs-admin-query"><?php echo t('Query Editor'); ?></a></li>
+		<li><a href="#tabs-admin-template"><?php echo t('View'); ?></a></li>
 	</ul>
 	<div class="clearboth panel" id="tabs-admin-query">
 		 <div id="queryCanvasWrapper">
-			<div id="addTable" class="tooltip" data-tooltip="<?php echo t('Add a table', FALSE); ?>" data-pos="e" onclick="$('#schema_sql').show()">+</div>
-			<div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations', FALSE); ?>" data-pos="w" onclick="$('#linksWrapper').show()">∞</div>
+			<div id="addTable" class="tooltip" data-tooltip="<?php echo t('Add a table'); ?>" data-pos="e" onclick="$('#schema_sql').show()">+</div>
+			<div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations'); ?>" data-pos="w" onclick="$('#linksWrapper').show()">∞</div>
 			<span id="deletator" class="ui-icon ui-icon-closethick deletator"></span>
 			<span id="invertRelation" class="ui-icon ui-icon-refresh"></span>
 			<div id="schema_sql" style="overflow-y: auto;height:100%">
@@ -191,15 +191,15 @@ $view = $this->getConfig('view');
 			</div> 
 			<div id="linksWrapper">
 				<div class="deletator2 ui-icon ui-icon-closethick " onclick="$('#linksWrapper').hide();"></div>
-				<span style="display: block;padding: 3px 0 14px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;"> <?php echo t('Relationship Management', FALSE); ?></span>
+				<span style="display: block;padding: 3px 0 14px 20px;background: url(<?php echo BASE_PATH; ?>admin/img/puce.png) no-repeat;font-weight: bold;color: #333;"> <?php echo t('Relationship Management'); ?></span>
 				<ol id="links"></ol>
 			</div>
 			<div id="queryCanvas" style="width:100%;height:100%"></div>
 		</div>
 		<div class="innerTabs">
 			<ul>
-				<li class="active"><a href="#tabs-criterias"><?php echo t('Criterias', FALSE); ?></a></li>
-				<li><a href="#tabs-result"><?php echo t('Result', FALSE); ?> <span id="labelresult"></span></a></li>
+				<li class="active"><a href="#tabs-criterias"><?php echo t('Criterias'); ?></a></li>
+				<li><a href="#tabs-result"><?php echo t('Result'); ?> <span id="labelresult"></span></a></li>
 			</ul>
 			<div class="innerPanel" id="tabs-criterias">
 				<div id="pattern_sql" class="queryblock floatleft none">
@@ -211,19 +211,19 @@ $view = $this->getConfig('view');
 					<div class="sqltotal">
 						<select class="aggregate">
 							<option value=""></option>
-							<option value="groupby"><?php echo t('GROUP', FALSE); ?></option>
-							<option value="avg"><?php echo t('AVG', FALSE); ?></option>
-							<option value="count"><?php echo t('COUNT', FALSE); ?></option>
-							<option value="max"><?php echo t('MAX', FALSE); ?></option>
-							<option value="min"><?php echo t('MIN', FALSE); ?></option>
-							<option value="sum"><?php echo t('SUM', FALSE); ?></option>
+							<option value="groupby"><?php echo t('GROUP'); ?></option>
+							<option value="avg"><?php echo t('AVG'); ?></option>
+							<option value="count"><?php echo t('COUNT'); ?></option>
+							<option value="max"><?php echo t('MAX'); ?></option>
+							<option value="min"><?php echo t('MIN'); ?></option>
+							<option value="sum"><?php echo t('SUM'); ?></option>
 						</select>
 					</div>
 					<div class="sqlorder">
 						<select class="order">
 							<option value=""></option>
-							<option value="asc"><?php echo t('Ascending', FALSE); ?></option>
-							<option value="desc"><?php echo t('Descending', FALSE); ?></option>
+							<option value="asc"><?php echo t('Ascending'); ?></option>
+							<option value="desc"><?php echo t('Descending'); ?></option>
 						</select>
 					</div>
 					<div class="align_center checkb"><input class="display" type="checkbox" checked="checked"></div>
@@ -235,45 +235,45 @@ $view = $this->getConfig('view');
 				</div>         
 				<div id="form" action="">
 					<div class="caption">
-						<div style="line-height: 24px;"><?php echo t('Property', FALSE); ?></div>
-						<div style="line-height: 21px;"><?php echo t('Entity', FALSE); ?></div>
-						<div style="padding-top: 10px;"><?php echo t('Total', FALSE); ?></div>
-						<div><?php echo t('Order', FALSE); ?></div>
-						<div><?php echo t('Display', FALSE); ?></div>
-						<div><?php echo t('Criteria', FALSE); ?></div>
-						<div><?php echo t('Or', FALSE); ?></div>
-						<div class="filter"><?php echo t('Filterable', FALSE); ?></div>
-						<div class="sort"><?php echo t('Sortable', FALSE); ?></div>
-						<div class="group"><?php echo t('Groupable', FALSE); ?></div>
+						<div style="line-height: 24px;"><?php echo t('Property'); ?></div>
+						<div style="line-height: 21px;"><?php echo t('Entity'); ?></div>
+						<div style="padding-top: 10px;"><?php echo t('Total'); ?></div>
+						<div><?php echo t('Order'); ?></div>
+						<div><?php echo t('Display'); ?></div>
+						<div><?php echo t('Criteria'); ?></div>
+						<div><?php echo t('Or'); ?></div>
+						<div class="filter"><?php echo t('Filterable'); ?></div>
+						<div class="sort"><?php echo t('Sortable'); ?></div>
+						<div class="group"><?php echo t('Groupable'); ?></div>
 					</div>
 					<div id="recipiant_sql_cont" class="fs">
 						<div id="recipiant_sql"></div>
 					</div>
-					<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate', FALSE) . ' '; ?>">
+					<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate') . ' '; ?>">
 					<div class="clearboth textdbquery">
 						<div style="display:inline-block;width:200px">
-							<?php echo t('Active Pagination', FALSE); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+							<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 							if ($this->getConfig('pagination') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
 						<div style="display:inline-block;width:315px">
-							<?php echo t('This block shows at most', FALSE) . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items', FALSE); ?><br>
+							<?php echo t('This block shows at most') . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items'); ?><br>
 						</div>
 						<div style="display:inline-block;width:110px">
-							<?php echo t('Filterable', FALSE); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
+							<?php echo t('Filterable'); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
 							if ($this->getConfig('filter') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
 						<div style="display:inline-block;width:110px">
-							<?php echo t('Sortable', FALSE); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
+							<?php echo t('Sortable'); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
 							if ($this->getConfig('sort') == 1)
 								echo ' checked="checked"';
 							?> />
 						</div>
 						<div style="display:inline-block;">
-							<?php echo t('Groupable', FALSE); ?> <input type="hidden" value="0" name="group" /><input type="checkbox" id="group" name="group" value="1" <?php
+							<?php echo t('Groupable'); ?> <input type="hidden" value="0" name="group" /><input type="checkbox" id="group" name="group" value="1" <?php
 							if ($this->getConfig('group') == 1)
 								echo ' checked="checked"';
 							?> />
@@ -284,7 +284,7 @@ $view = $this->getConfig('view');
 			</div>
 			<div id="tabs-result" class="innerPanel" style="display:none">
 				<div style="padding: 1px 20px 10px;">
-					<div style="position:relative;text-align:right;padding:7px"><a href="#" style="color: rgb(0, 136, 213)" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL query', FALSE); ?></a></div>
+					<div style="position:relative;text-align:right;padding:7px"><a href="#" style="color: rgb(0, 136, 213)" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL query'); ?></a></div>
 					<div id="resultpreview">
 						<?php
 						if (is_object($view)) {
@@ -295,7 +295,7 @@ $view = $this->getConfig('view');
 							echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
 							$obj = $view;
 							$obj->limit(10);
-							include('modules/admin/views/desktop/datagrid.php');
+							include('modules/admin/views/datagrid.php');
 							echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
 						}
 						?>
@@ -306,7 +306,7 @@ $view = $this->getConfig('view');
 	</div>
 	<div id="tabs-admin-template" class="panel" style="padding:0px">
 		<div style="padding:9px 0">
-		<?php echo t('Lock the view', FALSE); ?> <input type="hidden" value="0" name="regenerateview" /><input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
+		<?php echo t('Lock the view'); ?> <input type="hidden" value="0" name="regenerateview" /><input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
 		if ($this->getConfig('regenerateview') == 1)
 		echo ' checked="checked"';
 		?> />
@@ -314,7 +314,7 @@ $view = $this->getConfig('view');
 	<?php
 	$path = $this->viewPath;
 	$editorMode = 'application/x-httpd-php';
-	include('modules/admin/views/desktop/editor.php');
+	include('modules/admin/views/editor.php');
 	?>
 	</div>
 </div>

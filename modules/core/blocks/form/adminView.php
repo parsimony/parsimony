@@ -37,7 +37,7 @@
 </style>
 <?php if ($this->getConfig('mode') !== 'r') : ?>
 	<div class="placeholder">
-		<label><?php echo t('Select a table', FALSE) ?></label>
+		<label><?php echo t('Select a table') ?></label>
 		<select name="entity" id="entity">
 			<?php foreach (\app::$config['modules']['active'] as $module => $type) : ?>
 				<optgroup label="<?php echo $module ?>">
@@ -57,24 +57,24 @@
 <?php endif; ?>
 <br>
 <div class="placeholder">
-	<label><?php echo t('Success Message', FALSE); ?></label>
+	<label><?php echo t('Success Message'); ?></label>
 	<input type="text" name="success" value="<?php echo $this->getConfig('success'); ?>">
 </div>
 <div class="placeholder">
-	<label><?php echo t('Fail Message', FALSE); ?></label>
+	<label><?php echo t('Fail Message'); ?></label>
 	<input type="text" name="fail" value="<?php echo $this->getConfig('fail'); ?>">
 </div>
 <?php if ($this->getConfig('mode') !== 'r') : ?>
 	<div style="line-height: 16px;margin: 7px;cursor: pointer;" onclick="$('#formupdate').toggle();">
-		<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Form Update', FALSE); ?>
+		<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Form Update'); ?>
 	</div>
 	<div id="formupdate" style="display:none" class="placeholder">
-		<?php echo t('Allow you to map a request param to this form to transform it in form update. Request param must be an ID to find the sql row associated.', FALSE); ?>
-		<label><?php echo t('Request param name', FALSE); ?></label>
+		<?php echo t('Allow you to map a request param to this form to transform it in form update. Request param must be an ID to find the sql row associated.'); ?>
+		<label><?php echo t('Request param name'); ?></label>
 		<input type="text" name="updateparam" id="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
 	</div>
 	<div style="padding:9px 0">
-		<label><?php echo t('Lock the view', FALSE); ?></label>
+		<label><?php echo t('Lock the view'); ?></label>
 		<input type="hidden" value="0" name="regenerateview" />
 		<input type="checkbox" id="regenerateview" name="regenerateview" value="1" <?php
 	if ($this->getConfig('regenerateview') == 1)
@@ -85,7 +85,7 @@
 	<?php
 	$path = PROFILE_PATH . $this->getConfig('viewPath');
 	$editorMode = 'application/x-httpd-php';
-	include('modules/admin/views/desktop/editor.php');
+	include('modules/admin/views/editor.php');
 	?>
 	<script>
 		var markerChangeEditor = false;

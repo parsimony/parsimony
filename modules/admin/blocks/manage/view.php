@@ -29,15 +29,15 @@
 ?>
 <ul>
 	<li class="titleTab">
-		<a href="#modules/settings/admin"><?php echo t('General', FALSE); ?></a>
+		<a href="#modules/settings/admin"><?php echo t('General'); ?></a>
 	</li>
 	<li class="titleTab">
-		<a href="#modules/permissions"><?php echo t('Permissions', FALSE); ?></a>
+		<a href="#modules/permissions"><?php echo t('Permissions'); ?></a>
 	</li>
 	<li class="titleTab">
-		<a href="#modules/model/core/role"><?php echo t('Manage Roles', FALSE); ?></a>
+		<a href="#modules/model/core/role"><?php echo t('Manage Roles'); ?></a>
 	</li>
 	<li class="titleTab">
-		<a href="#modules/model/core/user"><?php echo t('Manage Users', FALSE); ?></a>
+		<a href="#modules/model/core/user"><?php echo t('Manage Users'); ?></a>
 	</li>
 </ul>

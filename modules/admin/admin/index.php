@@ -88,20 +88,20 @@
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
 	<div id="admin_rights" class="adminzonemenu">
-		<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache', FALSE); ?></a></div>
+		<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache'); ?></a></div>
 		<?php if (PROFILE == 'www'): ?>
-			<div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB', FALSE); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB'); ?></a></div>
 		<?php endif; ?>			
-		<div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization', FALSE); ?></a></div>
-		<?php /* <div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences', FALSE); ?></a></div> */ ?>
-		<div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax', FALSE); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version', FALSE); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization'); ?></a></div>
+		<?php /* <div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences'); ?></a></div> */ ?>
+		<div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version'); ?></a></div>
 	</div>
 	<div class="adminzonecontent">
 		<form action="" method="POST" target="formResult">
@@ -109,12 +109,12 @@
 			<input type="hidden" name="action" value="saveConfig">
 			<div id="tabsconfig" style="min-width:465px;">
 				<div id="tabsb-0" class="admintabs">
-					<h2><?php echo t('Ajax', FALSE); ?></h2>
+					<h2><?php echo t('Ajax'); ?></h2>
 					<div class="placeholder">
-						<label class="label"><?php echo t('Ajax navigation', FALSE); ?></label>
+						<label class="label"><?php echo t('Ajax navigation'); ?></label>
 						<select name="config[general][ajaxnav]">
-							<option value="0"><?php echo t('No', FALSE); ?></option>
-							<option value="1"<?php if (isset(app::$config['general']['ajaxnav']) && app::$config['general']['ajaxnav'] == '1') echo ' selected="selected"'; ?>><?php echo t('Yes', FALSE); ?></option>
+							<option value="0"><?php echo t('No'); ?></option>
+							<option value="1"<?php if (isset(app::$config['general']['ajaxnav']) && app::$config['general']['ajaxnav'] == '1') echo ' selected="selected"'; ?>><?php echo t('Yes'); ?></option>
 						</select>
 					</div>
 				</div>
@@ -122,36 +122,36 @@
 					<div id="tabsb-1" class="admintabs">
 						<h2><?php echo t('Database'); ?> </h2>
 						<div class="placeholder">
-							<label class="label" for="host"><?php echo t('Host', FALSE); ?></label><input name="config[db][host]" type="text" value="<?php echo s(app::$config['db']['host']); ?>">
+							<label class="label" for="host"><?php echo t('Host'); ?></label><input name="config[db][host]" type="text" value="<?php echo s(app::$config['db']['host']); ?>">
 						</div>
 						<div class="placeholder">
-							<label class="label" for="dbname"><?php echo t('DBname', FALSE); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo s(app::$config['db']['dbname']); ?>">
+							<label class="label" for="dbname"><?php echo t('DBname'); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo s(app::$config['db']['dbname']); ?>">
 						</div>
 						<div class="placeholder">
-							<label class="label" for="user"><?php echo t('User', FALSE); ?></label><input  name="config[db][user]" type="text" value="<?php echo app::$config['db']['user'] ?>">
+							<label class="label" for="user"><?php echo t('User'); ?></label><input  name="config[db][user]" type="text" value="<?php echo app::$config['db']['user'] ?>">
 						</div>
 						<div class="placeholder">
-							<label class="label" for="password"><?php echo t('Password', FALSE); ?></label><input  name="config[db][pass]" type="text" value="<?php echo s(app::$config['db']['pass']); ?>">
+							<label class="label" for="password"><?php echo t('Password'); ?></label><input  name="config[db][pass]" type="text" value="<?php echo s(app::$config['db']['pass']); ?>">
 						</div>
 					</div>
 				<?php endif; ?>
 				<div id="tabsb-2" class="admintabs">
 					<h2><?php echo t('Cache Management'); ?></h2>
 					<div class="placeholder">
-						<label class="label" for="maxage"><?php echo t('MaxAge', FALSE); ?></label><input name="config[cache][max-age]" type="text" value="<?php echo s(app::$config['cache']['max-age']); ?>">
+						<label class="label" for="maxage"><?php echo t('MaxAge'); ?></label><input name="config[cache][max-age]" type="text" value="<?php echo s(app::$config['cache']['max-age']); ?>">
 					</div>
 					<div class="placeholder">
-						<label class="label" for="cachecontrol"><?php echo t('CacheControl', FALSE); ?></label><input name="config[cache][cache-control]" type="text" value="<?php echo s(app::$config['cache']['cache-control']); ?>">
+						<label class="label" for="cachecontrol"><?php echo t('CacheControl'); ?></label><input name="config[cache][cache-control]" type="text" value="<?php echo s(app::$config['cache']['cache-control']); ?>">
 					</div>
 					<div class="placeholder">
-						<label class="label" for="enablecache"><?php echo t('Enable Cache', FALSE); ?></label>
-						<select name="config[cache][active]" id="languages"><option value="1"><?php echo t('Enabled', FALSE); ?></option><option value="0"><?php echo t('Disabled', FALSE); ?></option></select>
+						<label class="label" for="enablecache"><?php echo t('Enable Cache'); ?></label>
+						<select name="config[cache][active]" id="languages"><option value="1"><?php echo t('Enabled'); ?></option><option value="0"><?php echo t('Disabled'); ?></option></select>
 					</div>
 				</div>
 				<div id="tabsb-3" class="admintabs">
 					<h2><?php echo t('Localization'); ?></h2>
 					<div class="placeholder">
-						<label class="label" for="Languages"><?php echo t('Languages', FALSE); ?></label>
+						<label class="label" for="Languages"><?php echo t('Languages'); ?></label>
 						<select name="config[localization][default_language]" id="languages">
 							<?php
 							foreach (request::$locales AS $code => $locale) {
@@ -164,7 +164,7 @@
 						</select>
 					</div>
 					<div class="placeholder">
-						<label class="label" for="TimeZone"><?php echo t('TimeZone', FALSE); ?></label>
+						<label class="label" for="TimeZone"><?php echo t('TimeZone'); ?></label>
 						<select name="config[localization][timezone]" id="timezone"> 
 							<?php
 							$timezone_identifiers = DateTimeZone::listIdentifiers();
@@ -190,7 +190,7 @@
 					</div>
 				</div>
 				<div id="tabsb-5" class="admintabs">
-					<h2><?php echo t('Module management', FALSE); ?></h2>
+					<h2><?php echo t('Module management'); ?></h2>
 
 					<?php
 					$i = 0;
@@ -232,25 +232,25 @@
 					}
 					if (!empty($tplleft)) {
 						echo '<table style="float:left;">
-							<thead><tr><th>' . t('Module', FALSE) . '</th><th>' . t('State', FALSE) . '</th><th>' . t('Default', FALSE) . '</th></thead><tbody>' . $tplleft . '</tbody></table>';
+							<thead><tr><th>' . t('Module') . '</th><th>' . t('State') . '</th><th>' . t('Default') . '</th></thead><tbody>' . $tplleft . '</tbody></table>';
 					}
 					if (!empty($tplright)) {
 						echo '<table style="float:left; margin-left: 30px">
-							<thead><tr><th>' . t('Module', FALSE) . '</th><th>' . t('State', FALSE) . '</th><th>' . t('Default', FALSE) . '</th></thead>' . $tplright . '</tbody></table>';
+							<thead><tr><th>' . t('Module') . '</th><th>' . t('State') . '</th><th>' . t('Default') . '</th></thead>' . $tplright . '</tbody></table>';
 					}
 					if (empty($tplright) && empty($tplleft)) {
-						echo '<div style="margin-top:20px">' . t('No module detected', FALSE) . '</div>';
+						echo '<div style="margin-top:20px">' . t('No module detected') . '</div>';
 					}
 					?>
 				</div>
 			</div>
 			<div id="tabsb-6" class="admintabs">
-				<h2><?php echo t('Security', FALSE); ?></h2>
+				<h2><?php echo t('Security'); ?></h2>
 				<div class="placeholder">
-					<label class="label"><?php echo t('Allowed IP for Admin', FALSE); ?></label><input name="config[security][allowedipadmin]" type="text" value="<?php echo s(app::$config['security']['allowedipadmin']); ?>">
+					<label class="label"><?php echo t('Allowed IP for Admin'); ?></label><input name="config[security][allowedipadmin]" type="text" value="<?php echo s(app::$config['security']['allowedipadmin']); ?>">
 				</div>
 				<div class="placeholder">
-					<label class="label" for="authdExt"><?php echo t('Authorized Extensions', FALSE); ?></label>
+					<label class="label" for="authdExt"><?php echo t('Authorized Extensions'); ?></label>
 					<div id="authorizedextensions">
 					<?php
 						foreach (app::$config['ext'] AS $ext => $mime) {
@@ -260,33 +260,33 @@
 					</div>
 				</div>
 				<div style="margin:40px 0">
-					<label><?php echo t('Add extenssion', FALSE); ?></label>
+					<label><?php echo t('Add extenssion'); ?></label>
 					<input type="text" id="extname" placeholder="jpg"> whith mime <input type="text" placeholder="image/jpeg" id="extmime">
 					<input type="button" id="addext" value="Add">
 				</div>
 			</div>
 			<div id="tabsb-7" class="admintabs">
-				<h2><?php echo t('Development', FALSE); ?></h2>
+				<h2><?php echo t('Development'); ?></h2>
 				<div class="placeholder">
-					<label class="label"><?php echo t('Status', FALSE); ?></label>
+					<label class="label"><?php echo t('Status'); ?></label>
 					<select name="config[dev][status]">
-						<option value="dev"><?php echo t('Development', FALSE); ?></option>
-						<option value="prod"<?php if (app::$config['dev']['status'] === 'prod') echo ' selected="selected"'; ?>><?php echo t('Production', FALSE); ?></option>
+						<option value="dev"><?php echo t('Development'); ?></option>
+						<option value="prod"<?php if (app::$config['dev']['status'] === 'prod') echo ' selected="selected"'; ?>><?php echo t('Production'); ?></option>
 					</select>
 				</div>
-				<div><?php echo t('Development = concatenation of CSS and JavaScript files is updated each time a change is made', FALSE); ?></div>
-				<div><?php echo t('Production = CSS & JavaScript files are not updated after each modification and are cached', FALSE); ?></div>
+				<div><?php echo t('Development = concatenation of CSS and JavaScript files is updated each time a change is made'); ?></div>
+				<div><?php echo t('Production = CSS & JavaScript files are not updated after each modification and are cached'); ?></div>
 			</div>
 			<div id="tabsb-8" class="admintabs">
 				<h2><?php echo t('Mailing'); ?> </h2>
 				<div class="placeholder">
-					<label class="label" for="config[mail][adminMail]"><?php echo t('E-mail Address', FALSE); ?></label>
+					<label class="label" for="config[mail][adminMail]"><?php echo t('E-mail Address'); ?></label>
 					<input name="config[mail][adminMail]" type="email" value="<?php echo s(app::$config['mail']['adminMail']); ?>">
 				</div>
 				<div class="placeholder">
-					<label class="label" for="config[mail][type]"><?php echo t('Send Type', FALSE); ?></label>
+					<label class="label" for="config[mail][type]"><?php echo t('Send Type'); ?></label>
 					<select name="config[mail][type]" onclick="if (this.value == 'smtp') {$('#confsmtp').show()} else {$('#confsmtp').hide()}">
-						<option value="default"><?php echo t('Default', FALSE); ?></option>
+						<option value="default"><?php echo t('Default'); ?></option>
 						<option value="sendmail"<?php if (app::$config['mail']['type'] == 'sendmail') echo ' selected="selected"'; ?>>Sendmail</option>
 						<option value="qmail"<?php if (app::$config['mail']['type'] == 'qmail') echo ' selected="selected"'; ?>>Qmail</option>
 						<option value="smtp"<?php if (app::$config['mail']['type'] == 'smtp') echo ' selected="selected"'; ?>>SMTP</option>
@@ -294,15 +294,15 @@
 				</div>
 				<div id="confsmtp"<?php if (app::$config['mail']['type'] != 'smtp') echo ' style="display:none"'; ?>>
 					<div class="placeholder">
-						<label class="label" for="server"><?php echo t('Server', FALSE); ?></label><input  name="config[mail][server]" type="text" value="<?php echo s(app::$config['mail']['server']); ?>">
+						<label class="label" for="server"><?php echo t('Server'); ?></label><input  name="config[mail][server]" type="text" value="<?php echo s(app::$config['mail']['server']); ?>">
 					</div>
 					<div class="placeholder">
-						<label class="label" for="port"><?php echo t('Port', FALSE); ?></label><input  name="config[mail][port]" type="text" value="<?php echo s(app::$config['mail']['port']); ?>">
+						<label class="label" for="port"><?php echo t('Port'); ?></label><input  name="config[mail][port]" type="text" value="<?php echo s(app::$config['mail']['port']); ?>">
 					</div>
 				</div>
 			</div>
 			<div id="tabsb-9" class="admintabs">
-				<h2><?php echo t('Devices', FALSE); ?></h2>
+				<h2><?php echo t('Devices'); ?></h2>
 				<table>
 					<thead>
 						<tr><th>Device</th><th>State</th><th>Default</th></tr>
@@ -329,7 +329,7 @@
 				</table>
 			</div>
 			<div id="tabsb-10" class="admintabs">
-				<h2><?php echo t('Current', FALSE); ?> Parsimony <?php echo t('Version', FALSE); ?> : <span id="numVersion"><?php echo PARSIMONY_VERSION; ?></span> <img src="<?php echo BASE_PATH; ?>admin/img/load.gif" id="updateVersionLoad" /></h2>
+				<h2><?php echo t('Current'); ?> Parsimony <?php echo t('Version'); ?> : <span id="numVersion"><?php echo PARSIMONY_VERSION; ?></span> <img src="<?php echo BASE_PATH; ?>admin/img/load.gif" id="updateVersionLoad" /></h2>
 				<div><h3>Stable channel</h3>
 					<div id="stablechannel">
 					</div>
@@ -340,7 +340,7 @@
 			</div>
 			<div id="tabsb-11" class="admintabs">
 				<div class="placeholder">
-					<label class="label" for="config[sitename]"><?php echo t('Site name', FALSE); ?></label>
+					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
 					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">
 				</div>
 			</div>
@@ -353,6 +353,6 @@
 		</form>
 	</div>
 	<div class="adminzonefooter">
-		<div id="save_page" class="save ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save', FALSE); ?></div>
+		<div id="save_page" class="save ellipsis" onclick="$('#save_configs').trigger('click');event.preventDefault();return false;"><?php echo t('Save'); ?></div>
 	</div>
 </div>
