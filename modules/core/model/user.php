@@ -50,7 +50,7 @@ class user extends \entity {
 		include('admin/views/mail/registration.php');
 		$body = ob_get_clean();
 
-		if (\tools::sendMail($vars[':mail'], \app::$config['mail']['adminMail'], \app::$config['mail']['adminMail'], t('Your profile has been created with success', FALSE), $body)) {
+		if (\tools::sendMail($vars[':mail'], \app::$config['mail']['adminMail'], \app::$config['mail']['adminMail'], \t('Your profile has been created with success'), $body)) {
 			return '1';
 		} else {
 			return '0';
