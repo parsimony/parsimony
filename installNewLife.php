@@ -131,6 +131,9 @@ function tr($text) {
     if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr_FR' && isset($lang['fr'][$text])) return $lang['fr'][$text];
     else return $text;
 }
+function t($text) {
+    return $text;
+}
 
 function displayNotif($ok, $high, $low) {
     $serverOK = TRUE;
