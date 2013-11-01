@@ -73,11 +73,12 @@ namespace core\classes {
 
 			/* Determine the domain www.Domain Name */
 			if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
+				
+				/* Load Profile configs before include path get the good default module */
+				if (PROFILE !== 'www')
+					include('profiles/' . PROFILE . '/config.php');
+				
 				set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/'.PROFILE.'/modules/'.$config['modules']['default'].'/' . PATH_SEPARATOR . './modules/'.$config['modules']['default'].'/'); // set include path
-
-				/* Load Profile configs */
-				if (PROFILE != 'www')
-					include('profiles/'.PROFILE . '/config.php');
 
 				self::$config = $config;
 
