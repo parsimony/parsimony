@@ -199,6 +199,15 @@ class core extends \module {
 	public function sitemapAction() {
 		return $this->getView('sitemap');
 	}
+	
+	/**
+	 * Override getRights core methods should allowed for all
+	 * @param string $role
+	 * @return integer
+	 */
+	public function getRights($role) {
+		return 1;
+	}
 
 	public function install() {
 		parent::install();

@@ -268,7 +268,7 @@ class request {
 	 */
 	public function dispatch() {
 		$module = app::getModule($this->module);
-		if($module->getRights($_SESSION['id_role']) === 1 || $this->module === 'core'){ /* 1 for display, core methods should allowed for all */
+		if($module->getRights($_SESSION['id_role']) === 1){ /* 1 = allowed */
 			if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
 				//if Page not found
 				return app::$response->setContent(app::getModule('core')->getView('404'), 404);

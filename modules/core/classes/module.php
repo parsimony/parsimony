@@ -453,7 +453,7 @@ class module {
 	}
 
 	/**
-	 * Get an entity
+	 * Get rights for a role
 	 * @param string $role
 	 * @return integer
 	 */
