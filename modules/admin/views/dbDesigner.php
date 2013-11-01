@@ -134,7 +134,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					 background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
 					 background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
-	#conf_box_overlay{z-index: 9999;}
+	#conf_box_overlay{z-index: 9999;text-align: center;position: fixed;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.85);}
 	#notify {top:35px}
 	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;position: relative;top: 4px;}
 	.hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
