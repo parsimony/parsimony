@@ -338,7 +338,7 @@ namespace core\classes {
 					if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 						echo json_encode(array('notification' => $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
 					} else {
-						include(\app::$config['DOCUMENT_ROOT'] . '/modules/core/views/desktop/error.php');
+						include(\app::$config['DOCUMENT_ROOT'] . '/modules/core/views/error.php');
 					}
 				}
 			}
