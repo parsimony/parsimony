@@ -388,6 +388,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 					$dataset[$row->$id->value] = $line;
 				}
 			}
+			defined('JSON_PRETTY_PRINT') or define('JSON_PRETTY_PRINT', null);
 			return json_encode($dataset, JSON_PRETTY_PRINT);
 			
 		}else{
