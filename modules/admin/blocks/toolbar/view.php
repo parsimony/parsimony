@@ -118,7 +118,7 @@ echo $admin->display();
 	<div id="dropInTree" class="marqueurdragndrop"></div>
 	<div id="notify"></div>
 	<div id="menu">
-		<span id="closemenu" style="position: absolute;top: -15px;right: -15px;" onclick="ParsimonyAdmin.closeParsiadminMenu()" class="floatright ui-icon ui-icon-closethick"></span>
+		<span id="closemenu" onclick="ParsimonyAdmin.closeParsiadminMenu()" class="floatright ui-icon ui-icon-closethick"></span>
 		<div class="options"></div>
 	</div>
 	<datalist id="parsidatalist"></datalist>
