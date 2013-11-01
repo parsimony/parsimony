@@ -66,8 +66,7 @@ if (isset($_POST['connexion'])) {
         header('Location: ' . BASE_PATH);
         exit;
     } else {
-        echo '<div style="top: 35px;position: relative;display: block;background: #EEE;border: 1px solid #DDD;box-shadow: 1px 2px 3px #888, -1px -1px 3px #888;padding: 10px 15px 5px 15px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;">'
-        . t('The username or password you entered is incorrect') . '</div>';
+        echo '<div id="wrong">'. t('The username or password you entered is incorrect', FALSE) . '</div>';
     }
 }
 
@@ -80,6 +79,8 @@ if (isset($_POST['connexion'])) {
         <meta name='robots' content='noindex,nofollow' /> 
         <link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH ?>admin/css/ui.css">
         <style>    
+			#wrong{top: 35px;position: relative;padding : 10px;display: inline;background: #ECECEC;}
+			#wrong:before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";left: -5px;top: 4px;}
             body{text-align: center;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;background: #fafafa;}
             #content{margin: 200px auto;position: relative;width: 503px;height: 253px;box-shadow: 2px 2px 3px #CECECE, 0px 0px 4px #CACACA;}
 			#quote{font-size: 15px;letter-spacing: 1.5px;color: #555;display: inline-block;bottom: 8px;position: relative;}
@@ -91,7 +92,7 @@ if (isset($_POST['connexion'])) {
             label, div a{font-size: 13px;line-height: 25px;font-weight: bold;}
             div a{font-size: 15px;line-height: 18px;}
             #content form{width: 250px;height: 250px;float: left;border-color: #DDD;text-shadow: 0 1px 1px white;padding: 6px 10px;color: #666;background: #fefefe;}
-            #content > form > div{padding:15px;}
+            #content .login > div, #content .display > div{padding:15px;}
             #content > form a{color: #555;}
             input:-webkit-autofill {background-color: #fafafa !important;-webkit-box-shadow: 0 0 0px 30px #fafafa inset;color: #777 !important;} /* Removing input background color for Chrome autocomplete trick */
             #content > form input[type="text"],#content > form input[type="password"]{width: 200px;height: 35px;background-color: #fafafa;border-left: 5px solid rgb(45, 193, 238);font-weight: bold;color: #777;}
@@ -101,6 +102,21 @@ if (isset($_POST['connexion'])) {
 			#mail{display:none;font-size: 15px;line-height: 18px;padding: 15px 0;}			
 			#back{color:rgb(45, 193, 238);cursor: pointer;font-weight: bold;text-align: left;}
 			#back:hover{color: rgb(41, 170, 209);}
+			.display.flip , .login.flip {-webkit-backface-visibility: visible !important;-webkit-animation-name: flip;backface-visibility: visible !important;animation-name: flip;
+			}
+			.display, .login  {-webkit-animation-duration: 0.5s;animation-duration: 0.5s;-webkit-animation-fill-mode: both;	animation-fill-mode: both;}	
+			@-webkit-keyframes flip {0% {-webkit-transform: perspective(400px) translateZ(0) rotateY(0) scale(0.6);	-webkit-animation-timing-function: ease-out;}
+			40% {-webkit-transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(0.6);-webkit-animation-timing-function: ease-out;}
+			50% {-webkit-transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(0.6);-webkit-animation-timing-function: ease-in;}
+			80% {-webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);-webkit-animation-timing-function: ease-in;}
+			100% {-webkit-transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);-webkit-animation-timing-function: ease-in;}
+			}
+			@keyframes flip {0% {transform: perspective(400px) translateZ(0) rotateY(0) scale(0.6);animation-timing-function: ease-out;}
+			40% {transform: perspective(400px) translateZ(150px) rotateY(170deg) scale(0.6);animation-timing-function: ease-out;}
+			50% {transform: perspective(400px) translateZ(150px) rotateY(190deg) scale(0.6);animation-timing-function: ease-in;}
+			80% {transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);animation-timing-function: ease-in;}
+			100% {transform: perspective(400px) translateZ(0) rotateY(360deg) scale(1);animation-timing-function: ease-in;}
+			}
         </style>
     </head>  
     <body> 
@@ -110,20 +126,23 @@ if (isset($_POST['connexion'])) {
                 <img src="<?php echo BASE_PATH; ?>core/img/logo-parsimony-big.png">
             </div>
             <form action="" method="POST"> 
-                <div style="text-align: left;" class="login">                    
-                    <input type="text" placeholder="<?php echo t('Username'); ?>" name="login" autofocus/>
+				<div class="login">
+					<div style="text-align: left;" >                    
+						<input type="text" placeholder="<?php echo t('Username'); ?>" name="login" autofocus/>
                 </div> 
-                <div style="text-align: left;" class="login">         
-                    <input type="password" placeholder="<?php echo t('Password'); ?>" name="password" />
+					<div style="text-align: left;" >         
+						<input type="password" placeholder="<?php echo t('Password'); ?>" name="password" />
                 </div>
-                <div class="login"> 
-                    <input style="font-size: 16px;" type="submit" name="connexion" value="<?php echo t('Login'); ?>" /> 
+					<div > 
+						<input style="font-size: 16px;" type="submit" name="connexion" value="<?php echo t('Login'); ?>" /> 
                 </div>
-                <div style="font-weight: normal"> 
-                    <span id="back" class="display" onclick="document.getElementById('content').classList.toggle('mail');return false;">< Back to login</span>
-					<a class="login" style="text-decoration: none" href="" onclick="document.getElementById('content').classList.toggle('mail');return false;"><?php echo t('Lost your password'); ?></a><span class="login"> ?</span>
-                    <div class="display">
-						<input style="margin : 40px 0 20px 0;" placeholder="<?php echo t('Enter your email',FALSE) ?>" type="text" id="newmdp"/>
+					<a  style="text-decoration: none" href="" onclick="document.getElementById('content').classList.toggle('mail');document.querySelector('.display').classList.add('flip');return false;"><?php echo t('Lost your password'); ?></a><span > ?</span>
+				</div>
+                
+                <div class="display" style="font-weight: normal"> 
+                    <div id="back" onclick="document.getElementById('content').classList.toggle('mail');document.querySelector('.login').classList.add('flip');return false;">< Back to login</div>
+                    <div>
+						<input style="margin : 0px 0 20px 0;" placeholder="<?php echo t('Enter your email',FALSE) ?>" type="text" id="newmdp"/>
                         <input type="button" value="<?php echo  t('Send',FALSE) ?>" id="newmdpgo" />
                     </div>
                 </div>
