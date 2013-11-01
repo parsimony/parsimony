@@ -58,9 +58,11 @@ foreach ($modules as $moduleName => $mode) {
 	$module = \app::getModule($moduleName);
 	foreach ($module->getThemes() as $themeName) {
 		$imgURL = stream_resolve_include_path($moduleName . '/themes/' . s($themeName) . '/thumb.png');
-		if($imgURL)  $imgURL = BASE_PATH. str_replace('\\','/',str_replace(\app::$config['DOCUMENT_ROOT'],'',$imgURL));
-		else $imgURL = BASE_PATH.'admin/img/defaulttheme.png';
-		?>
+		if ($imgURL !== FALSE)
+			$imgURL = BASE_PATH . substr(str_replace('\\', '/', str_replace(\app::$config['DOCUMENT_ROOT'], '', $imgURL)), 1);
+		else
+			$imgURL = BASE_PATH . 'admin/img/defaulttheme.png';
+?>
 	<li id="theme_<?php echo s($themeName); ?>" class="themeItem<?php if($themeName == THEME) echo ' active'; ?>">
 		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
