@@ -49,13 +49,6 @@
 				$(this).addClass("active");
 				$($(this).attr("href")).show();
 				typeof top.ParsimonyAdmin != "undefined" ? top.ParsimonyAdmin.resizeConfBox() : opener.top.ParsimonyAdmin.resizeConfBox();
-			}).
-			on('click', '#conf_box_wpopup', function(e) {
-				var action = $("#conf_box_form input[name=action]", top.document).val();
-				$("#conf_box_form", top.document).attr('target', 'conf_box_content_popup' + action);
-				window.open($("#conf_box_content_iframe", top.document).attr('src'), 'conf_box_content_popup' + action, "width=" + $("#conf_box", top.document).width() + ",height=" + ($("#conf_box", top.document).height() - 40));
-				$("#conf_box_form", top.document).trigger("submit").attr('target', 'conf_box_content_iframe');
-				top.ParsimonyAdmin.closeConfBox();
 			});
 			/* Shortcut : Save on CTRL+S */
 			document.addEventListener("keydown", function(e) {
@@ -68,7 +61,6 @@
 	</head>
 	<body>
 		<span id="conf_box_close" onclick="top.ParsimonyAdmin.closeConfBox()" class="floatright ui-icon ui-icon-closethick"></span>
-		<span id="conf_box_wpopup" class="floatright ui-icon ui-icon-extlink"></span>
 		<?php echo $content; ?>
 	</body>
 </html>

@@ -117,7 +117,6 @@ color: #777;
 	#searchData::-moz-placeholder{color : #777}
 	.adminzonetab{font-size: 20px;height: 30px;padding: 0 10px;margin: 10px;float: left;}
 	.adminzonetab a {text-decoration: none;color: #777;padding: 0 10px 5px 10px;}
-	#conf_box_wpopup{display: none}
 	#conf_box_close{border:0;background-color:transparent}
 	#addmodelbtn{padding: 4px 25px;border-radius: 18px;line-height: 25px;background-color: #44C5EC;
 				 display: block;color: #fff;text-align: center;text-transform: uppercase;font-size: 14px;}

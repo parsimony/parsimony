@@ -142,8 +142,8 @@ if (isset($_POST['connexion'])) {
                 <div class="display" style="font-weight: normal"> 
                     <div id="back" onclick="document.getElementById('content').classList.toggle('mail');document.querySelector('.login').classList.add('flip');return false;">< Back to login</div>
                     <div>
-						<input style="margin : 0px 0 20px 0;" placeholder="<?php echo t('Enter your email',FALSE) ?>" type="text" id="newmdp"/>
-                        <input type="button" value="<?php echo  t('Send',FALSE) ?>" id="newmdpgo" />
+						<input style="margin : 0px 0 20px 0;" placeholder="<?php echo t('Enter your email') ?>" type="text" id="newmdp"/>
+                        <input type="button" value="<?php echo  t('Send') ?>" id="newmdpgo" />
                     </div>
                 </div>
             </form> 

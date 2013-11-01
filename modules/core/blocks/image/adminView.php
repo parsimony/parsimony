@@ -86,7 +86,7 @@
 			<div class="title ellipsis" style="font-weight: bold;font-size: 12px;height:26px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;">
 		 <?php
 		 if (stream_resolve_include_path($this->getConfig('imgPath'))) {
-			 echo t('Current Name',FALSE).' : ' . basename($this->getConfig('imgPath'));
+			 echo t('Current Name').' : ' . basename($this->getConfig('imgPath'));
 		 }
 		 ?></div>
 			<img class="img" title="" style="" 

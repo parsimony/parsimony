@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div class="rightbar"><label class="ellipsis"><?php echo t('Unique',False) ; ?></label>
+<div class="rightbar"><label class="ellipsis"><?php echo t('Unique') ; ?></label>
 	<select style="font-size:13px;height:26px" name="unique">
 		<option value="1"><?php echo t('True'); ?></option>
 		<option value="0"><?php echo t('False'); ?></option>

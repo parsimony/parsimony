@@ -28,7 +28,7 @@
  ?>
 
 <div>
-	<label><?php echo t('Mode',False) ; ?> </label>
+	<label><?php echo t('Mode') ; ?> </label>
 	<select type="text" name="mode">
 		<option>textarea</option>
 		<option<?php if(isset($this->mode) && $this->mode == 'text') echo ' selected="selected"' ?>>text</option>

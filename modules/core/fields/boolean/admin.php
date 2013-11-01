@@ -26,4 +26,4 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div><label><?php echo t('Status',False) ; ?> </label><input type="text" name="states"></div>
+<div><label><?php echo t('Status') ; ?> </label><input type="text" name="states"></div>

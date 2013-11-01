@@ -323,11 +323,11 @@ class tools {
 		$rest = time()-strtotime($date); 
 		$say = '';
 		if($rest <= 60){$say = $rest . 'second'.($rest > 1 ? "s" : '');}
-		elseif($rest <=3600){$rest=(int)($rest/60); $say = $rest.' ' .t('minute',false).($rest > 1 ? "s" : '');}
-		elseif($rest <=86400){ $rest=(int)($rest/3600); $say = $rest.' ' .t('hour',false).($rest > 1 ? "s" : '');}
-		elseif($rest <= 2592000){$rest=(int)($rest/86400); $say = $rest.' ' .t('day',false). ($rest > 1 ? "s" : '');}
-		elseif($rest <= 31104000){$rest=(int)($rest/2592000); $say = $rest.' ' .t('month',false). ($rest > 1 ? "s" : '');}
-		elseif($rest <= 373248000){$rest=(int)($rest/31104000); $say = $rest.' ' .t('year',false). ($rest > 1 ? "s" : '');}
+		elseif($rest <=3600){$rest=(int)($rest/60); $say = $rest.' ' .t('minute').($rest > 1 ? "s" : '');}
+		elseif($rest <=86400){ $rest=(int)($rest/3600); $say = $rest.' ' .t('hour').($rest > 1 ? "s" : '');}
+		elseif($rest <= 2592000){$rest=(int)($rest/86400); $say = $rest.' ' .t('day'). ($rest > 1 ? "s" : '');}
+		elseif($rest <= 31104000){$rest=(int)($rest/2592000); $say = $rest.' ' .t('month'). ($rest > 1 ? "s" : '');}
+		elseif($rest <= 373248000){$rest=(int)($rest/31104000); $say = $rest.' ' .t('year'). ($rest > 1 ? "s" : '');}
 		return $say .' ago';	
 	}
 

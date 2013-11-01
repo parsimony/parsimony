@@ -32,7 +32,7 @@ echo $this->displayLabel($fieldName);
 <div class="uploadimg">
 <div id="upload_image_<?php echo $fieldName?>">
 	<div id="image_thumb_<?php echo $fieldName; ?>" class="field-image-previewContainer<?php if(empty($value)) echo ' none'; ?>" style="border:1px solid #cccccc;background-color:#EFEFEF;padding:10px;">
-		<div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name',FALSE) ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
+		<div style="padding:5px 0;" class="field-image-fileName"><?php echo t('Name') ?> : <a href="<?php echo s($value) ?>" style="text-decoration: none;width:400px;display: inline-block;" class="field-image-fileNameLink ellipsis" target="_blank"><?php echo s($value) ?></a></div>
 		<img src="<?php echo BASE_PATH . $this->entity->getModule(); ?>/<?php echo $this->path; ?>/<?php echo s($value) ?>?x=150&y=150" class="field-image-preview" />
 	</div>
 	<div class="field-image-inputContainer" style="position: relative">

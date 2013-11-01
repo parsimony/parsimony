@@ -77,7 +77,6 @@
 <style>
 	.admintabs > div{margin-bottom: 20px;}
 	.adminzone td{padding:10px;min-width:100px;text-transform: capitalize}
-	.adminzone td input{margin-left: 30px;}
 	#updateVersionLoad{display:none}
 	.hidden{pointer-events: none;opacity: 0.5}
 	#authorizedextensions {position: relative;top: 25px;}

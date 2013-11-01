@@ -81,7 +81,7 @@ foreach ($mode->select() as $row) {
 	});
 </script>
 
-<div class="fixedzindex<?php echo $fieldName; ?>"><input type="text" id="<?php echo $fieldName; ?>" /><input type="button" id="<?php echo $fieldName; ?>_ok"  value="<?php echo t('Add',FALSE); ?>" /></div>
+<div class="fixedzindex<?php echo $fieldName; ?>"><input type="text" id="<?php echo $fieldName; ?>" /><input type="button" id="<?php echo $fieldName; ?>_ok"  value="<?php echo t('Add'); ?>" /></div>
 <div id="log<?php echo $fieldName; ?>" style="border-color: #ddd;border-radius:4px;padding-top:7px;width: 100%; overflow: auto;" class="ui-widget-content">
 <?php
 if($row){

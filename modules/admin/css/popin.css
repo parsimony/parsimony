@@ -6,7 +6,7 @@ body{overflow: hidden;}
 .tabs ul li a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
 .adminzone{height:100%;width:100%;position: absolute;font-family:'Segoe UI',Tahoma,Helvetica,sans-serif;min-height: 600px;min-width: 600px;background: #fefefe;}
 /* Pagination */
-.pagination a {display: inline-block;color: #444;padding: 5px;text-decoration: none;margin-top: 10px;margin-left: 10px;}
+.pagination a {display: inline-block;color: #444;border-bottom: 2px solid transparent;padding: 5px;text-decoration: none;margin-top: 10px;margin-left: 10px;}
 .pagination a.active,.pagination a:hover{border-bottom: 2px solid rgb(45, 193, 238);}
 
 .adminzone th,.adminzone thead{text-align:left;}
@@ -154,7 +154,6 @@ font-size: 20px;
 font-weight: normal;
 border-radius: 5px 5px 0 0;
 font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;background: #fafafa;}
-#conf_box_close, #conf_box_wpopup, #closemenu{margin:11px 6px;border: #777 solid 1px;z-index: 1;position: relative;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px;}
-#conf_box_wpopup{background: url(admin/img/icons.png) -32px -80px;}
+#conf_box_close, #closemenu{margin:11px 6px;z-index: 1;position: relative;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px;}
 #conf_box_close{margin-right: 13px;}
-#conf_box_close:hover, #conf_box_wpopup:hover{border: #5E9AE2 solid 1px;}
+#conf_box_close:hover{background-color: #E4E4E4;}

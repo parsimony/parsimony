@@ -26,6 +26,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  ?>
-<div><label><?php echo t('Width',False) ; ?></label><input type="text" name="width"></div>
-<div><label><?php echo t('Height',False) ; ?></label><input type="text" name="height"></div>
-<div><label><?php echo t('Path',False) ; ?></label><input type="text" name="path"></div>
+<div><label><?php echo t('Width') ; ?></label><input type="text" name="width"></div>
+<div><label><?php echo t('Height') ; ?></label><input type="text" name="height"></div>
+<div><label><?php echo t('Path') ; ?></label><input type="text" name="path"></div>
