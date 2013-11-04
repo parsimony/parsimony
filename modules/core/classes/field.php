@@ -397,7 +397,7 @@ class field {
 	 * @return string
 	 */
 	public function sqlFilter($filter) {
-		$fieldName = $this->entity->getName()->getName() . '_' . $this->name;
+		$fieldName = $this->entity->getName() . '_' . $this->name;
 		$name = $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
 		if (is_array($filter)) {
 			if (isset($filter[0])) {
