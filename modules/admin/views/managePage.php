@@ -171,7 +171,7 @@
 										<div class="choicetitle"><?php echo t('A SQL property'); ?> :</div>
 										<?php
 										$models = $module->getModel();
-										$allowedField = array('ident' => '1', 'string' => 'example', 'numeric' => '1', 'numeric' => '1', 'url_rewriting' => 'example', 'user' => '1');
+										$allowedField = array('field_ident' => '1', 'field_string' => 'example', 'field_numeric' => '1', 'field_numeric' => '1', 'field_url_rewriting' => 'example', 'field_user' => '1');
 										$aliasClasses = array_flip(\app::$aliasClasses);
 										if (count($models) > 0) {
 											echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
@@ -182,7 +182,7 @@
 												$obj = app::getModule($module->getName())->getEntity($modelName);
 												foreach ($obj->getFields() AS $field) {
 													$className = get_class($field);
-													if (isset($aliasClasses[$className]) && isset($allowedField[$aliasClasses[$className]])) {
+													if (isset($allowedField[$aliasClasses[$className]])) {
 														echo '<div name="' . $field->name . '" regex="(' . $field->regex . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
 													}
 												}
