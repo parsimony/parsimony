@@ -43,7 +43,7 @@ class boolean extends \field {
 	protected $characters_max = '';
 	protected $characters_min = 1;
 	protected $regex = '^[0-1]$';
-	protected $states = 'on,off';
+	protected $states = 'off,on';
 	
 	/**
 	 * Validate field
