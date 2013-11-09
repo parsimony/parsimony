@@ -104,14 +104,14 @@
 									echo $modulename;
 								?></span><?php if ($modulename != \app::$config['modules']['default']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
 					</div>
-					<?php if ($_SESSION['behavior'] == 2): ?>
+					<?php if ($_SESSION['behavior'] === 2): ?>
 						<div style="position: absolute;left: 570px;top: 82px;cursor:pointer;color: #333;line-height: 15px;" onclick="$('#tabs-admin-querieur').toggle();">
 							<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Dynamic page'); ?>
 						</div>
 					<?php endif; ?>
 					<div id="pageOverride" style="position: relative;top: 16px;left: 7px;"></div>
 					<div style="position:relative;padding-top: 30px;">
-					<?php if ($_SESSION['behavior'] == 2): ?>
+					<?php if ($_SESSION['behavior'] === 2): ?>
 						<?php $components = $page->getURLcomponents(); ?>
 							<div id="tabs-admin-querieur" class="none" style="">
 								<fieldset id="tabs-admin-query" style="background: none;">
@@ -183,7 +183,7 @@
 												foreach ($obj->getFields() AS $field) {
 													$className = get_class($field);
 													if (isset($allowedField[$aliasClasses[$className]])) {
-														echo '<div name="' . $field->name . '" regex="(' . $field->regex . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
+														echo '<div name="' . $field->name . '" regex="(' . str_replace('^', '', str_replace('$', '', $field->regex)) . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
 													}
 												}
 												echo '</div>';
