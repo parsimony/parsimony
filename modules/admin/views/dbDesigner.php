@@ -778,7 +778,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		}
 		?>
 	</div>
-	<div id="rightsidebar" class="areaWrite" style="z-index:999">
+	<div id="rightsidebar" style="z-index:999">
 		<div id="update_table">
 			<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 11px;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);"></span><?php echo t('Table Settings') ?></h2>
 			<div class="rightbar"><label class="ellipsis"><?php echo t('Name'); ?> </label><input type="text" name="name"><input type="hidden" name="oldName"></div>
