@@ -847,7 +847,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			var champ = $("#field_list div[type_class='field_foreignkey']").clone();
 			var predictedname = "id_" + source;
 			var n = 0;
-			while ($('#table_' + target + '_' + predictedname).length) {
+			while ($('#property_' + target + '_' + predictedname).length || predictedname == "id_" + target) { /* 2nd condition for link to external module, ex: user to core user */
 				n++;
 				if (n > 1) {
 					predictedname = predictedname.substring(0, predictedname.length - 2) + '_' + n;
