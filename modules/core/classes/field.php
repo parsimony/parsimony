@@ -337,7 +337,7 @@ class field {
 		if (empty($fieldBefore))
 			$pos = ' FIRST ';
 		else
-			$pos = ' AFTER ' . $fieldBefore;
+			$pos = ' AFTER `' . $fieldBefore . '`';
 		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' ADD ' . $this->sqlModel() . $pos;
 		return \PDOconnection::getDB()->exec($sql);
 	}
@@ -352,12 +352,12 @@ class field {
 		if (empty($fieldBefore))
 			$pos = ' FIRST ';
 		else
-			$pos = ' AFTER ' . $fieldBefore;
+			$pos = ' AFTER `' . $fieldBefore . '`';
 		if ($oldName)
 			$name = $oldName;
 		else
 			$name = $this->name;
-		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' CHANGE ' . $name . ' ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
+		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' CHANGE `' . $name . '` ' . str_replace(' PRIMARY KEY', '', $this->sqlModel() . $pos);
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
@@ -366,7 +366,7 @@ class field {
 	 * @return bool|int
 	 */
 	public function deleteColumn() {
-		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' DROP ' . $this->name;
+		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' DROP `' . $this->name . '`';
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
@@ -388,7 +388,7 @@ class field {
 			$characters_max = '(' . $this->characters_max . ')';
 		if (!empty($this->default))
 			$default = ' DEFAULT \'' . $this->default . '\'';
-		return $this->name . ' ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
+		return '`' . $this->name . '` ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
 	}
 
 	/**
