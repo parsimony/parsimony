@@ -42,7 +42,7 @@ class image extends \block {
 	public function saveConfigs() {
 
 		if (isset($_POST['imgPath'])) {
-			$this->setConfig('imgPath', $this->moduleName . '/files/' . $_POST['imgPath']);
+			$this->setConfig('imgPath', MODULE . '/files/' . $_POST['imgPath']);
 			$this->setConfig('width', $_POST['width']);
 			$this->setConfig('height', $_POST['height']);
 			$this->setConfig('title', $_POST['title']);
@@ -62,6 +62,34 @@ class image extends \block {
 			return TRUE;
 		}
 		return FALSE;
+	}
+	
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+		$oldPath = $this->getConfig('imgPath');
+		$imagePath = substr(strstr($oldPath, '/files/'), 7);
+		$newPath = $module . '/files/' . $imagePath;
+		if($oldPath !== $newPath){
+			if (stream_resolve_include_path($newPath) !== FALSE) { /* check if an image with this path already exists in profile */
+				$fileInfo = pathinfo($imagePath);
+				$extension = strtolower($fileInfo['extension']);
+				$filename = $fileInfo['filename'];
+				
+				/* allow to not overload filename with name_0_3_2_0 ... */
+				$generatedPart = strrchr($filename, '_');
+				if ($generatedPart !== FALSE && is_numeric(substr($generatedPart, 1))) {
+					$filename = substr($fileInfo['filename'], 0, -(strlen($generatedPart)));
+				}
+				
+				$nbn = 0;
+				while (stream_resolve_include_path($newPath)) {
+					$imagePath = $filename . '_' . $nbn . '.' . $extension;
+					$newPath = $module . '/files/' . $imagePath;
+					$nbn++;
+				}
+			}
+			$this->setConfig('imgPath', $newPath);
+			\tools::file_put_contents(PROFILE_PATH . $newPath, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));
+		}
 	}
 
 
