@@ -70,13 +70,6 @@ namespace core\classes {
 
 			/* Determine called profile */
 			$this->determineProfile();
-
-			/* todo for v3 :  Remove  */
-			if(!is_file('profiles/www/config.php')){
-				copy('config.php','profiles/www/config.php');
-				unlink('config.php');
-			}
-			/* todo for v3 :  Remove  */
 			
 			/* Load Profile configs before include path get the good default module */
 			include('profiles/' . PROFILE . '/config.php');
