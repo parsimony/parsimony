@@ -159,7 +159,7 @@ while (1) {
         case 'validstep1':
             if (isset($_POST['agreewithlicence'])) {
                 $step = 2;
-				mkdir('profiles/www' , 0755);
+				mkdir('profiles/www' , 0755, TRUE);
 				file_put_contents('profiles/www/config.php', file_get_contents('modules/core/default-config.php'));
 			} else {
                 echo '<div class="notify negative">' . tr('You have to accept license agreement to continue') . '</div>';
