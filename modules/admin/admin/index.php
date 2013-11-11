@@ -35,12 +35,12 @@
 				var data = JSON.parse(data);
 				for (version in data) {
 					if (parseFloat(version) > <?php echo PARSIMONY_VERSION; ?>) {
-						document.getElementById("stablechannel").innerHTML = '<input type="button" value="Update to version ' + version + '" class="updateVersion" data-urlupdate="' + data[version] + '">';
+						document.getElementById("stablechannel").innerHTML = '<input type="button" value="'+ t('Update to version ') + version + '" class="updateVersion" data-urlupdate="' + data[version] + '">';
 						break;
 					} else {
 						document.getElementById("numVersion").innerHTML = version;
 					}
-					document.getElementById("stablechannel").innerHTML = 'You have the lastest stable version';
+					document.getElementById("stablechannel").innerHTML = t('You have the latest stable version');
 				}
 			}
 		});
@@ -80,9 +80,11 @@
 	#updateVersionLoad{display:none}
 	.hidden{pointer-events: none;opacity: 0.5}
 	#authorizedextensions {position: relative;top: 25px;}
-	#authorizedextensions > div {padding: 7px;margin: 2px 0;border: 1px solid #ddd;}
+	#authorizedextensions > div {padding: 7px;margin: 6px 0;border: 1px solid #ddd;}
 	.remext {float: right;padding: 0 5px;cursor: pointer;}
 	#extname{width: 40px;}
+	.remext::before {position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";}
+	.remext:hover::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";top: -9px;left: 3px;}
 </style>
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
@@ -242,7 +244,6 @@
 					}
 					?>
 				</div>
-			</div>
 			<div id="tabsb-6" class="admintabs">
 				<h2><?php echo t('Security'); ?></h2>
 				<div class="placeholder">
@@ -253,14 +254,14 @@
 					<div id="authorizedextensions">
 					<?php
 						foreach (app::$config['ext'] AS $ext => $mime) {
-							echo '<input type="hidden" name="config[ext][' . $ext . ']" value="removeThis"><div>' . $ext . ' : ' . $mime . '<input type="hidden" name="config[ext][' . $ext . ']" value="' . $mime . '"><div class="remext" onclick="$(this).parent().remove();">X</div></div>';
+							echo '<input type="hidden" name="config[ext][' . $ext . ']" value="removeThis"><div>' . $ext . ' : ' . $mime . '<input type="hidden" name="config[ext][' . $ext . ']" value="' . $mime . '"><div class="remext" onclick="$(this).parent().remove();"></div></div>';
 						}
 					?>
 					</div>
 				</div>
 				<div style="margin:40px 0">
 					<label><?php echo t('Add extenssion'); ?></label>
-					<input type="text" id="extname" placeholder="jpg"> whith mime <input type="text" placeholder="image/jpeg" id="extmime">
+					<input type="text" id="extname" placeholder="jpg"> with mime <input type="text" placeholder="image/jpeg" id="extmime">
 					<input type="button" id="addext" value="Add">
 				</div>
 			</div>
@@ -338,6 +339,7 @@
 				</div>
 			</div>
 			<div id="tabsb-11" class="admintabs">
+				<h2><?php echo t('Site information'); ?></h2>
 				<div class="placeholder">
 					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
 					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">

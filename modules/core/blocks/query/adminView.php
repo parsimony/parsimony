@@ -113,7 +113,7 @@ $view = $this->getConfig('view');
 	.tableCont .deletator{display:block;}
 	#generatedsql{display:none;margin:5px;padding:5px;border-radius:4px;border:#ccc 1px solid;line-height: 20px;}
 	.removeButton{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;display: none;overflow: hidden;width: 16px;height: 16px;}
-	#queryCanvasWrapper{position: relative;height:320px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');border-bottom: 1px solid #eaeaea;}
+	#queryCanvasWrapper{position: relative;height:320px;margin-top: 15px;overflow: auto;background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');border-bottom: 1px solid #eaeaea;}
 	#regenerateview{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') 0 -33px no-repeat;width: 16px;height: 16px;background-repeat: no-repeat;border: none;box-shadow: none;margin-left: 5px;}
 	#regenerateview:checked{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') no-repeat}
 	#regenerateview:hover{background: url('<?php echo BASE_PATH?>admin/img/spritelockunlock.png') rgb(251, 251, 251) 0 -33px no-repeat;box-shadow: none;background-repeat: no-repeat;border-color: none;}
@@ -128,7 +128,6 @@ $view = $this->getConfig('view');
 	#recipiant_sql input[type="text"].property{background-color: transparent;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
 	#recipiant_sql select:enabled:hover{background-color: #ececec;}
 	#recipiant_sql .checkb{line-height: 13px;padding: 3px 0 0;}
-	
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination'); ?></label>

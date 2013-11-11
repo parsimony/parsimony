@@ -29,9 +29,10 @@ $role = app::getModule('core')->getEntity('role');
 ?>
 <style>
 	th,td{height: 23px;width: 87px;}
-	td{padding:5px 2px 5px 15px;text-align: center !important}
+	.tooltip{margin-left: -20px}
+	td{padding:5px 2px 5px 15px;}
 	.active{background:#AAA} 
-	.modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;}
+	.modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;top: -8px;position: relative;}
 	#enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;}
 	.firsttd{font-size: 18px;letter-spacing: 2px;vertical-align: middle}
 	.secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}
@@ -40,10 +41,10 @@ $role = app::getModule('core')->getEntity('role');
 	/*.disabled{background-color: #F1F1F1;}*/
 	.fieldbg{background-color: rgb(250, 252, 251) !important;}
 	.fieldname{padding : 0 10px 0 30px; text-align:left !important;}
-	.legmod{display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #DFDFDF;border-radius: 5px;background-color: #F1F1F1;
+	.legmod{display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #f0f0f0;border-radius: 5px;background-color: #F1F1F1;
 			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 			background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
-	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #CCC;margin: 10px;border-radius: 8px;padding-bottom: 10px;}</style>
+	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #f0f0f0;margin: 10px;border-radius: 8px;padding-bottom: 10px;}</style>
 <script>
 $(document).ready(function() {
 	$(".modelArea").on('change', 'input[type="checkbox"]', function(){
@@ -112,9 +113,9 @@ $(document).ready(function() {
 							<thead>
 								<tr>
 									<th></th>
-									<th>Anonymous<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The only right of reading content and in some cases<br> to add, delete or modify his own content') ;?>"></span></th>
-									<th>Editor<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('The right of editing content & pages') ;?>"></span></th>
-									<th>Developer<span class="tooltip ui-icon ui-icon-info floatright" data-tooltip="<?php echo t('All web development rights : Design, Module, blocks, database & so on') ;?>"></span></th>
+									<th>Anonymous<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('The only right of reading content and in some cases<br> to add, delete or modify his own content') ;?>"></span></th>
+									<th>Editor<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('The right of editing content & pages') ;?>"></span></th>
+									<th>Developer<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('All web development rights : Design, Module, blocks, database & so on') ;?>"></span></th>
 								</tr>
 							</thead>
 							<tbody>

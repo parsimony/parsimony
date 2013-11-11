@@ -1,6 +1,6 @@
 body{overflow: hidden;}
 /* Tabs */
-.tabs ul {overflow: hidden;margin: 6px 0 10px 20px;}
+.tabs ul {overflow: hidden;margin: 6px 0 5px 20px;}
 .tabs ul li.active {border-bottom: 3px solid rgb(45, 193, 238);}
 .tabs ul li {display: inline-block;position: relative;color: #333;float: left;padding: 0px;cursor: pointer;text-align: center;}
 .tabs ul li a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
@@ -54,10 +54,11 @@ background : linear-gradient(top, #44C5EC, rgb(21, 107, 155));}
 .adminlist{text-overflow:ellipsis;line-height: 20px;padding: 5px 15px;color: #666;text-shadow: white 0 1px 0;text-decoration: none;cursor: pointer;font-weight: bold;
 			font-size: 16px;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;cursor: pointer;}
 .admintabs{display:none;} 
+#tabsconfig .admintabs{margin: 0 30px;}
 .adminzonecontent{position:absolute;padding: 3px 7px;bottom:40px;top:40px;right:0;left: 150px;font-size: 12px;background: #fefefe;overflow: hidden;overflow-y: auto;min-width: 731px;min-height: 500px;}
 .adminzonecontent h2{font-size: 20px;line-height: 30px;font-weight: normal;margin: 0;color: #777;padding: 10px;text-shadow: white 0 1px 0;} 
 .adminzonefooter{position: absolute;bottom: 0;background: #fafafa;width: 100%;left: 0;right:0;z-index: 9999;height: 40px;}
-
+.adminzonecontent #tabsconfig h2{padding: 10px 0;}
 /* Model Forms*/
 .adminzonecontent .cols{display: table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
 .adminzonecontent .col1 {margin: 0px 22px 0px 0px;min-width:531px;display:table-cell;vertical-align: top;/*-webkit-box-flex: 1;-moz-box-flex: 1;box-flex: 1;*/

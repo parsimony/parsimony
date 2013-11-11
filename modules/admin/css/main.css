@@ -40,6 +40,8 @@ background-color: #f1f1f1;border-left: 3px solid rgb(45, 193, 238);margin: 8px 0
 #modules .titleTab span{margin: 5px 7px 0px 7px;}
 #modules .titleTab .configmodule{display: block;float:right;margin: 5px;line-height: 0;background: url(admin/img/config.png) no-repeat;width: 16px;height: 16px;}
 #manage .titleTab a {text-decoration: none;color: rgb(73, 71, 71);}
+#manage .titleTab {background-color: transparent;}
+#manage .titleTab:hover {background-color: #f1f1f1;}
 .sublist{position:relative;line-height:28px;clear:both;font-size: 12px;color: #444;text-transform: capitalize;cursor:pointer;display: block;text-decoration: none;}
 .sublist:last-child{border-bottom: 1px solid transparent;padding-left: 26px;}
 .sublist:hover,.sublist.selected{background-color: #ececec;border-radius: 2px;}
@@ -332,9 +334,9 @@ background-image: linear-gradient(top, #242424,#313131);
 .toolbarspriteblack{background-image: url(admin/img/sprite_menu_black.png);padding-left:25px !important; }
 .multisite-icon{background-position: 13px -119px !important;width: 16px;height: 34px}
 .info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 10px}
-.language-icon{background-position: 0 -22px;}
+.language-icon{background-position: 0 -25px;}
 .userprofile-icon{background-position: 0 -87px !important;padding-left:20px;}
-.close-icon{background-position:0 10px;width: 16px;height: 16px;margin-top: 5px}
+.close-icon{background-position:0 7px;width: 16px;height: 16px;margin-top: 5px}
 
 /* ######### Conf box - Inline Popup ############## */
 .conf_box{position:relative;display: inline-block;top:70px;max-width: 95%;max-height: 83%;visibility:hidden;opacity :0.6;transition: transform 0.3s, opacity 0.3s, left 0.3s;transform: scale(0.9);
