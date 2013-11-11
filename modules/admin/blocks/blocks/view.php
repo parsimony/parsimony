@@ -55,7 +55,7 @@ app::$request->page->addJSFile('admin/blocks/blocks/block.js', 'footer');
 						$blocksCat[$categBlock] = '';
 					if (isset($blockInfos['description']))
 						$description = ucfirst(s($blockInfos['description']));
-					$blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))) . '" data-tooltip="' . $description . '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . 'modules/' . $module . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
+					$blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))) . '" data-tooltip="' . $description . '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . $module . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
 				}
 			}
 			/* List default stylables selecteurs */

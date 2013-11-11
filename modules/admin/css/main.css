@@ -423,7 +423,7 @@ background-color: #f9f9f9;
 #idName{vertical-align: top;margin: 5px;display: inline-block;}
 
 /* Overlays */
-#overlays{position:absolute;top:35px;left:0;pointer-events: none;width:100%;height:100%;z-index: 0;-webkit-user-select: none;-moz-user-select: none;user-select: none;}
+#overlays{position:absolute;top:35px;left:0;pointer-events: none;width:100%;height:100%;z-index: 2;-webkit-user-select: none;-moz-user-select: none;user-select: none;}
 
 /* Block overlay */
 #blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;/* too slow */background-color:rgba(5,178,248,0.10)}
