@@ -71,13 +71,14 @@ class image extends \field {
 			$fileInfo = pathinfo($fileName);
 			$base = $fileInfo['filename'];
 			$ext = $fileInfo['extension'];
+			$dir = empty($fileInfo['dirname']) ? '' : $fileInfo['dirname'] . '/';  /*  $fileInfo['dirname'] in case that filename contains a part of dirname */
 			$path = PROFILE_PATH . $this->entity->getModule() . '/' . $this->path . '/';
 			$nbn = 0;
 			while (is_file($path . $fileName)) {
-				$fileName = $base . '_' . $nbn . '.' . $ext;
+				$fileName = $dir . $base . '_' . $nbn . '.' . $ext;
 				$nbn++;
 			}
-			if (!is_dir($path . $fileInfo['dirname'] . '/'))  /*  $fileInfo['dirname'] in case that filename contains a part of dirname */
+			if (!is_dir($path . $dir)) 
 				\tools::createDirectory($path . $fileInfo['dirname'] . '/');
 			
 			/* decode dataURL */
