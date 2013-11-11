@@ -510,9 +510,6 @@ class ' . $name . ' extends \module {
 			}
 			$mod->addPage($page);
 			$mod->save();
-			if (PROFILE == 'www')
-			$config = new \config('config.php', TRUE);
-			else
 			$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
 			$config->add('$config[\'modules\'][\'active\'][\'' . $name . '\']', '0');
 			return $config->save();

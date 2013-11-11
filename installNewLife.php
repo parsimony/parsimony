@@ -81,9 +81,6 @@ $lang['fr'][' to <span>off</span> in php.ini.'] = ' à <span>off</span> dans php
 $lang['fr']['Apache does not have <span>Mod_Rewrite</span>.'] = 'Le module d\'Apache  <span>Mod_Rewrite</span> n\'est pas activé';
 $lang['fr']['Apache has mod_rewrite.'] = 'Le module d\'Apache  <span>Mod_Rewrite</span> est activé';
 $lang['fr'][', but Parsimony needs at least PHP "5.3.0" to run.'] = ', mais Parsimony a besoin au minimum de PHP "5.3.0" pour s\'executer';
-$lang['fr']['Enable Multi-Site'] = 'Activer le Multi-Site';
-$lang['fr']['Only if you want to manage several subdomains'] = 'Seulement si vous souhaitez gérer plusieurs sous-domaines';
-$lang['fr']['Is your domain a Second Level domain'] = 'Le nom de domaine est t\'il de second niveau';
 $lang['fr']['Yes'] = 'Oui';
 $lang['fr']['No'] = 'Non';
 $lang['fr']['What is it ?'] = 'Qu\'est ce que c\'est ?';
@@ -91,7 +88,6 @@ $lang['fr']['at least 6 characters alphanumeric'] = 'au minimum 6 caractères al
 $lang['fr']['at least 8 characters alphanumeric'] = 'au minimum 8 caractères alphanumériques';
 $lang['fr']['Login must contains at least 6 characters alphanumeric'] = 'L\' identifiant doit contenir au minimum 6 caractères alphanumériques';
 $lang['fr']['Password must contains at least 6 characters alphanumeric'] = 'Le mot de passe doit contenir au minimum 8 caractères alphanumériques';
-$lang['fr']['http://en.wikipedia.org/wiki/Second-level_domain'] = 'http://fr.wikipedia.org/wiki/Domaine_de_deuxième_niveau';
 $lang['fr']['My WebSite'] = 'Mon site';
 $lang['fr']['Password'] = 'Mot de passe';
 $lang['fr']['Confirm Password'] = 'Confirmer le mot de passe';
@@ -161,9 +157,11 @@ while (1) {
     switch ($step) {
 
         case 'validstep1':
-            if (isset($_POST['agreewithlicence']))
+            if (isset($_POST['agreewithlicence'])) {
                 $step = 2;
-            else {
+				mkdir('profiles/www' , 0755);
+				file_put_contents('profiles/www/config.php', file_get_contents('modules/core/default-config.php'));
+			} else {
                 echo '<div class="notify negative">' . tr('You have to accept license agreement to continue') . '</div>';
                 $step = 1;
             }
@@ -253,13 +251,12 @@ while (1) {
 
             include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
-            $configObj = new \core\classes\config('config.php', TRUE);
+            $configObj = new \core\classes\config('profiles/www/config.php', TRUE);
             $lang = 'en_EN';
             if(isset($_COOKIE['lang'])) $lang = $_COOKIE['lang'];
             $update = array('localization' => array('timezone' => $_POST['timezone'],'default_language' => $lang),
 		'mail' => array('adminMail' => $_POST['mailadmin']),
-		'security' => array('salt' => substr(hash('sha1', uniqid(mt_rand())), 0, 8)),
-		'domain' => array('sld' => $_POST['sld'])); /* 'multisite' => $_POST['multisite'] */
+		'security' => array('salt' => substr(hash('sha1', uniqid(mt_rand())), 0, 8)));
             $configObj->saveConfig($update);
 
             break;
@@ -281,10 +278,10 @@ while (1) {
                 $low[] = tr('If you use Parsimony by mod userdir URLs ( ie. /<strong>~</strong>parsimony/), you have to check your /.htaccess file and update RewriteBase declaration. ( #RewriteBase /~myusername/ )');
             }
 
-            if (!is_readable('index.php') || !is_readable('config.php') || !is_readable('installNewLife.php') || !is_writable('index.php') || !is_writable('config.php') || !is_writable('installNewLife.php')) {
-                $high[] = tr('Set read/write permissions on').' <span>"index.php, config.php, installNewLife.php"</span> '.tr('directory (and sub-directories) using an FTP client');
+            if (!is_readable('index.php') || !is_readable('installNewLife.php') || !is_writable('index.php') || !is_writable('installNewLife.php')) {
+                $high[] = tr('Set read/write permissions on').' <span>"index.php, installNewLife.php"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
-                $ok[] = tr('Permissions are Ok for').' <span>"index.php, config.php, installNewLife.php"</span>';
+                $ok[] = tr('Permissions are Ok for').' <span>"index.php, installNewLife.php"</span>';
             }
             
             if (!is_readable('lib/') || !is_readable('lib/cms.css') ){
@@ -435,25 +432,6 @@ while (1) {
                 <input type="text" name="mailadmin" value="<?php if (isset($_POST['mailadmin'])) echo se($_POST['mailadmin']); ?>"><br>
                 <?php tr('The PHP "mail()" function is used by default'); ?>
             </div><br>
-	    <?php /*
-	    <div>
-                <label><?php echo tr('Enable Multi-Site'); ?> ?</label>
-		<select name="multisite">
-		    <option value="0"><?php echo tr('No'); ?></option>
-		    <option value="1" <?php if(isset($_POST['multisite']) && $_POST['multisite']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
-		</select><br>
-                <?php echo tr('Only if you want to manage several subdomains'); ?>(ex: en.mysite.com,fr.mysite.com)
-            </div><br>
-	     */
-	    ?>
-	    <div>
-			<label class="nocapital"><?php echo tr('Is your domain a Second Level domain'); ?> ?</label>
-			<a id="secondlevel" href="<?php echo tr('http://en.wikipedia.org/wiki/Second-level_domain'); ?>" target="_blank"><?php echo tr('What is it ?'); ?><span> (ex : mysite<u>.co.uk</u>)</span></a>
-                <select name="sld">
-		    <option value="2"><?php echo tr('No'); ?></option>
-		    <option value="3" <?php if(isset($_POST['sld']) && $_POST['sld']=='1') echo ' selected="selected"'; ?>><?php echo tr('Yes'); ?></option>
-		</select><br>            
-            </div>
             <input type="hidden" name="step" value="validstep2" />
             <?php
             break 2;
@@ -482,9 +460,9 @@ while (1) {
                 $step = 3;
             }
 	    
-	    include('modules/core/classes/config.php');
+			include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
-            $configObj = new \core\classes\config('config.php', TRUE);
+            $configObj = new \core\classes\config('profiles/www/config.php', TRUE);
             $update = array('BASE_PATH' => BASE_PATH ,'db' => array('host' => $_POST['db_server'], 'dbname' => $_POST['db_name'], 'user' => $_POST['db_user'], 'pass' => $_POST['db_pass'], 'prefix' => $_POST['db_prefix']));
             $configObj->saveConfig($update);
 
@@ -557,7 +535,7 @@ while (1) {
             }
             break;
         case 4:
-	    include('config.php');
+	    include('profiles/www/config.php');
             ?>     
             <h2><?php echo tr('Account Settings'); ?></h2>
             <div>
@@ -591,10 +569,10 @@ while (1) {
 	    
 			include('modules/core/classes/app.php');
 			class_alias('core\classes\app','app');
-			include('config.php');
+			include('profiles/www/config.php');
 			define('PREFIX',$config['db']['prefix']);
 			app::$config = $config;
-			 $config['aliasClasses'] = array('app' => 'core\classes\app',
+			$config['aliasClasses'] = array('app' => 'core\classes\app',
 				'request' => 'core\classes\request',
 				'response' => 'core\classes\response',
 				'block' => 'core\classes\block',
@@ -634,7 +612,7 @@ while (1) {
 				'field_foreignkey' => 'core\fields\foreignkey',
 				'field_formasso' => 'core\fields\formasso'
 			);
-			app::$aliasClasses = $config['aliasClasses'];
+		app::$aliasClasses = $config['aliasClasses'];
 			define('PROFILE_PATH','profiles/www/modules/');
 			$toInclude = array('config', 'queryBuilder', 'entity', 'field', 'field_ident', 'field_string', 'field_numeric','field_decimal','field_price','field_percent','field_mail','field_password','field_state','field_date','field_publication','field_image','field_flash','field_url','field_url_rewriting','field_wysiwyg','field_textarea','field_user','field_ip','field_boolean','field_foreignkey','field_formasso','PDOconnection', 'tools', 'module');
 			foreach($config['aliasClasses'] AS $alias => $class){
@@ -660,7 +638,7 @@ while (1) {
 			$blog->getEntity('category_post')->insertInto(array('id_user' => '1', 'id_category' => '1', 'id_post' => '1'));
 			$blog->getEntity('post')->insertInto(array('id_post' => '1', 'title' => 'Hello World', 'url' => 'my-first-post', 'content' => '<p>Welcome to Parsimony. This is your first post. </p><p>Click on the edit button in the header toolbar to edit the text, modify or delete it.</p> <p>Start blogging by clicking in the left toolbar on Data button then Posts!</p>', 'excerpt' => '', 'publicationGMT' => gmdate('Y-m-d H:i:s', time()), 'publicationGMT_visibility' => '0', 'publicationGMT_status' => '0', 'author' => '1', 'has_comment' => '1', 'ping_status' => '1', 'is_sticky' => '0'));
 			echo '</div>';
-            $configObj = new \core\classes\config('config.php', TRUE);
+            $configObj = new \core\classes\config('profiles/www/config.php', TRUE);
             $update = array('sitename' => $_POST['name']);
             $configObj->saveConfig($update);
 	    

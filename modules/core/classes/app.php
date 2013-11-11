@@ -68,73 +68,64 @@ namespace core\classes {
 		 */
 		public function __construct() {
 
-			/* Load general configs */
-			include('config.php');
+			/* Determine called profile */
+			$this->determineProfile();
 
-			/* Determine the domain www.Domain Name */
-			if ($this->determineMultiSite($config['domain']['multisite'], $config['domain']['sld'])) { // if we find the domain
-				
-				/* Load Profile configs before include path get the good default module */
-				if (PROFILE !== 'www')
-					include('profiles/' . PROFILE . '/config.php');
-				
-				set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/'.PROFILE.'/modules/'.$config['modules']['default'].'/' . PATH_SEPARATOR . './modules/'.$config['modules']['default'].'/'); // set include path
+			/* todo for v3 :  Remove  */
+			if(!is_file('profiles/www/config.php')){
+				copy('config.php','profiles/www/config.php');
+				unlink('config.php');
+			}
+			/* todo for v3 :  Remove  */
+			
+			/* Load Profile configs before include path get the good default module */
+			include('profiles/' . PROFILE . '/config.php');
+			self::$config = $config;
 
-				self::$config = $config;
+			/* set include path with profile before module to allow profile's files to override module's files */
+			set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/' . PROFILE . '/modules/' . $config['modules']['default'] . '/' . PATH_SEPARATOR . './modules/' . $config['modules']['default'] . '/');
 
-				/* Check if it's a file */
-				if ($this->sendFile($_GET['parsiurl']) === FALSE) {
+			/* Check if it's a file */
+			if ($this->sendFile($_GET['parsiurl']) === FALSE) {
 
-					/* If it isn't a file, Parsimony will search and display the good page */
-					define('BASE_PATH', $config['BASE_PATH']);
-					define('PREFIX', $config['db']['prefix']);
+				/* If it isn't a file, Parsimony will search and display the good page */
+				define('BASE_PATH', $config['BASE_PATH']);
+				define('PREFIX', $config['db']['prefix']);
 
-					/* Init autoload */
-					spl_autoload_register('\core\classes\app::autoLoad');
+				/* Init autoload */
+				spl_autoload_register('\core\classes\app::autoLoad');
 
-					/* Init active modules - set class_alias */
-					class_alias('core\classes\app','app');
-					class_alias('core\classes\module', 'module');
-					$this->launchActiveModules();
+				/* Init active modules - set class_alias */
+				class_alias('core\classes\app', 'app');
+				class_alias('core\classes\module', 'module');
+				$this->launchActiveModules();
 
-					/* Init request and response */
-					self::$request = new request($_GET['parsiurl']);
-					self::$response = new response();
+				/* Init request and response */
+				self::$request = new request($_GET['parsiurl']);
+				self::$response = new response();
 
-					/* Dispatch Request and display response */
-					self::$request->dispatch();
-					echo self::$response->getContent();
+				/* Dispatch Request and display response */
+				self::$request->dispatch();
+				echo self::$response->getContent();
 
-				}
 			}
 		}
 
 		/**
-		 * Determine MULTI SITE
-		 * @param $multi
-		 * @param $nbtld
-		 * @return bool
+		 * Determine Profile
 		 */
-		protected function determineMultiSite($multi = FALSE, $nbtld = FALSE) {
-			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
-			$host = strtolower(trim(s($host)));
-			if (!(bool) $multi) {
-				define('DOMAIN', str_replace('www.', '', $host));
+		private function determineProfile() {
+			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']; /* SERVER_NAME for HTTP 1.0 */
+			$cut = explode('.', strtolower($host));
+			if (count($cut) > 2 && is_file('profiles/' . $cut[0] . '/config.php') === TRUE) { /*  Profile must have a general config file, also to avoid pb with .co.uk ext */ 
+				define('PROFILE', $cut[0]);
+				unset($cut[0]);
+				define('DOMAIN', s(implode('.', $cut)));
+			} else {
 				define('PROFILE', 'www');
-			} elseif (strstr($host, '.') !== FALSE) {
-				$host = explode('.', $host, substr_count($host, '.') + 2 - $nbtld);
-				if (count($host) == 1)
-					array_unshift($host, 'www');
-				define('DOMAIN', array_pop($host));
-				define('PROFILE', implode('.', $host));
-			}else {
-				define('DOMAIN', $host);
-				define('PROFILE', 'www');
+				define('DOMAIN', s($host));
 			}
 			define('PROFILE_PATH', 'profiles/' . PROFILE . '/modules/');
-			if (is_dir(PROFILE_PATH))
-				return TRUE;
-			return FALSE;
 		}
 
 		/**
@@ -339,7 +330,7 @@ namespace core\classes {
 					if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 						echo json_encode(array('notification' => $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));
 					} else {
-						include(\app::$config['DOCUMENT_ROOT'] . '/modules/core/views/error.php');
+						include(DOCUMENT_ROOT . '/modules/core/views/error.php');
 					}
 				}
 			}
@@ -368,8 +359,8 @@ namespace core\classes {
 			self::dispatchEvent('error', array($code, $file, $line, $message));
 
 			/* Log error */
-			if (is_dir(\app::$config['DOCUMENT_ROOT'] . '/var'))
-				file_put_contents(\app::$config['DOCUMENT_ROOT'] . '/var/errors.log', $message.' - in - '.$file.' - on line - '. $line.PHP_EOL , FILE_APPEND);
+			if (is_dir(DOCUMENT_ROOT . '/var'))
+				file_put_contents(DOCUMENT_ROOT . '/var/errors.log', $message.' - in - '.$file.' - on line - '. $line.PHP_EOL , FILE_APPEND);
 
 		}
 

@@ -27,7 +27,8 @@ include('installNewLife.php');exit;
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('PARSIMONY_VERSION','2.5');
+define('PARSIMONY_VERSION', '2.5');
+define('DOCUMENT_ROOT', __DIR__);
 
 include('modules/core/classes/app.php');
 new \core\classes\app();
