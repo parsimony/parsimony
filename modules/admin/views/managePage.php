@@ -183,6 +183,7 @@
 												foreach ($obj->getFields() AS $field) {
 													$className = get_class($field);
 													if (isset($allowedField[$aliasClasses[$className]])) {
+														/* remove ^ and $ for regex to allow multiple composant in general regex */
 														echo '<div name="' . $field->name . '" regex="(' . str_replace('^', '', str_replace('$', '', $field->regex)) . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
 													}
 												}

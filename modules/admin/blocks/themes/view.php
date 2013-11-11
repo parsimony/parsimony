@@ -59,7 +59,7 @@ foreach ($modules as $moduleName => $mode) {
 	foreach ($module->getThemes() as $themeName) {
 		$imgURL = stream_resolve_include_path($moduleName . '/themes/' . s($themeName) . '/thumb.png');
 		if ($imgURL !== FALSE)
-			$imgURL = BASE_PATH . substr(str_replace('\\', '/', str_replace(\app::$config['DOCUMENT_ROOT'], '', $imgURL)), 1);
+			$imgURL = BASE_PATH . $moduleName . '/themes/' . s($themeName) . '/thumb.png';
 		else
 			$imgURL = BASE_PATH . 'admin/img/defaulttheme.png';
 ?>

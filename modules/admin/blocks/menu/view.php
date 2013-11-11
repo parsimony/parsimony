@@ -43,6 +43,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
 	<li class="edit" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
 			document.body.classList.toggle('closeleft')">☰</li>
+	<img class="edit" src="<?php echo BASE_PATH; ?>admin/img/parsimony.png" style="margin-left: 15px;">
 </ul>
 <div style="flex-grow:2;display: flex;justify-content: center;align-items: center;">
 	<ul id="modesSwitcher"> 
@@ -56,12 +57,15 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 	</ul>
 </div>
 <ul class="menu" style="flex-grow:2;display: flex;justify-content: center">
-	<?php if (\app::$config['domain']['multisite']): ?>
+	<?php
+	$profiles = glob('profiles/*', GLOB_ONLYDIR);
+	if (count($profiles) > 1) :
+	?>
 		<li class="subMenu" style="height:35px">
 			<a href="#" class="toolbarsprite multisite-icon" data-title="<?php echo t('My domains'); ?>"></a>
 			<ul>
 				<?php
-				foreach (glob('profiles/*', GLOB_ONLYDIR) AS $domainPath):
+				foreach ($profiles AS $domainPath):
 					$basen = basename($domainPath);
 					?>
 					<li>
