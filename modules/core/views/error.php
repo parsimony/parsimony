@@ -33,18 +33,24 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>PHP Error</title>
 	<style>
-	    body{color: #D8D5D2;background: #D8D5D2;}
-	    #message{background: #FBFAF5;border:1px #444 solid;position: relative;top:200px;margin:0 auto;max-width:650px;padding:10px;color:#484848;border-radius:10px}
+	    body{color: #D8D5D2;background: #FAFAFA;margin:0}
+		.content{overflow: hidden; min-width:700px;}
+	    #message{background: #fbfbfb;border:1px #444 solid;margin:200px auto;max-width:650px;padding:10px;color:#484848;border-radius:10px}
 	    #message div{margin:5px}
-	    .label{text-decoration: underline;font-weight: bold;}
+	    .label{font-weight: bold;}
 	</style>
+	<?php if(isset($_POST['popup'])): /* to display erros in popup */ ?>
+		<script> window.onload = function(){ top.ParsimonyAdmin.resizeConfBox(); } </script>
+	<?php endif; ?>
     </head>
     <body>
-	<div id="message">
-	    <div><span class="label"><?php echo t('Code') ?></span>: <?php echo $code ?></div>
-	    <div><span class="label"><?php echo t('File') ?> </span>: <?php echo $file ?></div>
-	    <div><span class="label"><?php echo t('In line') ?> </span>: <?php echo $line ?></div>
-	    <div><span class="label"><?php echo t('Message') ?> </span>: <?php echo $message ?></div>
-	</div>
+		<div class="content"><?php /* class content to display erros in popup */ ?>
+			<div id="message">
+				<div><span class="label"><?php echo t('Code'); ?></span>: <?php echo $code ?></div>
+				<div><span class="label"><?php echo t('File'); ?> </span>: <?php echo $file ?></div>
+				<div><span class="label"><?php echo t('In line'); ?> </span>: <?php echo $line ?></div>
+				<div><span class="label"><?php echo t('Message'); ?> </span>: <?php echo $message ?></div>
+			</div>
+		</div>
     </body>
 </html>
