@@ -182,7 +182,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 		var html = '';
 			if (folder != null) { 
 				var idpath = document.getElementById('path').textContent;
-				var path = idpath + folder;
+				var path = idpath +'/'+ folder ;
 			if (folder.indexOf(".") !=-1) {
 					html =  '<div class="explorer_file file"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
 					$.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path , code : '' },function(data) { 
