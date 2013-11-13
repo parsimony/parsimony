@@ -80,12 +80,13 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     .unsaved{font-weight:bold}
     .unsaved .name:after{ content:"*";}
     .explorer_file_name {position: absolute;bottom: 2px;text-overflow: ellipsis;white-space: nowrap;width: 85px;overflow: hidden;padding: 0 4px;font-size: 13px;line-height: 30px;}
-    .explorer_file {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 6px;}
+    .explorer_file, .explorer_new {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 6px;}
 	.explorer_file.file{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 21px -136px no-repeat;}
 	.explorer_file.dir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 24px 10px no-repeat;}
     #dirsandfiles{bottom: 0;right: 0;top: 72px;left: 10px;position: absolute;overflow: auto;}
     #editpictures{display: none;}
 	#uploadProgress span{display: block;background:#aaa;position:absolute;height:100%;}
+	.explorer_new > div {font-size: 60px;color: #777;}
 </style>
 <script>
     
@@ -176,7 +177,27 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             }
             
 	})
-                
+       .on("click",".new",function() {
+		var folder = prompt("Please enter a folder name");
+		var html = '';
+			if (folder != null) { 
+				var idpath = document.getElementById('path').textContent;
+				var path = idpath + folder;
+			if (folder.indexOf(".") !=-1) {
+					html =  '<div class="explorer_file file"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
+					$.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path , code : '' },function(data) { 
+					if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+					else alert('The file has not been created ');
+				});
+			}else{			
+					html =  '<div class="explorer_file dir"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
+					$.post("<?php echo BASE_PATH; ?>admin/createDir", { directory: path},function(data) { 
+						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+						else alert('The folder has not been created ');
+					});
+				}	
+			}  
+		})
         .on("change",".historyfile",function(e){
             e.stopPropagation();
             var panel = $(this).closest(".panel");

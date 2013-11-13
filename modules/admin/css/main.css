@@ -332,7 +332,7 @@ background-image: linear-gradient(top, #242424,#313131);
 .toolbarsprite, .toolbarspriteblack{line-height:26px;margin-left: 15px;display: inline-block;background-repeat:no-repeat}
 .toolbarsprite{background-image: url(admin/img/sprite_menu_admin.png) !important}
 .toolbarspriteblack{background-image: url(admin/img/sprite_menu_black.png);padding-left:25px !important; }
-.multisite-icon{background-position: 13px -119px !important;width: 16px;height: 34px}
+.multisite-icon{background-position: 2px -119px !important;width: 16px;height: 34px}
 .info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 10px}
 .language-icon{background-position: 0 -25px;}
 .userprofile-icon{background-position: 0 -87px !important;padding-left:20px;}

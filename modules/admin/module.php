@@ -1405,24 +1405,38 @@ class ' . $table->name . ' extends \entity {
 
 	/**
 	 * Save content 
-	 * @param string $replace
 	 * @param string $file
+	 * @param string $code
 	 * @return string 
 	 */
 	protected function saveCodeAction($file, $code) {
 		return \tools::file_put_contents($file, $code);
 	}
+	
+	/**
+	 * Create directory 
+	 * @param string $directory
+	 * @param string $mask
+	 * @return string 
+	 */
+	protected function createDirAction($directory, $mask=0755) {
+		return \tools::createDirectory($directory, $mask=0755);
+	}
 
 	 /**
 	 * Get, decode base 64 & file put content
-	 * @param string $replace
 	 * @param string $file
+	 * @param string $code
 	 * @return string 
 	 */
 	protected function savePictureAction($file, $code) {
 		return \tools::file_put_contents($file, base64_decode($code));
 	}
 	
+	
+	/**
+	 * Init objects theme module & page
+	 */
 	private function initObjects() {
 		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
 		$this->module = \app::getModule(MODULE);

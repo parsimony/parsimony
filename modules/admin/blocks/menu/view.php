@@ -61,7 +61,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 	$profiles = glob('profiles/*', GLOB_ONLYDIR);
 	if (count($profiles) > 1) :
 	?>
-		<li class="subMenu" style="height:35px">
+		<li class="subMenu" style="height:36px">
 			<a href="#" class="toolbarsprite multisite-icon" data-title="<?php echo t('My domains'); ?>"></a>
 			<ul>
 				<?php

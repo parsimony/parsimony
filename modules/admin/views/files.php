@@ -33,7 +33,8 @@ echo '<div id="path">'.$dirPath.'</div><div id="dirsandfiles">';
 $extOk = array(); 
 $array_img= array('.jpeg', '.png', '.gif', '.jpg');
 $extKo = array('.obj');
-$files = glob($dirPath . '/*');
+$files = glob($dirPath . '/*'); 
+$newfilename = '';
 foreach ((is_array($files) ? $files : array()) as $filename) :
 	if (is_dir($filename)) :
 		$filename = str_replace('//','/',$filename); //fix
@@ -57,4 +58,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 	endif;
 endforeach;
 ?>
+<div class="explorer_new new">
+	<div>+</div>	New 
+</div>
 </div>
