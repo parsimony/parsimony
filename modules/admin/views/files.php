@@ -41,6 +41,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 		?>
 		<div class="explorer_file dir">
 			<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+			<div class="del"><span class="delete ui-icon ui-icon-closethick"></span></div>
 		</div>
 		<?php
 		elseif ((empty($extOk) || in_array(strrchr($filename, '.'), $extOk)) &&
@@ -53,6 +54,7 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 		<div class="explorer_file file">
 		 <?php endif; ?>
 		<div class="explorer_file_name" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>"><?php echo basename($filename) ?></div>
+		<div class="del"><span class="delete ui-icon ui-icon-closethick"></span></div>
 	</div>
 	<?php
 	endif;

@@ -1422,6 +1422,25 @@ class ' . $table->name . ' extends \entity {
 	protected function createDirAction($directory, $mask=0755) {
 		return \tools::createDirectory($directory, $mask=0755);
 	}
+	
+	/**
+	 * Remove directory recursively
+	 * @param string $directory
+	 * @return string 
+	 */
+	protected function deleteDirAction($dir){
+		return \tools::rmdir($dir);
+	}
+	
+	/**
+	 * Unlink file
+	 * @param string $file
+	 * @return string 
+	 */
+	protected function deleteFileAction($file){
+		str_replace('..', '', $file); // parent directory forbidden
+		return unlink($file);
+	}
 
 	 /**
 	 * Get, decode base 64 & file put content

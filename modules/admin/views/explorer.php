@@ -53,7 +53,9 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     #explorer .icondir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 5px -84px no-repeat;}
     #explorer li.dir{padding-left: 25px;line-height: 25px;cursor: pointer;color: #333;border: 1px solid transparent;}
     #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background-color: #ebf3fd;}
-    #path{background: white;border-bottom: 1px solid #D3D5DB;padding: 5px;color: #333;line-height: 20px;}
+	.explorer_file:hover span.delete{display: block;position: absolute;top: 0;right: 0;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px, #fefefe;border: 1px solid rgb(204, 204, 204);}
+	span.delete{display : none;}
+	#path{background: white;border-bottom: 1px solid #D3D5DB;padding: 5px;color: #333;line-height: 20px;}
     #rightPart{display:table-cell;position: relative;}
     #explorerfiles{min-width:465px;height:100%;overflow: hidden;}
     #tabs li {cursor: pointer;display: inline-block;margin-left : 1px;background: #BBB;line-height: 15px;height: 26px;margin-top: 5px;border-bottom: 0;}
@@ -182,6 +184,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 		var html = '';
 			if (folder != null) { 
 				var idpath = document.getElementById('path').textContent;
+				if(idpath.slice(-1) != '/') idpath += '/';
 				var path = idpath +'/'+ folder ;
 			if (folder.indexOf(".") !=-1) {
 					html =  '<div class="explorer_file file"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
@@ -197,6 +200,31 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 					});
 				}	
 			}  
+		})
+		.on("click",".delete",function() {
+			var r=confirm("Are you sure you want to delete this file or folder?");
+			var idpath = document.getElementById('path').textContent;
+			var folder = $(this).closest('.explorer_file').children('.explorer_file_name').text();
+			if(idpath.slice(-1) != '/') idpath += '/';
+			var path = idpath + folder ;
+			if (r==true){
+				if (folder.indexOf(".") !=-1) {
+					$.post("<?php echo BASE_PATH; ?>admin/deleteFile", { file : path},function(data) { 
+						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+						else alert('The file has not been deleted');
+					});
+				}else{
+					path += '/';
+					$.post("<?php echo BASE_PATH; ?>admin/deleteDir", { dir : path},function(data) { 
+						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
+						else alert('The folder has not been deleted');
+					});
+				}
+				
+			}
+			else{
+				alert('The file has not been deleted');
+			}
 		})
         .on("change",".historyfile",function(e){
             e.stopPropagation();
@@ -326,6 +354,8 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     }
    
 </script>
+
+
 <div id="explorerWrap">
     <ul id="explorer">
         <?php

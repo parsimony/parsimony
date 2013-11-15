@@ -129,6 +129,7 @@ class tools {
 	 * @return bool
 	 */
 	public static function createDirectory($directory, $mask=0755) {
+		str_replace('..', '', $directory); // parent directory forbidden
 		if (!is_dir($directory))
 			return mkdir($directory, $mask, TRUE);
 	}
@@ -179,6 +180,7 @@ class tools {
 	 * @return bool
 	 */
 	public static function file_put_contents($file, $content, $backup = TRUE) {
+		str_replace('..', '', $file); // parent directory forbidden
 		if ($backup && defined('PROFILE')) {
 			$dir_backup = 'var/backup/' . PROFILE . '/' . dirname($file) . '/';
 			self::createDirectory($dir_backup);
@@ -203,12 +205,13 @@ class tools {
 	}
 
 	/**
-	 * Remove a dir and all his child dir ...etc
+	 * Remove directory recursively
 	 * @static function
 	 * @param string $dir
 	 * @return bool
 	 */
 	public static function rmdir($dir) {
+		str_replace('..', '', $dir); // parent directory forbidden
 		if (is_dir($dir)) {
 			$objects = scandir($dir);
 			foreach ($objects as $object) {

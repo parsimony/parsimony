@@ -47,33 +47,11 @@ body::-webkit-scrollbar{width:0}
 
 /* Select webkit */
 select:enabled:hover {box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);color: #333;background-image: url("admin/img/select.png");background-color: #F1F1F1;border-top: 1px solid #f1f1f1 !important;}
-select {padding: 3px 0;background-position: center right;
-background-repeat: no-repeat;
-color: #555;
-font-size: inherit;
-margin: 0;
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
--webkit-appearance: button;
-appearance: button;
-border-radius: 2px;
--webkit-padding-end: 15px;
--moz-padding-end: 0px;
--webkit-padding-start: 2px;
--moz-padding-start: 0px;
--moz-user-select: none;
--webkit-user-select: none;
-user-select: none;
-background-image: url("admin/img/select.png");
-border: 1px solid #ECECEC !important;
-}
+select {padding: 3px 0;background-position: center right;background-repeat: no-repeat;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 0px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("admin/img/select.png");border: 1px solid #ECECEC !important;max-width: 255px;}
 @-moz-document url-prefix() { 
 	select{-moz-appearance: none;text-indent: 1px; text-overflow: "";}
 }
-select:enabled:hover[multiple]{
-	background: none;
-}
+select:enabled:hover[multiple]{	background: none;}
 /* Textarea and Inputs */
 textarea, input[type="text"], input[type="password"], input[type="file"], input[type='email'] {
 border-style: none;
@@ -203,7 +181,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* forms placeholder */
 .placeholder{position:relative;clear: both}
 .placeholder > label{position: absolute;display: block;text-transform: capitalize;margin: 5px 7px 0px 0px;color: #464646;padding: 3px 7px;font-size: 14px;border-bottom: 0px;border-top-left-radius: 2px;border-top-right-radius: 2px;background-color: #F1F1F1;}
-.placeholder input[type='text'],.placeholder input[type='email'],.placeholder input[type="password"],.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
+.placeholder input[type='text'],.placeholder input[type='date'],.placeholder input[type='email'],.placeholder input[type="password"],.placeholder select,.placeholder textarea{margin: 25px 0px 3px;width:100%;}
 .placeholder .publishcl input[type='text'].addyyyy{width: 40px;}
 .placeholder input[type="range"] {-webkit-appearance: none !important;background-color: whiteSmoke;border-radius: 10px;border: 1px solid #CCC;margin: 25px 0px 3px;}
 .col2 .placeholder input[type='text'],.col2 .placeholder select,.col2 .placeholder textarea{margin: initial;width:auto;}
