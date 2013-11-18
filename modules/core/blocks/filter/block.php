@@ -43,9 +43,10 @@ class filter extends \block {
 		ob_start();
 		echo '<form method="post" action="">';
 		$blockquery = $this->getConfig('blockquery') ? $this->getConfig('blockquery') : 'rapports';
+
 		$block = \app::$request->page->searchBlock($blockquery);
 		if($block){
-			$propeties = $this->getConfig('properties');
+			$properties = $this->getConfig('properties');
 			$selected = $block->getConfig('selected');
 			foreach ($selected as $value) {
 				if(isset($value['filter'])){
@@ -53,7 +54,75 @@ class filter extends \block {
 					$property = $value['property'];
 					list($module, $entity) = explode('_', $table, 2);
 					$field = \app::getModule($module)->getEntity($entity)->getField($property);
-					$template = isset($propeties[$table.'.'.$property]) ? $propeties[$table.'.'.$property] : 'string';
+					$template = isset($properties[$table.'.'.$property]['tpl']) ? $properties[$table.'.'.$property]['tpl'] : 'string';
+					$configs = $properties[$table.'.'.$property];
+					$defaultconfigs = $properties[$table.'.'.$property]['default'];
+						if(isset($property)){
+							if($configs['tpl'] == 'string') {
+								$_POST['filter'][$property] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['rangeStart'] : '';
+							}
+							if($configs['tpl'] == 'choice') {
+								$_POST['filter'][$property][] = isset($defaultconfigs['rangeStart']) ?  $defaultconfigs['rangeStart'] : '';
+							}
+							if($configs['tpl'] == 'range') {
+								
+								$_POST['filter'][$property]['start'] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['start'] : '';
+								$_POST['filter'][$property]['end'] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['end'] : '';
+							}
+							if($configs['tpl'] == 'datetimerange' || $configs['tpl'] == 'daterange' ) {
+								$now = new \DateTime('now');
+								$nowEnd = new \DateTime('now');
+								$nowformat = $now->format('Y-m-d H:i');
+								$nowformat = str_replace(' ', 'T', $nowformat);
+								if(!isset($defaultconfigs['state'] )){ // static values for fields\date or fields\publication
+									if(!isset($defaultconfigs['start'] )) echo 'coco'; // Start -> set static property
+									if(!isset($defaultconfigs['end'] )) echo 'coco'; // End -> set static property
+									}else{ // dynamic values
+										if(!isset($defaultconfigs['now-start'])){
+											$selstart = $defaultconfigs['select-start'];
+											$ys = $defaultconfigs['year-start'];
+											$ms = $defaultconfigs['month-start'];
+											$ds = $defaultconfigs['day-start'];
+											if($ys == '' && $ms == '' && $ds =='') $_POST['filter'][$property]['start'] = '';
+											else{
+											$dateStart =  (($ys != '') ? $selstart . ' ' . $ys . ' year ' : '') . (($ms != '') ? $selstart . ' ' . $ms . ' month ' : '') . (($ds != '') ? $selstart . ' ' . $ds . ' day ' : '');
+											 // date modify with after or before values
+											$dynstart = $now->modify($dateStart);
+											$dynstart =  $dynstart->format('Y-m-d H:i');
+											$dynstart = str_replace(' ', 'T', $dynstart);
+											
+											// Start -> set dynamic property
+											$_POST['filter'][$property]['start'] = $dynstart;
+											}
+										}else{ // now
+											// Start -> set dynamic property to NOW
+											$_POST['filter'][$property]['start'] = $nowformat;
+										}
+										if(!isset($defaultconfigs['now-end'])){
+											$selend = $defaultconfigs['select-end'];
+											$ys = $defaultconfigs['year-end'];
+											$ms = $defaultconfigs['month-end'];
+											$ds = $defaultconfigs['day-end'];										
+											if($ys == '' && $ms == '' && $ds =='') $_POST['filter'][$property]['end'] = '';
+											else{
+											$dateEnd = (($ys != '') ? $selend . ' ' . $ys . ' year ' : '') . (($ms != '') ? $selend . ' ' . $ms . ' month ' : '') . (($ds != '') ? $selend . ' ' . $ds . ' day ' : '');
+											 // date modify with after or before values
+											$dynend = $nowEnd->modify($dateEnd);
+											$dynend =  $dynend->format('Y-m-d H:i');
+											$dynend = str_replace(' ', 'T', $dynend);
+										
+											$_POST['filter'][$property]['end'] = $dynend;
+											}
+
+										}else{ 
+											// End -> set dynamic property to NOW
+											$_POST['filter'][$property]['end]'] = $nowformat;
+										}
+									}
+							}
+							
+						}
+				
 					include('modules/core/blocks/filter/views/'.$template.'.php');
 				}
 			}
@@ -61,18 +130,17 @@ class filter extends \block {
 			foreach ($selected as $value) {
 				if(isset($value['filter'])){
 					$table = $value['table'];
-					$property = $value['property'];
+					$prop = $value['property'];
 					list($module, $entity) = explode('_', $table, 2);
-					$field = \app::getModule($module)->getEntity($entity)->getField($property);
-					if(get_class($field) === 'core\fields\date'){
-						echo '<div>' . $property . ' : <select name="group['.$property.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+					$field = \app::getModule($module)->getEntity($entity)->getField($prop);
+					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
+						echo '<div>' . $prop . ' : <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
 					}else{
-						echo '<div>' . $property . ' : <input type="checkbox" name="group['.$property.']"></div>';
+						echo '<div>' . $prop . ' : <input type="checkbox" name="group['.$prop.']"></div>';
 					}
 				}
 			}
-		}
-		
+		}	
 		echo '</div><input type="submit"></form>';
 		return ob_get_clean();
 	}
@@ -81,8 +149,10 @@ class filter extends \block {
 	 * Save the block configs
 	 */
 	public function saveConfigs() {
+		$blockquery = $this->getConfig('blockquery') ? $this->getConfig('blockquery') : 'rapports';
+		$block = \app::$request->page->searchBlock($blockquery);
 		$this->setConfig('blockquery', $_POST['blockquery']);
-		$this->setConfig('properties', ( isset($_POST['properties']) ? $_POST['properties'] : array()));
+		$this->setConfig('properties', $_POST['properties']);	
 	}
 
 }
