@@ -780,8 +780,7 @@ class admin extends \module {
 	 * @param string $locale
 	 */
 	protected function changeLocaleAction($locale) {
-		if(PROFILE == 'www') $config = new \core\classes\config('config.php', TRUE);
-		else $config = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
+		$config = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
 		$config->saveConfig(array('localization' => array('default_language' => $locale)));
 	}
 
