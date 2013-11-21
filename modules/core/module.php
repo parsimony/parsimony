@@ -157,24 +157,10 @@ class core extends \module {
 		return $this->getView('connect');
 	}
 
-	public function loginAjaxAction() {
-		$login = \app::$request->getParam('login');
-		$pass = \app::$request->getParam('password');
-		if ($login && $pass) {
-			\app::getClass('user')->authentication($login, $pass);
-			if (\app::getClass('user')->VerifyConnexion()) {
-				return TRUE;
-			}
-		}
-		return FALSE;
-	}
-
-	public function loginAction($URL = 'index') {
+	public function loginAction($login, $pass, $URL = 'index') {
 		if (!\app::$request->isAjax())
 			\app::$response->setHeader('Location', $URL);
-		$login = \app::$request->getParam('login');
-		$pass = \app::$request->getParam('password');
-		if ($login && $pass) {
+		if (!empty($login) && !empty($pass)) {
 			\app::getClass('user')->authentication($login, $pass);
 			if (\app::getClass('user')->VerifyConnexion()) {
 				return TRUE;

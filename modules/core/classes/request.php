@@ -285,11 +285,11 @@ class request {
 		if (\app::getClass('user')->VerifyConnexion() === TRUE &&
 			( empty(app::$config['security']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['security']['allowedipadmin']))) {
 
-			/* Mainly to use in query block */
-			$this->setParams(array('id_user' => $_SESSION['id_user'],
-									'id_role' => $_SESSION['id_role'],
-									'behavior' => $_SESSION['behavior'],
-									'login' => $_SESSION['login']));
+			/* Mainly to use in query block, session_ prefix to avoid collision */
+			$this->setParams(array('session_id_user' => $_SESSION['id_user'],
+									'session_id_role' => $_SESSION['id_role'],
+									'session_behavior' => $_SESSION['behavior'],
+									'session_login' => $_SESSION['login']));
 
 			if($_SESSION['behavior'] > 0){
 				/* Add admin module */

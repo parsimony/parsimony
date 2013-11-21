@@ -42,7 +42,7 @@ if (\app::getClass('user')->VerifyConnexion()) :
         $(document).ready(function() {
     	$(document).on("submit","#<?php echo $this->getId(); ?> .connexion",function(e){
     	    e.preventDefault();
-    	    $.post("<?php echo BASE_PATH; ?>loginAjax", { login: $(".login", this).val(), password: $(".password", this).val() },
+    	    $.post("<?php echo BASE_PATH; ?>login", { login: $(".login", this).val(), password: $(".password", this).val() },
     	    function(data) {
     		if(data == 1){
     		    window.location.reload();
