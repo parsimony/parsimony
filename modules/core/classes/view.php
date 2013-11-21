@@ -70,7 +70,7 @@ class view extends queryBuilder implements \Iterator {
 			if(!isset($this->entities[$name])){
 				$this->entities[$name] = app::getModule($module)->getEntity($entity);
 			}
-			if($name !== $key){/* use $key for alias */
+			if($fieldName !== $key){/* use $key for alias */
 				$field = new \field_string ($fieldName, array('label' => $key, 'entity' => $this->entities[$name] /* only for alias //emulate wakeup entity */, 'views' => array('display' => 'modules/core/fields/string/display.php', 'grid' => 'modules/core/fields/string/grid.php'))); /* emulate prepareFieldsForDisplay() */
 			}else{
 				$field = $this->entities[$name]->getField($fieldName); 
