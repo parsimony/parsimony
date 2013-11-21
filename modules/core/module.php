@@ -157,11 +157,11 @@ class core extends \module {
 		return $this->getView('connect');
 	}
 
-	public function loginAction($login, $pass, $URL = 'index') {
-		if (!\app::$request->isAjax())
+	public function loginAction($login, $password, $URL = FALSE) {
+		if ($URL !== FALSE)
 			\app::$response->setHeader('Location', $URL);
-		if (!empty($login) && !empty($pass)) {
-			\app::getClass('user')->authentication($login, $pass);
+		if (!empty($login) && !empty($password)) {
+			\app::getClass('user')->authentication($login, $password);
 			if (\app::getClass('user')->VerifyConnexion()) {
 				return TRUE;
 			}

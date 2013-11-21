@@ -312,10 +312,10 @@ class request {
 			$_SESSION['id_role'] = 6;
 			
 			/* Mainly to use in query block */
-			$this->setParams(array('id_user' => FALSE,
-									'id_role' => 6,
-									'behavior' => 0,
-									'login' => FALSE));
+			$this->setParams(array('session_id_user' => FALSE,
+									'session_id_role' => 6,
+									'session_behavior' => 0,
+									'session_login' => FALSE));
 		}
 	}
 

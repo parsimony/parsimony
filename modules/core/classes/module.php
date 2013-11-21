@@ -365,6 +365,8 @@ class module {
 					$params[] = $value;
 				} elseif ($param->isDefaultValueAvailable()) {
 					$params[] = $param->getDefaultValue();
+				}else{
+					$params[] = '';
 				}
 			}
 			return (string) app::$response->setContent(call_user_func_array(array($this, $methodName), $params));
