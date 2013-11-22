@@ -158,3 +158,6 @@ font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif;background: #fafafa;}
 #conf_box_close, #closemenu{margin:11px 6px;z-index: 1;position: relative;border-radius: 5px;cursor: pointer;background: url(admin/img/icons.png) -96px -128px;}
 #conf_box_close{margin-right: 13px;}
 #conf_box_close:hover{background-color: #E4E4E4;}
+.remitem {float: right;padding: 0 5px;cursor: pointer;}
+.remitem::before {position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";}
+.remitem:hover::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";top: -9px;left: 3px;}

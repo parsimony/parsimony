@@ -39,13 +39,13 @@ if (is_object($block) == NULL) {
 			.on('click', "#btnNewCSSFile", function() {
 				var file = $('#newCSSFile').val();
 				var pos = $('#posNewCSSFile').val();
-				$('#cssFilesCont').append('<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
+				$('#cssFilesCont').append('<div><div class="remitem" onclick="$(this).parent().remove();"></div><input type="hidden" name="CSSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
 				return false;
 			})
 			.on('click', "#btnNewJSFile", function() {
 				var file = $('#newJSFile').val();
 				var pos = $('#posNewJSFile').val();
-				$('#jsFilesCont').append('<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="JSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
+				$('#jsFilesCont').append('<div><div class="remitem" onclick="$(this).parent().remove();"></div><input type="hidden" name="JSFiles[' + file + ']" value="' + pos + '">' + file + ' - ' + pos + '</div>');
 				return false;
 			});
 			<?php if(method_exists($block, 'forkAction')): ?>
@@ -173,7 +173,7 @@ if (is_object($block) == NULL) {
 								$files = $block->getConfig('CSSFiles');
 								if (!empty($files)) {
 									foreach ($files as $file => $pos) {
-										echo '<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
+										echo '<div><div class="remitem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
 									}
 								}
 								?>
@@ -192,7 +192,7 @@ if (is_object($block) == NULL) {
 								$files = $block->getConfig('JSFiles');
 								if (!empty($files)) {
 									foreach ($files as $file => $pos) {
-										echo '<div><div class="rem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="JSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
+										echo '<div><div class="remitem" onclick="$(this).parent().remove();"></div><input type="hidden" name="JSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
 									}
 								}
 								?>

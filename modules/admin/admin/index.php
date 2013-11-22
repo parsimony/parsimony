@@ -70,7 +70,7 @@
 		}).on('click', '#addext', function() {
 			var ext = $('#extname').val() ;
 			var mime =  $('#extmime').val();
-			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remext" onclick="$(this).parent().remove();">X</div></div>')
+			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remitem" onclick="$(this).parent().remove();">X</div></div>')
 		});
 	});
 </script>
@@ -81,10 +81,10 @@
 	.hidden{pointer-events: none;opacity: 0.5}
 	#authorizedextensions {position: relative;top: 25px;}
 	#authorizedextensions > div {padding: 7px;margin: 6px 0;border: 1px solid #ddd;}
-	.remext {float: right;padding: 0 5px;cursor: pointer;}
+	.remitem {float: right;padding: 0 5px;cursor: pointer;}
 	#extname{width: 40px;}
-	.remext::before {position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";}
-	.remext:hover::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";top: -9px;left: 3px;}
+	.remitem::before {position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";}
+	.remitem:hover::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";top: -9px;left: 3px;}
 </style>
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
@@ -254,7 +254,7 @@
 					<div id="authorizedextensions">
 					<?php
 						foreach (app::$config['ext'] AS $ext => $mime) {
-							echo '<input type="hidden" name="config[ext][' . $ext . ']" value="removeThis"><div>' . $ext . ' : ' . $mime . '<input type="hidden" name="config[ext][' . $ext . ']" value="' . $mime . '"><div class="remext" onclick="$(this).parent().remove();"></div></div>';
+							echo '<input type="hidden" name="config[ext][' . $ext . ']" value="removeThis"><div>' . $ext . ' : ' . $mime . '<input type="hidden" name="config[ext][' . $ext . ']" value="' . $mime . '"><div class="remitem" onclick="$(this).parent().remove();"></div></div>';
 						}
 					?>
 					</div>
