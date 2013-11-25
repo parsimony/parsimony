@@ -51,10 +51,16 @@ class user extends \field {
 	 * @return string
 	 */
 	public function validate($value) {
-		if(/*$this->visibility & INSERT && $this->visibility & UPDATE && */is_numeric($value)){
-			return $value;
-		}else{
-			return $_SESSION['id_user'];
+		if(empty($value)){
+			if(!$this->required) return '';
+			else return FALSE;
+		}
+		else{
+			if(/*$this->visibility & INSERT && $this->visibility & UPDATE && */is_numeric($value)){
+				return $value;
+			}else{
+				return $_SESSION['id_user'];
+			}
 		}
 	}
 

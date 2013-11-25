@@ -32,7 +32,7 @@ $role = app::getModule('core')->getEntity('role');
 	.tooltip{margin-left: -20px}
 	td{padding:5px 2px 5px 15px;}
 	.active{background:#AAA} 
-	.modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;top: -8px;position: relative;}
+	.modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;top: 1px;position: relative;}
 	#enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;}
 	.firsttd{font-size: 18px;letter-spacing: 2px;vertical-align: middle}
 	.secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}

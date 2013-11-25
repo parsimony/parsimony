@@ -43,7 +43,16 @@ class textarea extends \field {
 	protected $type = 'LONGTEXT';
 	protected $characters_max = '';
 	protected $mode = 'textarea';
-
+	
+	/**
+	 * Validate the value of textarea
+	 * Override to allow new line with #s in regex
+	 * @param string $value
+	 * @return string|false
+	 */
+	public function validate($value) {
+		return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#s')));
+	}
 }
 
 ?>

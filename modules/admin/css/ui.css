@@ -47,7 +47,7 @@ body::-webkit-scrollbar{width:0}
 
 /* Select webkit */
 select:enabled:hover {box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);color: #333;background-image: url("admin/img/select.png");background-color: #F1F1F1;border-top: 1px solid #f1f1f1 !important;}
-select {padding: 3px 0;background-position: center right;background-repeat: no-repeat;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 0px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("admin/img/select.png");border: 1px solid #ECECEC !important;max-width: 255px;}
+select {padding: 1px 0 4px;vertical-align: middle;background-position: center right;background-repeat: no-repeat;color: #555;font-size: inherit;margin: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 0px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("admin/img/select.png");border: 1px solid #ECECEC !important;max-width: 255px;}
 @-moz-document url-prefix() { 
 	select{-moz-appearance: none;text-indent: 1px; text-overflow: "";}
 }
@@ -116,6 +116,7 @@ input[type="checkbox"], input[type="radio"]{
 	outline: none;
 	-webkit-appearance:none;
 	box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);
+	vertical-align: sub;
 }
 input[type="checkbox"]:hover, input[type="radio"]:hover {
 	background-color: rgba(191,185,169,.4)
