@@ -40,7 +40,7 @@
 		?>
 	</head>
 	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $page->getId(); ?>">
-		<?php echo $this->body; ?>
+		<?php echo $body; ?>
 		<?php echo $page->printInclusions('footer') ?>
 	</body>
 </html>

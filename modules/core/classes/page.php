@@ -47,8 +47,8 @@ class page extends \block {
 	/** @var array */
 	private $URLcomponents = array();
 
-	/** @var bool */
-	private $structure = TRUE;
+	/** @var string */
+	private $theme;
 
 	/** @var array */
 	private $metas = array();
@@ -143,20 +143,28 @@ class page extends \block {
 	}
 
 	/**
-	 * Check if the page require to display structure or no
-	 * @return bool
+	 * Get theme name
+	 * @return string
 	 */
-	public function getStructure() {
-		return $this->structure && !\app::$request->getParam('nostructure');
+	public function getTheme() {
+		if($this->theme === FALSE || \app::$request->getParam('nostructure')){
+			return '';
+		}
+		if(empty($this->theme)){
+			return \theme::get(THEMEMODULE, THEME, THEMETYPE);
+		}else{
+			$themeParts = explode('_', $this->theme, 2);
+			return \theme::get($themeParts[0], $themeParts[1], THEMETYPE);
+		}
 	}
 
 	/**
-	 * Set if the page require to display structure or no
-	 * @param bool $bool
+	 * Set theme name
+	 * @param bool $theme
 	 * @return page object
 	 */
-	public function setStructure($bool) {
-		(bool) $this->structure = $bool;
+	public function setTheme($theme) {
+		$this->theme = $theme;
 		return $this;
 	}
 
@@ -483,7 +491,7 @@ class page extends \block {
 	}
 
 	public function __sleep() {
-		return array('id', 'moduleName', 'blocks', 'title', 'regex', 'URLcomponents', 'metas', 'rights');
+		return array('id', 'moduleName', 'blocks', 'title', 'regex', 'URLcomponents', 'theme', 'metas', 'rights');
 	}
 
 }

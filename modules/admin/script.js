@@ -402,14 +402,16 @@ var ParsimonyAdmin = {
 		}
 		$("#" + idBlock, ParsimonyAdmin.currentBody).trigger("click");
 	},
-	moveMyBlock: function(idBlock, idBlockAfter) {
-		if ($("#" + idBlockAfter, ParsimonyAdmin.currentBody).parent().hasClass("core_container")) {
-			$("#" + idBlockAfter, ParsimonyAdmin.currentBody).after($("#" + idBlock, ParsimonyAdmin.currentBody));
-			ParsimonyAdmin.returnToShelter();
-		} else {
-			var block = $("#" + idBlockAfter, ParsimonyAdmin.currentBody).parent().parent().parent();
-			ParsimonyAdmin.returnToShelter();
-			block.html($("#" + idBlock, ParsimonyAdmin.currentBody));
+	moveMyBlock: function(idBlock, parentBlock, idNextBlock) {
+		if(idNextBlock == "last"){
+			/* empty container */
+			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", ParsimonyAdmin.currentBody);
+			if(testDropIncontainer.length > 0){
+				testDropIncontainer.remove();
+			}
+			$("#" + parentBlock, ParsimonyAdmin.currentBody).append($("#" + idBlock, ParsimonyAdmin.currentBody));
+		}else if ($("#" + idNextBlock, ParsimonyAdmin.currentBody).parent().hasClass("core_container")) {
+			$("#" + idNextBlock, ParsimonyAdmin.currentBody).before($("#" + idBlock, ParsimonyAdmin.currentBody));
 		}
 	},
 	selectBlock: function(idBlock) {
@@ -510,7 +512,7 @@ var ParsimonyAdmin = {
 
 	},
 	displayExplorer: function() {
-		ParsimonyAdmin.explorer = window.open(BASE_PATH + 'admin/explorer', 'Explorer', 'top=200,left=200,width=1000,height=600');
+		ParsimonyAdmin.explorer = window.open(BASE_PATH + 'admin/explorer?parsiframe=ok', 'Explorer', 'top=200,left=200,width=1000,height=600');
 	},
 	closeConfBox: function() {
 		Parsimony.popin.classList.remove("open");
@@ -635,7 +637,7 @@ var ParsimonyAdmin = {
 		$(".dropInContainer",ParsimonyAdmin.currentBody).remove();
 		if(tree!=false) {
 		$("#config_tree_selector").hide().prependTo("#right_sidebar");
-		ParsimonyAdmin.loadBlock('tree');
+		ParsimonyAdmin.loadBlock('tree', {IDPage: top.document.getElementById("infodev_page").textContent});
 		}
 		$(".core_container",ParsimonyAdmin.currentBody).each(function(){
 		if($(this).find('.parsiblock:not("#content")').length == 0) {
@@ -674,7 +676,6 @@ var ParsimonyAdmin = {
 		$.get(window.location.href.toLocaleString(), params, function(data) {
 			$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
 		}, func);
-		//$('#' + id).load(window.location.toLocaleString() + " #" + id + " > div");
 	},
 	displayPanel: function(id) {
 		var panel = document.getElementById(id);

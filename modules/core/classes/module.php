@@ -369,14 +369,14 @@ class module {
 					$params[] = '';
 				}
 			}
-			return (string) app::$response->setContent(call_user_func_array(array($this, $methodName), $params));
+			return (string) call_user_func_array(array($this, $methodName), $params); /* cast to string to stringify booleans */
 		}
 		foreach ($this->pages AS $index => $regex) {
 			if (preg_match($regex, $url, $_GET)) {
 				app::$request->setParams($_GET);
 				$page = $this->getPage($index);
 				if($page->getRights($_SESSION['id_role']) & DISPLAY)
-					return app::$response->setContent($page, 200);
+					return $page;
 			}
 		}
 		return FALSE;

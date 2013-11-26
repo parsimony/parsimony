@@ -55,10 +55,9 @@ class response {
 	 */
 	protected $headers = array();
 
-	/** @var theme object */
-	protected $theme;
-
-	/** @var string $body */
+	/** 
+	 * @var string $body 
+	 */
 	protected $body = '';
 
 	/**
@@ -75,46 +74,44 @@ class response {
 	 */
 	public function setContent($body = '', $status = 200) {
 		$this->setStatus($status);
+
 		if ($body instanceof page) { /* If it's a page object */
 
-			$page = \app::$request->page = $body;
+			$page = \app::$request->page = $body; /* Save page object */
 
-			\app::dispatchEvent('pageLoad');
+			\app::dispatchEvent('pageLoad'); /* Let modules to prepare the page */
 
-			/* THEME */
-			$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-			$structure = $body->getStructure();
-			$script = '';
-			if (defined('PARSI_ADMIN')) {
-				$adm = new \admin\blocks\toolbar("admintoolbar");
-				$this->body = $adm->display();
-			} else {
-				if ($structure === TRUE)
-					$this->body = $this->theme->display();
-				else
-					$this->body = $body->display();
-
-				if ($_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
-					$page->addJSFile('lib/editinline.js');
-					$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
-					if ($_SESSION['behavior'] > 1) $script = 'window.parent.document.getElementById("infodev_timer").innerHTML="' . $timer . ' s";window.parent.document.getElementById("infodev_module").innerHTML="' . MODULE . '";window.parent.document.getElementById("infodev_theme").innerHTML="' . THEME . '";window.parent.document.getElementById("infodev_page").innerHTML="' . $body->getId() . '";';
-					$this->body .= '<script>window.parent.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));window.parent.TOKEN="'.TOKEN.'";window.parent.$_GET='.  json_encode($_GET).';window.parent.$_POST='. json_encode($_POST).';'.$script.'if (window.parent.jQuery.isReady) {window.parent.ParsimonyAdmin.initIframe();}else{window.parent.$(document).ready(function() {window.parent.ParsimonyAdmin.initIframe();});}  </script>';
-				}
+			$theme = $page->getTheme();
+			if ($theme instanceof theme) {
+				$body = $theme->display(); /* Display with theme */
+			} else{
+				$body = $body->display(); /* Display without theme */
 			}
-			if ($structure === TRUE){
-				ob_start();
-				include('core/views/index.php');
-				$this->body = ob_get_clean();
+			
+			/* Save infos for admins */
+			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
+				$page->addJSFile('lib/editinline.js');
+				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
+				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $page->getId() . '";';
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?parsiframe=ok","").replace("parsiframe=ok",""));top.TOKEN="'.TOKEN.'";top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'if (top.jQuery.isReady) {top.ParsimonyAdmin.initIframe();}else{top.$(document).ready(function() {top.ParsimonyAdmin.initIframe();});}  </script>';
 			}
-		}else {
-			$this->body = $body;
+			
+			/* Wrap body with HTML structure */
+			ob_start();
+			include('core/views/index.php');
+			$body = ob_get_clean();
+			
 		}
+		
+		/* Set headers */
 		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
 		header('Content-type: ' . \app::$config['ext'][$this->format] . '; charset=' . $this->charset);
 		foreach ($this->headers AS $label => $header) {
 			header($label . ': ' . $header);
 		}
-		return $this->body;
+		
+		/* Set body to client */
+		$this->body = $body;
 	}
 
 	/**

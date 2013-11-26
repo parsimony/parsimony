@@ -103,30 +103,29 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;text-align: center;margin:
 #treelegend{position: absolute;right: 5px;top: 50px;color: #555; font-weight: bold;padding-right: 10px;z-index: 999999;}
 #treelegend2 fieldset{border: 1px solid #CCC;color: #555 !important; border-radius: 3px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
 #treelegend2 fieldset span{line-height: 20px;}
-#tree{padding : 5px 0 15px;color:#444;font-weight: normal;text-transform: capitalize;letter-spacing: 1.1px;}
-#tree .tree_selector{position:relative;clear:both;line-height: 24px;font-size: 12px;}
-#tree ul ,#tree li {margin-left:15px;cursor:pointer;font-size: 13px;text-transform: capitalize;border-left: 1px dotted #999;line-height: 20px;  }
-#tree span.move_block{cursor:move;}
-#tree li.tree_selector{border-top: 1px solid #999;border-bottom: 1px solid #555;border-right: 1px solid #888;text-align: left;padding-bottom: 1px;cursor: pointer;}
-#config_tree_selector{margin-right:5px;height: 16px;}
-#treedom_container>#config_tree_selector:first-child .move_block{display:none}
-#dropInTree{position:relative;top:-1px;height:3px;width:100%;background: #276d7f;pointer-events:none}
 
+#tree{padding : 5px 0;color:#444;font-weight: normal;text-transform: capitalize;letter-spacing: 1.1px;font-size: 12px;}
+.tree_selector{line-height: 24px;cursor:pointer;}
+#tree span.move_block{cursor:move;}
+#config_tree_selector{margin-right:5px;height: 16px;}
+#treedom_container > #config_tree_selector:first-child .move_block{display:none}
+#treedom_container{border-left:0 !important}
+
+#dropInTree{position:relative;height:0;width:100%;pointer-events:none}
+#dropInTree::after{position:absolute;width:100%;height:6px;top:-3px;left:0px;height:3px;width:100%;content: " ";background: #c8007a;}
 
 /* Tree icons */
-.parsicontainer{background: url(admin/img/parsicontainer.png) no-repeat 3px 1px !important;padding-left: 18px;margin-left: 0 !important;}
-#treedom_content{padding: 3px 0 5px 25px;margin-top: 2px; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;background: #fdfdfd url(admin/img/parsipage.png) no-repeat 3px 4px !important;margin-left: 0 !important;border: 1px solid #CCC !important;}
-#treedom_content>:first-child{margin-top: 7px;}
-#treedom_content>#config_tree_selector:first-child{margin-top: 0px;margin-bottom: 6px;}
-#treedom_content > .arrow_tree:first-child{background: url(admin/img/arrow.png) no-repeat -8px 0px;}
+.parsicontainer{background: url(admin/img/parsicontainer.png) no-repeat 3px 3px;clear:both;padding-left: 18px;}
+#treedom_content{background: url(admin/img/parsipage.png) no-repeat 1px 4px;position:relative;min-height: 45px;}
+#treedom_content::before {content: " ";bottom: 0;position: absolute;top: 23px;right: 0;left: 15px;border: 1px solid #CCC;border-radius: 2px;background-color: #FDFDFD;}
+#treedom_content .tree_selector {position: relative}
+#treedom_content.currentDOM::before {top: 38px;}
 
-#tree li.tree_selector{border-top: 0;border-bottom: 0;border-right: 0}
-#paneltree fieldset .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px -1px, url(admin/img/hier.png) no-repeat 0px 1px !important;}
-.parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px 1px, url(admin/img/hier.png) no-repeat 0px 1px !important;padding-left: 32px;}
-.parsipage{background: url(admin/img/parsipage.png) no-repeat 10px /*, url(admin/img/backcontenttree.png) repeat-x !important*/;padding-left: 30px;}
-#tree ul ,#tree li {margin-left:0;border-left:0}
-#treedom_container{border-left:0 !important}
-.arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 5px;float:left;display:block;width:16px;height:16px;cursor:pointer}
+#paneltree fieldset .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px -1px;}
+.parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 4px 1px;padding-left: 25px;}
+.parsipage{background: url(admin/img/parsipage.png) no-repeat 10px;padding-left: 30px;}
+
+.arrow_tree{background:url(admin/img/arrow.png) no-repeat -8px 7px;float:left;display:block;width:16px;height:16px;cursor:pointer}
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
 
 /* Panel CSS */

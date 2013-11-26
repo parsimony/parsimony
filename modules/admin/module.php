@@ -65,7 +65,7 @@ class admin extends \module {
 				return parent::controller($action, 'POST');
 			}
 		}else{
-			parent::controller($action, $httpMethod);
+			return parent::controller($action, $httpMethod);
 		}
 	}
 
@@ -258,7 +258,7 @@ class admin extends \module {
 	 * @param string $regex
 	 * @return string 
 	 */
-	protected function savePageAction($module, $id_page, $title, $meta, $regex, array $URLcomponents = array()) {
+	protected function savePageAction($module, $id_page, $title, $meta, $regex, $theme, array $URLcomponents = array()) {
 		$moduleObj = \app::getModule($module);
 		try {
 			$page = $moduleObj->getPage($id_page);
@@ -274,6 +274,7 @@ class admin extends \module {
 		}
 		$page->setModule($module);
 		$page->setTitle($title);
+		$page->setTheme($theme);
 		$page->setMetas($meta);
 		if (isset($URLcomponents))
 			$page->setURLcomponents($URLcomponents);
@@ -449,7 +450,7 @@ class admin extends \module {
 	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
 		$this->initObjects();
 		//start
-		$block = $this->$start_typecont->searchBlock($idBlock);  	
+		$block = $this->$start_typecont->searchBlock($idBlock);
 		$blockparent = $this->$start_typecont->searchBlock($startParentBlock);
 		$blockparent->rmBlock($idBlock);
 
@@ -471,7 +472,8 @@ class admin extends \module {
 				}
 			}
 			$this->saveAll();
-			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","dropInPage");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
+			$parentBlock = is_numeric($parentBlock) ? $parentBlock = 'content' : $parentBlock; /* If parentBlock is content */
+			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","' . $parentBlock . '", "' . $id_next_block . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
 		}else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
@@ -622,9 +624,8 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function explorerAction() {
-		$this->initObjects();
 		/* Init a page */
-		\app::$request->page = new \page(999);
+		\app::$request->page = new \page(1, 'admin');
 		return $this->getView('explorer');
 	}
 
@@ -849,17 +850,19 @@ class admin extends \module {
 	public function structureTree($obj) {
 		$this->initObjects();
 		$idPage = '';
-		if($obj->getId() == 'content') $idPage = ' data-page="'.\app::$request->page->getId().'"';
-		$html = '<ul class="tree_selector container parsicontainer" style="clear:both" id="treedom_' . $obj->getId() . '"'.$idPage.'><span class="arrow_tree"></span>' . $obj->getId();
-		if ($obj->getId() == 'content'){
+		$id = $obj->getId();
+		if($id === 'content'){
 			$obj = \app::$request->page;
+			$idPage = ' data-page="' . $obj->getId() . '"';
 		}
+		$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $id;
 		foreach ($obj->getBlocks() AS $block) {
-			if (get_class($block) == 'core\blocks\container' || get_class($block) == 'core\blocks\tabs' || $block->getId() == 'content')
-			$html .= $this->structureTree($block);
+			$idBlock = $block->getId();
+			if ($block instanceof \core\blocks\container || $idBlock === 'content')
+				$html .= $this->structureTree($block);
 			else
-			$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $block->getId() . '"> ' .$block->getId() . '</li>';
-		};
+				$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
+		}
 		$html .= '</ul>';
 		return $html;
 	}
@@ -1385,7 +1388,6 @@ class ' . $table->name . ' extends \entity {
 		} catch (\Exception $exc) {
 			return '';
 		}
-
 	}
 
 	/**
@@ -1450,15 +1452,15 @@ class ' . $table->name . ' extends \entity {
 		return \tools::file_put_contents($file, base64_decode($code));
 	}
 	
-	
 	/**
 	 * Init objects theme module & page
 	 */
 	private function initObjects() {
 		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
 		$this->module = \app::getModule(MODULE);
-		if (isset($_POST['IDPage']) && is_numeric($_POST['IDPage'])) {
-			\app::$request->page = $this->page = $this->module->getPage($_POST['IDPage']);
+		$IDPage = \app::$request->getParam('IDPage');
+		if ($IDPage && is_numeric($IDPage)) {
+			\app::$request->page = $this->page = $this->module->getPage($IDPage);
 		}
 	}
 
@@ -1469,15 +1471,15 @@ class ' . $table->name . ' extends \entity {
 	protected function actionAction() {
 		$this->initObjects();
 		/* Init a page */
-		\app::$request->page = new \page(99, 'core');
+		\app::$request->page = new \page(1, 'admin');
 		if (isset($_POST['action'])) {
 			$content = $this->controller($_POST['action'], 'POST');
 			if (isset($_POST['popup']) && $_POST['popup'] === 'yes') {
-			ob_start();
-			require('modules/admin/views/popup.php');
-			return ob_get_clean();
+				ob_start();
+				require('modules/admin/views/popup.php');
+				return ob_get_clean();
 			} else {
-			return $content;
+				return $content;
 			}
 		}
 	}

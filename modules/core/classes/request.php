@@ -37,7 +37,7 @@ class request {
 
 	/** @var string function */
 	protected $method;
-
+	
 	/** @var string URL */
 	protected $URL;
 
@@ -50,14 +50,14 @@ class request {
 	/** @var string module */
 	protected $module;
 
-	/** @var page Page object */
-	public $page;
-
 	/** @var string locale language */
 	protected $locale;
 
 	/** @var string device */
 	protected $device;
+	
+	/** @var page Page object */
+	public $page;
 
 	/**
 	 * Init a new request
@@ -73,7 +73,7 @@ class request {
 		/* Determine locale */
 		$this->determineLocale();
 
-			/* Rights */
+		/* Rights */
 		define('DISPLAY', 1);
 		define('INSERT', 2);
 		define('UPDATE', 4);
@@ -233,7 +233,7 @@ class request {
 			if (isset($this->URL[1]))
 				$this->secondPartURL = $this->URL[1];
 		}else {
-			/* We test if core Module can respond */
+			/* We test in priority if core Module can respond */
 			if(method_exists(app::getModule('core'), $this->URL[0] . 'Action')){
 				$this->module = 'core';
 			}else{
@@ -267,17 +267,31 @@ class request {
 	 * @return response|string
 	 */
 	public function dispatch() {
+		/* Admin UI ? */
+		if ($_SESSION['behavior'] > 0 && !isset($_GET['parsiframe']) && $this->method === 'GET') {
+			define('PARSI_ADMIN', 1);
+			$adminPage = new \page(1, 'admin');
+			$adminPage->setTheme(FALSE);
+			/* Display admin */
+			return app::$response->setContent($adminPage->addBlock(new \admin\blocks\toolbar("admintoolbar")), 200); 
+		}
+		
 		$module = app::getModule($this->module);
 		if($module->getRights($_SESSION['id_role']) === 1){ /* 1 = allowed */
-			if ($module->controller($this->secondPartURL, $this->method) === FALSE) {
-				//if Page not found
+			$result = $module->controller($this->secondPartURL, $this->method);
+			if ($result !== FALSE) {
+				/* Ok */
+				return app::$response->setContent($result, 200);
+			} else {
+				/* Not found */
 				return app::$response->setContent(app::getModule('core')->getView('404'), 404);
 			}
 		}else{
+			/* Forbidden */
 			return app::$response->setContent(app::getModule('core')->getView('403'), 403); 
 		}
 	}
-
+	
 	/**
 	 * Determine Role & permissions
 	 */
@@ -302,9 +316,6 @@ class request {
 					set_exception_handler('\core\classes\app::exceptionHandler');
 					register_shutdown_function('\core\classes\app::errorHandlerFatal');
 				}
-				// check if it's admin role or not
-				if (!isset($_GET['parsiframe']) && $this->method === 'GET')
-					define('PARSI_ADMIN', 1);
 			}
 
 		}else{

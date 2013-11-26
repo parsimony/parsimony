@@ -45,6 +45,9 @@ app::$request->page->addJSFile('admin/blocks/tree/block.js','footer');
 </div>
 <div id="tree"> 
 	<?php
-	echo \app::getModule('admin')->structureTree(\theme::get(THEMEMODULE, THEME, THEMETYPE));
+	$IDPage = \app::$request->getParam('IDPage');
+	if ($IDPage && is_numeric($IDPage)) {
+		echo \app::getModule('admin')->structureTree(\theme::get(THEMEMODULE, THEME, THEMETYPE));
+	}
 	?>
 </div>
