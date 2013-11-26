@@ -582,7 +582,9 @@ var ParsimonyAdmin = {
 	},
 	changeLocale: function(locale) {
 		ParsimonyAdmin.setCookie("locale", locale, 999);
-		window.location.reload();
+		/* kill cache language */
+		$.post(BASE_PATH + 'admin/changeLocale', {locale: locale}, function(data) {window.location.reload();});
+		
 	},
 	setCookie: function(name, value, days) {
 		if (days) {

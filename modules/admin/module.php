@@ -781,8 +781,9 @@ class admin extends \module {
 	 * @param string $locale
 	 */
 	protected function changeLocaleAction($locale) {
-		$config = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
-		$config->saveConfig(array('localization' => array('default_language' => $locale)));
+		\unlink('var/cache/' . \app::$request->getLocale() . '-lang.php'); /* recalc cache */
+		/*$config = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
+		$config->saveConfig(array('localization' => array('default_language' => $locale)));*/
 	}
 
 	/**
@@ -801,9 +802,7 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function saveConfigAction($file, $config) {
-		\unlink('var/cache/' . \app::$request->getLocale() . '-lang.php');
 		$configObj = new \config($file, TRUE);
-
 		$configObj->saveConfig($config);
 		$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
