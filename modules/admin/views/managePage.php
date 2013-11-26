@@ -85,6 +85,7 @@
 				<ul>
 					<li class="active"><a href="#tabs-1"><?php echo t('URL & Rewriting'); ?></a></li>
 					<li><a href="#tabs-2"><?php echo t('SEO'); ?></a></li>
+					<li><a href="#tabs-3"><?php echo t('Theme'); ?></a></li>
 				</ul>
 				<div class="clearboth" style="padding-top: 10px;"></div>
 				<div id="tabs-1" class="panel">
@@ -212,9 +213,18 @@
 					</div>
 				</div>
 				<div id="tabs-2" class="fields_to_update panel none">
-					<div class="placeholder"><label for="meta[description]"><?php echo t('Description'); ?></label><textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea></div>
-					<div class="placeholder"><label for="meta[keywords]"><?php echo t('Keywords'); ?></label><textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea></div>
-					<div class="placeholder"><label for="meta[author]"><?php echo t('Author'); ?></label><textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea></div>
+					<div class="placeholder">
+						<label for="meta[description]"><?php echo t('Description'); ?></label>
+						<textarea class="cent" name="meta[description]" row="7" cols="50"><?php echo s($page->getMeta('description')); ?></textarea>
+					</div>
+					<div class="placeholder">
+						<label for="meta[keywords]"><?php echo t('Keywords'); ?></label>
+						<textarea class="cent" name="meta[keywords]" row="7" cols="50"><?php echo s($page->getMeta('keywords')); ?></textarea>
+					</div>
+					<div class="placeholder">
+						<label for="meta[author]"><?php echo t('Author'); ?></label>
+						<textarea class="cent" name="meta[author]" row="7" cols="50"><?php echo s($page->getMeta('author')); ?></textarea>
+					</div>
 					<div class="placeholder">
 						<label style="border-bottom: 1px solid #C1C1C1;"><?php echo t('Robots'); ?></label>
 						<input type="hidden" name="meta[robots]" id="SEOrobots" value="<?php echo s($page->getMeta('robots')); ?>" /><br><br>
@@ -231,6 +241,32 @@
 							</tr>
 							</tbody>
 						</table>
+					</div>
+				</div>
+				<div id="tabs-3" class="panel none">
+					<div class="placeholder">
+						<label for="theme"><?php echo t('Theme'); ?></label>
+						<select name="theme">
+							<option value="">Default</option>
+							<?php
+							$theme = $page->getTheme();
+							$currentTheme = FALSE;
+							if($theme instanceof theme){
+								$currentTheme = $theme->getModule() . '_' . $theme->getName();
+							}
+							if($currentTheme === THEMEMODULE . '_' . THEME){
+								$currentTheme = '';
+							}
+							$modules = \app::$config['modules']['active'];
+							foreach ($modules as $moduleName => $mode) {
+								$module = \app::getModule($moduleName);
+								foreach ($module->getThemes() as $themeName) {
+									$name = $moduleName . '_' . $themeName;
+									echo '<option value="' . $name . '"' . ($currentTheme === $name ? ' selected="selected"' : '') . '>' . $themeName . ' (' . $moduleName . ')</option>';
+								}
+							}
+							?>
+						</select>
 					</div>
 				</div>
 				<input class="none" type="submit" id="sendFormPage">
