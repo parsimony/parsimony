@@ -390,10 +390,10 @@ var ParsimonyAdmin = {
 		}
 	},
 	addBlock: function(idBlock, contentBlock) {
-		
 		var idNextBlock = Parsimony.blocks['admin_blocks'].lastIdNextBlock;
 		var parentBlock = Parsimony.blocks['admin_blocks'].lastIdParent;
-		if(idNextBlock == "last"){
+		console.log(idNextBlock);console.log(parentBlock);
+		if(idNextBlock == null || idNextBlock == "last" ){
 			/* empty container */
 			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", ParsimonyAdmin.currentBody);
 			if(testDropIncontainer.length > 0){
@@ -405,19 +405,8 @@ var ParsimonyAdmin = {
 		}
 		$("#" + idBlock, ParsimonyAdmin.currentBody).trigger("click");
 	},
-	moveMyBlock: function(idBlock) {
-		var idNextBlock = Parsimony.blocks['admin_blocks'].lastIdNextBlock;
-		var parentBlock = Parsimony.blocks['admin_blocks'].lastIdParent;
-		if(idNextBlock == "last"){
-			/* empty container */
-			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", ParsimonyAdmin.currentBody);
-			if(testDropIncontainer.length > 0){
-				testDropIncontainer.remove();
-			}
-			$("#" + parentBlock, ParsimonyAdmin.currentBody).append($("#" + idBlock, ParsimonyAdmin.currentBody));
-		}else {
-			$("#" + idNextBlock, ParsimonyAdmin.currentBody).before($("#" + idBlock, ParsimonyAdmin.currentBody));
-		}
+	moveBlock: function(idBlock) {
+		this.addBlock(idBlock, $("#" + idBlock, ParsimonyAdmin.currentBody));
 	},
 	selectBlock: function(idBlock) {
 		var blockTreeObj = document.getElementById("treedom_" + idBlock);

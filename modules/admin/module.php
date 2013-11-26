@@ -472,7 +472,7 @@ class admin extends \module {
 				}
 			}
 			$this->saveAll();
-			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.moveBlock("' . $idBlock . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
 		}else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
