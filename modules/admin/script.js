@@ -389,20 +389,25 @@ var ParsimonyAdmin = {
 			}
 		}
 	},
-	addBlock: function(idBlock, contentBlock, idBlockAfter) {
-		if ($("#" + idBlockAfter, ParsimonyAdmin.currentBody).parent().hasClass("core_container")) {
-			$("#" + idBlockAfter, ParsimonyAdmin.currentBody).after(contentBlock);
-			ParsimonyAdmin.returnToShelter();
-		} else {
-			var block = $("#" + idBlockAfter, ParsimonyAdmin.currentBody).closest(".core_container");
-			ParsimonyAdmin.returnToShelter();
-			$(".dropInContainer:first", block).remove();
-			if (block.get(0).id == 'container' && block.children(".parsiblock").length == 1) block.prepend(contentBlock);
-			else block.append(contentBlock);
+	addBlock: function(idBlock, contentBlock) {
+		
+		var idNextBlock = Parsimony.blocks['admin_blocks'].lastIdNextBlock;
+		var parentBlock = Parsimony.blocks['admin_blocks'].lastIdParent;
+		if(idNextBlock == "last"){
+			/* empty container */
+			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", ParsimonyAdmin.currentBody);
+			if(testDropIncontainer.length > 0){
+				testDropIncontainer.remove();
+			}
+			$("#" + parentBlock, ParsimonyAdmin.currentBody).append(contentBlock);
+		}else {
+			$("#" + idNextBlock, ParsimonyAdmin.currentBody).before(contentBlock);
 		}
 		$("#" + idBlock, ParsimonyAdmin.currentBody).trigger("click");
 	},
-	moveMyBlock: function(idBlock, parentBlock, idNextBlock) {
+	moveMyBlock: function(idBlock) {
+		var idNextBlock = Parsimony.blocks['admin_blocks'].lastIdNextBlock;
+		var parentBlock = Parsimony.blocks['admin_blocks'].lastIdParent;
 		if(idNextBlock == "last"){
 			/* empty container */
 			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", ParsimonyAdmin.currentBody);
@@ -410,7 +415,7 @@ var ParsimonyAdmin = {
 				testDropIncontainer.remove();
 			}
 			$("#" + parentBlock, ParsimonyAdmin.currentBody).append($("#" + idBlock, ParsimonyAdmin.currentBody));
-		}else if ($("#" + idNextBlock, ParsimonyAdmin.currentBody).parent().hasClass("core_container")) {
+		}else {
 			$("#" + idNextBlock, ParsimonyAdmin.currentBody).before($("#" + idBlock, ParsimonyAdmin.currentBody));
 		}
 	},

@@ -472,8 +472,7 @@ class admin extends \module {
 				}
 			}
 			$this->saveAll();
-			$parentBlock = is_numeric($parentBlock) ? $parentBlock = 'content' : $parentBlock; /* If parentBlock is content */
-			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '","' . $parentBlock . '", "' . $id_next_block . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.moveMyBlock("' . $idBlock . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
 		}else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
@@ -515,14 +514,6 @@ class admin extends \module {
 	 */
 	protected function getViewAddModuleAction() {
 		return $this->getView('addModule');
-	}
-
-	/**
-	 * Get the adding view of the block
-	 * @return string|false 
-	 */
-	protected function getViewAddBlockAction() {
-		return $this->getView('addBlock');
 	}
 
 	/**

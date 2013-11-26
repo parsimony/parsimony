@@ -1,6 +1,8 @@
 function blockAdminBlocks() {
 
 	this.isAddBlock = false;
+	this.lastIdParent = "";
+	this.lastIdNextBlock = "";
 	this.lastDragTimestamp = 0;
 	
 	var $this = this;
@@ -157,7 +159,8 @@ function blockAdminBlocks() {
 				var content = '';
 				if (typeof obj.content != "undefined")
 					content = obj.content;
-				$this.changeBlockPosition(obj.blockType, idBlock, obj.idNextBlock, '', obj.stopIdParentBlock, '', ParsimonyAdmin.whereIAm("dropInTree"), "addBlock", content);
+				var typecont = $("#" + obj.stopIdParentBlock).closest(".core_page").length > 0 || obj.stopIdParentBlock == parseInt(obj.stopIdParentBlock) ? 'page' : 'theme'; /* "content" block has a parentId numeric */
+				$this.changeBlockPosition(obj.blockType, idBlock, obj.idNextBlock, '', obj.stopIdParentBlock, '', typecont, "addBlock", content);
 			} else {
 				alert(t('Please enter your ID'));
 			}
@@ -190,10 +193,12 @@ function blockAdminBlocks() {
 			ParsimonyAdmin.inProgress = "";
 			if (elmt.length > 0) {
 				var parentContainer = elmt.closest(".core_container");
+				$this.lastIdParent = parentContainer.attr("id");
 				var stopIdParentBlock = "";
 				if(elmt.closest(".core_container").hasClass("core_page")) stopIdParentBlock = parentContainer.data('page');
 				else stopIdParentBlock = parentContainer.attr('id');
 				var idNextBlock = elmt.next(".parsiblock").attr('id');
+				$this.lastIdNextBlock = idNextBlock;
 				
 				/* Move block action */
 				if (evt.dataTransfer.getData("parsimony/moveblock").length > 0) {
