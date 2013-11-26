@@ -52,7 +52,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     #explorer > ul li{display:none;}
     #explorer .icondir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 5px -84px no-repeat;}
     #explorer li.dir{padding-left: 25px;line-height: 25px;cursor: pointer;color: #333;border: 1px solid transparent;}
-    #explorer li.dir:hover,.explorer_file:hover,.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background-color: #ebf3fd;}
+    #explorer li.dir:hover,.explorer_file:hover,.explorer_file.explorer_file_selected {border: solid 1px #b8d6fb;box-shadow: inset 0 0 1px white;background-color: #ebf3fd;}
 	.explorer_file:hover span.delete{display: block;position: absolute;top: 0;right: 0;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px, #fefefe;border: 1px solid rgb(204, 204, 204);}
 	span.delete{display : none;}
 	#path{background: white;border-bottom: 1px solid #D3D5DB;padding: 5px;color: #333;line-height: 20px;}
@@ -83,12 +83,15 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     .unsaved .name:after{ content:"*";}
     .explorer_file_name {position: absolute;bottom: 2px;text-overflow: ellipsis;white-space: nowrap;width: 85px;overflow: hidden;padding: 0 4px;font-size: 13px;line-height: 30px;}
     .explorer_file, .explorer_new {position: relative;width: 90px;height: 90px;margin: 5px;text-align: center;border: 1px #f9f9f9 solid;float: left;border-radius: 4px;padding-top: 6px;}
-	.explorer_file.file{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 21px -136px no-repeat;}
-	.explorer_file.dir{background:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png) 24px 10px no-repeat;}
+	.explorer_file.file{background-image:url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png);background-position: 21px -136px; background-repeat: no-repeat;}
+	.explorer_file.dir {background-image: url(<?php echo BASE_PATH; ?>admin/img/explorersprite.png);background-position: 24px 10px;background-repeat: no-repeat;}
     #dirsandfiles{bottom: 0;right: 0;top: 72px;left: 10px;position: absolute;overflow: auto;}
     #editpictures{display: none;}
 	#uploadProgress span{display: block;background:#aaa;position:absolute;height:100%;}
 	.explorer_new > div {font-size: 60px;color: #777;}
+	.explorer_file.explorer_file_selected::first-line::after {line-height: 18px;}
+	.explorer_file.explorer_file_selected::after {white-space: inherit;word-wrap: break-word;background-color: inherit;z-index: 999;border: 1px solid #b8d6fb;bottom: initial;width: 80px;left: -1px;border-top: none;}
+	.explorer_file::after {content: attr(data-title);position: absolute;text-overflow: ellipsis;white-space: nowrap;width: 85px;overflow: hidden;padding: 0 4px;font-size: 13px;line-height: 18px;left: -2px;top: 70px;}
 </style>
 <script>
     
@@ -139,7 +142,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 
 
 	$("#explorercontainer").on("dblclick",".explorer_file", function(){
-            var path = $(this).find(".explorer_file_name").attr("path");
+            var path = $(this).attr("path");
             if($(this).hasClass("dir")){
                     list(path);
             }else pictureOrFile(path);
@@ -154,7 +157,8 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 				var marker = document.createElement('div');
 				marker.className = "explorer_file file";
 				marker.id = "uploadProgress";
-				marker.innerHTML = '<span></span><div class="explorer_file_name" path="">' + file.name + '</div>';
+				marker.dataset.title = file.name;
+				marker.innerHTML = '<span></span>';
 		 		document.getElementById("dirsandfiles").appendChild(marker);
 			},
 			onProgress:function(file, progress){
@@ -174,26 +178,23 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             $(".explorer_file_selected").removeClass("explorer_file_selected");
             this.classList.add("explorer_file_selected");
             if( !this.classList.contains("dir") ){
-                var file = $(".explorer_file_name",this).attr("path").replace('<?php echo PROFILE_PATH; ?>','');
+                var file = $(this).attr("path").replace('<?php echo PROFILE_PATH; ?>','');
                 opener.callbackExplorer.apply(false, [file]);
             }
             
 	})
        .on("click",".new",function() {
 		var folder = prompt("Please enter a folder name");
-		var html = '';
 			if (folder != null) { 
 				var idpath = document.getElementById('path').textContent;
 				if(idpath.slice(-1) != '/') idpath += '/';
 				var path = idpath +'/'+ folder ;
 			if (folder.indexOf(".") !=-1) {
-					html =  '<div class="explorer_file file"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
 					$.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path , code : '' },function(data) { 
 					if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 					else alert('The file has not been created ');
 				});
 			}else{			
-					html =  '<div class="explorer_file dir"><div class="explorer_file_name" path="'+ path +'">' + folder +'</div></div>';
 					$.post("<?php echo BASE_PATH; ?>admin/createDir", { directory: path},function(data) { 
 						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 						else alert('The folder has not been created ');
@@ -204,7 +205,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 		.on("click",".delete",function() {
 			var r=confirm("Are you sure you want to delete this file or folder?");
 			var idpath = document.getElementById('path').textContent;
-			var folder = $(this).closest('.explorer_file').children('.explorer_file_name').text();
+			var folder = $(this).closest('.explorer_file').attr('data-title');
 			if(idpath.slice(-1) != '/') idpath += '/';
 			var path = idpath + folder ;
 			if (r==true){
