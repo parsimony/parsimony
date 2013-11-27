@@ -31,7 +31,7 @@ app::$request->page->addJSFile('admin/blocks/menu/block.js', 'footer');
 	<li class="icons modules sprite floatleft" data-panel="modules"></li>
 	<li class="icons panelblocks sprite floatleft" data-panel="panelblocks"></li>
 	<?php if ($_SESSION['behavior'] === 2): ?>
-		<li class="icons sprite floatleft panelmanage" data-panel="manage"></li>
+		<li class="icons sprite floatleft manage" data-panel="manage"></li>
 	<?php endif; ?>
 </ul>
 

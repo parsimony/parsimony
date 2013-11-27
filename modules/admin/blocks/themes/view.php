@@ -67,7 +67,7 @@ foreach ($modules as $moduleName => $mode) {
 		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
 			<div class="themeOptions">
-				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('parsiframe').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
+				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('preview').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
 				<?php if($themeName !== app::$config['THEME']): ?>
 					<form method="POST" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
 						<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />

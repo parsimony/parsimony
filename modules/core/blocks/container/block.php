@@ -66,7 +66,7 @@ class container extends \block {
 		if ($type === 'add') {
 			return parent::ajaxRefresh($type);
 		} else {
-			return 'document.getElementById("parsiframe").contentWindow.location.reload()';
+			return 'document.getElementById("preview").contentWindow.location.reload()';
 		}
 	}
 

@@ -174,9 +174,9 @@ function blockAdminBlocks() {
 		.on('mouseover.creation', ".parsiblock", function(event) {
 			event.stopImmediatePropagation();
 			var offset = this.getBoundingClientRect();
-			var leftOffsetFrame = document.getElementById("parsiframe").offsetLeft;
+			var leftOffsetFrame = ParsimonyAdmin.iframe.offsetLeft + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0);
 			if (ParsimonyAdmin.inProgress != this.id)
-				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame + 40) + "px;width:" + $(this).outerWidth() + "px;height:" + $(this).outerHeight() + "px";
+				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame) + "px;width:" + offset.width + "px;height:" + offset.height + "px";
 			else
 				document.getElementById("blockOverlay").style.display = "none";
 		});

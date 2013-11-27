@@ -921,7 +921,7 @@ blockAdminCSS.prototype.checkChanges = function() {
 
 blockAdminCSS.prototype.updatePosition = function(bounds) {
 	var DNDadmin = document.getElementById("parsimonyDND");
-	DNDadmin.style.cssText = "display:block;top:" + bounds.top + "px;left:" + (bounds.left + ParsimonyAdmin.iframe.offsetLeft + 40) + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
+	DNDadmin.style.cssText = "display:block;top:" + bounds.top + "px;left:" + (bounds.left + ParsimonyAdmin.iframe.offsetLeft +  + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0)) + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
 }
 
 /* Keep CSS changes in an object */
@@ -1247,7 +1247,7 @@ blockAdminCSS.prototype.addMediaQueries = function(minWidth, maxWidth) {
 }
 
 blockAdminCSS.prototype.drawMediaQueries = function() {
-	var size = document.getElementById("parsiframe").getBoundingClientRect();
+	var size = document.getElementById("preview").getBoundingClientRect();
 	document.getElementById("mediaqueriesdisplay").style.paddingLeft = size.left + 40 + "px";
 	document.getElementById("scopeMediaQueries").style.width = size.width - 80 + "px";
 	var width = size.width - 40;

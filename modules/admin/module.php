@@ -723,7 +723,7 @@ class admin extends \module {
 				$configObj->saveConfig($update);
 				setcookie('THEMEMODULE', $THEMEMODULE, time()+60*60*24*30, '/');
 			setcookie('THEME', $name, time()+60*60*24*30, '/');
-			$return = array('eval' => 'document.getElementById("parsiframe").contentWindow.location.reload(); ParsimonyAdmin.loadBlock("themes")', 'notification' => t('The Theme has been changed'), 'notificationType' => 'positive');
+			$return = array('eval' => 'document.getElementById("preview").contentWindow.location.reload(); ParsimonyAdmin.loadBlock("themes")', 'notification' => t('The Theme has been changed'), 'notificationType' => 'positive');
 		} else {
 			$return = array('eval' => '', 'notification' => t('The Theme has\'nt been changed', FALSE), 'notificationType' => 'negative');
 		}
@@ -927,7 +927,7 @@ class admin extends \module {
 		unset($_POST['entity']);
 		$res = $obj->insertInto($_POST);
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been added'), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been added'), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
 		}else{
@@ -955,7 +955,7 @@ class admin extends \module {
 			$res = $obj->delete($_POST[$obj->getId()->name]);
 		}
 		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("parsiframe").contentWindow.location.reload()', 'notification' => t('The data have been modified'), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been modified'), 'notificationType' => 'positive');
 		}elseif($res === FALSE){
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE), 'notificationType' => 'negative');
 		}else{

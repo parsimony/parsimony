@@ -268,7 +268,7 @@ class request {
 	 */
 	public function dispatch() {
 		/* Admin UI ? */
-		if ($_SESSION['behavior'] > 0 && !isset($_GET['parsiframe']) && $this->method === 'GET') {
+		if ($_SESSION['behavior'] > 0 && !isset($_GET['preview']) && $this->method === 'GET') {
 			define('PARSI_ADMIN', 1);
 			$adminPage = new \page(1, 'admin');
 			$adminPage->setTheme(FALSE);

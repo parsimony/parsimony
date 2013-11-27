@@ -128,7 +128,7 @@ echo $admin->display();
 if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
 	$frameUrl = $_SERVER['REQUEST_URI'];
 else
-	$frameUrl = $_SERVER['REQUEST_URI'] . '?parsiframe=ok';
+	$frameUrl = $_SERVER['REQUEST_URI'] . '?preview=ok';
 $style = 'width: 100%; height: 100%;';
 if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])) {
 	if (isset($_COOKIE['landscape']) && $_COOKIE['landscape'] == 'landscape') {
@@ -138,7 +138,7 @@ if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COO
 	}
 }
 ?>
-<iframe id="parsiframe" src="<?php echo $frameUrl; ?>" style="<?php echo $style; ?>"></iframe>
+<iframe id="preview" src="<?php echo $frameUrl; ?>" style="<?php echo $style; ?>"></iframe>
 
 
 <div id="overlays">
