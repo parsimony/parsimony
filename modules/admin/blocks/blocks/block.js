@@ -159,7 +159,7 @@ function blockAdminBlocks() {
 				var content = '';
 				if (typeof obj.content != "undefined")
 					content = obj.content;
-				var typecont = $("#" + obj.stopIdParentBlock).closest(".core_page").length > 0 || obj.stopIdParentBlock == parseInt(obj.stopIdParentBlock) ? 'page' : 'theme'; /* "content" block has a parentId numeric */
+				var typecont = $("#" + obj.stopIdParentBlock, ParsimonyAdmin.currentDocument).closest(".core_page").length > 0 || obj.stopIdParentBlock == parseInt(obj.stopIdParentBlock) ? 'page' : 'theme'; /* "content" block has a parentId numeric */
 				$this.changeBlockPosition(obj.blockType, idBlock, obj.idNextBlock, '', obj.stopIdParentBlock, '', typecont, "addBlock", content);
 			} else {
 				alert(t('Please enter your ID'));
