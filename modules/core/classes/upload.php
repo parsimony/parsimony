@@ -67,7 +67,7 @@ class upload {
                 break;
             default:
                 $this->type = array();
-                $types = explode('|', strtolower($type));
+                $types = explode(',', strtolower($type));
                 foreach ($types AS $type) {
                     array_push($this->type, trim($type));
                 }

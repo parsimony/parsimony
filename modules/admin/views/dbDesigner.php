@@ -136,10 +136,10 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					 background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
 	#conf_box_overlay{z-index: 9999;text-align: center;position: fixed;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.85);}
 	#notify {top:35px}
-	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;position: relative;top: 4px;}
+	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;}
 	.hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}
 	input[disabled] {background:#ddd}
-	#connectorchoice{margin-left: 10px;position: relative;top: 4px;}
+	#connectorchoice{margin-left: 10px;}
 	.behaviorProperty {width: 136px;}
 	#rightsidebar{font-size:12px;}
 	#rightsidebar input[type='text']{width:159px}
@@ -672,14 +672,15 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				function filterprops($val){ return $val !== NULL;};
 				$aliasClasses = array_flip(\app::$aliasClasses);
 				foreach ($aliasClasses AS $class => $alias) {
-					if (preg_match('#field#', $alias))
+					if (strstr($alias, 'field_')) {
 						if (!class_exists($alias))
 							class_alias($class, $alias);
+					}
 				}
 				$html = '';
 				$classes = array_unique(get_declared_classes());
 				foreach ($classes as $class) {
-					if (is_subclass_of($class, 'field')) {
+					if (is_subclass_of($class, 'field')) { 
 						if (isset($aliasClasses[$class])) {
 							$class = $aliasClasses[$class];
 						}

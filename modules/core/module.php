@@ -132,6 +132,7 @@ class core extends \module {
 			'field_user' => 'core\fields\user',
 			'field_ip' => 'core\fields\ip',
 			'field_boolean' => 'core\fields\boolean',
+			'field_file' => 'core\fields\file',
 			'field_foreignkey' => 'core\fields\foreignkey',
 			'field_formasso' => 'core\fields\formasso'
 		);
