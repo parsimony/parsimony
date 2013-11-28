@@ -69,6 +69,14 @@ class container extends \block {
 			return 'document.getElementById("preview").contentWindow.location.reload()';
 		}
 	}
+	
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+		if (!empty($this->blocks)) {
+			foreach ($this->blocks as $block) {
+				$block->onMove($typeProgress, $module, $name, $themeType);
+			}
+		}
+	}
 
 }
 
