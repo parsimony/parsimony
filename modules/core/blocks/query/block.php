@@ -180,8 +180,8 @@ class query extends code {
 				foreach ($_POST['group'] as $property => $value) {
 					$field = $view->getField($property);
 					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
-					if($field !== FALSE && isset($selected[$name]['group'])){ /* IF field exists and group is allowed */
-						$view->groupBy($field->sqlGroup($_POST['group'][$field->name]));
+					if($field !== FALSE && isset($selected[$name]['group']) && isset($_POST['group'][$field->name]) && !empty($_POST['group'][$field->name])){ /* IF field exists and group is allowed */
+						$view->groupBy($field->entity->getModule() . '_' . $field->entity->getName() . '.' . $field->name, $field->sqlGroup($_POST['group'][$field->name]));
 					}
 				}
 			}
