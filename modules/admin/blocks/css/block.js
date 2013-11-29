@@ -1270,7 +1270,6 @@ blockAdminCSS.prototype.formatCSS = function(css) {
 }
 
 blockAdminCSS.prototype.openCSSForm = function() {
-	/*this.openCSSPanel();*/
 	var panel = document.getElementById("panelcss");
 	panel.classList.remove('CSSCode');
 	panel.classList.add('CSSForm');
@@ -1278,7 +1277,6 @@ blockAdminCSS.prototype.openCSSForm = function() {
 }
 
 blockAdminCSS.prototype.openCSSCode = function() {
-	/*this.openCSSPanel();*/
 	var panel = document.getElementById("panelcss");
 	panel.classList.remove('CSSForm');
 	panel.classList.add('CSSCode');

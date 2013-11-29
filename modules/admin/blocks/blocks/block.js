@@ -340,6 +340,7 @@ function blockAdmin() {
 		e.preventDefault();
 		ParsimonyAdmin.selectBlock(ParsimonyAdmin.inProgress);
 		Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
+		ParsimonyAdmin.displayPanel("panelcss");
 	}
 
 	this.onCreate = function() {
