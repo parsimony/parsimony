@@ -36,5 +36,5 @@ $dateend = isset($_POST['filter'][$property]['end']) ? s($_POST['filter'][$prope
 	<input type="hidden" name="filter[<?php echo $property ?>][start]" id="<?php echo $property ?>_filter_start_hid" value="<?php echo $datestart; ?>" />
 	<input type="hidden" name="filter[<?php echo $property ?>][end]" id="<?php echo $property ?>_filter_end_hid" value="<?php echo $dateend; ?>" />
     <input type="date" id="<?php echo $property ?>_filter_start" onblur="document.getElementById('<?php echo $property ?>_filter_start_hid').value  = (this.value ? this.value + ' 00:00:00' : '')"  value="<?php echo substr($datestart, 0, 10) ?>" />
-	<input type="date"id="<?php echo $property ?>_filter_end" onblur="document.getElementById('<?php echo $property ?>_filter_end_hid').value = (this.value ? this.value + ' 00:00:00' : '')" value="<?php echo substr($dateend, 0, 10) ?>" />
+	<input type="date"id="<?php echo $property ?>_filter_end" onblur="document.getElementById('<?php echo $property ?>_filter_end_hid').value = (this.value ? this.value + ' 23:59:00' : '')" value="<?php echo substr($dateend, 0, 10) ?>" />
 </div>

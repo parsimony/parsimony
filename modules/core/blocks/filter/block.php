@@ -54,12 +54,12 @@ class filter extends \block {
 					$table = $value['table'];
 					$property = $value['property'];
 					list($module, $entity) = explode('_', $table, 2);
-					$field = \app::getModule($module)->getEntity($entity)->getField($property);
+					$field = \app::getModule($module)->getEntity($entity)->getField($property);					
 					$template = isset($properties[$table.'.'.$property]['tpl']) ? $properties[$table.'.'.$property]['tpl'] : 'string';
 					$configs = $properties[$table.'.'.$property];
 					$defaultconfigs = $properties[$table.'.'.$property]['default'];
 					if(!isset($_POST['submitfilter'])){
-						if($configs['tpl'] == 'string') {
+						if($configs['tpl'] == 'string' || $configs['tpl'] == 'select') {
 							$_POST['filter'][$property] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['rangeStart'] : '';
 							
 						}elseif($configs['tpl'] == 'choice' && isset($defaultconfigs['rangeStart']) && $defaultconfigs['rangeStart'] !== '') {
@@ -131,20 +131,39 @@ class filter extends \block {
 					include('modules/core/blocks/filter/views/'.$template.'.php');
 				}
 			}
-			echo '<div class="groupfilter"><h2>Group by</h2>';
-			foreach ($selected as $value) {
-				if(isset($value['filter'])){
+			$countGr = -1;
+			foreach ($selected as $value) {		
+				if(isset($value['group'])){		
+					$countGr++; if($countGr == 0) echo '<div class="groupfilter"><h2>Group by</h2>';
 					$table = $value['table'];
 					$prop = $value['property'];
 					list($module, $entity) = explode('_', $table, 2);
 					$field = \app::getModule($module)->getEntity($entity)->getField($prop);
 					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
-						echo '<div>' . $prop . ' : <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+						echo '<div>' . $prop . ': <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
 					}else{
-						echo '<div>' . $prop . ' : <input type="checkbox" name="group['.$prop.']"></div>';
+						echo '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']"></div>';
 					}
 				}
 			}
+			$countSo = -1;
+			foreach ($selected as $value) {		
+				if(isset($value['sort'])){
+					$countSo++; if($countSo == 0) echo '<div class="sortfilter"><h2>Sort by</h2>';
+					$table = $value['table'];
+					$prop = $value['property'];
+					list($module, $entity) = explode('_', $table, 2);
+					$field = \app::getModule($module)->getEntity($entity)->getField($prop);
+					?>
+					<div><?php echo $prop ; ?>: <select name="sort[<?php echo $prop ; ?>]">
+								<option></option>
+								<option value="asc">ASC</option>
+								<option value="desc">DESC</option>
+						</select>
+					</div>
+					<?php 
+				}
+			}	
 		}	
 		echo '</div><input type="submit" name="submitfilter"></form>';
 		return ob_get_clean();

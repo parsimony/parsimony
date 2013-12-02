@@ -192,10 +192,7 @@ class query extends code {
 					$field = $view->getField($property);
 					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
 					if($field !== FALSE && isset($selected[$name]['sort'])){ /* IF field exists and sort is allowed */
-						$cut = strrpos($_POST['sort'], '_');
-						$sort = substr($_POST['sort'], $cut + 1);
-						if ($sort === 'asc' || $sort === 'desc')
-							$view->order($field->entity->getModule() . '_' . $field->entity->getName() . '.' . substr($_POST['sort'], 0, $cut), $sort);
+							$view->order($field->entity->getModule() . '_' . $field->entity->getName() . '.' . $field->name, $value);
 					}
 				}
 			}

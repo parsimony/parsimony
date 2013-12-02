@@ -102,7 +102,6 @@
 <?php
 $blockquery = $this->getConfig('blockquery') ? $this->getConfig('blockquery') : 'rapports';
 $block = \app::getModule(MODULE)->getPage(\app::$request->getParam('IDPage'))->searchBlock($blockquery);
-
 if ($block) {
 	$properties = $this->getConfig('properties');
 	$selected = $block->getConfig('selected');
@@ -194,7 +193,23 @@ if ($block) {
 				</div>
 			</div>
 				<?php	
-				}else{		
+			}elseif (get_class($field) === 'core\fields\boolean' || get_class($field) === 'core\fields\state') {
+			?>
+			<div style="display: flex">
+				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 50%;">
+					<label>Template <?php echo $name  ?></label>
+					<select name="properties[<?php echo $name ?>][tpl]" class="tpl">
+						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'string') echo 'selected="selected"'; ?>>string</option>			
+						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'select') echo 'selected="selected"'; ?>>select</option>
+					</select>
+				</div>
+				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 50%;">
+					<label>Default value <?php echo $name  ?></label>
+					<input type="text" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['boolstring'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
+				</div>
+			</div>	
+			<?php }
+			else{		
 				?>
 			<div style="display: flex">
 				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 50%;">
