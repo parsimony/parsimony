@@ -43,17 +43,13 @@ echo $this->displayLabel($fieldName);
 	$(document).ready(function(){
 		$("#upload_file_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->entity->getModule(); ?>/callField",
 			ajaxFileParams: {
-				module: "<?php echo $this->entity->getModule(); ?>", 
 				entity: "<?php echo $this->entity->getName(); ?>", 
 				fieldName:"<?php echo $this->name; ?>", 
-				method:'upload', 
-				args:''
+				method:'upload'
 				},
 			stop:function(response){
-				alert();
 				$("#file_<?php echo $fieldName; ?>").val(response.name);
 				var filename = $("#upload_file_<?php echo $fieldName?>");
-				console.log(filename);
 				$(".field-file-fileNameLink", filename).text(response.name).attr("href","<?php echo BASE_PATH .$this->entity->getModule().'/'.$this->path.'/'; ?>" + response.name);
 				$(".field-file-fileName", filename).show();
 			}

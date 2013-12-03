@@ -83,6 +83,9 @@ class field {
 
 	/** @var object of the entity container */
 	protected $entity = '';
+	
+	/** @var object of the entity container */
+	protected $editMode = 'default';
 
 	/**
 	 * Build field
@@ -106,22 +109,19 @@ class field {
 	public function __get($name) {
 		if (isset($this->$name))
 			return $this->$name;
-		else if ($name === 'views') {
+		
+		else { /* allow us to defines these vars just once a time */
 			$fieldPath = 'modules/' . str_replace('\\', '/', get_class($this)); /* __get can't recall himself */
+			$this->currentRights = $this->getRights($_SESSION['id_role']);
+			$this->getEditOptions = $this->getEditOptions();
+			
 			/* Determine if current user has the right to editinline */
-			$rights = $this->getRights($_SESSION['id_role']);
-			if ($rights & DISPLAY) {
-				if ($rights & UPDATE) {
-					$this->views = array('display' => $fieldPath . '/editinline.php', 'grid' => $fieldPath . '/grid.php', 'form' => $fieldPath . '/form.php');
-				} else {
-					$this->views = array('display' => $fieldPath . '/display.php', 'grid' => $fieldPath . '/grid.php', 'form' => $fieldPath . '/form.php');
-				}
+			if ($this->currentRights & DISPLAY) {
+				$this->views = array('display' => $fieldPath . '/display.php', 'grid' => $fieldPath . '/grid.php', 'form' => $fieldPath . '/form.php');
 			} else {
-				$this->views = array('display' => 'php://temp', 'grid' => 'php://temp'); // display nothing, to avoid a "if" in each field->display() call
+				$this->views = array('display' => 'php://temp', 'grid' => 'php://temp', 'form' => 'php://temp'); // display nothing, to avoid a "if" in each field->display() call
 			}
-			return $this->views;
-		} else {
-			return FALSE;
+			return $this->$name;
 		}
 	}
 
@@ -174,11 +174,11 @@ class field {
 	}
 
 	/**
-	 * Convert into String
+	 * Convert into String, and choose if we display for read or editinline
 	 * @return string
 	 */
 	public function __toString() {
-		return $this->display();
+		return $this->editInline();
 	}
 
 	public function __sleep() {
@@ -187,8 +187,10 @@ class field {
 		$properties = get_object_vars($this);
 		unset($properties['views']);
 		unset($properties['value']);
-		unset($properties['fieldPath']); /* todo remove */
-		unset($properties['entity']); /* todo remove */
+		unset($properties['fieldPath']);
+		unset($properties['editMode']);
+		unset($properties['getEditOptions']);
+		unset($properties['entity']);
 		unset($properties['module']); /* todo remove */
 		foreach ($properties AS $name => $value) { /* unset unchanged values */
 			if(isset($defaultValues[$name]) && $properties[$name] == $defaultValues[$name]) {
@@ -200,73 +202,58 @@ class field {
 
 	/**
 	 * Display view
-	 * Returns by default the display view of field. With editinline rights returns the editing view.
-	 * if behavior = 0 check if he has the right and if he is the autor of the content
-	 * if behavior > 0 check if id_role has the right
 	 * @param object &$entity
 	 * @return string
 	 */
 	public function display() {
-		$row = $this->entity;
 		ob_start();
 		include($this->views['display']);
 		return ob_get_clean();
 	}
-
+	
 	/**
-	 * Display view
-	 * @param string $data
-	 * @param int $id
+	 * Display edit Inline view
 	 * @return string
 	 */
-	public function displayEditInline(&$row = '', $authorID = FALSE) { /* todo */
-		/*if($this->row->isAuthor === TRUE && $row->getRights($_SESSION['id_role']) & UPDATE ){
-			\app::$request->page->addJSFile('lib/editinline.js');
-			$this->displayView = 'editinline.php';
-		}*/
-		ob_start();
-		$idName = $row->getId()->name;
-		/*$authorName = $row->getBehaviorAuthor()->name;*/
-		if (empty($this->displayView)) {
-			$this->displayView = 'display.php';
-			if ((isset($_SESSION['id_user']) && $authorID == $_SESSION['id_user'] || $_SESSION['behavior'] >= 1) && app::getModule($this->entity->getModule())->getEntity($this->entity->getName())->getRights($_SESSION['id_role']) & UPDATE ) {
-				\app::$request->page->addJSFile('lib/editinline.js');
-				$this->displayView = 'editinline.php';
-			}
+	public function editInline() {
+		if($this->currentRights & UPDATE) {
+			return '<div data-id="' . $this->entity->getId()->value.'" ' . $this->getEditOptions . '>'
+						. $this->display()
+						. '</div>';
+		} else {
+			return $this->display();
 		}
-
-		include($this->fieldPath . '/' . $this->displayView);
-		return ob_get_clean();
+	}
+	
+	public function getEditOptions() {
+		return  'class="parsieditinline"  data-mode="' . $this->editMode . '" data-module="' . $this->entity->getModule() . '" data-entity="' . $this->entity->getName() . '" data-property="' . $this->name . '" data-label="' . $this->label . '"';
+	}
+	
+	public function editInlineForAuthor($authorID) {
+		if($authorID === $_SESSION['id_user'] || $_SESSION['behavior'] >= 1){
+			$this->editInline();
+		} else {
+			return $this->display();
+		}
 	}
 
-	public function saveEditInline($data, $id) {
-		$data = $this->validate($data);
-		if ($data !== FALSE) {
-			$entityObj = \app::getModule($this->entity->getModule())->getEntity($this->entity->getName());
-			$res = \PDOconnection::getDB()->prepare('UPDATE ' .PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' SET ' . $this->name . ' = :data WHERE ' . $entityObj->getId()->name . '=:id');
-			$res->execute(array(':data' => $data, ':id' => $id));
-			if ($res !== FALSE) {
-				return TRUE;
+	public function saveEditInlineAction($id, $data = FALSE) {
+		if($data === FALSE){ /* if it's not an ajax request ( forms ) */
+			$data = \app::$request->getParam($this->name);
+		}
+		if($data !== FALSE){
+			$data = $this->validate($data);
+			if ($data !== FALSE) {
+				$entityObj = \app::getModule($this->entity->getModule())->getEntity($this->entity->getName());
+				$res = \PDOconnection::getDB()->prepare('UPDATE ' .PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' SET ' . $this->name . ' = :data WHERE ' . $entityObj->getId()->name . '=:id');
+				$res->execute(array(':data' => $data, ':id' => $id));
+				if ($res !== FALSE) {
+					$this->value = $data;
+					return $this->display();
+				}
 			}
 		}
 		return FALSE;
-	}
-
-	/**
-	 * Display view
-	 * @param string $data
-	 * @param int $id
-	 * @return string
-	 */
-	public function saveEditInlineAction($data, $id) {
-		if ($this->saveEditInline($data, $id)) {
-			$return = array('eval' => '', 'notification' => t('The data have been saved'), 'notificationType' => 'positive');
-		}else{
-			$return = array('eval' => '', 'notification' => t('The data has not been saved'), 'notificationType' => 'negative');
-		}
-		\app::$response->setHeader('X-XSS-Protection', '0');
-		\app::$response->setHeader('Content-type', 'application/json');
-		return json_encode($return);
 	}
 
 	/**
@@ -288,10 +275,10 @@ class field {
 		$row = $this->entity;
 		$fieldName = $row->getName() . '_' . $this->name;
 		$value = $this->value;
-		if ($value !== FALSE) {
+		if ($value !== FALSE && $value !== null) { /* must not be null or FALSE */
 			$fieldName .= '_' . $row->getId()->value;
 		}
-?>
+		?>
 		<div class="field placeholder">
 		<?php
 			include($this->views['form']);
@@ -299,6 +286,14 @@ class field {
 		</div>
 		<?php
 		return ob_get_clean();
+	}
+	
+	public function editInlineFormAction($id) {
+		if (is_numeric($id)) {
+			$this->entity->where($this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->entity->getId()->name . ' = ' . $id);
+			include('modules/core/views/editInlineForm.php');
+		}
+		return FALSE;
 	}
 
 	/**
@@ -312,7 +307,7 @@ class field {
 		<label for="<?php echo $fieldName ?>">
 			<?php echo t($this->label) ?>
 			<?php if (!empty($this->text_help)): ?>
-			<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help) ?>"></span>
+			<span class="tooltip ui-icon ui-icon-info" data-tooltip="<?php echo t($this->text_help, FALSE) ?>"></span>
 			<?php endif; ?>
 		</label>
 		<?php

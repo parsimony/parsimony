@@ -46,11 +46,9 @@ echo $this->displayLabel($fieldName);
 	$(document).ready(function(){
 		$("#upload_image_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->entity->getModule(); ?>/callField",
 			ajaxFileParams: {
-				module: "<?php echo $this->entity->getModule(); ?>", 
 				entity: "<?php echo $this->entity->getName(); ?>", 
 				fieldName:"<?php echo $this->name; ?>", 
-				method:'upload', 
-				args:''
+				method:'upload'
 				},
 			stop:function(response){
 			$("#image_<?php echo $fieldName; ?>").val(response.name);

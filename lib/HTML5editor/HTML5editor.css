@@ -4,7 +4,7 @@
 .HTML5editorToolbar > div:nth-child(2){border-left: 0;}
 .HTML5editorToolbar > div:last-child{border-right: 0;}
 .HTML5editorToolbar .HTML5editorAction{display: inline-block;cursor:pointer;vertical-align: top;position: relative;}
-.HTML5editorToolbar .HTML5editorAction.btn{padding: 5px;background-origin: content-box !important;width:25px;height:25px;}
+.HTML5editorToolbar .HTML5editorAction.btn{padding: 5px;background-origin: content-box !important;width:25px;height:25px;box-sizing: border-box;}
 .HTML5editorToolbar .HTML5editorAction.active{box-shadow: inset 1px 1px 1px #AAAAAA;background-color: #e5e5e5 !important;}
 .HTML5editorToolbar .HTML5editorAction.inactive{opacity:0.3;}
 .HTML5editorToolbar{clear: both;padding: 2px;position: relative;z-index: 2;border-radius: 0 2px 2px 2px;background: #F9F9F9;}

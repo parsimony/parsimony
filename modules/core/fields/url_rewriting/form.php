@@ -31,7 +31,7 @@
 if (isset($this->unique) && $this->unique):
 	?>
 	$(document).on("keyup", "#<?php echo $fieldName ?>", function(){
-		$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{module:"<?php echo $this->entity->getModule(); ?>", entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value + "<?php if($row) echo '&id='.$row->getId()->value ?>"}, function(data){
+			$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
 			if(data == 1){
 				$(".info_<?php echo $fieldName ?>").empty();
 			}else{

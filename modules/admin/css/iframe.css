@@ -58,4 +58,4 @@ html ::-moz-selection {background: #00D5FF;color: #ffffff;}
 .creationMode {-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 
 /* Prevent loose focus when user in iframe */
-iframe{pointer-events:none}
+.creationMode iframe{pointer-events:none}

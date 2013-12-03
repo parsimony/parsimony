@@ -51,7 +51,7 @@ if (is_object($block) == NULL) {
 			<?php if(method_exists($block, 'forkAction')): ?>
 			$(document).on('click', "#createNewBlock", function(event) {
 				event.preventDefault();
-				$.post(BASE_PATH + "core/callBlock", {module:"<?php echo MODULE; ?>", idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo THEME; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', args:"newName=" + $("#nameNewBlock").val() + "&newModule=" + $("#nameTargetModule").val()},function(data){
+				$.post(BASE_PATH + "core/callBlock", {idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo THEME; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', newName: $("#nameNewBlock").val(),newModule :  $("#nameTargetModule").val()},function(data){
 					top.ParsimonyAdmin.execResult(data);
 					top.ParsimonyAdmin.loadBlock("panelblocks");
 				});

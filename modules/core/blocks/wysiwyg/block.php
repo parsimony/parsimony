@@ -51,15 +51,19 @@ class wysiwyg extends code {
 	}
 
 	public function saveWYSIWYGAction($html) {
-		if ($this->setContent($html)) {
-			$return = array('eval' => '', 'notification' => t('The data have been saved'), 'notificationType' => 'positive');
+		if ($this->setContent($html) !== FALSE) {
+			return TRUE;
 		} else {
-			$return = array('eval' => '', 'notification' => t('The data has not been saved'), 'notificationType' => 'negative');
+			return FALSE;
 		}
-		\app::$response->setHeader('X-XSS-Protection', '0');
-		\app::$response->setHeader('Content-type', 'application/json');
-		return json_encode($return);
+	}
+	
+	public static function loadExternalFiles() {
+		\app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
+		\app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
+		\app::$request->page->addJSFile('core/blocks/wysiwyg/edit.js');
 	}
 
 }
+\app::addListener('editLoad', array('core\blocks\wysiwyg', 'loadExternalFiles'));
 ?>

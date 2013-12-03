@@ -34,9 +34,7 @@ var ParsimonyAdmin = {
 	currentMode: "",
 	inProgress: "",
 	typeProgress: "",
-	wysiwyg: "",
 	unsavedChanges: false,
-	plugins: [],
 
 	initBefore: function() {
 
@@ -75,7 +73,7 @@ var ParsimonyAdmin = {
 		Parsimony.blocksDispatch("initBefore");
 	},
 
-	initIframe: function() {
+	initPreview: function() {
 
 		this.currentWindow = this.iframe.contentWindow;
 		this.currentDocument = this.currentWindow.document;
@@ -109,7 +107,7 @@ var ParsimonyAdmin = {
 		setTimeout('$.fn.ready = function(a) {ParsimonyAdmin.currentWindow.eval(" exec = " + a.toString()+";exec.call(window)");}', 4000);
 		//document.getElementById("preview").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("preview").contentWindow);}
 
-		Parsimony.blocksDispatch("initIframe");
+		Parsimony.blocksDispatch("initPreview");
 
 	},
 	loadCreationMode: function() {
@@ -162,110 +160,19 @@ var ParsimonyAdmin = {
 	},
 
 	loadEditMode: function() {
-
-		/* Enable contenteditable */
-		$(".core_wysiwyg, .parsieditinline", this.currentBody).attr("contenteditable", "true");
-
-		/* Enable edit toolbar */
-		document.getElementById("toolbarEditMode").style.display = "block";
-
-		/* Listen all changes of all edit-inlines */
-		this.editObserver = new MutationObserver(function(mutations) {
-			var node = mutations[0].target.parentNode;
-			while (node != ParsimonyAdmin.currentBody) {
-				if (node.classList.contains("parsieditinline") || node.classList.contains("core_wysiwyg")) {
-					if (!node.hasAttribute("data-modified")) node.setAttribute("data-modified", "1");
-
-					/* Manage save toolbar : show/hide for WYSISYG blocks or contenteditable fields */
-					var undo = ParsimonyAdmin.currentDocument.queryCommandEnabled("undo");
-					var redo = ParsimonyAdmin.currentDocument.queryCommandEnabled("redo");
-					if (undo || redo) {
-						document.getElementById("toolbarEditMode").classList.add("open");
-						if (undo) document.getElementById("toolbarEditModeUndo").style.display = "inline-block";
-						else document.getElementById("toolbarEditModeUndo").style.display = "none";
-						if (redo) document.getElementById("toolbarEditModeRedo").style.display = "inline-block";
-						else document.getElementById("toolbarEditModeRedo").style.display = "none";
-					} else {
-						document.getElementById("toolbarEditMode").classList.remove("open");
-					}
-					ParsimonyAdmin.unsavedChanges = true;
-
-					break;
-				}
-				node = (node.parentNode || ParsimonyAdmin.currentBody);
-			}
-		});
-		this.editObserver.observe(this.currentBody, {subtree: true, characterData: true});
-
-		/* Init WYSIWYG editor */
-		if (typeof this.wysiwyg == "string") {
-			this.wysiwyg = new wysiwyg();
-			this.wysiwyg.init(".core_wysiwyg, .parsieditinline", ["bold", "underline", "italic", "justifyLeft", "justifyCenter", "justifyRight", "justifyFull", "strikeThrough", "subscript", "superscript", "orderedList", "unOrderedList", "outdent", "indent", "removeFormat", "createLink", "unlink", "formatBlock", "fontName", "fontSize", "foreColor", "hiliteColor", "insertImage"], document, ParsimonyAdmin.currentDocument);
-		}
-		document.querySelector(".HTML5editorToolbar").style.display = 'none';
-
-		/* Hide WYSIWYG editor if focused element isn't a WYSIWYG block/field */
-		this.$currentDocument.on('click.edit', ".parsiblock", function(e) {
-			if (!ParsimonyAdmin.currentDocument.activeElement.hasAttribute("contenteditable"))
-				document.querySelector(".HTML5editorToolbar").style.display = 'none';
-		});
-
-		/* Manage undo/redo on save toolbar */
-		$("#toolbarEditMode").on('click.edit', ".toolbarEditModeCommands", function(e) {
-			ParsimonyAdmin.currentDocument.execCommand(this.dataset.command, false, null);
-		})
-
-		/* Save all WYSISYG blocks or contenteditable fields */
-		.on('click.edit', "#toolbarEditModeSave", function(e) {
-
-			/* We collect fresh data for WYSIWYG blocks */
-			var changes = {};
-			$(".core_wysiwyg", ParsimonyAdmin.currentBody).each(function() {
-				if (this.dataset.modified) {
-					var module = ParsimonyAdmin.currentWindow.THEMEMODULE;
-					var theme = ParsimonyAdmin.currentWindow.THEME;
-					var idPage = '';
-					if (ParsimonyAdmin.whereIAm(this.id) == 'page') {
-						theme = '';
-						module = ParsimonyAdmin.currentWindow.MODULE;
-						idPage = $(".core_page", ParsimonyAdmin.currentBody).data('page');
-					}
-					changes[this.id] = {idPage: idPage, theme: theme, module: module, html: this.innerHTML};
-				}
-			});
-
-			/* We collect fresh data for contenteditable fields */
-			$(".parsieditinline", ParsimonyAdmin.currentBody).each(function() {
-				if (this.dataset.modified) {
-					changes[this.dataset.entity + this.dataset.property + this.dataset.id] = {module: this.dataset.module, entity: this.dataset.entity, fieldName: this.dataset.property, id: this.dataset.id, html: this.innerHTML};
-				}
-			});
-
-			/* We send fresh data to the server to save it */
-			$.post(BASE_PATH + 'admin/saveWYSIWYGS', {changes: JSON.stringify(changes)}, function(data) {
-				ParsimonyAdmin.unsavedChanges = false;
-				document.getElementById("toolbarEditMode").classList.remove("open");
-				$(".core_wysiwyg, .parsieditinline").attr("data-modified", "0");
-				ParsimonyAdmin.execResult(data);
-			});
-		});
-
+		
+		/* Enable edit on block wysiwyg */
+		$(".core_wysiwyg", this.currentBody).attr("data-mode", "blockwysiwyg").addClass("parsieditinline");
+		this.currentWindow.parsiEdit.init();
 		Parsimony.blocksDispatch("loadEditMode");
 	},
 	unloadEditMode: function() {
-		/* Disable wysiwyg */
-		$(".HTML5editorToolbar").hide();
-		$(".core_wysiwyg, .parsieditinline", this.currentBody).attr("contenteditable", "false");
-
-		/* Disable observer */
-		if (this.editObserver != undefined) this.editObserver.disconnect();
+		$(".HTML5editorToolbar", this.currentBody).hide();
+		$(".core_wysiwyg", this.currentBody).removeClass("parsieditinline");
 
 		/* Disable events */
-		this.$currentDocument.off('.edit');
-
-		/* Disable toolbar */
-		$("#toolbarEditMode").off('.edit').hide();
-
+		this.currentWindow.parsiEdit.destroy();
+		
 		Parsimony.blocksDispatch("unloadEditMode");
 	},
 	loadPreviewMode: function() {

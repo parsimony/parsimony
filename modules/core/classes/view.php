@@ -148,7 +148,11 @@ class view extends queryBuilder implements \Iterator {
 			}
 			/* aggregate */
 			if (isset($p['aggregate']) && !empty($p['aggregate'])) {
-				$this->aggregate($p['table'] . '.' . $p['property'], $p['aggregate']);
+				if ($p['aggregate'] === 'groupby') {
+					$this->groupBy($p['table'] . '.' . $p['property']);
+				} else {
+					$this->aggregate($p['table'] . '.' . $p['property'], $p['aggregate']);
+				}
 			}
 			/* order */
 			if (isset($p['order']) && !empty($p['order'])) {

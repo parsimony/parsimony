@@ -91,9 +91,10 @@ class response {
 			/* Save infos for admins */
 			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
 				$page->addJSFile('lib/editinline.js');
+				\app::dispatchEvent('editLoad'); /* include edit tools */
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
 				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $page->getId() . '";';
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.TOKEN="'.TOKEN.'";top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'if (top.jQuery.isReady) {top.ParsimonyAdmin.initIframe();}else{top.$(document).ready(function() {top.ParsimonyAdmin.initIframe();});}  </script>';
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.TOKEN="'.TOKEN.'";top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'$(document).ready(function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			/* Wrap body with HTML structure */
@@ -237,7 +238,7 @@ namespace {
 		function t($text, $params = FALSE) {
 			$before = '';
 			$after = '';
-			if (isset($_GET['preview'])) {
+			if (isset($_GET['preview']) && \app::$request->page instanceof page) {
 				$before = '<span data-key="' . $text . '" class="translation">';
 				$after = '</span>';
 			}
@@ -261,7 +262,7 @@ namespace {
 				if ($params !== FALSE)
 					return vsprintf(app::$lang[$text], $params);
 				else
-					return app::$lang[$text] ;
+					return app::$lang[$text];
 			}else {
 				if ($params !== FALSE)
 					return vsprintf($text, $params);

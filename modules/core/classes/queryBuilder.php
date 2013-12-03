@@ -84,10 +84,16 @@ class queryBuilder {
 	/**
 	 * Group the query by a property
 	 * @param string $property name
+	 * @param string $clause optional group by with functions like month(..)
+	 * @param string $function function
 	 * @return view
 	 */
-	public function groupBy($property) {
-		$this->_SQL['groupBys'][] = $property;
+	public function groupBy($property, $clause = FALSE, $function = 'count') {
+		if($clause === FALSE) {
+			$clause = $property;
+		}
+		$this->_SQL['groupBys'][$property] = $clause;
+		$this->aggregate($property, $function); /* to add property in select and count */
 		return $this;
 	}
 	
@@ -145,16 +151,14 @@ class queryBuilder {
 	 * @return view object
 	 */
 	public function aggregate($property, $function) {
-		if ($function === 'groupby') {
-			$this->groupBy($property);
-		} else {
-			list($tableName, $propertyName) = explode('.', $property);
-			$alias = $propertyName . '_nb';
-			$this->_SQL['selects'][$alias] = $function . '(' . $property . ') AS ' . $alias; 
+		list($tableName, $propertyName) = explode('.', $property);
+		$alias = $propertyName . '_nb';
+		$this->_SQL['selects'][$alias] = $function . '(' . $property . ') AS ' . $alias; 
+		if (isset($this->fields)) { /* Only for views */
 			list($module, $entity) = explode('_', $tableName, 2);
-			$this->fields[$alias] = new \field_string ($propertyName); /* $propertyName for name to keep i origin sql name  */
+			$this->fields[$alias] = new \field_string($propertyName); /* $propertyName for name to keep i origin sql name  */
 			$this->fields[$alias]->setEntity(\app::getModule($module)->getEntity($entity)); /* to reference its entity parent */
-			if(!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0); /* no display in datagrid */
+			if (!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0); /* no display in datagrid */
 		}
 		return $this;
 	}
@@ -237,24 +241,25 @@ class queryBuilder {
 			/* SELECT */
 			$query = 'SELECT ';
 			if(isset($this->_tableName)){ /* only for entity, to define selects */
-				$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
-				foreach ($this->getFields() as $field) {
-					$module = $field->entity->getModule();
-					$entity = $field->entity->getName();
-					$id = app::getModule($module)->getEntity($entity)->getId()->name;
-					if (get_class($field) === \app::$aliasClasses['field_formasso']) {
-						$currentEntity = \app::getModule($module)->getEntity($entity);
-						$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
-						$idNameForeignEntity = $foreignEntity->getId()->name;
-						$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
-						$this->groupBy($module . '_' . $entity . '.' . $currentEntity->getId()->name);
-						$this->join($module . '_' . $entity . '.' . $currentEntity->getId()->name, $module . '_' . $field->entity_asso . '.' . $currentEntity->getId()->name, 'inner join');
-						$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'inner join');
-					} elseif ($this->getField($id) === FALSE) {
-						$this->select($module . '_' . $entity . '.' . $id, TRUE);
-					}
+				if(empty($this->_SQL['selects'])){
+					$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
 				}
 				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
+			}
+			foreach ($this->getFields() as $field) {
+				$module = $field->entity->getModule();
+				$entity = $field->entity->getName();
+				$id = $field->entity->getId()->name;
+				if ($field instanceof \field_formasso) {
+					$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
+					$idNameForeignEntity = $foreignEntity->getId()->name;
+					$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+					$this->groupBy($module . '_' . $entity . '.' . $id);
+					$this->join($module . '_' . $entity . '.' . $id, $module . '_' . $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
+					$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
+				} elseif ($this->getField($id) === FALSE) {
+					$this->select($module . '_' . $entity . '.' . $id, TRUE);
+				}
 			}
 			$query .= implode(',', $this->_SQL['selects']);
 

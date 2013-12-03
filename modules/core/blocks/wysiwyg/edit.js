@@ -1,60 +1,65 @@
 $(document).ready(function() {
-	parsiEdit.registerTool("fieldwysiwyg",{
+	/* Register tool to edit block wysiwyg */
+	parsiEdit.registerTool("blockwysiwyg", {
 		init: function() {
-			if(typeof window['wysiwygy'] == "undefined"){
+
+			if (typeof window['wysiwygy'] == "undefined") {
 				window['wysiwygy'] = new wysiwyg();
-				
 			}
-			window['wysiwygy']['widgets']['saveedit'] = function(){
+
+			window['wysiwygy']['widgets']['savewysiwygblock'] = function() {
 
 				window['wysiwygy']['widgets']["btn"].call(this);
-				
-				this.name = "saveedit";
+				this.name = "savewysiwygblock";
 				this.command = "none"; // fix firefox
 				this.category = "edit";
 				this.position = "-320px -32px";
-
 				this.onClick = function(e, editor, elmt) {
-					parsiEdit.tools['fieldwysiwyg'].onSave();
+					window.parsiEdit.tools['blockwysiwyg'].onSave();
+				}
+
+			}
+
+			window['wysiwygy']['widgets']['cancelwysiwygblock'] = function() {
+
+				window['wysiwygy']['widgets']["btn"].call(this);
+				this.name = "cancelwysiwygblock";
+				this.command = "none"; // fix firefox
+				this.category = "edit";
+				this.position = "-320px -32px";
+				this.onClick = function(e, editor, elmt) {
+					window.parsiEdit.tools['blockwysiwyg'].onCancel();
 				}
 
 			}
 			
-			window['wysiwygy']['widgets']['canceledit'] = function(){
-
-				window['wysiwygy']['widgets']["btn"].call(this);
-				
-				this.name = "canceledit";
-				this.command = "none"; // fix firefox
-				this.category = "edit";
-				this.position = "-320px -32px";
-
-				this.onClick = function(e, editor, elmt) {
-					parsiEdit.tools['fieldwysiwyg'].onCancel();
-				}
-
-			}
-			window['wysiwygy'].init(".core_wysiwyg, .field_wysiwyg",["saveedit", "canceledit", "bold","underline","italic","justifyLeft","justifyCenter","justifyRight","strikeThrough","subscript","superscript","orderedList","unOrderedList","outdent","indent","removeFormat","createLink","unlink","formatBlock","foreColor","hiliteColor"]);
+			window['wysiwygy'].init(".core_wysiwyg, .field_wysiwyg", ["savewysiwygblock", "cancelwysiwygblock", "bold", "underline", "italic", "justifyLeft", "justifyCenter", "justifyRight", "strikeThrough", "subscript", "superscript", "orderedList", "unOrderedList", "outdent", "indent", "removeFormat", "createLink", "unlink", "formatBlock", "foreColor", "hiliteColor"]);
 			$(".HTML5editorToolbar").hide();
 		},
 		onClick: function() {
 			if(typeof parsiEdit.oldValue == "undefined" || parsiEdit.oldValue == null){
-				$(".HTML5editorToolbar").show();
 				parsiEdit.oldValue = parsiEdit.currentElmt.innerHTML;
 				parsiEdit.currentElmt.setAttribute("contenteditable", "true");
 				$(".HTML5editorToolbar").show();
 			}
 		},
 		onSave: function() {
-			$.post(BASE_PATH + $(parsiEdit.currentElmt).data("module") + '/callField', {
-				entity: $(parsiEdit.currentElmt).data("entity"),
-				fieldName: $(parsiEdit.currentElmt).data("property"),
-				method: 'saveEditInline',
-				id: $(parsiEdit.currentElmt).data("id"),
-				data: parsiEdit.currentElmt.innerHTML
+			var module = THEMEMODULE;
+			var theme = THEME;
+			var idPage = '';
+			if ($(parsiEdit.currentElmt).closest(".core_page").length > 0) {
+				theme = '';
+				module = MODULE;
+				idPage = $("#content").data('page');
+			}
+			$.post(BASE_PATH + module + '/callBlock', {
+				idPage: idPage,
+				theme: theme,
+				method: 'saveWYSIWYG',
+				id: parsiEdit.currentElmt.id,
+				html: parsiEdit.currentElmt.innerHTML
 			}, function(data) {
-				if (data != "0") {
-					parsiEdit.currentElmt.innerHTML = data;
+				if (data == 1) {
 					parsiEdit.oldValue = null;
 					$(".HTML5editorToolbar").hide();
 					parsiEdit.currentElmt.setAttribute("contenteditable", "false");

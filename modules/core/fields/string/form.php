@@ -30,7 +30,7 @@ if(isset($this->unique) && $this->unique):
 <script>
 	$(document).ready(function() {
 		$(document).on("blur keyup", "#<?php $fieldName ?>", function(){
-			$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{module:"<?php echo $this->entity->getModule(); ?>", entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', args:'chars=' + this.value  + "<?php if($row) echo '&id='.$row->getId()->value ?>" }, function(data){
+			$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
 			if(data == 1){
 				$(".info_<?php $fieldName ?>").empty();
 			}else{

@@ -98,7 +98,8 @@ class query extends code {
 		}
 	}
 
-	public function generateViewAction($properties, $pagination = '', $filter = '', $sort = '') {
+	public function generateViewAction($args) {
+		parse_str($args);
 		$view_code = '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
 		$view_code .= "\t" . '<?php foreach ($view as $row) : ?>' . PHP_EOL;
 		$view_code .= "\t\t" . '<div class="itemscope">' . PHP_EOL;

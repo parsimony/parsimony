@@ -43,7 +43,8 @@ class wysiwyg extends \field {
 	protected $type = 'LONGTEXT';
 	protected $characters_max = '';
 	protected $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor';
-
+	protected $editMode = 'fieldwysiwyg';
+	
 	/**
 	 * Validate the value of Field
 	 * @param string $value
@@ -52,7 +53,19 @@ class wysiwyg extends \field {
 	public function validate($value) {
 		return \tools::sanitize($value, $this->wysiwygModules);
 	}
+	
+	public static function loadExternalFiles() {
+		\app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
+		\app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
+		\app::$request->page->addJSFile('core/fields/wysiwyg/script.js');\app::$request->page->addJSFile('core/blocks/wysiwyg/edit.js');
+	}
+	
+	public function getEditOptions() {
+		return  'data-wysiwygplugins="saveedit,canceledit,' . $this->wysiwygModules . '"' . str_replace('class="parsieditinline', 'class="parsieditinline field_wysiwyg', parent::getEditOptions());
+	}
+	
 
 }
+\app::addListener('editLoad', array('core\fields\wysiwyg', 'loadExternalFiles'));
 
 ?>

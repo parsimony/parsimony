@@ -1108,32 +1108,6 @@ class admin extends \module {
 	}
 
 	/**
-	 * Save WYSIWYGS : WYSISYG blocks or contenteditable fields
-	 * @return string
-	 */
-	protected function saveWYSIWYGSAction($changes) {
-		$changes = json_decode($changes);
-		if(!empty($changes)){
-			foreach ($changes as $id => $wysiwyg) {
-			if(isset($wysiwyg->fieldName)){
-				$fieldObj = \app::getModule($wysiwyg->module)->getEntity($wysiwyg->entity)->getField($wysiwyg->fieldName);
-				$fieldObj->saveEditInline($wysiwyg->html, $wysiwyg->id);
-			}else{
-				if(empty($wysiwyg->theme)){
-				$blockObj = & \app::getModule($wysiwyg->module)->getPage($wysiwyg->idPage)->searchBlock($id);
-				}else{
-				$theme = \theme::get($wysiwyg->module, $wysiwyg->theme, THEMETYPE);
-				$blockObj = $theme->searchBlock($id, $theme);
-				}
-				$blockObj->setContent($wysiwyg->html);
-			}
-			}
-			$return = array('eval' => '', 'notification' => t('Modifications have been saved'), 'notificationType' => 'positive');
-		}
-		return $this->returnResult($return);
-	}
-
-	/**
 	 * Save model
 	 * @return string
 	 */

@@ -151,48 +151,48 @@ class module {
 	 */
 	public function getPage($id) {
 		$file = stream_resolve_include_path($this->name . '/pages/' . $id . '.' . \app::$config['dev']['serialization']);
-		if ($file !== FALSE)
+		if ($file !== FALSE) {
 			return \tools::unserialize(substr($file, 0, -4));
-		else
+		} else {
 			throw new \Exception(t('Page doesn\'t exist', FALSE) . ' ,' . $this->name . ' : ' . $id);
+		}
 	}
 
 	/**
 	 * Call a method of block
-	 * @param string $module
 	 * @param string $idpage
 	 * @param string $theme
 	 * @param string $id
 	 * @param string $method
-	 * @param string $args
 	 * @return mixed
 	 */
-	public function callBlockAction($module, $idPage, $theme, $id, $method, $args) {
-		if(empty($theme)){
-			$blockObj = & \app::getModule($module)->getPage($idPage)->searchBlock($id);
-		}else{
-			$theme = \theme::get($module, $theme, THEMETYPE);
+	public function callBlockAction($idPage, $theme, $id, $method) {
+		if (empty($theme)) {
+			$blockObj = & \app::getModule($this->name)->getPage($idPage)->searchBlock($id);
+		} else {
+			$theme = \theme::get($this->name, $theme, THEMETYPE);
 			$blockObj = $theme->searchBlock($id, $theme);
 		}
-		$params = array();
-		parse_str($args, $params);
-		return call_user_func_array(array($blockObj, $method.'Action'), $params);
+		if (method_exists($blockObj, $method . 'Action')) {
+			return $this->callMethod($blockObj, $method . 'Action');
+		}
+		return FALSE;
 	}
 
 	/**
 	 * Call a method of field
-	 * @param string $module
 	 * @param string $entity
 	 * @param string $fieldName
 	 * @param string $method
-	 * @param string $args
 	 * @return mixed
 	 */
-	public function callFieldAction($module, $entity, $fieldName, $method, $args) {
-		$params = array();
-		parse_str($args, $params);
-		$fieldObj = \app::getModule($module)->getEntity($entity)->getField($fieldName);
-		return call_user_func_array(array($fieldObj, $method.'Action'), $params);
+	public function callFieldAction($entity, $fieldName, $method) {
+		$fieldObj = \app::getModule($this->name)->getEntity($entity)->getField($fieldName);
+		if (method_exists($fieldObj, $method . 'Action')) {
+			return $this->callMethod($fieldObj, $method . 'Action');
+		}else{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -355,21 +355,7 @@ class module {
 		}
 		$methodName = $url . $httpMethod . 'Action';
 		if (method_exists($this, $methodName)) {
-			$class = new \ReflectionClass($this);
-			$method = $class->getMethod($methodName);
-			$params = array();
-			foreach ($method->getParameters() as $param) {
-				$name = $param->getName();
-				$value = app::$request->getParam($name);
-				if ($value !== FALSE) {
-					$params[] = $value;
-				} elseif ($param->isDefaultValueAvailable()) {
-					$params[] = $param->getDefaultValue();
-				}else{
-					$params[] = '';
-				}
-			}
-			return (string) call_user_func_array(array($this, $methodName), $params); /* cast to string to stringify booleans */
+			return $this->callMethod($this, $methodName);
 		}
 		foreach ($this->pages AS $index => $regex) {
 			if (preg_match($regex, $url, $_GET)) {
@@ -380,6 +366,24 @@ class module {
 			}
 		}
 		return FALSE;
+	}
+	
+	protected function callMethod($object, $methodName) {
+		$class = new \ReflectionClass($object);
+		$method = $class->getMethod($methodName);
+		$params = array();
+		foreach ($method->getParameters() as $param) {
+			$name = $param->getName();
+			$value = app::$request->getParam($name);
+			if ($value !== FALSE) {
+				$params[] = $value;
+			} elseif ($param->isDefaultValueAvailable()) {
+				$params[] = $param->getDefaultValue();
+			}else{
+				$params[] = '';
+			}
+		}
+		return (string) call_user_func_array(array($object, $methodName), $params); /* cast to string to stringify booleans */
 	}
 
 	/**
