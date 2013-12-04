@@ -62,6 +62,7 @@ class wysiwyg extends code {
 		\app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
 		\app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
 		\app::$request->page->addJSFile('core/blocks/wysiwyg/edit.js');
+		\app::$request->page->addCSSFile('lib/editinline.css');
 	}
 
 }

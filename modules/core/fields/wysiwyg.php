@@ -57,7 +57,8 @@ class wysiwyg extends \field {
 	public static function loadExternalFiles() {
 		\app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
 		\app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
-		\app::$request->page->addJSFile('core/fields/wysiwyg/script.js');\app::$request->page->addJSFile('core/blocks/wysiwyg/edit.js');
+		\app::$request->page->addJSFile('core/fields/wysiwyg/script.js');
+		\app::$request->page->addCSSFile('lib/editinline.css');
 	}
 	
 	public function getEditOptions() {
