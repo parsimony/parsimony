@@ -47,17 +47,25 @@ class filter extends \block {
 
 		$block = \app::$request->page->searchBlock($blockquery);
 		if($block !== null){
+			/* TODO FACTORIZE */
 			$properties = $this->getConfig('properties');
 			$selected = $block->getConfig('selected');
-			foreach ($selected as $value) {
+			foreach ($selected as $tabprop => $value) {
 				if(isset($value['filter'])){
-					$table = $value['table'];
-					$property = $value['property'];
-					list($module, $entity) = explode('_', $table, 2);
-					$field = \app::getModule($module)->getEntity($entity)->getField($property);					
-					$template = isset($properties[$table.'.'.$property]['tpl']) ? $properties[$table.'.'.$property]['tpl'] : 'string';
-					$configs = $properties[$table.'.'.$property];
-					$defaultconfigs = $properties[$table.'.'.$property]['default'];
+
+					if(isset($value['alias'])){
+						$property = $name = $value['alias'];
+						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
+					}else{
+						$table = $value['table'];
+						$property = $value['property'];
+						list($module, $entity) = explode('_', $table, 2);
+						$field = \app::getModule($module)->getEntity($entity)->getField($property);	
+//						$tabprop = $table.'.'.$property;
+					}
+					$template = isset($properties[$tabprop]['tpl']) ? $properties[$tabprop]['tpl'] : 'string';
+					$configs = $properties[$tabprop];
+					$defaultconfigs = $properties[$tabprop]['default'];
 					if(!isset($_POST['submitfilter'])){
 						if($configs['tpl'] == 'string' || $configs['tpl'] == 'select') {
 							$_POST['filter'][$property] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['rangeStart'] : '';
@@ -66,8 +74,8 @@ class filter extends \block {
 							$_POST['filter'][$property][] = $defaultconfigs['rangeStart'];
 							
 						}elseif($configs['tpl'] == 'range') {
-							$_POST['filter'][$property]['start'] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['start'] : '';
-							$_POST['filter'][$property]['end'] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['end'] : '';
+							$_POST['filter'][$property]['start'] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['rangeStart'] : '';
+							$_POST['filter'][$property]['end'] = isset($defaultconfigs['rangeEnd']) ? $defaultconfigs['rangeEnd'] : '';
 							
 						}elseif($configs['tpl'] == 'datetimerange' || $configs['tpl'] == 'daterange' ) {
 							$now = new \DateTime('now');
@@ -131,41 +139,62 @@ class filter extends \block {
 					include('modules/core/blocks/filter/views/'.$template.'.php');
 				}
 			}
-			$countGr = -1;
+			/* GROUP */
+			$countGr = -1;$endgr = '';
 			foreach ($selected as $value) {		
-				if(isset($value['group'])){		
-					$countGr++; if($countGr == 0) echo '<div class="groupfilter"><h2>Group by</h2>';
-					$table = $value['table'];
-					$prop = $value['property'];
-					list($module, $entity) = explode('_', $table, 2);
-					$field = \app::getModule($module)->getEntity($entity)->getField($prop);
-					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
-						echo '<div>' . $prop . ': <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+				if(isset($value['group'])){	
+					
+					$countGr++; if($countGr == 0){ $grhtml = '<div class="groupfilter"><h2>Group by</h2>'; $endgr = '</div>';}
+					if(isset($value['alias'])){
+						$prop = $name = $value['alias'];
+						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
 					}else{
-						echo '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']"></div>';
+						$table = $value['table'];
+						$prop = $value['property'];
+						list($module, $entity) = explode('_', $table, 2);
+						$field = \app::getModule($module)->getEntity($entity)->getField($prop);
 					}
+					
+					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
+						$grhtml .= '<div>' . $prop . ': <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+					}else{
+						$grhtml .= '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']"></div>';
+					}
+					
 				}
 			}
+			$grhtml .= $endgr;
+			echo $grhtml;
+			
+			/* SORT */
 			$countSo = -1;
+			$endsort = '';
 			foreach ($selected as $value) {		
 				if(isset($value['sort'])){
-					$countSo++; if($countSo == 0) echo '<div class="sortfilter"><h2>Sort by</h2>';
-					$table = $value['table'];
-					$prop = $value['property'];
-					list($module, $entity) = explode('_', $table, 2);
-					$field = \app::getModule($module)->getEntity($entity)->getField($prop);
-					?>
-					<div><?php echo $prop ; ?>: <select name="sort[<?php echo $prop ; ?>]">
+					$countSo++; if($countSo == 0) {  $sorthtml = '<div class="sortfilter"><h2>Sort by</h2>'; $endsort = '</div>';}
+					if(isset($value['alias'])){
+						$prop = $name = $value['alias'];
+						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
+					}else{
+						$table = $value['table'];
+						$prop = $value['property'];
+						list($module, $entity) = explode('_', $table, 2);
+						$field = \app::getModule($module)->getEntity($entity)->getField($prop);
+					}
+					
+					$sorthtml .='<div>'. $prop .': <select name="sort['.$prop .']">
 								<option></option>
 								<option value="asc">ASC</option>
 								<option value="desc">DESC</option>
 						</select>
-					</div>
-					<?php 
+					</div>';
+					
 				}
-			}	
+			}
+			$sorthtml .= $endsort;
+			echo $sorthtml;
 		}	
-		echo '</div><input type="submit" name="submitfilter"></form>';
+		echo '<input type="submit" name="submitfilter"></form>';
 		return ob_get_clean();
 	}
 

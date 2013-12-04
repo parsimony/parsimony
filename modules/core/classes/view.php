@@ -65,14 +65,21 @@ class view extends queryBuilder implements \Iterator {
 		 * Create a public property for each field that links to the field value
 		 */
 		foreach ($this->fields as $key => &$field) {
-			extract($field);
-			$name = $module . '_' . $entity;
-			if(!isset($this->entities[$name])){
-				$this->entities[$name] = app::getModule($module)->getEntity($entity);
-			}
-			if($fieldName !== $key){/* use $key for alias */
-				$field = new \field_string ($fieldName, array('label' => $key, 'entity' => $this->entities[$name] /* only for alias //emulate wakeup entity */, 'views' => array('display' => 'modules/core/fields/string/display.php', 'grid' => 'modules/core/fields/string/grid.php'))); /* emulate prepareFieldsForDisplay() */
+			if(!is_array($field)){
+				$field = new \core\fields\alias ($key, array('label' => $key , 'calculation' => $field));
 			}else{
+				extract($field);
+				$name = $module . '_' . $entity;
+				if(!isset($this->entities[$name])){
+					$this->entities[$name] = app::getModule($module)->getEntity($entity);
+				}
+
+				/* !!TODO REMOVE!! */
+				if($fieldName !== $key){/* use $key for alias */
+					$field = new \core\fields\alias ($key, array('label' => $key , 'calculation' => $field));
+				}else
+				/* !!TODO REMOVE!! */		
+
 				$field = $this->entities[$name]->getField($fieldName); 
 			}
 			$this->{$key} = &$field->getValue();
@@ -125,6 +132,7 @@ class view extends queryBuilder implements \Iterator {
 	 * @return view
 	 */
 	public function initFromArray(array $properties, array $joins = array()) {
+		
 		if (!empty($joins)) {
 			foreach ($joins AS $p) {
 				$this->join($p['propertyLeft'], $p['propertyRight'], $p['type']);
@@ -132,31 +140,42 @@ class view extends queryBuilder implements \Iterator {
 		}
 
 		foreach ($properties AS $p) {
-			/* select */
-			$this->select($p['table'].'.'.$p['property']);
-			
-			/* From */
-			$this->from($p['table']);
+			if(isset($p['alias'])){
+				/* specific alias for calculated field */
+				/* select alias */
+				$this->_SQL['selects'][$p['alias']] = '( '. $p['calculated'] .' ) AS ' . $p['alias']; 	
+				$property = $p['alias'];
+				$obj = new \core\fields\alias($p['calculated'], array('label' => $property, 'calculation' => ' ( '. $p['calculated']. ' ) '));
+				$this->setField($property, $obj);
+			}else{
+				/* real fields */
+				/* select */
+				$this->select($p['table'].'.'.$p['property']);
+
+				/* From */
+				$this->from($p['table']);
+				$property = $p['table'] . '.' . $p['property'];
+			}
 			
 			/* where */
 			if (isset($p['where']) && !empty($p['where'])) {
-				$this->where($p['table'] . '.' . $p['property'] .' '. $p['where']);
+				$this->where( $property.' '. $p['where']);
 			}
 			/* or */
 			if (isset($p['or']) && !empty($p['or'])) {
-				$this->where($p['table'] . '.' . $p['property'] .' '. $p['or']);
+				$this->where($property .' '. $p['or']);
 			}
 			/* aggregate */
 			if (isset($p['aggregate']) && !empty($p['aggregate'])) {
 				if ($p['aggregate'] === 'groupby') {
-					$this->groupBy($p['table'] . '.' . $p['property']);
+					$this->groupBy($property);
 				} else {
-					$this->aggregate($p['table'] . '.' . $p['property'], $p['aggregate']);
+					$this->aggregate($property, $p['aggregate']);
 				}
 			}
 			/* order */
 			if (isset($p['order']) && !empty($p['order'])) {
-				$this->order($p['table'] . '.' . $p['property'], $p['order']);
+				$this->order($property, $p['order']);
 			}
 		}
 		/* to fill parent entity reference in each field */
@@ -171,7 +190,10 @@ class view extends queryBuilder implements \Iterator {
 	 */
 	public function __sleep() {
 		foreach ($this->fields as $key => $field) {
-			$this->fields[$key] = array('module' => $field->entity->getModule(), 'entity' => $field->entity->getName(), 'fieldName' => $field->name);
+			if(get_class($field) == 'core\fields\alias')
+				$this->fields[$key] = $field->calculation;
+			else 
+				$this->fields[$key] = array('module' => $field->entity->getModule(), 'entity' => $field->entity->getName(), 'fieldName' => $field->name);
 		}
 		unset($this->_SQL['entities']);
 		unset($this->_SQL['displayView']); /* todo remove */

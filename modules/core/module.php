@@ -134,7 +134,8 @@ class core extends \module {
 			'field_boolean' => 'core\fields\boolean',
 			'field_file' => 'core\fields\file',
 			'field_foreignkey' => 'core\fields\foreignkey',
-			'field_formasso' => 'core\fields\formasso'
+			'field_formasso' => 'core\fields\formasso',
+			'field_alias' => 'core\fields\alias'
 		);
 
 		/* on page load */

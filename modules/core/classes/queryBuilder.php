@@ -27,6 +27,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 namespace core\classes;
 
 /**
@@ -50,12 +51,21 @@ class queryBuilder {
 
 	 /**
 	  * Set a WHERE clause
-	  * @param string $property
 	  * @param string $condition
 	  * @return view object
 	  */
 	 public function where($condition) {
 		 $this->_SQL['wheres'][] = $condition;
+		 return $this;
+	 }
+	 
+	 /**
+	  * Set a HAVING clause
+	  * @param string $condition
+	  * @return view object
+	  */
+	 public function having($condition) {
+		 $this->_SQL['havings'][] = $condition;
 		 return $this;
 	 }
 
@@ -151,14 +161,17 @@ class queryBuilder {
 	 * @return view object
 	 */
 	public function aggregate($property, $function) {
-		list($tableName, $propertyName) = explode('.', $property);
-		$alias = $propertyName . '_nb';
+		$explProp = explode('.', $property);
+		if(count($explProp) > 1) {
+			$aliasProperty = $explProp[1];
+		}
+		$alias = $aliasProperty . '_nb';
 		$this->_SQL['selects'][$alias] = $function . '(' . $property . ') AS ' . $alias; 
+		
 		if (isset($this->fields)) { /* Only for views */
-			list($module, $entity) = explode('_', $tableName, 2);
-			$this->fields[$alias] = new \field_string($propertyName); /* $propertyName for name to keep i origin sql name  */
-			$this->fields[$alias]->setEntity(\app::getModule($module)->getEntity($entity)); /* to reference its entity parent */
-			if (!isset($this->fields[$propertyName])) $this->fields[$alias]->setVisibility(0); /* no display in datagrid */
+
+			$this->fields[$alias] = new \core\fields\alias ($alias, array('label' => $alias , 'calculation' =>  $function . '(' . $property . ')' ));
+			
 		}
 		return $this;
 	}
@@ -228,6 +241,35 @@ class queryBuilder {
 		 return $this->_SQL['stmt'];
 	 }
 	 
+	 /**
+	  * Evaluate conditions before concatenation in where or having
+	  * @param string $condition
+	  * Return the condition before SQL concatenation
+	  * @return string $condition
+	  */
+	 public function evaluateConditions($condition) {
+		if(strstr($condition, ':') !== FALSE){
+			preg_match_all("/\:([^\s%,\)]*)/", $condition, $matches);
+			foreach($matches[1] AS $param){
+				$value = \app::$request->getParam($param);
+				if($value !== FALSE){
+					if(is_array($value)){
+						$nb = count($value);
+						$str = array();
+						for ($i = 0; $i < $nb; $i++) {
+							$str[] = ':'.$param.$i;
+							$this->_SQL['vars'][':'.$param.$i] = $value[$i];
+						}
+						$condition = str_replace(':'.$param, implode(',',$str), $condition);
+					}else{
+						$this->_SQL['vars'][':'.$param] = strlen($value) > 0 ? $value : '';
+					}
+				}
+			}
+		}
+		return $condition;
+	 }
+	 
 	/**
 	 * Build the query and his PDO statement with SQL infos already set to this object
 	 * @return bool
@@ -247,18 +289,21 @@ class queryBuilder {
 				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
 			}
 			foreach ($this->getFields() as $field) {
-				$module = $field->entity->getModule();
-				$entity = $field->entity->getName();
-				$id = $field->entity->getId()->name;
-				if ($field instanceof \field_formasso) {
-					$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
-					$idNameForeignEntity = $foreignEntity->getId()->name;
-					$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
-					$this->groupBy($module . '_' . $entity . '.' . $id);
-					$this->join($module . '_' . $entity . '.' . $id, $module . '_' . $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
-					$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
-				} elseif ($this->getField($id) === FALSE) {
-					$this->select($module . '_' . $entity . '.' . $id, TRUE);
+				/* TODO IMPROVE */
+				if(!$field instanceof \core\fields\alias){
+					$module = $field->entity->getModule();
+					$entity = $field->entity->getName();
+					$id = $field->entity->getId()->name;
+					if ($field instanceof \field_formasso) {
+						$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
+						$idNameForeignEntity = $foreignEntity->getId()->name;
+						$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+						$this->groupBy($module . '_' . $entity . '.' . $id);
+						$this->join($module . '_' . $entity . '.' . $id, $module . '_' . $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
+						$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
+					} elseif ($this->getField($id) === FALSE) {
+						$this->select($module . '_' . $entity . '.' . $id, TRUE);
+					}
 				}
 			}
 			$query .= implode(',', $this->_SQL['selects']);
@@ -280,32 +325,15 @@ class queryBuilder {
 			}
 
 			/* WHERE */
-			$vars = array(); // init here for pagination
+			$this->_SQL['vars'] = array(); // init here for pagination
 			if (isset($this->_SQL['wheres'])) {
 				$wheres = array();
 				foreach ($this->_SQL['wheres'] AS $where) {
-					if(strstr($where, ':') !== FALSE){
-						preg_match_all("/\:([^\s%,\)]*)/", $where, $matches);
-						foreach($matches[1] AS $param){
-							$value = \app::$request->getParam($param);
-							if($value !== FALSE){
-								if(is_array($value)){
-									$nb = count($value);
-									$str = array();
-									for ($i = 0; $i < $nb; $i++) {
-										$str[] = ':'.$param.$i;
-										$vars[':'.$param.$i] = $value[$i];
-									}
-									$where = str_replace(':'.$param, implode(',',$str), $where);
-								}else{
-									$vars[':'.$param] = strlen($value) > 0 ? $value : '';
-								}
-							}
-						}
-					}
+					
 					// Frame the "where" if several sql conditions
-					if(strstr($where,'&&') || strstr($where,'||') || stristr($where,' or ') || stristr($where,' and ')) $wheres[] = '(' . $where .')';
-					else $wheres[] = $where;
+					/* For the record if(strstr($where,'&&') || strstr($where,'||') || stristr($where,' or ') || stristr($where,' and ')) $wheres[] = */
+					 $wheres[] = '(' .  $this->evaluateConditions($where) .')';
+					
 				}
 				if(!empty($wheres)) $query .= ' WHERE ' . implode(' AND ', $wheres);
 			}
@@ -314,7 +342,19 @@ class queryBuilder {
 			if (isset($this->_SQL['groupBys'])) {
 				$query .= ' GROUP BY ' . implode(' ,', $this->_SQL['groupBys']);
 			}
-
+			
+			/* HAVING */
+			if (isset($this->_SQL['havings'])) {
+				$havings = array();
+				foreach ($this->_SQL['havings'] AS $having) {
+					
+					// Frame the "having" if several sql conditions
+					 $havings[] = '(' .  $this->evaluateConditions($having) .')';
+					
+				}
+				if(!empty($havings)) $query .= ' HAVING ' . implode(' AND ', $havings);
+			}
+			
 			/* ORDER */
 			if (isset($this->_SQL['orders'])) {
 				$orders = array();
@@ -337,7 +377,7 @@ class queryBuilder {
 			if (isset($this->_SQL['limit'])) {
 				$limit = ' LIMIT 0,' . $this->_SQL['limit'];
 				if (isset($this->_SQL['pagination']) && $this->_SQL['pagination'] !== FALSE) {
-					$this->_SQL['pagination'] = new \pagination($query, $this->_SQL['limit'], $vars);
+					$this->_SQL['pagination'] = new \pagination($query, $this->_SQL['limit'], $this->_SQL['vars']);
 					$start = $this->_SQL['pagination']->getCurrentPage() * $this->_SQL['limit'] - $this->_SQL['limit'];
 					$limit = ' LIMIT ' . $start . ',' . $this->_SQL['limit'];
 				}
@@ -346,10 +386,10 @@ class queryBuilder {
 			$this->_SQL['query'] = $query;
 
 			/* EXEC query */
-			if(!empty($vars)){
+			if(!empty($this->_SQL['vars'])){
 				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
 				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
-				$this->_SQL['stmt']->execute($vars);
+				$this->_SQL['stmt']->execute($this->_SQL['vars']);
 			}else{
 				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
 			}

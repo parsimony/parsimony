@@ -107,12 +107,16 @@ if ($block) {
 	$selected = $block->getConfig('selected');
 	foreach ($selected as $key => $value) {
 		if (isset($value['filter'])) { 
-			$name = $value['table'] . '.' . $value['property'];
-			$table = $value['table'];
-			$property = $value['property'];
-			list($module, $entity) = explode('_', $table, 2);
-			$field = \app::getModule($module)->getEntity($entity)->getField($property);
-
+			if(isset($value['alias'])){
+				$name = $value['alias'];
+				$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
+			}else{
+				$name = $value['table'] . '.' . $value['property'];
+				$table = $value['table'];
+				$property = $value['property'];
+				list($module, $entity) = explode('_', $table, 2);
+				$field = \app::getModule($module)->getEntity($entity)->getField($property);
+			}
 			if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
 				$cssname = str_replace('.', '', $name);
 				?><style>

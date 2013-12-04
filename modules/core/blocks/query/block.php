@@ -167,11 +167,11 @@ class query extends code {
 				$_POST['filter'] = array_filter($_POST['filter']);//remove all empty() values
 				foreach ($_POST['filter'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
-					if($field !== FALSE && isset($selected[$name]['filter'])){ /* IF field exists and filter is allowed */
+					if($field !== FALSE && isset($selected[$field->getFullName()]['filter'])){ // IF field exists and filter is allowed 
 						$filterRes = $field->sqlFilter($_POST['filter'][$field->name]);
 						if(!empty($filterRes)){
-							$view->where($filterRes);
+							if($field instanceof \core\fields\alias) $view->having($filterRes);
+							else $view->where($filterRes);
 						}
 					}
 				}
@@ -180,9 +180,8 @@ class query extends code {
 			if(isset($_POST['group']) && is_array($_POST['group']) && $this->getConfig('group') ){
 				foreach ($_POST['group'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
-					if($field !== FALSE && isset($selected[$name]['group']) && isset($_POST['group'][$field->name]) && !empty($_POST['group'][$field->name])){ /* IF field exists and group is allowed */
-						$view->groupBy($field->entity->getModule() . '_' . $field->entity->getName() . '.' . $field->name, $field->sqlGroup($_POST['group'][$field->name]));
+						if($field !== FALSE && isset($selected[$field->getFullName()]['group']) && isset($_POST['group'][$field->name]) && !empty($_POST['group'][$field->name])){ /* IF field exists and group is allowed */
+						$view->groupBy($field->getFullName(), $field->sqlGroup($_POST['group'][$field->name]));
 					}
 				}
 			}
@@ -191,9 +190,8 @@ class query extends code {
 				$_POST['sort'] = array_filter($_POST['sort']);//remove all empty() values
 				foreach ($_POST['sort'] as $property => $value) {
 					$field = $view->getField($property);
-					$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
-					if($field !== FALSE && isset($selected[$name]['sort'])){ /* IF field exists and sort is allowed */
-							$view->order($field->entity->getModule() . '_' . $field->entity->getName() . '.' . $field->name, $value);
+					if($field !== FALSE && isset($selected[$field->getFullName()]['sort'])){ /* IF field exists and sort is allowed */
+							$view->order($field->getFullName(), $value);
 					}
 				}
 			}

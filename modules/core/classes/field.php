@@ -369,31 +369,13 @@ class field {
 	 * Fill SQL Features
 	 * @return string
 	 */
-	public function sqlModel() {
-		$primary_key = $auto_increment = $characters_max = $default = '';
-		if (get_class($this) === \app::$aliasClasses['field_ident']) {
-			$primary_key = ' PRIMARY KEY';
-			$auto_increment = ' AUTO_INCREMENT';
-		}
-		if ($this->required)
-			$required = ' NOT NULL';
-		else
-			$required = 'NULL';
-		if (!empty($this->characters_max) || $this->characters_max != 0)
-			$characters_max = '(' . $this->characters_max . ')';
-		if (!empty($this->default))
-			$default = ' DEFAULT \'' . $this->default . '\'';
-		return '`' . $this->name . '` ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
-	}
-
-	/**
-	 * Returns SQL to filter the field ( overridable for multiple colums)
-	 * @param string $filter
-	 * @return string
-	 */
 	public function sqlFilter($filter) {
-		$fieldName = $this->entity->getName() . '_' . $this->name;
-		$name = $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
+		$fieldName = $this->getTableName() . '_' . $this->name;
+		if(isset($this->calculation)){
+			$name = $this->calculation;
+		}else{
+			$name = $this->getFullName();
+		}
 		if (is_array($filter)) {
 			if (isset($filter[0])) {
 				foreach ($filter as $key => &$value) {
@@ -425,11 +407,11 @@ class field {
 	}
 	
 	public function sqlGroup($group) {
-		return $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
+		return $this->getFullName();
 	}
 	
 	public function getAllValues() {
-		$table = $this->entity->getModule() . '_' . $this->entity->getName();
+		$table = $this->getTableName();
 		$result = \PDOconnection::getDB()->query('select ' . PREFIX . $table . '.' . $this->name . ' from ' . PREFIX . $table . ' group by ' . PREFIX . $table . '.' . $this->name);
 		if (is_object($result)) {
 			$values = $result->fetchAll(\PDO::FETCH_COLUMN);
@@ -439,6 +421,14 @@ class field {
 			}
 		}
 		return array();
+	}
+	
+	public function getTableName() {
+		return $this->entity->getModule() . '_' . $this->entity->getName();
+	}
+	
+	public function getFullName() {
+		return $this->entity->getModule() . '_' . $this->entity->getName() . '.' . $this->name;
 	}
 
 	/**

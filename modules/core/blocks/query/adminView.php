@@ -46,7 +46,7 @@ $view = $this->getConfig('view');
 	.queryblock:hover .removeButton{display:block}
 	.tabs{min-width: 1000px;}
 	.innerTabs ul li a {padding: 0 7px;line-height: 23px;}
-	#tabs-criterias{margin-top:10px}
+	#tabs-criterias{margin-top:5px}
 	.queryblock{position: relative;box-shadow: 1px 1px 1px #e7e7e7;font-weight: bold;color: #383838;text-shadow: 0 1px 0 #ffffff;background: #fefefe;padding-bottom: 10px;margin-right: 5px;margin-left: 5px;}
 	.queryblock a{top: 2px;right: 2px;position: absolute;}
 	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
@@ -149,7 +149,7 @@ $view = $this->getConfig('view');
 	<div class="clearboth panel" id="tabs-admin-query">
 		 <div id="queryCanvasWrapper">
 			<div id="addTable" class="tooltip" data-tooltip="<?php echo t('Add a table'); ?>" data-pos="e" onclick="$('#schema_sql').show()">+</div>
-			<div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations'); ?>" data-pos="w" onclick="$('#linksWrapper').show()">∞</div>
+			<div id="manageLinks" class="tooltip" data-tooltip="<?php echo t('Relations'); ?>" data-pos="w" onclick="$('#linksWrapper').show()">&infin;</div>
 			<span id="deletator" class="ui-icon ui-icon-closethick deletator"></span>
 			<span id="invertRelation" class="ui-icon ui-icon-refresh"></span>
 			<div id="schema_sql" style="overflow-y: auto;height:100%">
@@ -201,12 +201,17 @@ $view = $this->getConfig('view');
 				<li><a href="#tabs-result"><?php echo t('Result'); ?> <span id="labelresult"></span></a></li>
 			</ul>
 			<div class="innerPanel" id="tabs-criterias">
+				<div style="margin-left: 20px;  line-height: 23px;margin-bottom: 5px;">
+					<?php echo t('Add a calculated Field'); ?><span class="calculatedField" style="background: rgba(191,185,169,.2);  height: 16px;  cursor: pointer;  border-radius: 3px;  width: 16px;  outline: none;  -webkit-appearance: none;  box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);padding: 0 3px 0 3px; text-align: center; margin: 0 10px;">+</span>
+				</div>
 				<div id="pattern_sql" class="queryblock floatleft none">
 					<a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
 						<span class="removeButton"></span>
 					</a>
-					<div class="bloctitle"><input class="property" type="text" value=""></div>
-					<div class="borderb"><input class="table" type="text" value=""></div>
+					<div class="normalMode bloctitle"><input class="property" type="text" value=""></div>
+					<div class="calcMode blocalias"><input style="pointer-events: all;" placeholder="Alias" class="alias" type="text" value=""></div>
+					<div class="normalMode borderb"><input class="table" type="text" value=""></div>
+					<div class="calcMode borderCalculated"><input class="calculated" placeholder="Calculation" type="text" value=""></div>
 					<div class="sqltotal">
 						<select class="aggregate">
 							<option value=""></option>
@@ -399,15 +404,27 @@ $view = $this->getConfig('view');
 		}
 	}
 
-	function addProperty(propELMT, tableName, tableProperty, display, aggregate, where, or, order, filter, sort, group) {
+	function addProperty(propELMT, tableName, tableProperty, alias, calculation, display, aggregate, where, or, order, filter, sort, group) {
 		var sqlscheme = $("#pattern_sql").clone();
 		sqlscheme.attr("id","");
-		var nameProp = tableName + "_" + tableProperty;
-		$(".table",sqlscheme).attr('value',tableName);
-		$(".table",sqlscheme).attr('name','properties[' + nameProp + '][table]');
-		$(sqlscheme).attr('property',tableName + "_" + tableProperty);
-		$(".property",sqlscheme).val(tableProperty);
-		$(".property",sqlscheme).attr('name','properties[' + nameProp + '][property]');
+		if(alias.length > 0){
+			var nameProp = alias;
+			$(".calcMode",sqlscheme).show();
+			$(".normalMode",sqlscheme).hide();
+			$('.alias',sqlscheme).val(alias);
+			$('.calculated',sqlscheme).val(calculation);
+			$(".alias",sqlscheme).attr('name','properties[' + alias + '][alias]');
+			$(".calculated",sqlscheme).attr('name','properties[' + alias + '][calculated]');
+		}else{
+			$(".normalMode",sqlscheme).show();
+			$(".calcMode",sqlscheme).hide();
+			var nameProp = tableName + "." + tableProperty;
+			$(".table",sqlscheme).attr('value',tableName);
+			$(".table",sqlscheme).attr('name','properties[' + nameProp + '][table]');
+			$(sqlscheme).attr('property',nameProp);
+			$(".property",sqlscheme).val(tableProperty);
+			$(".property",sqlscheme).attr('name','properties[' + nameProp + '][property]');
+		}
 		$(".display",sqlscheme).attr('name','properties[' + nameProp + '][display]')[0].checked = display;
 		$(".aggregate",sqlscheme).attr('name','properties[' + nameProp + '][aggregate]').val(aggregate);
 		$(".where",sqlscheme).attr('name','properties[' + nameProp + '][where]').val(where);
@@ -486,8 +503,15 @@ $view = $this->getConfig('view');
 
 	$('#queryCanvas').on("click",".property",function() {
 		if($(".queryblock[property=" + $(this).parent().attr('table') + "_" + $(this).text().trim() + "]").length==0){
-			addProperty(this, $(this).parent().attr('table'), $(this).text().trim(), true, "", "", "", "", true, true, true);
+			addProperty(this, $(this).parent().attr('table'), $(this).text().trim(),'', '', true, "", "", "", "", true, true, true);
 			$("#generate_query").trigger("click");
+		}
+	});
+	$(document).on("click",".calculatedField",function() {
+		var calculatedField = prompt("Please enter calculated Field name");
+		/* to do check !exist */
+		if (calculatedField != null) {
+		  addProperty('', '', '', calculatedField,'', true, "", "", "", "", true, true, true);
 		}
 	});
 
@@ -620,7 +644,7 @@ $view = $this->getConfig('view');
 		if (!empty($tab_selected)) {
 			foreach ($tab_selected AS $selected) {
 				?>
-				   addProperty("", "<?php echo $selected['table']; ?>", "<?php echo $selected['property']; ?>", <?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", <?php echo (isset($selected['filter']) ? 'true' : 'false') ?>, <?php echo (isset($selected['sort']) ? 'true' : 'false') ?>, <?php echo (isset($selected['group']) ? 'true' : 'false') ?>);
+					addProperty("", "<?php echo (isset($selected['table'])) ?$selected['table'] : '' ?>", "<?php echo (isset($selected['property'])) ? $selected['property'] : ''; ?>", '<?php echo (isset($selected['alias']) ? $selected['alias'] : '') ?>', '<?php echo (isset($selected['calculated']) ? $selected['calculated'] : '') ?>',<?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", <?php echo (isset($selected['filter']) ? 'true' : 'false') ?>, <?php echo (isset($selected['sort']) ? 'true' : 'false') ?>, <?php echo (isset($selected['group']) ? 'true' : 'false') ?>);
 				<?php
 			}
 		}
