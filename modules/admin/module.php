@@ -866,25 +866,24 @@ class admin extends \module {
 	 * @return string|false
 	 */
 	protected function datagridPreviewAction(array $properties = array(), array $relations = array(), $pagination = false, $nbitem = 5) {
-		$view = new \view();
 		if (!empty($properties)) {
-			if (isset($relations)) $view = $view->initFromArray($properties, $relations);
-			else $view = $view->initFromArray($properties);
+			if (isset($relations)) $view = new \view($properties, $relations);
+			else $view = new \view($properties);
 			$view->limit(10);
+			$view->setPagination(TRUE);
+			$view->buildQuery();
+			$obj = $view;
+			ob_start();
+			$sql = $obj->getSQL();
+			$search = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
+			$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ', '<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
+			echo '<div id="generatedsql">' . str_replace($search, $replace, $sql['query']) . '</div>';
+			require('modules/admin/views/datagrid.php');
+			echo '<script> document.getElementById("labelresult").textContent = "( ' . $sql['pagination']->getNbRow() . ' )";</script>';
+			return ob_get_clean();
 		} else {
 			return t('No data for this query.');
 		}
-		$view->setPagination(TRUE);
-		$view->buildQuery();
-		$obj = $view;
-		ob_start();
-		$sql = $obj->getSQL();
-		$search = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
-		$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ', '<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
-		echo '<div id="generatedsql">' . str_replace($search, $replace, $sql['query']) . '</div>';
-		require('modules/admin/views/datagrid.php');
-		echo '<script> document.getElementById("labelresult").textContent = "( ' . $sql['pagination']->getNbRow() . ' )";</script>';
-		return ob_get_clean();
 	}
 
 	/**
@@ -1316,7 +1315,7 @@ class ' . $table->name . ' extends \entity {
 	/**
 	 * Save module page in putting data in module.obj
 	 */
-	private function saveAll() {
+	public function saveAll() {
 		$this->theme->save();
 		if (isset($this->page) && is_object($this->page) ) {
 			\tools::serialize(PROFILE_PATH . MODULE . '/pages/' . $this->page->getId(), $this->page);

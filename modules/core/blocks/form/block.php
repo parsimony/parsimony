@@ -115,7 +115,8 @@ if(isset($_POST[\'add\'])){
 		}
         if (ob_get_level()) ob_clean();
 		echo json_encode($return);
-		exit;
+		unset($GLOBALS['lastError']); /* to avoid to display error at the end of page load */
+		\app::getModule('admin')->saveAll(); /* finish to save config */
 	}
 	
 	public function getView() {

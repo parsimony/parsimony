@@ -53,11 +53,10 @@ $view = $this->getConfig('view');
 	._jsPlumb_connector{cursor: pointer;}
 	.property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
 	.property:hover{background-color: rgb(231,242,255);}
-	.caption{position: absolute;left: 5px;z-index: 100;float: left;padding: 10px 0;}
+	.caption{position: absolute;z-index: 100;padding: 10px 0;background: #FAFAFA;}
 	.caption div{line-height: 28px;letter-spacing: 1.2px;}
 	#recipiant_sql{width: 10000px;padding-left: 70px;}
 	#recipiant_sql .property{font-weight: normal;padding:5px;width: 130px;background: transparent;border: none;box-shadow:initial;}
-	#recipiant_sql input.property{pointer-events: none}
 	#recipiant_sql .table{background: transparent;border: none;box-shadow:initial;}
 	#recipiant_sql .selector{width:100%}
 	#recipiant_sql select{width: 100%;margin-top: 5px;background-color: #fafafa;}
@@ -123,9 +122,9 @@ $view = $this->getConfig('view');
 	#form{clear: both;position: relative;margin-left: 10px;}
 	.sqlorder{margin: 0 10px;}
 	.sqltotal{margin: 0 10px;padding-top: 5px;}
-	#recipiant_sql input[type="text"].where,#recipiant_sql input[type="text"].or {margin: 0 10px;}
-	#recipiant_sql input[type="text"].where:hover, #recipiant_sql input[type="text"].or:hover,#recipiant_sql input[type="text"].where:focus, #recipiant_sql input[type="text"].or:focus{background: #ececec;}
-	#recipiant_sql input[type="text"].property{background-color: transparent;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
+	#recipiant_sql input[type="text"].where,#recipiant_sql input[type="text"].orcond {margin: 0 10px;}
+	#recipiant_sql input[type="text"].where:hover, #recipiant_sql input[type="text"].orcond:hover,#recipiant_sql input[type="text"].where:focus, #recipiant_sql input[type="text"].orcond:focus{background: #ececec;}
+	#recipiant_sql input[type="text"].property,#recipiant_sql input[type="text"].alias{background-color: transparent;pointer-events: none;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
 	#recipiant_sql select:enabled:hover{background-color: #ececec;}
 	#recipiant_sql .checkb{line-height: 13px;padding: 3px 0 0;}
 </style>
@@ -208,10 +207,10 @@ $view = $this->getConfig('view');
 					<a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
 						<span class="removeButton"></span>
 					</a>
-					<div class="normalMode bloctitle"><input class="property" type="text" value=""></div>
-					<div class="calcMode blocalias"><input style="pointer-events: all;" placeholder="Alias" class="alias" type="text" value=""></div>
-					<div class="normalMode borderb"><input class="table" type="text" value=""></div>
-					<div class="calcMode borderCalculated"><input class="calculated" placeholder="Calculation" type="text" value=""></div>
+					<div class="normalMode bloctitle"><input class="property" type="text"></div>
+					<div class="calcMode blocalias"><input placeholder="Alias" class="alias" type="text"></div>
+					<div class="normalMode borderb"><input class="table" type="text"></div>
+					<div class="calcMode borderCalculated borderb"><input class="calculated" placeholder="Calculation" type="text"></div>
 					<div class="sqltotal">
 						<select class="aggregate">
 							<option value=""></option>
@@ -232,7 +231,7 @@ $view = $this->getConfig('view');
 					</div>
 					<div class="align_center checkb"><input class="display" type="checkbox" checked="checked"></div>
 					<div style="padding: 3px 0;"><input class="where" type="text"></div>
-					<div><input class="or" type="text"></div>
+					<div><input class="orcond" type="text"></div>
 					<div class="align_center checkb"><input class="filter" type="checkbox" checked="checked"></div>
 					<div class="align_center checkb"><input class="sort" type="checkbox" checked="checked"></div>
 					<div class="align_center checkb"><input class="group" type="checkbox" checked="checked"></div>
@@ -442,7 +441,7 @@ $view = $this->getConfig('view');
 				}
 			}
 		}
-		$(".or",sqlscheme).attr('name','properties[' + nameProp + '][or]').val(or);
+		$(".orcond",sqlscheme).attr('name','properties[' + nameProp + '][or]').val(or);
 		$(".order",sqlscheme).attr('name','properties[' + nameProp + '][order]').val(order);
 		$(".filter",sqlscheme).attr('name','properties[' + nameProp + '][filter]')[0].checked = filter;
 		$(".sort",sqlscheme).attr('name','properties[' + nameProp + '][sort]')[0].checked = sort;
@@ -459,6 +458,7 @@ $view = $this->getConfig('view');
 
 	$('#links').on("change","select",function() {
 	   draw(); 
+	   $("#generate_query").trigger("click");
 	});
 
 	$('#queryCanvas').on('click','#deletator',function(){

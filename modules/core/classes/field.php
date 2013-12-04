@@ -226,7 +226,7 @@ class field {
 	}
 	
 	public function getEditOptions() {
-		return  'class="parsieditinline"  data-mode="' . $this->editMode . '" data-module="' . $this->entity->getModule() . '" data-entity="' . $this->entity->getName() . '" data-property="' . $this->name . '" data-label="' . $this->label . '"';
+		return  'class="parsieditinline fieldeditinline"  data-mode="' . $this->editMode . '" data-module="' . $this->entity->getModule() . '" data-entity="' . $this->entity->getName() . '" data-property="' . $this->name . '" data-label="' . $this->label . '"';
 	}
 	
 	public function editInlineForAuthor($authorID) {

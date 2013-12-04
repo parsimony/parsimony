@@ -62,11 +62,10 @@ class query extends code {
 			if (isset($_POST['tables']))
 				$this->setConfig('tables', $_POST['tables']);
 
-			$myView = new \view();
 			if (isset($_POST['relations']))
-				$myView = $myView->initFromArray($_POST['properties'], $_POST['relations']);
+				$myView = new \view($_POST['properties'], $_POST['relations']);
 			else
-				$myView = $myView->initFromArray($_POST['properties']);
+				$myView = new \view($_POST['properties']);
 		}elseif ($_POST['mode'] === 'r') {
 			$myView = $this->getConfig('view');
 		}
@@ -103,12 +102,10 @@ class query extends code {
 		$view_code = '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
 		$view_code .= "\t" . '<?php foreach ($view as $row) : ?>' . PHP_EOL;
 		$view_code .= "\t\t" . '<div class="itemscope">' . PHP_EOL;
-		$myView = new \view();
 		if (!empty($properties)) {
-			$myView = $myView->initFromArray($properties);
+			$myView = new \view($properties);
 			foreach ($myView->getFields() AS $sqlName => $field) {
-				$name = $field->entity->getModule() . '_' . $field->entity->getName() . '_' . $field->name;
-				if(isset($properties[$name]['display'])){
+				if (isset($properties[$field->getFullName()]['display'])) {
 					if ($field instanceof field_ident)
 						$displayLine = '()';
 					else
@@ -144,7 +141,8 @@ class query extends code {
 		}
 		if (ob_get_level()) ob_clean();
 		echo json_encode($return);
-		exit;
+		unset($GLOBALS['lastError']); /* to avoid to display error at the end of page load*/
+		\app::getModule('admin')->saveAll(); /* finish to save config */
 	}
 
 	public function getView() {

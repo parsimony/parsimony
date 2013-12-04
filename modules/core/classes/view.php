@@ -51,6 +51,65 @@ class view extends queryBuilder implements \Iterator {
 	 * @var array of SQL fields in order to build SQL query 
 	 */
 	protected $SQL = array();
+	
+	/**
+	 * Init view from an array of block query
+	 * @param array $properties
+	 * @param array $joins
+	 * @return view
+	 */
+	public function __construct(array $properties, array $joins = array()) {
+		
+		if (!empty($joins)) {
+			foreach ($joins AS $p) {
+				$this->join($p['propertyLeft'], $p['propertyRight'], $p['type']);
+			}
+		}
+
+		foreach ($properties AS $p) {
+			if(isset($p['alias'])){
+				/* specific alias for calculated field */
+				/* select alias */
+				$this->_SQL['selects'][$p['alias']] = '( '. $p['calculated'] .' ) AS ' . $p['alias']; 	
+				$property = $p['alias'];
+				$obj = new \core\fields\alias($p['calculated'], array('label' => $property, 'calculation' => ' ( '. $p['calculated']. ' ) '));
+				$this->setField($property, $obj);
+			}else{
+				/* real fields */
+				/* select */
+				$this->select($p['table'].'.'.$p['property']);
+
+				/* From */
+				$this->from($p['table']);
+				$property = $p['table'] . '.' . $p['property'];
+			}
+			
+			/* where */
+			if (isset($p['where']) && !empty($p['where'])) {
+				$this->where( $property.' '. $p['where']);
+			}
+			/* or */
+			if (isset($p['or']) && !empty($p['or'])) {
+				$this->where($property .' '. $p['or']);
+			}
+			/* aggregate */
+			if (isset($p['aggregate']) && !empty($p['aggregate'])) {
+				if ($p['aggregate'] === 'groupby') {
+					$this->groupBy($property);
+				} else {
+					$this->aggregate($property, $p['aggregate']);
+				}
+			}
+			/* order */
+			if (isset($p['order']) && !empty($p['order'])) {
+				$this->order($property, $p['order']);
+			}
+		}
+		/* to fill parent entity reference in each field */
+		$this->__sleep();
+		$this->__wakeup();
+		return $this;
+	}
 
 	public function __wakeup() {
 		/* !!TODO REMOVE!! */
@@ -123,65 +182,6 @@ class view extends queryBuilder implements \Iterator {
 	 */
 	public function getFields() {
 		return $this->fields;
-	}
-
-	/**
-	 * Init view from an array
-	 * @param array $properties
-	 * @param array $joins
-	 * @return view
-	 */
-	public function initFromArray(array $properties, array $joins = array()) {
-		
-		if (!empty($joins)) {
-			foreach ($joins AS $p) {
-				$this->join($p['propertyLeft'], $p['propertyRight'], $p['type']);
-			}
-		}
-
-		foreach ($properties AS $p) {
-			if(isset($p['alias'])){
-				/* specific alias for calculated field */
-				/* select alias */
-				$this->_SQL['selects'][$p['alias']] = '( '. $p['calculated'] .' ) AS ' . $p['alias']; 	
-				$property = $p['alias'];
-				$obj = new \core\fields\alias($p['calculated'], array('label' => $property, 'calculation' => ' ( '. $p['calculated']. ' ) '));
-				$this->setField($property, $obj);
-			}else{
-				/* real fields */
-				/* select */
-				$this->select($p['table'].'.'.$p['property']);
-
-				/* From */
-				$this->from($p['table']);
-				$property = $p['table'] . '.' . $p['property'];
-			}
-			
-			/* where */
-			if (isset($p['where']) && !empty($p['where'])) {
-				$this->where( $property.' '. $p['where']);
-			}
-			/* or */
-			if (isset($p['or']) && !empty($p['or'])) {
-				$this->where($property .' '. $p['or']);
-			}
-			/* aggregate */
-			if (isset($p['aggregate']) && !empty($p['aggregate'])) {
-				if ($p['aggregate'] === 'groupby') {
-					$this->groupBy($property);
-				} else {
-					$this->aggregate($property, $p['aggregate']);
-				}
-			}
-			/* order */
-			if (isset($p['order']) && !empty($p['order'])) {
-				$this->order($property, $p['order']);
-			}
-		}
-		/* to fill parent entity reference in each field */
-		$this->__sleep();
-		$this->__wakeup();
-		return $this;
 	}
 
 	/**
