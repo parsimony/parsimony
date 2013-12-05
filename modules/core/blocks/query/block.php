@@ -179,7 +179,10 @@ class query extends code {
 				foreach ($_POST['group'] as $property => $value) {
 					$field = $view->getField($property);
 						if($field !== FALSE && isset($selected[$field->getFullName()]['group']) && isset($_POST['group'][$field->name]) && !empty($_POST['group'][$field->name])){ /* IF field exists and group is allowed */
-						$view->groupBy($field->getFullName(), $field->sqlGroup($_POST['group'][$field->name]));
+						$filterRes = $field->sqlGroup($_POST['group'][$field->name]);
+						if (!empty($filterRes)) {
+							$view->groupBy($field->getFullName(), $filterRes);
+						}
 					}
 				}
 			}

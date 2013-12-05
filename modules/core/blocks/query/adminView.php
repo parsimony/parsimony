@@ -229,12 +229,12 @@ $view = $this->getConfig('view');
 							<option value="desc"><?php echo t('Descending'); ?></option>
 						</select>
 					</div>
-					<div class="align_center checkb"><input class="display" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="display" type="checkbox"></div>
 					<div style="padding: 3px 0;"><input class="where" type="text"></div>
 					<div><input class="orcond" type="text"></div>
-					<div class="align_center checkb"><input class="filter" type="checkbox" checked="checked"></div>
-					<div class="align_center checkb"><input class="sort" type="checkbox" checked="checked"></div>
-					<div class="align_center checkb"><input class="group" type="checkbox" checked="checked"></div>
+					<div class="align_center checkb"><input class="filter" type="checkbox"></div>
+					<div class="align_center checkb"><input class="sort" type="checkbox"></div>
+					<div class="align_center checkb"><input class="group" type="checkbox"></div>
 				</div>         
 				<div id="form" action="">
 					<div class="caption">
@@ -414,6 +414,9 @@ $view = $this->getConfig('view');
 			$('.calculated',sqlscheme).val(calculation);
 			$(".alias",sqlscheme).attr('name','properties[' + alias + '][alias]');
 			$(".calculated",sqlscheme).attr('name','properties[' + alias + '][calculated]');
+			$(".group",sqlscheme).prop( "checked", false );
+			$(".group",sqlscheme).css( "pointer-events", 'none' );
+			$(".aggregate",sqlscheme).css( "pointer-events", 'none' );
 		}else{
 			$(".normalMode",sqlscheme).show();
 			$(".calcMode",sqlscheme).hide();
@@ -644,7 +647,7 @@ $view = $this->getConfig('view');
 		if (!empty($tab_selected)) {
 			foreach ($tab_selected AS $selected) {
 				?>
-					addProperty("", "<?php echo (isset($selected['table'])) ?$selected['table'] : '' ?>", "<?php echo (isset($selected['property'])) ? $selected['property'] : ''; ?>", '<?php echo (isset($selected['alias']) ? $selected['alias'] : '') ?>', '<?php echo (isset($selected['calculated']) ? $selected['calculated'] : '') ?>',<?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo $selected['aggregate'] ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", <?php echo (isset($selected['filter']) ? 'true' : 'false') ?>, <?php echo (isset($selected['sort']) ? 'true' : 'false') ?>, <?php echo (isset($selected['group']) ? 'true' : 'false') ?>);
+					addProperty("", "<?php echo (isset($selected['table'])) ?$selected['table'] : '' ?>", "<?php echo (isset($selected['property'])) ? $selected['property'] : ''; ?>", '<?php echo (isset($selected['alias']) ? $selected['alias'] : '') ?>', '<?php echo (isset($selected['calculated']) ? $selected['calculated'] : '') ?>',<?php echo (isset($selected['display']) ? 'true' : 'false') ?>, "<?php echo (isset($selected['aggregate']) ? $selected['aggregate'] : '' ) ?>", "<?php echo str_replace('"', '\"',$selected['where']) ?>", "<?php echo str_replace('"', '\"',$selected['or']) ?>", "<?php echo $selected['order'] ?>", <?php echo (isset($selected['filter']) ? 'true' : 'false') ?>, <?php echo (isset($selected['sort']) ? 'true' : 'false') ?>, <?php echo (isset($selected['group']) ? 'true' : 'false') ?>);
 				<?php
 			}
 		}

@@ -156,9 +156,12 @@ class filter extends \block {
 					}
 					
 					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
-						$grhtml .= '<div>' . $prop . ': <select name="group['.$prop.']"><option></option><option>day</option><option>month</option><option>year</option></select></div>';
+						$grhtml .= '<div>' . $prop . ': <select name="group['.$prop.']"><option></option>'
+								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'day' ? ' selected="selected"' : '') . '>day</option>'
+								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'month' ? ' selected="selected"' : '') . '>month</option>'
+								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'year' ? ' selected="selected"' : '') . '>year</option></select></div>';
 					}else{
-						$grhtml .= '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']"></div>';
+						$grhtml .= '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']" ' . (isset($_POST['group']) && isset($_POST['group'][$prop]) ? ' checked="checked"' : '') . '></div>';
 					}
 					
 				}
@@ -184,8 +187,8 @@ class filter extends \block {
 					
 					$sorthtml .='<div>'. $prop .': <select name="sort['.$prop .']">
 								<option></option>
-								<option value="asc">ASC</option>
-								<option value="desc">DESC</option>
+								<option value="asc"' . (isset($_POST['sort']) && isset($_POST['sort'][$prop]) && $_POST['sort'][$prop] === 'asc' ? ' selected="selected"' : '') . '>ASC</option>
+								<option value="desc"' . (isset($_POST['sort']) && isset($_POST['sort'][$prop]) && $_POST['sort'][$prop] === 'desc' ? ' selected="selected"' : '') . '>DESC</option>
 						</select>
 					</div>';
 					

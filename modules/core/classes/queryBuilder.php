@@ -162,9 +162,8 @@ class queryBuilder {
 	 */
 	public function aggregate($property, $function) {
 		$explProp = explode('.', $property);
-		if(count($explProp) > 1) {
-			$aliasProperty = $explProp[1];
-		}
+		if(isset($explProp[1])) $aliasProperty = $explProp[1];
+		else $aliasProperty = $explProp[0];
 		$alias = $aliasProperty . '_nb';
 		$this->_SQL['selects'][$alias] = $function . '(' . $property . ') AS ' . $alias; 
 		

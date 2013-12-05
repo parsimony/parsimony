@@ -90,6 +90,10 @@ class alias extends \field {
 	public function getFullName() {
 		return $this->name;
 	}
+	
+	public function sqlGroup($group) { /* can't group by an alias cause of function doesn't work in group by clause */
+		return '';
+	}
 
 }
 

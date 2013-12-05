@@ -30,6 +30,6 @@
 	<label for="<?php echo $property ?>_filter_start" class="filtertitle">
 		<?php echo $field->label ?>
 	</label>
-	<input type="text" name="filter[<?php echo $property ?>][start]" id="<?php echo $property ?>_filter_start" value="<?php if (isset($_POST['filter'][$property]['start'])) echo s($_POST['filter'][$property]['start']) ?>" />
-	<input type="text" name="filter[<?php echo $property ?>][end]" id="<?php echo $property ?>_filter_end" value="<?php if (isset($_POST['filter'][$property]['end'])) echo s($_POST['filter'][$property]['end']) ?>" />
+	<input placeholder="Min" type="text" name="filter[<?php echo $property ?>][start]" id="<?php echo $property ?>_filter_start" value="<?php if (isset($_POST['filter'][$property]['start'])) echo s($_POST['filter'][$property]['start']) ?>" />
+	<input placeholder="Max" type="text" name="filter[<?php echo $property ?>][end]" id="<?php echo $property ?>_filter_end" value="<?php if (isset($_POST['filter'][$property]['end'])) echo s($_POST['filter'][$property]['end']) ?>" />
 </div>

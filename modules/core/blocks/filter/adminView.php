@@ -226,8 +226,8 @@ if ($block) {
 				</div>
 				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 50%;">
 					<label>Default value <?php echo $name  ?></label>
-					<input type="text" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['rangeStart'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
-					<input type="text" class="defaultrange" name="properties[<?php echo $name ?>][default][rangeEnd]" <?php if(isset($properties[$name]['default']['rangeEnd'])) echo 'value="'.$properties[$name]['default']['rangeEnd'].'"'; ?>/>	
+					<input type="text" placeholder="Min" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['rangeStart'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
+					<input type="text" placeholder="Max" class="defaultrange" name="properties[<?php echo $name ?>][default][rangeEnd]" <?php if(isset($properties[$name]['default']['rangeEnd'])) echo 'value="'.$properties[$name]['default']['rangeEnd'].'"'; ?>/>	
 				</div>
 			</div>
 			<?php
