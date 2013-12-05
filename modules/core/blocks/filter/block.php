@@ -140,7 +140,7 @@ class filter extends \block {
 				}
 			}
 			/* GROUP */
-			$countGr = -1;$endgr = '';
+			$countGr = -1;$endgr = '';$grhtml = '';
 			foreach ($selected as $value) {		
 				if(isset($value['group'])){	
 					
@@ -170,8 +170,7 @@ class filter extends \block {
 			echo $grhtml;
 			
 			/* SORT */
-			$countSo = -1;
-			$endsort = '';
+			$countSo = -1;$endsort = '';$sorthtml = '';
 			foreach ($selected as $value) {		
 				if(isset($value['sort'])){
 					$countSo++; if($countSo == 0) {  $sorthtml = '<div class="sortfilter"><h2>Sort by</h2>'; $endsort = '</div>';}
