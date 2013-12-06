@@ -30,14 +30,14 @@
 <script>
 	$(document).ready(function() {
 		$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-			ajaxFileParams: {action: "upload",type: "image",path: "<?php echo PROFILE_PATH . MODULE . '/files'; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+			ajaxFileParams: {action: "upload",type: "image",path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",THEMETYPE: "<?php echo $_POST['THEMETYPE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
 			start:function(file){console.log("Start load : " + file.name)},
 			onProgress:function(file, progress){console.log("Load: " + file.name + " - " + progress + " %")},
 			stop:function(response){
 					if(typeof response.name != "undefined"){
 						$("input[name=imgPath]").val(response.name);
 						$("#preview .title").html('<span id="currentname"> <?php echo str_replace('\'','\\\'',t('Current Name', false)) ?> : ' + response.name + '</span>');
-						var src = "<?php echo BASE_PATH . MODULE . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1";
+						var src = "<?php echo BASE_PATH . $_POST['MODULE'] . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1";
 						$("#preview .img").attr( 'src' ,src );
 						$("span#width").text(response.x + 'px');
 						$("span#height").text(response.y + 'px');
@@ -52,7 +52,7 @@
 	#preview{width: 280px;line-height: 15px;text-align: center;margin: 7px 10px}
 	#imageover {text-overflow: inherit; overflow: visible;white-space: normal;word-wrap: break-word;background-color: white;z-index: 999; border: 1px #CCC dashed;}
 	#size{margin: 5px 0px;color: rgba(255, 255, 255, 0.347656);text-shadow: -2px -2px 0px #555;}
-	.dragndropimage{width: 100%;border: 1px solid #ccc;height: 210px;border-radius: 8px; background: #f9f9f9;color:#222;}
+	.dragndropimage{width: 100%;height: 210px;border-radius: 8px; background: #f9f9f9;color:#222;}
 	.dragndropimageInner{text-align:center;width: 300px; height: 165px;margin: 30px 0 0 35px;border: #CCC 1px solid;-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px; background: #D8DFEA;}
 	.boxDropImage{border: 4px dashed #999;font-size: 15px;border-radius: 3px;text-align:center;margin: 10px;padding: 20px;}
 

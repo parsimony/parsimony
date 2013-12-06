@@ -79,9 +79,10 @@ class response {
 
 			$page = \app::$request->page = $body; /* Save page object */
 
-			\app::dispatchEvent('pageLoad'); /* Let modules to prepare the page */
-
 			$theme = $page->getTheme();
+			
+			\app::dispatchEvent('pageLoad'); /* Let modules to prepare the page , after getTheme() to define themes constants */
+			
 			if ($theme instanceof theme) {
 				$body = $theme->display(); /* Display with theme */
 			} else{
@@ -94,7 +95,7 @@ class response {
 				\app::dispatchEvent('editLoad'); /* include edit tools */
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
 				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $page->getId() . '";';
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.TOKEN="'.TOKEN.'";top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'$(document).ready(function() {top.ParsimonyAdmin.initPreview();});  </script>';
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'$(document).ready(function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			/* Wrap body with HTML structure */

@@ -93,6 +93,7 @@ foreach ($activeModule as $module => $type) {
 					<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer') . ' ' . ucfirst($module); ?>">
 						<?php echo t('Database Designer') ?>
 						<form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">
+							<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 							<input type="hidden" name="module" value="<?php echo $module; ?>">
 						</form>
 					</li>

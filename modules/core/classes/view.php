@@ -67,39 +67,50 @@ class view extends queryBuilder implements \Iterator {
 		}
 
 		foreach ($properties AS $p) {
-			if(isset($p['alias'])){
-				/* specific alias for calculated field */
+			if (isset($p['alias'])) { /* specific alias for calculated field */
+				
 				/* select alias */
 				$this->_SQL['selects'][$p['alias']] = '( '. $p['calculated'] .' ) AS ' . $p['alias']; 	
 				$property = $p['alias'];
 				$obj = new \core\fields\alias($p['calculated'], array('label' => $property, 'calculation' => ' ( '. $p['calculated']. ' ) '));
 				$this->setField($property, $obj);
-			}else{
-				/* real fields */
+				
+				/* where */
+				if (isset($p['where']) && !empty($p['where'])) {
+					$this->having($property . ' ' . $p['where']);
+				}
+				/* or */
+				if (isset($p['or']) && !empty($p['or'])) {
+					$this->having($property . ' ' . $p['or']);
+				}
+			} else { /* real fields */
+
 				/* select */
 				$this->select($p['table'].'.'.$p['property']);
 
 				/* From */
 				$this->from($p['table']);
 				$property = $p['table'] . '.' . $p['property'];
-			}
-			
-			/* where */
-			if (isset($p['where']) && !empty($p['where'])) {
-				$this->where( $property.' '. $p['where']);
-			}
-			/* or */
-			if (isset($p['or']) && !empty($p['or'])) {
-				$this->where($property .' '. $p['or']);
-			}
-			/* aggregate */
-			if (isset($p['aggregate']) && !empty($p['aggregate'])) {
-				if ($p['aggregate'] === 'groupby') {
-					$this->groupBy($property);
-				} else {
-					$this->aggregate($property, $p['aggregate']);
+				
+				/* where */
+				if (isset($p['where']) && !empty($p['where'])) {
+					$this->where($property . ' ' . $p['where']);
+				}
+				/* or */
+				if (isset($p['or']) && !empty($p['or'])) {
+					$this->where($property . ' ' . $p['or']);
+				}
+				
+				/* aggregate */
+				if (isset($p['aggregate']) && !empty($p['aggregate'])) {
+					if ($p['aggregate'] === 'groupby') {
+						$this->groupBy($property);
+					} else {
+						$this->aggregate($property, $p['aggregate']);
+					}
 				}
 			}
+			
 			/* order */
 			if (isset($p['order']) && !empty($p['order'])) {
 				$this->order($property, $p['order']);

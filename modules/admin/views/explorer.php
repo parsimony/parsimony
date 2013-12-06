@@ -149,7 +149,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 	});
                 
        $("#explorerfiles").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-	    ajaxFileParams: {action: "upload",path: $("#path").text(),MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+	    ajaxFileParams: {action: "upload",path: $("#path").text(),MODULE: "<?php echo MODULE ?>"},
 	    start:function(file){
                 var obj = $("#explorerfiles").data('uploadParams');
                 obj.path = $("#path").text();
@@ -298,10 +298,10 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
         codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));
     }
     function list(path) {
-	$.post("<?php echo BASE_PATH; ?>admin/files", { dirPath: path },
-	function(data) {
-	    $("#explorerfiles").html(data);
-	});
+		$.post("<?php echo BASE_PATH; ?>admin/files", { TOKEN: "<?php echo TOKEN; ?>",dirPath: path },
+		function(data) {
+			$("#explorerfiles").html(data);
+		});
     }
     
     function pictureOrFile(path){

@@ -47,14 +47,6 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
 <script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
-<script type="text/javascript">
-	var BASE_PATH = '<?php echo BASE_PATH ?>';
-	var MODULE = '<?php echo MODULE ?>';
-	var THEME = '<?php echo THEME ?>';
-	var THEMETYPE = '<?php echo THEMETYPE ?>';
-	var THEMEMODULE = '<?php echo THEMEMODULE ?>';
-	var TOKEN = '<?php echo TOKEN ?>';
-</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
@@ -599,6 +591,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		<div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
 			<?php echo t('Connector'); ?>
 			<form action="" method="POST" style="display:inline-block;margin: 0;">
+				<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 				<select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice', this.value, 999);$(this).parent().trigger('submit');">
 					<option>Bezier</option>
 					<option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart') echo ' selected="selected"'; ?>>Flowchart</option>
@@ -622,6 +615,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		<div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
 			<?php echo t('Add an Entity'); ?>
 			<form id="add_table" style="display:inline-block;margin: 0;">
+				<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 				<input type="text" id="table_name" style="padding:1px;">
 				<input type="submit" style="height: 19px;line-height: 12px;" value="<?php echo t('Add'); ?>"> 
 			</form>
@@ -1147,7 +1141,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					propertylist = propertylist.substring(0, propertylist.length - 1) + '}},';
 				});
 				propertylist = propertylist.substring(0, propertylist.length - 1) + ']';
-				$.post('saveModel', {module: '<?php echo $_POST['module'] ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
+				$.post('saveModel', {TOKEN: '<?php echo TOKEN; ?>', module: '<?php echo $_POST['module'] ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
 					ParsimonyAdmin.notify(t('New Data Model has been Saved') + data, "positive");
 					$(".new").removeClass("new");
 				});

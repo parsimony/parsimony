@@ -369,6 +369,28 @@ class field {
 	 * Fill SQL Features
 	 * @return string
 	 */
+	public function sqlModel() {
+		$primary_key = $auto_increment = $characters_max = $default = '';
+		if (get_class($this) === \app::$aliasClasses['field_ident']) {
+			$primary_key = ' PRIMARY KEY';
+			$auto_increment = ' AUTO_INCREMENT';
+		}
+		if ($this->required)
+			$required = ' NOT NULL';
+		else
+			$required = 'NULL';
+		if (!empty($this->characters_max) || $this->characters_max != 0)
+			$characters_max = '(' . $this->characters_max . ')';
+		if (!empty($this->default))
+			$default = ' DEFAULT \'' . $this->default . '\'';
+		return '`' . $this->name . '` ' . $this->type . $characters_max . ' ' . $required . $default . $auto_increment . $primary_key;
+	}
+
+	/**
+	 * Returns SQL to filter the field ( overridable for multiple colums)
+	 * @param string $filter
+	 * @return string
+	 */
 	public function sqlFilter($filter) {
 		$fieldName = $this->getTableName() . '_' . $this->name;
 		if(isset($this->calculation)){

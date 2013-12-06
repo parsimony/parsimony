@@ -78,17 +78,17 @@ class admin extends \module {
 	 * @param string $stop_typecont
 	 * @return string 
 	 */
-	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content) {
+	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
 		$this->initObjects();
 		$tempBlock = new $popBlock($idBlock);
 		$idBlock = $tempBlock->getId(); /* To sanitize id */	
 		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
 			if($stop_typecont === 'theme') {
-				if ($tempBlock->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
+				if ($tempBlock->onMove('theme', $THEMEMODULE, $THEME, $THEMETYPE)) {
 					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother')));
 				}
 			} else {
-				if ($tempBlock->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
+				if ($tempBlock->onMove('page', $MODULE, $this->page->getId(), $THEMETYPE)) {
 					return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother')));
 				}
 			}
@@ -103,10 +103,10 @@ class admin extends \module {
 		/* If exists : Add default block CSS in current theme  */
 		if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
 			$css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
-			if (!is_file(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css') && is_file('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css')) {
-				file_put_contents(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css', file_get_contents('modules/' . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css'));
+			if (!is_file(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css') && is_file('modules/' . $this->theme->getModule() . '/themes/' . $this->page->getId() . '/' . $THEMETYPE . '/style.css')) {
+				file_put_contents(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css', file_get_contents('modules/' . $this->theme->getModule() . '/themes/' . $this->page->getId() . '/' . $THEMETYPE . '/style.css'));
 			}
-			$cssCurrentTheme = new \css(PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
+			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/' . $THEMETYPE . '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
 				$newSelector = '#' . $idBlock . ' ' . $selector;
 				if (!$cssCurrentTheme->selectorExists($newSelector)) {
@@ -145,7 +145,7 @@ class admin extends \module {
 	 * @param string $cssClasses
 	 * @return string 
 	 */
-	protected function saveBlockConfigsAction($typeProgress, $idBlock,$headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
+	protected function saveBlockConfigsAction($typeProgress, $idBlock, $headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 		$this->initObjects();
 		$block = $this->$typeProgress->searchBlock($idBlock);
 
@@ -225,7 +225,7 @@ class admin extends \module {
 	 * @param string $idBlock
 	 * @return string
 	 */
-	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock) {
+	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock, $THEMEMODULE, $THEME, $THEMETYPE) {
 		$this->initObjects();
 		$parent = $this->$typeProgress->searchBlock($parentBlock);
 		$block = $this->$typeProgress->searchBlock($idBlock);
@@ -235,7 +235,7 @@ class admin extends \module {
 		$parent->rmBlock($idBlock);
 		$test = $this->$typeProgress->searchBlock($idBlock);
 		if ($test == NULL){
-			$path = PROFILE_PATH . THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
+			$path = PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css';
 			if(is_file($path)){
 				$css = new \css($path);
 				$css->deleteSelector('#' . $idBlock);
@@ -447,7 +447,7 @@ class admin extends \module {
 	 * @param string $parentBlock
 	 * @return string 
 	 */
-	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock) {
+	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
 		$this->initObjects();
 		//start
 		$block = $this->$start_typecont->searchBlock($idBlock);
@@ -462,11 +462,11 @@ class admin extends \module {
 		if ($this->$stop_typecont->searchBlock($idBlock) !== NULL){
 			if (method_exists($block, 'onMove')) { /* init path of views */
 				if($stop_typecont === 'theme') {
-					if ($block->onMove('theme', $this->theme->getModule(), $this->theme->getName(), THEMETYPE)) {
+					if ($block->onMove('theme', $THEMEMODULE, $THEME, $THEMETYPE)) {
 						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this theme, please choose antother')));
 					}
 				} else {
-					if ($block->onMove('page', $this->page->getModule(), $this->page->getId(), THEMETYPE)) {
+					if ($block->onMove('page', $MODULE, $this->page->getId(), $THEMETYPE)) {
 						return $this->returnResult(array('eval' => '', 'notification' => t('ID block already exists in this page, please choose antother')));
 					}
 				}
@@ -838,10 +838,10 @@ class admin extends \module {
 	}
 
 	public function structureTree($obj) {
-		$this->initObjects();
 		$idPage = '';
 		$id = $obj->getId();
 		if($id === 'content'){
+			$this->initObjects();
 			$obj = \app::$request->page;
 			$idPage = ' data-page="' . $obj->getId() . '"';
 		}
@@ -1318,9 +1318,9 @@ class ' . $table->name . ' extends \entity {
 	public function saveAll() {
 		$this->theme->save();
 		if (isset($this->page) && is_object($this->page) ) {
-			\tools::serialize(PROFILE_PATH . MODULE . '/pages/' . $this->page->getId(), $this->page);
+			\tools::serialize(PROFILE_PATH . \app::$request->getParam('MODULE') . '/pages/' . $this->page->getId(), $this->page);
 		}
-		\tools::serialize(PROFILE_PATH . MODULE . '/module', $this->module);
+		\tools::serialize(PROFILE_PATH . \app::$request->getParam('MODULE') . '/module', $this->module);
 	}
 
 	/**
@@ -1419,8 +1419,8 @@ class ' . $table->name . ' extends \entity {
 	 * Init objects theme module & page
 	 */
 	private function initObjects() {
-		$this->theme = \theme::get(THEMEMODULE, THEME, THEMETYPE);
-		$this->module = \app::getModule(MODULE);
+		$this->theme = \theme::get(\app::$request->getParam('THEMEMODULE'), \app::$request->getParam('THEME'), \app::$request->getParam('THEMETYPE'));
+		$this->module = \app::getModule(\app::$request->getParam('MODULE'));
 		$IDPage = \app::$request->getParam('IDPage');
 		if ($IDPage && is_numeric($IDPage)) {
 			\app::$request->page = $this->page = $this->module->getPage($IDPage);
@@ -1432,7 +1432,6 @@ class ' . $table->name . ' extends \entity {
 	 * @return string 
 	 */
 	protected function actionAction() {
-		$this->initObjects();
 		/* Init a page */
 		\app::$request->page = new \page(1, 'admin');
 		if (isset($_POST['action'])) {

@@ -258,7 +258,7 @@ abstract class block {
 			}
 		}
 
-		$cacheFile = 'var/cache/' . PROFILE_PATH . $this->moduleName . '/blocks/' . $this->blockName . '/' . THEME . '_' . MODULE . '_' . $this->id . '.cache';
+		$cacheFile = 'var/cache/' . PROFILE_PATH . $this->moduleName . '/blocks/' . $this->blockName . '/' . MODULE . '_' . $this->id . '.cache';
 		if ($maxAge > 0 && is_file($cacheFile) && filemtime($cacheFile) + $maxAge > time()) {
 			ob_start();
 			include($cacheFile);

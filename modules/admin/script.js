@@ -283,6 +283,7 @@ var ParsimonyAdmin = {
 					var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".parsicontainer").attr('id').replace("treedom_", "");
 				ParsimonyAdmin.postData(BASE_PATH + "admin/removeBlock", {
 					TOKEN: TOKEN,
+					MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE,
 					idBlock: ParsimonyAdmin.inProgress,
 					parentBlock: parentId,
 					typeProgress: ParsimonyAdmin.typeProgress,
@@ -539,7 +540,7 @@ var ParsimonyAdmin = {
 		$(".dropInContainer",this.currentBody).remove();
 		if(tree != false) {
 			$("#config_tree_selector").hide().prependTo("#right_sidebar");
-			this.loadBlock('tree', {IDPage: top.document.getElementById("infodev_page").textContent});
+			this.loadBlock('tree', {MODULE: this.currentWindow.MODULE, THEMEMODULE: this.currentWindow.THEMEMODULE, THEME: this.currentWindow.THEME, THEMETYPE: this.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent});
 		}
 		$(".core_container",this.currentBody).each(function(){
 		if($(this).find('.parsiblock:not("#content")').length == 0) {

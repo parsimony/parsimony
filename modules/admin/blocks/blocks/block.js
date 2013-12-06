@@ -25,11 +25,12 @@ function blockAdminBlocks() {
 			//alert(t('Error in your DOM, perhaps an HTML tag isn\'t closed.'));
 			return false;
 		};
-		if(idNextBlock == undefined || idNextBlock==idBlock) idNextBlock = "last";
+		if(idNextBlock == undefined || idNextBlock == idBlock) idNextBlock = "last";
 		var contentToAdd = '';
 		if (typeof content != "undefined") contentToAdd = content;
 		ParsimonyAdmin.postData(BASE_PATH + "admin/" + action, {
 			TOKEN: TOKEN,
+			MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE,
 			popBlock: blockType,
 			idBlock: idBlock,
 			id_next_block: idNextBlock,
@@ -333,7 +334,7 @@ function blockAdmin() {
 			else
 				parentId = inProgress.parent().closest(".core_container").attr('id').replace("treedom_", "");
 		}
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + this.getAttribute('rel') + "&IDPage=" + $(".core_page", ParsimonyAdmin.currentBody).data('page'));
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&MODULE=" + ParsimonyAdmin.currentWindow.MODULE + "&THEMEMODULE=" + ParsimonyAdmin.currentWindow.THEMEMODULE + "&THEME=" + ParsimonyAdmin.currentWindow.THEME + "&THEMETYPE=" + ParsimonyAdmin.currentWindow.THEMETYPE + "&idBlock=" + ParsimonyAdmin.inProgress + "&parentBlock=" + parentId + "&typeProgress=" + ParsimonyAdmin.typeProgress + "&action=" + this.getAttribute('rel') + "&IDPage=" + $(".core_page", ParsimonyAdmin.currentBody).data('page'));
 	}
 
 	this.onDesign = function(e) {

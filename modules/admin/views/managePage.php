@@ -409,7 +409,7 @@
 	}
 
 	function checkOveride(regex) {
-		$.post(BASE_PATH + "admin/checkOverridedPage", {module: '<?php echo MODULE ?>', idpage: '<?php echo $page->getId() ?>', regex: regex}, function(data) {
+		$.post(BASE_PATH + "admin/checkOverridedPage", {TOKEN: TOKEN, module: '<?php echo MODULE ?>', idpage: '<?php echo $page->getId() ?>', regex: regex}, function(data) {
 			if (data.length > 0) {
 				$("#pageOverride").html('<div style="background: #44C5EC;width: 531px;padding: 5px;color: #FBFBFB;">Attention this page is suspected to override and hide page ' + data + '</div>');
 			} else {

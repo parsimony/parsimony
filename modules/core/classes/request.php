@@ -66,42 +66,21 @@ class request {
 	public function __construct($URL) {
 
 		$this->URL = $URL;
-
+		
+		/* Determine role of user */
+		$this->determineRole();
+		
 		/* Determine HTTP request */
 		$this->initMethod($_SERVER['REQUEST_METHOD']);
 
 		/* Determine locale */
 		$this->determineLocale();
 
-		/* Rights */
-		define('DISPLAY', 1);
-		define('INSERT', 2);
-		define('UPDATE', 4);
-		define('DELETE', 8);
-
-		/* Determine role of user */
-		$this->determineRole();
-
-		/* MODULE : search module */
+		/* Search called module */
 		$this->determineModule();
-
-		if ($this->determineToken() === FALSE) { /* If we don't have a Token */
-
-			/* Determine device where we are */
-			$this->determineDevice();
-
-			/* Define THEME */
-			if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
-				define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
-				define('THEME', $_COOKIE['THEME']);
-			}else{
-				define('THEMEMODULE', app::$config['THEMEMODULE']);
-				define('THEME', app::$config['THEME']);
-			}
-
-			/* CRSF + TOKEN */
-			$this->createNewToken();
-		}
+		
+		/* Determine used device */
+		$this->determineDevice();
 
 	}
 
@@ -149,6 +128,14 @@ class request {
 	public function setParam($key, $value) {
 		$this->params[$key] = $value;
 	}
+	
+	/**
+	 * Get Module
+	 * @return string
+	 */
+	public function getModule() {
+		return $this->module;
+	}
 
 	/**
 	 * Get all Params from current HTTP request (GET,POST,PUT,DELETE)
@@ -183,24 +170,6 @@ class request {
 			\tools::file_put_contents($pathCache . '.js', substr($config->getContent(), 5, false));
 		}
 		app::$lang = $lang;
-	}
-
-	/**
-	 * Detetermine constants thanks to token
-	 * @return bool
-	 */
-	protected function determineToken() {
-		if (isset($_POST['TOKEN'])) {
-			if (isset($_SESSION['tokens'][$_POST['TOKEN']])) {
-				define('TOKEN', $_POST['TOKEN']); // verif good token
-				define('THEMETYPE', $_SESSION['tokens'][TOKEN]['THEMETYPE']);
-				define('THEME', $_SESSION['tokens'][TOKEN]['THEME']);
-				define('THEMEMODULE', $_SESSION['tokens'][TOKEN]['THEMEMODULE']);
-				define('MODULE', $_SESSION['tokens'][TOKEN]['MODULE']);
-				return TRUE;
-			}
-		}
-		return FALSE;
 	}
 
 	/**
@@ -243,23 +212,7 @@ class request {
 		}
 		if (empty($this->secondPartURL))
 			$this->secondPartURL = 'index';
-	}
-
-	/**
-	 * Generate TOKEN
-	 */
-	protected function createNewToken() {
-		$module = app::getModule($this->module);
-		$moduleName = $module->getName();
-		define('MODULE', $moduleName);
-		if (!isset($_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName])) {
-			$token = sha1(THEMETYPE . THEMEMODULE . THEME . $moduleName . \app::$config['security']['salt'] . time()); // change salt
-			$_SESSION['tokens'][$token] = array('THEMETYPE' => THEMETYPE, 'THEMEMODULE' => THEMEMODULE, 'THEME' => THEME, 'MODULE' => $moduleName);
-			$_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName] = $token;
-			define('TOKEN', $token);
-		} else {
-			define('TOKEN', $_SESSION['tokensReverse'][THEMETYPE][THEMEMODULE][THEME][$moduleName]);
-		}
+		define('MODULE', $this->module);
 	}
 
 	/**
@@ -272,6 +225,7 @@ class request {
 			define('PARSI_ADMIN', 1);
 			$adminPage = new \page(1, 'admin');
 			$adminPage->setTheme(FALSE);
+			
 			/* Display admin */
 			return app::$response->setContent($adminPage->addBlock(new \admin\blocks\toolbar("admintoolbar")), 200); 
 		}
@@ -296,6 +250,13 @@ class request {
 	 * Determine Role & permissions
 	 */
 	protected function determineRole() {
+		
+		/* Rights */
+		define('DISPLAY', 1);
+		define('INSERT', 2);
+		define('UPDATE', 4);
+		define('DELETE', 8);
+		
 		if (\app::getClass('user')->VerifyConnexion() === TRUE &&
 			( empty(app::$config['security']['allowedipadmin']) || preg_match('@' . preg_quote($_SERVER['REMOTE_ADDR'], '.') . '@', app::$config['security']['allowedipadmin']))) {
 
@@ -306,9 +267,8 @@ class request {
 									'session_login' => $_SESSION['login']));
 
 			if($_SESSION['behavior'] > 0){
-				/* Add admin module */
+				/* If user is a creator we display errors and active admin module */
 				\app::$config['modules']['active']['admin'] = 1;
-				/* If user is a creator we display errors and active admin module*/
 				if($_SESSION['behavior'] === 2){
 					error_reporting(-1);
 					ini_set('display_errors', 1);
@@ -328,6 +288,8 @@ class request {
 									'session_behavior' => 0,
 									'session_login' => FALSE));
 		}
+		
+		define('TOKEN', $_SESSION['TOKEN']);
 	}
 
 	/**
@@ -341,11 +303,14 @@ class request {
 		array_walk_recursive($_GET, function(&$v, &$k) {
 			$v = str_replace(chr(0), '', $v);
 		});
-		$this->params = $_GET;
-
+		$this->params = array_merge($this->params, $_GET);
+		
 		if($method !== 'GET'){
 			switch ($method) {
 				case 'POST':
+					if (!isset($_POST['TOKEN']) || $_SESSION['TOKEN'] !== $_POST['TOKEN']) {
+						die('CSRF'); /* CSRF attack */
+					}
 					array_walk_recursive($_POST, function(&$v, &$k) {
 						$v = str_replace(chr(0), '', $v);
 					});

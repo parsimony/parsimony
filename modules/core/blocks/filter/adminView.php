@@ -101,7 +101,7 @@
 	</div>
 <?php
 $blockquery = $this->getConfig('blockquery') ? $this->getConfig('blockquery') : 'rapports';
-$block = \app::getModule(MODULE)->getPage(\app::$request->getParam('IDPage'))->searchBlock($blockquery);
+$block = \app::getModule($_POST['MODULE'])->getPage(\app::$request->getParam('IDPage'))->searchBlock($blockquery);
 if ($block) {
 	$properties = $this->getConfig('properties');
 	$selected = $block->getConfig('selected');

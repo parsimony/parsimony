@@ -6,9 +6,7 @@
 		<script type="text/javascript">
 			var BASE_PATH = '<?php echo BASE_PATH ?>';
 			var MODULE = '<?php echo MODULE ?>';
-			var THEME = '<?php echo THEME ?>';
 			var THEMETYPE = '<?php echo THEMETYPE ?>';
-			var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 			var TOKEN = '<?php echo TOKEN ?>';
 		</script>
 		<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>

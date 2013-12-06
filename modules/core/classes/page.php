@@ -147,15 +147,27 @@ class page extends \block {
 	 * @return string
 	 */
 	public function getTheme() {
+		
 		if($this->theme === FALSE || \app::$request->getParam('nostructure')){
+			define('THEMEMODULE', '');
+			define('THEME', '');
 			return '';
 		}
-		if(empty($this->theme)){
-			return \theme::get(THEMEMODULE, THEME, THEMETYPE);
+		/* Define THEME */
+		if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+			define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
+			define('THEME', $_COOKIE['THEME']);
 		}else{
-			$themeParts = explode('_', $this->theme, 2);
-			return \theme::get($themeParts[0], $themeParts[1], THEMETYPE);
+			if(empty($this->theme)){
+				define('THEMEMODULE', app::$config['THEMEMODULE']);
+				define('THEME', app::$config['THEME']);
+			}else{
+				$themeParts = explode('_', $this->theme, 2);
+				define('THEMEMODULE', $themeParts[0]);
+				define('THEME', $themeParts[1]);
+			}
 		}
+		return \theme::get(THEMEMODULE, THEME, THEMETYPE);
 	}
 
 	/**

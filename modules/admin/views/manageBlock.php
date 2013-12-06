@@ -87,6 +87,10 @@ if (is_object($block) == NULL) {
 					echo $block->getAdminView();
 					?>
 					<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
+					<input type="hidden" name="MODULE" value="<?php echo $_POST['MODULE']; ?>" />
+					<input type="hidden" name="THEMEMODULE" value="<?php echo $_POST['THEMEMODULE']; ?>" />
+					<input type="hidden" name="THEME" value="<?php echo $_POST['THEME']; ?>" />
+					<input type="hidden" name="THEMETYPE" value="<?php echo $_POST['THEMETYPE']; ?>" />
 					<input type="hidden" name="getVars" />
 					<input type="hidden" name="postVars" />
 					<input type="hidden" name="idBlock" value="<?php echo $_POST['idBlock']; ?>" />
