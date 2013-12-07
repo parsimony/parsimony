@@ -127,7 +127,7 @@ function blockAdminCSS() {
 		/* Save changes */
 		.on("click.creation", "#savemycss", function() {
 			/* Save changes */
-			$.post(BASE_PATH + "admin/saveCSS", {
+			$.post(BASE_PATH + "admin/saveCSS", {TOKEN: ParsimonyAdmin.currentWindow.TOKEN,
 				changes: JSON.stringify(ParsimonyAdmin.CSSValuesChanges) /* encode to allow a [class="tt"] selectors */
 			}, function(data) {
 				ParsimonyAdmin.execResult(data);
@@ -1174,7 +1174,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 
 	/* If a selector has been found, we get his cssText from server */
 	if (found) {
-		$.post(BASE_PATH + "admin/getCSSSelectorsRules", {
+		$.post(BASE_PATH + "admin/getCSSSelectorsRules", {TOKEN: ParsimonyAdmin.currentWindow.TOKEN,
 			matches: matches
 		}, function(data) {
 			$.each(data, function(i, item) {

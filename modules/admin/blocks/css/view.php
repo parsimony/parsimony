@@ -30,48 +30,41 @@ app::$request->page->addCSSFile('lib/colorpicker/colorpicker.css');
 app::$request->page->addJSFile('lib/colorpicker/colorpicker.js');
 app::$request->page->addJSFile('admin/blocks/css/block.js','footer');
 
-/* We get and store client side all CSS selectors from theme style */
-$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
-$css = new css(PROFILE_PATH . $pathTheme);
-$CSSValues = $css->getCSSValues();
 ?>
-<script>
-ParsimonyAdmin.CSSValues = <?php echo json_encode(array($pathTheme => $CSSValues)); ?>;
-</script>
-	<div id="toolChanges">
-		<button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"></button>
-		<button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"></button>
-		<span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
-		<div id="listchanges" class="none"></div>
+<div id="toolChanges">
+	<button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"></button>
+	<button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"></button>
+	<span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
+	<div id="listchanges" class="none"></div>
+</div>
+<div id="mediaquerieslabel">Media queries</div>
+<input type="checkbox" name="slide" id="checkmedia" onclick="Parsimony.blocks['admin_css'].findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" />
+<label for="checkmedia" id="labelmedia">
+  <div id="btnmedia">
+	<span></span>
+  </div>  
+</label>
+<div id="mediaqueries" style="text-align: right;font-size: 11px;" class="none">
+	<div id="formAddMedia" style="line-height: 30px;text-align: left;padding-left:7px;border-top:1px solid #F3F3F3;">
+		Screen width From <input type="text" style="width:27px;text-align:right" id="mdqMinWidthValue" placeholder="&infin;" />px 
+		&nbsp; To <input type="text" style="width:27px;text-align:right" id="mdqMaxWidthValue" placeholder="&infin;" />px
+		<div id="removeMDQ">X</div>
 	</div>
-	<div id="mediaquerieslabel">Media queries</div>
-	<input type="checkbox" name="slide" id="checkmedia" onclick="Parsimony.blocks['admin_css'].findSelectorsByElement(document.body);document.getElementById('mediaqueries').classList.remove('none');" />
-	<label for="checkmedia" id="labelmedia">
-	  <div id="btnmedia">
-		<span></span>
-	  </div>  
-	</label>
-	<div id="mediaqueries" style="text-align: right;font-size: 11px;" class="none">
-		<div id="formAddMedia" style="line-height: 30px;text-align: left;padding-left:7px;border-top:1px solid #F3F3F3;">
-			Screen width From <input type="text" style="width:27px;text-align:right" id="mdqMinWidthValue" placeholder="&infin;" />px 
-			&nbsp; To <input type="text" style="width:27px;text-align:right" id="mdqMaxWidthValue" placeholder="&infin;" />px
-			<div id="removeMDQ">X</div>
-		</div>
-		<div id="mediaqueriesdisplay">
-			<div id="mdqlabel" onclick="document.getElementById('mediaqueriesdisplay').classList.toggle('hide');">Media queries</div>
-			<div id="scopeMediaQueries"></div>
-			<div id="arrow-down"></div>
-			<div id="globalcssscope" data-min="0" data-max="9999" data-media="" class="mediaq active"></div>
-		</div>
-		<input type="hidden" id="currentMdq" data-range="" />
+	<div id="mediaqueriesdisplay">
+		<div id="mdqlabel" onclick="document.getElementById('mediaqueriesdisplay').classList.toggle('hide');">Media queries</div>
+		<div id="scopeMediaQueries"></div>
+		<div id="arrow-down"></div>
+		<div id="globalcssscope" data-min="0" data-max="9999" data-media="" class="mediaq active"></div>
 	</div>
+	<input type="hidden" id="currentMdq" data-range="" />
+</div>
 <?php /* We create a form in order to reset easily all values by .reset(), but not media queries inputs  */ ?>
 <form method="POST" id="form_css" action="javascript:void(0);" target="formResult">
 	<div id="selectorcontainer">
 	   <div id="csspicker" class="cssPickerBTN tooltip" data-tooltip="<?php echo t('CSS Picker'); ?>"><span class="sprite sprite-picker"></span></div>
 		<input type="text" placeholder="e.g. #selector" data-optionsurl="" class="autocomplete" id="current_selector_update" spellcheck="false" />
 	</div>
-	<input type="hidden" id="changecsspath" name="filePath" value="<?php echo THEMEMODULE.'/themes/'.THEME.'/'.THEMETYPE; ?>/style.css" />
+	<input type="hidden" id="changecsspath" name="filePath" />
 	<div id="changecssformcode" class="subTabsContainer">
 		<div id="switchtovisuel" class="ssTabCSS">Visuel</div>
 		<div id="switchtocode" class="ssTabCSS">Code</div>

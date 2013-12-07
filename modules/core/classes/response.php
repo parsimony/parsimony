@@ -94,8 +94,14 @@ class response {
 				$page->addJSFile('lib/editinline.js');
 				\app::dispatchEvent('editLoad'); /* include edit tools */
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
+				
+				/* Store on client side all CSS selectors from theme style */
+				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
+				$css = new css(PROFILE_PATH . $pathTheme);
+				$CSSValues = $css->getCSSValues();
+				
 				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $page->getId() . '";';
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';'.$script.'$(document).ready(function() {top.ParsimonyAdmin.initPreview();});  </script>';
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';top.CSSTHEMEPATH = "'.$pathTheme.'";top.CSSPAGEPATH = "'.MODULE . '/css/' . THEMETYPE.'.css";top.ParsimonyAdmin.CSSValues = '.json_encode(array($pathTheme => $CSSValues)).';'.$script.'$(document).ready(function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			/* Wrap body with HTML structure */
