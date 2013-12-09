@@ -238,12 +238,13 @@ function blockAdminCSS() {
 			if (oldCssText.length == 0)
 				oldCssText = this.dataset.css + ":" + this.value + ";";
 
-			/* We check if property is already set */
-			if (oldCssText.match(new RegExp("[; ]?" + this.dataset.css + "[^;]*"))) {
+			/* We check if property is already set, must manage with : min-width and width props like */
+			if ((" " + oldCssText).match(new RegExp("[^a-z-]" + this.dataset.css + "[\s ]?:")) != null) {
 				if (this.value.length > 0) {
-					newCssText = oldCssText.replace(new RegExp("([; ]?)(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
+					console.log(" " + oldCssText.replace(new RegExp("([^a-z-])(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value));
+					newCssText = " " + oldCssText.replace(new RegExp("([^a-z-])(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
 				} else { /* if there is no value we delete property */
-					newCssText = oldCssText.replace(new RegExp("([; ]?)" + this.dataset.css + "[^;]*[;]?"), "$1");
+					newCssText = " " + oldCssText.replace(new RegExp("([^a-z-])" + this.dataset.css + "[^;]*[;]?"), "$1");
 				}
 			} else {
 				if (this.value.length > 0) {
@@ -1265,8 +1266,8 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 }
 
 blockAdminCSS.prototype.formatCSS = function(css) {
-	/* must manage with back : #ffffff and back: url(http://dom) */
-	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#]*/g, "$1$2 ");
+	/* must manage with back : #ffffff and back: url(http://dom), and font-family: 'Segoe UI', Tahoma, Helvetica, sans-serif; */
+	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#']*/g, "$1$2 ");
 }
 
 blockAdminCSS.prototype.openCSSForm = function() {
