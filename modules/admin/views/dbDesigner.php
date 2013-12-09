@@ -47,6 +47,9 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
 <script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
+<script type="text/javascript">
+	var BASE_PATH = '<?php echo BASE_PATH ?>';
+</script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
@@ -674,7 +677,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				$html = '';
 				$classes = array_unique(get_declared_classes());
 				foreach ($classes as $class) {
-					if (is_subclass_of($class, 'field')) { 
+					if (is_subclass_of($class, 'field') ) {
 						if (isset($aliasClasses[$class])) {
 							$class = $aliasClasses[$class];
 						}
@@ -687,7 +690,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						$args['oldName'] = $field->name;
 						$args['required'] = (int) $args['required'];
 						$args['name'] = '';
-						if ($class == 'field_ident' || $class == 'field_foreignkey')
+						if ($class == 'field_ident' || $class == 'field_foreignkey' || $class == 'field_alias')
 							$none = ' style="display:none"';
 						else
 							$none = '';

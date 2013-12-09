@@ -30,8 +30,8 @@
 namespace core\fields;
 
 /**
- * @title String
- * @description String
+ * @title Alias
+ * @description Alias
  * @version 1
  * @browsers all
  * @php_version_min 5.3
