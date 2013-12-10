@@ -208,7 +208,7 @@ class filter extends \block {
 		$filtertitle = '<h2>'.t('Filter by').'</h2>';
 		$grouptitle = '<h2>'.t('Group by').'</h2>';
 		$sorttitle = '<h2>'.t('Sort by').'</h2>';
-		$html = '<form method="post" action=""><input type="hidden" name="TOKEN" value="'.TOKEN .'"/>'.((!empty($filterhtml)) ? '<div>'.$filtertitle.$filterhtml.'</div class="filter">' : ''). ((!empty($grouphtml)) ? '<div class="groupfilter">'.$grouptitle.$grouphtml.'</div>' : '').((!empty($sorthtml)) ? '<div class="sortfilter">'.$sorttitle.$sorthtml.'</div>' : '').'<input type="submit" name="submitfilter"></form>';
+		$html = '<form method="post" action=""><input type="hidden" name="TOKEN" value="'.TOKEN .'"/>'.((!empty($filterhtml)) ? '<div class="filter">'.$filtertitle.$filterhtml.'</div>' : ''). ((!empty($grouphtml)) ? '<div class="groupfilter">'.$grouptitle.$grouphtml.'</div>' : '').((!empty($sorthtml)) ? '<div class="sortfilter">'.$sorttitle.$sorthtml.'</div>' : '').'<input type="submit" name="submitfilter"></form>';
 		return $html;
 	}
 
