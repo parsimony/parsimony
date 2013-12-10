@@ -86,6 +86,9 @@ class user {
 				unlink($oldDir . 'sess_' . $oldId);
 			}
 		}
+		if (!isset($_SESSION['TOKEN'])) {
+			$_SESSION['TOKEN'] = sha1(session_id() . \app::$config['security']['salt'] . microtime()); /* https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet */
+		}
 	}
 
 	/**
@@ -108,7 +111,6 @@ class user {
 					$_SESSION['id_user'] = (int) $obj['id_user'];
 					$_SESSION['id_role'] = (int) $obj['id_role'];
 					$_SESSION['behavior'] = (int) $obj['state'];
-					$_SESSION['TOKEN'] = sha1(session_id() . \app::$config['security']['salt'] . microtime()); /* https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet */
 					return TRUE;
 				} else {
 					return FALSE;

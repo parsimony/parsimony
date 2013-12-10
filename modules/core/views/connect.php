@@ -126,6 +126,7 @@ if (isset($_POST['connexion'])) {
                 <img src="<?php echo BASE_PATH; ?>core/img/logo-parsimony-big.png">
             </div>
             <form action="" method="POST"> 
+				<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 				<div class="login">
 					<div style="text-align: left;" >                    
 						<input type="text" placeholder="<?php echo t('Username'); ?>" name="login" autofocus/>
@@ -159,7 +160,7 @@ if (isset($_POST['connexion'])) {
                     $('<div style="postion:fixed;padding: 100px 0;font-size:35px;text-align:center;line-height: 50px;letter-spacing: 1.5px; color:#777;text-shadow: 0px 1px 0px white;z-index:99999999;width:100%;height:100%">Parsimony Beta uses <a style="color:#777;font-size:40px;text-align:center;line-height: 50px;letter-spacing: 1.5px;text-shadow: 0px 1px 0px white;" href="https://www.google.com/chrome">Google Chrome</a> for administration.<br>Please <a style="color:#777;text-shadow: 0px 1px 0px white;font-size:35px;text-align:center;line-height: 50px;letter-spacing: 1.5px;" href="https://www.google.com/chrome">Install</a> or use Google Chrome </div>').prependTo('body');
                 }
                 $("#newmdpgo").on("click", function(){
-                    $.post('<?php echo BASE_PATH; ?>renewPass',{mail:$("#newmdp").val()}, function(data) {
+                    $.post('<?php echo BASE_PATH; ?>renewPass',{TOKEN: "<?php echo TOKEN; ?>",mail:$("#newmdp").val()}, function(data) {
                         if(data == 1){
                             alert('<?php echo t('A new PassWord has been sent to your E-mail account'); ?>'); 
                         }else if(data == 0){

@@ -139,17 +139,17 @@ class core extends \module {
 		);
 
 		/* on page load */
-		\app::addListener('pageLoad', array($this, 'loadExternalFiles'));
+		\app::addListener('beforePageLoad', array($this, 'loadExternalFiles'));
 	}
 
 	public function loadExternalFiles() {
 		\app::$request->page->addCSSFile('lib/cms.css');
 		\app::$request->page->addJSFile('lib/cms.js');
-		if (\app::$config['general']['ajaxnav']) {
-			\app::$request->page->addJSFile('core/js/ajaxNav.js', 'footer');
-			\app::$request->page->addCSSFile('core/css/ajaxNav.css', 'footer');
-		}
 		if (!defined('PARSI_ADMIN')) {
+			if (\app::$config['general']['ajaxnav']) {
+				\app::$request->page->addJSFile('core/js/ajaxNav.js', 'footer');
+				\app::$request->page->addCSSFile('core/css/ajaxNav.css', 'footer');
+			}
 			\app::$request->page->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
 			\app::$request->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 		}
