@@ -19,8 +19,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core/blocks
@@ -41,32 +41,58 @@ namespace core\blocks;
 class filter extends \block {
 	
 	public function getView() {
-		ob_start();
-		echo '<form method="post" action="">';
+
+		$html = '';
 		$blockquery = $this->getConfig('blockquery');
 
 		$block = \app::$request->page->searchBlock($blockquery);
 		if($block !== null){
-			/* TODO FACTORIZE */
+			
+			$filterhtml = '';
+			$grouphtml = '';
+			$sorthtml = '';
 			$properties = $this->getConfig('properties');
 			$selected = $block->getConfig('selected');
-			foreach ($selected as $tabprop => $value) {
-				if(isset($value['filter'])){
-
-					if(isset($value['alias'])){
-						$property = $name = $value['alias'];
-						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
-					}else{
-						$table = $value['table'];
-						$property = $value['property'];
-						list($module, $entity) = explode('_', $table, 2);
-						$field = \app::getModule($module)->getEntity($entity)->getField($property);	
-//						$tabprop = $table.'.'.$property;
+			
+			$countFil = -1;$endfil = '';$filhtml = '';
+			foreach ($selected as $tabprop => $val) {
+				
+				// Define property & field
+				
+				if(isset($val['alias'])){
+					$property = $name = $val['alias'];
+					$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $val['calculated']. ' ) '));
+				}else{
+					$table = $val['table'];
+					$property = $val['property'];
+					list($module, $entity) = explode('_', $table, 2);
+					$field = \app::getModule($module)->getEntity($entity)->getField($property);	
+				}
+				/* Default SORT value */
+				if(isset($val['sort'])){
+					$sortconfigs = $properties[$tabprop]['sort'];
+					if(!isset($_POST['submitfilter'])){
+						$_POST['sort'][$property] = isset($sortconfigs) ? $sortconfigs : '';
 					}
+				}
+				/* Default GROUP value */
+				if(isset($val['group'])){	
+					$groupconfigs = $properties[$tabprop]['group'];
+					if(!isset($_POST['submitfilter'])){
+						$_POST['group'][$property] = isset($groupconfigs) ? $groupconfigs : '';
+					}
+				}
+				
+				/* FILTER */
+				ob_start();
+				if(isset($val['filter'])){
 					$template = isset($properties[$tabprop]['tpl']) ? $properties[$tabprop]['tpl'] : 'string';
 					$configs = $properties[$tabprop];
+					/* Default FILTER value */
 					$defaultconfigs = $properties[$tabprop]['default'];
 					if(!isset($_POST['submitfilter'])){
+						
+						/* Default FILTER TPL */
 						if($configs['tpl'] == 'string' || $configs['tpl'] == 'select') {
 							$_POST['filter'][$property] = isset($defaultconfigs['rangeStart']) ? $defaultconfigs['rangeStart'] : '';
 							
@@ -84,7 +110,6 @@ class filter extends \block {
 							$nowformat = str_replace(' ', 'T', $nowformat);
 							if(!isset($defaultconfigs['state'] )){ // static values for fields\date or fields\publication
 								if(isset($defaultconfigs['start'] )){
-									
 									$_POST['filter'][$property]['start'] = $defaultconfigs['start'];
 								}
 								if(isset($defaultconfigs['end'])){
@@ -135,69 +160,56 @@ class filter extends \block {
 						}
 
 					}
-				
 					include('modules/core/blocks/filter/views/'.$template.'.php');
 				}
-			}
-			/* GROUP */
-			$countGr = -1;$endgr = '';$grhtml = '';
-			foreach ($selected as $value) {		
-				if(isset($value['group'])){	
+				$filterhtml .= ob_get_clean();
 					
-					$countGr++; if($countGr == 0){ $grhtml = '<div class="groupfilter"><h2>Group by</h2>'; $endgr = '</div>';}
-					if(isset($value['alias'])){
-						$prop = $name = $value['alias'];
-						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
-					}else{
-						$table = $value['table'];
-						$prop = $value['property'];
-						list($module, $entity) = explode('_', $table, 2);
-						$field = \app::getModule($module)->getEntity($entity)->getField($prop);
-					}
-					
-					if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
-						$grhtml .= '<div>' . $prop . ': <select name="group['.$prop.']"><option></option>'
-								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'day' ? ' selected="selected"' : '') . '>day</option>'
-								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'month' ? ' selected="selected"' : '') . '>month</option>'
-								. '<option' . (isset($_POST['group']) && isset($_POST['group'][$prop]) && $_POST['group'][$prop] === 'year' ? ' selected="selected"' : '') . '>year</option></select></div>';
-					}else{
-						$grhtml .= '<div>' . $prop . ': <input type="checkbox" name="group['.$prop.']" ' . (isset($_POST['group']) && isset($_POST['group'][$prop]) ? ' checked="checked"' : '') . '></div>';
-					}
-					
-				}
-			}
-			$grhtml .= $endgr;
-			echo $grhtml;
-			
-			/* SORT */
-			$countSo = -1;$endsort = '';$sorthtml = '';
-			foreach ($selected as $value) {		
-				if(isset($value['sort'])){
-					$countSo++; if($countSo == 0) {  $sorthtml = '<div class="sortfilter"><h2>Sort by</h2>'; $endsort = '</div>';}
-					if(isset($value['alias'])){
-						$prop = $name = $value['alias'];
-						$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
-					}else{
-						$table = $value['table'];
-						$prop = $value['property'];
-						list($module, $entity) = explode('_', $table, 2);
-						$field = \app::getModule($module)->getEntity($entity)->getField($prop);
-					}
-					
-					$sorthtml .='<div>'. $prop .': <select name="sort['.$prop .']">
+				/* GROUP */
+				ob_start();
+				if(isset($val['group'])){
+						if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
+							?>
+							<div><label><?php echo $property ?></label>
+							<select name="group[<?php echo $property ?>]">
 								<option></option>
-								<option value="asc"' . (isset($_POST['sort']) && isset($_POST['sort'][$prop]) && $_POST['sort'][$prop] === 'asc' ? ' selected="selected"' : '') . '>ASC</option>
-								<option value="desc"' . (isset($_POST['sort']) && isset($_POST['sort'][$prop]) && $_POST['sort'][$prop] === 'desc' ? ' selected="selected"' : '') . '>DESC</option>
-						</select>
-					</div>';
-					
+								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'day' ? ' selected="selected"' : '') ?>>day</option>
+								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'month' ? ' selected="selected"' : '') ?>>month</option>'
+								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'year' ? ' selected="selected"' : '') ?>>year</option>
+							</select>
+							</div>
+						<?php
+						}else{ 
+							?>
+							<div>
+								<label><?php echo $property ?></label>
+								<input type="checkbox" name="group[<?php echo $property ?>]" <?php echo  (isset($_POST['group']) && (isset($_POST['group'][$property])) && ($_POST['group'][$property] == 1) ? ' checked="checked"' : '') ?>>
+							</div>
+						<?php
+						}
 				}
-			}
-			$sorthtml .= $endsort;
-			echo $sorthtml;
+				$grouphtml .= ob_get_clean();
+			
+				/* SORT */
+				ob_start();
+				if(isset($val['sort'])){
+					?>
+					<div><label><?php echo $property ?></label>
+						<select name="sort[<?php echo $property ?>]">
+								<option></option>
+								<option value="asc" <?php echo  (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'asc' ? ' selected="selected"' : '') ?>>ASC</option>
+								<option value="desc" <?php echo  (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'desc' ? ' selected="selected"' : '') ?>>DESC</option>
+						</select>
+					</div>
+					<?php
+				}
+				$sorthtml .= ob_get_clean();
+				}
 		}	
-		echo '<input type="submit" name="submitfilter"></form>';
-		return ob_get_clean();
+		$filtertitle = '<h2>'.t('Filter by').'</h2>';
+		$grouptitle = '<h2>'.t('Group by').'</h2>';
+		$sorttitle = '<h2>'.t('Sort by').'</h2>';
+		$html = '<form method="post" action=""><input type="hidden" name="TOKEN" value="'.TOKEN .'"/>'.((!empty($filterhtml)) ? '<div>'.$filtertitle.$filterhtml.'</div class="filter">' : ''). ((!empty($grouphtml)) ? '<div class="groupfilter">'.$grouptitle.$grouphtml.'</div>' : '').((!empty($sorthtml)) ? '<div class="sortfilter">'.$sorttitle.$sorthtml.'</div>' : '').'<input type="submit" name="submitfilter"></form>';
+		return $html;
 	}
 
 	/**
@@ -212,6 +224,6 @@ class filter extends \block {
 		}
 		
 	}
-
+	
 }
 ?>

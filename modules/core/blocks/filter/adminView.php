@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
+ * @authors Julien Gras et BenoÃ®t Lorillot
+ * @copyright  Julien Gras et BenoÃ®t Lorillot
  * @version  Release: 1.0
  * @category  Parsimony
  * @package core/blocks
@@ -103,11 +103,13 @@
 $blockquery = $this->getConfig('blockquery') ? $this->getConfig('blockquery') : 'rapports';
 $block = \app::getModule($_POST['MODULE'])->getPage(\app::$request->getParam('IDPage'))->searchBlock($blockquery);
 if ($block) {
+	$filterhtml = '';
+	$grouphtml = '';
+	$sorthtml = '';
 	$properties = $this->getConfig('properties');
 	$selected = $block->getConfig('selected');
 	foreach ($selected as $key => $value) {
-		if (isset($value['filter'])) { 
-			if(isset($value['alias'])){
+		if(isset($value['alias'])){
 				$name = $value['alias'];
 				$field = new \core\fields\alias ($name, array('label' => $name , 'calculation' => ' ( '. $value['calculated']. ' ) '));
 			}else{
@@ -117,6 +119,10 @@ if ($block) {
 				list($module, $entity) = explode('_', $table, 2);
 				$field = \app::getModule($module)->getEntity($entity)->getField($property);
 			}
+		ob_start();
+		/* FILTER */
+		if (isset($value['filter'])) { 
+			
 			if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
 				$cssname = str_replace('.', '', $name);
 				?><style>
@@ -134,14 +140,14 @@ if ($block) {
 					#<?php echo $cssname ?>_startend:checked + .labelvalues .btnvalues {background:#44C5EC;}
 				</style>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 50%;">
+				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
 					<label>Template <?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="date">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'datetimerange') echo 'selected="selected"'; ?>>datetimerange</option>
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'daterange') echo 'selected="selected"'; ?>>daterange</option>
 					</select>
 				</div>
-				<div class="" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 50%;">
+				<div class="" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
 					<label style="display: block;margin: 5px 7px 0px 0px;color: #464646;padding: 3px 7px;font-size: 14px;border-bottom: 0px;border-top-left-radius: 2px;border-top-right-radius: 2px;background-color: #F1F1F1;">Default value <?php echo $name  ?></label>
 					<div style="margin: 15px 0;line-height: 15px;"><span style="margin-right: 10px">Static values</span>
 					<input type="checkbox" name="properties[<?php echo $name ?>][default][state]" id="<?php echo $cssname ?>_checkvalues" class="checkvalues" <?php if(isset($properties[$name]['default']['state'])) echo 'checked="checked"'; ?>>
@@ -200,14 +206,14 @@ if ($block) {
 			}elseif (get_class($field) === 'core\fields\boolean' || get_class($field) === 'core\fields\state') {
 			?>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 50%;">
+				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
 					<label>Template <?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="tpl">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'string') echo 'selected="selected"'; ?>>string</option>			
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'select') echo 'selected="selected"'; ?>>select</option>
 					</select>
 				</div>
-				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 50%;">
+				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
 					<label>Default value <?php echo $name  ?></label>
 					<input type="text" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['boolstring'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
 				</div>
@@ -216,7 +222,7 @@ if ($block) {
 			else{		
 				?>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 50%;">
+				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
 					<label>Template <?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="tpl">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'string') echo 'selected="selected"'; ?>>string</option>			
@@ -224,7 +230,7 @@ if ($block) {
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'range') echo 'selected="selected"'; ?>>range</option>
 					</select>
 				</div>
-				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 50%;">
+				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
 					<label>Default value <?php echo $name  ?></label>
 					<input type="text" placeholder="Min" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['rangeStart'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
 					<input type="text" placeholder="Max" class="defaultrange" name="properties[<?php echo $name ?>][default][rangeEnd]" <?php if(isset($properties[$name]['default']['rangeEnd'])) echo 'value="'.$properties[$name]['default']['rangeEnd'].'"'; ?>/>	
@@ -233,7 +239,59 @@ if ($block) {
 			<?php
 			}
 		}
+		$filterhtml .= ob_get_clean();
+		/* GROUP */
+		ob_start();
+		if (isset($value['group'])) { 
+			if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
+			?>
+			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+			<label><?php echo $name ?></label>
+			<select name="properties[<?php echo $name ?>][group]">
+				<option></option>
+				<option <?php if(isset($properties[$name]['group']) && $properties[$name]['group'] === 'day') echo 'selected="selected"'; ?>>day</option>
+				<option <?php if(isset($properties[$name]['group']) && $properties[$name]['group'] === 'month') echo 'selected="selected"'; ?>>month</option>
+				<option <?php if(isset($properties[$name]['group']) && $properties[$name]['group'] === 'year') echo 'selected="selected"'; ?>>year</option>
+			</select>
+			</div>
+			<?php
+			}else{
+			?>
+			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+				
+			<label><?php echo $name ?></label>
+				<select name="properties[<?php echo $name ?>][group]">
+					<option></option>
+					<option value="0" <?php if(isset($properties[$name]['group']) && $properties[$name]['group'] === '0') echo 'selected="selected"'; ?>>FALSE</option>
+					<option value="1" <?php if(isset($properties[$name]['group']) && $properties[$name]['group'] === '1') echo 'selected="selected"'; ?>>TRUE</option>
+					
+				</select>
+			</div>
+			<?php			
+			}
+		}
+		$grouphtml .= ob_get_clean();
+		/* SORT */
+		ob_start();
+		if (isset($value['sort'])) { 
+			?>
+			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+				<label><?php echo $name ?></label>
+				<select name="properties[<?php echo $name ?>][sort]">
+						<option></option>
+						<option value="asc" <?php if(isset($properties[$name]['sort']) && $properties[$name]['sort'] === 'asc') echo 'selected="selected"'; ?>>ASC</option>
+						<option value="desc" <?php if(isset($properties[$name]['sort']) && $properties[$name]['sort'] === 'desc') echo 'selected="selected"'; ?>>DESC</option>
+				</select>
+			</div>
+			<?php			
+
+		}
+		$sorthtml .= ob_get_clean();
 	}
+	$filtertitle = '<h2>'.t('Filters by').'</h2>';
+	$grouptitle = '<h2>'.t('Group by').'</h2>';
+	$sorttitle = '<h2>'.t('Sort by').'</h2>';
+	echo ((!empty($filterhtml)) ? $filtertitle.$filterhtml : ''). ((!empty($grouphtml)) ? $grouptitle.$grouphtml : '').((!empty($sorthtml)) ? $sorttitle.$sorthtml : '');
 }
 ?>
 	
