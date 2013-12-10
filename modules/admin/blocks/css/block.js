@@ -8,6 +8,10 @@ function blockAdminCSS() {
 	this.currentFile;
 
 
+	this.initPreview = function() {
+		document.getElementById("changecsspath").value = CSSTHEMEPATH;
+	}
+	
 	this.loadCreationMode = function() {
 		
 		var $this = this;
