@@ -176,6 +176,7 @@ class query extends code {
 			}
 			
 			if(isset($_POST['group']) && is_array($_POST['group']) && $this->getConfig('group') ){
+				$_POST['group'] = array_filter($_POST['group']);//remove all empty() values
 				foreach ($_POST['group'] as $property => $value) {
 					$field = $view->getField($property);
 						if($field !== FALSE && isset($selected[$field->getFullName()]['group']) && isset($_POST['group'][$field->name]) && !empty($_POST['group'][$field->name])){ /* IF field exists and group is allowed */
