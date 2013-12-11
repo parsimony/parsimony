@@ -190,12 +190,12 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 				if(idpath.slice(-1) != '/') idpath += '/';
 				var path = idpath +'/'+ folder ;
 			if (folder.indexOf(".") !=-1) {
-					$.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path , code : '' },function(data) { 
+					$.post("<?php echo BASE_PATH; ?>admin/saveCode", {TOKEN: "<?php echo TOKEN; ?>", file: path , code : '' },function(data) { 
 					if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 					else alert('The file has not been created ');
 				});
 			}else{			
-					$.post("<?php echo BASE_PATH; ?>admin/createDir", { directory: path},function(data) { 
+					$.post("<?php echo BASE_PATH; ?>admin/createDir", {TOKEN: "<?php echo TOKEN; ?>", directory: path},function(data) { 
 						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 						else alert('The folder has not been created ');
 					});
@@ -210,13 +210,13 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 			var path = idpath + folder ;
 			if (r==true){
 				if (folder.indexOf(".") !=-1) {
-					$.post("<?php echo BASE_PATH; ?>admin/deleteFile", { file : path},function(data) { 
+					$.post("<?php echo BASE_PATH; ?>admin/deleteFile", {TOKEN: "<?php echo TOKEN; ?>", file : path},function(data) { 
 						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 						else alert('The file has not been deleted');
 					});
 				}else{
 					path += '/';
-					$.post("<?php echo BASE_PATH; ?>admin/deleteDir", { dir : path},function(data) { 
+					$.post("<?php echo BASE_PATH; ?>admin/deleteDir", {TOKEN: "<?php echo TOKEN; ?>", dir : path},function(data) { 
 						if(data == '1')	list($("#path").text().replace('<?php echo PROFILE_PATH; ?>',''));
 						else alert('The folder has not been deleted');
 					});
@@ -234,7 +234,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             var name = panel.attr("id").substring(4);
             var codeEditor = editors["tab-" + name];
             if(this.value != "none"){
-                $.post("getBackUp",{
+                $.post("getBackUp",{TOKEN: "<?php echo TOKEN; ?>",
                     replace: this.value,
                     file: path,
                     content: codeEditor.getValue().replace('"','\"')
@@ -252,7 +252,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
             var path = panel.data("path");
             var name = panel.attr("id").substring(4);
             var code = editors["tab-" + name].getValue();
-            $.post("<?php echo BASE_PATH; ?>admin/saveCode", { file: path, code : code },
+            $.post("<?php echo BASE_PATH; ?>admin/saveCode", {TOKEN: "<?php echo TOKEN; ?>", file: path, code : code },
             function(data) {
                 $("#" + name).removeClass("unsaved");
             });
@@ -298,7 +298,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
         codeEditor.autoFormatRange(codeEditor.getCursor(true), codeEditor.getCursor(false));
     }
     function list(path) {
-		$.post("<?php echo BASE_PATH; ?>admin/files", { TOKEN: "<?php echo TOKEN; ?>",dirPath: path },
+		$.post("<?php echo BASE_PATH; ?>admin/files", { TOKEN: "<?php echo TOKEN; ?>", dirPath: path },
 		function(data) {
 			$("#explorerfiles").html(data);
 		});
@@ -335,7 +335,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
     }
     function addFile(name,techName,path) {
             
-            $.post("<?php echo BASE_PATH; ?>admin/explorerEditor", { file: path },
+            $.post("<?php echo BASE_PATH; ?>admin/explorerEditor", {TOKEN: "<?php echo TOKEN; ?>", file: path },
             function(data) {
             $(".panel").hide();
             $("#tab-" + techName).show();

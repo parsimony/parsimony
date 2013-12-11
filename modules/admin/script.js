@@ -40,6 +40,7 @@ var ParsimonyAdmin = {
 
 		this.iframe = document.getElementById("preview");
 		this.$iframe = $(this.iframe);
+		this.currentWindow = this.iframe.contentWindow;
 
 		$("#formResult").on("load", function() {
 			var elmt = $(this).contents().find('body').text();
@@ -75,7 +76,6 @@ var ParsimonyAdmin = {
 
 	initPreview: function() {
 
-		this.currentWindow = this.iframe.contentWindow;
 		this.currentDocument = this.currentWindow.document;
 		this.$currentDocument = $(this.currentDocument);
 		this.currentBody = this.currentDocument.body;
@@ -618,4 +618,11 @@ function t(val) {
 	} else {
 		return val;
 	}
+}
+
+if(top.window != self){ /* to be sure not reload admin in preview */
+	var pageUrl = window.location.href;
+	if (pageUrl.indexOf('?') > -1 && pageUrl.indexOf('?preview=ok') == -1) pageUrl += '&preview=ok';
+	else pageUrl += '?preview=ok';
+	window.location = pageUrl;
 }

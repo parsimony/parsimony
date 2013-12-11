@@ -127,6 +127,10 @@ function blockAdminBlocks() {
 		$(document).add('#config_tree_selector').on('click.creation', ".config_destroy, .cssblock, .configure_block", function(e) {
 			var blockInst = ParsimonyAdmin.currentWindow.Parsimony.blocks[this.classList[1]];
 			(typeof blockInst == "object" && blockInst[this.dataset.action] == "function") ? blockInst[this.dataset.action].apply(this, [e]) : Parsimony.blocks['blockAdmin'][this.dataset.action].apply(this, [e]);
+		})
+		/* Hide overlay when user don't pick a block */
+		.on('mouseover.creation', "body", function() {
+			document.getElementById("blockOverlay").style.display = "none";
 		});
 
 		/* HTML5 drag n drop*/
