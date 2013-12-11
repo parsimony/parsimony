@@ -53,6 +53,7 @@ $(document).ready(function() {
 				idPage = $("#content").data('page');
 			}
 			$.post(BASE_PATH + module + '/callBlock', {
+				TOKEN:TOKEN,
 				idPage: idPage,
 				theme: theme,
 				method: 'saveWYSIWYG',

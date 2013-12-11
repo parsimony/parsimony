@@ -47,6 +47,7 @@ $(document).ready(function() {
 		},
 		onSave: function() {
 			$.post(BASE_PATH + $(parsiEdit.currentElmt).data("module") + '/callField', {
+				TOKEN:TOKEN,
 				entity: $(parsiEdit.currentElmt).data("entity"),
 				fieldName: $(parsiEdit.currentElmt).data("property"),
 				method: 'saveEditInline',
