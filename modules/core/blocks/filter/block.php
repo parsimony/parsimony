@@ -169,11 +169,11 @@ class filter extends \block {
 				if(isset($val['group'])){
 						if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
 							?>
-							<div><label><?php echo $property ?></label>
+							<div><label><?php echo $field->label ?></label>
 							<select name="group[<?php echo $property ?>]">
 								<option></option>
 								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'day' ? ' selected="selected"' : '') ?>>day</option>
-								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'month' ? ' selected="selected"' : '') ?>>month</option>'
+								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'month' ? ' selected="selected"' : '') ?>>month</option>
 								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'year' ? ' selected="selected"' : '') ?>>year</option>
 							</select>
 							</div>
@@ -181,7 +181,7 @@ class filter extends \block {
 						}else{ 
 							?>
 							<div>
-								<label><?php echo $property ?></label>
+								<label><?php echo $field->label ?></label>
 								<input type="checkbox" name="group[<?php echo $property ?>]" <?php echo  (isset($_POST['group']) && (isset($_POST['group'][$property])) && ($_POST['group'][$property] == 1) ? ' checked="checked"' : '') ?>>
 							</div>
 						<?php
@@ -193,11 +193,11 @@ class filter extends \block {
 				ob_start();
 				if(isset($val['sort'])){
 					?>
-					<div><label><?php echo $property ?></label>
+					<div><label><?php echo $field->label ?></label>
 						<select name="sort[<?php echo $property ?>]">
 								<option></option>
-								<option value="asc" <?php echo  (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'asc' ? ' selected="selected"' : '') ?>>ASC</option>
-								<option value="desc" <?php echo  (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'desc' ? ' selected="selected"' : '') ?>>DESC</option>
+								<option value="asc" <?php echo (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'asc' ? ' selected="selected"' : '') ?>>ASC</option>
+								<option value="desc" <?php echo (isset($_POST['sort']) && isset($_POST['sort'][$property]) && $_POST['sort'][$property] === 'desc' ? ' selected="selected"' : '') ?>>DESC</option>
 						</select>
 					</div>
 					<?php
