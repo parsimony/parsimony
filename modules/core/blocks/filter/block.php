@@ -71,15 +71,15 @@ class filter extends \block {
 				/* Default SORT value */
 				if(isset($val['sort'])){
 					$sortconfigs = $properties[$tabprop]['sort'];
-					if(!isset($_POST['submitfilter'])){
-						$_POST['sort'][$property] = isset($sortconfigs) ? $sortconfigs : '';
+					if(!isset($_POST['submitfilter']) && !empty($sortconfigs)){
+						$_POST['sort'][$property] = $sortconfigs ;
 					}
 				}
 				/* Default GROUP value */
 				if(isset($val['group'])){	
 					$groupconfigs = $properties[$tabprop]['group'];
-					if(!isset($_POST['submitfilter'])){
-						$_POST['group'][$property] = isset($groupconfigs) ? $groupconfigs : '';
+					if(!isset($_POST['submitfilter']) && !empty($groupconfigs)){
+						$_POST['group'][$property] = $groupconfigs ;
 					}
 				}
 				
@@ -172,9 +172,9 @@ class filter extends \block {
 							<div><label><?php echo $field->label ?></label>
 							<select name="group[<?php echo $property ?>]">
 								<option></option>
-								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'day' ? ' selected="selected"' : '') ?>>day</option>
-								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'month' ? ' selected="selected"' : '') ?>>month</option>
-								<option <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'year' ? ' selected="selected"' : '') ?>>year</option>
+								<option value="day" <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'day' ? ' selected="selected"' : '') ?>>day</option>
+								<option value="month" <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'month' ? ' selected="selected"' : '') ?>>month</option>
+								<option value="year" <?php echo (isset($_POST['group']) && isset($_POST['group'][$property]) && $_POST['group'][$property] === 'year' ? ' selected="selected"' : '') ?>>year</option>
 							</select>
 							</div>
 						<?php
