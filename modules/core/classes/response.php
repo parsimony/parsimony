@@ -38,7 +38,7 @@ class response {
 	/**
 	 * @var integer status of HTTP response
 	 */
-	protected $status;
+	protected $status = 200;
 
 	/**
 	 * @var string format of HTTP response
@@ -72,8 +72,11 @@ class response {
 	 * Send content to client
 	 * @param mixed $body optional
 	 */
-	public function setContent($body = '', $status = 200) {
-		$this->setStatus($status);
+	public function setContent($body = '', $status = FALSE) {
+		
+		if($status !== FALSE){
+			$this->setStatus($status);
+		}
 
 		if ($body instanceof page) { /* If it's a page object */
 
