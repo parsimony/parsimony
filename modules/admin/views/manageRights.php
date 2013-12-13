@@ -88,6 +88,20 @@ $(document).ready(function() {
 			});
 			modelArea[0].querySelector(".modelSerialize").value = JSON.stringify(obj);
 	});
+	 
+var entity = ''; 
+var crud = ''; 
+var prop = '';
+var context = '';
+		$('body').on( "click", '.line.entity input[type="checkbox"]', function() {
+			context = $(this).closest('.rightbox');
+			entity = $(this).closest('td').attr('class');
+			crud =  $(this).attr('class');
+			prop = $(this).prop("checked");
+			target = '.fieldbg .'+ entity +' input[type="checkbox"]'+ '.'+ crud;
+			if(prop == true) $(target,context).prop( "checked", true);
+			else $(target,context).prop( "checked", false);
+		});
 });
 </script>
 
@@ -176,19 +190,19 @@ $(document).ready(function() {
 										<tr class="line entity">
 											<?php
 											echo '<td class="secondtd entity">' . $modelName . '</td>
-										<td><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
-											<td><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
-												<td><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
-													<td><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . '></td>';
+										<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
+											<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
+												<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
+													<td class="' . $modelName . '"><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . '></td>';
 
 											foreach ($myModel->getFields() as $fieldName => $field) {
 												$rights = $field->getRights($row->id_role);
 												if($rights === null) $rights = 0;
 												$obj->$modelName->fields->$fieldName = $rights;
 													echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
-													'<td><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
-													<td><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
-													<td><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
+													'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
+													<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
+													<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
 													<td class="disabled"></td>
 													</tr>';
 											}
