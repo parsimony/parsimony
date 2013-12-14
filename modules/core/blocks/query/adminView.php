@@ -529,7 +529,7 @@ $view = $this->getConfig('view');
 	var context = '';
 	var option = '';
 	$(window).bind("load", function() {
-		allsqlprop = '<div style="position :relative"><span class="closehelper"></span>Write your calculation (+-*/) with or without existing properties</div><select><option>None</option>';
+		allsqlprop = '<div style="position :relative"><span class="closehelper"></span>Write your calculation (+-*/) with or without existing properties</div><select><option></option>';
 		$('#recipiant_sql .queryblock').each(function(){
 			var props = $(this).attr('property');
 			if (typeof props != 'undefined') allsqlprop += '<option>' + $(this).attr('property')+'</option>';		
