@@ -98,6 +98,7 @@
 		<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information'); ?></a></div>
+		<div class="adminzonetab"><a href="#tabsb-12" class="ellipsis"><?php echo t('Sessions'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version'); ?></a></div>
 	</div>
@@ -340,6 +341,22 @@
 				<div class="placeholder">
 					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
 					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">
+				</div>
+			</div>
+			<div id="tabsb-12" class="admintabs">
+				<h2><?php echo t('Sessions'); ?></h2>
+				<div class="placeholder">
+					<label class="label" for="config[session][renew]"><?php echo t('Renew session n each sec'); ?></label>
+					<input name="config[session][renew]" type="text" value="<?php echo s(app::$config['session']['renew']); ?>">
+				</div>
+				<div class="placeholder">
+					<label class="label" for="config[session][maxlifetime]"><?php echo t('Maximum life time'); ?></label>
+					<input name="config[session][maxlifetime]" type="text" value="<?php echo s(app::$config['session']['maxlifetime']); ?>">
+				</div>
+				<div class="placeholder">
+					<label class="label" for="config[session][depth]"><?php echo t('Directory tree for storing file session'); ?></label>
+					<input name="config[session][depth]" type="text" value="<?php echo s(app::$config['session']['depth']); ?>">
+					<a href="http://www.php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">You must create directory tree before use.</a>
 				</div>
 			</div>
 			<input type="hidden" name="file" value="<?php echo 'profiles/' . PROFILE . '/config.php'; ?>">

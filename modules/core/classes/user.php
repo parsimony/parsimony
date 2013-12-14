@@ -35,59 +35,32 @@ namespace core\classes;
  */
 class user {
 
-	protected $sessPath;
-
 	public function __construct() {
-		$this->sessPath = DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sessions' . DIRECTORY_SEPARATOR . PROFILE;
-		ini_set('session.save_path', '4;' . $this->sessPath . '');
-
+		
 		ini_set('use_only_cookies', 1);
-		ini_set('session.cache_limiter', 'nocache');
 		ini_set('session.cookie_httponly', true);
-		//ini_set('session.gc_maxlifetime', '86400');
-		//ini_set('session.hash_function', 'sha256');
-		//ini_set('session.hash_bits_per_character', 5);
-
-		if (!isset($_COOKIE['PHPSESSID'])) {
-			$this->setSessionId();
-		} elseif (!is_dir($this->sessPath . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][0] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][1] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][2] . DIRECTORY_SEPARATOR . $_COOKIE['PHPSESSID'][3] . DIRECTORY_SEPARATOR)) {
-			$this->setSessionId();
+		/* Store sessions in PROFILE */
+		$savePath = DOCUMENT_ROOT . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'sessions' . DIRECTORY_SEPARATOR . PROFILE;
+		if(\app::$config['session']['depth'] > 0) {
+			ini_set('session.save_path', \app::$config['session']['depth'] . ';"' . $savePath . '"');
 		} else {
-			session_start();
+			ini_set('session.save_path',  $savePath);
 		}
-		if (!isset($_SESSION['time'])) {
-			$_SESSION['time'] = time();
-		} else {
-			if (time() - $_SESSION['time'] > 300) {
-				$this->setSessionId();
-				$_SESSION['time'] = time();
-			}
-		}
-	}
-
-	protected function setSessionId() {
-		$hash = hash('sha1', uniqid(mt_rand() . \app::$config['security']['salt']));
-		$dir = $this->sessPath . DIRECTORY_SEPARATOR . $hash[0] . DIRECTORY_SEPARATOR . $hash[1] . DIRECTORY_SEPARATOR . $hash[2] . DIRECTORY_SEPARATOR . $hash[3] . DIRECTORY_SEPARATOR;
-		if (!is_dir($dir))
-			mkdir($dir, 0755, true);
-		if (is_file($dir . 'sess_' . $hash))
-			$this->setSessionId();
-		$oldSESS = array();
-		if (isset($_SESSION))
-			$oldSESS = $_SESSION;
-		$oldId = session_id();
-		session_write_close();
-		session_id($hash);
+		ini_set('session.gc_maxlifetime', \app::$config['session']['maxlifetime']);
+		//ini_set('session.cache_limiter', 'nocache'); value by default for PHP
+		ini_set('session.hash_function', 'sha256');
+		ini_set('session.hash_bits_per_character', 5);
+		
 		session_start();
-		$_SESSION = $oldSESS;
-		if (!empty($oldId)) {
-			$oldDir = $this->sessPath . DIRECTORY_SEPARATOR . $oldId[0] . DIRECTORY_SEPARATOR . $oldId[1] . DIRECTORY_SEPARATOR . $oldId[2] . DIRECTORY_SEPARATOR . $oldId[3] . DIRECTORY_SEPARATOR;
-			if (is_file($oldDir . 'sess_' . $oldId)) {
-				unlink($oldDir . 'sess_' . $oldId);
-			}
-		}
-		if (!isset($_SESSION['TOKEN'])) {
-			$_SESSION['TOKEN'] = sha1(session_id() . \app::$config['security']['salt'] . microtime()); /* https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet */
+		
+		if (!isset($_SESSION['time'])) {
+			/* Init session */
+			$_SESSION['time'] = time();
+			$_SESSION['TOKEN'] = sha1(session_id() . \app::$config['security']['salt'] . microtime()); /* generated at the first session id https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet */
+
+		} elseif (time() - $_SESSION['time'] > \app::$config['session']['renew']) {
+			session_regenerate_id(TRUE);
+			$_SESSION['time'] = time();
 		}
 	}
 
