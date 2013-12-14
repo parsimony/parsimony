@@ -125,8 +125,12 @@ $view = $this->getConfig('view');
 	#recipiant_sql input[type="text"].where,#recipiant_sql input[type="text"].orcond {margin: 0 10px;}
 	#recipiant_sql input[type="text"].where:hover, #recipiant_sql input[type="text"].orcond:hover,#recipiant_sql input[type="text"].where:focus, #recipiant_sql input[type="text"].orcond:focus{background: #ececec;}
 	#recipiant_sql input[type="text"].property,#recipiant_sql input[type="text"].alias{background-color: transparent;pointer-events: none;color: #333;font-size: 17px;text-transform: capitalize;padding: 0px;padding-left: 15px;}
+	#recipiant_sql input[type="text"].alias{line-height: 16px;font-family: sans-serif;border: none !important;}
+	#recipiant_sql input[type="text"].calculated{width: 100%;}
 	#recipiant_sql select:enabled:hover{background-color: #ececec;}
 	#recipiant_sql .checkb{line-height: 13px;padding: 3px 0 0;}
+	.calcMode {position: relative}
+	.helper{display: none;padding: 5px;position: absolute;width: 100%;height: 80px;top: 25px;z-index: 9;background-color: #555;text-shadow: initial;color: white;line-height: 13px;}
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination'); ?></label>
@@ -210,7 +214,10 @@ $view = $this->getConfig('view');
 					<div class="normalMode bloctitle"><input class="property" type="text"></div>
 					<div class="calcMode blocalias"><input placeholder="Alias" class="alias" type="text"></div>
 					<div class="normalMode borderb"><input class="table" type="text"></div>
-					<div class="calcMode borderCalculated borderb"><input class="calculated" placeholder="Calculation" type="text"></div>
+					<div class="calcMode borderCalculated borderb">
+						<input class="calculated" placeholder="Calculation =+-/*" type="text">
+						<div class="helper"></div>
+					</div>
 					<div class="sqltotal">
 						<select class="aggregate">
 							<option value=""></option>
@@ -517,7 +524,28 @@ $view = $this->getConfig('view');
 		  addProperty('', '', '', calculatedField,'', true, "", "", "", "", true, true, true);
 		}
 	});
-
+	var allsqlprop = '';
+	var context = '';
+	var option = '';
+	$(window).bind("load", function() {
+		allsqlprop = '<div>Write your calculation (+-*/) with or without existing properties</div><select><option>None</option>';
+		$('#recipiant_sql .queryblock').each(function(){
+			var props = $(this).attr('property');
+			if (typeof props != 'undefined') allsqlprop += '<option>' + $(this).attr('property')+'</option>';		
+		});
+		allsqlprop += '</select>';
+	});
+	$(document).on('click','#recipiant_sql input[type="text"].calculated',function() {
+		context = $(this).closest('.queryblock');
+		$(this,context).next().append(allsqlprop);
+		$(this,context).next().css('display','block');
+	});
+	$(document).on('change','.helper select',function() {
+		context = $(this).closest('.queryblock');
+		var calc = $('.calculated',context).val();
+		$('.calculated',context).val(calc +$('.helper select option:selected',context).text());
+	});
+		
 	$(document).on("change","#form input,#form select",function() {
 		if(!$('#pagination').is(':checked') && $('#nbitem').val().length==0) $('#nbitem').val(10);
 		manageFilters();
