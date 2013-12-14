@@ -130,7 +130,8 @@ $view = $this->getConfig('view');
 	#recipiant_sql select:enabled:hover{background-color: #ececec;}
 	#recipiant_sql .checkb{line-height: 13px;padding: 3px 0 0;}
 	.calcMode {position: relative}
-	.helper{display: none;padding: 5px;position: absolute;width: 100%;height: 80px;top: 25px;z-index: 9;background-color: #555;text-shadow: initial;color: white;line-height: 13px;}
+	.closehelper{position: absolute;top: 0px;right: -5px;cursor: pointer;background: url(/parsi201013/admin/img/icons.png) -96px -128px;width: 16px;height: 16px;}
+	.helper{display: none;padding: 5px 10px 5px 5px;position: absolute;width: 100%;height: 80px;top: 25px;z-index: 9;background-color: #555;text-shadow: initial;color: white;line-height: 13px;}
 </style>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination'); ?></label>
@@ -528,13 +529,19 @@ $view = $this->getConfig('view');
 	var context = '';
 	var option = '';
 	$(window).bind("load", function() {
-		allsqlprop = '<div>Write your calculation (+-*/) with or without existing properties</div><select><option>None</option>';
+		allsqlprop = '<div style="position :relative"><span class="closehelper"></span>Write your calculation (+-*/) with or without existing properties</div><select><option>None</option>';
 		$('#recipiant_sql .queryblock').each(function(){
 			var props = $(this).attr('property');
 			if (typeof props != 'undefined') allsqlprop += '<option>' + $(this).attr('property')+'</option>';		
 		});
 		allsqlprop += '</select>';
 	});
+	$(document).on('click','.closehelper',function() {	
+		context = $(this).closest('.queryblock');
+		$(this,context).closest(".helper").css("display","none");
+	});
+		
+		
 	$(document).on('click','#recipiant_sql input[type="text"].calculated',function() {
 		context = $(this).closest('.queryblock');
 		$(this,context).next().append(allsqlprop);
