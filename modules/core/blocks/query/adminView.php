@@ -48,7 +48,7 @@ $view = $this->getConfig('view');
 	.innerTabs ul li a {padding: 0 7px;line-height: 23px;}
 	#tabs-criterias{margin-top:5px}
 	.queryblock{position: relative;box-shadow: 1px 1px 1px #e7e7e7;font-weight: bold;color: #383838;text-shadow: 0 1px 0 #ffffff;background: #fefefe;padding-bottom: 10px;margin-right: 5px;margin-left: 5px;}
-	.queryblock a{top: 2px;right: 2px;position: absolute;}
+	.queryblock a{top: 2px;right: 2px;position: absolute;z-index: 2;}
 	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
 	._jsPlumb_connector{cursor: pointer;}
 	.property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
@@ -133,6 +133,11 @@ $view = $this->getConfig('view');
 	.closehelper{position: absolute;top: 0px;right: -5px;cursor: pointer;background: url(/parsi201013/admin/img/icons.png) -96px -128px;width: 16px;height: 16px;}
 	.helper{display: none;padding: 5px 10px 5px 5px;position: absolute;width: 100%;height: 80px;top: 25px;z-index: 9;background-color: #555;text-shadow: initial;color: white;line-height: 13px;}
 </style>
+<div class="helper">
+	<div style="position :relative"><span class="closehelper"></span>Write your calculation (+-*/) with or without existing properties</div>
+	<select id="helperSelect">						
+	</select>
+</div>
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination'); ?></label>
 	<div style="display:inline-block;width:200px">
@@ -217,7 +222,6 @@ $view = $this->getConfig('view');
 					<div class="normalMode borderb"><input class="table" type="text"></div>
 					<div class="calcMode borderCalculated borderb">
 						<input class="calculated" placeholder="Calculation =+-/*" type="text">
-						<div class="helper"></div>
 					</div>
 					<div class="sqltotal">
 						<select class="aggregate">
@@ -525,30 +529,23 @@ $view = $this->getConfig('view');
 		  addProperty('', '', '', calculatedField,'', true, "", "", "", "", true, true, true);
 		}
 	});
-	var allsqlprop = '';
-	var context = '';
-	var option = '';
-	$(window).bind("load", function() {
-		allsqlprop = '<div style="position :relative"><span class="closehelper"></span>Write your calculation (+-*/) with or without existing properties</div><select><option></option>';
-		$('#recipiant_sql .queryblock').each(function(){
-			var props = $(this).attr('property');
-			if (typeof props != 'undefined') allsqlprop += '<option>' + $(this).attr('property')+'</option>';		
-		});
-		allsqlprop += '</select>';
-	});
 	$(document).on('click','.closehelper',function() {	
-		context = $(this).closest('.queryblock');
+		var context = $(this).closest('.queryblock');
 		$(this,context).closest(".helper").css("display","none");
 	});
-		
-		
+			
 	$(document).on('click','#recipiant_sql input[type="text"].calculated',function() {
-		context = $(this).closest('.queryblock');
-		$(this,context).next().append(allsqlprop);
-		$(this,context).next().css('display','block');
+		var allsqlprop = '<option></option>';
+		$('#recipiant_sql .queryblock').each(function(){
+			var props = $(this).attr('property');
+			if (typeof props != 'undefined') allsqlprop += '<option>' + props +'</option>';		
+		});
+		$('#helperSelect').html(allsqlprop);
+		$(this).parent().append($('.helper'));
+		$(this).next().css('display','block');
 	});
 	$(document).on('change','.helper select',function() {
-		context = $(this).closest('.queryblock');
+		var context = $(this).closest('.queryblock');
 		var calc = $('.calculated',context).val();
 		$('.calculated',context).val(calc +$('.helper select option:selected',context).text());
 	});
