@@ -31,7 +31,7 @@
 if (isset($this->unique) && $this->unique):
 	?>
 	$(document).on("keyup", "#<?php echo $fieldName ?>", function(){
-			$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
+			$.get(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
 			if(data == 1){
 				$(".info_<?php echo $fieldName ?>").empty();
 			}else{
@@ -42,7 +42,7 @@ if (isset($this->unique) && $this->unique):
 	<?php
 endif;
 ?>
-	$(document).on ('blur','textarea[name="<?php echo $this->propertyToURL ?>"],input[name="<?php echo $this->propertyToURL ?>"]',function() {
+	$(document).on ('blur','textarea[name="<?php echo $tableName ?>[<?php echo $this->propertyToURL ?>]"],input[name="<?php echo $tableName ?>[<?php echo $this->propertyToURL ?>]"]',function() {
 		if(this.value.length > 0 && $('#<?php echo $fieldName ?>').val().length == 0){
 			$('#<?php echo $fieldName ?>').addClass('active');
 			$.post(BASE_PATH + "admin/titleToUrl", {TOKEN: TOKEN ,url: $(this).val()},
@@ -58,7 +58,7 @@ endif;
 </style>
 
 <span><?php echo ucfirst($this->label) ?> : </span>
-<input type="text" autocomplete="off" id="<?php echo $fieldName ?>" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
+<input type="text" autocomplete="off" id="<?php echo $fieldName ?>" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> <?php if ($this->required) echo 'required' ?> />
 <?php if (isset($this->unique) && $this->unique): ?>
 	<div class="infoUnique info_<?php echo $fieldName ?>"></div>
 <?php endif; ?>

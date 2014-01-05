@@ -15,7 +15,7 @@ class category extends \entity {
 	protected $description;
 
 
-	public function __construct(\field_ident $id_category,\field_string $name,\field_foreignkey $id_parent,\field_url_rewriting $url,\field_wysiwyg $description) {
+	public function __construct(\field_ident $id_category,\field_string $name,\field_foreignkey $id_parent,\field_url_rewriting $url,\field_textarea $description) {
 		parent::__construct();
 		$this->id_category = $id_category;
 		$this->name = $name;

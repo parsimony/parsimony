@@ -48,16 +48,20 @@ class url_rewriting extends \field {
 		$length = strlen($value);
 		if ($length >= $this->characters_min && $length <= $this->characters_max) {
 			if (empty($value)) {
+				$args = func_get_args();
 				if (!$this->required)
 					return '';
-				else
+				elseif (isset($args[2])) {
+					return \tools::sanitizeString($args[2][$this->entity->getTableName()][$this->entity->getBehaviorTitle()]);
+				}else{
 					return FALSE;
-			}else {
+				}
+			} else {
 				$args = func_get_args();
 				if ($this->unique && isset($args[1])) {
 					if ($args[1] === 'insert')
 						$args[1] = FALSE;
-					if ($this->checkUniqueAction($value, $args[1]) == 0)
+					if ($this->checkUniqueAction($value, $args[1]) === FALSE)
 						return FALSE;
 				}
 				return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' . $this->regex . '#')));
@@ -67,19 +71,18 @@ class url_rewriting extends \field {
 	}
 
 	public function checkUniqueAction($chars, $id = FALSE) {
-		$entity = \app::getModule($this->entity->getModule())->getEntity($this->entity->getName());
-		$query = 'SELECT ' . $this->name . ' FROM ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' WHERE ' . $this->name .' = :chars';
+		$query = 'SELECT ' . $this->name . ' FROM ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' WHERE ' . $this->name . ' = :chars';
 		$params = array(':chars' => $chars);
-		if($id !== FALSE) {
-			$query .= ' AND '.$entity->getId()->name.' != :id';
+		if ($id !== FALSE && !empty($id)) {
+			$query .= ' AND ' . $this->entity->getId()->name . ' != :id';
 			$params[':id'] = $id;
 		}
 		$sth = \PDOconnection::getDB()->prepare($query);
 		$sth->execute($params);
-		if($sth->fetch() !== FALSE){
-			return '0';
-		}else{
-			return '1';
+		if ($sth->fetch() === FALSE) {
+			return TRUE;
+		} else {
+			return FALSE;
 		}
 	}
 

@@ -32,7 +32,7 @@ $foreignID = $this->value;
 $sth = PDOconnection::getDB()->query('SELECT * FROM ' . PREFIX . $this->moduleLink . '_' . $this->link); // used ->getEntity() but there was interference because of cache
 if (is_object($sth)) {
 	$sth->setFetchMode(PDO::FETCH_OBJ);
-	echo '<select name="' . $this->name . '"><option></option>';
+	echo '<select name="' . $tableName . '[' . $this->name . ']"><option></option>';
 	$properties = app::getModule($this->moduleLink)->getEntity($this->link)->getFields();
 	foreach ($sth as $key => $row) {
 		$text = $this->templatelink;

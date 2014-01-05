@@ -79,14 +79,13 @@ class module {
 	 */
 	public static function get($name) {
 		if (isset(app::$config['modules']['active'][$name]) || $name === 'admin') {
-			$pathName = str_replace('\\', '/', $name);
-			if (!class_exists($name . '\\' . $name, false))
-				include('modules/' . $pathName. '/module.php');
-			$path = stream_resolve_include_path($pathName . '/module.' . \app::$config['dev']['serialization']);
+			if (!class_exists($name . '\\module', false))
+				include('modules/' . $name. '/module.php');
+			$path = stream_resolve_include_path($name . '/module.' . \app::$config['dev']['serialization']);
 			if ($path !== FALSE) {
 				return unserialize(file_get_contents($path));
 			} else {
-				$className = '\\' . $name . '\\' . $name;
+				$className = '\\' . $name . '\\module';
 				$module = new $className($name);
 				$module->save();
 				return $module;
@@ -533,5 +532,3 @@ class ' . $name . ' extends \module {
 	}
 
 }
-
-?>

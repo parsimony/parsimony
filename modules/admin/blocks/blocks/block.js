@@ -145,10 +145,9 @@ function blockAdminBlocks() {
 		$("#parsimonyDND").add('#paneltree').on('dragstart.creation', ".move_block", function(event) {
 			$this.isAddBlock = false;
 			var evt = event.originalEvent;
-			var elmt = $("#" + ParsimonyAdmin.inProgress, ParsimonyAdmin.currentBody);
-			evt.dataTransfer.setDragImage(elmt[0], 15, 15);
-			var startTypeCont = ParsimonyAdmin.whereIAm(ParsimonyAdmin.inProgress);
-			var parentContainer = elmt.parent().closest(".core_container"); // parent in case it's a container himself
+			evt.dataTransfer.setDragImage(ParsimonyAdmin.inProgressElmt, 15, 15);
+			var startTypeCont = ParsimonyAdmin.inProgressElmt.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
+			var parentContainer = $(ParsimonyAdmin.inProgressElmt).parent().closest(".core_container"); // parent in case it's a container himself
 			if(parentContainer.hasClass("core_page")) startIdParentBlock = parentContainer.data('page');
 			else startIdParentBlock = parentContainer.attr('id');
 			evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:ParsimonyAdmin.inProgress,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
@@ -180,7 +179,7 @@ function blockAdminBlocks() {
 			event.stopImmediatePropagation();
 			var offset = this.getBoundingClientRect();
 			var leftOffsetFrame = ParsimonyAdmin.iframe.offsetLeft + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0);
-			if (ParsimonyAdmin.inProgress != this.id)
+			if (ParsimonyAdmin.inProgressElmt != this)
 				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame) + "px;width:" + offset.width + "px;height:" + offset.height + "px";
 			else
 				document.getElementById("blockOverlay").style.display = "none";
@@ -292,9 +291,8 @@ function blockAdmin() {
 
 	this.onClickCreation = function(e) {
 		e.stopPropagation();
-		Parsimony.blocks['admin_css'].updatePosition(this.getBoundingClientRect());
-		if (ParsimonyAdmin.inProgress !== this.id) {
-			ParsimonyAdmin.selectBlock(this.id);
+		if (ParsimonyAdmin.inProgressElmt != this) {
+			ParsimonyAdmin.selectBlock(this);
 
 			document.getElementById("idName").textContent = "#" + ParsimonyAdmin.inProgress;
 

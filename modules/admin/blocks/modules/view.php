@@ -53,8 +53,8 @@ foreach ($activeModule as $module => $type) {
 			$display = 'none';
 		?>
 		<div class="moduleParts <?php echo $display; ?>" data-module="<?php echo $module; ?>">
-			<div rel="pages" class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?>                  </div>
-			<ul class="pages tabPanel" style="display:block;">
+			<div class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?>                  </div>
+			<ul class="pages tabPanel">
 				<?php
 				foreach ($moduleobj->getPages() as $id_page => $page) {
 					if ($module === \app::$config['modules']['default'])
@@ -74,19 +74,15 @@ foreach ($activeModule as $module => $type) {
 					<?php echo t('Add A Page'); ?>
 				</a>
 			</ul>
-			<div rel="models" class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
-			<ul class=" models ">
+			<div class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
+			<ul class="models">
 				<?php
-				$models = $moduleobj->getModel();
-				if (count($models) > 0) {
-					foreach ($moduleobj->getModel() as $entity) {
-						$entityName = $entity->getName();
-						$entityTitle = s(ucfirst($entity->getTitle()));
-						if ($module != 'core' || !empty($entityTitle)) {
-							?>
-							<a href="#modules/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
-							<?php
-						}
+				foreach ($moduleobj->getModel() as $entityName => $entity) {
+					$entityTitle = s(ucfirst($entity->getTitle()));
+					if (!empty($entityTitle)) { 
+						?>
+						<a href="#modules/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
+						<?php
 					}
 				}
 				if ($_SESSION['behavior'] === 2): ?>

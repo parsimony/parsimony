@@ -58,7 +58,7 @@ class mail extends \field {
 				if($this->unique && isset($args[1])){
 					if($args[1] === 'insert')
 						$args[1] = FALSE;
-					if($this->checkUniqueAction($value, $args[1]) == 0)
+					if($this->checkUniqueAction($value, $args[1]) === FALSE)
 						return FALSE;
 				}
 				return filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -66,21 +66,20 @@ class mail extends \field {
 		}
 		return FALSE;
 	}
-
+	
 	public function checkUniqueAction($chars, $id = FALSE) {
-		$entity = \app::getModule($this->entity->getModule())->getEntity($this->entity->getName());
-		$query = 'SELECT ' . $this->name . ' FROM ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' WHERE ' . $this->name .' = :chars';
+		$query = 'SELECT ' . $this->name . ' FROM ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' WHERE ' . $this->name . ' = :chars';
 		$params = array(':chars' => $chars);
-		if($id !== FALSE) {
-			$query .= ' AND '.$entity->getId()->name.' != :id';
+		if ($id !== FALSE && !empty($id)) {
+			$query .= ' AND ' . $this->entity->getId()->name . ' != :id';
 			$params[':id'] = $id;
 		}
 		$sth = \PDOconnection::getDB()->prepare($query);
 		$sth->execute($params);
-		if($sth->fetch() !== FALSE){
-			return '0';
-		}else{
-			return '1';
+		if ($sth->fetch() === FALSE) {
+			return TRUE;
+		} else {
+			return FALSE;
 		}
 	}
 

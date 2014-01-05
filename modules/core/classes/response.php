@@ -94,8 +94,6 @@ class response {
 			
 			/* Save infos for admins */
 			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
-				$page->addJSFile('lib/editinline.js');
-				\app::dispatchEvent('editLoad'); /* include edit tools */
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
 				
 				/* Store on client side all CSS selectors from theme style */
@@ -286,5 +284,3 @@ namespace {
 	}
 
 }
-
-?>

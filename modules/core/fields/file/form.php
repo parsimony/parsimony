@@ -36,7 +36,7 @@ echo $this->displayLabel($fieldName);
 			<input type="file" class="field-file-inputFile" style="position: absolute;opacity:0.0001;top:0;z-index:10;height:20px;cursor:pointer;margin: 0;" />
 			<div class="field-file-inputText" style="cursor:pointer;line-height: 20px;z-index:1"><a href="#"><?php echo t('Choose an file or Drag & Drop it'); ?></a></div>
 		</div>
-		<input type="hidden" id="file_<?php echo $fieldName; ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" />
+		<input type="hidden" id="file_<?php echo $fieldName; ?>" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" value="<?php echo s($value) ?>" />
 	</div>
 </div>
 <script LANGUAGE="JavaScript" type="text/javascript">

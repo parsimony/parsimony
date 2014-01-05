@@ -251,10 +251,10 @@
 							<?php
 							$theme = $page->getTheme();
 							$currentTheme = FALSE;
-							if($theme instanceof theme){
+							if ($theme instanceof theme) {
 								$currentTheme = $theme->getModule() . '_' . $theme->getName();
 							}
-							if($currentTheme === THEMEMODULE . '_' . THEME){
+							if ($currentTheme === \app::$config['modules'] . '_' . \app::$config['modules']) {
 								$currentTheme = '';
 							}
 							$modules = \app::$config['modules']['active'];

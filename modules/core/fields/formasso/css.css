@@ -6,3 +6,11 @@
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: #ccc;border:0;}
 .ui-autocomplete li.ui-menu-item a{padding-left:5px;cursor:pointer;display:block;}
 .ui-helper-hidden-accessible{display: none;}
+.listasso{padding-top:7px; overflow: auto;}
+.listasso > div{float:left;padding:3px}
+.listasso .ui-icon{float:left;cursor:pointer}
+
+.itemasso{padding: 5px;text-transform: capitalize}
+.itemasso input{margin-right: 5px;}
+.formassonew input, .formassonew select, .formassonew textarea{width: 100% !important}
+.col2 .placeholder input[type='text'], .col2 .placeholder select, .col2 .placeholder textarea {margin: 25px 0px 3px !important;}

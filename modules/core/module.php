@@ -40,7 +40,7 @@ namespace core;
  * @displayAdmin 0
  * @mode r
  */
-class core extends \module {
+class module extends \module {
 
 	protected $name = 'core';
 
@@ -165,7 +165,8 @@ class core extends \module {
 		if (!empty($login) && !empty($password)) {
 			\app::getClass('user')->authentication($login, $password);
 			if (\app::getClass('user')->VerifyConnexion()) {
-				return TRUE;
+				\app::$response->setFormat('json');
+				return json_encode(array('TOKEN' => $_SESSION['TOKEN'])); /* send TOKEN : usefull for webapps */
 			}
 		}
 		return FALSE;

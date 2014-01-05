@@ -34,4 +34,4 @@ if(strstr($this->characters_max, ',')){
 	$step = '1';
 }
 ?>
-<span class="placeholderRange">0</span><input type="range" min="0" max="100" step="<?php echo $step; ?>" id="<?php echo $fieldName ?>" name="<?php echo $this->name ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> /><span class="placeholderRange">100</span>
+<span class="placeholderRange">0</span><input type="range" min="0" max="100" step="<?php echo $step; ?>" id="<?php echo $fieldName ?>" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> /><span class="placeholderRange">100</span>

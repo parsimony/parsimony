@@ -13,4 +13,4 @@
 .HTML5Editor{background:#fff;min-height:220px;max-height: 350px;overflow-y: auto;border: 1px solid #CCC;padding: 4px;}
 .popover{position:absolute;top:100%;left:0;box-shadow: 1px 1px 4px #888;border: 1px solid #BBB;display:none;background:#f9f9f9;pointer-events: all}
 .HTML5editorAction.temoin{line-height: 23px;font-size: 12px;padding: 0 5px;color: #444;}
-.HTML5editorAction.select {background: url("/parsimony_cms/admin/img/select.png") no-repeat right;padding-right: 18px;}
+.HTML5editorAction.select {background: url("admin/img/select.png") no-repeat right;padding-right: 18px;}

@@ -226,6 +226,10 @@ class field {
 	}
 	
 	public function getEditOptions() {
+		if(is_object(\app::$request->page)){ /* for ajax requests */
+			\app::$request->page->addJSFile('lib/editinline.js');
+			\app::$request->page->addCSSFile('lib/editinline.css');
+		}
 		return  'class="parsieditinline fieldeditinline"  data-mode="' . $this->editMode . '" data-module="' . $this->entity->getModule() . '" data-entity="' . $this->entity->getName() . '" data-property="' . $this->name . '" data-label="' . $this->label . '"';
 	}
 	
@@ -273,10 +277,12 @@ class field {
 	public function form() {
 		ob_start();
 		$row = $this->entity;
-		$fieldName = $row->getName() . '_' . $this->name;
+		$tableName = $row->getModule() . '_' . $row->getName();
+		$fieldName = $tableName . '_' . $this->name;
 		$value = $this->value;
-		if ($value !== FALSE && $value !== null) { /* must not be null or FALSE */
-			$fieldName .= '_' . $row->getId()->value;
+		$id = $row->getId()->value;
+		if ($id !== null) {
+			$fieldName .= '_' . $id;
 		}
 		?>
 		<div class="field placeholder">
@@ -509,5 +515,3 @@ class field {
 	}
 
 }
-
-?>

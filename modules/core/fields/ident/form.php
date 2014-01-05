@@ -25,4 +25,4 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-?><input type="hidden" name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" />
+?><input type="hidden" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" />

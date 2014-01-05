@@ -40,6 +40,11 @@ class queryBuilder {
 	 * @var array of SQL fields in order to build SQL query
 	 */
 	protected $_SQL = array();
+	
+	/**
+	 * @var array of fields 
+	 */
+	protected $fields = array();
 
 	/**
 	 * Get SQL settings of the query
@@ -209,6 +214,14 @@ class queryBuilder {
 	}
 	
 	/**
+	 * Get all fields
+	 * @return array of fields
+	 */
+	public function getFields() {
+		return $this->fields;
+	}
+	
+	/**
 	  * Return first data row
 	  * @return entity object
 	  */
@@ -281,10 +294,8 @@ class queryBuilder {
 
 			/* SELECT */
 			$query = 'SELECT ';
-			if(isset($this->_tableName)){ /* only for entity, to define selects */
-				if(empty($this->_SQL['selects'])){
-					$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
-				}
+			if ($this instanceof \entity) { /* only for entity, to define defaults selects && from */
+				$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
 				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
 			}
 			foreach ($this->getFields() as $field) {
@@ -296,7 +307,7 @@ class queryBuilder {
 					if ($field instanceof \field_formasso) {
 						$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
 						$idNameForeignEntity = $foreignEntity->getId()->name;
-						$this->_SQL['selects'][$field->name] = 'GROUP_CONCAT(CAST(CONCAT(' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ',\'||\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ') AS CHAR)) AS ' . $field->name;
+						$this->_SQL['selects'][$field->name] = ' CONCAT(  \'{\', GROUP_CONCAT(CONCAT(\'"\', ' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ' , \'"\',\':"\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ', \'"\')), \'}\') AS ' . $field->name;
 						$this->groupBy($module . '_' . $entity . '.' . $id);
 						$this->join($module . '_' . $entity . '.' . $id, $module . '_' . $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
 						$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
@@ -309,7 +320,7 @@ class queryBuilder {
 
 
 			/* FROM */
-			if (/*count($this->_SQL['froms']) === 1 && */empty($this->_SQL['joins'])) {
+			if (empty($this->_SQL['joins'])) {
 				$query .= ' FROM ' . reset($this->_SQL['froms']);
 			} else {
 				$firstTable = reset($this->_SQL['joins']);
@@ -401,7 +412,7 @@ class queryBuilder {
 	/**
 	  * Rewind the cursor to the first row
 	  */
-	 public function rewind() {
+	 public function rewind() { 
 		 if ($this->buildQuery()) {
 			if (!isset($this->_SQL['firstFetch'])) { /* first fetch could be exec by a rewind or isEmpty */
 				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
@@ -451,6 +462,7 @@ class queryBuilder {
 			 if(method_exists($this, 'afterSelect')){
 				 $this->afterSelect();
 			 }
+			 unset($this->_SQL['firstFetch']); /* allow to re-exec query */
 			 return FALSE;
 		 }
 	 }
@@ -467,5 +479,3 @@ class queryBuilder {
 	}
 
 }
-
-?>

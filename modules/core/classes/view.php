@@ -42,11 +42,6 @@ class view extends queryBuilder implements \Iterator {
 	public $entities = array();
 
 	/**
-	 * @var array of fields 
-	 */
-	protected $fields = array();
-
-	/**
 	 * !!TODO REMOVE!!
 	 * @var array of SQL fields in order to build SQL query 
 	 */
@@ -216,5 +211,3 @@ class view extends queryBuilder implements \Iterator {
 	}
 
 }
-
-?>

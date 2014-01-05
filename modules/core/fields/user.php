@@ -51,17 +51,12 @@ class user extends \field {
 	 * @return string
 	 */
 	public function validate($value) {
-		if(empty($value)){
-			if(!$this->required) return '';
-			else return FALSE;
+		if (empty($value) && !$this->required) {
+			return '';
+		}elseif (/* $this->visibility & INSERT && $this->visibility & UPDATE && */ is_numeric($value)) {
+			return $value;
 		}
-		else{
-			if(/*$this->visibility & INSERT && $this->visibility & UPDATE && */is_numeric($value)){
-				return $value;
-			}else{
-				return $_SESSION['id_user'];
-			}
-		}
+		return $_SESSION['id_user'];
 	}
 
 	/*public function setValue($value) {

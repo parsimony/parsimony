@@ -221,7 +221,7 @@ class request {
 	 */
 	public function dispatch() {
 		/* Admin UI ? */
-		if ($_SESSION['behavior'] > 0 && !isset($_GET['preview']) && $this->method === 'GET') {
+		if ($_SESSION['behavior'] > 0 && !isset($_GET['preview']) && $this->method === 'GET' && ($this->isAjax() !== TRUE || isset($_GET['getBlockAdmin']))) {
 			define('PARSI_ADMIN', 1);
 			$adminPage = new \page(1, 'admin');
 			$adminPage->setTheme(FALSE);
@@ -488,5 +488,3 @@ class request {
 	'zu_ZU' => 'Zulu');
 
 }
-
-?>

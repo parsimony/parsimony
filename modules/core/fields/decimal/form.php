@@ -28,4 +28,4 @@
 
 echo $this->displayLabel($fieldName);
  ?>
-<input type="text" name=" <?php echo $this->name ?>" id="update_<?php echo $this->name ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
+<input type="text" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" id="update_<?php echo $this->name ?>" value="<?php echo s($value) ?>" style="width:20%" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />

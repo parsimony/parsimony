@@ -33,6 +33,7 @@ var ParsimonyAdmin = {
 	currentBody: "",
 	currentMode: "",
 	inProgress: "",
+	inProgressElmt: "",
 	typeProgress: "",
 	unsavedChanges: false,
 
@@ -315,24 +316,39 @@ var ParsimonyAdmin = {
 	moveBlock: function(idBlock) {
 		this.addBlock(idBlock, $("#" + idBlock, this.currentBody));
 	},
-	selectBlock: function(idBlock) {
-		var blockTreeObj = document.getElementById("treedom_" + idBlock);
-		var block = this.currentDocument.getElementById(idBlock);
+	selectBlock: function(block) {
+		/* important to manage with same block ids ( one into page / one into theme ) */
+		if(block.classList.contains("tree_selector")){
+			this.inProgress = block.id.split("treedom_")[1];
+			this.typeProgress = block.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme" ;
+		}else{
+			this.inProgress = block.id;
+			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
+		}
+		
+		if(this.typeProgress == "page"){
+			var blockTreeObj = document.querySelector("#treedom_content #treedom_" + this.inProgress);
+			var blockPreview = this.currentDocument.querySelector("#content #" + this.inProgress);
+		}else{
+			var blockTreeObj = $("#treedom_" + this.inProgress + ":not(#treedom_content *)")[0]; /* selector type only works in jquery cf:http://stackoverflow.com/questions/10711730/whats-the-difference-in-the-not-selector-between-jquery-and-css/10711731#10711731 */
+			var blockPreview = $("#" + this.inProgress + ":not(#content *)", this.currentDocument)[0];
+		}
+		
+		this.inProgressElmt = blockPreview;
+
 		var oldSelection = this.currentDocument.querySelector(".selection-block");
 		var oldSelectionTree = document.querySelector(".currentDOM");
 		var config_tree_selector = document.getElementById("config_tree_selector");
 
 		oldSelection && oldSelection.classList.remove("selection-block");
 		oldSelectionTree && oldSelectionTree.classList.remove("currentDOM");
-		this.inProgress = idBlock;
-		this.typeProgress = this.whereIAm(this.inProgress);
-		block && block.classList.add("selection-block");
+		blockPreview && blockPreview.classList.add("selection-block");
 		if (blockTreeObj)
 			blockTreeObj.classList.add("currentDOM");
 
-		if (idBlock == "container") {
+		if (block.id == "container") {
 			$(".move_block, .config_destroy").hide();
-		} else if (idBlock == "content") {
+		} else if (block.id == "content") {
 			$(".config_destroy").hide();
 		} else {
 			$(".move_block, .config_destroy").show();
@@ -348,24 +364,6 @@ var ParsimonyAdmin = {
 	unSelectBlock: function() {
 		$('#parsimonyDND, #config_tree_selector').hide();
 		this.inProgress = '';
-	},
-	whereIAm: function(idBlock) {
-		var where = "theme";
-		var elmt = this.currentDocument.getElementById(idBlock);
-		if (elmt) {
-			if (elmt.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10) {
-				where = "page";
-			}
-		} else {
-			if (idBlock == 'dropInTree')
-				var obj = document.getElementById("dropInTree");
-			else
-				var obj = document.getElementById("treedom_" + idBlock);
-			if (obj.compareDocumentPosition(document.getElementById("treedom_content")) == 10) {
-				where = "page";
-			}
-		}
-		return where;
 	},
 	showOverlay: function() {
 		document.getElementById("conf_box_overlay").style.display = "block";
@@ -576,6 +574,7 @@ var ParsimonyAdmin = {
 	},
 	loadBlock: function(id, params, func) {
 		if (!params) params = {};
+		params["getBlockAdmin"] = '1';
 		$.get(window.location.href.toLocaleString(), params, function(data) {
 			$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
 		}, func);

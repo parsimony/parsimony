@@ -204,7 +204,7 @@
 							$value = '0';
 							if (is_file('modules/' . $module . '/module.php')) {
 								include_once('modules/' . $module . '/module.php');
-								$name = $module . '\\' . $module;
+								$name = $module . '\\module';
 								$rc = new ReflectionClass($name);
 								/* ---- hasMethod() doesn't work for __wakeup */
 								foreach ($rc->getMethods() AS $method) {

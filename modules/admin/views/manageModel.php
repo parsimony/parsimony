@@ -42,9 +42,9 @@
 			$.post(window.location,"TOKEN=" + TOKEN + "&module=<?php echo $module ?>&entity=<?php echo $model ?>&page=" + $(this).data('page') + "&action=datagrid",function(data){
 				$this.closest(".admintabs").html(data);
 			});
-		});
-		$(document).off('click',".datagrid tr");
-		$(document).on('click',".datagrid td.updateBTN",function(e){
+		})
+		.off('click',".datagrid tr")
+		.on('click',".datagrid td.updateBTN",function(e){
 			var ide = parseInt($(".datagrid_id",$(this).parent()).html(),10);
 			if($('#modifmodel3 > div[title="' + ide + '"]').length==0){
 				$( "#modifmodel3" ).append("<div title=\"" + ide + "\" class=\"adminzonetab\"><a href=\"#tabsamodifmodel-" + ide +"\">" + '<span class="floatright ui-icon ui-icon-closethick"></span>' + $(".datagrid_title",$(this).parent()).text() + "</a></div>");
@@ -60,17 +60,16 @@
 		$('#modifmodel3 > div[title="' + ide + '"]').trigger("click");
 		}
 		top.ParsimonyAdmin.resizeConfBox();
-		});
-		$(document).on('click',"#modifmodel3 > div", function(){
+		})
+		.on('click',"#modifmodel3 > div", function(){
 			$('#contentajax > div').hide();
 			$('#tabsamodifmodel-' + $(this).attr('title')).show();
 
-		});
-
-		$(document).on('click', 'span.ui-icon-closethick',function(e){
+		})
+		.on('click', 'span.ui-icon-closethick',function(e){
 			$(this).parent().parent().remove();
-		});
-		$(document).on('click',".adminzonetab a",function(event){
+		})
+		.on('click',".adminzonetab a",function(event){
 			event.preventDefault();
 			if($(this).attr("href")!='#'){
 				$(".adminzonecontent .admintabs").hide();
@@ -95,7 +94,8 @@
 	#modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
 	.updateBTN{text-align: center;width: 20px;padding:2px}
 	.adminzone{background: #fefefe;padding-top: 15px;}
-	.adminzonecontent{min-width:900px;bottom:initial;top:initial;left:0;border-left:0;background: transparent}
+	.adminzonecontent{min-width:900px;bottom:0;top:60px;left:0;border-left:0;background: transparent}
+	.adminzonecontent .cols {width: 100%;}
 #searchData {
 margin: 10px 10px;
 border-radius: 25px;

@@ -9,7 +9,7 @@ namespace blog;
  * @browsers all
  * @php_version_min 5.3
  */
-class blog extends \module {
+class module extends \module {
 
     protected $name = 'blog';
 

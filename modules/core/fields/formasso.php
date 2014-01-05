@@ -42,8 +42,9 @@ class formasso extends \field {
 
 	protected $type = '';
 	protected $characters_max = '';
-	protected $entity_asso = '';
-	protected $entity_foreign = '';
+	protected $entity_asso = ''; //todo put module_...
+	protected $entity_foreign = '';//todo put module_...
+	protected $mode = 'default'; /* default / tag */
 
 	/**
 	 * Fill SQL Features
@@ -53,37 +54,48 @@ class formasso extends \field {
 		return FALSE;
 	}
 
-	public function validate($vars) {
+	public function validate($values) {
+		$this->value = $values;
 		\app::addListener('afterInsert', array($this, 'process'));
 		\app::addListener('afterUpdate', array($this, 'process'));
-		return TRUE;
+		return $values;
 	}
 
-	public function process($vars, &$entity = FALSE) { 
+	public function process($vars) { 
+
 		\app::removeListener('afterInsert');
 		\app::removeListener('afterUpdate');
 
-		$idEntity = $entity->getId()->name;
-		if(isset($vars[$this->name])){
+		$idEntity = $this->entity->getId()->name;
+		$foreignEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_foreign);
+		$idNameForeignEntity = $foreignEntity->getId()->name;
+		$assoEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_asso);
+		$idAsso = $assoEntity->getId()->name;
 
-			$vars2 = $vars[$this->name];
+		/* Get old links */
+		$old = array();
+		foreach($assoEntity->where($idEntity .' = '. $vars[':' . $idEntity])->fetchAll(\PDO::FETCH_ASSOC) as $oldRows){
+			$old[$oldRows[$idNameForeignEntity]] = $oldRows[$idAsso];
+		}
 
-			if(!isset($vars[$idEntity]) || empty($vars[$idEntity])) $id = $entity->order($idEntity,'desc')->limit(1)->fetch()->$idEntity;
-			else $id = $vars[$idEntity];
-
-			$foreignEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_foreign);
-			$idNameForeignEntity = $foreignEntity->getId()->name;
-			$assoEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_asso);
-
-			$assoEntity->delete($id);
-
-			foreach ($vars2 as $idForeign => $value) {
-				if (substr($idForeign,0,3) == 'new') {
-					$foreignEntity->insertInto(array($idNameForeignEntity => '', $foreignEntity->getBehaviorTitle() => trim($value)));
-					\app::$request->setParam('titleformasso' , trim($value)); // set value to be used in prepared query
-					$idForeign = $foreignEntity->select($idNameForeignEntity)->where($foreignEntity->getBehaviorTitle() . ' = :titleformasso')->fetch()->$idNameForeignEntity;
+		/* Add new links */
+		if (!empty($this->value) && is_array($this->value)) { /* is_array in case all items are removed and $this->value == "empty" */
+			foreach ($this->value as $idForeign => $value) {
+				if (isset($old[$idForeign])) {
+					unset($old[$idForeign]);
+				} else {
+					if (substr($idForeign, 0, 3) === 'new') {
+						$idForeign = $foreignEntity->insertInto(array($idNameForeignEntity => '', $foreignEntity->getBehaviorTitle() => trim($value)), FALSE);
+					}
+					$assoEntity->insertInto(array($idAsso => '', $idEntity => $vars[':' . $idEntity], $idNameForeignEntity => $idForeign), FALSE);
 				}
-				$assoEntity->insertInto(array($assoEntity->getId()->name => '', $idEntity => $id, $idNameForeignEntity => $idForeign));
+			}
+		}
+
+		/* Remove killed links */
+		if(!empty($old)){
+			foreach ($old as $linkID) {
+				$assoEntity->delete($linkID, FALSE);
 			}
 		}
 	}

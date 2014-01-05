@@ -44,6 +44,7 @@ class state extends \field {
 	protected $characters_max = 2;
 	protected $regex = '^[0-9]*$';
 	protected $states = '';
+	protected $editMode = 'form';
 	
 	public function getAllValues() {
 		return explode(',', $this->states);

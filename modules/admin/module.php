@@ -40,7 +40,7 @@ namespace admin;
  * @modules_dependencies core:1
  */
 
-class admin extends \module {
+class module extends \module {
 
 	protected $name = 'admin';
 
@@ -918,19 +918,38 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function addNewEntryAction($entity) {
-		unset($_POST['action']);
-		unset($_POST['add']);
-		unset($_POST['TOKEN']);
 		list($module, $entity) = explode(' - ', $entity);
 		$obj = \app::getModule($module)->getEntity($entity);
-		unset($_POST['entity']);
 		$res = $obj->insertInto($_POST);
-		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been added'), 'notificationType' => 'positive');
-		}elseif($res === FALSE){
+		if (is_numeric($res)) {
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel", true);document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been added'), 'notificationType' => 'positive');
+		} elseif ($res === FALSE) {
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
-		}else{
-			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE).' : '.$res, 'notificationType' => 'negative');
+		} else {
+			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE) . ' : ' . $res, 'notificationType' => 'negative');
+		}
+		return $this->returnResult($return);
+	}
+	
+	protected function displayInsertFormAssoAction($entity) {
+		list($module, $entity) = explode(' - ', $entity);
+		$obj = \app::getModule($module)->getEntity($entity);
+		$css = '<style>h2,#conf_box_close{display:none}</style>';
+		return $css . str_replace('name="action" value="addNewEntry"', 'name="action" value="addNewEntryFormAsso"', $obj->getViewAddForm());
+	}
+	
+	protected function addNewEntryFormAssoAction($entity) {
+		list($module, $entity) = explode(' - ', $entity);
+		$obj = \app::getModule($module)->getEntity($entity);
+		$res = $obj->insertInto($_POST);
+		if (is_numeric($res)) {
+			$values = $_POST[$module . '_' . $entity];
+			$return = array('id' => $res, 'title' => $values[$obj->getBehaviorTitle()]);
+			return json_encode($return);
+		} elseif ($res === FALSE) {
+			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE), 'notificationType' => 'negative');
+		} else {
+			$return = array('eval' => '', 'notification' => t('The data haven\'t been added', FALSE) . ' : ' . $res, 'notificationType' => 'negative');
 		}
 		return $this->returnResult($return);
 	}
@@ -941,24 +960,19 @@ class admin extends \module {
 	 * @return string 
 	 */
 	protected function updateEntryAction($entity) {
-		unset($_POST['action']);
-		unset($_POST['TOKEN']);
 		list($module, $entity) = explode(' - ', $entity);
 		$obj = \app::getModule($module)->getEntity($entity);
-		unset($_POST['entity']);
 		if (isset($_POST['update'])) {
-			unset($_POST['update']);
 			$res = $obj->update($_POST);
 		} elseif (isset($_POST['delete'])) {
-			unset($_POST['delete']);
-			$res = $obj->delete($_POST[$obj->getId()->name]);
+			$res = $obj->delete($_POST[$module . '_' . $entity][$obj->getId()->name]);
 		}
-		if(is_numeric($res) || $res == 1){
-			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel");document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been modified'), 'notificationType' => 'positive');
-		}elseif($res === FALSE){
+		if ($res === TRUE) {
+			$return = array('eval' => 'ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=' . $module . ' - ' . $entity . '&action=getViewAdminModel", true);document.getElementById("preview").contentWindow.location.reload()', 'notification' => t('The data have been modified'), 'notificationType' => 'positive');
+		} elseif ($res === FALSE) {
 			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE), 'notificationType' => 'negative');
-		}else{
-			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE).' : '.$res, 'notificationType' => 'negative');
+		} else {
+			$return = array('eval' => '', 'notification' => t('The data haven\'t been modified', FALSE) . ' : ' . $res, 'notificationType' => 'negative');
 		}
 		return $this->returnResult($return);
 	}

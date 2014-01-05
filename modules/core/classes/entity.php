@@ -47,7 +47,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	protected $_tableName;
 
 	/** @var string title */
-	protected $_tableTitle;
+	protected $_entityTitle;
 
 	/** @var string entity name */
 	protected $_entityName;
@@ -64,7 +64,10 @@ abstract class entity extends queryBuilder implements \Iterator {
 	/** @var string image in metadata */
 	public $behaviorImage;
 
-	/** @var array of _rights */
+	/** @var array of extends */
+	protected $_extends = array();
+
+	/** @var array of rights */
 	protected $_rights = array();
 	
 	/**
@@ -76,12 +79,12 @@ abstract class entity extends queryBuilder implements \Iterator {
 	}
 
 	/**
-	 * Get the name of a given entity
+	 * Get the value of a given field name
 	 * @param string $name
 	 * @return field object | false
 	 */
 	public function __get($name) {
-		return $this->$name->value;
+		return $this->fields[$name]->value;
 	}
 
 	/**
@@ -90,8 +93,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param string $value
 	 */
 	public function __set($name, $value) {
-		if (isset($this->$name)) {
-			$this->$name->setValue($value);
+		if (isset($this->fields[$name])) { /* usefull for fields multicolumns ou properties created dynamicaly : $this->_newPassword = .. */
+			$this->fields[$name]->setValue($value);
 		} else {
 			$this->$name = $value;
 		}
@@ -100,10 +103,11 @@ abstract class entity extends queryBuilder implements \Iterator {
 	/**
 	 * Get the name of a given entity
 	 * @param string $name
+	 * @param string $args
 	 * @return field object | false
 	 */
 	public function __call($name, $args) {
-		return $this->$name;
+		return $this->fields[$name];
 	}
 	
 	/**
@@ -167,6 +171,14 @@ abstract class entity extends queryBuilder implements \Iterator {
 	public function getName() {
 		return $this->_entityName;
 	}
+	
+	/**
+	 * Get Sql table name
+	 * @return string
+	 */
+	public function getTableName() {
+		return $this->_tableName;
+	}
 
 	/**
 	 * Get Title
@@ -190,9 +202,9 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 */
 	public function createTable() {
 		$sql = 'CREATE TABLE IF NOT EXISTS ' . PREFIX . $this->_tableName . ' (';
-		foreach ($this->getFields() as $name => $field) {
+		foreach ($this->fields as $field) {
 			$sqlField = $field->sqlModel();
-			if ($sqlField != FALSE)
+			if ($sqlField !== FALSE)
 				$sql .= $sqlField . ',';
 		}
 		$sql = substr($sql, 0, -1) . ') ENGINE=InnoDB DEFAULT CHARSET=utf8;'; /* InnoDB to support transactions */
@@ -218,31 +230,52 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param array $vars
 	 * @return bool|int
 	 */
-	public function insertInto(array $vars) {
+	public function insertInto(array $vars, $mainEntity = TRUE) {
 		if($this->getRights($_SESSION['id_role']) & INSERT){
-			$vars = $this->beforeInsert($vars);
-			if($vars === FALSE) return FALSE;
+			if($mainEntity === TRUE){
+				\PDOconnection::getDB()->beginTransaction();
+			}
+			if (isset($vars[$this->_tableName])) {
+				$varsEntity = $this->beforeInsert($vars[$this->_tableName]);
+			} else {
+				$varsEntity = $this->beforeInsert($vars);
+			}
+			if($varsEntity === FALSE) return FALSE;
 			$query = 'INSERT INTO ' . PREFIX . $this->_tableName . '(';
 			$params = '';
-			foreach ($this->getFields() as $field) {
-				if ($field->type !== ''){ /* field_formasso */
+			foreach ($this->fields as $name => $field) {
+				if (isset($this->$name) && $field->type !== '') { /* to exclude fields from extended entities */ /* field_formasso */
 					foreach ($field->getColumns() AS $column){
 						$query .= $column . ',';
 						$params .= ':' . $column . ',';
 					}
-				}
+				 }
 			}
 			$query = substr($query, 0, -1) . ') VALUES(' . substr($params, 0, -1) . ');';
 			$sth = PDOconnection::getDB()->prepare($query);
-
-			$values = $this->prepareValues($vars);
-			if (!is_array($values)) 
+			$values = $this->prepareValues($varsEntity);
+			if (!is_array($values)){
+				\PDOconnection::getDB()->rollBack();
 				return $values; // FALSE : error message
+			}
 			$res = $sth->execute($values);
 			if($res !== FALSE) {
-				$lastId = $values[':'.$this->getId()->name] = \PDOconnection::getDB()->lastInsertId(); // should be before afterInsert
+				$lastId = $values[':' . $this->getId()->name] = \PDOconnection::getDB()->lastInsertId(); // should be before afterInsert
 				$this->afterInsert($values);
-				\app::dispatchEvent('afterInsert', array($vars, &$this));
+				\app::dispatchEvent('afterInsert', array($values));
+				if (!empty($this->_extends)) {	
+					foreach ($this->_extends as $entity) {
+						$id = $entity->getId()->name;
+						$vars[$entity->getTableName()][$id] = $lastId;
+						$resExtend = $entity->insertInto($vars, FALSE);
+						if (!is_numeric($resExtend)) {
+							return $resExtend;
+						}
+					}
+				}
+				if($mainEntity === TRUE){
+					\PDOconnection::getDB()->commit();
+				}
 				return $lastId;
 			}
 			return FALSE;
@@ -256,13 +289,20 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param array $vars
 	 * @return bool
 	 */
-	public function update(array $vars) {
-		if($this->getRights($_SESSION['id_role']) & UPDATE){
-			$vars = $this->beforeUpdate($vars);
-			if($vars === FALSE) return FALSE;
+	public function update(array $vars, $mainEntity = TRUE) {
+		if($this->getRights($_SESSION['id_role']) & UPDATE && isset($vars[$this->_tableName])){
+			if($mainEntity === TRUE){
+				\PDOconnection::getDB()->beginTransaction();
+			}
+			if (isset($vars[$this->_tableName])) {
+				$varsEntity = $this->beforeInsert($vars[$this->_tableName]);
+			} else {
+				$varsEntity = $this->beforeInsert($vars);
+			}
+			if($varsEntity === FALSE) return FALSE;
 			$query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
-			foreach ($this->getFields() as $name => $field) {
-				if ($field->type !== '' /* field_formasso */ && isset($vars[$name])){
+			foreach ($this->fields as $name => $field) {
+				if (isset($this->$name) && $field->type !== '' && isset($varsEntity[$name])) { /* to exclude fields from extended entities */  /* field_formasso */
 					foreach ($field->getColumns() AS $column)
 						$query .= $column . ' = :' . $column . ',';
 				}
@@ -274,15 +314,28 @@ abstract class entity extends queryBuilder implements \Iterator {
 				$query .= ' WHERE ' . $this->getId()->name . ' = :' . $this->getId()->name . ';';
 			}
 			$sth = PDOconnection::getDB()->prepare($query);
-			$values = $this->prepareValues($vars, 'UPDATE');
-			if (!is_array($values)) 
+			$values = $this->prepareValues($varsEntity, 'UPDATE');
+			if (!is_array($values)) {
+				\PDOconnection::getDB()->rollBack();
 				return $values; // FALSE : error message
+			}
 			$res = $sth->execute($values);
 			unset($this->_SQL['wheres']);
 			if($res !== FALSE) {
 				$this->afterUpdate($values);
-				\app::dispatchEvent('afterUpdate', array($vars, &$this));
-				return TRUE;
+				\app::dispatchEvent('afterUpdate', array($values));
+				if (!empty($this->_extends)) {
+					foreach ($this->_extends as $entity) {
+						$resExtend = $entity->update($vars, FALSE);
+						if ($resExtend !== TRUE) {
+							return $resExtend;
+						}
+					}
+				}
+				if($mainEntity === TRUE){
+					\PDOconnection::getDB()->commit();
+				}
+				return $res;
 			}
 			return FALSE;
 		}else{
@@ -295,15 +348,33 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param int $id
 	 * @return bool
 	 */
-	public function delete($id) {
-		if ($this->getRights($_SESSION['id_role']) & UPDATE) {
+	public function delete($id, $mainEntity = TRUE) {
+		if ($this->getRights($_SESSION['id_role']) & DELETE) {
+			if($mainEntity === TRUE){
+				\PDOconnection::getDB()->beginTransaction();
+			}
 			$this->beforeDelete();
 			$query = 'DELETE FROM ' . PREFIX . $this->_tableName . ' WHERE ' . $this->getId()->name . ' = :id';
-			$res = PDOconnection::getDB()->prepare($query);
-			$res->execute(array(':id' => $id));
-			$this->afterDelete();
-			\app::dispatchEvent('afterDelete', array(&$this));
-			return $res;
+			$sth = PDOconnection::getDB()->prepare($query);
+			$res = $sth->execute(array(':id' => $id));
+			if($res !== FALSE) {
+				$this->afterDelete($id);
+				\app::dispatchEvent('afterDelete', array(&$this));
+				if (!empty($this->_extends)) {
+					foreach ($this->_extends as $entity) {
+						$resExtend = $entity->delete($id, FALSE);
+						if ($resExtend !== TRUE) {
+							return $resExtend;
+						}
+					}
+				}
+				if($mainEntity === TRUE){
+					\PDOconnection::getDB()->commit();
+				}
+				return $res;
+			}
+			\PDOconnection::getDB()->rollBack();
+			return FALSE;
 		} else {
 			throw new \Exception(t('Delete forbidden on ' . $this->_tableName, FALSE));
 		}
@@ -327,31 +398,34 @@ abstract class entity extends queryBuilder implements \Iterator {
 				throw new \Exception(t('ID must be filled to update', FALSE));
 			}
 		}
-		foreach ($this->getFields() as $name => $field) {
-			if ($type === 'INSERT' || isset($vars[$name])) { // to allow only the update of some properties
-				$columns = $field->getColumns();
-				if (count($columns) === 1) {
-					/* If the field has one column */
-					$value = isset($vars[$name]) && $field->getRights($_SESSION['id_role']) & constant($type) ? $vars[$name] : '';
-					$value = $field->validate($value, $val, $vars);
-				} else {
-					/* If the field has severals columns */
-					$columnsValues = array_intersect_key($vars, array_flip($columns));
-					$value = $field->validate($columnsValues, $val, $vars);
-				}
+
+		foreach ($this->fields as $name => $field) {
+			if (isset($this->$name)) { /* to exclude fields from extended entities */
+				if ($type === 'INSERT' || isset($vars[$name])) { // to allow only the update of some properties
+					$columns = $field->getColumns();
+					if (count($columns) === 1) {
+						/* If the field has one column */
+						$value = isset($vars[$name]) && $field->getRights($_SESSION['id_role']) & constant($type) ? $vars[$name] : '';
+						$value = $field->validate($value, $val, $vars);
+					} else {
+						/* If the field has severals columns */
+						$columnsValues = array_intersect_key($vars, array_flip($columns));
+						$value = $field->validate($columnsValues, $val, $vars);
+					}
 				if ($value === FALSE)
-					return $field->label . ', ' . $field->msg_error; // return error message
+					return $this->getTitle() . ' ' . $field->label . ', ' . $field->msg_error; // return error message
 				else
 					$field->setValue($value);
 
-				/* If field is a field_formasso */
-				if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
-					foreach ($columns AS $column){
-						if (count($columns) === 1)
-							$values[':' . $column] = $value;
-						else {
-							foreach ($value AS $key => $val)
-								$values[':' . $key] = $val;
+					/* If field is a field_formasso */
+					if (get_class($field) !== \app::$aliasClasses['field_formasso']) {
+						foreach ($columns AS $column){
+							if (count($columns) === 1)
+								$values[':' . $column] = $value;
+							else {
+								foreach ($value AS $key => $val)
+									$values[':' . $key] = $val;
+							}
 						}
 					}
 				}
@@ -368,7 +442,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		if($this->getRights($_SESSION['id_role']) & DISPLAY){
 			$id = $this->getId()->name;
 			$displayedField = array();
-			foreach ($this->getFields() as $name => $field) {
+			foreach ($this->fields as $name => $field) {
 				if ($field->getRights($_SESSION['id_role']) & DISPLAY ) {
 					$displayedField[] = $name;
 				}
@@ -388,7 +462,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 					$dataset[$row->$id->value] = $line;
 				}
 			}
-			defined('JSON_PRETTY_PRINT') or define('JSON_PRETTY_PRINT', null);
+			defined('JSON_PRETTY_PRINT') or define('JSON_PRETTY_PRINT', null); //compatibility
 			return json_encode($dataset, JSON_PRETTY_PRINT);
 			
 		}else{
@@ -410,7 +484,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			$col1 = '';
 			$col2 = '';
 			if($this->buildQuery()){
-				foreach ($this->getFields() as $field) {
+				foreach ($this->fields as $field) {
 					if ($field->visibility & INSERT) {
 						$className = get_class($field);
 						$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
@@ -446,13 +520,10 @@ abstract class entity extends queryBuilder implements \Iterator {
 			$col1 = '';
 			$col2 = '';
 			if($this->buildQuery()){
-				foreach ($this->getFields() as $field) {
+				foreach ($this->fields as $field) {
 					if ($field->visibility & UPDATE) {
 						$className = get_class($field);
-						if ($className == \app::$aliasClasses['field_formasso']){
-							$field->setValue($this->getId()->value);
-							$col2 .= $field->form();
-						}elseif ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_boolean'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
+						if ($className == \app::$aliasClasses['field_publication'] || $className == \app::$aliasClasses['field_formasso'] || $className == \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_boolean'] || $className == \app::$aliasClasses['field_foreignkey'] || $className == \app::$aliasClasses['field_date'] || $className == \app::$aliasClasses['field_user'])
 							$col2 .= $field->form();
 						else
 							$col1 .= $field->form();
@@ -473,6 +544,24 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 }else{
 			 throw new \Exception(t('Update forbidden on ' . $this->_tableName, FALSE));
 		 }
+	 }
+	 
+	 public function extend($entity) {
+		 $this->_extends[] = $entity;
+		 $foreignFields = $entity->getFields();
+		 foreach($foreignFields AS $name => &$field) {
+			 if(isset($this->fields[$name])){
+				 $tableName = $field->getTableName();
+				 $aliasName = $name . '_' . $tableName;
+				 $this->_SQL['selects'][$aliasName] = $tableName . '.' . $name . ' AS ' . $aliasName;
+				 $this->fields[$aliasName] = $field;
+			 }else{
+				 $this->_SQL['selects'][$name] = $name; /* best than "table.*" which bug when using alias ( duplicate) */
+				 $this->fields[$name] = $field;
+			 }
+		 }
+		 $foreignTableName = str_replace('\\model\\', '_', get_class($entity));
+		 $this->join($this->_tableName . '.' . $this->getId()->name, $foreignTableName . '.' . $entity->getId()->name, 'left outer join');
 	 }
 	 
 	 /** *************************************************************
@@ -554,8 +643,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * @return field obejct
 	  */
 	 public function getId() {
-		 $properties = $this->getFields();
-		 return $this->{key($properties)};
+		return $this->fields['id_' . $this->_entityName];
 	 }
 
 	 /**
@@ -567,15 +655,14 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 if (!empty($this->behaviorTitle)) {
 			 return $this->behaviorTitle;
 		 } else {
-			 $properties = $this->getFields();
-			 foreach ($properties as $name => $property) {
+			 foreach ($this->fields as $name => $property) {
 				 if (get_class($property) === \app::$aliasClasses['field_string']) {
 					 $this->behaviorTitle = $name;
 					 return $name;
 				 }
 			 }
-			 reset($properties);
-			 return key($properties);
+			 reset($this->fields);
+			 return key($this->fields);
 		 }
 	 }
 
@@ -587,8 +674,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 if (!empty($this->behaviorDescription)) {
 			 return $this->behaviorDescription;
 		 } else {
-			 $properties = $this->getFields();
-			 foreach ($properties as $name => $property) {
+			 foreach ($this->fields as $name => $property) {
 				 if (get_class($property) === \app::$aliasClasses['field_textarea'] ||get_class($property) === \app::$aliasClasses['field_wysiwyg']) {
 					 $this->behaviorDescription = $name;
 					 return $name;
@@ -619,8 +705,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 if (!empty($this->behaviorImage)) {
 			 return $this->behaviorImage;
 		 } else {
-			 $properties = $this->getFields();
-			 foreach ($properties as $name => $property) {
+			 foreach ($this->fields as $name => $property) {
 				 if (get_class($property) === \app::$aliasClasses['field_image']) {
 					 $this->behaviorImage = $name;
 					 return $name;
@@ -638,8 +723,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 if (!empty($this->behaviorAuthor)) {
 			 return $this->behaviorAuthor;
 		 } else {
-			 $properties = $this->getFields();
-			 foreach ($properties as $name => $property) {
+			 foreach ($this->fields as $name => $property) {
 				 if (get_class($property) === \app::$aliasClasses['field_user']) {
 					 $this->behaviorAuthor = $name;
 					 return $name;
@@ -647,21 +731,6 @@ abstract class entity extends queryBuilder implements \Iterator {
 			 }
 		 }
 		 return FALSE;
-	 }
-
-	 /**
-	  * Get fields
-	  * @return array of fields
-	  */
-	 public function getFields() {
-		 $fields = get_object_vars($this);
-		 foreach ($fields as $name => $property) {
-			 if (!($property instanceof \field)) {
-				 unset($fields[$name]);
-			 }
-		 }
-		 reset($fields);
-		 return $fields;
 	 }
 
 	 /**
@@ -688,6 +757,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 		unset($this->_SQL);
 		$properties = get_object_vars($this);
 		unset($properties['fields']);
+		unset($properties['_extends']);
+		unset($properties['_tableTitle']); /* Todo remove */
 		if(empty($this->behaviorTitle)){
 			unset($properties['behaviorTitle']);
 		}
@@ -700,6 +771,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		if(empty($this->behaviorImage)){
 			unset($properties['behaviorImage']);
 		}
+		unset($this->extends);
 		$fields = array_keys($properties);
 		return $fields;
 	 }
@@ -714,7 +786,6 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 $selects = explode(',', $clause);
 		 if (!empty($clause)) {
 			 foreach ($selects AS $select) {
-				 $select = trim($select);
 				 $this->_SQL['selects'][$select] = $select;
 			 }
 		 }
@@ -723,13 +794,19 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 
 	 
 	 public function __wakeup() {
-		  /* Insert an entity reference in each field */
-		 $fields = $this->getFields();
-		 foreach ($fields as &$field) {
-			 $field->setEntity($this);
+		 
+		 /* Get fields and separate them from other props */
+		$fields = get_object_vars($this);
+		 foreach ($fields as $name => &$property) {
+			 if ($property instanceof \field) {
+				/* Insert an entity reference in each field */
+				$property->setEntity($this);
+				/* Save field in fields array - usefull to extend(), getFields(), getId() methods, also idem to class view structure   */
+				$this->fields[$name] = $property;
+			 }
 		 }
+		 
+		 \app::dispatchEvent('wakeupEntity', array($this->_tableName, &$this)); /* mainly if antoher module wants to extend this entity */
 	 }
 
 }
-
-?>

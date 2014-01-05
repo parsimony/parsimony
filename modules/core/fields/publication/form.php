@@ -28,7 +28,7 @@
 
 $visibility = $this->name . '_visibility';
 $status = $this->name . '_status';
-if($value !== FALSE) $stamp = strtotime(s($value));
+if($value !== FALSE && $value != null) $stamp = strtotime(s($value));
 else $stamp = time();
 ?>
 <script>
@@ -53,13 +53,13 @@ echo $this->displayLabel($fieldName);
 	<div class="slide"><span class="ui-icon ui-icon-arrowthickstop-1-s" style="display: inline-block;vertical-align: text-bottom;"></span><span style="font-weight: bold;"><?php echo t('Visibility') ?> :</span> <span class="visibstatus"></span></div>
 	<div class="none">
 		<div class="visib">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="public" data-name="Public" data-name="public" data-val="1" value="1"><label><?php echo t('Public') ?></label>
+			<input type="radio" name="<?php echo $tableName ?>[<?php echo $this->name ?>_visibility]" class="public" data-name="Public" data-name="public" data-val="1" value="1"><label><?php echo t('Public') ?></label>
 		</div>
 		<div class="visib">
-			<input type="radio" name="<?php echo $this->name ?>_visibility" class="private" data-name="Private" data-val="0" value="0"><label><?php echo t('Private') ?></label>
+			<input type="radio" name="<?php echo $tableName ?>[<?php echo $this->name ?>_visibility]" class="private" data-name="Private" data-val="0" value="0"><label><?php echo t('Private') ?></label>
 		</div>
 		<div class="visib">
-			<input type="radio" class="password" data-name="Password" name="<?php echo $this->name ?>_visibility" data-val="2" value="2"><label><?php echo t('Password protected') ?></label>
+			<input type="radio" class="password" data-name="Password" name="<?php echo $tableName ?>[<?php echo $this->name ?>_visibility]" data-val="2" value="2"><label><?php echo t('Password protected') ?></label>
 			<input style="margin-top: 5px" class="none passname" type="text">
 		</div>
 	</div>
@@ -70,7 +70,7 @@ echo $this->displayLabel($fieldName);
 		<input type="button" style="border-radius: 5px 0 0 5px;" data-val="2" value="<?php echo t('Pending'); ?>">
 		<input type="button" value="<?php echo t('Draft'); ?>" data-val="1">
 		<input type="button" style="border-radius: 0 5px 5px 0;" data-val="0" value="<?php echo t('Publish'); ?>" class="publish">
-		<input type="hidden" class="publishstatus" name="<?php echo $this->name . '_status' ?>">
+		<input type="hidden" class="publishstatus" name="<?php echo $tableName ?>[<?php echo $this->name . '_status' ?>]">
 	</div>
 	<div style="clear: both;padding: 5px 0;min-width: 237px;" >
 		<span style="font-weight: bold;"><?php echo t('Publish'); ?> <?php echo t('Immediately'); ?></span><span style="padding-left:5px"><?php echo t('Or'); ?></span>
@@ -99,7 +99,7 @@ echo $this->displayLabel($fieldName);
 			<input type="text" class="addminut datesql" maxlength="2" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('i', $stamp); ?>">
 			<input type="hidden" class="addsecond datesql" pattern="(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])" value="<?php echo date('s', $stamp); ?>">
 		</div>
-		<input type="hidden" class="datestatus" name="<?php echo $this->name ?>">
+		<input type="hidden" class="datestatus" name="<?php echo $tableName ?>[<?php echo $this->name ?>]">
 	</div> 
 </div>
 <script>
@@ -152,7 +152,7 @@ echo $this->displayLabel($fieldName);
 
 	<?php 
 	/* For update */
-	if($value != FALSE): ?>
+	if($value != FALSE && $value != null): ?>
 		if("<?php echo s($row->$visibility); ?>" <= 2){
 			$('.visib input[value="<?php echo $row->$visibility; ?>"]').trigger('click');
 		}else{

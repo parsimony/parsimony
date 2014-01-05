@@ -28,7 +28,7 @@
 
 echo $this->displayLabel($fieldName);
  ?>
-<select name="<?php echo $this->name ?>" id="<?php echo $fieldName ?>">
+<select name="<?php echo $tableName ?>[<?php echo $this->name ?>]" id="<?php echo $fieldName ?>">
 	<?php
 	$users = \app::getModule('core')->getEntity('user')->select();
 	foreach ($users as $row) :?>

@@ -28,5 +28,5 @@
 
 echo $this->displayLabel($fieldName);
  ?>
-<input type="hidden" name="<?php echo $this->name ?>" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="0" />
-<input type="checkbox" name="<?php echo $this->name ?>" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="1" <?php if($value == 1) echo ' checked="checked"' ?> />
+<input type="hidden" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="0" />
+<input type="checkbox" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="1" <?php if($value == 1) echo ' checked="checked"' ?> />

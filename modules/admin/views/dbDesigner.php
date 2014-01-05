@@ -875,7 +875,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			if (tablename.length > 0) {
 				if (dbadmin.keywordsReserveds.indexOf("," + tablename + ",") == -1) {
 					if (!$('#table_' + tablename).length) {
-						$("#canvas").prepend('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">' + t('ID') + '</div></div>');
+						$("#canvas").append('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">' + t('ID') + '</div></div>');
 						var myID_champ = "property_" + tablename + "_id_" + tablename;
 						var table_name = tablename;
 						var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));

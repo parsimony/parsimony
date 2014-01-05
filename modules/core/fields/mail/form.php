@@ -30,7 +30,7 @@ if(isset($this->unique) && $this->unique):
 <script>
 	$(document).ready(function() {
 		$(document).on("blur keyup", "#<?php echo $fieldName ?>", function(){
-			$.post(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
+			$.get(BASE_PATH + '<?php echo $this->entity->getModule(); ?>/callField',{ entity:"<?php echo $this->entity->getName(); ?>", fieldName:"<?php echo $this->name; ?>", method:'checkUnique', chars: this.value <?php if($row) echo ',id:"' . $row->getId()->value .'"' ?>}, function(data){
 				if(data == 1){
 					$(".info_<?php echo $fieldName ?>").empty();
 				}else{
@@ -45,7 +45,7 @@ if(isset($this->unique) && $this->unique):
 endif;
 echo $this->displayLabel($fieldName);
 ?>
-<input type="text" name="<?php echo $this->name ?>" class="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
+<input type="text" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $this->name ?>" id="<?php echo $fieldName ?>" value="<?php echo s($value) ?>" <?php if(!empty($this->regex)) echo 'pattern="'.$this->regex.'"' ?> <?php if($this->required) echo 'required' ?> />
 <?php if(isset($this->unique) && $this->unique): ?>
 	<div class="infoUnique info_<?php echo $fieldName ?>"></div>
 <?php endif; ?>

@@ -16,15 +16,15 @@ function blockAdminModules() {
 	}
 	
 	this.page = function(module, idPage) {
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&module=" + module + "&page=" + idPage + "&action=getViewUpdatePage");
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&module=" + module + "&page=" + idPage + "&action=getViewUpdatePage", true);
 	}
 
 	this.settings = function(module) {
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&module=" + module + "&action=getViewModuleAdmin");
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&module=" + module + "&action=getViewModuleAdmin", true);
 	}
 	
 	this.permissions = function() {
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&action=getViewAdminRights");
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&action=getViewAdminRights", true);
 	}
 	
 	this.profile = function() {
