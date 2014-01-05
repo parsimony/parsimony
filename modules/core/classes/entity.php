@@ -278,6 +278,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 				}
 				return $lastId;
 			}
+			\PDOconnection::getDB()->rollBack();
 			return FALSE;
 		}else{
 			throw new \Exception(t('Insert forbidden on ' . $this->_tableName, FALSE));
@@ -337,6 +338,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 				}
 				return $res;
 			}
+			\PDOconnection::getDB()->rollBack();
 			return FALSE;
 		}else{
 			throw new \Exception(t('Update forbidden on ' . $this->_tableName, FALSE));

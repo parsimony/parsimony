@@ -159,7 +159,8 @@ while (1) {
         case 'validstep1':
             if (isset($_POST['agreewithlicence'])) {
                 $step = 2;
-				mkdir('profiles/www' , 0755, TRUE);
+				if(!is_dir('profiles/www'))
+					mkdir('profiles/www' , 0755, TRUE);
 				file_put_contents('profiles/www/config.php', file_get_contents('modules/core/default-config.php'));
 			} else {
                 echo '<div class="notify negative">' . tr('You have to accept license agreement to continue') . '</div>';
@@ -624,10 +625,10 @@ while (1) {
 
 	    //create SQL tables
             include('modules/core/module.php');
-            $core = new \core\core('core');
+            $core = new \core\module('core');
             $core->install();
             include('modules/blog/module.php');
-            $blog = new \blog\blog('blog');
+            $blog = new \blog\module('blog');
             $blog->install();
 
 			echo '<div style="display:none">';

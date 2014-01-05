@@ -48,11 +48,11 @@ class url_rewriting extends \field {
 		$length = strlen($value);
 		if ($length >= $this->characters_min && $length <= $this->characters_max) {
 			if (empty($value)) {
-				$args = func_get_args();
+				$title = $this->entity->getField($this->entity->getBehaviorTitle());
 				if (!$this->required)
 					return '';
-				elseif (isset($args[2])) {
-					return \tools::sanitizeString($args[2][$this->entity->getTableName()][$this->entity->getBehaviorTitle()]);
+				elseif (!empty($title->value)) {
+					return \tools::sanitizeString($title->value);
 				}else{
 					return FALSE;
 				}
