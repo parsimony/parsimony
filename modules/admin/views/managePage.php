@@ -253,9 +253,9 @@
 							$currentTheme = FALSE;
 							if ($theme instanceof theme) {
 								$currentTheme = $theme->getModule() . '_' . $theme->getName();
-							}
-							if ($currentTheme === \app::$config['modules'] . '_' . \app::$config['modules']) {
-								$currentTheme = '';
+								if ($currentTheme === \app::$config['THEMEMODULE'] . '_' . \app::$config['THEME']) {
+									$currentTheme = '';
+								}
 							}
 							$modules = \app::$config['modules']['active'];
 							foreach ($modules as $moduleName => $mode) {
