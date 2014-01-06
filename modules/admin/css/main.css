@@ -46,7 +46,8 @@ background-color: #f1f1f1;border-left: 3px solid rgb(45, 193, 238);margin: 8px 0
 .sublist{position:relative;line-height:28px;clear:both;font-size: 12px;color: #444;text-transform: capitalize;cursor:pointer;display: block;text-decoration: none;}
 .sublist:last-child{border-bottom: 1px solid transparent;padding-left: 26px;}
 .sublist:hover,.sublist.selected{background-color: #ececec;border-radius: 2px;}
-.sublist a.ui-icon-pencil{display: none;right: 5px;top: 5px;position: absolute;border: #666 solid 1px;border-radius: 5px;}
+.sublist a.ui-icon-pencil{display: none;background: #F5F5F5 url(admin/img/config.png) no-repeat;
+background-position: 6px 7px;right: 0;top: 0;height: 30px;width: 30px;position: absolute;}
 .sublist:hover a.ui-icon-pencil{display: block}
 .modelSubList{padding-left: 30px;background-repeat: no-repeat;background-position: 8px 3px;}
 .subtitle{color: #777;text-transform: uppercase;font-weight: bold;padding-left: 26px;

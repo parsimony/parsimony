@@ -45,8 +45,6 @@ $view = $this->getConfig('view');
 	.adminzonecontent{min-width:1340px}
 	.queryblock:hover .removeButton{display:block}
 	.tabs{min-width: 1000px;}
-	.innerTabs ul li a {padding: 0 7px;line-height: 23px;}
-	#tabs-criterias{margin-top:5px}
 	.queryblock{position: relative;box-shadow: 1px 1px 1px #e7e7e7;font-weight: bold;color: #383838;text-shadow: 0 1px 0 #ffffff;background: #fefefe;padding-bottom: 10px;margin-right: 5px;margin-left: 5px;}
 	.queryblock a{top: 2px;right: 2px;position: absolute;z-index: 2;}
 	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
@@ -152,8 +150,9 @@ $view = $this->getConfig('view');
 <?php else: ?>
 <div class="tabs">
 	<ul>
-		<li class="active"><a href="#tabs-admin-query"><?php echo t('Query Editor'); ?></a></li>
+		<li class="active"><a href="#tabs-admin-query"><?php echo t('Query Builder'); ?></a></li>
 		<li><a href="#tabs-admin-template"><?php echo t('View'); ?></a></li>
+		<li><a href="#tabs-result"><?php echo t('Result'); ?> <span id="labelresult"></span></a></li>
 	</ul>
 	<div class="clearboth panel" id="tabs-admin-query">
 		 <div id="queryCanvasWrapper">
@@ -204,119 +203,92 @@ $view = $this->getConfig('view');
 			</div>
 			<div id="queryCanvas" style="width:100%;height:100%"></div>
 		</div>
-		<div class="innerTabs">
-			<ul>
-				<li class="active"><a href="#tabs-criterias"><?php echo t('Criterias'); ?></a></li>
-				<li><a href="#tabs-result"><?php echo t('Result'); ?> <span id="labelresult"></span></a></li>
-			</ul>
-			<div class="innerPanel" id="tabs-criterias">
-				<div style="margin-left: 20px;  line-height: 23px;margin-bottom: 5px;">
-					<?php echo t('Add a calculated Field'); ?><span class="calculatedField" style="background: rgba(191,185,169,.2);  height: 16px;  cursor: pointer;  border-radius: 3px;  width: 16px;  outline: none;  -webkit-appearance: none;  box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);padding: 0 3px 0 3px; text-align: center; margin: 0 10px;">+</span>
+		<h2><?php echo t('Criterias'); ?></h2>
+		<div style="margin-left: 20px;  line-height: 23px;margin-bottom: 5px;">
+			<?php echo t('Add a calculated Field'); ?><span class="calculatedField" style="background: rgba(191,185,169,.2);  height: 16px;  cursor: pointer;  border-radius: 3px;  width: 16px;  outline: none;  -webkit-appearance: none;  box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);padding: 0 3px 0 3px; text-align: center; margin: 0 10px;">+</span>
+		</div>
+		<div id="pattern_sql" class="queryblock floatleft none">
+			<a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
+				<span class="removeButton"></span>
+			</a>
+			<div class="normalMode bloctitle"><input class="property" type="text"></div>
+			<div class="calcMode blocalias"><input placeholder="Alias" class="alias" type="text"></div>
+			<div class="normalMode borderb"><input class="table" type="text"></div>
+			<div class="calcMode borderCalculated borderb">
+				<input class="calculated" placeholder="Calculation =+-/*" type="text">
+			</div>
+			<div class="sqltotal">
+				<select class="aggregate">
+					<option value=""></option>
+					<option value="groupby"><?php echo t('GROUP'); ?></option>
+					<option value="avg"><?php echo t('AVG'); ?></option>
+					<option value="count"><?php echo t('COUNT'); ?></option>
+					<option value="max"><?php echo t('MAX'); ?></option>
+					<option value="min"><?php echo t('MIN'); ?></option>
+					<option value="sum"><?php echo t('SUM'); ?></option>
+				</select>
+			</div>
+			<div class="sqlorder">
+				<select class="order">
+					<option value=""></option>
+					<option value="asc"><?php echo t('Ascending'); ?></option>
+					<option value="desc"><?php echo t('Descending'); ?></option>
+				</select>
+			</div>
+			<div class="align_center checkb"><input class="display" type="checkbox"></div>
+			<div style="padding: 3px 0;"><input class="where" type="text"></div>
+			<div><input class="orcond" type="text"></div>
+			<div class="align_center checkb"><input class="filter" type="checkbox"></div>
+			<div class="align_center checkb"><input class="sort" type="checkbox"></div>
+			<div class="align_center checkb"><input class="group" type="checkbox"></div>
+		</div>         
+		<div id="form" action="">
+			<div class="caption">
+				<div style="line-height: 24px;"><?php echo t('Property'); ?></div>
+				<div style="line-height: 21px;"><?php echo t('Entity'); ?></div>
+				<div style="padding-top: 10px;"><?php echo t('Total'); ?></div>
+				<div><?php echo t('Order'); ?></div>
+				<div><?php echo t('Display'); ?></div>
+				<div><?php echo t('Criteria'); ?></div>
+				<div><?php echo t('Or'); ?></div>
+				<div class="filter"><?php echo t('Filterable'); ?></div>
+				<div class="sort"><?php echo t('Sortable'); ?></div>
+				<div class="group"><?php echo t('Groupable'); ?></div>
+			</div>
+			<div id="recipiant_sql_cont" class="fs">
+				<div id="recipiant_sql"></div>
+			</div>
+			<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate') . ' '; ?>">
+			<div class="clearboth textdbquery">
+				<div style="display:inline-block;width:200px">
+					<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+					if ($this->getConfig('pagination') == 1)
+						echo ' checked="checked"';
+					?> />
 				</div>
-				<div id="pattern_sql" class="queryblock floatleft none">
-					<a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
-						<span class="removeButton"></span>
-					</a>
-					<div class="normalMode bloctitle"><input class="property" type="text"></div>
-					<div class="calcMode blocalias"><input placeholder="Alias" class="alias" type="text"></div>
-					<div class="normalMode borderb"><input class="table" type="text"></div>
-					<div class="calcMode borderCalculated borderb">
-						<input class="calculated" placeholder="Calculation =+-/*" type="text">
-					</div>
-					<div class="sqltotal">
-						<select class="aggregate">
-							<option value=""></option>
-							<option value="groupby"><?php echo t('GROUP'); ?></option>
-							<option value="avg"><?php echo t('AVG'); ?></option>
-							<option value="count"><?php echo t('COUNT'); ?></option>
-							<option value="max"><?php echo t('MAX'); ?></option>
-							<option value="min"><?php echo t('MIN'); ?></option>
-							<option value="sum"><?php echo t('SUM'); ?></option>
-						</select>
-					</div>
-					<div class="sqlorder">
-						<select class="order">
-							<option value=""></option>
-							<option value="asc"><?php echo t('Ascending'); ?></option>
-							<option value="desc"><?php echo t('Descending'); ?></option>
-						</select>
-					</div>
-					<div class="align_center checkb"><input class="display" type="checkbox"></div>
-					<div style="padding: 3px 0;"><input class="where" type="text"></div>
-					<div><input class="orcond" type="text"></div>
-					<div class="align_center checkb"><input class="filter" type="checkbox"></div>
-					<div class="align_center checkb"><input class="sort" type="checkbox"></div>
-					<div class="align_center checkb"><input class="group" type="checkbox"></div>
-				</div>         
-				<div id="form" action="">
-					<div class="caption">
-						<div style="line-height: 24px;"><?php echo t('Property'); ?></div>
-						<div style="line-height: 21px;"><?php echo t('Entity'); ?></div>
-						<div style="padding-top: 10px;"><?php echo t('Total'); ?></div>
-						<div><?php echo t('Order'); ?></div>
-						<div><?php echo t('Display'); ?></div>
-						<div><?php echo t('Criteria'); ?></div>
-						<div><?php echo t('Or'); ?></div>
-						<div class="filter"><?php echo t('Filterable'); ?></div>
-						<div class="sort"><?php echo t('Sortable'); ?></div>
-						<div class="group"><?php echo t('Groupable'); ?></div>
-					</div>
-					<div id="recipiant_sql_cont" class="fs">
-						<div id="recipiant_sql"></div>
-					</div>
-					<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate') . ' '; ?>">
-					<div class="clearboth textdbquery">
-						<div style="display:inline-block;width:200px">
-							<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
-							if ($this->getConfig('pagination') == 1)
-								echo ' checked="checked"';
-							?> />
-						</div>
-						<div style="display:inline-block;width:315px">
-							<?php echo t('This block shows at most') . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items'); ?><br>
-						</div>
-						<div style="display:inline-block;width:110px">
-							<?php echo t('Filterable'); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
-							if ($this->getConfig('filter') == 1)
-								echo ' checked="checked"';
-							?> />
-						</div>
-						<div style="display:inline-block;width:110px">
-							<?php echo t('Sortable'); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
-							if ($this->getConfig('sort') == 1)
-								echo ' checked="checked"';
-							?> />
-						</div>
-						<div style="display:inline-block;">
-							<?php echo t('Groupable'); ?> <input type="hidden" value="0" name="group" /><input type="checkbox" id="group" name="group" value="1" <?php
-							if ($this->getConfig('group') == 1)
-								echo ' checked="checked"';
-							?> />
-						</div>
-					</div>
-					<br>
+				<div style="display:inline-block;width:315px">
+					<?php echo t('This block shows at most') . ' '; ?> <input type="text" style="line-height: 15px;height: 17px;width: 28px;padding: 0 0 0 5px;" name="nbitem" id="nbitem"  value="<?php echo $this->getConfig('nbitem') ?>" /><?php echo ' ' . t('items'); ?><br>
+				</div>
+				<div style="display:inline-block;width:110px">
+					<?php echo t('Filterable'); ?> <input type="hidden" value="0" name="filter" /><input type="checkbox" id="filter" name="filter" value="1" <?php
+					if ($this->getConfig('filter') == 1)
+						echo ' checked="checked"';
+					?> />
+				</div>
+				<div style="display:inline-block;width:110px">
+					<?php echo t('Sortable'); ?> <input type="hidden" value="0" name="sort" /><input type="checkbox" id="sort" name="sort" value="1" <?php
+					if ($this->getConfig('sort') == 1)
+						echo ' checked="checked"';
+					?> />
+				</div>
+				<div style="display:inline-block;">
+					<?php echo t('Groupable'); ?> <input type="hidden" value="0" name="group" /><input type="checkbox" id="group" name="group" value="1" <?php
+					if ($this->getConfig('group') == 1)
+						echo ' checked="checked"';
+					?> />
 				</div>
 			</div>
-			<div id="tabs-result" class="innerPanel" style="display:none">
-				<div style="padding: 1px 20px 10px;">
-					<div style="position:relative;text-align:right;padding:7px"><a href="#" style="color: rgb(0, 136, 213)" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL query'); ?></a></div>
-					<div id="resultpreview">
-						<?php
-						if (is_object($view)) {
-							$view->buildQuery();
-							$sql = $view->getSQL();
-							$search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
-							$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
-							echo '<div id="generatedsql">'.str_replace($search,$replace,$sql['query']).'</div>';
-							$obj = $view;
-							$obj->limit(10);
-							include('modules/admin/views/datagrid.php');
-							echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
-						}
-						?>
-					</div>
-				</div>
-			</div>
+			<br>
 		</div>
 	</div>
 	<div id="tabs-admin-template" class="panel" style="padding:0px">
@@ -331,6 +303,26 @@ $view = $this->getConfig('view');
 	$editorMode = 'application/x-httpd-php';
 	include('modules/admin/views/editor.php');
 	?>
+	</div>
+	<div class="clearboth panel" id="tabs-result" style="display:none">
+		<div style="padding: 1px 20px 10px;">
+			<div style="position:relative;text-align:right;padding:7px"><a href="#" style="color: rgb(0, 136, 213)" onclick="$('#generatedsql').slideToggle();return false;"><?php echo t('View SQL query'); ?></a></div>
+			<div id="resultpreview">
+				<?php
+				if (is_object($view)) {
+					$view->buildQuery();
+					$sql = $view->getSQL();
+					$search  = array('select ', ' from ', ' where ', ' order by ', ' group by ', ' limit ');
+					$replace = array('<span style="font-weight:bold">SELECT</span> ', '<br><span style="font-weight:bold">FROM</span> ', '<br><span style="font-weight:bold">WHERE</span> ', '<br><span style="font-weight:bold">ORDER BY</span> ','<br><span style="font-weight:bold">GROUP BY</span> ', '<br><span style="font-weight:bold">LIMIT</span> ');
+					echo '<div id="generatedsql">' . str_replace($search, $replace, $sql['query']) . '</div>';
+					$obj = $view;
+					$obj->limit(10);
+					include('modules/admin/views/datagrid.php');
+					echo '<script> document.getElementById("labelresult").textContent = "( ' . $obj->getPagination()->getNbRow() . ' )";</script>';
+				}
+				?>
+			</div>
+		</div>
 	</div>
 </div>
 <script>
@@ -582,20 +574,11 @@ $view = $this->getConfig('view');
 
 	$(document).ready(function() {
 		$( "#links" ).sortable({ update:function(){$("#generate_query").trigger("click");} });
-		$('#tabs-admin-template').css('height','0px').css('overflow','hidden');
+		$('#tabs-admin-template').css('height','0px').css('overflow','hidden'); /* trick to init correctly code mirror */
 		$(".tabs").on('click'," > ul a",function(e){
 			e.preventDefault();
 			$(".panel").hide();
 			$(".tabs > ul .active").removeClass("active");
-			$(this).parent().addClass("active");
-			$($(this).attr('href')).show();
-			$($(this).attr('href')).css('height','100%').css('overflow','inherit');
-		});
-
-		$(".innerTabs").on('click'," > ul a",function(e){
-			e.preventDefault();
-			$(".innerPanel").hide();
-			$(".innerTabs ul .active").removeClass("active");
 			$(this).parent().addClass("active");
 			$($(this).attr('href')).show();
 			$($(this).attr('href')).css('height','100%').css('overflow','inherit');

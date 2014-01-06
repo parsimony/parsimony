@@ -51,7 +51,7 @@ if (is_object($block) == NULL) {
 			<?php if(method_exists($block, 'forkAction')): ?>
 			$(document).on('click', "#createNewBlock", function(event) {
 				event.preventDefault();
-				$.post(BASE_PATH + "core/callBlock", {idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo THEME; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', newName: $("#nameNewBlock").val(),newModule :  $("#nameTargetModule").val()},function(data){
+				$.post(BASE_PATH + "core/callBlock", {idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo $_POST['THEME']; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', newName: $("#nameNewBlock").val(),newModule :  $("#nameTargetModule").val()},function(data){
 					top.ParsimonyAdmin.execResult(data);
 					top.ParsimonyAdmin.loadBlock("panelblocks");
 				});
@@ -73,6 +73,7 @@ if (is_object($block) == NULL) {
 		.padd{padding-top: 5px;}
 		#block_conf select[multiple]{background-image: none !important}
 		#block_conf select[multiple]:enabled:hover{background-image: none !important}
+		.adminzonecontent{min-height: 500px}
 	</style>
 	<div id="block_conf" class="adminzone">
 		<div id="conf_box_title"><?php echo t('Configuration').' #'.$_POST['idBlock']; ?></div>

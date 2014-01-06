@@ -57,7 +57,7 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 <style>.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
 </style>
 <style type="text/css">
-	#toolbar{position: fixed;left:0;right:0;min-width: 980px;z-index: 2;height:35px;color: white;
+	#toolbar{position: fixed;left:0;right:0;min-width: 980px;z-index: 4;height:35px;color: white;
 font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradient(top, #333333, #222222);
 			box-shadow: 0px 1px 0px rgb(41, 41, 41);border-bottom: 1px solid rgb(17, 17, 17);}
 	
@@ -66,9 +66,9 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	body{margin:0;padding:0;height:100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 	select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png")}
 	select:enabled:hover {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png");}
-	#container_bdd{margin:0;padding:0;margin-top:35px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
+	#container_bdd{margin:0;padding:0;top:36px;left:200px;background:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAADFBMVEXx9vnw9fj+/v7///+vmeNIAAAAKklEQVQIHQXBAQEAAAjDoHn6dxaqrqpqAAWwMrZRs8EKAzWAshkUDIoZPCvPAOPf77MtAAAAAElFTkSuQmCC');position:absolute;width: 2500px;height: 2500px;}
 	#canvas{position:absolute;width:100%;height:100%}
-	._jsPlumb_endpoint{cursor: pointer;z-index: 50}
+	._jsPlumb_endpoint{cursor: pointer;z-index: 2}
 	._jsPlumb_connector{cursor: pointer;}
 	#field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
 	#field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
@@ -76,8 +76,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	#field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
 	#field_list .myfield:hover span{display:block}
 	#update_table{display: none;font-size: 12px;}
-	#update_field > div{display: none;}
-	.table {z-index:60;position:absolute; color:#484848;line-height:18px;cursor:pointer;
+	#update_field > div{display: none;overflow: auto;position: absolute;top: 48px;bottom: 0;}
+	.table {z-index:3;position:absolute; color:#484848;line-height:18px;cursor:pointer;
 			font-size:15px;background-color:white;font-weight:bold;border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #fbfbfb;}
 	.table:hover{box-shadow: 0px 0px 9px #777;}
 	.ui-draggable-dragging:hover{box-shadow: #666 0px 1px 3px;} /*perf enhancement on drag table */
@@ -90,8 +90,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	label{line-height: 26px;width: 140px;display: inline-block;padding-left: 10px;}
 	h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: #1b74a4;}
 	.title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
-	#leftsidebar{box-shadow: 1px 1px 5px #444;z-index:999 ; text-align: center;width:200px;position:fixed;left:0px;top:35px;background: #f9f9f9;/*border:1px solid #000000;*/}
-	#rightsidebar{box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:35px;}
+	#leftsidebar{box-shadow: 1px 1px 5px #444;z-index:10; text-align: center;width:200px;position:fixed;left:0px;top:36px;bottom:0;background: #f9f9f9;}
+	#rightsidebar{display:none;box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:36px;bottom: 0;}
 	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
 	.property #deletator{padding: 0px 2px 0px 0px;color: #FF4D4D;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
 	#outline{position:fixed;right:20px;bottom: 20px;border: 1px solid #97B2D2;z-index: 1;}
@@ -624,7 +624,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			</form>
 		</div>
 		<div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
-			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save'); ?>" style="height: 22px;margin-top: 1px;" />
+			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save model'); ?>" style="height: 22px;margin-top: 1px;" />
 		</div>
 	</div>
 </div>
@@ -697,7 +697,6 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
 						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 						$html .= '<div id="update_' . $class . '">
-<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url(' . BASE_PATH . 'admin/img/icons.png);"></span>' . t('Field Settings') . '</h2>
 <div class="rightbar"><label class="ellipsis">' . t('Name') . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field') . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
 </div>
@@ -735,7 +734,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 							$html .= ob_get_clean();
 							$html .= '</fieldset>';
 						}
-						$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field areaWrite" value="' . t('Validate') . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
+						$html .= '<input type="hidden" name="oldName"><input type="submit" class="save_field areaWrite" value="' . t('Save property') . '" style="width: 50%;margin: 5px 0 10px 25%;"></div>';
 					}
 				}
 				?>
@@ -790,6 +789,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			</div>
 		</div>
 		<div id="update_field">
+			<h2 class="hdb"><span class="closeformpreview ui-icon ui-icon-circle-close" style="display: inline-block;left: 15px;position: absolute;top: 15px;background-image: url(img/icons.png);"></span><?php echo t('Field Settings') ?></h2>
 			<?php echo $html; ?>
 		</div>
 	</div>
@@ -930,7 +930,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				current_update_field.data("attributs", obj);
 				$("#deletator").prependTo($("body"));
 				current_update_field.text(obj.name);
-				$(this).parent().hide('slow');
+				$(this).parent().hide();
+				$("#rightsidebar").hide();
 				$("#save").addClass("haveToSave");
 			});
 
@@ -968,7 +969,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						current_update_table.data("attributs", obj);
 						$("#deletator").prependTo($("body"));
 						current_update_table.find(".title").text(obj.name);
-						$(this).parent().parent().hide('slow');
+						$(this).parent().parent().hide();
+						$("#rightsidebar").hide();
 						$("#save").addClass("haveToSave");
 					} else {
 						ParsimonyAdmin.notify(t('The Entity') + ' ' + newName + ' ' + t('already exists'), 'negative');
@@ -980,8 +982,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 
 			/* Open Table Settings */
 			$('#canvas').on('click', '.title', function() {
-				$('#update_field > div').hide();
-				$('#update_table').show();
+				$('#update_field, #update_field > div').hide();
+				$('#rightsidebar, #update_table').show();
 			})
 
 			/* Delete Table */
@@ -1064,6 +1066,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				$('#conf_box_overlay').hide();
 			})
 			.on('click', '.closeformpreview', function() {
+				$("#rightsidebar").hide();
 				$(this).parent().parent().hide();
 			})
 			.on('mousedown', '._jsPlumb_endpoint', function() {
@@ -1076,7 +1079,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			})
 			/* Open and load field Settings */
 			.on('click', ".table .property", function() {
-				$('#update_field').show();
+				$('#rightsidebar, #update_field').show();
 				$('#update_table').hide();
 				current_update_field = $(this);
 				$(".current_property").removeClass("current_property");

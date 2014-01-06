@@ -3,7 +3,7 @@
     codeEditor = "";
     $(document).on("change","#historyfile",function(){
 	if(this.value != "none"){
-	    $.post("getBackUp",{
+	    $.post("getBackUp",{TOKEN: "<?php echo TOKEN; ?>", 
 		replace: this.value,
 		file: "<?php echo s($path); ?>",
 		content: codeEditor.getValue().replace('"','\"')

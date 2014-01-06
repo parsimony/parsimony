@@ -149,7 +149,7 @@ app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
 	});
                 
        $("#explorerfiles").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-	    ajaxFileParams: {action: "upload",path: $("#path").text(),MODULE: "<?php echo MODULE ?>"},
+	    ajaxFileParams: {TOKEN: "<?php echo TOKEN; ?>", action: "upload",path: $("#path").text(),MODULE: "<?php echo MODULE ?>"},
 	    start:function(file){
                 var obj = $("#explorerfiles").data('uploadParams');
                 obj.path = $("#path").text();
