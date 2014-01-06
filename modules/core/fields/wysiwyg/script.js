@@ -12,7 +12,7 @@ $(document).ready(function() {
 				this.name = "saveedit";
 				this.command = "none"; // fix firefox
 				this.category = "edit";
-				this.position = "-320px -32px";
+				this.position = "-416px -32px";
 
 				this.onClick = function(e, editor, elmt) {
 					parsiEdit.tools['fieldwysiwyg'].onSave();
@@ -27,7 +27,7 @@ $(document).ready(function() {
 				this.name = "canceledit";
 				this.command = "none"; // fix firefox
 				this.category = "edit";
-				this.position = "-320px -32px";
+				this.position = "-448px -32px";
 
 				this.onClick = function(e, editor, elmt) {
 					parsiEdit.tools['fieldwysiwyg'].onCancel();
