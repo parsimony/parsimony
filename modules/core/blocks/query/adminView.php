@@ -559,7 +559,7 @@ $view = $this->getConfig('view');
 			$("#resultpreview").html(data);
 		});
 		if(!$("#regenerateview").is(":checked")){
-			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress']=='theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo THEME; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
+			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress']=='theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo $_POST['THEME']; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
 			codeEditor.setValue(data);
 			codeEditor.refresh();
 			});
