@@ -207,6 +207,7 @@ $view = $this->getConfig('view');
 		<div style="margin-left: 20px;  line-height: 23px;margin-bottom: 5px;">
 			<?php echo t('Add a calculated Field'); ?><span class="calculatedField" style="background: rgba(191,185,169,.2);  height: 16px;  cursor: pointer;  border-radius: 3px;  width: 16px;  outline: none;  -webkit-appearance: none;  box-shadow: 0 1px 2px rgba(0,0,0,.44) inset, 0 1px 0 rgba(255,255,255,.54);padding: 0 3px 0 3px; text-align: center; margin: 0 10px;">+</span>
 		</div>
+		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 		<div id="pattern_sql" class="queryblock floatleft none">
 			<a href="#" onclick="$(this).parent('.queryblock').remove();$('#generate_query').trigger('click');">
 				<span class="removeButton"></span>
@@ -555,11 +556,11 @@ $view = $this->getConfig('view');
 
 	$('#generate_query').click(function() {
 		markerChangeEditor = true;
-		$.post(BASE_PATH+'admin/datagridPreview',$('form').serialize(),function(data){
+		$.post(BASE_PATH+'admin/datagridPreview',$('form').serialize() + "&TOKEN=<?php echo TOKEN; ?>",function(data){
 			$("#resultpreview").html(data);
 		});
 		if(!$("#regenerateview").is(":checked")){
-			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress']=='theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo $_POST['THEME']; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
+			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress']=='theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{TOKEN: "<?php echo TOKEN; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo $_POST['THEME']; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
 			codeEditor.setValue(data);
 			codeEditor.refresh();
 			});
