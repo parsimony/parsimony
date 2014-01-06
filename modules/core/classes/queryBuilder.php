@@ -260,28 +260,30 @@ class queryBuilder {
 	  * @return string $condition
 	  */
 	 public function evaluateConditions($condition) {
-		if(strstr($condition, ':') !== FALSE){
+		if (strstr($condition, ':') !== FALSE) {
 			preg_match_all("/\:([^\s%,\)]*)/", $condition, $matches);
-			foreach($matches[1] AS $param){
+			foreach ($matches[1] AS $param) {
 				$value = \app::$request->getParam($param);
-				if($value !== FALSE){
-					if(is_array($value)){
+				if ($value !== FALSE) {
+					if (is_array($value)) {
 						$nb = count($value);
 						$str = array();
 						for ($i = 0; $i < $nb; $i++) {
-							$str[] = ':'.$param.$i;
-							$this->_SQL['vars'][':'.$param.$i] = $value[$i];
+							$str[] = ':' . $param . $i;
+							$this->_SQL['vars'][':' . $param . $i] = $value[$i];
 						}
-						$condition = str_replace(':'.$param, implode(',',$str), $condition);
-					}else{
-						$this->_SQL['vars'][':'.$param] = strlen($value) > 0 ? $value : '';
+						$condition = str_replace(':' . $param, implode(',', $str), $condition);
+					} else {
+						$this->_SQL['vars'][':' . $param] = strlen($value) > 0 ? $value : '';
 					}
+				} else {
+					$this->_SQL['vars'][':' . $param] = '';
 				}
 			}
 		}
 		return $condition;
-	 }
-	 
+	}
+
 	/**
 	 * Build the query and his PDO statement with SQL infos already set to this object
 	 * @return bool
