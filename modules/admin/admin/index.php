@@ -70,7 +70,7 @@
 		}).on('click', '#addext', function() {
 			var ext = $('#extname').val() ;
 			var mime =  $('#extmime').val();
-			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remitem" onclick="$(this).parent().remove();">X</div></div>')
+			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remitem" onclick="$(this).parent().remove();"></div></div>')
 		});
 	});
 </script>

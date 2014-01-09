@@ -57,7 +57,7 @@ background : linear-gradient(top, #44C5EC, rgb(21, 107, 155));}
 #tabsconfig .admintabs{margin: 0 30px;}
 .adminzonecontent{position:absolute;padding: 3px 7px;bottom:40px;top:40px;right:0;left: 150px;font-size: 12px;background: #fefefe;overflow: hidden;overflow-y: auto;min-width: 731px;}
 .adminzonecontent h2{font-size: 20px;line-height: 30px;font-weight: normal;margin: 0;color: #777;padding: 10px;text-shadow: white 0 1px 0;} 
-.adminzonefooter{position: absolute;bottom: 0;background: #fafafa;width: 100%;left: 0;right:0;z-index: 9999;height: 40px;}
+.adminzonefooter{position: fixed;bottom: 0;background: #fafafa;width: 100%;left: 0;right:0;z-index: 9999;height: 40px;}
 .adminzonecontent #tabsconfig h2{padding: 10px 0;}
 /* Model Forms*/
 .adminzonecontent .cols{display: table;/*display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal;box-orient: horizontal;*/}
