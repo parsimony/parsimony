@@ -517,7 +517,7 @@ this.rotate = function(pair){
 	$(".savePic").on("click", function(ev) { 
 		datapic = datapic.replace(/^data:image\/(png|jpg|gif|jpeg);base64,/, "");
 		var filepath = '<?php echo PROFILE_PATH ?>' + finalname ;
-		$.post("<?php echo BASE_PATH; ?>admin/savePicture", { TOKEN : <?php echo TOKEN; ?>, file: filepath, code : datapic },
+		$.post("<?php echo BASE_PATH; ?>admin/savePicture", { TOKEN : "<?php echo TOKEN; ?>", file: filepath, code : datapic },
 			function(data) {
 			$('#tabs li.active.pict').removeClass("unsaved");
 		});
