@@ -176,10 +176,9 @@ while (1) {
                     <option value="en_EN">English</option>
                     <option value="fr_FR"<?php  if(isset($_COOKIE['lang']) && $_COOKIE['lang']=='fr_FR') echo ' selected="selected"'; ?>>Français</option>
                 </select>
-                <h2><?php echo tr('License agreement'); ?> : Open Software License v. 3.0</h2>
+                <h2><?php echo tr('License agreement'); ?>: Open Software License v. 3.0 (OSL-3.0)</h2>
                 <div style="overflow-y: scroll;height:250px;border:#ccc solid 1px;">
                     <div class="content clear-block">
-                        <h1>Open Software License v. 3.0 (OSL-3.0)</h1>
 
                         <p>This Open Software License (the "License") applies to any original work of authorship (the "Original Work") whose owner (the "Licensor") has placed the following licensing notice adjacent to the copyright notice for the Original Work:</p>
 
@@ -231,8 +230,9 @@ while (1) {
                     </div>
                 </div>
                 <input type="hidden" name="step" value="validstep1" />
-                <input type="checkbox" name="agreewithlicence"><?php echo tr('I accept the terms of the license agreement'); ?>.
-
+				<div style="padding: 10px 0;">
+					<input type="checkbox" name="agreewithlicence" id="agreewithlicence"><?php echo tr('I accept the terms of the license agreement'); ?>.
+				</div>
             </div>
             <?php
             break 2;
@@ -401,7 +401,7 @@ while (1) {
 	    }
             ?>
             <input type="hidden" name="serverok" value="<?php echo (string) $serverOK ?>">
-            <br><br>
+            <br>
             <label><?php echo tr('TimeZone'); ?></label>
             <select name="timezone" id="timezone">
                 <?php
@@ -682,38 +682,30 @@ $content = ob_get_clean();
                     <li <?php if ($step >= 4) echo ' class="current"'; ?>><a href="#"><?php echo tr('Admin Account'); ?></a></li>
                     <li <?php if ($step >= 5) echo ' class="current"'; ?>><a href="#"><?php echo tr('Finish'); ?></a></li>
                 </ul>
-                <div>
-                    <form method="post" id="form" class="form">
-                        <?php echo $content; ?>
-                        <div class="btns">
-                            <?php if ($step != 5) : ?>
-                                <?php if ($step != 1) : ?>
-                                    <p class="containerNext">
-                                        <a href="#" class="prev" onclick="window.history.back();return false;"><?php echo tr('Prev Step'); ?></a>
-                                    </p>
-                                <?php endif; ?>
-                                <p class="containerNext">
-                                    <a href="#" class="next" onclick="document.getElementById('form').submit();return false;"><?php echo tr('Next Step'); ?></a>
-                                </p>
-                            <?php else : ?>
-                                <p class="containerNext">
-                                    <a href="connect" class="next"><?php echo tr('Let\'s Go !'); ?></a>
-                                </p>
-                            <?php endif; ?>
-                        </div>
-                        <div style="clear:both"></div>
-                    </form>
-                </div>
+                <form method="post" id="form" class="form">
+					<?php echo $content; ?>
+					<div class="btns">
+						<?php if ($step != 5) : ?>
+							<?php if ($step != 1) : ?>
+									<a href="#" class="prev" onclick="window.history.back();return false;"><?php echo tr('Prev Step'); ?></a>
+							<?php endif; ?>
+								<a href="#" class="next" onclick="document.getElementById('form').submit();return false;"><?php echo tr('Next Step'); ?></a>
+						<?php else : ?>
+								<a href="connect" class="next"><?php echo tr('Let\'s Go !'); ?></a>
+						<?php endif; ?>
+					</div>
+					<div style="clear:both"></div>
+				</form>
             </div>
         </div>
         <style>
             body{color: #484848;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;background: #fafafa;}
             #container{width:700px;margin:70px auto;}
             #container h1{font-family: sans-serif;font-size: 21px;text-align: right;color: #303030;font-weight: bold;}
-            #container h2{font-family: sans-serif;font-size: 18px;color: #303030;font-weight: bold;}
+            #container h2{text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;margin: 10px 0 0 0;
+position: relative;display: block;text-align: left;font-weight: bold;color: #555;text-shadow: 0px 1px 0px #FFF;font-size: 16px;}
             #content{padding:10px;background: #fff;box-shadow: 3px 1px 9px #999;}
-            #content p{padding:5px;}
-            .containerNext{text-align: center;}
+            #content p{padding: 3px 5px;}
 			#osllink{display: inline-block;border-bottom: 3px solid rgb(45, 193, 238);padding: 0 5px;line-height: 20px;}
             .notify{margin: 5px 0;padding: 4px;color: #444;}
 			#secondlevel{font-weight: normal;display: block;text-align: left;margin: 2px 0 10px 0;font-size: 13px;color: rgb(45, 193, 238);display: block;padding: 0;line-height: 20px;}
@@ -721,7 +713,7 @@ $content = ob_get_clean();
             * {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
             .form {padding:0px 30px;border-radius:5px;}
             .form label {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
-            .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #fafafa;}
+            .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #F8F8F8;}
             input[type="button"], input[type="submit"] {border-radius: 2px;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);-webkit-user-select: none;background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);border: 1px solid #AAA;color: #444;font-size: inherit;margin-bottom: 0px;min-width: 4em;padding: 3px 12px 3px 12px;margin: 20px 278px;}
 			a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
             ul{margin: 0;padding: 0;list-style: none;}
@@ -731,24 +723,28 @@ $content = ob_get_clean();
 			.normal::before {position: relative;border-radius: 25px;background: #818080;font-weight: bold;content: "\21";left: -5px;color: #fefefe;width: 11px;height: 18px;font-size: 15px;display: inline-block;padding-left: 8px;padding-top: 1px;}
             .positive::before{position: relative;color: #c0ee2d;font-weight: bold;content: "\2713";left: -5px;}
 			.negative::before{position: relative;color: #ee5a2d;font-size: 25px;font-weight: bold;content: "\d7";left: -5px;top: 4px;}  
-			.prev::after{content: "";width: 0px;height: 0px;position: absolute;border-style: solid;margin-top: -5px;border-width: 20px 30px 20px 0;border-color: transparent #2dc1ee transparent transparent;margin-left: -102px;}
 			#breadcrumbs li.current:before {content: "";display: block;border-bottom: 3px solid #2dc1ee;position: absolute;width: 100%;height: 100%;top: 10px;z-index: 0;left: 30px;}
 			#breadcrumbs li:before {content: "";display: block;border-bottom: 3px solid #ececec;position: absolute;width: 100%;height: 100%;margin-left: -90px;top: 10px;left: -60px;z-index: 0;left: 30px;}
 			#breadcrumbs li:nth-child(5):before{width: 190px;}
-			#breadcrumbs li::after {border-radius: 25px;font-size: 15px;width: 25px;height: 20px;color: #FFF;display: block;background-color: #ECECEC;position: absolute;text-align: center;padding-top: 3px;margin: 0 auto;margin-top: 0px;margin-left: 58px;z-index: 1;}
+			#breadcrumbs li::after {border-radius: 24px;font-size: 15px;width: 24px;height: 20px;color: #FFF;display: block;background-color: #ECECEC;position: absolute;text-align: center;padding-top: 3px;margin: 0 auto;margin-top: 0px;margin-left: 58px;z-index: 1;}
 			#breadcrumbs li.current::after {background-color:  rgb(45, 193, 238);}
             #breadcrumbs li:nth-child(1):after{content : "1"}
 			#breadcrumbs li:nth-child(2):after{content : "2"}
 			#breadcrumbs li:nth-child(3):after{content : "3"}
 			#breadcrumbs li:nth-child(4):after{content : "4"}
 			#breadcrumbs li:nth-child(5):after{content : "5"}
-			.next,.prev {color: #fefefe;background-color: #2dc1ee;}
-            .next::after{content: "";width: 0px;height: 0px;position: absolute;border-style: solid;margin-top: -5px;border-width: 20px 0 20px 30px;border-color: transparent transparent transparent #2dc1ee;margin-left: 10px;}         
+			.next,.prev {display: inline-block;color: #fefefe;background-color: #2dc1ee;transition: 0.5s background-color;position: relative;}
+			.next:hover,.prev:hover {background-color: #0CA6D5;}
+            .next::after{content: "";width: 0px;height: 0px;position: absolute;transition: 0.5s border-color;border-style: solid;margin-top: -5px;border-width: 20px 0 20px 30px;border-color: transparent transparent transparent #2dc1ee;right: -30px;}
+			.next:hover::after{border-color: transparent transparent transparent #0CA6D5;}  
+			.prev::after{content: "";width: 0px;height: 0px;position: absolute;border-style: solid;transition: 0.5s border-color;margin-top: -5px;border-width: 20px 30px 20px 0;border-color: transparent #2dc1ee transparent transparent;left: -30px;}
+			.prev:hover::after{border-color: transparent #0CA6D5 transparent transparent;}
             .containerNext{display: inline-block;}
-            .btns{margin:0 auto;float:none;width:240px}
+            .btns{padding: 20px 0;text-align: center;}
             label.nocapital{text-transform: none;}
+			#agreewithlicence{position: relative;top: 2px;}
 			/* Select webkit */
-			select {padding: 3px;background-position: center right 4px;background-repeat: no-repeat;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;-moz-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC");font-size: 13px;margin: 0 7px 4px 0;background-color: #fafafa;color: rgb(73, 71, 71);border: none;}
+			select {padding: 3px;background-position: center right 4px;background-repeat: no-repeat;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;-moz-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC");font-size: 13px;margin: 0 7px 4px 0;background-color: #F8F8F8;color: rgb(73, 71, 71);border: none;}
         </style>
     </body>
 </html>
