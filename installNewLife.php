@@ -299,10 +299,17 @@ while (1) {
             
             if (!is_dir('profiles/www/modules'))
                 mkdir('profiles/www/modules', 0755, TRUE);
+			
             if (!is_readable('profiles/www/modules/') || !is_writable('profiles/www/modules/')) {
                 $high[] = tr('Set read/write permissions on').' <span>"profiles/"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
                 $ok[] = tr('Permissions are Ok for').'  <span>"profiles/"</span>';
+            }
+			
+			if (!is_readable('vars/') || !is_writable('vars/')) {
+                $high[] = tr('Set read/write permissions on').' <span>"vars/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            } else {
+                $ok[] = tr('Permissions are Ok for').'  <span>"vars/"</span>';
             }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
@@ -709,7 +716,7 @@ position: relative;display: block;text-align: left;font-weight: bold;color: #555
 			#osllink{display: inline-block;border-bottom: 3px solid rgb(45, 193, 238);padding: 0 5px;line-height: 20px;}
             .notify{margin: 5px 0;padding: 4px;color: #444;}
 			#secondlevel{font-weight: normal;display: block;text-align: left;margin: 2px 0 10px 0;font-size: 13px;color: rgb(45, 193, 238);display: block;padding: 0;line-height: 20px;}
-            .notify span{font-weight: bold;text-transform: capitalize;}
+            .notify span{font-weight: bold;}
             * {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
             .form {padding:0px 30px;border-radius:5px;}
             .form label {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
