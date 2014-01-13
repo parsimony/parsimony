@@ -306,10 +306,10 @@ while (1) {
                 $ok[] = tr('Permissions are Ok for').'  <span>"profiles/"</span>';
             }
 			
-			if (!is_readable('vars/') || !is_writable('vars/')) {
-                $high[] = tr('Set read/write permissions on').' <span>"vars/"</span> '.tr('directory (and sub-directories) using an FTP client');
+			if (!is_readable('var/') || !is_writable('var/')) {
+                $high[] = tr('Set read/write permissions on').' <span>"var/"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
-                $ok[] = tr('Permissions are Ok for').'  <span>"vars/"</span>';
+                $ok[] = tr('Permissions are Ok for').'  <span>"var/"</span>';
             }
 
             if(!displayNotif($ok, $high, $low) && $serverOK ){
