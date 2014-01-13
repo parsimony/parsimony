@@ -119,7 +119,6 @@ line-height: 20px;}
 	width : 85% ;
 	position : relative ;
 	text-decoration : none ;
-	behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #singlepost .title a {

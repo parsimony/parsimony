@@ -232,13 +232,11 @@ overflow: hidden;
     background: #F6F6F6 -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
     border: 1px solid #CCC;text-align:center;color: black;padding: 5px;vertical-align: middle;text-decoration:none;
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 .pagination a.active {
     background:#F3F3F3 -moz-linear-gradient(top,#EBEBEB,#CCC);
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(#CCC));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=#CCC);
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 .pagination a:hover {
@@ -246,7 +244,6 @@ overflow: hidden;
     background:#F3F3F3 -webkit-gradient(linear,left top,left bottom,from(#EBEBEB),to(white));
     filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EBEBEB,endColorStr=white);
     -moz-box-shadow: 0 0 3px #999;-webkit-box-shadow: 0 0 3px #999;box-shadow: 0 0 3px #999;
-    behavior : url(/lib/csspie/PIE.htc) ;
 }
 
 #mycalendar .calendar {position: relative;text-align:center}
