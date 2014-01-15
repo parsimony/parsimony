@@ -117,6 +117,7 @@ class response {
 		/* Set headers */
 		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $this->status . ' ' . self::$HTTPstatus[$this->status], true, $this->status);
 		header('Content-type: ' . \app::$config['ext'][$this->format] . '; charset=' . $this->charset);
+		header('Vary: User-Agent'); /* Dynamically serving different HTML on the same URL */
 		foreach ($this->headers AS $label => $header) {
 			header($label . ': ' . $header);
 		}
