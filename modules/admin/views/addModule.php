@@ -26,22 +26,25 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-
+<style>
+	.adminzonecontent{min-height:500px;bottom:0;}
+	#saveAddModule{margin-top: 15px;}
+</style>
 <script>
 	$(document).ready(function() {
 		$("#name_module").keyup(function(){
-			this.value = this.value.toLowerCase().replace(/[^a-z]+/,"");
+			this.value = this.value.replace(/[^a-zA-Z]+/,"");
 		});
 		$("#name_titre").keyup(function(){
-			this.value = this.value.toLowerCase().replace(/[^a-zA-Z ]+/,"");
+			this.value = this.value.replace(/[^a-zA-Z ]+/,"");
 		});
 	});
 </script>
 <div id="addmodule" class="adminzone">
-	<div id="conf_box_title"><?php echo t('Manage Rights') ?></div>
+	<div id="conf_box_title"><?php echo t('Add a Module') ?></div>
 	<div class="adminzonemenu">
 		<?php /*<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Download'); ?></a></div>*/ ?>
-		<div class="adminzonetab"><a href="#" class="ellipsis" id=""><?php echo t('Create Module'); ?></a></div>
+		<div class="adminzonetab firstpanel"><a href="#" class="ellipsis" id=""><?php echo t('Create Module'); ?></a></div>
 	</div>
 	<div class="adminzonecontent">
 		<form class="form" target="formResult" method="POST">
@@ -53,7 +56,7 @@
 			<div class="placeholder">
 				<label><?php echo t('Name'); ?>: </label><input type="text" name="name_module" id="name_module" required>
 			</div>
-			<input type="submit" name="saveAddModule" value="<?php echo t('Save'); ?>">
+			<input type="submit" name="saveAddModule" id="saveAddModule" value="<?php echo t('Create'); ?>">
 		</form>
 	</div>
 </div>

@@ -55,7 +55,7 @@ class module {
 	 * @param string $name module name
 	 */
 	public function __construct($name) {
-		$name = str_replace('_','',\tools::sanitizeTechString($name));
+		$name = preg_replace('@[^a-zA-Z0-9]@', '', $name);
 		if (!empty($name)) {
 			$this->name = $name;
 		} else {
@@ -109,18 +109,19 @@ class module {
 	}
 
 	/**
-	 * Check if a page can override another page regarding his position and his regex
+	 * Check if a page can override another page regarding its position and regex
 	 * @return page|FALSE
 	 */
 	public function checkIfPageOverrideAnother($idPage, $regex = FALSE) {
 		$pageToCheck = $this->getPage($idPage);
-		if($regex === FALSE) $regex = $pageToCheck->getRegex();
+		if ($regex === FALSE)
+			$regex = $pageToCheck->getRegex();
 		$pages = $this->getPages();
 		$mark = FALSE;
 		foreach ($pages AS $id => $page) {
-			if($idPage == $id){
-			   $mark = TRUE; 
-			}elseif($mark === TRUE){
+			if ($idPage == $id) {
+				$mark = TRUE;
+			} elseif ($mark === TRUE) {
 				if (preg_match($regex, $page->getURL())) {
 					return $page;
 				}
@@ -167,7 +168,7 @@ class module {
 	 */
 	public function callBlockAction($idPage, $theme, $id, $method) {
 		if (empty($theme)) {
-			$blockObj = & \app::getModule($this->name)->getPage($idPage)->searchBlock($id);
+			$blockObj = & $this->getPage($idPage)->searchBlock($id);
 		} else {
 			$theme = \theme::get($this->name, $theme, THEMETYPE);
 			$blockObj = $theme->searchBlock($id, $theme);
@@ -186,7 +187,7 @@ class module {
 	 * @return mixed
 	 */
 	public function callFieldAction($entity, $fieldName, $method) {
-		$fieldObj = \app::getModule($this->name)->getEntity($entity)->getField($fieldName);
+		$fieldObj = $this->getEntity($entity)->getField($fieldName);
 		if (method_exists($fieldObj, $method . 'Action')) {
 			return $this->callMethod($fieldObj, $method . 'Action');
 		}else{
@@ -367,6 +368,12 @@ class module {
 		return FALSE;
 	}
 	
+	/**
+	 * Fill params of methods with params request and call method
+	 * @param ojbect $object (type: block, field, module)
+	 * @param string $methodName
+	 * @return string
+	 */
 	protected function callMethod($object, $methodName) {
 		$class = new \ReflectionClass($object);
 		$method = $class->getMethod($methodName);
@@ -382,7 +389,7 @@ class module {
 				$params[] = '';
 			}
 		}
-		return (string) call_user_func_array(array($object, $methodName), $params); /* cast to string to stringify booleans */
+		return (string) call_user_func_array(array($object, $methodName), $params); /* cast to stringify booleans */
 	}
 
 	/**
@@ -478,7 +485,7 @@ class module {
 		$reservedKeywords = array('__halt_compiler', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var', 'while', 'xor');
 
 		if (!is_dir('modules/' . $name) && !is_numeric($name) && !in_array($name, $reservedKeywords)) {
-			$name = str_replace('-', '', str_replace('_','',tools::sanitizeString($name)));
+			$name = preg_replace('@[^a-zA-Z0-9]@', '', $name);
 			$licence = str_replace('{{module}}', $name, file_get_contents("modules/admin/licence.txt"));
 			tools::createDirectory('modules/' . $name);
 			$template = '<?php
