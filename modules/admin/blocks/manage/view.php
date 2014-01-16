@@ -35,9 +35,9 @@
 		<a href="#modules/permissions"><?php echo t('Permissions'); ?></a>
 	</li>
 	<li class="titleTab">
-		<a href="#modules/model/core/role"><?php echo t('Manage Roles'); ?></a>
+		<a href="#modules/model/core/role"><?php echo t('Roles'); ?></a>
 	</li>
 	<li class="titleTab">
-		<a href="#modules/model/core/user"><?php echo t('Manage Users'); ?></a>
+		<a href="#modules/model/core/user"><?php echo t('Users'); ?></a>
 	</li>
 </ul>

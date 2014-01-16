@@ -66,8 +66,8 @@ app::$request->page->addJSFile('admin/blocks/css/block.js','footer');
 	</div>
 	<input type="hidden" id="changecsspath" name="filePath" />
 	<div id="changecssformcode" class="subTabsContainer">
-		<div id="switchtovisuel" class="ssTabCSS">Visuel</div>
-		<div id="switchtocode" class="ssTabCSS">Code</div>
+		<div id="switchtovisuel" class="ssTabCSS"><?php echo t('Visual'); ?></div>
+		<div id="switchtocode" class="ssTabCSS"><?php echo t('Code'); ?></div>
 	</div>
 
 	 <div id="threed" class="none">
