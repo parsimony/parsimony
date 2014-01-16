@@ -62,9 +62,6 @@ class page extends \block {
 	/** @var string */
 	public $head = '';
 
-	/** @var bool */
-	public $current = FALSE;
-
 	/**
 	 * Build a page object
 	 * @param integer $id page id
@@ -356,26 +353,26 @@ class page extends \block {
 	 * @param array $module
 	 */
 	public function concatFiles(array $files, $format) {
-		$hash = $format.'concat_'.md5(implode('', $files));
-		$pathCache = 'profiles/' . PROFILE .'/modules/'.app::$config['modules']['default'].'/'. $hash . '.' . $format;
-		if (is_file($pathCache) && app::$config['dev']['status'] === 'prod') {
-			include($pathCache);
-		} else {
+		$hash = $format . 'concat_' . md5(implode('', $files));
+		$pathCache = 'profiles/' . PROFILE . '/modules/' . app::$config['modules']['default'] . '/' . $hash . '.' . $format;
+		if (!is_file($pathCache) || app::$config['dev']['status'] !== 'prod') {
 			ob_start();
 			foreach ($files as $file) {
-				$pathParts = pathinfo($file,PATHINFO_EXTENSION);
-				if($pathParts === 'js' || $pathParts === 'css'){
-					$path = stream_resolve_include_path ($file);
-			if($_SESSION['behavior'] && $pathParts == 'css') echo '.parsimonyMarker{background-image: url('.$file.') }'.PHP_EOL;
-					if($path) include($path);
-			echo PHP_EOL; //in order to split JS script and avoid "}function"
-				}else{
-			return FALSE;
-		}
+				$pathParts = pathinfo($file, PATHINFO_EXTENSION);
+				if ($pathParts === 'js' || $pathParts === 'css') {
+					$path = stream_resolve_include_path($file);
+					if ($_SESSION['behavior'] && $pathParts == 'css')
+						echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
+					if ($path)
+						include($path);
+					echo PHP_EOL; //in order to split JS script and avoid "}function"
+				}else {
+					return FALSE;
+				}
 			}
 			$content = ob_get_clean();
 			\tools::createDirectory(dirname($pathCache));
-			file_put_contents($pathCache,$content);
+			file_put_contents($pathCache, $content);
 		}
 		return $hash . '.' . $format;
 	}
@@ -409,7 +406,6 @@ class page extends \block {
 	 * @return string
 	 */
 	public function display() {
-		\app::$request->page->current = TRUE;
 		$html = '';
 		if (!empty($this->blocks[THEMETYPE])) {
 			foreach ($this->blocks[THEMETYPE] as $selected_block) {
@@ -423,7 +419,6 @@ class page extends \block {
 		if($this->regex === '@^index$@'){
 			\app::$request->page->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['modules']['default'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
 		}
-		\app::$request->page->current = FALSE;
 		return $html;
 	}
 
