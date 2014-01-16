@@ -413,11 +413,11 @@ class page extends \block {
 			}
 		}else{
 			/* SEO : noindex for empty pages */
-			\app::$request->page->setMeta('robots','noindex');
+			\app::$response->page->setMeta('robots','noindex');
 		}
 		/* SEO : canonical url for index */
 		if($this->regex === '@^index$@'){
-			\app::$request->page->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['modules']['default'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
+			\app::$response->page->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['modules']['default'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
 		}
 		return $html;
 	}

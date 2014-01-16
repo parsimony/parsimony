@@ -42,7 +42,7 @@ class container extends \block {
 
 	public function display() {
 		if ($this->getConfig('column')) {
-			\app::$request->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{float:left} </style>';
+			\app::$response->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{float:left} </style>';
 			$this->setConfig('cssClasses', ' column' . $this->getConfig('cssClasses'));
 		}
 		return parent::display();

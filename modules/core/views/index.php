@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo $page->getTitle() ?></title>
+		<title><?php echo $this->page->getTitle() ?></title>
 		<script type="text/javascript">
 			var BASE_PATH = '<?php echo BASE_PATH ?>';
 			var MODULE = '<?php echo MODULE ?>';
@@ -34,13 +34,13 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>
 		<?php endif;
-		echo $page->printMetas();
-		echo $page->printInclusions();
-		echo $page->head;
+		echo $this->page->printMetas();
+		echo $this->page->printInclusions();
+		echo $this->page->head;
 		?>
 	</head>
-	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $page->getId(); ?>">
+	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
 		<?php echo $body; ?>
-		<?php echo $page->printInclusions('footer') ?>
+		<?php echo $this->page->printInclusions('footer') ?>
 	</body>
 </html>

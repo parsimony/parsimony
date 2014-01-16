@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$request->page->addJSFile('admin/blocks/tree/block.js','footer');
+app::$response->page->addJSFile('admin/blocks/tree/block.js','footer');
 ?>
 <div id="treelegend">?</div>
 <div class="none" id="treelegend2">

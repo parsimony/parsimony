@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 /* todo remove style attribute */
-app::$request->page->addJSFile('lib/upload/parsimonyUpload.js');
+app::$response->page->addJSFile('lib/upload/parsimonyUpload.js');
 echo $this->displayLabel($fieldName);
  ?>
 <div class="uploadimg">

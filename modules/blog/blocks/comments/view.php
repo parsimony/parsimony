@@ -42,7 +42,7 @@ $configs = \app::getModule('blog')->getConfigs();
 
 $params = \app::$request->getParams();
 	
-if(\app::$request->page->getModule() == 'blog') {
+if(\app::$response->page->getModule() == 'blog') {
 	// params title or url
 	if ((isset($params['url']) && is_string($params['url'])) || (isset($params['title']) )) {
 		$url = (isset($params['title'])) ? $params['title'] : $params['url'];

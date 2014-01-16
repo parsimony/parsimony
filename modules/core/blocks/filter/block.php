@@ -45,7 +45,7 @@ class filter extends \block {
 		$html = '';
 		$blockquery = $this->getConfig('blockquery');
 
-		$block = \app::$request->page->searchBlock($blockquery);
+		$block = \app::$response->page->searchBlock($blockquery);
 		if($block !== null){
 			
 			$filterhtml = '';
@@ -217,7 +217,7 @@ class filter extends \block {
 	 */
 	public function saveConfigs() {
 		$blockquery = $this->getConfig('blockquery');
-		$block = \app::$request->page->searchBlock($blockquery);
+		$block = \app::$response->page->searchBlock($blockquery);
 		$this->setConfig('blockquery', $_POST['blockquery']);
 		if(isset($_POST['properties'])){
 			$this->setConfig('properties', $_POST['properties']);	

@@ -55,10 +55,10 @@ class wysiwyg extends \field {
 	}
 	
 	public function getEditOptions() {
-		if (is_object(\app::$request->page)) { /* for ajax requests */
-			\app::$request->page->addJSFile('lib/HTML5editor/HTML5editor.js');
-			\app::$request->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
-			\app::$request->page->addJSFile('core/fields/wysiwyg/script.js');
+		if (is_object(\app::$response->page)) { /* for ajax requests */
+			\app::$response->page->addJSFile('lib/HTML5editor/HTML5editor.js');
+			\app::$response->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
+			\app::$response->page->addJSFile('core/fields/wysiwyg/script.js');
 		}
 		return  'data-wysiwygplugins="saveedit,canceledit,' . $this->wysiwygModules . '"' . str_replace('class="parsieditinline', 'class="parsieditinline field_wysiwyg', parent::getEditOptions());
 	}

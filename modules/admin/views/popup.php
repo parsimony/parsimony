@@ -11,13 +11,13 @@
 		</script>
 		<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
 		<?php
-		app::$request->page->addCSSFile('lib/cms.css');
-		app::$request->page->addCSSFile('admin/css/ui.css');
-		app::$request->page->addCSSFile('admin/css/popin.css');
-		app::$request->page->addCSSFile('lib/tooltip/parsimonyTooltip.css');
-		app::$request->page->addJSFile('lib/cms.js');
-		app::$request->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
-		echo app::$request->page->printInclusions()
+		app::$response->page->addCSSFile('lib/cms.css');
+		app::$response->page->addCSSFile('admin/css/ui.css');
+		app::$response->page->addCSSFile('admin/css/popin.css');
+		app::$response->page->addCSSFile('lib/tooltip/parsimonyTooltip.css');
+		app::$response->page->addJSFile('lib/cms.js');
+		app::$response->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
+		echo app::$response->page->printInclusions()
 		?>
 		<script>
 			$(document).ready(function() {

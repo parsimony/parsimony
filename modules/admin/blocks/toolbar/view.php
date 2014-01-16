@@ -1,11 +1,11 @@
 <?php
-app::$request->page->addCSSFile('admin/css/main.css');
-app::$request->page->addCSSFile('admin/css/ui.css');
-app::$request->page->addCSSFile('lib/tooltip/parsimonyTooltip.css', 'footer');
-app::$request->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
-app::$request->page->addJSFile('admin/script.js');
-app::$request->page->addJSFile('lib/HTML5sortable/jquery.sortable.js', 'footer');
-app::$request->page->addJSFile('admin/blocks/toolbar/block.js', 'footer');
+app::$response->page->addCSSFile('admin/css/main.css');
+app::$response->page->addCSSFile('admin/css/ui.css');
+app::$response->page->addCSSFile('lib/tooltip/parsimonyTooltip.css', 'footer');
+app::$response->page->addJSFile('lib/tooltip/parsimonyTooltip.js');
+app::$response->page->addJSFile('admin/script.js');
+app::$response->page->addJSFile('lib/HTML5sortable/jquery.sortable.js', 'footer');
+app::$response->page->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 ?>
 <script type="text/javascript">
 

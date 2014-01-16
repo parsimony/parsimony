@@ -59,6 +59,9 @@ class response {
 	 * @var string $body 
 	 */
 	protected $body = '';
+	
+	/** @var page Page object */
+	public $page;
 
 	/**
 	 * Get content to client
@@ -80,9 +83,9 @@ class response {
 
 		if ($body instanceof page) { /* If it's a page object */
 
-			$page = \app::$request->page = $body; /* Save page object */
+			$this->page = $body; /* Save page object */
 
-			$theme = $page->getTheme();
+			$theme = $this->page->getTheme();
 			
 			\app::dispatchEvent('beforePageLoad'); /* Let modules to prepare the page , after getTheme() to define themes constants */
 			
@@ -101,7 +104,7 @@ class response {
 				$css = new css(PROFILE_PATH . $pathTheme);
 				$CSSValues = $css->getCSSValues();
 				
-				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $page->getId() . '";';
+				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
 				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';top.CSSTHEMEPATH = "'.$pathTheme.'";top.CSSPAGEPATH = "'.MODULE . '/css/' . THEMETYPE.'.css";top.ParsimonyAdmin.CSSValues = '.json_encode(array($pathTheme => $CSSValues)).';'.$script.'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
@@ -249,7 +252,7 @@ namespace {
 		function t($text, $params = FALSE) {
 			$before = '';
 			$after = '';
-			if (isset($_GET['preview']) && \app::$request->page instanceof page) {
+			if (isset($_GET['preview']) && \app::$response->page instanceof page) {
 				$before = '<span data-key="' . $text . '" class="translation">';
 				$after = '</span>';
 			}

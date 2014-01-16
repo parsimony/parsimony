@@ -25,7 +25,7 @@
  * @package admin
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-app::$request->page->addJSFile('admin/blocks/modules/block.js', 'footer');
+app::$response->page->addJSFile('admin/blocks/modules/block.js', 'footer');
 
 $activeModule = \app::$config['modules']['active'];
 

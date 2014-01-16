@@ -80,6 +80,10 @@ class module extends \module {
 	 */
 	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
 		$this->initObjects();
+		$idBlock = strtolower($idBlock);
+		if($stop_typecont === 'page') { /* block id in page have to start with a capital */
+			$idBlock = ucfirst($idBlock);
+		}
 		$tempBlock = new $popBlock($idBlock);
 		$idBlock = $tempBlock->getId(); /* To sanitize id */	
 		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
@@ -126,7 +130,7 @@ class module extends \module {
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
 		if ($this->$stop_typecont->searchBlock($idBlock) != NULL) {
-			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
+			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$response->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->page->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
 		}
 		else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
@@ -175,7 +179,7 @@ class module extends \module {
 		if(!empty($mode)) $block->setConfig('mode', $mode);
 		else $block->removeConfig('mode');
 
-		\app::$request->page = new \page(999, 'core');
+		\app::$response->page = new \page(999, 'core');
 		if(isset($_POST['getVars'])){
 			parse_str($_POST['getVars'],$outVars);
 			array_merge($_GET,$outVars);
@@ -200,7 +204,7 @@ class module extends \module {
 				$block->setConfig($configName, $val);
 			}
 		}
-		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$request->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$request->page->getCSSFiles()), 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
+		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$response->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->page->getCSSFiles()), 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		$this->saveAll(); // save objects in last to avoid call __sleep() before getting content of the block ( this->display in ajaxRefresh() ), eg. block query
 		return $this->returnResult($return);
 	}
@@ -449,10 +453,19 @@ class module extends \module {
 	 */
 	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
 		$this->initObjects();
+		
 		//start
 		$block = $this->$start_typecont->searchBlock($idBlock);
 		$blockparent = $this->$start_typecont->searchBlock($startParentBlock);
 		$blockparent->rmBlock($idBlock);
+		
+		if ($start_typecont === 'page' && $stop_typecont === 'theme') {
+			$idBlock = strtolower($idBlock);
+			$block->setId($idBlock);
+		} elseif ($start_typecont === 'theme' && $stop_typecont === 'page') {
+			$idBlock = ucfirst($idBlock);
+			$block->setId($idBlock);
+		}
 
 		//stop
 		if ($id_next_block === '' || $id_next_block === 'undefined')
@@ -616,7 +629,7 @@ class module extends \module {
 	 */
 	protected function explorerAction() {
 		/* Init a page */
-		\app::$request->page = new \page(1, 'admin');
+		\app::$response->page = new \page(1, 'admin');
 		return $this->getView('explorer');
 	}
 
@@ -842,7 +855,7 @@ class module extends \module {
 		$id = $obj->getId();
 		if($id === 'content'){
 			$this->initObjects();
-			$obj = \app::$request->page;
+			$obj = \app::$response->page;
 			$idPage = ' data-page="' . $obj->getId() . '"';
 		}
 		$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $id;
@@ -1437,7 +1450,7 @@ class ' . $table->name . ' extends \entity {
 		$this->module = \app::getModule(\app::$request->getParam('MODULE'));
 		$IDPage = \app::$request->getParam('IDPage');
 		if ($IDPage && is_numeric($IDPage)) {
-			\app::$request->page = $this->page = $this->module->getPage($IDPage);
+			\app::$response->page = $this->page = $this->module->getPage($IDPage);
 		}
 	}
 
@@ -1447,7 +1460,7 @@ class ' . $table->name . ' extends \entity {
 	 */
 	protected function actionAction() {
 		/* Init a page */
-		\app::$request->page = new \page(1, 'admin');
+		\app::$response->page = new \page(1, 'admin');
 		if (isset($_POST['action'])) {
 			$content = $this->controller($_POST['action'], 'POST');
 			if (isset($_POST['popup']) && $_POST['popup'] === 'yes') {

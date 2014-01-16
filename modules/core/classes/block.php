@@ -237,21 +237,21 @@ abstract class block {
 				   $attributes .= ' '.$config;
 					break;
 				case 'ajaxReload':
-				   if((int)$config > 0) \app::$request->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$request->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
+				   if((int)$config > 0) \app::$response->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$response->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
 					break;
 				case 'ajaxLoad':
 					if($config == 1) {
 						$ajaxLoad = TRUE;
-						\app::$request->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$request->page->getId() . '", "' . $this->id . '")});</script>';
+						\app::$response->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$response->page->getId() . '", "' . $this->id . '")});</script>';
 					}
 					break;
 				case 'CSSFiles':
 					foreach ($config AS $file => $pos)
-						\app::$request->page->addCSSFile(strstr($file, '//') ? $file : $file, $pos);
+						\app::$response->page->addCSSFile(strstr($file, '//') ? $file : $file, $pos);
 						break;
 				case 'JSFiles':
 					foreach ($config AS $file => $pos)
-						\app::$request->page->addJSFile(strstr($file, '//') ? $file : $file, $pos);
+						\app::$response->page->addJSFile(strstr($file, '//') ? $file : $file, $pos);
 					break;
 				default:
 					break;

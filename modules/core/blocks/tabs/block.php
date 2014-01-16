@@ -45,7 +45,7 @@ class tabs extends \core\blocks\container{
 	$html = '';
 	$this->setConfig('cssClasses','container');
         if (!empty($this->blocks)) {
-	    \app::$request->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style><script>
+	    \app::$response->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style><script>
 		$(document).ready(function() {
                     $("#'.$this->getId().' .tabsContainer li:first").addClass("active");
                     $("#'.$this->getId().' .tabsContainer").on("click","a",function (e) {

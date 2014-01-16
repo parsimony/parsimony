@@ -55,9 +55,6 @@ class request {
 
 	/** @var string device */
 	protected $device;
-	
-	/** @var page Page object */
-	public $page;
 
 	/**
 	 * Init a new request
@@ -180,7 +177,7 @@ class request {
 			$_COOKIE['device'] = \app::$config['devices']['defaultDevice'];
 			if(count(\app::$devices) > 1){
 				foreach (\app::$devices AS $device) {
-					if ($device['detectFnc']() === TRUE) {
+					if ($device['detectFnc']() === 1) {
 						$_COOKIE['device'] = $device['name'];
 						break;
 					}

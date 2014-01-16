@@ -226,9 +226,9 @@ class field {
 	}
 	
 	public function getEditOptions() {
-		if(is_object(\app::$request->page)){ /* for ajax requests */
-			\app::$request->page->addJSFile('lib/editinline.js');
-			\app::$request->page->addCSSFile('lib/editinline.css');
+		if(is_object(\app::$response->page)){ /* for ajax requests */
+			\app::$response->page->addJSFile('lib/editinline.js');
+			\app::$response->page->addCSSFile('lib/editinline.css');
 		}
 		return  'class="parsieditinline fieldeditinline"  data-mode="' . $this->editMode . '" data-module="' . $this->entity->getModule() . '" data-entity="' . $this->entity->getName() . '" data-property="' . $this->name . '" data-label="' . $this->label . '"';
 	}

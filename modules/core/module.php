@@ -49,25 +49,6 @@ class module extends \module {
 		/* Add devices */
 		$devices = \app::$config['devices'];
 
-		/* Mobile */
-		if ($devices['mobile']) {
-			\app::$devices[] = array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
-					'320x568' => 'Apple iPhone 5',
-					'360x640' => 'Samsung Galaxy S3&4 / HTC One',
-					'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
-					return preg_match('/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $_SERVER['HTTP_USER_AGENT']);
-				});
-		}
-		/* Tablet */
-		if ($devices['tablet']) {
-			\app::$devices[] = array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
-					'601x921' => 'Google Nexus 7',
-					'600x1024' => 'Samsung Galaxy Tab 2 7.7',
-					'768x1366' => 'Microsoft Surface',
-					'768x1024' => 'Apple iPad'), 'detectFnc' => function() {
-					return preg_match('/(ipad|viewpad|tablet|bolt|xoom|touchpad|playbook|kindle|gt-p|gt-i|sch-i|sch-t|mz609|mz617|mid7015|tf101|g-v|ct1002|transformer|silk| tab)/i', $_SERVER['HTTP_USER_AGENT']);
-				});
-		}
 		/* TV */
 		if ($devices['tv']) {
 			\app::$devices[] = array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
@@ -80,9 +61,31 @@ class module extends \module {
 					'1600x900' => '16/9 HD Extended',
 					'768x1366' => '16/9 HD Ready',
 					'1000x1600' => '16/10'), 'detectFnc' => function() {
-					return preg_match('@GoogleTV|SmartTV|Internet.TV|NetCast|NETTV|AppleTV|boxee|Kylo|Roku|DLNADOC|CE\-HTML@i', $_SERVER['HTTP_USER_AGENT']);
+					return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
 				});
 		}
+	
+		/* Tablet */
+		if ($devices['tablet']) {
+			\app::$devices[] = array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
+					'601x921' => 'Google Nexus 7',
+					'600x1024' => 'Samsung Galaxy Tab 2 7.7',
+					'768x1366' => 'Microsoft Surface',
+					'768x1024' => 'Apple iPad'), 'detectFnc' => function() {
+					return preg_match('/(Tablet|Ipad|Kindle|Silk)|(Android(?!.*(Mobi|Opera Mini)))/i', $_SERVER['HTTP_USER_AGENT']); /* tablet must be under mobile because "Android" test is good only without "Mobile" in user agent string */
+				});
+		}
+		
+		/* Mobile */
+		if ($devices['mobile']) {
+			\app::$devices[] = array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
+					'320x568' => 'Apple iPhone 5',
+					'360x640' => 'Samsung Galaxy S3&4 / HTC One',
+					'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
+					return preg_match('/Mobi|Opera Mini|BlackBerry/i', $_SERVER['HTTP_USER_AGENT']);
+				});
+		}
+		
 		/* Desktop */
 		if ($devices['desktop']) {
 			\app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
@@ -143,15 +146,15 @@ class module extends \module {
 	}
 
 	public function loadExternalFiles() {
-		\app::$request->page->addCSSFile('lib/cms.css');
-		\app::$request->page->addJSFile('lib/cms.js');
+		\app::$response->page->addCSSFile('lib/cms.css');
+		\app::$response->page->addJSFile('lib/cms.js');
 		if (!defined('PARSI_ADMIN')) {
 			if (\app::$config['general']['ajaxnav']) {
-				\app::$request->page->addJSFile('core/js/ajaxNav.js', 'footer');
-				\app::$request->page->addCSSFile('core/css/ajaxNav.css', 'footer');
+				\app::$response->page->addJSFile('core/js/ajaxNav.js', 'footer');
+				\app::$response->page->addCSSFile('core/css/ajaxNav.css', 'footer');
 			}
-			\app::$request->page->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
-			\app::$request->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
+			\app::$response->page->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
+			\app::$response->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 		}
 	}
 
