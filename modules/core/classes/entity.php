@@ -291,14 +291,14 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @return bool
 	 */
 	public function update(array $vars, $mainEntity = TRUE) {
-		if($this->getRights($_SESSION['id_role']) & UPDATE && isset($vars[$this->_tableName])){
+		if($this->getRights($_SESSION['id_role']) & UPDATE){
 			if($mainEntity === TRUE){
 				\PDOconnection::getDB()->beginTransaction();
 			}
 			if (isset($vars[$this->_tableName])) {
-				$varsEntity = $this->beforeInsert($vars[$this->_tableName]);
+				$varsEntity = $this->beforeUpdate($vars[$this->_tableName]);
 			} else {
-				$varsEntity = $this->beforeInsert($vars);
+				$varsEntity = $this->beforeUpdate($vars);
 			}
 			if($varsEntity === FALSE) return FALSE;
 			$query = 'UPDATE ' . PREFIX . $this->_tableName . ' SET ';
