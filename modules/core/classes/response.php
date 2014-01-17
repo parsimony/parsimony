@@ -84,31 +84,38 @@ class response {
 		if ($body instanceof page) { /* If it's a page object */
 
 			$this->page = $body; /* Save page object */
-
+			
+			\app::dispatchEvent('beforePageLoad');
+			
 			$theme = $this->page->getTheme();
 			
-			\app::dispatchEvent('beforePageLoad'); /* Let modules to prepare the page , after getTheme() to define themes constants */
-			
 			if ($theme instanceof theme) {
+				define('THEMEMODULE', $theme->getModule());
+				define('THEME', $theme->getName());
+				$this->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 				$body = $theme->display(); /* Display with theme */
 			} else{
+				define('THEMEMODULE', '');
+				define('THEME', '');
 				$body = $body->display(); /* Display without theme */
 			}
 			
-			/* Save infos for admins */
-			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== ''){
-				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],4) : '~ '.floor(microtime(true)-$_SERVER['REQUEST_TIME']); 
-				
+			/* Set page infos to admin */
+			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== '') {
+				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 4) : '~ ' . floor(microtime(true) - $_SERVER['REQUEST_TIME']);
+
 				/* Store on client side all CSS selectors from theme style */
 				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 				$css = new css(PROFILE_PATH . $pathTheme);
 				$CSSValues = $css->getCSSValues();
-				
-				if ($_SESSION['behavior'] === 2) $script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET='.  json_encode($_GET).';top.$_POST='. json_encode($_POST).';top.CSSTHEMEPATH = "'.$pathTheme.'";top.CSSPAGEPATH = "'.MODULE . '/css/' . THEMETYPE.'.css";top.ParsimonyAdmin.CSSValues = '.json_encode(array($pathTheme => $CSSValues)).';'.$script.'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
+
+				if ($_SESSION['behavior'] === 2) {
+					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
+				}
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";top.ParsimonyAdmin.CSSValues = ' . json_encode(array($pathTheme => $CSSValues)) . ';' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
-			
-			/* Wrap body with HTML structure */
+
+				/* Wrap body with HTML structure */
 			ob_start();
 			include('core/views/index.php');
 			$body = ob_get_clean();
@@ -156,7 +163,7 @@ class response {
 		if (isset(\app::$config['ext'][$format]))
 			$this->format = $format;
 		else
-			throw new \Exception(t('Parsimony doesn\'t know this HTTP format', FALSE));
+			throw new \Exception(t('Parsimony doesn\'t know this extension', FALSE));
 	}
 
 	/**

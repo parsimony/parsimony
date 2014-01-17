@@ -146,15 +146,12 @@ class module extends \module {
 	}
 
 	public function loadExternalFiles() {
-		\app::$response->page->addCSSFile('lib/cms.css');
-		\app::$response->page->addJSFile('lib/cms.js');
 		if (!defined('PARSI_ADMIN')) {
 			if (\app::$config['general']['ajaxnav']) {
 				\app::$response->page->addJSFile('core/js/ajaxNav.js', 'footer');
 				\app::$response->page->addCSSFile('core/css/ajaxNav.css', 'footer');
 			}
 			\app::$response->page->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
-			\app::$response->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 		}
 	}
 

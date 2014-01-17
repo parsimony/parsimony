@@ -48,7 +48,24 @@
 	#themes #themenew{display:none;}
 	#themes.add #themelist{display:none;}
 	#themes.add #themenew{display:block;}
+	
+	
+	.creationMode #toolbar:before{background: transparent}
+	.creationMode #toolbar:after {background: transparent}
+	.rightSidebarMenu2{display:flex !important}
+	.rightSidebarMenu2 li{flex:1}
+	.rightSidebarMenu2 li.active{flex: 3;}
+	.rightSidebarMenu2 li.active::after {
+content: attr(data-title);position: absolute;left: 0;right: 0;
+text-align: center;color: #FFF;padding-left: 25px;font-size: 15px;}
 </style>
+<ul class="creation rightSidebarMenu2" data-sidebar="right" style="width:230px;background: #2DC1EE;overflow: hidden;">
+	<li class="icons sprite paneltree floatright" data-title="Themes" data-panel="paneltree"></li>
+	<li class="icons sprite panelcss floatright" data-title="Themes"  data-panel="panelcss"></li>
+	<li class="icons sprite themes floatright active" data-title="Themes"  data-panel="themes"></li>
+</ul>
+
+
 <div id="themelist">
 	<ul>
 <?php
@@ -63,7 +80,7 @@ foreach ($modules as $moduleName => $mode) {
 		else
 			$imgURL = BASE_PATH . 'admin/img/defaulttheme.png';
 ?>
-	<li id="theme_<?php echo s($themeName); ?>" class="themeItem<?php if($themeName == THEME) echo ' active'; ?>">
+	<li id="theme_<?php echo s($themeName); ?>" class="themeItem">
 		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
 			<div class="themeOptions">
@@ -132,12 +149,20 @@ foreach ($modules as $moduleName => $mode) {
 
 
 <script type="text/javascript">
+	function setActiveTheme(themeName){
+		var oldActiveTheme = document.querySelector(".themeItem.active");
+		if(oldActiveTheme){
+			oldActiveTheme.classList.remove("active");
+		}
+		document.getElementById("theme_" + themeName).classList.add("active");
+	}
+	
     $("#themes").on("click",".duplicate",function(){
-	$('#themes div[rel="themenew"]').trigger('click');
-	$('#duplicatepattern').show();
-	$('#patternName').text($(this).data("themename").split(";")[1]);
-	$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
-	$('#patternIMG').attr("src",($(this).data("imgurl")));
-	$('input[value="template"]').attr('checked', true);
+		$('#themes div[rel="themenew"]').trigger('click');
+		$('#duplicatepattern').show();
+		$('#patternName').text($(this).data("themename").split(";")[1]);
+		$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
+		$('#patternIMG').attr("src",($(this).data("imgurl")));
+		$('input[value="template"]').attr('checked', true);
     });
 </script>

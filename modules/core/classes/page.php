@@ -54,7 +54,7 @@ class page extends \block {
 	private $metas = array();
 
 	/** @var string */
-	private $includes = array('header' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
+	private $includes = array('header' => array('css' => array('http' => array(), 'local' => array('lib/cms.css')), 'js' => array('http' => array(), 'local' => array('lib/cms.js'))), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
 
 	/** @var array */
 	private $rights = array();
@@ -69,7 +69,7 @@ class page extends \block {
 	 */
 	public function __construct( $id, $module = FALSE) {
 		parent::__construct($id);
-		if(!$module) $module = \app::$config['modules']['default'];
+		if($module === FALSE) $module = \app::$config['modules']['default'];
 		$this->moduleName = $module;
 	}
 
@@ -144,27 +144,21 @@ class page extends \block {
 	 * @return string
 	 */
 	public function getTheme() {
-		
+		/* Without theme ? */
 		if($this->theme === FALSE || \app::$request->getParam('nostructure')){
-			define('THEMEMODULE', '');
-			define('THEME', '');
 			return '';
 		}
 		/* Define THEME */
 		if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
-			define('THEMEMODULE', $_COOKIE['THEMEMODULE']);
-			define('THEME', $_COOKIE['THEME']);
+			return \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
 		}else{
 			if(empty($this->theme)){
-				define('THEMEMODULE', app::$config['THEMEMODULE']);
-				define('THEME', app::$config['THEME']);
+				return \theme::get(app::$config['THEMEMODULE'], app::$config['THEME'], THEMETYPE);
 			}else{
 				$themeParts = explode('_', $this->theme, 2);
-				define('THEMEMODULE', $themeParts[0]);
-				define('THEME', $themeParts[1]);
+				return \theme::get($themeParts[0], $themeParts[1], THEMETYPE);
 			}
 		}
-		return \theme::get(THEMEMODULE, THEME, THEMETYPE);
 	}
 
 	/**
@@ -236,7 +230,7 @@ class page extends \block {
 				}
 				$tempBlocks[$idBlock] = $tempBlock;
 			}
-			if ($idNext == 'last')
+			if ($idNext === 'last')
 				$tempBlocks[$block->getId()] = $block;
 			$this->blocks[THEMETYPE] = $tempBlocks;
 		}

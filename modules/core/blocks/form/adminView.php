@@ -101,7 +101,7 @@
 					return false;
 				}
 			}
-			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress'] == 'theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock', {TOKEN: "<?php echo TOKEN; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo THEME; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', module: db[0],entity: db[1], update: document.getElementById('updateparam').value}, function(data) {
+			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress'] == 'theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock', {TOKEN: "<?php echo TOKEN; ?>", idPage: "<?php if ($_POST['typeProgress'] == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if ($_POST['typeProgress'] == 'theme') echo $_POST['THEME']; ?>", id: "<?php echo $_POST['idBlock']; ?>", method: 'generateView', module: db[0],entity: db[1], update: document.getElementById('updateparam').value}, function(data) {
 				codeEditor.setValue(data);
 				codeEditor.refresh();
 			});
