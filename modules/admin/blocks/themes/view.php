@@ -49,21 +49,8 @@
 	#themes.add #themelist{display:none;}
 	#themes.add #themenew{display:block;}
 	
-	
-	.creationMode #toolbar:before{background: transparent}
-	.creationMode #toolbar:after {background: transparent}
-	.rightSidebarMenu2{display:flex !important}
-	.rightSidebarMenu2 li{flex:1}
-	.rightSidebarMenu2 li.active{flex: 3;}
-	.rightSidebarMenu2 li.active::after {
-content: attr(data-title);position: absolute;left: 0;right: 0;
-text-align: center;color: #FFF;padding-left: 25px;font-size: 15px;}
+
 </style>
-<ul class="creation rightSidebarMenu2" data-sidebar="right" style="width:230px;background: #2DC1EE;overflow: hidden;">
-	<li class="icons sprite paneltree floatright" data-title="Themes" data-panel="paneltree"></li>
-	<li class="icons sprite panelcss floatright" data-title="Themes"  data-panel="panelcss"></li>
-	<li class="icons sprite themes floatright active" data-title="Themes"  data-panel="themes"></li>
-</ul>
 
 
 <div id="themelist">
