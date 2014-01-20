@@ -501,13 +501,13 @@ namespace ' . $name . ';
  * @php_version_min 5.3
  */
 
-class ' . $name . ' extends \module {
+class module extends \module {
 	protected $name = \'' . str_replace('\'', '\\\'', $name) . '\';
 }
 ?>';
 			file_put_contents('modules/' . $name . '/module.php', $template);
 			include('modules/' . $name . '/module.php');
-			$name2 = $name . '\\' . $name;
+			$name2 = $name . '\\module';
 			$mod = new $name2($name);
 			$page = new \page(1, $name);
 			$page->setModule($name);
