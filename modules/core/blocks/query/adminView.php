@@ -464,11 +464,6 @@ $view = $this->getConfig('view');
 		};
 	});
 
-	$('#links').on("change","select",function() {
-	   draw(); 
-	   $("#generate_query").trigger("click");
-	});
-
 	$('#queryCanvas').on('click','#deletator',function(){
 		obj = $(this).parent();
 		if(confirm(t('Are you sure to delete this entity ?'))){
@@ -479,8 +474,12 @@ $view = $this->getConfig('view');
 			this.style.display = "none";
 		}
 	});
-
-	$('#links').on('click','#deletator',function(){
+	
+	$('#links').on("change","select",function() {
+	   draw(); 
+	   $("#generate_query").trigger("click");
+	})
+	.on('click','#deletator',function(){
 		var parent = $(this).parent();
 		$(this).appendTo($('body'));
 		$('#invertRelation').appendTo($('body'));
@@ -521,13 +520,12 @@ $view = $this->getConfig('view');
 		if (calculatedField != null) {
 		  addProperty('', '', '', calculatedField,'', true, "", "", "", "", true, true, true);
 		}
-	});
-	$(document).on('click','.closehelper',function() {	
+	})
+	.on('click','.closehelper',function() {	
 		var context = $(this).closest('.queryblock');
 		$(this,context).closest(".helper").css("display","none");
-	});
-			
-	$(document).on('click','#recipiant_sql input[type="text"].calculated',function() {
+	})
+	.on('click','#recipiant_sql input[type="text"].calculated',function() {
 		var allsqlprop = '<option></option>';
 		$('#recipiant_sql .queryblock').each(function(){
 			var props = $(this).attr('property');
@@ -536,14 +534,13 @@ $view = $this->getConfig('view');
 		$('#helperSelect').html(allsqlprop);
 		$(this).parent().append($('.helper'));
 		$(this).next().css('display','block');
-	});
-	$(document).on('change','.helper select',function() {
+	})
+	.on('change','.helper select',function() {
 		var context = $(this).closest('.queryblock');
 		var calc = $('.calculated',context).val();
 		$('.calculated',context).val(calc +$('.helper select option:selected',context).text());
-	});
-		
-	$(document).on("change","#form input,#form select",function() {
+	})
+	.on("change","#form input,#form select",function() {
 		if(!$('#pagination').is(':checked') && $('#nbitem').val().length==0) $('#nbitem').val(10);
 		manageFilters();
 		$("#generate_query").trigger("click");
@@ -560,7 +557,7 @@ $view = $this->getConfig('view');
 			$("#resultpreview").html(data);
 		});
 		if(!$("#regenerateview").is(":checked")){
-			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress']=='theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{TOKEN: "<?php echo TOKEN; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo $_POST['THEME']; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', args:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
+			$.post(BASE_PATH + '<?php $mod = $_POST['typeProgress'] === 'theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; echo $mod; ?>/callBlock',{TOKEN: "<?php echo TOKEN; ?>", idPage:"<?php if($_POST['typeProgress']=='page') echo $_POST['IDPage']; ?>",theme: "<?php if($_POST['typeProgress']=='theme') echo $_POST['THEME']; ?>", id:"<?php echo $_POST['idBlock']; ?>", method:'generateView', properties:$('form input[name^="properties"]').add(('form select[name^="properties"]')).add('form input[name^="pagination"]').add('form input[name="filter"]').add('form input[name="sort"]').add('form input[name="group"]').serialize()},function(data){
 			codeEditor.setValue(data);
 			codeEditor.refresh();
 			});
@@ -751,4 +748,4 @@ $view = $this->getConfig('view');
 <style>
 .adminzonecontent{min-width:1200px}
 </style>
-<?php endif; ?>
+<?php endif;

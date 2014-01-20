@@ -97,8 +97,10 @@ class query extends code {
 		}
 	}
 
-	public function generateViewAction($args) {
-		parse_str($args);
+	public function generateViewAction($properties, $pagination = FALSE) {
+		if(!is_array($properties)){
+			parse_str($properties);
+		}
 		$view_code = '<?php if (!$view->isEmpty()) : ?>' . PHP_EOL;
 		$view_code .= "\t" . '<?php foreach ($view as $row) : ?>' . PHP_EOL;
 		$view_code .= "\t\t" . '<div class="itemscope">' . PHP_EOL;
@@ -121,7 +123,7 @@ class query extends code {
 		$view_code .= '<?php else: ?>' . PHP_EOL;
 		$view_code .= "\t" . '<div class="noResults"><?php echo t(\'No results\'); ?></div>' . PHP_EOL;
 		$view_code .= '<?php endif; ?>' . PHP_EOL;
-		if ($this->getConfig('pagination') || ($pagination == 1))
+		if ($this->getConfig('pagination') || ($pagination !== FALSE && $pagination == 1))
 			$view_code .= PHP_EOL . PHP_EOL . '<?php echo $view->getPagination(); ?>' . PHP_EOL;
 		return $view_code;
 	}
@@ -230,4 +232,3 @@ class query extends code {
 	}
 
 }
-?>
