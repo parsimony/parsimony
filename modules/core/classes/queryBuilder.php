@@ -291,13 +291,16 @@ class queryBuilder {
 	public function buildQuery($forceRebuild = FALSE) {
 		
 		if (!isset($this->_SQL['stmt']) || $forceRebuild) { /* exec query once a page load */
-			
+
 			\app::dispatchEvent('beforeBuildQuery', array());
 
 			/* SELECT */
 			$query = 'SELECT ';
 			if ($this instanceof \entity) { /* only for entity, to define defaults selects && from */
-				$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
+				$this->beforeSelect();
+				if(empty($this->_SQL['selects'])){
+					$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
+				}
 				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
 			}
 			foreach ($this->getFields() as $field) {
@@ -396,17 +399,25 @@ class queryBuilder {
 				$query .= $limit;
 			}
 			$this->_SQL['query'] = $query;
-
-			/* EXEC query */
-			if(!empty($this->_SQL['vars'])){
-				$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($query);
-				$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
-				$this->_SQL['stmt']->execute($this->_SQL['vars']);
-			}else{
-				$this->_SQL['stmt'] = \PDOconnection::getDB()->query($query, \PDO::FETCH_INTO, $this);
-			}
+			
 		}
-		return is_object($this->_SQL['stmt']);
+		
+		/* EXEC query */
+		if(!empty($this->_SQL['vars'])){
+			$this->_SQL['stmt'] = \PDOconnection::getDB()->prepare($this->_SQL['query']);
+			$this->_SQL['stmt']->setFetchMode(\PDO::FETCH_INTO, $this);
+			$this->_SQL['stmt']->execute($this->_SQL['vars']);
+		}else{
+			$this->_SQL['stmt'] = \PDOconnection::getDB()->query($this->_SQL['query'], \PDO::FETCH_INTO, $this);
+		}
+		
+		if (is_object($this->_SQL['stmt'])) { /* first fetch could be used by a rewind or isEmpty */
+			$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
+			return TRUE;
+		}else{
+			$this->_SQL['firstFetch'] = FALSE;
+			return FALSE;
+		}
 	}
 	
 	/* Iterator interface */
@@ -415,13 +426,11 @@ class queryBuilder {
 	  * Rewind the cursor to the first row
 	  */
 	 public function rewind() { 
-		 if ($this->buildQuery()) {
-			if (!isset($this->_SQL['firstFetch'])) { /* first fetch could be exec by a rewind or isEmpty */
-				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
-			}
-			if ($this->_SQL['firstFetch'] !== FALSE) {
-				return $this->_SQL['position'] = 0;
-			}
+		if(!isset($this->_SQL['firstFetch'])){
+			$this->buildQuery();
+		}
+		if ($this->_SQL['firstFetch'] !== FALSE) {
+			return $this->_SQL['position'] = 0;
 		}
 		$this->_SQL['position'] = FALSE;
 	}
@@ -470,14 +479,10 @@ class queryBuilder {
 	 }
 	 
 	 public function isEmpty() {
-		if ($this->buildQuery()) {
-			if (!isset($this->_SQL['firstFetch'])) {
-				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
-			}
-			if (is_object($this->_SQL['stmt']))
-				return !(bool) $this->_SQL['firstFetch'];
+		 if(!isset($this->_SQL['firstFetch'])){
+			$this->buildQuery();
 		}
-		return TRUE;
+		return !(bool) $this->_SQL['firstFetch'];
 	}
 
 }

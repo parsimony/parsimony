@@ -382,7 +382,7 @@ class field {
 			$auto_increment = ' AUTO_INCREMENT';
 		}
 		if ($this->required)
-			$required = ' NOT NULL';
+			$required = 'NOT NULL';
 		else
 			$required = 'NULL';
 		if (!empty($this->characters_max) || $this->characters_max != 0)

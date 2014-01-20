@@ -63,6 +63,9 @@ abstract class entity extends queryBuilder implements \Iterator {
 
 	/** @var string image in metadata */
 	public $behaviorImage;
+	
+	/** @var string author in metadata */
+	public $behaviorAuthor;
 
 	/** @var array of extends */
 	protected $_extends = array();
@@ -93,7 +96,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param string $value
 	 */
 	public function __set($name, $value) {
-		if (isset($this->fields[$name])) { /* usefull for fields multicolumns ou properties created dynamicaly : $this->_newPassword = .. */
+		if (isset($this->fields[$name])) { /* usefull for fields multicolumns */
 			$this->fields[$name]->setValue($value);
 		} else {
 			$this->$name = $value;
@@ -165,7 +168,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	}
 
 	/**
-	 * Get Name
+	 * Get entity name
 	 * @return string
 	 */
 	public function getName() {
@@ -451,7 +454,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			}
 
 			$dataset = array();
-			if($this->buildQuery()){
+			if($this->buildQuery()){ 
 				foreach ($this as $row) {
 					$line = array();
 					foreach ($displayedField as $name) {
@@ -756,8 +759,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * Clean entity for storing
 	  */
 	 public function __sleep() {
-		unset($this->_SQL);
 		$properties = get_object_vars($this);
+		unset($properties['_SQL']);
 		unset($properties['fields']);
 		unset($properties['_extends']);
 		unset($properties['_tableTitle']); /* Todo remove */
@@ -788,6 +791,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 $selects = explode(',', $clause);
 		 if (!empty($clause)) {
 			 foreach ($selects AS $select) {
+				 $select = trim($select);
 				 $this->_SQL['selects'][$select] = $select;
 			 }
 		 }
