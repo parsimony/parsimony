@@ -553,21 +553,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 
 	 public function extend($entity) {
 		 $this->_extends[] = $entity;
-		 $foreignFields = $entity->getFields();
-		 foreach($foreignFields AS $name => &$field) {
-			 if(isset($this->fields[$name])){
-				 $tableName = $field->getTableName();
-				 $aliasName = $name . '_' . $tableName;
-				 $this->_SQL['selects'][$aliasName] = $tableName . '.' . $name . ' AS ' . $aliasName;
-				 $this->fields[$aliasName] = $field;
-			 }else{
-				 $this->_SQL['selects'][$name] = $name; /* best than "table.*" which bug when using alias ( duplicate) */
-				 $this->fields[$name] = $field;
-			 }
-		 }
-		 $foreignTableName = str_replace('\\model\\', '_', get_class($entity));
-		 $this->join($this->_tableName . '.' . $this->getId()->name, $foreignTableName . '.' . $entity->getId()->name, 'left outer join');
 	 }
+
 	 
 	 /** *************************************************************
 	  * ************************* EVENTS *************
@@ -787,7 +774,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * @return entity object
 	  */
 	 public function select($clause = '', $hidden = false) {
-		 $this->_SQL = array();
+		 $this->_SQL = array(); /* begin new request */
 		 $selects = explode(',', $clause);
 		 if (!empty($clause)) {
 			 foreach ($selects AS $select) {

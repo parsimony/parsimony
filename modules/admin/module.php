@@ -1226,9 +1226,10 @@ class ' . $table->name . ' extends \entity {
 				
 				// make a reflection object
 				$reflectionObj = new \ReflectionClass($module . '\\model\\' . $table->name);
-				$newObj->__wakeup();
+				
 				$newObj = $reflectionObj->newInstanceArgs($args);
-
+				$newObj->__wakeup();
+				
 				/* Set entity's properties */
 				$newObj->setTitle($table->title);
 				$newObj->behaviorTitle = $table->behaviorTitle;

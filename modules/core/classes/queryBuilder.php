@@ -302,6 +302,25 @@ class queryBuilder {
 					$this->_SQL['selects'][$this->_tableName . '.*'] = $this->_tableName . '.*';
 				}
 				$this->_SQL['froms'][$this->_tableName] = $this->_tableName; /* FROM for entity */
+				/*  extends */
+				if(!empty($this->_extends)){
+					foreach($this->_extends AS $entity) {
+						$foreignFields = $entity->getFields();
+						foreach($foreignFields AS $name => &$field) {
+							if(isset($this->fields[$name])){
+								$tableName = $field->getTableName();
+								$aliasName = $name . '_' . $tableName;
+								$this->_SQL['selects'][$aliasName] = $tableName . '.' . $name . ' AS ' . $aliasName;
+								$this->fields[$aliasName] = $field;
+							}else{
+								$this->_SQL['selects'][$name] = $name; /* best than "table.*" which bug when using alias ( duplicate) */
+								$this->fields[$name] = $field;
+							}
+						}
+						$foreignTableName = str_replace('\\model\\', '_', get_class($entity));
+						$this->join($this->_tableName . '.' . $this->getId()->name, $foreignTableName . '.' . $entity->getId()->name, 'left outer join');
+					}
+				}
 			}
 			foreach ($this->getFields() as $field) {
 				/* TODO IMPROVE */
