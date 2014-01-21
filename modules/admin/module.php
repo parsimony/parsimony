@@ -459,12 +459,15 @@ class module extends \module {
 		$blockparent = $this->$start_typecont->searchBlock($startParentBlock);
 		$blockparent->rmBlock($idBlock);
 		
+		$js = 'ParsimonyAdmin.moveBlock("' . $idBlock . '");';
 		if ($start_typecont === 'page' && $stop_typecont === 'theme') {
 			$idBlock = strtolower($idBlock);
 			$block->setId($idBlock);
+			$js = 'ParsimonyAdmin.moveBlock("' . ucfirst($idBlock) . '", "pageToTheme");';
 		} elseif ($start_typecont === 'theme' && $stop_typecont === 'page') {
 			$idBlock = ucfirst($idBlock);
 			$block->setId($idBlock);
+			$js = 'ParsimonyAdmin.moveBlock("' . strtolower($idBlock) . '", "themeToPage");';
 		}
 
 		//stop
@@ -485,7 +488,7 @@ class module extends \module {
 				}
 			}
 			$this->saveAll();
-			$return = array('eval' => 'ParsimonyAdmin.moveBlock("' . $idBlock . '");', 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
+			$return = array('eval' => $js, 'notification' => t('The move has been saved'), 'notificationType' => 'positive');
 		}else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
 		return $this->returnResult($return);

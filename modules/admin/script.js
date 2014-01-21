@@ -33,7 +33,6 @@ var ParsimonyAdmin = {
 	currentBody: "",
 	currentMode: "",
 	inProgress: "",
-	inProgressElmt: "",
 	typeProgress: "",
 	unsavedChanges: false,
 
@@ -313,52 +312,88 @@ var ParsimonyAdmin = {
 		}
 		$("#" + idBlock, this.currentBody).trigger("click");
 	},
-	moveBlock: function(idBlock) {
-		this.addBlock(idBlock, $("#" + idBlock, this.currentBody));
+	moveBlock: function(idBlock, changeType) {
+		var elmt = $("#" + idBlock, this.currentBody);
+		this.addBlock(idBlock, elmt);
+		if(changeType && changeType == 'pageToTheme'){
+			this.inProgress = idBlock.toLowerCase();
+			elmt.attr("id", this.inProgress)
+		} else if(changeType && changeType == 'themeToPage'){
+			this.inProgress = idBlock[0].toUpperCase() + idBlock.substring(1);
+			elmt.attr("id", this.inProgress);
+		}
 	},
-	selectBlock: function(block) {
-		/* important to manage with same block ids ( one into page / one into theme ) */
-		if(block.classList.contains("tree_selector")){
-			this.inProgress = block.id.split("treedom_")[1];
-			this.typeProgress = block.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme" ;
-		}else{
-			this.inProgress = block.id;
-			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
+	selectBlock: function(idBlock) {
+		
+		this.inProgress = idBlock;
+		
+		var block = this.currentDocument.getElementById(idBlock);
+		if (block) { /* in case we could'ont find the block id in preview but in tree */
+			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme";
+			var blockTreeObj = document.getElementById("treedom_" + block.id);
+		} else {
+			var blockTreeObj = document.getElementById("treedom_" + idBlock);
+			this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme";
 		}
 		
-		if(this.typeProgress == "page"){
-			var blockTreeObj = document.querySelector("#treedom_content #treedom_" + this.inProgress);
-			var blockPreview = this.currentDocument.querySelector("#content #" + this.inProgress);
-		}else{
-			var blockTreeObj = $("#treedom_" + this.inProgress + ":not(#treedom_content *)")[0]; /* selector type only works in jquery cf:http://stackoverflow.com/questions/10711730/whats-the-difference-in-the-not-selector-between-jquery-and-css/10711731#10711731 */
-			var blockPreview = $("#" + this.inProgress + ":not(#content *)", this.currentDocument)[0];
-		}
-		
-		this.inProgressElmt = blockPreview;
-
 		var oldSelection = this.currentDocument.querySelector(".selection-block");
 		var oldSelectionTree = document.querySelector(".currentDOM");
 		var config_tree_selector = document.getElementById("config_tree_selector");
 
 		oldSelection && oldSelection.classList.remove("selection-block");
 		oldSelectionTree && oldSelectionTree.classList.remove("currentDOM");
-		blockPreview && blockPreview.classList.add("selection-block");
-		if (blockTreeObj)
-			blockTreeObj.classList.add("currentDOM");
+		
+		if(block){
+			block.classList.add("selection-block");
 
-		if (block.id == "container") {
+			/* Prepare DND UI */
+			if (window.getComputedStyle(block, null).position !== "static") {
+				document.getElementById("parsimonyDND").classList.add('positionOK');
+			} else {
+				document.getElementById("parsimonyDND").classList.remove('positionOK');
+			}
+			Parsimony.blocks['admin_css'].updatePosition(block.getBoundingClientRect());
+			Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
+
+			/* Provide selectors proposals */
+			var CSSProps = '';
+			var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
+			if (typeof stylableElements == "object") {
+				$.each(stylableElements, function(index, value) {
+					CSSProps += '<a href="#" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;" data-css="' + value + '">' + ' ' + t(index) + '</a>';
+				});
+
+				if (CSSProps.length > 0) {
+					document.getElementById("stylableElements").style.display = "inline-block";
+				} else {
+					document.getElementById("stylableElements").style.display = "none";
+				}
+			}
+			document.getElementById("CSSProps").innerHTML = CSSProps;
+		}
+		
+		if (idBlock == "container") {
 			$(".move_block, .config_destroy").hide();
-		} else if (block.id == "content") {
+		} else if (idBlock == "content") {
 			$(".config_destroy").hide();
 		} else {
 			$(".move_block, .config_destroy").show();
 		}
-		if (blockTreeObj && blockTreeObj.classList.contains("container") && blockTreeObj.querySelector("#treedom_content")) {
-			$(".config_destroy").hide();
-		}
-		config_tree_selector.style.display = "block";
-		if (blockTreeObj)
+		
+		if (blockTreeObj){
+			blockTreeObj.classList.add("currentDOM");
+			
+			/* can't detroy a container that contain #content */
+			if (blockTreeObj.classList.contains("core_container") && blockTreeObj.querySelector("#treedom_content")) {
+				$(".config_destroy").hide();
+			}
+			
+			config_tree_selector.style.display = "block";
 			blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
+		}
+			
+
+		
 
 	},
 	unSelectBlock: function() {

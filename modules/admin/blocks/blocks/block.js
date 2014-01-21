@@ -145,9 +145,10 @@ function blockAdminBlocks() {
 		$("#parsimonyDND").add('#paneltree').on('dragstart.creation', ".move_block", function(event) {
 			$this.isAddBlock = false;
 			var evt = event.originalEvent;
-			evt.dataTransfer.setDragImage(ParsimonyAdmin.inProgressElmt, 15, 15);
-			var startTypeCont = ParsimonyAdmin.inProgressElmt.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
-			var parentContainer = $(ParsimonyAdmin.inProgressElmt).parent().closest(".core_container"); // parent in case it's a container himself
+			var elmt = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
+			evt.dataTransfer.setDragImage(elmt, 15, 15);
+			var startTypeCont = elmt.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
+			var parentContainer = $(elmt).parent().closest(".core_container"); // parent in case it's a container himself
 			if(parentContainer.hasClass("core_page")) startIdParentBlock = parentContainer.data('page');
 			else startIdParentBlock = parentContainer.attr('id');
 			evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:ParsimonyAdmin.inProgress,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
@@ -179,7 +180,7 @@ function blockAdminBlocks() {
 			event.stopImmediatePropagation();
 			var offset = this.getBoundingClientRect();
 			var leftOffsetFrame = ParsimonyAdmin.iframe.offsetLeft + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0);
-			if (ParsimonyAdmin.inProgressElmt != this)
+			if (ParsimonyAdmin.inProgress != this.id)
 				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame) + "px;width:" + offset.width + "px;height:" + offset.height + "px";
 			else
 				document.getElementById("blockOverlay").style.display = "none";
@@ -291,35 +292,8 @@ function blockAdmin() {
 
 	this.onClickCreation = function(e) {
 		e.stopPropagation();
-		if (ParsimonyAdmin.inProgressElmt != this) {
-			ParsimonyAdmin.selectBlock(this);
-
-			document.getElementById("idName").textContent = "#" + ParsimonyAdmin.inProgress;
-
-			/* Prepare DND UI */
-			if (window.getComputedStyle(this, null).position !== "static") {
-				document.getElementById("parsimonyDND").classList.add('positionOK');
-			} else {
-				document.getElementById("parsimonyDND").classList.remove('positionOK');
-			}
-			Parsimony.blocks['admin_css'].updatePosition(this.getBoundingClientRect());
-			Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
-
-			/* Provide selectors proposals */
-			var CSSProps = '';
-			var stylableElements = ParsimonyAdmin.stylableElements[e.currentTarget.classList[1]];
-			if (typeof stylableElements == "object") {
-				$.each(stylableElements, function(index, value) {
-					CSSProps += '<a href="#" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;" data-css="' + value + '">' + ' ' + t(index) + '</a>';
-				});
-
-				if (CSSProps.length > 0) {
-					document.getElementById("stylableElements").style.display = "inline-block";
-				} else {
-					document.getElementById("stylableElements").style.display = "none";
-				}
-			}
-			document.getElementById("CSSProps").innerHTML = CSSProps;
+		if (ParsimonyAdmin.inProgress != this.id) {
+			ParsimonyAdmin.selectBlock(this.id);
 		}
 		if (e.trad != true && e.link != true)
 			ParsimonyAdmin.closeParsiadminMenu();
@@ -341,7 +315,6 @@ function blockAdmin() {
 
 	this.onDesign = function(e) {
 		e.preventDefault();
-		ParsimonyAdmin.selectBlock(ParsimonyAdmin.inProgress);
 		Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
 		ParsimonyAdmin.displayPanel("panelcss");
 	}

@@ -54,7 +54,7 @@ class page extends \block {
 	private $metas = array();
 
 	/** @var string */
-	private $includes = array('header' => array('css' => array('http' => array(), 'local' => array('lib/cms.css')), 'js' => array('http' => array(), 'local' => array('lib/cms.js'))), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
+	private $includes = array('header' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
 
 	/** @var array */
 	private $rights = array();
@@ -331,14 +331,12 @@ class page extends \block {
 		$html = PHP_EOL;
 		if (!empty($this->includes[$position]['css']['http']))
 			$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
-		if (!empty($this->includes[$position]['css']['local'])) {
-				$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
-		}
+		array_unshift($this->includes[$position]['css']['local'], 'lib/cms.css');
+		$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
 		if (!empty($this->includes[$position]['js']['http']))
 			$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
-		if (!empty($this->includes[$position]['js']['local'])) {
-				$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
-		}
+		array_unshift($this->includes[$position]['js']['local'], 'lib/cms.js');
+		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
 		return $html;
 	}
 

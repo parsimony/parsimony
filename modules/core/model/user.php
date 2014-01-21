@@ -37,6 +37,8 @@ class user extends \entity {
 
 // DON'T TOUCH THE CODE ABOVE ##########################################################
 
+	private $_newPassword;
+	
 	public function beforeInsert($vars) {
 		$this->_newPassword = $vars['pass'];
 		return $vars;
