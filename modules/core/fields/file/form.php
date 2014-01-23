@@ -42,7 +42,7 @@ echo $this->displayLabel($fieldName);
 <script LANGUAGE="JavaScript" type="text/javascript">
 	$(document).ready(function(){
 		$("#upload_file_<?php echo $fieldName; ?>").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH. $this->entity->getModule(); ?>/callField",
-			ajaxFileParams: {
+			ajaxFileParams: {TOKEN: "<?php echo TOKEN; ?>",
 				entity: "<?php echo $this->entity->getName(); ?>", 
 				fieldName:"<?php echo $this->name; ?>", 
 				method:'upload'

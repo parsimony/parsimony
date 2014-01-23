@@ -28,5 +28,12 @@
 ?>
 
 <div style="margin: 10px 0;font-size: 13px;padding-left: 10px;"><?php echo t('Properties of n:n Relationship') ; ?> </div>
+<div>
+	<label><?php echo t('Mode') ;?></label>
+	<select name="mode">
+		<option value="default"><?php echo t('Default') ;?></option>
+		<option value="tag"><?php echo t('Tag') ;?></option>
+	</select>
+</div>
 <div><label class="ellipsis"><?php echo t('Associative entity') ;?></label><input type="text" name="entity_asso"></div>
 <div><label class="ellipsis"><?php echo t('Associated entity') ;?></label><input type="text" name="entity_foreign"></div>
