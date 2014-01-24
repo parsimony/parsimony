@@ -329,13 +329,12 @@ var ParsimonyAdmin = {
 		
 		var block = this.currentDocument.getElementById(idBlock);
 		if (block) { /* in case we could'ont find the block id in preview but in tree */
-			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme";
 			var blockTreeObj = document.getElementById("treedom_" + block.id);
 		} else {
 			var blockTreeObj = document.getElementById("treedom_" + idBlock);
-			this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme";
 		}
 		
+		this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme"; /* check on tree to avoid non-ended tag in preview */
 		var oldSelection = this.currentDocument.querySelector(".selection-block");
 		var oldSelectionTree = document.querySelector(".currentDOM");
 		var config_tree_selector = document.getElementById("config_tree_selector");
