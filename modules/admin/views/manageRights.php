@@ -48,10 +48,22 @@ $role = app::getModule('core')->getEntity('role');
 <script>
 $(document).ready(function() {
 	$(".modelArea").on('change', 'input[type="checkbox"]', function(){
+		
 		var obj = {};
-		var entity = '';
-		var modelArea = $(this).closest(".modelArea");
+		var entity = $(this).closest('td').attr('class');
+		var tr = $(this).closest('tr')[0];
+		var modelArea = tr.parentNode;
+
+		if( tr.classList.contains("entity")){
+			var crud =  this.className;
+			var prop = this.checked;
+			var target = '.fieldbg .' + entity + ' input[type="checkbox"]' + '.' + crud;
+			$(target, modelArea).prop( "checked", prop);
+		}
+		
+		
 		$("tr", modelArea).each(function(){
+			
 				/* Entities */
 				if(this.classList.contains("entity")){
 					entity = this.querySelector("td").textContent;
@@ -70,6 +82,7 @@ $(document).ready(function() {
 					}
 					obj[entity] = {"rights" : rights, "fields" : {}};
 				}
+				
 				/* Fields */
 				if(this.classList.contains("fieldbg")){
 					field = this.querySelector("td").textContent;
@@ -86,22 +99,8 @@ $(document).ready(function() {
 					obj[entity]["fields"][field] = rights;
 				}
 			});
-			modelArea[0].querySelector(".modelSerialize").value = JSON.stringify(obj);
+			modelArea.querySelector(".modelSerialize").value = JSON.stringify(obj);
 	});
-	 
-var entity = ''; 
-var crud = ''; 
-var prop = '';
-var context = '';
-		$('body').on( "click", '.line.entity input[type="checkbox"]', function() {
-			context = $(this).closest('.rightbox');
-			entity = $(this).closest('td').attr('class');
-			crud =  $(this).attr('class');
-			prop = $(this).prop("checked");
-			target = '.fieldbg .'+ entity +' input[type="checkbox"]'+ '.'+ crud;
-			if(prop == true) $(target,context).prop( "checked", true);
-			else $(target,context).prop( "checked", false);
-		});
 });
 </script>
 

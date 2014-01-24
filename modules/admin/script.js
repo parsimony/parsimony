@@ -613,7 +613,7 @@ var ParsimonyAdmin = {
 		params["getBlockAdmin"] = '1';
 		$.get(window.location.href.toLocaleString(), params, function(data) {
 			$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
-			callBack.call();
+			if(typeof callBack == "function") callBack.call();
 		});
 		
 	},
