@@ -310,7 +310,10 @@ var ParsimonyAdmin = {
 		}else {
 			$("#" + idNextBlock, this.currentBody).before(contentBlock);
 		}
-		$("#" + idBlock, this.currentBody).trigger("click");
+		this.returnToShelter();
+		this.updateUI(function(){
+			$("#" + idBlock, ParsimonyAdmin.currentBody).trigger("click");
+		});
 	},
 	moveBlock: function(idBlock, changeType) {
 		var elmt = $("#" + idBlock, this.currentBody);
@@ -328,13 +331,14 @@ var ParsimonyAdmin = {
 		this.inProgress = idBlock;
 		
 		var block = this.currentDocument.getElementById(idBlock);
-		if (block) { /* in case we could'ont find the block id in preview but in tree */
+		if (block) { /* in case we could'nt find the block id in preview but in tree */
+			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme";
 			var blockTreeObj = document.getElementById("treedom_" + block.id);
 		} else {
 			var blockTreeObj = document.getElementById("treedom_" + idBlock);
+			this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme";
 		}
 		
-		this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme"; /* check on tree to avoid non-ended tag in preview */
 		var oldSelection = this.currentDocument.querySelector(".selection-block");
 		var oldSelectionTree = document.querySelector(".currentDOM");
 		var config_tree_selector = document.getElementById("config_tree_selector");
@@ -568,12 +572,10 @@ var ParsimonyAdmin = {
 	addOptionParsiadminMenu: function(option) {
 		$("#menu .options").append('<div class="option">' + option + '</div>');
 	},
-	updateUI : function (tree){
+	updateUI : function (callBack){
 		$(".dropInContainer",this.currentBody).remove();
-		if(tree != false) {
-			$("#config_tree_selector").hide().prependTo("#right_sidebar");
-			this.loadBlock('tree', {MODULE: this.currentWindow.MODULE, THEMEMODULE: this.currentWindow.THEMEMODULE, THEME: this.currentWindow.THEME, THEMETYPE: this.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent});
-		}
+		$("#config_tree_selector").hide().prependTo("#right_sidebar");
+		this.loadBlock('tree', {MODULE: this.currentWindow.MODULE, THEMEMODULE: this.currentWindow.THEMEMODULE, THEME: this.currentWindow.THEME, THEMETYPE: this.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent}, callBack);
 		$(".core_container",this.currentBody).each(function(){
 		if($(this).find('.parsiblock:not("#content")').length == 0) {
 			$(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + $(this).get(0).id + ". " + t("Drop the blocks in this space") + '</div></div>');
@@ -606,12 +608,14 @@ var ParsimonyAdmin = {
 		this["load" + captitalizeNewMode + "Mode"]();
 		this.setCookie("mode", mode, 999);
 	},
-	loadBlock: function(id, params, func) {
+	loadBlock: function(id, params, callBack) {
 		if (!params) params = {};
 		params["getBlockAdmin"] = '1';
 		$.get(window.location.href.toLocaleString(), params, function(data) {
 			$('#' + id).html($("<div>").append(data.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")).find("#" + id).html());
-		}, func);
+			callBack.call();
+		});
+		
 	},
 	displayPanel: function(id) {
 		var panel = document.getElementById(id);

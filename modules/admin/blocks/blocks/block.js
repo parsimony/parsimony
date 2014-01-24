@@ -42,8 +42,6 @@ function blockAdminBlocks() {
 			content: contentToAdd
 		}, function(data) {
 			ParsimonyAdmin.execResult(data);
-			ParsimonyAdmin.returnToShelter();
-			ParsimonyAdmin.updateUI();
 		});
 	}
 	
