@@ -46,7 +46,8 @@ class password extends \field {
 	 * @return string
 	 */
 	public function validate($value) {
-		if (!empty($value)) {
+		$length = strlen($value);
+		if(!empty($value) && $length >= $this->characters_min && $length <= $this->characters_max){
 			return sha1($value . \app::$config['security']['salt']);
 		} elseif ($this->required) {
 			return FALSE;

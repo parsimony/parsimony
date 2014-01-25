@@ -30,6 +30,9 @@ echo $this->displayLabel($fieldName);
  ?>
 <select name="<?php echo $tableName ?>[<?php echo $this->name ?>]" id="<?php echo $fieldName ?>"> 
 	<?php
+	if(!$this->required):
+		echo '<option></option>';
+	endif;
 	$states = explode(',', $this->states);
 	foreach ($states as $key => $state) : ?>
 		<option value="<?php echo $key ?>"<?php if($value == $key) echo ' selected="selected"' ?>><?php echo $state ?></option>

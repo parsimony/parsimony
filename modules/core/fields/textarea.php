@@ -41,7 +41,7 @@ namespace core\fields;
 class textarea extends \field {
 
 	protected $type = 'LONGTEXT';
-	protected $characters_max = '';
+	protected $characters_max = '4294967295';
 	protected $mode = 'textarea';
 	
 	/**

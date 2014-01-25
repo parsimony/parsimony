@@ -40,7 +40,7 @@ namespace core\fields;
 
 class mail extends \field {
 	
-	protected $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$' ;
+	protected $regex = '^[\w.-]+@[\w.-]+\.[a-zA-Z]+$' ;
 	protected $unique = FALSE;
 
 	/**

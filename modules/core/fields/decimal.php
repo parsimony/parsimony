@@ -51,18 +51,18 @@ class decimal extends \field {
 	public function validate($value) {
 		if(!$this->required && empty($value))
 			return '';
-		$value = (float)str_replace(',', '.', $value);
-		$cutMax = explode(',',$this->characters_max);
-		$cutValue = explode('.',$value);
-		$length = strlen(str_replace('.', '', $value)); /* test min/max without the dot */
-		if(is_numeric($value) 
-				&& $length >= $this->characters_min
-				&& $length <= ((int)$cutMax[0])
-				&& (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])){
-			return $value;
-		}else{
-			return FALSE;
+		$value = str_replace(',', '.', $value);
+		if(is_numeric($value)) {
+			$cutMax = explode(',', $this->characters_max);
+			$cutValue = explode('.', $value);
+			$length = strlen(str_replace('.', '', $value)); /* test min/max without the dot */
+			if($length >= $this->characters_min
+					&& $length <= (int)$cutMax[0]
+					&& (!isset($cutValue[1]) || strlen($cutValue[1]) <= $cutMax[1])){
+				return (float) $value;
+			}
 		}
+		return FALSE;
 	}
 
 }

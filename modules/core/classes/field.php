@@ -326,7 +326,12 @@ class field {
 	 * @return string|false
 	 */
 	public function validate($value) {
-		return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
+		if(empty($value) && $this->required) {
+			return FALSE;
+		} else {
+			return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
+		}
+		
 	}
 
 	/**
