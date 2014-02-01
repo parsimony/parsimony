@@ -27,7 +27,7 @@
  */
 
 $dirPath = PROFILE_PATH . \app::$request->getParam('dirPath');
-//securise $path
+//securise $path todo
 $dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
 echo '<div id="path">'.$dirPath.'</div><div id="dirsandfiles">';
 $extOk = array(); 
@@ -36,10 +36,10 @@ $extKo = array('.obj');
 $files = glob($dirPath . '/*'); 
 $newfilename = '';
 foreach ((is_array($files) ? $files : array()) as $filename) :
+	$path = str_replace(PROFILE_PATH, '', $filename);
 	if (is_dir($filename)) :
-		$filename = str_replace('//','/',$filename); //fix
 		?>
-		<div class="explorer_file dir " path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>" data-title="<?php echo basename($filename) ?>">
+		<div class="explorer_file dir" path="<?php echo $path; ?>" data-title="<?php echo basename($filename) ?>">
 			<div class="del"><span class="delete ui-icon ui-icon-closethick"></span></div>
 		</div>
 		<?php
@@ -47,10 +47,10 @@ foreach ((is_array($files) ? $files : array()) as $filename) :
 			(empty($extKo) || !in_array(strrchr($filename, '.'), $extKo))) :
 		?>
 		<?php if (in_array(strrchr($filename, '.'), $array_img)) : ?>
-		<div class="explorer_file" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>" data-title="<?php echo basename($filename) ?>">
-				<img src="<?php echo BASE_PATH.$filename; ?>?x=55&y=55" > 
+		<div class="explorer_file" path="<?php echo $path; ?>" data-title="<?php echo basename($filename) ?>">
+				<img src="<?php echo BASE_PATH . $path; ?>?x=55&y=55" > 
 		<?php else: ?>
-		<div class="explorer_file file" path="<?php echo str_replace(PROFILE_PATH, '', $filename) ?>" data-title="<?php echo basename($filename) ?>">
+		<div class="explorer_file file" path="<?php echo $path; ?>" data-title="<?php echo basename($filename) ?>">
 		 <?php endif; ?>
 		<div class="del"><span class="delete ui-icon ui-icon-closethick"></span></div>
 	</div>
