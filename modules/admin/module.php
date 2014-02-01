@@ -666,39 +666,7 @@ class module extends \module {
 		if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
 			set_time_limit(0);
 			\tools::createDirectory(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
-			if ($patterntype == 'url' && !empty($url)) {
-			include('lib/simplehtmldom/simple_html_dom.php');
-			$str = file_get_contents($url);
-			substr($url, -1) == '/' ? $baseurl = dirname($url . 'index') : $baseurl = dirname($url);
-			$str = \tools::absolute_url($str, $baseurl);
-			$str = preg_replace('#<!--(.*?)-->#is', '', $str);
-			$str = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $str);
-			$str = preg_replace('#<noscript(.*?)>(.*?)</noscript>#is', '', $str);
-			$str = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $str);
-			$html = str_get_html($str);
-			preg_match_all('/<.*href="(.*\.css).*[^"]/i', $str, $out);
-			$allCSS = '';
-			foreach ($out[1] as $css) {
-				$code = file_get_contents($css);
-				$base = dirname($css).'/';
-				$host = 'http://'.parse_url($css, PHP_URL_HOST).'/';
-				$code = preg_replace('@url\s+\(\s+@', 'url(', $code);
-				$code = preg_replace('@url\((["\'])?/@', 'url(\1'.$host, $code);
-				$code = preg_replace('@url\((["\'])?@', 'url(\1'.$base, $code);
-				$code = str_replace($base.'http://', 'http://', $code);
-				$code = str_replace($base.'http://', 'http://', $code);
-				$allCSS .= $code;
-			}
-			tools::file_put_contents(PROFILE_PATH . $thememodule . '/themes/' . $name . '/desktop/style.css', utf8_encode($allCSS));
-			$body = $html->find('body');
-			$tree = $this->domToArray($body[0]);
-			$structure1 = $this->arrayToBlocks(array('dvdxc'=> array('content' => $tree)));
-			$theme = new \theme('container', $name, 'desktop', $thememodule);
-			$conts = $structure1->getBlocks();
-			$cont = reset($conts);
-			$theme->setBlocks($cont->getBlocks());
-			$theme->save();
-			} else if ($patterntype == 'template' && !empty($template)) {
+			if ($patterntype == 'template' && !empty($template)) {
 				list($oldModule, $oldName) = explode(';',$template);
 				$theme = array();
 				foreach (\app::$devices AS $device) {

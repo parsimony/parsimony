@@ -49,7 +49,7 @@
 	#themes.add #themelist{display:none;}
 	#themes.add #themenew{display:block;}
 	
-
+	
 </style>
 
 
@@ -122,7 +122,6 @@ foreach ($modules as $moduleName => $mode) {
 		<div class="placeholder" style="width: 190px;">
 			<label style="display: inline-block;position: relative;"><?php echo t('Pattern') ;?></label>
 			<div style="margin: 8px 0;"><input type="radio" name="patterntype" value="blank" checked="checked" /> <?php echo t('Blank') ?></div>
-			<?php /*<div><input type="radio" name="patterntype" value="url" />  <?php echo t('An URL') ?> : <input type="text" name="url" style="width:150px;" ></div>*/ ?>
 			<div id="duplicatepattern">
 				<div><input type="radio" name="patterntype" value="template" style="float:left;margin:0" /><h4 id="patternName"></h4></div>
 				<img id="patternIMG" src="" />
