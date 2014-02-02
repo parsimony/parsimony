@@ -445,7 +445,7 @@ $view = $this->getConfig('view');
 			}
 			if($(propELMT).hasClass("field_user") || nameProp == "core_user_id_user"){
 				if(confirm(t("Your SQL property \"" + tableProperty + "\" matches a User ID.\n Do you want to filter SQL records with the current user $_SESSION['id_user']? \n e.g. where "+ prop +"= $_SESSION['id_user']" ))){
-					$(".where",sqlscheme).val("= :id_user");
+					$(".where",sqlscheme).val("= :session_id_user");
 				}
 			}
 		}
