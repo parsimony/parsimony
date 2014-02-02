@@ -637,6 +637,8 @@ while (1) {
             include('modules/blog/module.php');
             $blog = new \blog\module('blog');
             $blog->install();
+			
+			date_default_timezone_set($config['localization']['timezone']); //avoid timezone error on new user 
 
 			echo '<div style="display:none">';
 			$core->getEntity('user')->insertInto(array('id_user' => '', 'pseudo' => $_POST['identifiant'], 'mail' => $_POST['mail'], 'pass' => $_POST['pass1'], 'registration' => '', 'state' => '1', 'id_role' => '1'));
