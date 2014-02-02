@@ -285,8 +285,8 @@ while (1) {
                 $ok[] = tr('Permissions are Ok for').' <span>"index.php, installNewLife.php"</span>';
             }
             
-            if (!is_readable('lib/') || !is_readable('lib/cms.css') ){
-                $high[] = tr('Set read permissions on').' <span>"lib/"</span> '.tr('directory (and sub-directories) using an FTP client');
+            if (!is_readable('lib/')) {
+				$high[] = tr('Set read permissions on').' <span>"lib/"</span> '.tr('directory (and sub-directories) using an FTP client');
             } else {
                 $ok[] = tr('Permissions are Ok for').'  <span>"lib/"</span>';
             }
