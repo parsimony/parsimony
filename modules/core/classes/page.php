@@ -331,11 +331,11 @@ class page extends \block {
 		$html = PHP_EOL;
 		if (!empty($this->includes[$position]['css']['http']))
 			$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
-		array_unshift($this->includes[$position]['css']['local'], 'lib/cms.css');
+		array_unshift($this->includes[$position]['css']['local'], 'core/css/parsimony.css');
 		$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
 		if (!empty($this->includes[$position]['js']['http']))
 			$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
-		array_unshift($this->includes[$position]['js']['local'], 'lib/cms.js');
+		array_unshift($this->includes[$position]['js']['local'], 'core/js/parsimony.js');
 		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
 		return $html;
 	}

@@ -20,7 +20,7 @@
  *  @authors Julien Gras et Benoît Lorillot
  *  @copyright  Julien Gras et Benoît Lorillot
  *  @version  Release: 1.0
- *  @category  cms.js
+ *  @category  parsimony.js
  *  @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 

@@ -42,7 +42,7 @@ if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
 	<?php
 }
 ?>
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/cms.css" type="text/css" media="all" />
+<link rel="stylesheet" href="<?php echo BASE_PATH; ?>core/css/parsimony.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/css/ui.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
 <script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>

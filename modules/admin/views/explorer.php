@@ -31,7 +31,7 @@
  *   ouvrir fichier dans editeir de code ou editeur image
  *   path par de depart du tree
  */
-app::$response->page->addCSSFile('lib/cms.css');
+app::$response->page->addCSSFile('core/css/parsimony.css');
 app::$response->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
 app::$response->page->addCSSFile('modules/admin/css/ui.css');
 app::$response->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
