@@ -28,15 +28,6 @@
 
 app::$response->page->addJSFile('admin/blocks/tree/block.js','footer');
 ?>
-<div id="treelegend">?</div>
-<div class="none" id="treelegend2">
-	<fieldset style="text-shadow:none;color:white;">
-		<legend><?php echo t('Type of blocks'); ?></legend>
-		<span class="parsicontainer" style="padding-left: 30px;position: relative;left: 5px;"><?php echo t('Block Container'); ?></span> </br>
-		<span class="parsimonyblock" style="padding-left: 39px;position: relative;left: -3px;"><?php echo t('Content Block'); ?></span></br>
-		<span class="parsipage" style="padding-left: 37px;position: relative;left: -1px;"><?php echo t('Dynamic Page'); ?></span></br>
-	</fieldset>
-</div>
 <div id="config_tree_selector" class="none">
 	<span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
 	<span class="floatleft ui-icon ui-icon-wrench configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration'); ?>"></span>

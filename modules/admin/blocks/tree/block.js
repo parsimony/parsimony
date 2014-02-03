@@ -3,9 +3,7 @@ function blockAdminTree() {
 	this.initBefore = function() {
 
 		/* Help on Tree*/
-		$('#right_sidebar').on('click', '#treelegend', function() {
-			$('#treelegend2').slideToggle();
-		}).on('click', '.arrow_tree', function(event) {
+		$('#right_sidebar').on('click', '.arrow_tree', function(event) {
 			event.stopPropagation();
 			this.classList.toggle('down');
 			$(this).nextAll('ul,li').toggleClass('none');

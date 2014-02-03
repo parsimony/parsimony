@@ -97,9 +97,6 @@ border-bottom: 2px solid rgb(45, 193, 238);padding: 0;text-align: center;margin:
 /* Sidebar right parts */
 
 /* Tree */
-#treelegend{position: absolute;right: 5px;top: 50px;color: #555; font-weight: bold;padding-right: 10px;z-index: 999999;}
-#treelegend2 fieldset{border: 1px solid #CCC;color: #555 !important; border-radius: 3px;margin: 10px 3px 0 3px;padding: 5px;background: #fafafa;}
-#treelegend2 fieldset span{line-height: 20px;}
 
 #tree{padding : 5px 0;color:#444;font-weight: normal;letter-spacing: 1.1px;font-size: 12px;}
 .tree_selector{line-height: 24px;cursor:pointer;}
