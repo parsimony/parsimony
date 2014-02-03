@@ -29,12 +29,10 @@
 <script>
 	$(function() {
 		$("#searchData").keyup(function(){
-			if($(this).val().length > 2){
-				$.post(window.location,"TOKEN=" + TOKEN + "&module=<?php echo $module ?>&entity=<?php echo $model ?>&search=" + $(this).val() + "&action=searchData",function(data){
-					$("#datagridajaxsearch").html(data);
-					$(".adminzonemenu .searchtab").trigger("click");
-				});
-			}
+			$.post(window.location,"TOKEN=" + TOKEN + "&module=<?php echo $module ?>&entity=<?php echo $model ?>&search=" + $(this).val() + "&action=searchData",function(data){
+				$(".adminzonecontent .admintabs").hide();
+				$("#datagridajaxsearch").html(data).show();
+			});
 		});
 		$(document).on('click',".pagination a",function(e){
 			e.preventDefault();
