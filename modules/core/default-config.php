@@ -55,9 +55,6 @@ $config['dev']['serialization'] = 'obj';
 $config['localization']['default_language'] = 'en_EN';
 $config['localization']['timezone'] = 'America/Adak';
 
-//General
-$config['general']['ajaxnav'] = '0';
-
 //Sessions
 $config['session']['renew'] = '300';
 $config['session']['maxlifetime'] = '86400';

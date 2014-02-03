@@ -99,7 +99,6 @@
 		<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-12" class="ellipsis"><?php echo t('Sessions'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-0" class="ellipsis"><?php echo t('Ajax'); ?></a></div>
 		<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version'); ?></a></div>
 	</div>
 	<div class="adminzonecontent">
@@ -107,16 +106,6 @@
 			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 			<input type="hidden" name="action" value="saveConfig">
 			<div id="tabsconfig" style="min-width:465px;">
-				<div id="tabsb-0" class="admintabs">
-					<h2><?php echo t('Ajax'); ?></h2>
-					<div class="placeholder">
-						<label class="label"><?php echo t('Ajax navigation'); ?></label>
-						<select name="config[general][ajaxnav]">
-							<option value="0"><?php echo t('No'); ?></option>
-							<option value="1"<?php if (isset(app::$config['general']['ajaxnav']) && app::$config['general']['ajaxnav'] == '1') echo ' selected="selected"'; ?>><?php echo t('Yes'); ?></option>
-						</select>
-					</div>
-				</div>
 				<?php if (PROFILE === 'www'): ?>
 					<div id="tabsb-1" class="admintabs">
 						<h2><?php echo t('Database'); ?> </h2>
