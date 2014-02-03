@@ -66,7 +66,7 @@ class form extends code {
 			if ($testIfHasError === TRUE) {
 				/* If there's no errors, Save new file */
 				if ($this->getConfig('regenerateview') == 0) {
-					\tools::file_put_contents($viewPath, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity')));
+					\tools::file_put_contents($viewPath, $this->generateViewAction($this->getConfig('module'), $this->getConfig('entity'), !empty($_POST['updateparam'])));
 				} else {
 					\tools::file_put_contents($viewPath, $_POST['editor']);
 				}
@@ -82,14 +82,14 @@ class form extends code {
 		$html = '<?php
 if(isset($_POST[\'add\'])){
 	$res = $entity->' . ($update ? 'update' : 'insertInto') . '($_POST);
-	if($res === TRUE || is_numeric($res)){
+	if($res === TRUE || is_numeric($res)){ /* TRUE in update context or last insert id for insert */
 		echo \'<div class="notify positive">\'.t($this->getConfig(\'success\')).\'</div>\';
 	}else{
 		echo \'<div class="notify negative">\'.t($this->getConfig(\'fail\')).\'</div>\';
 	}
 }
 ?>
-<form method="post" class="form" action="">
+<form method="post" action="">
 	<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />' . PHP_EOL;
 		foreach ($entity->getFields() AS $name => $field) {
 			$html .= "\t\t" . '<?php echo $entity->' . $name . '()->form(); ?>' . PHP_EOL;
@@ -124,7 +124,11 @@ if(isset($_POST[\'add\'])){
 		if($this->getConfig('module')){
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
 			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
-				$entity->select()->where($entity->getId()->name . " = :" . $this->getConfig('updateparam'))->fetch();
+				$entity->select()->where($entity->getId()->name . ' = :' . $this->getConfig('updateparam'))->fetch();
+				/* have to remove where clause, cause update have to happen just on desired id */
+				$sql = $entity->getSQL();
+				unset($sql['wheres']);
+				$entity->setSQL($sql);
 			}
 			include($this->getConfig('viewPath'));
 		}else {

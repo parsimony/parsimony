@@ -551,8 +551,22 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 }
 	 }
 	 
+	 /*
+	  * Extend this entity with another entity from any module
+	  * @param entity $entity
+	  */
 	 public function extend($entity) {
-		 $this->_extends[] = $entity;
+		$this->_extends[] = $entity;
+		$foreignFields = $entity->getFields();
+		foreach($foreignFields AS $name => &$field) {
+			if(isset($this->fields[$name])){
+				$tableName = $field->getTableName();
+				$aliasName = $name . '_' . $tableName;
+				$this->fields[$aliasName] = $field;
+			}else{
+				$this->fields[$name] = $field;
+			}
+		}
 	 }
 
 	 
@@ -569,6 +583,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 
 	 /**
 	  * Event before update
+	  * @param array $values
+	  * @return array
 	  */
 	 public function beforeUpdate($values) {
 		 return $values;
@@ -576,6 +592,8 @@ abstract class entity extends queryBuilder implements \Iterator {
 
 	 /**
 	  * Event before insert
+	  * @param array $values
+	  * @return array
 	  */
 	 public function beforeInsert($values) {
 		 return $values;
@@ -597,6 +615,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 
 	 /**
 	  * Event after update
+	  * @param array $values
 	  */
 	 public function afterUpdate($values) {
 
@@ -604,6 +623,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 
 	 /**
 	  * Event after insert
+	  * @param array $values
 	  */
 	 public function afterInsert($values) {
 

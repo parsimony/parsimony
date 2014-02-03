@@ -53,6 +53,14 @@ class queryBuilder {
 	public function getSQL() {
 		return $this->_SQL;
 	}
+	
+	/**
+	 * Set SQL settings of the query
+	 * @param array $SQL
+	 */
+	public function setSQL($SQL) {
+		$this->_SQL = $SQL;
+	}
 
 	 /**
 	  * Set a WHERE clause
@@ -307,14 +315,12 @@ class queryBuilder {
 					foreach($this->_extends AS $entity) {
 						$foreignFields = $entity->getFields();
 						foreach($foreignFields AS $name => &$field) {
-							if(isset($this->fields[$name])){
+							if($name !== $field->name){ /* detect alias */
 								$tableName = $field->getTableName();
 								$aliasName = $name . '_' . $tableName;
 								$this->_SQL['selects'][$aliasName] = $tableName . '.' . $name . ' AS ' . $aliasName;
-								$this->fields[$aliasName] = $field;
 							}else{
 								$this->_SQL['selects'][$name] = $name; /* best than "table.*" which bug when using alias ( duplicate) */
-								$this->fields[$name] = $field;
 							}
 						}
 						$foreignTableName = str_replace('\\model\\', '_', get_class($entity));

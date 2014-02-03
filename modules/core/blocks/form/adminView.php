@@ -69,7 +69,7 @@
 		<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Form Update'); ?>
 	</div>
 	<div id="formupdate" style="display:none" class="placeholder">
-		<?php echo t('Allow you to map a request param to this form to transform it in form update. Request param must be an ID to find the sql row associated.'); ?>
+		<?php echo t('Allow you to map a request param to this form to transform it in updating form. Request param must be an ID to find the sql row associated.'); ?>
 		<label><?php echo t('Request param name'); ?></label>
 		<input type="text" name="updateparam" id="updateparam" value="<?php echo $this->getConfig('updateparam'); ?>">
 	</div>
