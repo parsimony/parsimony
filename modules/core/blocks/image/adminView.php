@@ -30,7 +30,7 @@
 <script>
 	$(document).ready(function() {
 		$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-			ajaxFileParams: {action: "upload",type: "image",path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",THEMETYPE: "<?php echo $_POST['THEMETYPE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
+			ajaxFileParams: {TOKEN: "<?php echo TOKEN; ?>",action: "upload", type: "image", path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",THEMETYPE: "<?php echo $_POST['THEMETYPE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
 			start:function(file){console.log("Start load : " + file.name)},
 			onProgress:function(file, progress){console.log("Load: " + file.name + " - " + progress + " %")},
 			stop:function(response){
@@ -100,7 +100,7 @@
 $size = array(0,0);
 $pathIMG = stream_resolve_include_path($this->getConfig('imgPath'));
 if($pathIMG) $size = @getimagesize($pathIMG);
-echo '<label>' . t('Width') . ' : </label> <span id="width">' . $size[0] . 'px' . '</span> ; <label>' . t('Height') . ' : </label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
+echo '<label>' . t('Width') . '</label> <span id="width">' . $size[0] . 'px' . '</span> ; <label>' . t('Height') . '</label><span id="height">' .  $size[1] . 'px' . '</span>'; ?>            
 			</div>
 		</div>
 
@@ -108,22 +108,22 @@ echo '<label>' . t('Width') . ' : </label> <span id="width">' . $size[0] . 'px' 
 	<br><br>
 	<h2><?php echo t('Change the image settings'); ?></h2>
 	<div class="placeholder" style="display: inline-block;width:338px">
-		<label><?php echo t('Width'); ?> (px): </label><input type="text" name="width" placeholder="100% by default" value="<?php if ($this->getConfig('width')) echo s($this->getConfig('width')); ?>" />
+		<label><?php echo t('Width'); ?> (px)</label><input type="text" name="width" placeholder="100% by default" value="<?php if ($this->getConfig('width')) echo s($this->getConfig('width')); ?>" />
 	</div>
 	<div class="placeholder" style="display: inline-block;width:338px">
-		<label><?php echo t('Height'); ?> (px): </label><input type="text" name="height" value="<?php if ($this->getConfig('height')) echo s($this->getConfig('height')); ?>" />
+		<label><?php echo t('Height'); ?> (px)</label><input type="text" name="height" value="<?php if ($this->getConfig('height')) echo s($this->getConfig('height')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('Title'); ?> : </label><input type="text" name="title" value="<?php if ($this->getConfig('title')) echo s($this->getConfig('title')); ?>" />
+		<label><?php echo t('Title'); ?></label><input type="text" name="title" value="<?php if ($this->getConfig('title')) echo s($this->getConfig('title')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('Alternative Text'); ?> : </label><input type="text" name="alt" value="<?php if ($this->getConfig('alt')) echo s($this->getConfig('alt')); ?>" />
+		<label><?php echo t('Alternative Text'); ?></label><input type="text" name="alt" value="<?php if ($this->getConfig('alt')) echo s($this->getConfig('alt')); ?>" />
 	</div>
 	<div class="placeholder">
-		<label><?php echo t('URL'); ?> : </label><input type="text" name="url" value="<?php if ($this->getConfig('url')) echo s($this->getConfig('url')); ?>" />
+		<label><?php echo t('URL'); ?></label><input type="text" name="url" value="<?php if ($this->getConfig('url')) echo s($this->getConfig('url')); ?>" />
 	</div>
 	<div>
-		<label><?php echo t('Fancy Box'); ?> : </label>
+		<label><?php echo t('Fancy Box'); ?></label>
 		<input type="checkbox" name="fancybox" <?php
 			if ($this->getConfig('fancybox') == '1') {
 			echo 'checked="checked"';

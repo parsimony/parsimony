@@ -110,7 +110,7 @@ if (is_object($block) == NULL) {
 							<label><?php echo t('Add CSS Classes'); ?></label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('HTML5 Tags'); ?> :</label>
+							<label><?php echo t('HTML5 Tags'); ?></label>
 							<select name="tag" style="height : 25px">
 								<?php if ($block->getConfig('tag') !== false) echo '<option value="' . $block->getConfig('tag') . '">' . $block->getConfig('tag') . '</option>' ?>
 								<option value="div">div</option>
@@ -160,13 +160,13 @@ if (is_object($block) == NULL) {
 							<label><?php echo t('Reload the block every X seconds'); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>">
 						</div>
 						<div class="placeholder blockhead"> 
-							<label><?php echo t('Ajax On Page Load'); ?> :</label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') !== false && $block->getConfig('ajaxLoad') != 0) echo ' checked="checked"'; ?>>
+							<label><?php echo t('Ajax On Page Load'); ?></label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') !== false && $block->getConfig('ajaxLoad') != 0) echo ' checked="checked"'; ?>>
 						</div>
 					</div>
 					<div class="clear padd"> 
 						<h3>Include CSS & JS</h3>
 						<div class="placeholder blockhead">
-							<label><?php echo t('CSS Files'); ?> :</label>
+							<label><?php echo t('CSS Files'); ?></label>
 							<input type="text" id="newCSSFile" placeholder="http://example.com/css.css or lib/fancybox/example.css">
 							<select id="posNewCSSFile">
 								<option value="header">Header</option>
@@ -185,7 +185,7 @@ if (is_object($block) == NULL) {
 							</div>
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('JS Files'); ?> :</label>
+							<label><?php echo t('JS Files'); ?></label>
 							<input type="text" id="newJSFile" placeholder="http://example.com/css.css or lib/fancybox/example.js">
 							<select id="posNewJSFile">
 								<option value="header">Header</option>

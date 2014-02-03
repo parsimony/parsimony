@@ -27,7 +27,7 @@
  */
 if (\app::getClass('user')->VerifyConnexion()) :
     ?>
-    <h3><?php echo t('My account') ?> :</h3>
+    <h3><?php echo t('My account') ?></h3>
     <div class="userInfo">
 	<?php echo t('You are connected') ?> (<a class="logout" href="logout"><?php echo t('Logout') ?></a>)
     </div>
