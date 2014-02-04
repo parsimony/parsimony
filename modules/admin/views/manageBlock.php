@@ -160,7 +160,7 @@ if (is_object($block) == NULL) {
 							<label><?php echo t('Reload the block every X seconds'); ?></label> <input type="text" name="ajaxReload" value="<?php echo $block->getConfig('ajaxReload') ?>">
 						</div>
 						<div class="placeholder blockhead"> 
-							<label><?php echo t('Ajax On Page Load'); ?></label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') !== false && $block->getConfig('ajaxLoad') != 0) echo ' checked="checked"'; ?>>
+							<label><?php echo t('Ajax On Page Load'); ?></label> <input type="hidden" name="ajaxLoad" value=""> <input style="margin-top: 2px;margin-left: 150px;" type="checkbox" value="1" name="ajaxLoad" <?php if ($block->getConfig('ajaxLoad') == 1) echo ' checked="checked"'; ?>>
 						</div>
 					</div>
 					<div class="clear padd"> 
