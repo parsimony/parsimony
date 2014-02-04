@@ -31,7 +31,7 @@ namespace core\blocks;
 
 /**
  * @title Container
- * @description can contains other blocks and is used to structure the page
+ * @description can contain other blocks and is used to structure the page
  * @version 1
  * @browsers all
  * @php_version_min 5.3

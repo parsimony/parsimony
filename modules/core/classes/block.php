@@ -195,7 +195,12 @@ abstract class block {
 	 */
 	public function getAdminView() {
 		ob_start();
-		include($this->moduleName . '/blocks/' . $this->blockName . '/adminView.php');
+		$adminViewPath = stream_resolve_include_path($this->moduleName . '/blocks/' . $this->blockName . '/adminView.php');
+		if ($adminViewPath !== FALSE) {
+			include($adminViewPath);
+		} else {
+			echo t('No config for this block') . '<script type="text/javascript">$(document).ready(function() {window.setTimeout(\'$(".adminzonetab a[href=#accordionBlockConfigGeneral]").trigger("click");\', 500);});</script>';
+		}
 		return ob_get_clean();
 	}
 
@@ -228,7 +233,7 @@ abstract class block {
 				   $maxAge = (int) $config;
 					break;
 				case 'headerTitle':
-				   if($config) $headerTitle = '<h2 class="parsiTitle">'.t($config).'</h2>';
+				   if($config) $headerTitle = '<h2 class="parsiTitle">' . t($config) . '</h2>';
 					break;
 				case 'cssClasses':
 				   $CSSclasses .= ' '.$config;
@@ -237,12 +242,12 @@ abstract class block {
 				   $attributes .= ' '.$config;
 					break;
 				case 'ajaxReload':
-				   if((int)$config > 0) \app::$response->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . MODULE . '\', \'' . \app::$response->page->getId() . '\', \'' . $this->id . '\')", ' . $config . '000);});</script>';
+				   if((int)$config > 0 && \app::$request->isAjax() === FALSE) \app::$response->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . $this->id . '\')", ' . $config . '000);});</script>';
 					break;
 				case 'ajaxLoad':
-					if($config == 1) {
+					if($config == 1 && \app::$request->isAjax() === FALSE) {
 						$ajaxLoad = TRUE;
-						\app::$response->page->head .= '<script>$(document).ready(function(){loadBlock("' . MODULE . '", "' . \app::$response->page->getId() . '", "' . $this->id . '")});</script>';
+						\app::$response->page->head .= '<script>$(document).ready(function(){loadBlock("' . $this->id . '")});</script>';
 					}
 					break;
 				case 'CSSFiles':

@@ -38,10 +38,6 @@ namespace core\blocks;
  */
 
 class connexion extends \block {
-    
-    public function getAdminView(){
-	return t('No config for this block');
-    }
 
 }
 ?>

@@ -31,7 +31,7 @@ namespace core\blocks;
 
 /**
  * @title Container tabs
- * @description can contains blocks and organize them into tabs, is used to structure the page
+ * @description can contain blocks and organize them into tabs, is used to structure the page
  * @version 1
  * @browsers all
  * @php_version_min 5.3
@@ -42,10 +42,10 @@ namespace core\blocks;
 class tabs extends \core\blocks\container{
 
     public function getView(){
-	$html = '';
-	$this->setConfig('cssClasses','container');
+		$html = '';
+		$this->setConfig('cssClasses','container');
         if (!empty($this->blocks)) {
-	    \app::$response->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style><script>
+			\app::$response->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style><script>
 		$(document).ready(function() {
                     $("#'.$this->getId().' .tabsContainer li:first").addClass("active");
                     $("#'.$this->getId().' .tabsContainer").on("click","a",function (e) {
@@ -57,18 +57,14 @@ class tabs extends \core\blocks\container{
                     });
                 });
 		</script>';
-	    $html .= '<ul class="tabsContainer">';
-	    foreach ($this->blocks as $selected_block) {
-		$title = $selected_block->getConfig('headerTitle');
-		$html .= '<li><a href="#'.$selected_block->getId().'">'.(empty($title) ? $selected_block->getId() : $title).'</a></li>';
-	    }
-	    $html .= '</ul>';
-	}
-	return $html;
-    }
-    
-    public function getAdminView(){
-	return '';
+			$html .= '<ul class="tabsContainer">';
+			foreach ($this->blocks as $selected_block) {
+			$title = $selected_block->getConfig('headerTitle');
+			$html .= '<li><a href="#'.$selected_block->getId().'">'.(empty($title) ? $selected_block->getId() : $title).'</a></li>';
+			}
+			$html .= '</ul>';
+		}
+		return $html;
     }
 
 }

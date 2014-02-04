@@ -51,7 +51,7 @@ $view = $this->getConfig('view');
 	._jsPlumb_connector{cursor: pointer;}
 	.property{padding: 0 5px;cursor: pointer;line-height: 16px;font-family: sans-serif;font-size: 11px;border-bottom: dotted #ddd 1px;font-weight: normal;}
 	.property:hover{background-color: rgb(231,242,255);}
-	.caption{position: absolute;z-index: 100;padding: 10px 0;background: #FAFAFA;}
+	.caption{position: absolute;z-index: 100;padding: 10px 3px;background: #FAFAFA;}
 	.caption div{line-height: 28px;letter-spacing: 1.2px;}
 	#recipiant_sql{width: 10000px;padding-left: 70px;}
 	#recipiant_sql .property{font-weight: normal;padding:5px;width: 130px;background: transparent;border: none;box-shadow:initial;}
@@ -139,7 +139,7 @@ $view = $this->getConfig('view');
 <?php if($this->getConfig('mode') == 'r' ): ?>
 	<label class="placeholder"><?php echo t('Pagination'); ?></label>
 	<div style="display:inline-block;width:200px">
-		<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+		<?php echo t('Enable Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 		if ($this->getConfig('pagination') == 1)
 			echo ' checked="checked"';
 		?> />
@@ -262,7 +262,7 @@ $view = $this->getConfig('view');
 			<input type="button" class="none clearboth" id="generate_query" value="<?php echo t('Generate') . ' '; ?>">
 			<div class="clearboth textdbquery">
 				<div style="display:inline-block;width:200px">
-					<?php echo t('Active Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
+					<?php echo t('Enable Pagination'); ?> <input type="hidden" value="0" name="pagination" /><input type="checkbox" id="pagination" name="pagination" value="1" <?php
 					if ($this->getConfig('pagination') == 1)
 						echo ' checked="checked"';
 					?> />

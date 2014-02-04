@@ -40,10 +40,7 @@ namespace blog\blocks;
  */
 
 class comments extends \block {
-	
-	public function getAdminView() {
-		return t('No config for this block');
-	}
+
 } 
  
 ?>
