@@ -41,7 +41,7 @@ namespace core\fields;
 class textarea extends \field {
 
 	protected $type = 'LONGTEXT';
-	protected $characters_max = '4294967295';
+	protected $characters_max = ''; // 4294967295
 	protected $mode = 'textarea';
 	
 	/**
@@ -55,7 +55,7 @@ class textarea extends \field {
 			return FALSE;
 		} else {
 			$length = strlen($value);
-			if ($length >= $this->characters_min && $length <= $this->characters_max) {
+			if ($length >= $this->characters_min && $length <= 4294967295) {
 				return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#s'))); /* "s" modifier in regex for multiline */
 			}
 			return FALSE;

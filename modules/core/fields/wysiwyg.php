@@ -41,7 +41,7 @@ namespace core\fields;
 class wysiwyg extends \field {
 	
 	protected $type = 'LONGTEXT';
-	protected $characters_max = '4294967295';
+	protected $characters_max = ''; //4294967295
 	protected $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor';
 	protected $editMode = 'fieldwysiwyg';
 	
@@ -56,7 +56,7 @@ class wysiwyg extends \field {
 		} else {
 			$value = \tools::sanitize($value, $this->wysiwygModules);
 			$length = strlen($value);
-			if ($length >= $this->characters_min && $length <= $this->characters_max) {
+			if ($length >= $this->characters_min && $length <= 4294967295) {
 				return $value;
 			} else {
 				return FALSE;
