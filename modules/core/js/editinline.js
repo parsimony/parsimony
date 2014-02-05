@@ -56,7 +56,7 @@ $(document).ready(function() {
 		
 		init: function(){
 			
-			$(document.body).append('<div id="editArea"><div id="toolbarEdit"><div id="editLabel"></div><div id="saveEdit">Save</div><div id="cancelEdit">âœ–</div></div><input type="text" id="inputEditMode"><iframe id="editForm"></iframe></div>');
+			$(document.body).append('<div id="editArea"><div id="toolbarEdit"><div id="editLabel"></div><div id="saveEdit">Save</div><div id="cancelEdit">&#x2716;</div></div><input type="text" id="inputEditMode"><iframe id="editForm"></iframe></div>');
 
 			$(document).on("click.edit", ".parsieditinline", function() {
 				if(parsiEdit.currentElmt && parsiEdit.currentElmt != this){

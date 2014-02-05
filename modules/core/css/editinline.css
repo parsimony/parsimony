@@ -1,7 +1,7 @@
 /* editinplace */
 .parsieditinline:hover, .block_wysiwyg:hover{outline:1px orange solid;}
 .parsieditinline {display: inline-block;position:relative}
-#editArea{position: absolute;}
+#editArea{position: absolute;display:none}
 #toolbarEdit{position: absolute;top: -27px;background: #ccc;color: #fefefe;line-height: 26px;white-space: nowrap;box-shadow: 0px 0px 3px #444;font-size: 14px;}
 #toolbarEdit > div{display: inline-block; padding: 0 4px;  line-height: 26px;}
 .editMode .parsieditinline:not(.editing):hover::before{content: "Edit: " attr(data-label);position: absolute;top: -27px;z-index: 999;background: #ccc;color: #fefefe;padding: 5px;font-size: 12px;
