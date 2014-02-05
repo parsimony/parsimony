@@ -243,16 +243,16 @@ function blockAdminCSS() {
 				oldCssText = this.dataset.css + ":" + this.value + ";";
 
 			/* We check if property is already set, must manage with : min-width and width props like */
-			if ((" " + oldCssText).match(new RegExp("[^a-z-]" + this.dataset.css + "[\s ]?:")) != null) {
+			if (oldCssText.match(new RegExp("[^a-z-]*" + this.dataset.css + "[\s ]?:")) != null) {
 				if (this.value.length > 0) {
-					console.log(" " + oldCssText.replace(new RegExp("([^a-z-])(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value));
-					newCssText = " " + oldCssText.replace(new RegExp("([^a-z-])(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
+					newCssText = oldCssText.replace(new RegExp("([^a-z-]*)(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
+					console.log(newCssText);
 				} else { /* if there is no value we delete property */
-					newCssText = " " + oldCssText.replace(new RegExp("([^a-z-])" + this.dataset.css + "[^;]*[;]?"), "$1");
+					newCssText = oldCssText.replace(new RegExp("([^a-z-]*)" + this.dataset.css + "[^;]*[;]?"), "$1");
 				}
 			} else {
 				if (this.value.length > 0) {
-					newCssText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";") + this.dataset.css + ":" + this.value + ";";
+					newCssText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";") + this.dataset.css + ": " + this.value + ";";
 				} else {
 					newCssText = oldCssText;
 				}
@@ -953,6 +953,7 @@ blockAdminCSS.prototype.getLastCSS = function(filePath, ident) {
 	if (typeof ParsimonyAdmin.CSSValuesChanges[filePath] != "undefined") {
 		if (typeof ParsimonyAdmin.CSSValuesChanges[filePath][ident] != "undefined") {
 			code = ParsimonyAdmin.CSSValuesChanges[filePath][ident].value.trim();
+			return code; //if we already cleaned up do not try to go further
 		}
 	}
 	if (code.length == 0 && typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {
