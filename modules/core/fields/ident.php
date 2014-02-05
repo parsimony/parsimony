@@ -49,11 +49,10 @@ class ident extends \field {
 	 */
 	public function validate($value) {
 		if (empty($value)) {
-			return NULL;
+			return '';
 		}
 		return filter_var($value, FILTER_VALIDATE_INT, array("options" => array("min_range" => 0)));
 	}
 
 }
 
-?>

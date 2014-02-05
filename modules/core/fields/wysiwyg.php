@@ -41,7 +41,7 @@ namespace core\fields;
 class wysiwyg extends \field {
 	
 	protected $type = 'LONGTEXT';
-	protected $characters_max = '';
+	protected $characters_max = '4294967295';
 	protected $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor';
 	protected $editMode = 'fieldwysiwyg';
 	
@@ -51,7 +51,17 @@ class wysiwyg extends \field {
 	 * @return string|false
 	 */
 	public function validate($value) {
-		return \tools::sanitize($value, $this->wysiwygModules);
+		if(empty($value) && $this->required) {
+			return FALSE;
+		} else {
+			$value = \tools::sanitize($value, $this->wysiwygModules);
+			$length = strlen($value);
+			if ($length >= $this->characters_min && $length <= $this->characters_max) {
+				return $value;
+			} else {
+				return FALSE;
+			}
+		}
 	}
 	
 	public function getEditOptions() {
@@ -62,8 +72,5 @@ class wysiwyg extends \field {
 		}
 		return  'data-wysiwygplugins="saveedit,canceledit,' . $this->wysiwygModules . '"' . str_replace('class="parsieditinline', 'class="parsieditinline field_wysiwyg', parent::getEditOptions());
 	}
-	
 
 }
-
-?>

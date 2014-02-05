@@ -329,9 +329,12 @@ class field {
 		if(empty($value) && $this->required) {
 			return FALSE;
 		} else {
-			return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
+			$length = strlen($value);
+			if ($length >= $this->characters_min && $length <= $this->characters_max) {
+				return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
+			}
+			return FALSE;
 		}
-		
 	}
 
 	/**

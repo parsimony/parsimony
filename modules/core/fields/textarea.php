@@ -51,8 +51,14 @@ class textarea extends \field {
 	 * @return string|false
 	 */
 	public function validate($value) {
-		return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#s')));
+		if(empty($value) && $this->required) {
+			return FALSE;
+		} else {
+			$length = strlen($value);
+			if ($length >= $this->characters_min && $length <= $this->characters_max) {
+				return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#s'))); /* "s" modifier in regex for multiline */
+			}
+			return FALSE;
+		}
 	}
 }
-
-?>

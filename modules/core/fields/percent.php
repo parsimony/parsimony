@@ -66,5 +66,3 @@ class percent extends \field {
 	}
 
 }
-
-?>

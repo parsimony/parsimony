@@ -133,6 +133,7 @@ if (!empty($values)) {
 		});
 	});
 </script>
+<input type="hidden" name="<?php echo $tableName . '[' . $this->name . ']' ?>" value="empty" />
 <?php
 	echo '<div id="' . $fieldName . '_list" style="height:150px;overflow-y:scroll;border: 1px solid #DFDFDF;">';
 	foreach ($words as $word) {

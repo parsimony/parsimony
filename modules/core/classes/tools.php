@@ -412,13 +412,17 @@ class tools {
 								$styles = explode(';', $value);
 								foreach ($styles AS $style) {
 									$cutStyle = explode(':', $style);
-									if (isset($allowedStyles[trim($cutStyle[0])])) {
-										$newValue .= trim($style).';';
+									$attrName = trim($cutStyle[0]);
+									$attrValue = isset($cutStyle[1]) ? trim($cutStyle[1]) : '';
+									if (isset($allowedStyles[$attrName]) && preg_match('/' . $allowedStyles[$attrName] . '/', $attrValue)) {
+										$newValue .= $attrName. ':' . $attrValue . ';';
 									}
 								}
 								$value = $newValue;
 							}
-							$innerTag .= ' ' . $name . '="' . $value . '"';
+							if(!empty($value)){
+								$innerTag .= ' ' . $name . '="' . $value . '"';
+							}
 						}
 					}
 				}
@@ -430,5 +434,3 @@ class tools {
 		return $html;
 	}
 }
-
-?>

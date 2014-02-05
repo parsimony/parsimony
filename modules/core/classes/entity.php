@@ -482,29 +482,27 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 */
 	public function getViewAddForm() {
 		if($this->getRights($_SESSION['id_role']) & INSERT){
-			$html = '<form method="post" class="form" action="">
+			$html = '<form method="post" action="">
 			<input type="hidden" name="TOKEN" value="' . TOKEN . '" />
 			<input type="hidden" name="action" value="addNewEntry">
 			<input type="hidden" name="entity" value="' . $this->_module . ' - ' . $this->_entityName . '">';
 			$col1 = '';
 			$col2 = '';
-			if($this->buildQuery()){
-				foreach ($this->fields as $field) {
-					if ($field->visibility & INSERT) {
-						$className = get_class($field);
-						$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
-						if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_boolean'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
-							$col2 .= $field->form();
-						else
-							$col1 .= $field->form();
-					} 
-				}
-				$html .= '<h2 style="position:relative">' . t('Add in') . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save') . '" name="add"></h2><div class="cols">';
-				$html .= '<div class="col col1">' . $col1 . '</div>';
-				if (!empty($col2))
-					$html .= '<div class="col col2">' . $col2 . '</div>';
-				$html .= '</div><div class="clearboth"></div></form>';
+			foreach ($this->fields as $field) {
+				if ($field->visibility & INSERT) {
+					$className = get_class($field);
+					$field->setValue((isset($_POST[$field->name]) ? $_POST[$field->name] : FALSE));
+					if ($className === \app::$aliasClasses['field_formasso'] || $className === \app::$aliasClasses['field_publication'] || $className === \app::$aliasClasses['field_boolean'] || $className === \app::$aliasClasses['field_state'] || $className === \app::$aliasClasses['field_foreignkey'] || $className === \app::$aliasClasses['field_date'] || $className === \app::$aliasClasses['field_user'])
+						$col2 .= $field->form();
+					else
+						$col1 .= $field->form();
+				} 
 			}
+			$html .= '<h2 style="position:relative">' . t('Add in') . ' ' . $this->_entityName . '<input style="position:absolute;right:3px;top:3px;" type="submit" value="' . t('Save') . '" name="add"></h2><div class="cols">';
+			$html .= '<div class="col col1">' . $col1 . '</div>';
+			if (!empty($col2))
+				$html .= '<div class="col col2">' . $col2 . '</div>';
+			$html .= '</div><div class="clearboth"></div></form>';
 			return $html;
 		}else{
 			throw new \Exception(t('Insert forbidden on ' . $this->_tableName, FALSE));

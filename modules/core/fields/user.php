@@ -51,23 +51,17 @@ class user extends \field {
 	 * @return string
 	 */
 	public function validate($value) {
-		if (empty($value) && !$this->required) {
+		if (!empty($value)) {
+			return filter_var($value, FILTER_VALIDATE_INT, array("options" => array("min_range" => 0)));
+		} elseif ($this->required) {
+			if(!($this->visibility & INSERT)) {
+				return $_SESSION['id_user'];
+			} else {
+				return FALSE;
+			}
+		} else {
 			return '';
-		}elseif (/* $this->visibility & INSERT && $this->visibility & UPDATE && */ is_numeric($value)) {
-			return $value;
 		}
-		return $_SESSION['id_user'];
 	}
 
-	/*public function setValue($value) {
-		if(isset($_SESSION['id_user']) && $_SESSION['id_user'] ==  $value){
-			$this->row->isAuthor = TRUE;
-		}else{
-			$this->row->isAuthor = FALSE;
-		}
-		$this->value = $value;
-	}*/
-
 }
-
-?>

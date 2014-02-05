@@ -74,10 +74,10 @@ class formasso extends \field {
 
 		/* Get old links */
 		$old = array();
-		foreach($assoEntity->where($idEntity .' = '. $vars[':' . $idEntity])->fetchAll(\PDO::FETCH_ASSOC) as $oldRows){
+		foreach(\PDOconnection::getDB()->query('SELECT ' . PREFIX . $assoEntity->getTableName() . '.* FROM ' . PREFIX . $assoEntity->getTableName() . ' WHERE ' . $idEntity .' = '. $vars[':' . $idEntity], \PDO::FETCH_ASSOC) as $oldRows){
 			$old[$oldRows[$idNameForeignEntity]] = $oldRows[$idAsso];
 		}
-
+		
 		/* Add new links */
 		if (!empty($this->value) && is_array($this->value)) { /* is_array in case all items are removed and $this->value == "empty" */
 			foreach ($this->value as $idForeign => $value) {

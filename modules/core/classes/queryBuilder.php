@@ -406,10 +406,9 @@ class queryBuilder {
 
 			/* DB PREFIX */
 			if (PREFIX !== '') {/* must be before pagination */
-				$query .= ' '; /* tip to replace from table */
+				$query .= ' '; /* tip to replace table name */
 				foreach ($this->_SQL['froms'] AS $table) {
-					$query = str_replace($table . ' ', PREFIX . $table . ' ', $query);
-					$query = str_replace($table . '.', PREFIX . $table . '.', $query);
+					$query = preg_replace('/([,\s\(])' . $table . '([\.\s])/', '$1' . PREFIX . $table . '$2', $query);
 				}
 			}
 
