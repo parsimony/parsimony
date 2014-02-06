@@ -245,7 +245,7 @@ function blockAdminCSS() {
 		.on('click.creation', ".explorer", function() {
 			window.callbackExplorerID = this.getAttribute("rel");
 			window.callbackExplorer = function(file) {
-				$("#" + window.callbackExplorerID).val(file);
+				$("#" + window.callbackExplorerID).val(BASE_PATH + file);
 				$("#" + window.callbackExplorerID).trigger('change');
 				window.callbackExplorer = function(file) {
 					return false;
