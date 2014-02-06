@@ -246,7 +246,7 @@ app::$response->page->addJSFile('admin/blocks/css/block.js','footer');
 			</div>
 			<div class="panelcss_tab hiddenTab" id="panelcss_tab_type">
 				<label for="text_font">Family</label>
-				<input type="text" style="width: 168px;" class="liveconfig autocomplete" id="text_font" data-options='["Arial, Helvetica, sans-serif","Times New Roman, Times, serif","Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' data-css="font-family" />
+				<input type="text" style="width: 168px;" class="liveconfig prop_font-family autocomplete" id="text_font" data-options='["Arial, Helvetica, sans-serif","Times New Roman, Times, serif","Courier New, Courier, mono","Times New Roman, Times, serif","Georgia, Times New Roman, Times, serif","Verdana, Arial, Helvetica, sans-serif","Geneva, Arial, Helvetica, sans-serif"]' data-css="font-family" />
 				<div class="leftpart" style="display:inline-block;vertical-align:top;width: 95px;">
 					<label for="text_size">Size</label>
 					<input class="liveconfig prop_font-size spinner" type="text" placeholder="normal" data-css="font-size" data-sufix="px">

@@ -234,31 +234,11 @@ function blockAdminCSS() {
 
 			/* Save change, we update from our old CSS string ( from CSSValuesChanges obj ) because shorthand propeties are exploded in CSS rules ( background => background-color..etc */
 			var currentSelector = document.getElementById("current_selector_update").value;
-			var newCssText;
 			var key = $this.currentMediaText.replace(/\s+/g, '') + currentSelector;
 			/* Get last CSS code */
 			var oldCssText = $this.getLastCSS($this.currentFile, key);
 
-			if (oldCssText.length == 0)
-				oldCssText = this.dataset.css + ":" + this.value + ";";
-
-			/* We check if property is already set, must manage with : min-width and width props like */
-			if (oldCssText.match(new RegExp("[^a-z-]*" + this.dataset.css + "[\s ]?:")) != null) {
-				if (this.value.length > 0) {
-					newCssText = oldCssText.replace(new RegExp("([^a-z-]*)(" + this.dataset.css + "[^;]*)"), "$1" + this.dataset.css + ": " + this.value);
-					console.log(newCssText);
-				} else { /* if there is no value we delete property */
-					newCssText = oldCssText.replace(new RegExp("([^a-z-]*)" + this.dataset.css + "[^;]*[;]?"), "$1");
-				}
-			} else {
-				if (this.value.length > 0) {
-					newCssText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";") + this.dataset.css + ": " + this.value + ";";
-				} else {
-					newCssText = oldCssText;
-				}
-			}
-
-			$this.setCssChange($this.currentFile, currentSelector, newCssText, $this.currentMediaText);
+			$this.setCssChange($this.currentFile, currentSelector, $this.updateCSSText(oldCssText, this.dataset.css, this.value), $this.currentMediaText);
 		})
 
 		/* Explorer */
@@ -977,7 +957,7 @@ blockAdminCSS.prototype.displayCSSConf = function(filePath, selector, media) {
 	/* Clean form */
 	document.getElementById("form_css").reset(); // reset all input except inputs hidden
 	$(".modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
-	document.getElementById("backTest").style.background = "url(/parsimony_cms/admin/img/transparent.png)"; // clean background
+	document.getElementById("backTest").style.background = "url(admin/img/transparent.png)"; // clean background
 	$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker'); // clean cssPicker marker
 	document.getElementById("panelcss").classList.remove("CSSSearchBTNS");
 	document.getElementById("panelcss").classList.remove("CSSSearch");
@@ -1271,8 +1251,30 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 }
 
 blockAdminCSS.prototype.formatCSS = function(css) {
-	/* must manage with back : #ffffff and back: url(http://dom), and font-family: 'Segoe UI', Tahoma, Helvetica, sans-serif; */
-	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#']*/g, "$1$2 ");
+	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#'"]*/g, "$1$2 ");
+}
+
+blockAdminCSS.prototype.updateCSSText = function(oldCssText, property, newValue) {
+	var newCSSText = "";
+	
+	if (oldCssText.length == 0)
+		oldCssText = property + ":" + newValue + ";";
+
+	/* We check if property is already set; must manage with : min-width and width props like  */
+	if (oldCssText.match(new RegExp("(^|[^a-z-])" + property + "[^:]*:")) != null) {
+		if (newValue.length > 0) {
+			newCSSText = oldCssText.replace(new RegExp("(^|[^a-z-])(" + property + "[^;]*)"), "$1" + property + ": " + newValue);
+		} else { /* if there is no value we delete property */
+			newCSSText = oldCssText.replace(new RegExp("(^|[^a-z-])" + property + "[^;]*[;]?"), "$1");
+		}
+	} else {
+		if (newValue.length > 0) {
+			newCSSText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";") + property + ": " + newValue + ";";
+		} else {
+			newCSSText = oldCssText;
+		}
+	}
+	return newCSSText;
 }
 
 blockAdminCSS.prototype.openCSSForm = function() {
