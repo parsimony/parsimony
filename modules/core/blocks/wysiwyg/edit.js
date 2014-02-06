@@ -13,7 +13,7 @@ $(document).ready(function() {
 				this.name = "savewysiwygblock";
 				this.command = "none"; // fix firefox
 				this.category = "edit";
-				this.position = "-320px -32px";
+				this.position = "-416px -32px";
 				this.onClick = function(e, editor, elmt) {
 					window.parsiEdit.tools['blockwysiwyg'].onSave();
 				}
@@ -26,7 +26,7 @@ $(document).ready(function() {
 				this.name = "cancelwysiwygblock";
 				this.command = "none"; // fix firefox
 				this.category = "edit";
-				this.position = "-320px -32px";
+				this.position = "-448px -32px";
 				this.onClick = function(e, editor, elmt) {
 					window.parsiEdit.tools['blockwysiwyg'].onCancel();
 				}

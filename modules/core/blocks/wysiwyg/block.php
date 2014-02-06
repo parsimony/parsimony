@@ -64,7 +64,15 @@ class wysiwyg extends code {
 		\app::$response->page->addJSFile('core/blocks/wysiwyg/edit.js');
 		\app::$response->page->addCSSFile('core/css/editinline.css');
 	}
+	
+	public function display() {
+		/* todo: make wysiwygplugins configurable  */
+		$this->setConfig('attributes', 'data-wysiwygplugins="savewysiwygblock,cancelwysiwygblock,bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor,code"');
+		return parent::display();
+	}
 
 }
-\app::addListener('editLoad', array('core\blocks\wysiwyg', 'loadExternalFiles'));
+if($_SESSION['behavior'] > 1){
+	\app::addListener('beforePageLoad', array('core\blocks\wysiwyg', 'loadExternalFiles'));
+}
 ?>
