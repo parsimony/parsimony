@@ -551,7 +551,7 @@ function blockAdminCSS() {
 			if (back_im.length > 0) {
 				back_im = "url(" + back_im + ") ";
 			} else if (color.length == 0) {
-				back_im = " url(/parsimony_cms/admin/img/transparent.png) "
+				back_im = " url(admin/img/transparent.png) "
 			}
 
 			//var size = document.querySelector(".prop_background-size").value;
@@ -563,7 +563,7 @@ function blockAdminCSS() {
 					document.querySelector(".prop_background-origin").value + ' ' +
 					document.querySelector(".prop_background-clip").value;
 			back = back.replace(/[\s]{2,}/g, ' ');
-			document.querySelector(".prop_background").value = back.replace(" url(/parsimony_cms/admin/img/transparent.png)", "");
+			document.querySelector(".prop_background").value = back.replace(" url(admin/img/transparent.png)", "");
 			trigger(document.querySelector(".prop_background"), "change");
 			document.getElementById("backTest").style.background = back;
 		})
