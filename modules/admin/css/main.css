@@ -11,7 +11,7 @@ body.closeright #right_sidebar{right:-230px}
 
 /*############## SideBars ################# */
 
-.sidebar{position:fixed;width: 200px;height: 100%;padding-top: 35px;z-index: 1;/*overflow-y: auto;overflow-x: auto; todo*/
+.sidebar{position:fixed;width: 200px;height: 100%;padding-top: 35px;z-index: 1;overflow: auto;
          transition: left 0.1s, right 0.1s;background: #fafafa;color: #444;display:none}
 
 /* Sidebars Tabs */
