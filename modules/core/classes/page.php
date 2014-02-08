@@ -331,11 +331,9 @@ class page extends \block {
 		$html = PHP_EOL;
 		if (!empty($this->includes[$position]['css']['http']))
 			$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
-		array_unshift($this->includes[$position]['css']['local'], 'core/css/parsimony.css');
 		$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
 		if (!empty($this->includes[$position]['js']['http']))
 			$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
-		array_unshift($this->includes[$position]['js']['local'], 'core/js/parsimony.js');
 		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
 		return $html;
 	}
@@ -420,12 +418,12 @@ class page extends \block {
 	 * @param string $cssFile
 	 */
 	public function addCSSFile($cssFile, $position = 'header') {
-		if (substr($cssFile, 0, 2) == '//' || substr($cssFile, 0, 7) == 'http://') {
-			if (!in_array($cssFile, $this->includes[$position]['css']['http']))
-				$this->includes[$position]['css']['http'][] = $cssFile;
-		}else {
-			if (!in_array($cssFile, $this->includes[$position]['css']['local']))
-				$this->includes[$position]['css']['local'][] = $cssFile;
+		$type = 'local';
+		if (strstr($cssFile, '//')) {
+			$type = 'http';
+		}
+		if (!in_array($cssFile, $this->includes[$position]['css'][$type])) {
+				$this->includes[$position]['css'][$type][] = $cssFile;
 		}
 	}
 
@@ -444,12 +442,12 @@ class page extends \block {
 	 * @param string $jsFile
 	 */
 	public function addJSFile($jsFile, $position = 'header') {
+		$type = 'local';
 		if (strstr($jsFile, '//')) {
-			if (!in_array($jsFile, $this->includes[$position]['js']['http']))
-				$this->includes[$position]['js']['http'][] = $jsFile;
-		}else {
-			if (!in_array($jsFile, $this->includes[$position]['js']['local']))
-				$this->includes[$position]['js']['local'][] = $jsFile;
+			$type = 'http';
+		}
+		if (!in_array($jsFile, $this->includes[$position]['js'][$type])){
+			$this->includes[$position]['js'][$type][] = $jsFile;
 		}
 	}
 
@@ -494,5 +492,3 @@ class page extends \block {
 	}
 
 }
-
-?>

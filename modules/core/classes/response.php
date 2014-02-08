@@ -85,8 +85,12 @@ class response {
 
 			$this->page = $body; /* Save page object */
 			
-			\app::dispatchEvent('beforePageLoad');
+			/* Init defaults JS and CSS for CMS pages */
+			$this->page->addJSFile('core/js/parsimony.js');
+			$this->page->addCSSFile('core/css/parsimony.css');
 			
+			\app::dispatchEvent('beforePageLoad');
+
 			$theme = $this->page->getTheme();
 			
 			if ($theme instanceof theme) {
