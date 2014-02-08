@@ -65,8 +65,10 @@ $(document).ready(function() {
 			});
 		},
 		onCancel: function() {
-			parsiEdit.currentElmt.innerHTML = parsiEdit.oldValue;
-			parsiEdit.oldValue = null;
+			if(parsiEdit.oldValue != null) {
+				parsiEdit.currentElmt.innerHTML = parsiEdit.oldValue;
+				parsiEdit.oldValue = null;
+			}
 			$(".HTML5editorToolbar").hide();
 			//parsiEdit.currentElmt.setAttribute("contenteditable", "false");
 		}
