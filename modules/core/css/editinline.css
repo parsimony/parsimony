@@ -1,11 +1,14 @@
 /* editinplace */
 .parsieditinline:hover, .block_wysiwyg:hover{outline:1px orange solid;}
-.parsieditinline {display: inline-block;position:relative}
+.parsieditinline {position:relative}
+.fieldeditinline.parsieditinline {display: inline-block;}
 #editArea{position: absolute;display:none}
-#toolbarEdit{position: absolute;top: -27px;background: #ccc;color: #fefefe;line-height: 26px;white-space: nowrap;box-shadow: 0px 0px 3px #444;font-size: 14px;}
+#toolbarEdit{position: absolute;top: -27px;background: #ccc;color: #fefefe;line-height: 26px;white-space: nowrap;box-shadow: 0px 0px 3px #444;
+			 font-size: 13px;height: 27px;box-sizing: border-box;}
 #toolbarEdit > div{display: inline-block; padding: 0 4px;  line-height: 26px;}
-.editMode .parsieditinline:not(.editing):hover::before{content: "Edit: " attr(data-label);position: absolute;top: -27px;z-index: 999;background: #ccc;color: #fefefe;padding: 5px;font-size: 12px;
-font-weight: normal;}
+.editMode .parsieditinline:not(.editing):hover::before{content: "Edit " attr(data-label);position: absolute;top: -23px;left:0;
+border-radius: 2px 2px 0 0;z-index: 99;background: #ccc;color: #fefefe;padding: 5px;font-size: 12px;font-size: 12px;box-sizing: border-box;
+height: 22px;font-weight: normal;}
 #saveEdit{width: 40px; border-right: 1px solid #DBDBDB;cursor:pointer;}
 #cancelEdit{ width: 13px;cursor:pointer;}
 #editForm{position: absolute;width: 100%;min-width: 250px;box-shadow: 0px 0px 3px #444;background:white;height:25px;width:25px}
