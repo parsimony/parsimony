@@ -114,13 +114,15 @@ class response {
 				}
 				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";top.ParsimonyAdmin.CSSValues = ' . json_encode(array($pathTheme => $CSSValues)) . ';' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
-
-				/* Wrap body with HTML structure */
+			
+			\app::dispatchEvent('afterPageLoad');
+			
+			/* Wrap body with HTML structure */
 			ob_start();
 			include('core/views/index.php');
 			$body = ob_get_clean();
 			
-			\app::dispatchEvent('afterPageLoad', array(&$body)); 
+			\app::dispatchEvent('beforePageDisplay', array(&$body)); /* allow to process files before they are sent to the client */
 			
 		}
 

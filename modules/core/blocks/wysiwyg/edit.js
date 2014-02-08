@@ -5,6 +5,8 @@ $(document).ready(function() {
 
 			if (typeof window['wysiwygy'] == "undefined") {
 				window['wysiwygy'] = new wysiwyg();
+				window['wysiwygy'].init(".core_wysiwyg, .field_wysiwyg", ["bold", "underline", "italic", "justifyLeft", "justifyCenter", "justifyRight", "strikeThrough", "subscript", "superscript", "orderedList", "unOrderedList", "outdent", "indent", "removeFormat", "createLink", "unlink", "formatBlock", "foreColor", "hiliteColor"]);
+				$(".HTML5editorToolbar").hide();
 			}
 
 			window['wysiwygy']['widgets']['savewysiwygblock'] = function() {
@@ -32,9 +34,7 @@ $(document).ready(function() {
 				}
 
 			}
-			
-			window['wysiwygy'].init(".core_wysiwyg, .field_wysiwyg", ["savewysiwygblock", "cancelwysiwygblock", "bold", "underline", "italic", "justifyLeft", "justifyCenter", "justifyRight", "strikeThrough", "subscript", "superscript", "orderedList", "unOrderedList", "outdent", "indent", "removeFormat", "createLink", "unlink", "formatBlock", "foreColor", "hiliteColor"]);
-			$(".HTML5editorToolbar").hide();
+				
 		},
 		onClick: function() {
 			if(typeof parsiEdit.oldValue == "undefined" || parsiEdit.oldValue == null){
