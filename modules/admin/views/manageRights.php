@@ -38,13 +38,13 @@ $role = app::getModule('core')->getEntity('role');
 	.secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}
 	.entity{font-weight: bold;}
 	.rolecss{color: #555;text-transform: capitalize;margin-left: 10px;}
-	/*.disabled{background-color: #F1F1F1;}*/
 	.fieldbg{background-color: rgb(250, 252, 251) !important;}
 	.fieldname{padding : 0 10px 0 30px; text-align:left !important;}
 	.legmod{display: block;text-transform: capitalize;margin: 4px 7px 0px 5px;color: #464646;padding: 3px 7px;font-size: 14px;border: 1px solid #f0f0f0;border-radius: 5px;background-color: #F1F1F1;
 			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 			background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
-	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #f0f0f0;margin: 10px;border-radius: 8px;padding-bottom: 10px;}</style>
+	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #f0f0f0;margin: 10px;border-radius: 8px;padding-bottom: 10px;}
+</style>
 <script>
 $(document).ready(function() {
 	$(".modelArea").on('change', 'input[type="checkbox"]', function(){
@@ -195,15 +195,17 @@ $(document).ready(function() {
 													<td class="' . $modelName . '"><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . '></td>';
 
 											foreach ($myModel->getFields() as $fieldName => $field) {
-												$rights = $field->getRights($row->id_role);
-												if($rights === null) $rights = 0;
-												$obj->$modelName->fields->$fieldName = $rights;
-													echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
-													'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
-													<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
-													<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
-													<td class="disabled"></td>
-													</tr>';
+												if($field->entity->getName() === $modelName) { /* avoid pb with extended entities */
+													$rights = $field->getRights($row->id_role);
+													if($rights === null) $rights = 0;
+													$obj->$modelName->fields->$fieldName = $rights;
+														echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
+														'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
+														<td class="disabled"></td>
+														</tr>';
+												}
 											}
 									 }
 
