@@ -663,7 +663,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	</div>
 	<div id="leftsidebar" class="areaWrite">
 		<div>
-			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('New Fields'); ?></h2>
+			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('Fields'); ?></h2>
 			<div id="field_list">
 				<?php
 				function filterprops($val){ return $val !== NULL;};
