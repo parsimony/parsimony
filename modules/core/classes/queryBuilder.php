@@ -491,16 +491,20 @@ class queryBuilder {
 	  * @return object|false
 	  */
 	 public function valid() {
-		 if($this->_SQL['position'] !== FALSE){
-			 return TRUE;
-		 }else{
-			 if(method_exists($this, 'afterSelect')){
-				 $this->afterSelect();
-			 }
-			 unset($this->_SQL['firstFetch']); /* allow to re-exec query */
-			 return FALSE;
-		 }
-	 }
+		 if ($this->_SQL['position'] !== FALSE) {
+			return TRUE;
+		} else {
+			if (method_exists($this, 'afterSelect')) {
+				$this->afterSelect();
+			}
+			/* Clear values of fields, for future queries */
+			foreach ($this->getFields() as $field) {
+				$field->setValue(NULL);
+			}
+			unset($this->_SQL['firstFetch']); /* allow to re-exec query */
+			return FALSE;
+		}
+	}
 	 
 	 public function isEmpty() {
 		 if(!isset($this->_SQL['firstFetch'])){
