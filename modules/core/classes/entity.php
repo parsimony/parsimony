@@ -358,7 +358,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			if($mainEntity === TRUE){
 				\PDOconnection::getDB()->beginTransaction();
 			}
-			$this->beforeDelete();
+			if($this->beforeDelete($id) === FALSE) return FALSE;
 			$query = 'DELETE FROM ' . PREFIX . $this->_tableName . ' WHERE ' . $this->getId()->name . ' = :id';
 			$sth = PDOconnection::getDB()->prepare($query);
 			$res = $sth->execute(array(':id' => $id));
@@ -600,7 +600,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 /**
 	  * Event before delete
 	  */
-	 public function beforeDelete() {
+	 public function beforeDelete($id) {
 
 	 }
 

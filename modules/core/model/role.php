@@ -21,8 +21,11 @@ class role extends \entity {
 
 	}
 
-
-
+	public function beforeDelete($id) {
+		if ($id < 7) { /* Can't delete predefined roles' */
+			return FALSE;
+		}
+	}
 
 
 
