@@ -107,13 +107,13 @@ class field {
 	 * @return mixed 
 	 */
 	public function __get($name) {
-		if (isset($this->$name))
+		if (isset($this->$name)) {
 			return $this->$name;
-		
-		else { /* allow us to defines these vars just once a time */
+		} elseif($name === 'getEditOptions') {
+			return $this->getEditOptions = $this->getEditOptions();
+		} else { /* allow us to defines these vars just once a time */
 			$fieldPath = 'modules/' . str_replace('\\', '/', get_class($this)); /* __get can't recall himself */
 			$this->currentRights = $this->getRights($_SESSION['id_role']);
-			$this->getEditOptions = $this->getEditOptions();
 			
 			/* Determine if current user has the right to editinline */
 			if ($this->currentRights & DISPLAY) {
