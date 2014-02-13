@@ -140,8 +140,6 @@ $(document).ready(function() {
 					if(result != 0){
 						parsiEdit.currentElmt.innerHTML = result;
 						$("#editArea").hide();
-					}else{
-						alert("Error");
 					}
 				}
 			});
