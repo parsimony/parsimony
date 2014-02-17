@@ -18,7 +18,7 @@
 /* {pagination container} */
 .pagination {text-align:center}
 /* {pagination buttons} */
-.pagination li {display: inline-block;width: 13px;list-style:none;
+.pagination li {display: inline-block;width: 13px;list-style:none;}
 /* {pagination current slide} */
 .pagination li.current a {}
 .pagination li.current {background-position:0 -12px;}
