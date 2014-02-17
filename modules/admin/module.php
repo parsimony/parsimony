@@ -112,7 +112,7 @@ class module extends \module {
 			}
 			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/' . $THEMETYPE . '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
-				$newSelector = '#' . $idBlock . ' ' . $selector;
+				$newSelector = '#' . $idBlock . ' ' . str_replace(':host', '', $selector);
 				if (!$cssCurrentTheme->selectorExists($newSelector)) {
 					$cssCurrentTheme->addSelector($newSelector);
 				}
@@ -130,7 +130,7 @@ class module extends \module {
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
 		if ($this->$stop_typecont->searchBlock($idBlock) != NULL) {
-			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$response->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->page->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
+			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$response->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
 		}
 		else
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
@@ -204,7 +204,7 @@ class module extends \module {
 				$block->setConfig($configName, $val);
 			}
 		}
-		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$response->page->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->page->getCSSFiles()), 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
+		$return = array('eval' => $block->ajaxRefresh(),  'jsFiles' => json_encode(\app::$response->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->getCSSFiles()), 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		$this->saveAll(); // save objects in last to avoid call __sleep() before getting content of the block ( this->display in ajaxRefresh() ), eg. block query
 		return $this->returnResult($return);
 	}

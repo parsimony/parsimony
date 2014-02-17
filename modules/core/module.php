@@ -147,7 +147,7 @@ class module extends \module {
 
 	public function loadExternalFiles() {
 		if (!defined('PARSI_ADMIN')) {
-			\app::$response->page->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
+			\app::$response->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
 		}
 	}
 

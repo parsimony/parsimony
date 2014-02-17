@@ -25,12 +25,12 @@
  * @package core/fields
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-app::$response->page->addJSFile('lib/HTML5editor/HTML5editor.js');
-app::$response->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
+app::$response->addJSFile('lib/HTML5editor/HTML5editor.js');
+app::$response->addCSSFile('lib/HTML5editor/HTML5editor.css');
 
 echo $this->displayLabel($fieldName);
 ?>
-<div style="padding-top: 24px;width:700px">
+<div style="padding-top: 24px;">
 	<textarea cols="50" rows="14" id="<?php echo $fieldName; ?>" class="<?php echo $fieldName; ?>" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" <?php if (!empty($this->regex)) echo 'pattern="' . $this->regex . '"' ?> ><?php echo s($value) ?></textarea>
 </div>
 <script>

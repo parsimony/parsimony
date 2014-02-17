@@ -45,18 +45,7 @@ class tabs extends \core\blocks\container{
 		$html = '';
 		$this->setConfig('cssClasses','container');
         if (!empty($this->blocks)) {
-			\app::$response->page->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style><script>
-		$(document).ready(function() {
-                    $("#'.$this->getId().' .tabsContainer li:first").addClass("active");
-                    $("#'.$this->getId().' .tabsContainer").on("click","a",function (e) {
-                        e.preventDefault();
-                        $("#'.$this->getId().' .tabsContainer li").removeClass("active");
-                        $(this).parent().addClass("active");
-                        $("#'.$this->getId().' > .parsiblock").hide();
-                        $($(this).attr("href")).show();
-                    });
-                });
-		</script>';
+			\app::$response->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:none;}#' . current($this->blocks)->getId() . '.parsiblock{display:block;} </style>';
 			$html .= '<ul class="tabsContainer">';
 			foreach ($this->blocks as $selected_block) {
 			$title = $selected_block->getConfig('headerTitle');
@@ -64,9 +53,9 @@ class tabs extends \core\blocks\container{
 			}
 			$html .= '</ul>';
 		}
-		return $html;
+		return $html.parent::getView();
     }
-
+	
 }
 
-?>
+\app::$response->addJSFile('modules/core/blocks/tabs/block.js', 'footer');

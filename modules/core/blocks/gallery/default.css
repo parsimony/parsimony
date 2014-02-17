@@ -1,30 +1,29 @@
 /* {slider} */
-.slider {position:relative;}
+:host {position:relative;overflow: hidden;}
 /* {sliders container slide} */
-.slides_container {overflow:hidden;position:relative;display:none;}
+.slides {position:relative;white-space:nowrap;transition: left 0.2s;}
 /* {each slide} */
-.slide {display:block;}
-/* {slider} */
-.slideNav{position:absolute;top:40%;width:24px;height:43px;display:block;z-index:101;}
-/* {previous button} */
-.prev {left:-24px;}
-/* {next button} */
-.next {right:-24px;}
-/* {pagination container} */
-.paginationSlides {text-align:center}
-/* {pagination buttons} */
-.paginationSlides li {display: inline-block;width: 13px;list-style:none;background:url(BASE_PATHcore/blocks/gallery/plugins/slides/pagination.png);}
-/* {pagination current slide} */
-.paginationSlides li.current a {}
-.paginationSlides li.current {background-position:0 -12px;}
-/* {pagination links} */
-.paginationSlides li a {display:block;width:100%;height:100%;opacity:0;filter: alpha(opacity=0);}
-/* {captions container} */
-.caption {z-index:500;position:absolute;bottom:-35px;left:0;width:100%;padding:7px 20px 7px 20px;background:#000;background:rgba(0,0,0,0.8);text-transform: capitalize;
-	font-size:14px;color:#fff;border-top:1px solid #333;}
-/* {caption} */
-.caption p{}
+.slide {display:inline-block;width: 100%;position: relative;}
 /* {slide links} */
-.slide a{}
+.slide a{width: 100%;}
 /* {images} */
-.slide img{}
+.slide img{width: 100%;}
+/* {slider} */
+.slideNav{position: absolute;top: 40%;z-index: 1;text-decoration: none;background: rgba(0, 0, 0, 0.2);
+		  color: #FFF;font-size: 25px;padding: 7px;}
+/* {previous button} */
+.prev {left:0;}
+/* {next button} */
+.next {right:0;}
+/* {pagination container} */
+.pagination {text-align:center}
+/* {pagination buttons} */
+.pagination li {display: inline-block;width: 13px;list-style:none;
+/* {pagination current slide} */
+.pagination li.current a {}
+.pagination li.current {background-position:0 -12px;}
+/* {pagination links} */
+.pagination li a {display:block;width:100%;height:100%;opacity:0;filter: alpha(opacity=0);}
+/* {captions} */
+.slide .caption {z-index:2;position:absolute;bottom:0;left:0;right:0%;padding:7px 20px 7px 20px;background:#000;background:rgba(0,0,0,0.8);text-transform: capitalize;
+		 font-size:14px;color:#fff;border-top:1px solid #333;}

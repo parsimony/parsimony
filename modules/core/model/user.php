@@ -28,8 +28,8 @@ class user extends \entity {
 		$this->id_role = $id_role;
 
 	}
-
-
+	
+	
 
 
 

@@ -7,7 +7,7 @@ body.closeright{margin-right:0;}
 body.closeleft #left_sidebar{left:-200px}
 body.closeright #right_sidebar{right:-230px}
 
-#admintoolbar{font-size: 13px;text-align: center;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
+#admintoolbar{font-size: 13px;text-align: center;height: 100%;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 
 /*############## SideBars ################# */
 

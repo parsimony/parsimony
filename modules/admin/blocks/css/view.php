@@ -26,9 +26,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$response->page->addCSSFile('lib/colorpicker/colorpicker.css');
-app::$response->page->addJSFile('lib/colorpicker/colorpicker.js');
-app::$response->page->addJSFile('admin/blocks/css/block.js','footer');
+app::$response->addCSSFile('lib/colorpicker/colorpicker.css');
+app::$response->addJSFile('lib/colorpicker/colorpicker.js');
+app::$response->addJSFile('admin/blocks/css/block.js','footer');
 
 ?>
 <div id="toolChanges">

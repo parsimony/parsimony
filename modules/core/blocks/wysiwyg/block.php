@@ -59,11 +59,11 @@ class wysiwyg extends code {
 	}
 	
 	public static function loadExternalFiles() {
-		\app::$response->page->addJSFile('core/js/editinline.js');
-		\app::$response->page->addCSSFile('core/css/editinline.css');
-		\app::$response->page->addJSFile('lib/HTML5editor/HTML5editor.js');
-		\app::$response->page->addCSSFile('lib/HTML5editor/HTML5editor.css');
-		\app::$response->page->addJSFile('core/blocks/wysiwyg/edit.js');
+		\app::$response->addJSFile('core/js/editinline.js');
+		\app::$response->addCSSFile('core/css/editinline.css');
+		\app::$response->addJSFile('lib/HTML5editor/HTML5editor.js');
+		\app::$response->addCSSFile('lib/HTML5editor/HTML5editor.css');
+		\app::$response->addJSFile('core/blocks/wysiwyg/edit.js');
 	}
 	
 	public function display() {

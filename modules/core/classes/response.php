@@ -35,29 +35,25 @@ namespace core\classes{
  */
 class response {
 
-	/**
-	 * @var integer status of HTTP response
-	 */
+	/** @var integer status of HTTP response */
 	protected $status = 200;
 
-	/**
-	 * @var string format of HTTP response
-	 */
+	/** @var string format of HTTP response */
 	protected $format = 'html';
 
-	/**
-	 * @var string charset of HTTP response
-	 */
+	/** @var string charset of HTTP response */
 	protected $charset = 'utf-8';
 
-	/**
-	 * @var array of headers 
-	 */
+	/** @var array of headers */
 	protected $headers = array();
+	
+	/** @var string */
+	private $includes = array('header' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())), 'footer' => array('css' => array('http' => array(), 'local' => array()), 'js' => array('http' => array(), 'local' => array())));
 
-	/** 
-	 * @var string $body 
-	 */
+	/** @var string */
+	public $head = '';
+
+	/** @var string $body */
 	protected $body = '';
 	
 	/** @var page Page object */
@@ -86,8 +82,8 @@ class response {
 			$this->page = $body; /* Save page object */
 			
 			/* Init defaults JS and CSS for CMS pages */
-			$this->page->addJSFile('core/js/parsimony.js');
-			$this->page->addCSSFile('core/css/parsimony.css');
+			$this->addJSFile('core/js/parsimony.js');
+			$this->addCSSFile('core/css/parsimony.css');
 			
 			\app::dispatchEvent('beforePageLoad');
 
@@ -96,7 +92,7 @@ class response {
 			if ($theme instanceof theme) {
 				define('THEMEMODULE', $theme->getModule());
 				define('THEME', $theme->getName());
-				$this->page->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
+				$this->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
 				$body = $theme->display(); /* Display with theme */
 			} else{
 				define('THEMEMODULE', '');
@@ -112,7 +108,8 @@ class response {
 				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 				$css = new css(PROFILE_PATH . $pathTheme);
 				$CSSValues = $css->getCSSValues();
-
+				
+				$script = '';
 				if ($_SESSION['behavior'] === 2) {
 					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
 				}
@@ -196,6 +193,108 @@ class response {
 	 */
 	public function getHeader($label) {
 		return $this->headers[$label];
+	}
+	
+	/**
+	 * Concat JS or CSS Files
+	 * @param array $module
+	 */
+	public function concatFiles(array $files, $format) {
+		$hash = $format . 'concat_' . md5(implode('', $files));
+		$pathCache = 'profiles/' . PROFILE . '/modules/' . app::$config['modules']['default'] . '/' . $hash . '.' . $format;
+		if (!is_file($pathCache) || app::$config['dev']['status'] !== 'prod') {
+			ob_start();
+			foreach ($files as $file) {
+				$pathParts = pathinfo($file, PATHINFO_EXTENSION);
+				if ($pathParts === 'js' || $pathParts === 'css') {
+					$path = stream_resolve_include_path($file);
+					if ($_SESSION['behavior'] && $pathParts == 'css')
+						echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
+					if ($path)
+						include($path);
+					echo PHP_EOL; //in order to split JS script and avoid "}function"
+				}else {
+					return FALSE;
+				}
+			}
+			$content = ob_get_clean();
+			\tools::createDirectory(dirname($pathCache));
+			file_put_contents($pathCache, $content);
+		}
+		return $hash . '.' . $format;
+	}
+	
+	
+	/**
+	 * Get inclusions
+	 * @return string
+	 */
+	public function getInclusions($position = 'header') {
+		return $this->includes[$position];
+	}
+
+	/**
+	 * Get HTML inclusions
+	 * @return string
+	 */
+	public function printInclusions($position = 'header') {
+		$html = PHP_EOL;
+		if (!empty($this->includes[$position]['css']['http']))
+			$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . implode('" /><link rel="stylesheet" type="text/css" href="', $this->includes[$position]['css']['http']) . '" />';
+		$html .= PHP_EOL . "\t\t" . '<link rel="stylesheet" type="text/css" href="' . BASE_PATH . $this->concatFiles($this->includes[$position]['css']['local'], 'css') . '" />';
+		if (!empty($this->includes[$position]['js']['http']))
+			$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . implode('"> </SCRIPT><SCRIPT type="text/javascript" SRC="', $this->includes[$position]['js']['http']) . '"> </SCRIPT>';
+		$html .= PHP_EOL . "\t\t" . '<SCRIPT type="text/javascript" SRC="' . BASE_PATH . $this->concatFiles($this->includes[$position]['js']['local'], 'js') . '"> </SCRIPT>' . PHP_EOL;
+		return $html;
+	}
+	
+	
+	/**
+	 * Add CSS File to includes
+	 * @param string $position header or footer
+	 * @param string $cssFile
+	 */
+	public function addCSSFile($cssFile, $position = 'header') {
+		$type = 'local';
+		if (strstr($cssFile, '//')) {
+			$type = 'http';
+		}
+		if (!in_array($cssFile, $this->includes[$position]['css'][$type])) {
+				$this->includes[$position]['css'][$type][] = $cssFile;
+		}
+	}
+
+	/**
+	 * Get CSS Files included
+	 * @param string $position header or footer
+	 * @return array
+	 */
+	public function getCSSFiles($position = 'header') {
+		return array_merge($this->includes[$position]['css']['http'], $this->includes[$position]['css']['local']);
+	}
+
+	/**
+	 * Add Javascript File to includes
+	 * @param string $position header or footer
+	 * @param string $jsFile
+	 */
+	public function addJSFile($jsFile, $position = 'header') {
+		$type = 'local';
+		if (strstr($jsFile, '//')) {
+			$type = 'http';
+		}
+		if (!in_array($jsFile, $this->includes[$position]['js'][$type])){
+			$this->includes[$position]['js'][$type][] = $jsFile;
+		}
+	}
+
+	/**
+	 * Get Javascript Files included
+	 * @param string $position header or footer
+	 * @return array
+	 */
+	public function getJSFiles($position = 'header') {
+		return array_merge($this->includes[$position]['js']['http'], $this->includes[$position]['js']['local']);
 	}
 
 	/**

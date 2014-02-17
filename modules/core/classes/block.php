@@ -242,21 +242,21 @@ abstract class block {
 				   $attributes .= ' '.$config;
 					break;
 				case 'ajaxReload':
-				   if((int)$config > 0 && \app::$request->isAjax() === FALSE) \app::$response->page->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . $this->id . '\')", ' . $config . '000);});</script>';
+				   if((int)$config > 0 && \app::$request->isAjax() === FALSE) \app::$response->head .= '<script>$(document).ready(function(){setInterval("loadBlock(\'' . $this->id . '\')", ' . $config . '000);});</script>';
 					break;
 				case 'ajaxLoad':
 					if($config == 1 && \app::$request->isAjax() === FALSE) {
 						$ajaxLoad = TRUE;
-						\app::$response->page->head .= '<script>$(document).ready(function(){loadBlock("' . $this->id . '")});</script>';
+						\app::$response->head .= '<script>$(document).ready(function(){loadBlock("' . $this->id . '")});</script>';
 					}
 					break;
 				case 'CSSFiles':
 					foreach ($config AS $file => $pos)
-						\app::$response->page->addCSSFile(strstr($file, '//') ? $file : $file, $pos);
+						\app::$response->addCSSFile(strstr($file, '//') ? $file : $file, $pos);
 						break;
 				case 'JSFiles':
 					foreach ($config AS $file => $pos)
-						\app::$response->page->addJSFile(strstr($file, '//') ? $file : $file, $pos);
+						\app::$response->addJSFile(strstr($file, '//') ? $file : $file, $pos);
 					break;
 				default:
 					break;
@@ -269,7 +269,7 @@ abstract class block {
 			include($cacheFile);
 			$html .= ob_get_clean();
 		} else {
-			$html .= '<' . $balise . ' id="' . $this->id . '" class="parsiblock '.$this->moduleName.'_'.$this->blockName. $CSSclasses . '"' . $attributes . '>'.$headerTitle;
+			$html .= '<' . $balise . ' id="' . $this->id . '" is="' . $this->moduleName . '-' . $this->blockName . '" class="parsiblock ' . $this->moduleName . '_' . $this->blockName . $CSSclasses . '"' . $attributes . '>' . $headerTitle;
 			if ($ajaxLoad === FALSE) {
 				/* Catch all exceptions or error in order to keep tha page structure in creation mode */
 				try {

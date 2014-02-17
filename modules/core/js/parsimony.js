@@ -29,15 +29,74 @@ var Parsimony = {
 	blocks: {},
 	registerBlock: function(name, block) { /* Important to be Web component ready */
 		this.blocks[name] = block;
+		if (typeof document.registerElement == "functionff") {
+			 var proto = Object.create(HTMLElement.prototype);
+			proto.createdCallback = function() {
+			  this.innerHTML = new Date();
+			};
+			document.registerElement(name, {prototype: proto});
+		}
 	},
 	blocksDispatch: function(methodName) { /* Call this method for all blocks */
 		for (var i in this.blocks) {
-			if (typeof this.blocks[i][methodName] == "function"){
+			if (typeof this.blocks[i][methodName] == "function") {
 				this.blocks[i][methodName]();
 			}
 		}
-	}
+	},
+	dispatchEvents: function(e) { 
+		var elementName = this.getAttribute("is");
+		var events = Parsimony.blocks[elementName].events[e.type];
+		for (var selector in events) {
+			var node = e.target;
+			while (node != this) {
+				if (matchesSelector.call(node, selector)) {
+					events[selector](e, this, node);
+					e.stopPropagation();
+					e.preventDefault();
+					break;
+				}
+				node = (node.parentNode || this);
+			}
+		}
+	 }
 }
+
+var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.msMatchesSelector || document.documentElement.matchesSelector);
+
+$(document).ready(function() {
+	
+	/* Web components polyfill */
+	
+	for(var elementName in Parsimony.blocks) {
+		var elmts = document.querySelectorAll('[is="' + elementName + '"]');
+		for(var i = 0, len = elmts.length; i < len; i++) {
+			var elmt = elmts[i];
+			var definition = Parsimony.blocks[elementName];
+			
+			//if (typeof document.registerElement != "functionttt") {
+				
+				/* set prototype */
+				for(var key in definition.prototype){
+					elmt[key] = definition.prototype[key];
+				}
+
+				/* call createdCallback id defined */
+				if(typeof definition.prototype["createdCallback"] == "function"){
+					definition.prototype.createdCallback.bind(elmt)();
+				}
+			//}
+			
+			/*  register events */
+			if(typeof definition.events == "object"){
+				for(var eventType in definition.events) {
+					elmt.addEventListener(eventType, Parsimony.dispatchEvents, false);
+				}
+			}
+		}
+	}
+	
+});
 
 function loadBlock(id, params, callback) {
 	if (!params)

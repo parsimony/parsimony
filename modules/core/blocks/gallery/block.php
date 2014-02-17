@@ -48,19 +48,54 @@ class gallery extends \block {
 
 	public function __construct($id) {
 		parent::__construct($id);
-		$img = array('Parsimony.png' => array('name' =>'core/files/Parsimony.png', 'title' =>'admin/img/parsimony.png','alt' =>'Parsimony A new Generation of CMS', 'url' =>'admin/img/parsimony.png','description' =>'Helps the web to have talent and share it'));
+		$img = array('Parsimony.png' => array('name' => 'core/files/Parsimony.png', 'title' => 'Parsimony A new Generation of CMS', 'alt' => 'Parsimony A new Generation of CMS', 'url' => 'core/files/Parsimony.png', 'description' => 'Helps the web to have talent and share it'));
 		$this->setConfig('img', $img);
-		$this->setConfig('width', '500px');
-		$this->setConfig('height', '250px');
+		$this->setConfig('width', '500');
+		$this->setConfig('height', '250');
+	}
+	
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+		$imgs = $this->getConfig('img');
+		foreach($imgs as $img){
+			$oldPath = $img['name'];
+			$imagePath = substr(strstr($oldPath, '/files/'), 7);
+			$newPath = $module . '/files/' . $imagePath;
+			if($oldPath !== $newPath){
+				if (stream_resolve_include_path($newPath) !== FALSE) { /* check if an image with this path already exists in profile */
+					$fileInfo = pathinfo($imagePath);
+					$extension = strtolower($fileInfo['extension']);
+					$filename = $fileInfo['filename'];
+
+					/* allow to not overload filename with name_0_3_2_0 ... */
+					$generatedPart = strrchr($filename, '_');
+					if ($generatedPart !== FALSE && is_numeric(substr($generatedPart, 1))) {
+						$filename = substr($fileInfo['filename'], 0, -(strlen($generatedPart)));
+					}
+
+					$nbn = 0;
+					while (stream_resolve_include_path($newPath)) {
+						$imagePath = $filename . '_' . $nbn . '.' . $extension;
+						$newPath = $module . '/files/' . $imagePath;
+						$nbn++;
+					}
+				}
+				$this->setConfig('imgPath', $newPath);
+				\tools::file_put_contents(PROFILE_PATH . $newPath, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));
+			}
+		}
 	}
 
 	public function ajaxRefresh($type = FALSE) {
-	if ($type == 'add') {
-		return parent::ajaxRefresh($type);
-	} else {
-		return 'document.getElementById("parsiframe").contentWindow.location.reload()';
+		/*if ($type === 'add') {
+			return parent::ajaxRefresh($type);
+		} else {*/
+			return 'document.getElementById("preview").contentWindow.location.reload()';
+		//}
 	}
-	}
-
+	
 }
-?>
+
+\app::$response->addJSFile('modules/core/blocks/gallery/block.js', 'footer');
+
+
+

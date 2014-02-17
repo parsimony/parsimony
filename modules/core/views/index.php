@@ -35,12 +35,12 @@
 		<script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>
 		<?php endif;
 		echo $this->page->printMetas();
-		echo $this->page->printInclusions();
-		echo $this->page->head;
+		echo $this->printInclusions();
+		echo $this->head;
 		?>
 	</head>
 	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
 		<?php echo $body; ?>
-		<?php echo $this->page->printInclusions('footer') ?>
+		<?php echo $this->printInclusions('footer') ?>
 	</body>
 </html>

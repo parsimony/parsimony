@@ -26,7 +26,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-app::$response->page->addJSFile('admin/blocks/tree/block.js','footer');
+app::$response->addJSFile('admin/blocks/tree/block.js','footer');
 ?>
 <div id="config_tree_selector" class="none">
 	<span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>

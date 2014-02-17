@@ -31,16 +31,16 @@
  *   ouvrir fichier dans editeir de code ou editeur image
  *   path par de depart du tree
  */
-app::$response->page->addCSSFile('core/css/parsimony.css');
-app::$response->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
-app::$response->page->addCSSFile('modules/admin/css/ui.css');
-app::$response->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
-app::$response->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
-app::$response->page->addJSFile('lib/upload/parsimonyUpload.js');
+app::$response->addCSSFile('core/css/parsimony.css');
+app::$response->addCSSFile('lib/CodeMirror/lib/codemirror.css');
+app::$response->addCSSFile('modules/admin/css/ui.css');
+app::$response->addJSFile('lib/CodeMirror/lib/codemirror.js');
+app::$response->addJSFile('lib/CodeMirror/addon/format/formatting.js');
+app::$response->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
 
 <script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
-<?php echo app::$response->page->printInclusions() ?>
+<?php echo app::$response->printInclusions() ?>
 
 <style>
     body{min-width: 500px;background: #fff;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}

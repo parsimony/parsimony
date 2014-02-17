@@ -32,15 +32,15 @@
 	$(document).ready(function() {
 		$('#images img:first').trigger('click');
 		$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-			ajaxFileParams: {action: "upload",path: "<?php echo PROFILE_PATH . $this->moduleName . '/files'; ?>",MODULE: "<?php echo MODULE ?>",THEME: "<?php echo THEME ?>",THEMETYPE: "<?php echo THEMETYPE ?>",THEMEMODULE: "<?php echo THEMEMODULE ?>"},
+			ajaxFileParams: {action: "upload", TOKEN: "<?php echo TOKEN; ?>", path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",THEMETYPE: "<?php echo $_POST['THEMETYPE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
 			start:function(file){console.log("Start load : " + file.name)},
 			onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
 			stop:function(response){
 				if(typeof response.name != "undefined"){
 				$("input[name=imgPath]").val(response.name);
 				$("#preview .title").html('<span id="currentname" style="margin-left: 5px;"> <?php echo str_replace("'", "\'", t('Current Name')) ?> : ' + response.name + '</span>');
-				var src = "<?php echo BASE_PATH . $this->moduleName . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1" ;
-				var srcclone = "<?php echo BASE_PATH . $this->moduleName . '/files'; ?>/" + response.name + "?x=100&y=100&crop=1" ;
+				var src = "<?php echo BASE_PATH . $_POST['MODULE'] . '/files'; ?>/" + response.name + "?x=150&y=150&crop=1" ;
+				var srcclone = "<?php echo BASE_PATH . $_POST['MODULE'] . '/files'; ?>/" + response.name + "?x=100&y=100&crop=1" ;
 				$("#preview .imgf").attr( 'src' ,src );
 				$("span#width").text(response.x + 'px');
 				$("span#height").text(response.y + 'px');
@@ -74,7 +74,7 @@
 		var imgurl = $(this).parent().find('input.url').val();
 		var imgdescription = $(this).parent().find('input.description').val();
 		if(imgname !=''){ 
-			$('#preview img').attr('src', "<?php echo BASE_PATH . $this->moduleName ?>/files/" + imgname + "?x=150&y=150&crop=1");
+			$('#preview img').attr('src', "<?php echo BASE_PATH . $_POST['MODULE']; ?>/files/" + imgname + "?x=150&y=150&crop=1");
 		}
 
 		$("#preview .title").html('<span> <?php echo str_replace("'", "\'", t('Current Name')) ?> : ' + imgname + '</span>');
@@ -97,44 +97,34 @@
 </script>
 <style>
 	.labels{width: 350px;}
-	.labels label{width: 120px;display: inline-block;text-align: left;margin: 4px 0 4px 30px;}
+	.labels label{width: 120px;display: inline-block;text-align: left;margin: 11px 0 4px 30px;}
 	.labels input:not([type=checkbox]){width:195px;}
-	.title, #size{font-size: 12px;line-height: 15px;color: #27417E;}
+	.title, #size{font-size: 12px;line-height: 15px;}
 	.title{margin: 10px auto;}
 	img{border: 1px solid #CCC;}
-	span.settings{padding-left: 10px;color: #276D7F;text-shadow: 0px 1px 0px white;font-size: 13px;letter-spacing: 1.5px;line-height: 21px;}
+	span.settings{padding-left: 10px;color: #276D7F;font-size: 13px;letter-spacing: 1.5px;line-height: 21px;}
 	#size{width: 100%;bottom: -15px;position: relative;}
 	.template{float: left;margin: 5px;position: relative;}
 	.template img{cursor: pointer}
 	.deleteimg{display: none}
 	#currentname{margin: 0 5px;}
-	#settings {width:365px;/*border: 1px solid #CCC;background: #EDEFF4;*/margin-left: 5px;margin-top: 5px;padding: 4px 0;}
-	/*#globalsettings{border: 1px solid #CCC;background: #EDEFF4;margin-left: 5px;margin-top: 5px;padding: 4px 0;}*/
-	/*#specificsettings{margin: 2px 0 0 5px;margin-left: 5px;margin-top: 2px;padding: 4px 0;border: 1px solid #CCC;background: #EDEFF4;}*/
+	#settings {width:365px;margin-left: 5px;margin-top: 5px;padding: 4px 0;}
 	.template:hover span.deleteimg{display: block;position: absolute;top: 0;right: 0;border: #666 solid 1px;background: url(<?php echo BASE_PATH ?>admin/img/icons_white.png) -96px -128px, #333;}
-	#preview{text-align: center;/*background: #D8DFEA;border: #CCC 1px solid;*/width: 300px;height:226px;margin-top: 5px;}
-	#droparea{margin-top: 5px;width: 671px; height: 78px;margin: 5px;/*border: #CCC 1px solid; background: #D8DFEA;*/-moz-border-radius: 8px;-webkit-border-radius: 8px;border-radius: 8px;}
+	#preview{text-align: center;width: 300px;height:226px;margin-top: 5px;}
+	#droparea{margin-top: 5px;width: 671px; height: 78px;margin: 5px;border-radius: 8px;}
 	#dropareaInner{}
 	/* Overridde CSS for test */
-	.gradStyle{
-	border: 1px solid #ccc ;font-weight: bold;color: #383838 ;text-shadow: 0 1px 0 #ffffff ;
-	background: #eee;
-	background: -webkit-gradient(linear, left top, left bottom, from( #ffffff), to( #f1f1f1));
-	background: -webkit-linear-gradient( #ffffff, #f1f1f1); 
-	background: -moz-linear-gradient( #ffffff, #f1f1f1);
-	background: -ms-linear-gradient( #ffffff, #f1f1f1);
-	background: linear-gradient( #ffffff, #f1f1f1);
-	}
+	.gradStyle{border: 1px solid #E7E7E7;color: #383838 ;background: #FAFAFA;}
 </style>
 
 <div class="template" id="template" style="display: none"> 
 	<span onclick="$(this).parent().remove()" class="deleteimg ui-icon ui-icon-closethick"></span>
-	<img title="" src="" alt="" >
-	<input type="hidden" class="name" value=""/>
-	<input type="hidden" class="title" value=""/>
-	<input type="hidden" class="alt" value=""/>
-	<input type="hidden" class="url" value=""/>
-	<input type="hidden" class="description" value=""/> 
+	<img>
+	<input type="hidden" class="name" />
+	<input type="hidden" class="title" />
+	<input type="hidden" class="alt" />
+	<input type="hidden" class="url" />
+	<input type="hidden" class="description" /> 
 </div> 
 
 <div>
@@ -153,14 +143,14 @@
 			<div class="title ellipsis align_center">
 				<?php
 				$firstimage = current($this->getConfig('img'));
-				if (stream_resolve_include_path('core/files/' . $firstimage['name'])) {
+				if (stream_resolve_include_path($_POST['MODULE'] . '/files/' . $firstimage['name'])) {
 					echo '<span id="currentname" style="margin-left: 5px;">' . t('Current Name') . ' : ' . $firstimage['name'] . '</span><br>';
 				}?>
 			</div>
 
 			<img class="imgf" src="<?php
 		if ($firstimage != '') {
-			echo BASE_PATH . 'core/files/' . $firstimage['name'];
+			echo BASE_PATH . $_POST['MODULE'] . '/files/' . $firstimage['name'];
 		}
 		?>?x=150&y=150&crop=1" alt="" >
 
@@ -169,25 +159,25 @@
 		<div class="floatleft gradStyle" id="settings">
 			<div id="globalsettings"><span class="settings"><?php echo t('Global Settings'); ?></span><br>
 				<div class="labels" style="display: inline;">
-					<label style="width: 83px;" class="ellipsis"><?php echo t('Width'); ?> (px): </label><input style="width: 40px;" type="text" name="width" value="<?php echo $this->getConfig('width'); ?>" />
+					<label style="width: 83px;" class="ellipsis"><?php echo t('Width'); ?> (px)</label><input style="width: 40px;vertical-align: super;" type="text" name="width" value="<?php echo $this->getConfig('width'); ?>" />
 				</div>
 				<div class="labels" style="display: inline;">
-					<label style="width: 83px;margin: 4px 0 4px 10px;" class="ellipsis"><?php echo t('Height'); ?> (px): </label><input style="width: 40px;" type="text" name="height" value="<?php echo $this->getConfig('height'); ?>" />
+					<label style="width: 83px;margin: 4px 0 4px 10px;" class="ellipsis"><?php echo t('Height'); ?> (px)</label><input style="width: 40px;vertical-align: super;" type="text" name="height" value="<?php echo $this->getConfig('height'); ?>" />
 				</div>
 			</div>
 			<div id="specificsettings">
 				<span class="settings"><?php echo t('Specific Settings'); ?></span>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Title'); ?> : </label><input id="previewtitle" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Title'); ?></label><input id="previewtitle" type="text" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Alternative Text'); ?> : </label><input id="previewalt" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Alternative Text'); ?></label><input id="previewalt" type="text" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('URL'); ?> : </label><input id="previewurl" type="text" value="" />
+					<label class="ellipsis"><?php echo t('URL'); ?></label><input id="previewurl" type="text" />
 				</div>
 				<div class="labels">
-					<label class="ellipsis"><?php echo t('Description'); ?> : </label><input id="previewdescription" type="text" value="" />
+					<label class="ellipsis"><?php echo t('Description'); ?></label><input id="previewdescription" type="text" />
 				</div>
 			</div>
 		</div>
@@ -197,13 +187,13 @@
 	$imgs = $this->getConfig('img');
 	if (!empty($imgs)) {
 		foreach ($this->getConfig('img') as $id => $image) {
-				if(is_file('modules/core/files/'. $id) && !is_file(PROFILE_PATH.'core/files/'. $id)){
+				/*if(is_file('modules/core/files/'. $id) && !is_file(PROFILE_PATH.'core/files/'. $id)){
 					copy('modules/core/files/'. $id, PROFILE_PATH.'core/files/'. $id);
-				}
+				}*/
 		?>
 		<div class="template"> 
 			<span onclick="$(this).parent().remove()" class="deleteimg ui-icon ui-icon-closethick"></span>
-			<img title="" src="<?php echo BASE_PATH . 'core/files/'. $id ?>?x=100&y=100&crop=1" alt="">
+			<img title="" src="<?php echo BASE_PATH . $_POST['MODULE'] . '/files/'. $id ?>?x=100&y=100&crop=1" alt="">
 			<input type="hidden" name="img[<?php echo $id ?>][name]" class="name" value="<?php echo $id; ?>" />
 			<input type="hidden" name="img[<?php echo $id ?>][title]" class="title" value="<?php echo $image['title']; ?>" />
 			<input type="hidden" name="img[<?php echo $id ?>][alt]" class="alt" value="<?php echo $image['alt']; ?>" />

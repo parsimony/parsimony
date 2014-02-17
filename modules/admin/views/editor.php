@@ -75,9 +75,9 @@
 </script>
 <style>.location{padding: 2px;color:#444;background:#E3E3E3;border: 1px #ccc solid;font-size: 10px;width: 100%;z-index: 9999;}</style>
 <?php
-app::$response->page->addCSSFile('lib/CodeMirror/lib/codemirror.css');
-app::$response->page->addJSFile('lib/CodeMirror/lib/codemirror.js');
-app::$response->page->addJSFile('lib/CodeMirror/addon/format/formatting.js');
+app::$response->addCSSFile('lib/CodeMirror/lib/codemirror.css');
+app::$response->addJSFile('lib/CodeMirror/lib/codemirror.js');
+app::$response->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 ?>
 
 <style type="text/css" media="screen">
