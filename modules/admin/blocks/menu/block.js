@@ -5,29 +5,26 @@ function blockAdminMenu() {
 		/* Orientation and resolution */
 		$("#toolbar").on('change', '#changeres', function() {
 			if (window.performance.timing.domComplete && ((new Date).getTime() - window.performance.timing.domComplete) > 2000){
-				ParsimonyAdmin.$iframe.css('transition', 'all 0.4s');
+				ParsimonyAdmin.$previewContainer.css('transition', 'all 0.4s');
 			}
 			var res = this.value;
 			$("#currentRes").text(res);
 			if (res === 'max') {
-				var height = ParsimonyAdmin.currentBody.offsetHeight + 250;
-				if (screen.height > height)
-					height = screen.height - 28;
-				ParsimonyAdmin.$iframe.css({
+				ParsimonyAdmin.$previewContainer.css({
 					"width": "100%",
-					"height": height + "px"
+					"height": "100%"
 				}).removeClass("sized");
 				res = ["max", "max"];
 			} else {
 				res = res.split(/x/);
-				ParsimonyAdmin.$iframe.addClass("sized");
+				ParsimonyAdmin.$previewContainer.addClass("sized");
 				if ($("#changeorientation").length === 0 || ($("#changeorientation").val() === 'portrait' && ParsimonyAdmin.getCookie("landscape") === 'portrait')) {
-					ParsimonyAdmin.$iframe.css({
+					ParsimonyAdmin.$previewContainer.css({
 						"width": res[0] + "px",
 						"height": res[1] + "px"
 					});
 				} else {
-					ParsimonyAdmin.$iframe.css({
+					ParsimonyAdmin.$previewContainer.css({
 						"width": res[1] + "px",
 						"height": res[0] + "px"
 					});
@@ -38,10 +35,10 @@ function blockAdminMenu() {
 			ParsimonyAdmin.setCookie("screenX", res[0], 999);
 			ParsimonyAdmin.setCookie("screenY", res[1], 999);
 			ParsimonyAdmin.setCookie("landscape", $("#changeorientation").val(), 999);
-			setTimeout("ParsimonyAdmin.$iframe.css('transition','none');", 2000);
+			setTimeout("ParsimonyAdmin.$previewContainer.css('transition','none');", 2000);
 			setTimeout("Parsimony.blocks['admin_css'].drawMediaQueries();", 500);
 		})
-				.on('change', '#changeorientation', function(e) {
+		.on('change', '#changeorientation', function(e) {
 			ParsimonyAdmin.setCookie("landscape", $("#changeorientation").val(), 999);
 			$("#changeres").trigger("change");
 		});

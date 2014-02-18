@@ -27,8 +27,6 @@ transform-origin: 0 0;transform: translateY(100%) rotateX(-90deg);
 .threedLeft *.cssPicker::after,.threedRight *.cssPicker::after{background-color: rgb(45, 193, 238);}
 .threedTop *.cssPicker::before,.threedBottom *.cssPicker::before{background-color: rgb(31, 170, 212);}
 
-body{overflow: hidden;} 
-
 /* translation */
 .translation{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
 .translation:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
@@ -41,9 +39,6 @@ body{overflow: hidden;}
 .dropInContainer{padding: 10px 0px;}
 .dropInContainerChild{padding: 10px 10px;position: relative;border: 1px dashed #276D7F;text-align: center;margin: 0px 10px;text-shadow: 1px 1px 0px white;
 font-size: 15px;color: #276D7F;letter-spacing: 1.5px;background: #EEE;}
-
-/* Outline block */
-.selection-container{outline:1px solid #007BC8;}
 
 /* Editinplace */
 .creationMode .parsieditinline:hover, .creationMode .core_wysiwyg:hover,.previewMode .parsieditinline:hover,.previewMode .core_wysiwyg:hover{outline:none;}

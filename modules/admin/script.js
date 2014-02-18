@@ -38,10 +38,12 @@ var ParsimonyAdmin = {
 
 	initBefore: function() {
 
-		this.iframe = document.getElementById("preview");
+		this.previewContainer = document.getElementById("previewContainer");
+		this.$previewContainer = $(this.previewContainer);
+		this.iframe = this.previewContainer.querySelector("#preview");
 		this.$iframe = $(this.iframe);
 		this.currentWindow = this.iframe.contentWindow;
-
+		
 		$("#formResult").on("load", function() {
 			var elmt = $(this).contents().find('body').text();
 			if (elmt != "") ParsimonyAdmin.execResult(elmt); /* Firefox fix */
@@ -150,7 +152,6 @@ var ParsimonyAdmin = {
 	},
 	unloadCreationMode: function() {
 		$(".selection-block", this.currentBody).removeClass("selection-block");
-		$(".selection-container", this.currentBody).removeClass("selection-container");
 		this.closeParsiadminMenu();
 		this.$currentBody.off('.creation');
 		$("#dialog-id").off('.creation');
@@ -198,18 +199,6 @@ var ParsimonyAdmin = {
 		$(".tooltip").parsimonyTooltip({
 			triangleWidth: 5
 		});
-
-		var timer = setInterval(function resizeIframe() {
-			if (document.getElementById("changeres").value == "max") {
-				var height = ParsimonyAdmin.currentBody.getBoundingClientRect().bottom;
-				if (screen.height > height)
-					height = screen.height - 35;
-				if (ParsimonyAdmin.iframe.style.height != height + "px") {
-					ParsimonyAdmin.iframe.style.height = height + "px";
-					document.getElementById("overlays").style.height = height + "px";
-				}
-			}
-		}, 1000);
 
 		/* Shortcut : Save on CTRL+S */
 		document.addEventListener("keydown", function(e) {
@@ -558,7 +547,7 @@ var ParsimonyAdmin = {
 		$("#notify").appendTo("body").attr("class", "").addClass(type).html(message).fadeIn("normal").delay(4000).fadeOut("slow");
 	},
 	openParsiadminMenu: function(x, y) {
-		$("#menu").appendTo("body").css({
+		$("#menu").appendTo("#previewContainer").css({
 			"top": (y + ParsimonyAdmin.iframe.offsetTop),
 			"left": (x + ParsimonyAdmin.iframe.offsetLeft)
 		});

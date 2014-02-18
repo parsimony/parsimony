@@ -130,6 +130,11 @@ function blockAdminBlocks() {
 		.on('mouseover.creation', "body", function() {
 			document.getElementById("blockOverlay").style.display = "none";
 		});
+		
+		/* Hide visual tools when scrolling preview */
+		$(ParsimonyAdmin.currentWindow).on('scroll.creation', function() {
+			document.getElementById("parsimonyDND").style.display = "none";
+		});
 
 		/* HTML5 drag n drop*/
 		$("#panelblocks").on('dragstart.creation', ".admin_core_block", function(event) {
@@ -176,12 +181,12 @@ function blockAdminBlocks() {
 		})
 		.on('mouseover.creation', ".parsiblock", function(event) {
 			event.stopImmediatePropagation();
-			var offset = this.getBoundingClientRect();
-			var leftOffsetFrame = ParsimonyAdmin.iframe.offsetLeft + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0);
-			if (ParsimonyAdmin.inProgress != this.id)
-				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + (offset.left + leftOffsetFrame) + "px;width:" + offset.width + "px;height:" + offset.height + "px";
-			else
+			if (ParsimonyAdmin.inProgress != this.id) {
+				var offset = this.getBoundingClientRect();
+				document.getElementById("blockOverlay").style.cssText = "display:block;top:" + offset.top + "px;left:" + offset.left + "px;width:" + offset.width + "px;height:" + offset.height + "px";
+			} else {
 				document.getElementById("blockOverlay").style.display = "none";
+			}
 		});
 
 		ParsimonyAdmin.$currentBody.add('#paneltree')
@@ -273,10 +278,11 @@ function blockAdminBlocks() {
 		$(document).add('#config_tree_selector').off('.creation');
 		$("#panelblocks").off('.creation');
 		$("#parsimonyDND").add('#paneltree').off('.creation');
-		$("#parsimonyDND").hide();
+		document.getElementById("parsimonyDND").style.display = "none";
 		$('#conf_box_content_inline').off('.creation');
 		ParsimonyAdmin.$currentBody.off('.creation');
 		ParsimonyAdmin.$currentBody.add('#paneltree').off('.creation');
+		$(ParsimonyAdmin.currentWindow).on('.creation');
 	}
 
 }
@@ -292,11 +298,14 @@ function blockAdmin() {
 		e.stopPropagation();
 		if (ParsimonyAdmin.inProgress != this.id) {
 			ParsimonyAdmin.selectBlock(this.id);
+		} else { /* In case visual tools have been closed or hidden */
+			Parsimony.blocks['admin_css'].updatePosition(this.getBoundingClientRect());
 		}
+		/* 
 		if (e.trad != true && e.link != true)
 			ParsimonyAdmin.closeParsiadminMenu();
 		else
-			ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width() / 2), e.pageY || ($(window).height() / 2));
+			ParsimonyAdmin.openParsiadminMenu(e.pageX || ($(window).width() / 2), e.pageY || ($(window).height() / 2));*/
 	}
 
 	this.onConfigure = function() {

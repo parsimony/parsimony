@@ -21,7 +21,7 @@ function blockAdminCSS() {
 		/* Manage Visual tool for Deag 'n drop */
 		$(".parsimonyMove").on("mousedown.creation", function(e) {
 			e.stopImmediatePropagation();
-			document.getElementById("overlays").style.pointerEvents = "all";
+			ParsimonyAdmin.iframe.style.pointerEvents = "none";
 			var dndstart = {
 				left: isNaN(parseFloat($this.currentRule.style.left)) ? 0 : $this.currentRule.style.left,
 				top: isNaN(parseFloat($this.currentRule.style.top)) ? 0 : $this.currentRule.style.top,
@@ -38,7 +38,7 @@ function blockAdminCSS() {
 				$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
 			})
 			.on("mouseup.parsimonyDND", dndstart, function(e) {
-				document.getElementById("overlays").style.pointerEvents = "none";
+				ParsimonyAdmin.iframe.style.pointerEvents = "all";
 				$("#box_top").val(dndstart.rule.style.top !== 'auto' ? dndstart.rule.style.top : '').trigger("change");
 				$("#box_left").val(dndstart.rule.style.left !== 'auto' ? dndstart.rule.style.left : '').trigger("change");
 				$(document).add(ParsimonyAdmin.currentDocument).off("mousemove").off("mouseup");
@@ -49,7 +49,7 @@ function blockAdminCSS() {
 		/* Manage Visual tool for Resize */
 		$(".parsimonyResize").on("mousedown.creation", function(e) {
 			e.stopImmediatePropagation();
-			document.getElementById("overlays").style.pointerEvents = "all";
+			ParsimonyAdmin.iframe.style.pointerEvents = "none";
 			var DNDiframe = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
 			var bounds = DNDiframe.getBoundingClientRect();
 			var dndstart = {
@@ -64,7 +64,7 @@ function blockAdminCSS() {
 				rule: $this.currentRule
 			};
 
-			$(document).add(ParsimonyAdmin.currentDocument).on("mousemove.parsimonyDND", dndstart, function(e) {
+			$(document).on("mousemove.parsimonyDND", dndstart, function(e) {
 				switch (dndstart.dir) {
 					case "se":
 						dndstart.rule.style.width = parseInt(dndstart.width) + (e.pageX - dndstart.pageX) + "px";
@@ -94,12 +94,12 @@ function blockAdminCSS() {
 				document.getElementById("box_left").value = dndstart.rule.style.left;
 			})
 			.on("mouseup", dndstart, function(e) {
-				document.getElementById("overlays").style.pointerEvents = "none";
+				ParsimonyAdmin.iframe.style.pointerEvents = "all";
 				$("#box_width").val(dndstart.rule.style.width !== 'auto' ? dndstart.rule.style.width : '').trigger("change");
 				$("#box_height").val(dndstart.rule.style.height !== 'auto' ? dndstart.rule.style.height : '').trigger("change");
 				$("#box_top").val(dndstart.rule.style.top !== 'auto' ? dndstart.rule.style.top : '').trigger("change");
 				$("#box_left").val(dndstart.rule.style.left !== 'auto' ? dndstart.rule.style.left : '').trigger("change");
-				$(document).add(ParsimonyAdmin.currentDocument).off("mousemove").off("mouseup");
+				$(document).off("mousemove").off("mouseup");
 				//$this.checkChanges();
 			});
 		});
@@ -314,8 +314,9 @@ function blockAdminCSS() {
 				currentColorPicker = $(this).prev().focus();
 			}
 			picker.el.style.display = "block";
-			picker.el.style.top = ($(this).offset().top) + 20 + "px";
-			picker.el.style.left = ($(this).offset().left - 200) + "px";
+			var offset = currentColorPicker[0].getBoundingClientRect()
+			picker.el.style.top = (offset.top) + 20 + "px";
+			picker.el.style.left = (offset.left - 150) + "px";
 		})
 		.on('blur.creation', '.colorpicker2', function() {
 			picker.el.style.display = "none";
@@ -588,7 +589,7 @@ function blockAdminCSS() {
 
 		$("#backTest").on("mousedown.creation", function(e) {
 			e.stopImmediatePropagation();
-			document.getElementById("overlays").style.pointerEvents = "all";
+			document.getElementById("previewContainer").style.pointerEvents = "all";
 			var dndstart = {left: isNaN(parseInt(this.style.left)) ? 0 : parseInt(this.style.left),
 				top: isNaN(parseInt(this.style.top)) ? 0 : parseInt(this.style.top),
 				pageX: e.pageX, pageY: e.pageY};
@@ -601,7 +602,7 @@ function blockAdminCSS() {
 			})
 			.on("mouseup.parsimonyDND", dndstart, function(e) {
 				trigger(document.querySelector(".prop_background-position"), "change");
-				document.getElementById("overlays").style.pointerEvents = "none";
+				document.getElementById("previewContainer").style.pointerEvents = "none";
 				$(document).off("mousemove").off("mouseup");
 			});
 		});
@@ -628,7 +629,7 @@ function blockAdminCSS() {
 		})
 		.on("mousedown.creation", ".pointer", function(e) {
 			e.stopImmediatePropagation();
-			document.getElementById("overlays").style.pointerEvents = "all";
+			document.getElementById("previewContainer").style.pointerEvents = "all";
 			var dndstart = {left: isNaN(parseInt(this.style.left)) ? 0 : parseInt(this.style.left) - 16,
 				top: isNaN(parseInt(this.style.top)) ? 0 : parseInt(this.style.top) - 16,
 				pointer: this,
@@ -653,7 +654,7 @@ function blockAdminCSS() {
 				trigger(dndstart.container.querySelector('.v-offset'), "change");
 			})
 					.on("mouseup.parsimonyDND", dndstart, function(e) {
-				document.getElementById("overlays").style.pointerEvents = "none";
+				document.getElementById("previewContainer").style.pointerEvents = "none";
 				$(document).off("mousemove").off("mouseup");
 			});
 		});
@@ -746,7 +747,7 @@ function blockAdminCSS() {
 				if (this.id.length > 0 && $(".selectorcss[selector='#" + this.id + "']", $("#changecsscode")).length == 0)
 					proposals.push("#" + this.id);
 				var selectProp = "";
-				var forbidClasses = ",selection-block,block,container,selection-container,parsieditinline,cssPicker,";
+				var forbidClasses = ",selection-block,block,container,parsieditinline,cssPicker,";
 				$.each(this.classList, function(index, value) {
 					if ($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value + ",") == "-1") {
 						proposals.push("." + value);
@@ -906,7 +907,7 @@ blockAdminCSS.prototype.checkChanges = function() {
 
 blockAdminCSS.prototype.updatePosition = function(bounds) {
 	var DNDadmin = document.getElementById("parsimonyDND");
-	DNDadmin.style.cssText = "display:block;top:" + bounds.top + "px;left:" + (bounds.left + ParsimonyAdmin.iframe.offsetLeft +  + (ParsimonyAdmin.iframe.classList.contains("sized") ? 40 : 0)) + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
+	DNDadmin.style.cssText = "display:block;top:" + bounds.top + "px;left:" + bounds.left + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
 }
 
 /* Keep CSS changes in an object */

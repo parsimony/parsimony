@@ -28,11 +28,9 @@ float: left;width: 50%;padding: 3px;cursor: pointer;text-align: center;}
 #admin{text-align: left;}
 
 /* Preview frame */
-#preview{background-color: white;width: 100%;height: 650px;margin-top: 35px;}
-#preview.sized{
-	    border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;border-top: 0;box-shadow: 0 0 0 1px #999;
-	    box-sizing: content-box;-moz-box-sizing: content-box;margin-left: -40px;
-}
+#preview{background-color: white;width: 100%;height: 100%;}
+#preview::-webkit-scrollbar { width: 0 !important }
+
 /* Title Tab */
 .titleTab{font-size: 15px;height: 28px;vertical-align: top;line-height: 25px;
 color: rgb(73, 71, 71);cursor: pointer;clear:both;position: relative;padding-left: 11px;
@@ -392,7 +390,7 @@ width: 64px;line-height: 10px;overflow: hidden;height: 20px;left: -12px;}
 /* ############## Admin UI ################## */
 
 /* Resizable */
-#parsimonyDND{position: absolute;display:none;text-align: center;box-shadow: 0 0 3px #00aaff;z-index: 99999;}
+#parsimonyDND{position: absolute;display:none;text-align: center;pointer-events: none;box-shadow: 0 0 3px #00aaff;z-index: 99999;}
 .parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;border: 1px solid #00aaff;border-radius:4px;pointer-events:all}
 .parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
 .parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;display:none}
@@ -414,9 +412,11 @@ background-color: #f9f9f9;
 .positionOK .parsimonyMove{display: inline-block;cursor: move}
 #idName{vertical-align: top;margin: 5px;display: inline-block;}
 
-/* Overlays */
-#overlays{position:absolute;top:35px;left:0;pointer-events: none;width:100%;height:100%;z-index: 2;-webkit-user-select: none;-moz-user-select: none;user-select: none;}
-
+/* Preview container */
+#previewContainer{position: relative;margin-top:36px;width:100%;height:100%;}
+#previewContainer.sized{display: inline-block;overflow: hidden;border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;
+			border-top: 0;box-shadow: 0 0 0 1px #999;box-sizing: content-box;-moz-box-sizing: content-box;
+}
 /* Block overlay */
 #blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;/* too slow */background-color:rgba(5,178,248,0.10)}
 

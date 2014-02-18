@@ -19,15 +19,13 @@ function blockAdminTree() {
 			ParsimonyAdmin.selectBlock(idBlock);
 			var blockPreview = $("#" + idBlock, ParsimonyAdmin.currentBody);
 			if (blockPreview.length > 0) {
-				$("body").animate({
+				ParsimonyAdmin.$currentBody.animate({
 					scrollTop: blockPreview.offset().top - 50
 				}, "fast");
 			}
 		}).on('mouseenter', '.tree_selector', function(event) {
 			event.stopPropagation();
-			var ids = this.id.split("treedom_")[1];
-			$(".selection-block:not(#" + ParsimonyAdmin.inProgress + ")", ParsimonyAdmin.currentBody).removeClass("selection-block");
-			$("#" + ids, ParsimonyAdmin.currentBody).trigger('mouseover');
+			$("#" + this.id.split("treedom_")[1], ParsimonyAdmin.currentBody).trigger('mouseover');
 		})
 		.on("mouseenter mouseleave", "#treedom_content", function(event) {
 			var dom = ParsimonyAdmin.currentBody.querySelector(".core_page");
