@@ -100,9 +100,11 @@ class menu extends \block {
             $classes = array();
             $class = '';
             if (isset($item['url'])) {
-                if(empty($item['url'])){
+                if(empty($item['url'])) {
                     $url = '#';
-                }else{
+                } elseif(substr($item['url'], 0,4) === 'http') {
+                    $url = $item['url'];
+                } else {
                     $url = BASE_PATH . $item['url'];
                 }
                 $title = $item['title'];
