@@ -1,13 +1,11 @@
 #colorjack_square {
-        z-index:999999;
+        z-index:99;
 	border: 1px solid rgba(0,0,0,0.5);
-	border-radius: 6px;
+	border-radius: 3px;
 	background: #0d0d0d;
 	background: -moz-linear-gradient(top, #333 0%, #000000 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333), color-stop(100%,#000000));
 	box-shadow:3px 3px 3px rgba(0,0,0,0.35);
-	-webkit-box-shadow:3px 3px 3px rgba(0,0,0,0.35);
-	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.35);
 	text-shadow: 1px 1px 1px #000;
 	color:#AAA;
 	cursor:default;
