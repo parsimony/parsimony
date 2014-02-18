@@ -698,7 +698,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
 						$html .= '<div id="update_' . $class . '">
 <div class="rightbar"><label class="ellipsis">' . t('Name') . ' </label><input type="text" name="name">
-<label class="ellipsis">' . t('Field') . ' </label><div class="inline-block" style="position:relative;top:3px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '_'), 1)) . '</div>    
+<label class="ellipsis">' . t('Field') . ' </label><div class="inline-block" style="position:relative;top:10px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '\\'), 1)) . '</div>    
 </div>
 <div><h3>' . t('SQL Properties') . '</h3>
 	<div class="rightbar"><label class="ellipsis">' . t('Type') . ' </label><div class="inline-block" style="position:relative;top:3px"><input type="hidden" name="type">' . $field->type . '</div></div>
