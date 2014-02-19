@@ -345,7 +345,7 @@ class page extends \block {
 			}
 		}else{
 			/* SEO : noindex for empty pages */
-			\app::$response->page->setMeta('robots','noindex');
+			$this->setMeta('robots','noindex');
 		}
 		/* SEO : canonical url for index */
 		if($this->regex === '@^index$@'){
