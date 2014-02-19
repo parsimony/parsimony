@@ -390,7 +390,7 @@ width: 64px;line-height: 10px;overflow: hidden;height: 20px;left: -12px;}
 /* ############## Admin UI ################## */
 
 /* Resizable */
-#parsimonyDND{position: absolute;display:none;text-align: center;pointer-events: none;box-shadow: 0 0 3px #00aaff;z-index: 99999;}
+#parsimonyDND{position: absolute;display:none;text-align: center;pointer-events: none;box-shadow: 0 0 3px #00aaff;z-index: 99;}
 .parsimonyResize{position: absolute;display:none; display: block; width: 10px; height: 10px;border: 1px solid #00aaff;border-radius:4px;pointer-events:all}
 .parsimonyResize.se{ right: -5px; bottom: -5px;cursor: se-resize;}
 .parsimonyResize.nw{ left: -5px; top: -5px;cursor: nw-resize;display:none}
