@@ -19,11 +19,11 @@
  * needs please refer to http://www.parsimony.mobi for more information.
  *
  * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
- * @version  Release: 1.0
- * @category  Parsimony
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
+ * @category Parsimony
  * @package core/blocks
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 ?>
 <iframe id="googlemapid" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?q=<?php echo $this->getConfig('adress') . ',' . $this->getConfig('town') . ',' . $this->getConfig('country'); ?>&amp;oe=utf-8&amp;ie=UTF8&amp;hl=<?php echo $this->getConfig('language') ?>&amp;hq=&amp;hnear=<?php echo $this->getConfig('adress') . ',' . $this->getConfig('town') . ',' . $this->getConfig('country') ?>&amp;t=<?php echo $this->getConfig('view') ?>&amp;z=<?php echo $this->getConfig('zoom') ?>&amp;vpsrc=0&amp;output=embed"></iframe>

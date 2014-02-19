@@ -19,11 +19,10 @@
  * needs please refer to http://www.parsimony.mobi for more information.
  *
  * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
- * @version  Release: 1.0
- * @category  Parsimony
- * @package core
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright Julien Gras et Benoît Lorillot
+ * @category Parsimony
+ * @package Parsimony
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 $lang = array();

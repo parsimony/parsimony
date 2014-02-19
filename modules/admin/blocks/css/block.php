@@ -19,11 +19,11 @@
  * needs please refer to http://www.parsimony.mobi for more information.
  *
  * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
- * @version  Release: 1.0
- * @category  Parsimony
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
+ * @category Parsimony
  * @package admin/blocks
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 
@@ -32,7 +32,7 @@ namespace admin\blocks;
 /**
  * @title CSS
  * @description display CSS admin
- * @version 1
+ * @copyright 1
  * @browsers all
  * @php_version_min 5.3
  * @modules_dependencies core:1, admin:1

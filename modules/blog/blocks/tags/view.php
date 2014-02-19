@@ -20,11 +20,11 @@
  * needs please refer to http://www.parsimony.mobi for more information.
  *
  * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
- * @version  Release: 1.0
- * @category  Parsimony
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
+ * @category Parsimony
  * @package blog/blocks
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 $tags = \PDOconnection::getDB()->query('SELECT '.PREFIX.'blog_tag.name, '.PREFIX.'blog_tag.url, COUNT( '.PREFIX.'blog_tag.name ) AS nb
 FROM '.PREFIX.'blog_tag INNER JOIN '.PREFIX.'blog_tag_post ON '.PREFIX.'blog_tag.id_tag = '.PREFIX.'blog_tag_post.id_tag

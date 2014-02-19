@@ -18,12 +18,12 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- * @authors Julien Gras et BenoÃ®t Lorillot
- * @copyright  Julien Gras et BenoÃ®t Lorillot
- * @version  Release: 1.0
- * @category  Parsimony
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
+ * @category Parsimony
  * @package admin
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 app::$response->addJSFile('admin/blocks/tree/block.js','footer');

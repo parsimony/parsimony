@@ -5,7 +5,7 @@ namespace blog;
 /**
  * @title Blog
  * @description blog
- * @version 1
+ * @copyright 1
  * @browsers all
  * @php_version_min 5.3
  */

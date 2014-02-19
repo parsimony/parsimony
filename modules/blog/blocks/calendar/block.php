@@ -20,11 +20,11 @@
  * needs please refer to http://www.parsimony.mobi for more information.
  *
  * @authors Julien Gras et Benoît Lorillot
- * @copyright  Julien Gras et Benoît Lorillot
- * @version  Release: 1.0
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
  * @category  Blog
  * @package blog/blocks
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace blog\blocks;
@@ -32,7 +32,7 @@ namespace blog\blocks;
 /**
  * @title Calendar
  * @description displays posts by months in a calendar
- * @version 1
+ * @copyright 1
  * @browsers all
  * @php_version_min 5.3
  * @block_category blog

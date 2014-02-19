@@ -19,12 +19,12 @@
  * versions in the future. If you wish to customize Parsimony for your
  * needs please refer to http://www.parsimony.mobi for more information.
  *
- *  @authors Julien Gras et Benoît Lorillot
- *  @copyright  Julien Gras et Benoît Lorillot
- *  @version  Release: 1.0
- * @category  Parsimony
+ * @authors Julien Gras et Benoît Lorillot
+ * @copyright Julien Gras et Benoît Lorillot
+ * 
+ * @category Parsimony
  * @package core\classes
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
 namespace core\classes;
@@ -496,7 +496,7 @@ namespace ' . $name . ';
 /**
  * @title ' . str_replace('\'', '\\\'', $title) . '
  * @description ' . str_replace('\'', '\\\'', $title) . '
- * @version 1
+ * @copyright 1
  * @browsers all
  * @php_version_min 5.3
  */
