@@ -63,7 +63,7 @@ if (isset($_POST['connexion'])) {
         header('Location: ' . BASE_PATH);
         exit;
     } else {
-        echo '<div id="wrong">'. t('The username or password you entered is incorrect', FALSE) . '</div>';
+        echo '<div id="wrong">'. t('The username or password you entered is incorrect') . '</div>';
     }
 }
 
@@ -86,7 +86,6 @@ if (isset($_POST['connexion'])) {
 			button, input[type='button'], input[type='submit'] {-webkit-user-select: none;-moz-user-select: none;background: rgb(45, 193, 238);color: #fafafa;font-size: inherit;margin-bottom: 0px;width: 200px;border: none;padding: 3px 12px 3px 12px;height: 35px;font-weight: bold;}
 			button:hover, input[type='button']:hover, input[type='submit']:hover{background: rgb(41, 170, 209);box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);border-color: none;color: #fefefe;}
             #img{float: left;width: 250px;height: 250px;margin: 0px auto;font: bold 11px Sans-Serif;padding: 6px 10px;color: #666;padding-top: 30px;background: #fefefe;}
-            label{font-size: 20px;line-height: 25px;}
             label{font-size: 13px;line-height: 25px;font-weight: bold;}
             #content div a{font-size: 15px;line-height: 18px;}
             #content form{width: 250px;height: 250px;float: left;border-color: #DDD;text-shadow: 0 1px 1px white;padding: 6px 10px;color: #666;background: #fefefe;}
