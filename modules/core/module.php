@@ -149,6 +149,10 @@ class module extends \module {
 		if (!defined('PARSI_ADMIN')) {
 			\app::$response->addCSSFile(\app::$config['modules']['default'] . '/css/' . THEMETYPE . '/style.css');
 		}
+		if(THEMETYPE !== 'desktop') { /* set viewport here allow us to override it later */
+			\app::$response->page->setMeta('viewport', 'width=device-width, user-scalable=no');
+			\app::$response->page->setMeta('apple-mobile-web-app-capable', 'yes');
+		}
 	}
 
 	public function connectAction() {
