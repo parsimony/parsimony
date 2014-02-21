@@ -10,7 +10,7 @@ To install Parsimony, unzip the project on your server and let yourself be guide
 
 ##Link
 
-Learn Parsimony in 10 videos : [http://en.parsimony.mobi/learn-parsimony-in-10-videos](http://en.parsimony.mobi/learn-parsimony-in-10-videos)
+Learn Parsimony: [http://parsimony.mobi/documentation/index](http://parsimony.mobi/documentation/index)
 
 ##License
 
