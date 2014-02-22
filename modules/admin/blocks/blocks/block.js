@@ -1,23 +1,29 @@
 function blockAdminBlocks() {
 
-	this.isAddBlock = false;
+	this.isMoveBlock = false;
 	this.lastIdParent = "";
 	this.lastIdNextBlock = "";
 	this.lastDragTimestamp = 0;
+	this.startDrag = false;
 	
 	var $this = this;
 
 	this.startDragging = function() {
-		ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage"));
-		ParsimonyAdmin.displayPanel("paneltree");
-		ParsimonyAdmin.currentBody.addEventListener("dragover", this.dragndroping);
-		document.getElementById("tree").addEventListener("dragover", this.dragndroping);
+		if(this.startDrag == false) {
+			ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage"));
+			ParsimonyAdmin.displayPanel("paneltree");
+			ParsimonyAdmin.currentBody.addEventListener("dragover", this.dragndroping);
+			document.getElementById("tree").addEventListener("dragover", this.dragndroping);
+			this.startDrag = true;
+		}
 	}
 	
 	this.stopDragging = function() {
 		ParsimonyAdmin.returnToShelter();
 		ParsimonyAdmin.currentBody.removeEventListener("dragover", this.dragndroping);
 		document.getElementById("tree").removeEventListener("dragover", this.dragndroping);
+		this.isMoveBlock = false;
+		this.startDrag = false;
 	}
 
 	this.changeBlockPosition = function(blockType, idBlock, idNextBlock, startIdParentBlock, stopIdParentBlock, startTypeCont, stopTypeCont, action, content) {
@@ -48,13 +54,13 @@ function blockAdminBlocks() {
 	/* Method to display visual placeholder during drag 'n drop, in vanilla js for perfs */
 	this.dragndroping = function(e) {
 		e.stopImmediatePropagation();
-		if (e.dataTransfer.types != null) {
+		if (e.dataTransfer.types != null) {	
 			var now  = new Date().getTime();
 			if(now - $this.lastDragTimestamp > 40){
 				var node = e.target;
 				var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matchesSelector);
 				while (node != this){
-					if (matchesSelector.call(node, '.parsiblock,.tree_selector')) {
+					if (matchesSelector.call(node, '.parsiblock,.tree_selector')) {	
 						if (node.classList.contains("tree_selector")){
 							var theBlock = ParsimonyAdmin.currentDocument.getElementById(node.id.split("treedom_")[1]);
 							var theBlockTree = node;
@@ -62,7 +68,7 @@ function blockAdminBlocks() {
 							var theBlock = node;
 							var theBlockTree = document.getElementById("treedom_" + node.id);
 						}
-						if(!$this.isAddBlock){
+						if($this.isMoveBlock == true){
 							/* Check if block is trying to put in itself in move mode */
 							if (theBlock.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress)) == 10) {
 								return true;
@@ -138,7 +144,6 @@ function blockAdminBlocks() {
 
 		/* HTML5 drag n drop*/
 		$("#panelblocks").on('dragstart.creation', ".admin_core_block", function(event) {
-			$this.isAddBlock = true;
 			var evt = event.originalEvent;
 			evt.dataTransfer.setDragImage(this, 15, 15);
 			evt.dataTransfer.setData("parsimony/addblock", JSON.stringify({blockType: this.dataset.block}));
@@ -146,7 +151,7 @@ function blockAdminBlocks() {
 			$this.startDragging();
 		});
 		$("#parsimonyDND").add('#paneltree').on('dragstart.creation', ".move_block", function(event) {
-			$this.isAddBlock = false;
+			$this.isMoveBlock = true;
 			var evt = event.originalEvent;
 			var elmt = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
 			evt.dataTransfer.setDragImage(elmt, 15, 15);
@@ -196,6 +201,7 @@ function blockAdminBlocks() {
 			evt.preventDefault(); /* Firefox fix */
 			evt.stopPropagation();
 			var elmt = $("#dropInPage", ParsimonyAdmin.currentBody);
+			
 			/* Hide position of visual tool */
 			document.getElementById("parsimonyDND").style.display = "none";
 			ParsimonyAdmin.inProgress = "";
@@ -207,7 +213,7 @@ function blockAdminBlocks() {
 				else stopIdParentBlock = parentContainer.attr('id');
 				var idNextBlock = elmt.next(".parsiblock").attr('id');
 				$this.lastIdNextBlock = idNextBlock;
-				
+
 				/* Move block action */
 				if (evt.dataTransfer.getData("parsimony/moveblock").length > 0) {
 					var obj = JSON.parse(evt.dataTransfer.getData("parsimony/moveblock"));
@@ -238,7 +244,7 @@ function blockAdminBlocks() {
 								if (maxFileSize > file.size) {
 									var fd = new FormData();
 									fd.append("fileField", files[0]);
-									$.each({action: "upload", path: "profiles/www/modules/core/files", MODULE: MODULE, THEME: THEME, THEMETYPE: THEMETYPE, THEMEMODULE: THEMEMODULE}, function(i, val) {
+									$.each({action: "upload", path: "profiles/www/modules/core/files", TOKEN: TOKEN, MODULE: MODULE, THEME: THEME, THEMETYPE: THEMETYPE, THEMEMODULE: THEMEMODULE}, function(i, val) {
 										fd.append(i, val);
 									});
 									var xhr = new XMLHttpRequest();
@@ -250,7 +256,7 @@ function blockAdminBlocks() {
 										}
 									}, false);
 									xhr.addEventListener("load", function(event) {
-										var response = jQuery.parseJSON(event.target.response)
+										var response = jQuery.parseJSON(event.target.response);
 										obj = JSON.stringify({blockType: "core\\blocks\\image", stopIdParentBlock: stopIdParentBlock, idNextBlock: idNextBlock, content: "core/files/" + response.name});
 										$("#dialog-id-options").val(obj);
 									}, false);
@@ -268,9 +274,8 @@ function blockAdminBlocks() {
 			$this.stopDragging();
 		});
 		
-		document.addEventListener("dragend", function( event ) {
-			$this.stopDragging();
-		 }, false);
+		document.addEventListener("dragend", $this.stopDragging.bind(this), false);
+		document.addEventListener("dragenter", $this.startDragging.bind(this), false);
 		
 	}
 
@@ -283,6 +288,8 @@ function blockAdminBlocks() {
 		ParsimonyAdmin.$currentBody.off('.creation');
 		ParsimonyAdmin.$currentBody.add('#paneltree').off('.creation');
 		$(ParsimonyAdmin.currentWindow).on('.creation');
+		document.removeEventListener("dragend", $this.stopDragging.bind(this), false);
+		document.removeEventListener("dragenter", $this.startDragging.bind(this), false);
 	}
 
 }

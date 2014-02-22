@@ -138,10 +138,10 @@ function blockAdminCSS() {
 				/* Update CSSValues */
 				for (var file in ParsimonyAdmin.CSSValuesChanges) {
 					for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
-						if (ParsimonyAdmin.CSSValues[file] && ParsimonyAdmin.CSSValues[file][key]) {
-							ParsimonyAdmin.CSSValues[file][key].s = ParsimonyAdmin.CSSValuesChanges[file][key].selector;
-							ParsimonyAdmin.CSSValues[file][key].p = ParsimonyAdmin.CSSValuesChanges[file][key].value;
+						if (typeof ParsimonyAdmin.CSSValues[file] == "undefined") {
+							ParsimonyAdmin.CSSValues[file] = {};
 						}
+						ParsimonyAdmin.CSSValues[file][key] = {s:ParsimonyAdmin.CSSValuesChanges[file][key].selector,p:ParsimonyAdmin.CSSValuesChanges[file][key].value};
 					}
 				}
 				/* Clean changes */
@@ -182,8 +182,8 @@ function blockAdminCSS() {
 
 		/* Build media query syntax */
 		.on("keyup.creation", "#mdqMinWidthValue, #mdqMaxWidthValue", function() {
-			var minWidth = document.getElementById('mdqMinWidthValue').value;
-			var maxWidth = document.getElementById('mdqMaxWidthValue').value;
+			var minWidth = document.getElementById("mdqMinWidthValue").value;
+			var maxWidth = document.getElementById("mdqMaxWidthValue").value;
 			var media = "";
 			var mediaText = [];
 			if (minWidth.length > 0) {
@@ -196,8 +196,9 @@ function blockAdminCSS() {
 			}
 			if (media.length > 0)
 				media = "@media screen" + media;
-			document.getElementById('currentMdq').value = media;
+			document.getElementById("currentMdq").value = media;
 			document.getElementById("currentMdq").dataset.range = mediaText.join(",");
+			ParsimonyAdmin.setCookie("currentMdq", media, 999);
 			document.getElementById("panelcss").classList.add("CSSSearch");
 		})
 		/* Build media query syntax */
@@ -212,7 +213,7 @@ function blockAdminCSS() {
 			} else {
 				document.getElementById('mediaqueries').classList.add('none');
 			}
-
+			ParsimonyAdmin.setCookie("currentMdq", this.value, 999);
 		})
 
 		/* Manage CSS updates with visual forms */
@@ -422,14 +423,14 @@ function blockAdminCSS() {
 			if (this.id == "current_selector_update") {
 				$.getJSON("admin/getCSSSelectors?filePath=" + document.getElementById("changecsspath").value, function(data) {
 					$.each(data, function(i, value) {
-						options += '<option value="' + value + '" />';
+						options += '<option>' + value + '</option>';
 					});
 					document.getElementById("parsidatalist").innerHTML = options;
 				});
 			} else {
 				var options = "";
 				$.each($.parseJSON(this.dataset.options), function(i, value) {
-					options += '<option value="' + value + '" />';
+					options += options += '<option>' + value + '</option>';
 				});
 				document.getElementById("parsidatalist").innerHTML = options;
 			}
@@ -471,6 +472,7 @@ function blockAdminCSS() {
 				$this.displayCSSConf(currentPath, currentSelector, "");
 			}
 			document.getElementById('mediaqueries').classList.add('none');
+			ParsimonyAdmin.setCookie("currentMdq", "", 999);
 		});
 
 		/* Font text-decoration */
@@ -730,9 +732,8 @@ function blockAdminCSS() {
 				e.preventDefault();
 				e.stopPropagation();
 
-				/* Init/clean panel */
+				/* Init/clean panel but keep media querie context */
 				$("#threed").hide();
-				document.getElementById("currentMdq").value = "";
 				document.getElementById("current_selector_update").value = "";
 				document.getElementById("changecsspath").value = "";
 				document.getElementById("panelcss").classList.remove("CSSSearchBTNS");
@@ -788,7 +789,7 @@ function blockAdminCSS() {
 		$("#changecssformcode").on('click.creation', '#switchtovisuel, #switchtocode', function() {
 			var currentSelector = document.getElementById("current_selector_update").value;
 			if (currentSelector != "") {
-				if (this.id == 'switchtovisuel') { /* switch to viual form */
+				if (this.id == "switchtovisuel") { /* switch to viual form */
 					$this.openCSSForm();
 				} else { /* switch to code mode */
 					$this.openCSSCode();
@@ -833,7 +834,7 @@ function blockAdminCSS() {
 			});
 		});
 
-		$this.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[ParsimonyAdmin.currentDocument.styleSheets.length - 1];
+		$this.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[0];
 
 		/* Shortcut : Save on CTRL+S */
 		$(document).on("keydown.creation", function(e) {
@@ -842,6 +843,14 @@ function blockAdminCSS() {
 				document.getElementById("savemycss").click();
 			}
 		});
+		
+
+		var usedMedia = ParsimonyAdmin.getCookie("currentMdq");
+		if(usedMedia && usedMedia.length > 0) {
+			document.getElementById("currentMdq").value = usedMedia;
+			trigger(document.getElementById("currentMdq"), "change");
+			document.getElementById("checkmedia").click();
+		}
 
 	}
 
@@ -1141,13 +1150,18 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
 			if (file == CSSTHEMEPATH) {
 				nbStylesheet = selectors['nbStylesheet'];
 				nbRules = selectors['nbRules'];
-
+				var media = document.getElementById("currentMdq").value;
 				/* Add proposals */
 				if (proposals.length > 0) {
 					for (var key in proposals) {
 						nbRules++;
-						$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", "");
-						ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
+						if (media.length > 0) {
+							$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0);
+							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
+						} else {
+							$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", "");
+							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
+						}
 						delta++;
 					}
 				}
@@ -1235,13 +1249,12 @@ blockAdminCSS.prototype.addMediaQueries = function(minWidth, maxWidth) {
 
 blockAdminCSS.prototype.drawMediaQueries = function() {
 	var size = document.getElementById("preview").getBoundingClientRect();
-	document.getElementById("mediaqueriesdisplay").style.paddingLeft = size.left + 40 + "px";
-	document.getElementById("scopeMediaQueries").style.width = size.width - 80 + "px";
-	var width = size.width - 40;
+	document.getElementById("mediaqueriesdisplay").style.paddingLeft = size.left + "px";
+	document.getElementById("scopeMediaQueries").style.width = size.width + "px";
+	var width = size.width;
 	var arrow = width + size.left - 10;
 	document.getElementById("arrow-down").style.left = arrow + "px";
 	var mediaqs = document.querySelectorAll(".mediaq");
-	width = width - 40;
 	for (var i = 0, len = mediaqs.length; i < len; i++) {
 		if (width >= mediaqs[i].dataset.min && width <= mediaqs[i].dataset.max) {
 			mediaqs[i].classList.add("active");

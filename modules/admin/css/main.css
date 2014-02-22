@@ -1,4 +1,5 @@
-body{background:url(admin/img/carbon_fibre.png);overflow-x: hidden;}
+html{height:100%}/*firefox fix*/
+body{background:url(admin/img/carbon_fibre.png);overflow: hidden; height: 100%;/* height firefox fix*/}
 body.creationMode{margin-right:230px;margin-left:200px;}
 body.editMode{margin-left:200px;}
 body.previewMode,body.closeleft{margin-left:0;}
@@ -13,6 +14,7 @@ body.closeright #right_sidebar{right:-230px}
 
 .sidebar{position:fixed;width: 200px;height: 100%;padding-top: 35px;z-index: 1;overflow-y: auto;overflow-x: hidden;
          transition: left 0.1s, right 0.1s;background: #fafafa;color: #444;display:none}
+.sidebar::-webkit-scrollbar { width: 0 !important }
 
 /* Sidebars Tabs */
 
@@ -166,7 +168,7 @@ background: linear-gradient(top, white, #F2F2F2);}
 #panelcss input[placeholder]:focus{border: 1px solid rgb(193, 193, 193);background: #fff;}
 /* When CSS panel is in code OR form mode */
 .CSSCode #css_panel, .CSSForm #css_panel{display:block}
-#panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{background: rgb(236, 236, 236);}
+#panelcss.CSSForm #switchtovisuel,#panelcss.CSSCode #switchtocode{background-color: rgb(236, 236, 236);}
 
 /* Shadow widget */
 .panelPointer{width:40px;height:40px;background: rgb(241, 241, 241);position: relative;border: 1px solid rgb(204, 204, 204);}
@@ -239,7 +241,7 @@ border-radius: 0 10px 0 0;cursor: pointer;box-shadow: inset 0 1px 0 #3C3C3C;bord
 
 /* When searching a selector */
 .CSSSearch #css_panel{display:none}
-.CSSSearchBTNS .ssTabCSS{background-image: url(admin/img/redo.png);background-repeat: no-repeat}
+.CSSSearchBTNS .ssTabCSS{background-image: url(admin/img/redo.png);background-repeat: no-repeat;background-position: 2px 2px;}
 
 /* CSS Color Picker*/
 #panelcss .colorpicker{z-index: 9;}

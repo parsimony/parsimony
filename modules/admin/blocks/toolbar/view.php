@@ -47,6 +47,8 @@ $block = new \admin\blocks\modules("modules");
 $block->setConfig('headerTitle', 'Modules');
 $leftSidebar->addBlock($block);
 
+$admin->addBlock($leftSidebar);
+
 if ($_SESSION['behavior'] == 2):
 	/* Blocks */
 	$block = new \admin\blocks\blocks("panelblocks");
@@ -78,8 +80,6 @@ if ($_SESSION['behavior'] == 2):
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
 endif;
-
-$admin->addBlock($leftSidebar);
 
 echo $admin->display();
 ?>
