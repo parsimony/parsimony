@@ -415,7 +415,7 @@ background-color: #f9f9f9;
 #idName{vertical-align: top;margin: 5px;display: inline-block;}
 
 /* Preview container */
-#previewContainer{position: relative;margin-top:36px;width:100%;height:100%;transition:all 0.4s;-webkit-transition:all 0.4s;transform-origin: 50% 50%;-webkit-transform-origin: 50% 50%;}
+#previewContainer{position: relative;margin-top:36px;padding-bottom: 36px;width:100%;height:100%;transition:all 0.4s;-webkit-transition:all 0.4s;transform-origin: 50% 50%;-webkit-transform-origin: 50% 50%;}
 #previewContainer.sized{display: inline-block;overflow: hidden;border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;
 			border-top: 0;box-shadow: 0 0 0 1px #999;box-sizing: content-box;-moz-box-sizing: content-box;
 }
