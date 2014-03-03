@@ -1,5 +1,5 @@
 /* {calendar} */
-.calendar{text-align:center}
+.calendar{position: relative;text-align:center}
 /* {a day} */
 .day {float:left;width:28px;height:28px;line-height:28px;}
 /* {a link day} */

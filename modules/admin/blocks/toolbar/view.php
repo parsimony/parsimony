@@ -40,14 +40,12 @@ $menutop = new \admin\blocks\menu("toolbar");
 $admin->addBlock($menutop);
 
 /* Sidebar Left */
-$leftSidebar = new \core\blocks\container("left_sidebar");
+$leftSidebar = new \core\blocks\tabs("left_sidebar");
 $leftSidebar->setConfig('cssClasses', 'sidebar');
 /* Modules */
 $block = new \admin\blocks\modules("modules");
 $block->setConfig('headerTitle', 'Modules');
 $leftSidebar->addBlock($block);
-
-$admin->addBlock($leftSidebar);
 
 if ($_SESSION['behavior'] == 2):
 	/* Blocks */
@@ -61,7 +59,7 @@ if ($_SESSION['behavior'] == 2):
 
 
 	/* Sidebar Right */
-	$rightSidebar = new \core\blocks\container("right_sidebar");
+	$rightSidebar = new \core\blocks\tabs("right_sidebar");
 	$rightSidebar->setConfig('cssClasses', 'sidebar');
 	/* Tree */
 	$block = new \admin\blocks\tree("paneltree");
@@ -80,6 +78,7 @@ if ($_SESSION['behavior'] == 2):
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
 endif;
+$admin->addBlock($leftSidebar);
 
 echo $admin->display();
 ?>

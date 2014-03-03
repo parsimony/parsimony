@@ -27,25 +27,60 @@
  */
 app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 ?>
-<ul class="creation leftSidebarMenu" data-sidebar="left" style="width:200px;">
-	<li class="icons modules sprite floatleft" data-panel="modules"></li>
-	<li class="icons panelblocks sprite floatleft" data-panel="panelblocks"></li>
-	<?php if ($_SESSION['behavior'] === 2): ?>
-		<li class="icons sprite floatleft manage" data-panel="manage"></li>
+
+<ul class="menu" style="flex-grow:1;display: flex;">
+	<li class="opensidebar opensidebarleft" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
+			document.body.classList.toggle('closeleft')">☰</li>
+	<img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png" style="margin-left: 15px;">
+	<?php
+		$profiles = glob('profiles/*', GLOB_ONLYDIR);
+		$nbProfile = count($profiles);
+	?>
+	<li<?php if ($nbProfile > 1) echo ' class="subMenu"'; ?> style="height:36px">
+		<a href="#" data-title="<?php echo t('My domains'); ?>"><?php echo ucfirst(s(\app::$config['sitename'])); ?>   </a>
+		<?php
+		if ($nbProfile > 1) :
+		?>
+		<ul>
+			<?php
+			foreach ($profiles AS $domainPath):
+				$basen = basename($domainPath);
+				if($basen !== PROFILE):
+					include('profiles/' . $basen .  '/config.php');
+					?>
+					<li>
+						<a href="http://<?php
+						if ($basen !== 'www')
+							echo $basen . '.' . DOMAIN . '/connect';
+						else
+							echo DOMAIN . '/connect';
+						?>"><?php echo ucfirst($config['sitename']); ?></a>
+					</li>
+					<?php
+				endif;
+			endforeach; ?>
+		</ul>
+		<?php endif; ?>
+	</li>
+	<?php if (count(\app::$devices) > 1): ?>
+		<li class="subMenu">
+			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
+			<ul id="changeDevice" class="changeVersion">
+				<?php foreach (\app::$devices AS $device): ?>
+					<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		</li>
 	<?php endif; ?>
 </ul>
-
 <ul style="flex-grow:1;display: flex;align-items: center;">
 	<?php if ($_SESSION['behavior'] === 2): ?>
 		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling'); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
 		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"><input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"></form>
 	<?php endif; ?>
 	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
-	<li class="edit" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
-			document.body.classList.toggle('closeleft')">☰</li>
-	<img class="edit" src="<?php echo BASE_PATH; ?>admin/img/parsimony.png" style="margin-left: 15px;">
 </ul>
-<div style="flex-grow:2;display: flex;justify-content: center;align-items: center;">
+<div style="flex-grow:25;display: flex;justify-content: center;align-items: center;">
 	<ul id="modesSwitcher"> 
 		<?php if ($_SESSION['behavior'] > 0): ?>
 			<li id="previewMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php
@@ -57,39 +92,6 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 	</ul>
 </div>
 <ul class="menu" style="flex-grow:2;display: flex;justify-content: center">
-	<?php
-	$profiles = glob('profiles/*', GLOB_ONLYDIR);
-	if (count($profiles) > 1) :
-	?>
-		<li class="subMenu" style="height:36px">
-			<a href="#" class="toolbarsprite multisite-icon" data-title="<?php echo t('My domains'); ?>"></a>
-			<ul>
-				<?php
-				foreach ($profiles AS $domainPath):
-					$basen = basename($domainPath);
-					?>
-					<li>
-						<a href="http://<?php
-						if ($basen !== 'www')
-							echo $basen . '.' . DOMAIN . '/connect';
-						else
-							echo DOMAIN . '/connect';
-						?>"><?php echo ucfirst($basen); ?></a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</li>
-	<?php endif; ?>
-	<?php if (count(\app::$devices) > 1): ?>
-		<li class="subMenu">
-			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
-			<ul id="changeDevice" class="changeVersion">
-				<?php foreach (\app::$devices AS $device): ?>
-					<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
-				<?php endforeach; ?>
-			</ul>
-		</li>
-	<?php endif; ?>
 	<li style="border-left: 0;position: relative" class="subMenu">
 		<a href="#" style="position: relative;"><span id="currentRes"></span></a>
 		<ul id="listres" class="changeVersion"></ul>
@@ -131,8 +133,11 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 				<li>
 					<a href="<?php echo BASE_PATH; ?>logout" class="toolbarspriteblack close-icon"><?php echo t('Logout'); ?></a>
 				</li>
+				
 			</ul>
 		</li>
+		<li class="opensidebar opensidebarright" style="font-size: 22px;" onclick="$('#right_sidebar').toggleClass('pin2');$(this).toggleClass('active');
+			document.body.classList.toggle('closeright')">☰</li>
 	</ul>
 
 <?php if ($_SESSION['behavior'] == 2): ?>
@@ -146,8 +151,3 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 		</div>
 <?php endif; ?>
 </div>
-<ul class="creation rightSidebarMenu" data-sidebar="right" style="width:230px;">
-	<li class="icons sprite paneltree floatright" data-panel="paneltree"></li>
-	<li class="icons sprite panelcss floatright" data-panel="panelcss"></li>
-	<li class="icons sprite themes floatright" data-panel="themes"></li>
-</ul>
