@@ -680,6 +680,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					if (is_subclass_of($class, 'field') ) {
 						if (isset($aliasClasses[$class])) {
 							$class = $aliasClasses[$class];
+						} else {
+							continue; // fix for this bug https://bugs.php.net/bug.php?id=62343
 						}
 						$field = new $class('');
 						$fieldInfos = \tools::getClassInfos($field);
