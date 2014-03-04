@@ -42,8 +42,8 @@ class formasso extends \field {
 
 	protected $type = '';
 	protected $characters_max = '';
-	protected $entity_asso = ''; //todo put module_...
-	protected $entity_foreign = '';//todo put module_...
+	protected $entity_asso = '';
+	protected $entity_foreign = '';
 	protected $mode = 'default'; /* default / tag */
 
 	/**
@@ -67,9 +67,11 @@ class formasso extends \field {
 		\app::removeListener('afterUpdate');
 
 		$idEntity = $this->entity->getId()->name;
-		$foreignEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_foreign);
+		$cutForeign = explode('_', $this->entity_foreign, 2);
+		$foreignEntity = \app::getModule($cutForeign[0])->getEntity($cutForeign[1]);
 		$idNameForeignEntity = $foreignEntity->getId()->name;
-		$assoEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_asso);
+		$cutAsso = explode('_', $this->entity_asso, 2);
+		$assoEntity = \app::getModule($cutAsso[0])->getEntity($cutAsso[1]);
 		$idAsso = $assoEntity->getId()->name;
 
 		/* Get old links */

@@ -335,12 +335,13 @@ class queryBuilder {
 					$entity = $field->entity->getName();
 					$id = $field->entity->getId()->name;
 					if ($field instanceof \field_formasso) {
-						$foreignEntity = \app::getModule($module)->getEntity($field->entity_foreign);
+						$cutForeign = explode('_', $field->entity_foreign, 2);
+						$foreignEntity = \app::getModule($cutForeign[0])->getEntity($cutForeign[1]);
 						$idNameForeignEntity = $foreignEntity->getId()->name;
-						$this->_SQL['selects'][$field->name] = ' CONCAT(  \'{\', GROUP_CONCAT(CONCAT(\'"\', ' . $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity . ' , \'"\',\':"\',' . $module . '_' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ', \'"\')), \'}\') AS ' . $field->name;
+						$this->_SQL['selects'][$field->name] = ' CONCAT(  \'{\', GROUP_CONCAT(CONCAT(\'"\', ' . $field->entity_foreign . '.' . $idNameForeignEntity . ' , \'"\',\':"\',' . $field->entity_foreign . '.' . $foreignEntity->getBehaviorTitle() . ', \'"\')), \'}\') AS ' . $field->name;
 						$this->groupBy($module . '_' . $entity . '.' . $id);
-						$this->join($module . '_' . $entity . '.' . $id, $module . '_' . $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
-						$this->join($module . '_' . $field->entity_asso . '.' . $idNameForeignEntity, $module . '_' . $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
+						$this->join($module . '_' . $entity . '.' . $id, $field->entity_asso . '.' . $field->entity->getId()->name, 'left outer join');
+						$this->join($field->entity_asso . '.' . $idNameForeignEntity, $field->entity_foreign . '.' . $idNameForeignEntity, 'left outer join');
 					} elseif ($this->getField($id) === FALSE) {
 						$this->select($module . '_' . $entity . '.' . $id, TRUE);
 					}

@@ -30,7 +30,8 @@
 
 echo $this->displayLabel($fieldName);
 
-$foreignEntity = \app::getModule($this->entity->getModule())->getEntity($this->entity_foreign);
+$cutForeign = explode('_', $this->entity_foreign, 2);
+$foreignEntity = \app::getModule($cutForeign[0])->getEntity($cutForeign[1]);
 $titleForeignEntity = $foreignEntity->getBehaviorTitle();
 
 $words = array();
@@ -122,7 +123,7 @@ if (!empty($values)) {
 			
 		})
 		.on("click", "#<?php echo $fieldName . '_addbtn'; ?>", function(){
-			$.post(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&action=displayInsertFormAsso&popup=yes&entity=<?php echo $this->entity->getModule(); ?> - <?php echo $this->entity_foreign; ?>", function(data) {
+			$.post(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&action=displayInsertFormAsso&popup=yes&entity=<?php echo $this->entity->getModule(); ?> - <?php echo $cutForeign[1]; ?>", function(data) {
 				$("#<?php echo $fieldName . '_insertAddForm'; ?>").empty();	
 				$('<iframe id="<?php echo $fieldName . '_iframe'; ?>" seamless onload="this.style.height = this.contentWindow.document.documentElement.offsetHeight + \'px\';">').appendTo("#<?php echo $fieldName . '_insertAddForm'; ?>").attr('srcdoc', data);
 			});
