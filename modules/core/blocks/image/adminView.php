@@ -123,9 +123,9 @@ echo '<label>' . t('Width') . '</label> <span id="width">' . $size[0] . 'px' . '
 		<label><?php echo t('URL'); ?></label><input type="text" name="url" value="<?php if ($this->getConfig('url')) echo s($this->getConfig('url')); ?>" />
 	</div>
 	<div>
-		<label><?php echo t('Fancy Box'); ?></label>
-		<input type="checkbox" name="fancybox" <?php
-			if ($this->getConfig('fancybox') == '1') {
+		<label><?php echo t('Light Box'); ?></label>
+		<input type="checkbox" name="lightbox" <?php
+			if ($this->getConfig('lightbox') == '1') {
 			echo 'checked="checked"';
 			}
 		?>/>

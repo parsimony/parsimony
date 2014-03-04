@@ -48,10 +48,10 @@ class image extends \block {
 			$this->setConfig('title', $_POST['title']);
 			$this->setConfig('alt', $_POST['alt']);
 			$this->setConfig('url', $_POST['url']);
-			if(isset($_POST['fancybox'])){
-				$this->setConfig('fancybox', '1');
+			if(isset($_POST['lightbox'])){
+				$this->setConfig('lightbox', '1');
 			}else{
-				$this->setConfig('fancybox', '0');
+				$this->setConfig('lightbox', '0');
 			}
 		}
 	}
@@ -98,7 +98,7 @@ class image extends \block {
 		$this->setConfig('imgPath','core/files/Parsimony.png');
 		$this->setConfig('title', 'parsimony');
 		$this->setConfig('alt', 'Parsimony');
-		$this->setConfig('fancybox', '0');
+		$this->setConfig('lightbox', '0');
 	}
 
 }
