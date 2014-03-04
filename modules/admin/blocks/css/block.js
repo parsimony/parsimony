@@ -176,8 +176,9 @@ function blockAdminCSS() {
 				}
 			}
 			$this.checkChanges();
-			document.getElementById('css_panel').style.display = 'none';
 			$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
+			$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value);
+			
 		})
 
 		/* Build media query syntax */
@@ -867,14 +868,16 @@ function blockAdminCSS() {
 
 	this.unloadCreationMode = function() {
 		/* reInit panel, when change page or version */
-		document.getElementById("panelcss").classList.add("CSSSearch");
-		document.getElementById("current_selector_update").value = '';
+		/*document.getElementById("panelcss").classList.add("CSSSearch");
+		document.getElementById("current_selector_update").value = '';*/
+		
 		/* If CSS changed but not saved, we reinit */
-		if (document.getElementById("toolChanges").classList.contains("toolactive")) {
+		/*if (document.getElementById("toolChanges").classList.contains("toolactive")) {
 			ParsimonyAdmin.CSSValuesChanges = {};
 			document.getElementById("reinitcss").click(); // place before unload event
-		}
-
+			ParsimonyAdmin.inProgress = '';
+		}*/
+		
 		$("#panelcss").off('.creation', "**");
 		$("#colorjack_square").hide();
 		$(document).add(ParsimonyAdmin.currentDocument).off(".parsimonyDND");
