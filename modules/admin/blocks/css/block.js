@@ -434,6 +434,16 @@ function blockAdminCSS() {
 				});
 				document.getElementById("parsidatalist").innerHTML = options;
 			}
+		})
+				
+		.on("click.creation", "#checkmedia", function() { 
+			if (this.checked == false) { // inverted cause checked has already been updated
+				document.getElementById("removeMDQ").click();
+				document.getElementById('mediaqueries').classList.add('none');
+			} else {
+				Parsimony.blocks['admin_css'].findSelectorsByElement(document.body);
+				document.getElementById('mediaqueries').classList.remove('none');
+			}
 		});
 
 		/* Media queries UI */
@@ -464,7 +474,8 @@ function blockAdminCSS() {
 			document.getElementById("mdqMinWidthValue").value = "";
 			document.getElementById("mdqMaxWidthValue").value = "";
 			document.getElementById("currentMdq").value = "";
-
+			document.getElementById("checkmedia").checked = false;
+			
 			/* If a selector is already selected */
 			var currentPath = document.getElementById("changecsspath").value;
 			var currentSelector = document.getElementById("current_selector_update").value;
