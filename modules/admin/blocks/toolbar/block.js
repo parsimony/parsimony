@@ -13,7 +13,7 @@ function blockAdminToolbar() {
 				ParsimonyAdmin.displayPanel(panel);
 				document.body.classList.remove('close' + sidebar);
 			}
-			ParsimonyAdmin.setCookie(sidebar + "ToolbarPanel", this.dataset.panel, 999);
+			ParsimonyAdmin.setCookie(sidebar + "ToolbarPanel", panel, 999);
 		});
 
 	}

@@ -14,14 +14,10 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		<?php
 		/* Define active panels */
 		if (isset($_COOKIE['leftToolbarPanel'])) {
-			echo '$(".' . $_COOKIE['leftToolbarPanel'] . '").trigger("click");';
-		} else {
-			echo '$(".modules").trigger("click");';
+			echo '$(\'a[href="#' . $_COOKIE['leftToolbarPanel'] . '"]\')[0].click();';
 		}
 		if (isset($_COOKIE['rightToolbarPanel'])) {
-			echo '$(".' . $_COOKIE['rightToolbarPanel'] . '").trigger("click");';
-		} else {
-			echo '$(".paneltree").trigger("click");';
+			echo '$(\'a[href="#' . $_COOKIE['rightToolbarPanel'] . '"]\')[0].click();';
 		}
 		?>
 		
