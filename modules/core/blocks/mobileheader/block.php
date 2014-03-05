@@ -37,6 +37,7 @@ namespace core\blocks;
  * @allowed_types mobile,tablet,tv
  * @php_version_min 5.3
  * @modules_dependencies core:1
+ * @block_category mobile
  */
 
 class mobileheader extends \block {
@@ -53,5 +54,3 @@ class mobileheader extends \block {
     }
 
 }
-
-?>
