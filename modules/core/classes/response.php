@@ -208,10 +208,11 @@ class response {
 				$pathParts = pathinfo($file, PATHINFO_EXTENSION);
 				if ($pathParts === 'js' || $pathParts === 'css') {
 					$path = stream_resolve_include_path($file);
-					if ($_SESSION['behavior'] && $pathParts == 'css')
-						echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
-					if ($path)
+					if ($path){
+						if ($_SESSION['behavior'] && $pathParts == 'css')
+							echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
 						include($path);
+					}
 					echo PHP_EOL; //in order to split JS script and avoid "}function"
 				}else {
 					return FALSE;
