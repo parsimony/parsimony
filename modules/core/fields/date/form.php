@@ -62,7 +62,7 @@ if ($this->use == 'normal') :
 	$temp = str_replace('%month%', $select, $temp);
 
 	foreach ($elmts as $key => $v) {
-		$temp = str_replace('%'.$key.'%', '<input type="text" class="field-date-'.$key.'" style="width:'.$v['width'].'px" name="'.$this->name.'['.$key.']" pattern="'.$v['pattern'].'" value="'.$v['value'].'" />', $temp);
+		$temp = str_replace('%'.$key.'%', '<input type="text" class="field-date-'.$key.'" style="width:'.$v['width'].'px" name="' . $tableName . '[' . $this->name . '][' . $key . ']" pattern="'.$v['pattern'].'" value="'.$v['value'].'" />', $temp);
 	}
 	echo $temp;
 	?>
