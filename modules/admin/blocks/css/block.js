@@ -5,6 +5,7 @@ function blockAdminCSS() {
 	this.currentIdMedia = 0;
 	this.currentMediaText = "";
 	this.currentRule;
+	this.currentProperties = {};
 	this.currentFile;
 
 
@@ -15,6 +16,8 @@ function blockAdminCSS() {
 	this.loadCreationMode = function() {
 		
 		var $this = this;
+		
+		document.getElementById("panelcss").classList.add("CSSSearch");
 		
 		/* Init visual tool (drag 'n drop/resize/move block) */
 
@@ -114,18 +117,13 @@ function blockAdminCSS() {
 			texta.focus(); //to init
 			var id = texta.id;
 			if (line.classList.contains("CSSLightbarre")) {
-				line.classList.remove('CSSLightbarre');
+				line.classList.remove("CSSLightbarre");
 				delete $this.codeEditors[id].rm[lineNb];
 			} else {
-				line.classList.add('CSSLightbarre');
+				line.classList.add("CSSLightbarre");
 				$this.codeEditors[id].rm[lineNb] = lineNb;
 			}
 			$this.codeEditors[id].draw();
-		})
-
-		/* Init current CSS rule editor focus */
-		.on("focus.creation", ".csscode", function(e) {
-			$this.setCurrentRule(this.dataset.nbstyle, this.dataset.nbrule, this.dataset.nbmedia);
 		})
 
 		/* Save changes */
@@ -157,7 +155,7 @@ function blockAdminCSS() {
 				for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
 					var selector = ParsimonyAdmin.CSSValuesChanges[file][key];
 					var selectors = $this.findSelectorsByElement(selector.selector, selector.media);
-					var selectorName = selector.media.replace(/\s+/g, "") + selector.selector;
+					var selectorName = selector.media + selector.selector;
 					if (typeof selectors[file] !== "undefined") {
 						var infos = selectors[file][selectorName];
 						if (infos) {
@@ -182,37 +180,10 @@ function blockAdminCSS() {
 		})
 
 		/* Build media query syntax */
-		.on("keyup.creation", "#mdqMinWidthValue, #mdqMaxWidthValue", function() {
-			var minWidth = document.getElementById("mdqMinWidthValue").value;
-			var maxWidth = document.getElementById("mdqMaxWidthValue").value;
-			var media = "";
-			var mediaText = [];
-			if (minWidth.length > 0) {
-				media += " and (min-width:" + minWidth + "px)";
-				mediaText.push(minWidth);
-			}
-			if (maxWidth.length > 0) {
-				media += " and (max-width:" + maxWidth + "px)";
-				mediaText.push(maxWidth);
-			}
-			if (media.length > 0)
-				media = "@media screen" + media;
-			document.getElementById("currentMdq").value = media;
-			document.getElementById("currentMdq").dataset.range = mediaText.join(",");
-			ParsimonyAdmin.setCookie("currentMdq", media, 999);
-			document.getElementById("panelcss").classList.add("CSSSearch");
-		})
-		/* Build media query syntax */
 		.on("change.creation", "#currentMdq", function() {
-			var media = this.value.replace(/\s+/g, "");
-			var min = media.match(/min-width:([0-9]*)px/);
-			var max = media.match(/max-width:([0-9]*)px/);
-			document.getElementById('mdqMinWidthValue').value = (min != null ? min[1] : "");
-			document.getElementById('mdqMaxWidthValue').value = (max != null ? max[1] : "");
-			if (this.value.length > 0) {
-				document.getElementById('mediaqueries').classList.remove('none');
-			} else {
-				document.getElementById('mediaqueries').classList.add('none');
+			var option = document.querySelector('.mdqOption[data-media="' + this.value + '"]');
+			if(option){
+				option.click();
 			}
 			ParsimonyAdmin.setCookie("currentMdq", this.value, 999);
 		})
@@ -220,31 +191,27 @@ function blockAdminCSS() {
 		/* Manage CSS updates with visual forms */
 		.on("keyup.creation change.creation", ".liveconfig", function() {
 
-			/* Get the CSS property in camelCase notation( usefull for firefox) */
-			var jsProp = this.dataset.css.replace(/-([a-z])/g, function(s, t) {
-				return t.toUpperCase();
-			});
 			/* Set style in current CSS rule */
-			if (this.value.length > 0) {
-				$this.currentRule.style[jsProp] = this.value;
-			} else {
-				$this.currentRule.style[jsProp] = "";
-			}
+			$this.currentRule.style[this.dataset.js] = this.value;
 
 			/* Update position of visual tool */
 			$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
 
-			/* Save change, we update from our old CSS string ( from CSSValuesChanges obj ) because shorthand propeties are exploded in CSS rules ( background => background-color..etc */
-			var currentSelector = document.getElementById("current_selector_update").value;
-			var key = $this.currentMediaText.replace(/\s+/g, '') + currentSelector;
-			/* Get last CSS code */
-			var oldCssText = $this.getLastCSS($this.currentFile, key);
-
-			$this.setCssChange($this.currentFile, currentSelector, $this.updateCSSText(oldCssText, this.dataset.css, this.value), $this.currentMediaText);
+			if (this.value.length > 0) {
+				$this.currentProperties[this.dataset.css] = this.value;
+			} else {
+				delete $this.currentProperties[this.dataset.css];
+			}
+			var updatedCode = $this.getCSSRulesUpdated();
+			/* Save changes, we update from our old CSS string ( from CSSValuesChanges obj ) because shorthand propeties are exploded in CSS rules ( background => background-color..etc */
+			$this.setCssChange($this.currentFile, document.getElementById("current_selector_update").value, updatedCode, $this.currentMediaText);
+			
+			/* Update tab code*/
+			document.querySelector("textarea").value = updatedCode;
 		})
 
 		/* Explorer */
-		.on('click.creation', ".explorer", function() {
+		.on("click.creation", ".explorer", function() {
 			window.callbackExplorerID = this.getAttribute("rel");
 			window.callbackExplorer = function(file) {
 				$("#" + window.callbackExplorerID).val(BASE_PATH + file);
@@ -258,45 +225,43 @@ function blockAdminCSS() {
 		})
 
 		/* Tabs of visual panel css */
-		.on('click.creation', '#css_menu .cssTab', function() {
+		.on("click.creation", "#css_menu .cssTab", function() {
 			document.querySelector("#css_menu .cssTab.active").classList.remove("active");
 			this.classList.add("active");
 			$(".panelcss_tab").addClass("hiddenTab");
-			document.getElementById(this.getAttribute("rel")).classList.remove("hiddenTab");
-		})
-
-		/* Input selecto management : current_selector_update */
-		.on("change.creation", '#changecsspath', function() {
-			if (document.getElementById("current_selector_update").value.length > 2) {
-				$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value);
+			var rel = this.getAttribute("rel");
+			document.getElementById(rel).classList.remove("hiddenTab");
+			if (rel == "panelcss_tab_code") {
+				document.getElementById("form_css").classList.remove("listOnly");
+				for (var id in $this.codeEditors) {
+					$this.codeEditors[id].draw(false);
+				}
+			} else {
+				document.getElementById("form_css").classList.add("listOnly");
 			}
 		})
 
-		.on("keypress.creation", '#current_selector_update', function(e) {
-			if (e.which === 13) { // if [enter]
-				if (document.getElementById("panelcss").classList.contains('CSSCode')) {
-					document.getElementById("switchtocode").click();
-				} else {
-					document.getElementById("switchtovisuel").click();
-				}
+		.on("keypress.creation", "#current_selector_update", function(e) {
+			if (e.which === 13 && this.value.length > 1) { // if [enter]
+				$this.displayCSSConf(document.getElementById("changecsspath").value, this.value, document.getElementById("currentMdq").value);
 				e.preventDefault(); // to avoid submit form and save css
 			}
 		})
+		.on("click.creation", "#goWithThisSelector", function(e) {
+			if (document.getElementById("current_selector_update").value.length > 1) {
+				$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value, document.getElementById("currentMdq").value);
+			}
+		})
+
 		.on('keyup.creation', "#current_selector_update", function(event) {
 			event.stopPropagation();
-			if (event.which !== 13) { // if not [enter]
-				if (event.type === 'keyup') {
-					try { /* In case of bad selector */
-						$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-						$(this.value, ParsimonyAdmin.currentDocument).addClass('cssPicker');
-					} catch (E) {}
-					if (this.value.length > 0) {
-						document.getElementById("panelcss").classList.add("CSSSearchBTNS");
-					} else {
-						document.getElementById("panelcss").classList.remove("CSSSearchBTNS");
-					}
-					document.getElementById("panelcss").classList.add("CSSSearch");
-				}
+			if (event.which !== 13 && event.type === "keyup") { // if not [enter]
+				try { /* In case of bad selector */
+					$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker");
+					$(this.value, ParsimonyAdmin.currentDocument).addClass("cssPicker");
+					$this.highlightBlock();
+				} catch (E) {}
+				document.getElementById("panelcss").classList.add("CSSSearch");
 			}
 		})
 
@@ -420,32 +385,22 @@ function blockAdminCSS() {
 		.on("click.creation", ".autocomplete", function() {
 			/* We clear datalist */
 			document.getElementById("parsidatalist").innerHTML = "";
-			this.setAttribute("list", "parsidatalist");
+			var options = "";
 			if (this.id == "current_selector_update") {
-				$.getJSON("admin/getCSSSelectors?filePath=" + document.getElementById("changecsspath").value, function(data) {
-					$.each(data, function(i, value) {
-						options += '<option>' + value + '</option>';
-					});
-					document.getElementById("parsidatalist").innerHTML = options;
-				});
+				var data = ParsimonyAdmin.CSSValues[CSSTHEMEPATH];
+				for(var i in data) {
+					options += '<option>' + data[i].s + '</option>';
+				}
 			} else {
-				var options = "";
-				$.each($.parseJSON(this.dataset.options), function(i, value) {
-					options += options += '<option>' + value + '</option>';
-				});
-				document.getElementById("parsidatalist").innerHTML = options;
+				var data = JSON.parse(this.dataset.options);
+				for(var i in data) {
+					options += '<option>' + data[i] + '</option>';
+				}
 			}
+			
+			document.getElementById("parsidatalist").innerHTML = options;
+			this.setAttribute("list", "parsidatalist");
 		})
-				
-		.on("click.creation", "#checkmedia", function() { 
-			if (this.checked == false) { // inverted cause checked has already been updated
-				document.getElementById("removeMDQ").click();
-				document.getElementById('mediaqueries').classList.add('none');
-			} else {
-				Parsimony.blocks['admin_css'].findSelectorsByElement(document.body);
-				document.getElementById('mediaqueries').classList.remove('none');
-			}
-		});
 
 		/* Media queries UI */
 		$("#mediaqueries").on("click.creation", ".mediaq", function(e) {
@@ -470,23 +425,34 @@ function blockAdminCSS() {
 			}
 		})
 
-		/* Button to remove media querie context */
-		.on("click.creation", "#removeMDQ", function() {
+		.on("click.creation", "#addMDQ", function() {
+			var minWidth = document.getElementById("mdqMinWidthValue").value;
+			var maxWidth = document.getElementById("mdqMaxWidthValue").value;
+			var mediaComp = [];
+			if(maxWidth.length > 0) {
+				  mediaComp.push("(max-width:" +  maxWidth + "px)");
+			}
+			if(minWidth.length > 0) {
+				  mediaComp.push("(min-width:" +  minWidth + "px)");
+			}
+			$this.addMediaQueries("@media " + mediaComp.join(" and "));
+			document.getElementById("formAddMedia").style.display = 'none';
 			document.getElementById("mdqMinWidthValue").value = "";
 			document.getElementById("mdqMaxWidthValue").value = "";
-			document.getElementById("currentMdq").value = "";
-			document.getElementById("checkmedia").checked = false;
-			
-			/* If a selector is already selected */
-			var currentPath = document.getElementById("changecsspath").value;
-			var currentSelector = document.getElementById("current_selector_update").value;
-			if (currentPath.length > 0 && currentSelector.length > 0) {
-				$this.displayCSSConf(currentPath, currentSelector, "");
+		})
+		.on("click.creation", "#rmvMDQ", function() {
+			document.getElementById("formAddMedia").style.display = 'none';
+		})
+		.on("click.creation", "#selectmedias .mdqOption", function() {
+			this.parentNode.classList.add("none");
+			document.getElementById("mediaselected").innerHTML = "Media query: " + this.innerHTML;
+			document.getElementById("currentMdq").value = this.dataset.media;
+			trigger(document.getElementById("currentMdq"), "change");
+			if(document.getElementById("current_selector_update").value.length > 0){
+				$this.displayCSSConf( document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value, this.dataset.media);
 			}
-			document.getElementById('mediaqueries').classList.add('none');
-			ParsimonyAdmin.setCookie("currentMdq", "", 999);
-		});
-
+		})
+			
 		/* Font text-decoration */
 		$(".decoration").on("click.creation", ".optionDeco", function(e) {
 			this.classList.toggle("active");
@@ -502,7 +468,7 @@ function blockAdminCSS() {
 			var container = this.parentNode;
 			var value = this.value.replace(/[\s]{2,}/g, ' ');
 			var values = value.split(" ");
-			$('.active', container).each(function() {
+			$(".active", container).each(function() {
 				this.classList.remove("active");
 			});
 			for (var i = 0, len = values.length; i < len; i++) {
@@ -586,7 +552,9 @@ function blockAdminCSS() {
 
 			var parse = document.getElementById("parseCSS").style;
 			parse.background = this.value;
-			document.querySelector(".prop_background-color").value = (parse.backgroundColor && parse.backgroundColor != "initial" ? rgbToHex(parse.backgroundColor) : "");
+			var backColorElmt = document.querySelector(".prop_background-color");
+			backColorElmt.value = (parse.backgroundColor && parse.backgroundColor != "initial" ? rgbToHex(parse.backgroundColor) : "");
+			backColorElmt.nextElementSibling.style.backgroundColor = backColorElmt.value;
 			document.querySelector(".prop_background-image").value = (parse.backgroundImage && parse.backgroundImage != "initial" && parse.backgroundImage != "none" ? parse.backgroundImage.replace("url(", "").replace(")", "").replace('"', "").replace(window.location.origin + window.location.pathname, "") : "");
 			document.querySelector(".prop_background-position").value = (parse.backgroundAttachment && parse.backgroundPosition != "initial" ? parse.backgroundPosition : "");
 			document.querySelector(".prop_background-attachment").value = (parse.backgroundAttachment && parse.backgroundAttachment != "initial" ? parse.backgroundAttachment : "");
@@ -667,7 +635,7 @@ function blockAdminCSS() {
 				dndstart.container.querySelector('.v-offset').value = top2 - 16 + "px";
 				trigger(dndstart.container.querySelector('.v-offset'), "change");
 			})
-					.on("mouseup.parsimonyDND", dndstart, function(e) {
+			.on("mouseup.parsimonyDND", dndstart, function(e) {
 				document.getElementById("previewContainer").style.pointerEvents = "none";
 				$(document).off("mousemove").off("mouseup");
 			});
@@ -716,100 +684,84 @@ function blockAdminCSS() {
 		});
 
 		/* Manage CSSpicker */
-		$("#right_sidebar").on('click.creation', ".cssPickerBTN", function(e) {
-			e.preventDefault();
+		$("#right_sidebar").on("click.creation", ".cssPickerBTN", function(e) {
 			e.stopPropagation();
-			$("#threed").show();
+			/* init */
+			document.getElementById("threed").style.display = "block";
+			document.getElementById("linkedRules").innerHTML = "";
+			document.getElementById("current_selector_update").value = "";
+			document.getElementById("blockDetect").style.display = "none";
+			document.getElementById("panelcss").classList.add("CSSSearch");
+			ParsimonyAdmin.closeParsiadminMenu();
+			
 			function destroyCSSpicker() {
-				$('#container', ParsimonyAdmin.currentBody).off(".csspicker");
+				$("#container", ParsimonyAdmin.currentBody).off(".csspicker");
 				$("#rotatex,#rotatey").val(0);
 				$("#rotatez").val(300);
 				$(".cssPickerBTN").removeClass("active");
-				$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+				$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker");
+				ParsimonyAdmin.$currentBody.css('transform', 'initial').css('-webkit-transform', 'initial').removeClass("threed");
 			}
-			if ($(this).hasClass("active")) {
+			if (this.classList.contains("active")) {
 				destroyCSSpicker();
 				return false;
 			}
-			ParsimonyAdmin.closeParsiadminMenu();
-			$('#container', ParsimonyAdmin.currentBody).on('mouseover.csspicker', "*", function(event) {
+			
+			$(".cssPickerBTN").addClass("active");
+			
+			$("#container", ParsimonyAdmin.currentBody).on("mouseover.csspicker", "*", function(event) {
 				event.stopPropagation();
 				var elmt = ParsimonyAdmin.currentDocument.querySelector('.cssPicker');
 				if (elmt)
 					elmt.classList.remove("cssPicker");
 				this.classList.add("cssPicker");
 			});
-			$(".cssPickerBTN").addClass("active");
-			$('#container', ParsimonyAdmin.currentBody).on('click.csspicker', "*", function(e) {
+
+			$("#container", ParsimonyAdmin.currentBody).on("click.csspicker", "*", function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 
-				/* Init/clean panel but keep media querie context */
-				$("#threed").hide();
-				document.getElementById("current_selector_update").value = "";
-				document.getElementById("changecsspath").value = "";
-				document.getElementById("panelcss").classList.remove("CSSSearchBTNS");
+				/* Init */
+				document.getElementById("threed").style.display = "none";
 				document.getElementById("panelcss").classList.remove("CSSSearch");
-
-				/* Clean iframe */
-				ParsimonyAdmin.$currentBody.css('transform', 'initial').css('-webkit-transform', 'initial').removeClass("threed");
-				$('.cssPicker', ParsimonyAdmin.currentBody).removeClass("cssPicker");
-				$(this).addClass("cssPicker");
-				$this.openCSSCode();
+				destroyCSSpicker();
+				
+				/* search for selectors and sort them by specificity */
 				var proposals = [];
-				if (this.id.length > 0 && $(".selectorcss[selector='#" + this.id + "']", $("#changecsscode")).length == 0)
-					proposals.push("#" + this.id);
-				var selectProp = "";
-				var forbidClasses = ",selection-block,block,container,parsieditinline,cssPicker,";
-				$.each(this.classList, function(index, value) {
-					if ($(".selectorcss[selector='." + value + "']").length == 0 && forbidClasses.indexOf("," + value + ",") == "-1") {
-						proposals.push("." + value);
-						selectProp = "." + value + " ";
-					}
-				});
-				var good = false;
-				if (this.id == "") {
-					$(this).parentsUntil("body").each(function() {
-						if (!good) {
-							var selectid = "";
-							var selectclass = "";
-							if (this.getAttribute('id') != undefined)
-								selectid = "#" + this.getAttribute('id');
-							else {
-								$.each(this.classList, function(index, value) {
-									if (forbidClasses.indexOf("," + value + ",") == "-1")
-										selectclass = "." + value;
-								});
-							}
-							selectProp = selectid + selectclass + " " + selectProp;
-							if (selectid != "")
-								good = true;
-						}
-					});
-					selectProp = selectProp.replace(/\s+/g, " ");
-					if ($(".selectorcss[selector='" + selectProp + "']", $("#changecsscode")).length == 0)
-						proposals.push(selectProp);
+
+				/* If element has an ID we choose it immediatly */
+				if (this.id.length > 0) {
+					proposals[1000] = "#" + this.id;
 				}
 
-				$this.getCSSSelectorForElement(this, proposals);
-				destroyCSSpicker();
-				return false;
+				/* classes */
+				var forbidClasses = ",selection-block,parsiblock,parsieditinline,cssPicker,";
+				for (var i = 0, len = this.classList.length; i < len; i++) {
+					if (proposals.indexOf(this.classList[i]) == "-1" && forbidClasses.indexOf("," + this.classList[i] + ",") == "-1") {
+						proposals[$this.getSpecificity("." + this.classList[i]) + proposals.length] = "." + this.classList[i];
+					}
+				}
+
+				/* search for parent block */
+				var block = this;
+				while (!block.classList.contains("parsiblock")) {
+					block = block.parentNode;
+				}
+
+				/* search for predefined block selectors */
+				var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matchesSelector);
+				var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
+				for(var i in stylableElements) {
+					var selector = "#" + block.id + " " + stylableElements[i];
+					if (matchesSelector.call(this, selector)) {
+						proposals[$this.getSpecificity(selector) + proposals.length] = selector;
+					}
+				}
+				
+				$this.getCSSSelectorForElement(this, null, proposals);
+
 			});
 		});
-
-		/* Manage change CSS mode */
-		$("#changecssformcode").on('click.creation', '#switchtovisuel, #switchtocode', function() {
-			var currentSelector = document.getElementById("current_selector_update").value;
-			if (currentSelector != "") {
-				if (this.id == "switchtovisuel") { /* switch to viual form */
-					$this.openCSSForm();
-				} else { /* switch to code mode */
-					$this.openCSSCode();
-				}
-				$this.displayCSSConf(document.getElementById("changecsspath").value, currentSelector);
-			}
-		});
-
 
 		/* CSSpicker 3D */
 		$("#threed").on('change.creation', '.ch', function() {
@@ -855,13 +807,11 @@ function blockAdminCSS() {
 				document.getElementById("savemycss").click();
 			}
 		});
-		
 
 		var usedMedia = ParsimonyAdmin.getCookie("currentMdq");
-		if(usedMedia && usedMedia.length > 0) {
-			document.getElementById("currentMdq").value = usedMedia;
-			trigger(document.getElementById("currentMdq"), "change");
-			document.getElementById("checkmedia").click();
+		if(usedMedia) {
+			this.addMediaQueries(usedMedia);
+			document.querySelector('.mdqOption[data-media="' + usedMedia + '"]').click();
 		}
 
 	}
@@ -884,7 +834,6 @@ function blockAdminCSS() {
 		$('#container', ParsimonyAdmin.currentBody).off(".csspicker");
 		$(".parsimonyMove").off(".creation");
 		$(".parsimonyResize").off(".creation");
-		$("#changecssformcode").off(".creation");
 		$("#right_sidebar").off(".creation");
 		$("#mediaqueriesdisplay").off(".creation");
 		$(".decoration").off(".creation");
@@ -900,6 +849,31 @@ blockAdminCSS.prototype.codeEditors = [];
 
 blockAdminCSS.prototype.setCss = function(rule, code) {
 	rule.style.cssText = code;
+}
+
+blockAdminCSS.prototype.highlightBlock = function() {
+	var selector = document.getElementById("current_selector_update").value;
+	if(selector[0] == "#") { /* test if the selector begin by a block */
+		var block = ParsimonyAdmin.currentDocument.querySelector(selector.split(" ")[0] + ".parsiblock");
+		if(block) {
+			document.getElementById("blockDetectId").textContent = selector.split(" ")[0];
+			document.getElementById("blockDetect").style.display = "block";
+			/* Provide selectors proposals */
+			var CSSProps = '<div>Selectors for block ' + block.getAttribute("is").split("-")[1] + '</div>';
+			var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
+			if (typeof stylableElements == "object") {
+				for(var title in stylableElements) {
+					var value = stylableElements[title];
+					CSSProps += '<a href="#" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(CSSTHEMEPATH, \'#' + block.id + ' ' + value + '\');return false;" data-css="' + value + '">' + ' ' + t(title) + '<div>' + value + '</div></a>';
+				}
+			}
+			document.getElementById("blockDetectSelectors").innerHTML = CSSProps;
+		} else {
+			document.getElementById("blockDetect").style.display = "none";
+		}
+	} else {
+		document.getElementById("blockDetect").style.display = "none";
+	}
 }
 
 blockAdminCSS.prototype.setCurrentRule = function(idStyle, idRule, idMedia) {
@@ -929,39 +903,43 @@ blockAdminCSS.prototype.checkChanges = function() {
 }
 
 blockAdminCSS.prototype.updatePosition = function(bounds) {
-	var DNDadmin = document.getElementById("parsimonyDND");
-	DNDadmin.style.cssText = "display:block;top:" + bounds.top + "px;left:" + bounds.left + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
+	document.getElementById("parsimonyDND").style.cssText = "display:block;top:" + bounds.top + "px;left:" + bounds.left + "px;width:" + bounds.width + "px;height:" + bounds.height + "px";
 }
 
-/* Keep CSS changes in an object */
+/* Save CSS changes in an object */
 blockAdminCSS.prototype.setCssChange = function(path, selector, value, media) {
 
 	if (typeof ParsimonyAdmin.CSSValuesChanges[path] == "undefined")
 		ParsimonyAdmin.CSSValuesChanges[path] = {};
-	var key = media.replace(/\s+/g, '') + selector;
+	var key = media + selector;
 	/* Add this selector in changed selector list */
 	if (typeof ParsimonyAdmin.CSSValuesChanges[path][key] == "undefined") {
 		ParsimonyAdmin.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
 		this.checkChanges();
-		/* If this is the first time we use this media queri */
+		/* If this is the first time we use this media query */
 		if (media && document.querySelectorAll('#mediaqueriesdisplay .mediaq[data-media="' + media + '"]').length == 0) {
-			this.addMediaQueries(document.getElementById("mdqMinWidthValue").value, document.getElementById("mdqMaxWidthValue").value);
+			this.addMediaQueries(media);
 		}
 	} else {
 		ParsimonyAdmin.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
 	}
 }
 
+/* Get lastests rules of a selector with real source as origin( not browser which remove css rules that doesn't recognize ) */
 blockAdminCSS.prototype.getLastCSS = function(filePath, ident) {
 	var code = "";
+	
+	/* If selector has already been updated */
 	if (typeof ParsimonyAdmin.CSSValuesChanges[filePath] != "undefined") {
 		if (typeof ParsimonyAdmin.CSSValuesChanges[filePath][ident] != "undefined") {
 			code = ParsimonyAdmin.CSSValuesChanges[filePath][ident].value.trim();
 			return code; //if we already cleaned up do not try to go further
 		}
 	}
-	if (code.length == 0 && typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {
-		if (typeof ParsimonyAdmin.CSSValues[filePath][ident] != "undefined") {
+	
+	/* If not, we take css rules from the origin */
+	if (typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {console.log(ident + "1");
+		if (typeof ParsimonyAdmin.CSSValues[filePath][ident] != "undefined") {console.log(ident + "2");
 			code = ParsimonyAdmin.CSSValues[filePath][ident].p.trim();
 		}
 	}
@@ -969,170 +947,112 @@ blockAdminCSS.prototype.getLastCSS = function(filePath, ident) {
 }
 
 blockAdminCSS.prototype.displayCSSConf = function(filePath, selector, media) {
-
-	/* Media querie or not */
-	if (typeof media == "undefined") {
-		var media = document.getElementById("currentMdq").value;
-	} else {
-		document.getElementById("currentMdq").value = media;
-		trigger(document.getElementById("currentMdq"), "change");
-	}
-
+	
 	/* Clean form */
 	document.getElementById("form_css").reset(); // reset all input except inputs hidden
 	$(".modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
 	document.getElementById("backTest").style.background = "url(admin/img/transparent.png)"; // clean background
-	$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker'); // clean cssPicker marker
-	document.getElementById("panelcss").classList.remove("CSSSearchBTNS");
+	$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker"); // clean cssPicker marker
 	document.getElementById("panelcss").classList.remove("CSSSearch");
 
-	/* Get existing code, last changes in priority */
-	var code = this.getLastCSS(filePath, media.replace(/\s+/g, '') + selector);
+	/* Init vars to locate CSS rule : this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia,.. */
+	this.getCSSSelectorForElement(selector, media);
 
-	/* Init form */
-	document.getElementById("current_selector_update").value = selector;
-	document.getElementById("changecsspath").value = filePath;
 
-	/* Init vars to locate CSS rule : this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia */
-	this.mapSelectorWithStylesheet(filePath, selector);
-
-	if (document.getElementById("panelcss").classList.contains('CSSCode')) {
-		this.openCSSCode();
-		/* If code mode is enable */
-		$("#changecsscode").empty();
-		this.addSelectorCSS(filePath, selector, this.formatCSS(code), this.currentIdStylesheet, this.currentIdRule, this.currentMediaText, this.currentIdMedia);
-
-	} else {
-		this.openCSSForm();
-		/* If visual mode is enable, we fill the visual CSS Form  */
-		if (code.length > 0) {
-			var properties = code.split(";");
-			if (Array.isArray(properties)) {
-				properties.forEach(function(item) {
-					var properties = item.split(":");
-					if (Array.isArray(properties) && properties.length == 2) {
-						var elmt = document.querySelector(".prop_" + properties[0].trim());
-						if (elmt) {
-							elmt.value = properties[1].trim();
-							trigger(elmt, "init");
-						}
-					}
-				});
-			} else {
-				var property = code.split(":");
-				if (Array.isArray(property) && property.length == 2) {
-					var elmt = document.querySelector(".prop_" + property[0].trim());
-					if (elmt) {
-						elmt.value = property[1].trim();
-						trigger(elmt, "init");
-					}
-				}
-			}
-		}
-	}
-	document.getElementById("panelcss").classList.remove('CSSSearch');
 }
 
-blockAdminCSS.prototype.mapSelectorWithStylesheet = function(path, selector) {
-	/* Search for an existing cssRule to update it in the future */
-	var matches = this.findSelectorsByElement(selector);
-	var file = matches[path];
-
-	/* By default */
-	var media = document.getElementById("currentMdq").value;
-	this.currentFile = path;
-	this.currentIdStylesheet = 0;
-	this.currentIdRule = ParsimonyAdmin.currentDocument.styleSheets[0].cssRules.length;
-	this.currentIdMedia = "";
-	this.currentMediaText = "";
-
-	if (typeof file != "undefined" && typeof file.nbStylesheet != "undefined") {
-		/* By default if we found the stylesheet of theme */
-		this.currentIdStylesheet = file.nbStylesheet;
-		this.currentIdRule = file.nbRules;
-		var rule = file[media.replace(/\s+/g, '') + selector];
-		if (typeof rule != "undefined") {
-			/* If we found the good rule */
-			this.currentIdStylesheet = rule.nbStylesheet;
-			this.currentIdRule = rule.nbRule;
-			this.currentIdMedia = rule.nbMedia;
-			this.currentMediaText = rule.media;
-			this.setCurrentRule(this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia);
-			return true;
+blockAdminCSS.prototype.fillVisualCssForm = function(properties) {
+	for(var property in properties){
+		var elmt = document.querySelector(".prop_" + property);
+		if (elmt) {
+			elmt.value = properties[property].trim();
+			trigger(elmt, "init");
 		}
 	}
-	/* If CSS rule doesn't exists we create it, If it's a media we wrap rule with media declaration */
+}
 
-	if (media.length > 0) {
-		ParsimonyAdmin.currentDocument.styleSheets[this.currentIdStylesheet].insertRule(media + " { " + selector + " { } }", this.currentIdRule);
-		this.currentIdMedia = this.currentIdRule;
-		this.currentMediaText = media;
-		this.currentIdRule = 0;
-	} else {
-		ParsimonyAdmin.currentDocument.styleSheets[this.currentIdStylesheet].insertRule(selector + "{}", this.currentIdRule);
+blockAdminCSS.prototype.extractCSSRules = function(code) {
+	var properties = {};
+	var cutProperties = code.split(";");
+	for( var i = 0, len = cutProperties.length; i < len; i++) {
+		var cutProperty = cutProperties[i].split(":");
+		var property = cutProperty[0].trim();
+		if(property.length > 0) {
+			properties[cutProperty[0].trim()] = cutProperty[1].trim();
+		}
 	}
+	return properties;
+}
 
-	this.setCurrentRule(this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia);
+blockAdminCSS.prototype.getCSSRulesUpdated = function() {
+	var code = "";
+	for(var property in this.currentProperties){
+		code += property + ": " + this.currentProperties[property] + ";\n";
+	}
+	return code;
 }
 
 blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
-	document.getElementById("toolChanges").style.display = "block";
+	
 	var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matchesSelector);
 	var result = {};
 	var styleSheets = ParsimonyAdmin.currentDocument.styleSheets;
-	var url = "";
-	for (var i = 0; i < styleSheets.length; i++) {
+
+	for (var i = 0, len = styleSheets.length; i < len; i++) {
 		if (styleSheets[i].cssRules !== null && styleSheets[i].href != null && !!styleSheets[i].href && styleSheets[i].href.indexOf("iframe.css") == "-1") {
-			url = styleSheets[i].href;
+			var url = styleSheets[i].href;
+			
 			/* If file is not the concat file we clean the path */
 			if (url.indexOf("/cssconcat_") == "-1") {
 				url = url.replace("http://" + window.location.host, "").substring(BASE_PATH.length);
 				result[url] = {"nbStylesheet": i, "nbRules": styleSheets[i].cssRules.length};
 			}
-			var nbRules = styleSheets[i].cssRules.length;
-			for (var j = 0; j < nbRules; j++) {
+
+			for (var j = 0, nbRules = styleSheets[i].cssRules.length; j < nbRules; j++) {
+				
 				var media = "";
 				var rule = styleSheets[i].cssRules[j];
-				/* If it's a media rule we check each style rule */
-				if (typeof rule.media != "undefined") {
-					media = "@media " + rule.media.mediaText;
 
-					/* Add this media queries in shorthand list */
-					media2 = media.replace(/\s+/g, "");
-					this.addMediaQueries((media2.match(/\min-width:[0-9]+/) || "").toString().replace("min-width:", ""),
-							(media2.match(/\max-width:[0-9]+/) || "").toString().replace("max-width:", ""));
-
-					for (var h = 0; h < rule.cssRules.length; h++) {
-						mediaRule = styleSheets[i].cssRules[j].cssRules[h];
-						try {
-							if (typeof elmt == 'string' ? (elmt == mediaRule.selectorText) : matchesSelector.call(elmt, mediaRule.selectorText)) {
-								/* if we search for a media we check */
-								if (mediaFilter == media || typeof mediaFilter == "undefined") {
-									result[url][media2 + mediaRule.selectorText] = {"nbStylesheet": i, "nbRule": h, "nbMedia": j, "selector": mediaRule.selectorText, "media": media};
+				switch (rule.constructor.name) {
+					
+					case "CSSStyleRule":
+						/* If source map tell us we parse another CSS file */
+						if (rule.selectorText == ".parsimonyMarker") {
+							/* We set last id for CSS file just before*/
+							if (j > 0) {
+								result[url]["nbStylesheet"] = i;
+								result[url]["nbRules"] = j;
+							}
+							/* We init the next CSS file */
+							url = rule.style["backgroundImage"].replace(/"/g, "").split("url(")[1].replace("http://" + window.location.host + BASE_PATH, "").split(")")[0];
+							result[url] = {"nbStylesheet": i, "nbRules": styleSheets[i].cssRules.length - 1};
+						} else if (typeof mediaFilter == "undefined" || mediaFilter == "") {
+							try {
+								if (typeof elmt == 'string' ? (elmt == rule.selectorText) : matchesSelector.call(elmt, rule.selectorText)) {
+									result[url][rule.selectorText] = {"nbStylesheet": i, "nbRule": j, "nbMedia": "", "selector": rule.selectorText, "media": ""};
 								}
-							}
-						} catch (Error) {
+							} catch (Error) { }
 						}
-					}
-				} else { /* if it's a style rule */
-					/* If source map tell us we parse another CSS file */
-					if (rule.selectorText == '.parsimonyMarker') {
-						/* We set last id for CSS file just before*/
-						if (j > 0) {
-							result[url]["nbStylesheet"] = i;
-							result[url]["nbRules"] = j;
+						break;
+						
+					case "CSSMediaRule":
+						media = "@media " + rule.media.mediaText;
+
+						/* Add this media queries in shorthand list */
+						this.addMediaQueries(media);
+
+						for (var h = 0, nbMediaRules = rule.cssRules.length; h < nbMediaRules; h++) {
+							mediaRule = styleSheets[i].cssRules[j].cssRules[h];
+							try {
+								if (typeof elmt == "string" ? (elmt == mediaRule.selectorText) : matchesSelector.call(elmt, mediaRule.selectorText)) {
+									/* if we search for a media we check */
+									if (mediaFilter == media || typeof mediaFilter == "undefined") {
+										result[url][media + mediaRule.selectorText] = {"nbStylesheet": i, "nbRule": h, "nbMedia": j, "selector": mediaRule.selectorText, "media": media};
+									}
+								}
+							} catch (Error) { }
 						}
-						/* We init the next CSS file */
-						url = rule.style['backgroundImage'].replace(/"/g, "").split('url(')[1].replace("http://" + window.location.host + BASE_PATH, "").split(')')[0];
-						result[url] = {"nbStylesheet": i, "nbRules": styleSheets[i].cssRules.length - 1};
-					} else if (typeof mediaFilter == "undefined" || mediaFilter == "") {
-						try {
-							if (typeof elmt == 'string' ? (elmt == rule.selectorText) : matchesSelector.call(elmt, rule.selectorText)) {
-								result[url][rule.selectorText] = {"nbStylesheet": i, "nbRule": j, "nbMedia": "", "selector": rule.selectorText, "media": ""};
-							}
-						} catch (Error) {
-						}
-					}
+						break;
 				}
 			}
 		}
@@ -1140,122 +1060,225 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 	return result;
 }
 
-blockAdminCSS.prototype.getCSSSelectorForElement = function(elmt, proposals) {
-	var matches = this.findSelectorsByElement(elmt);
-	var found = false;
-	var delta = 0;
-	var $this = this;
+blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposals) {
+	if(typeof proposals == "undefined"){
+		proposals = [];
+	}
+
+	/* Media querie given or not */
+	if (typeof media == "undefined" || media == null) {
+		var media = document.getElementById("currentMdq").value;
+	} else {
+		document.getElementById("currentMdq").value = media;
+		trigger(document.getElementById("currentMdq"), "change");
+	}
+	var linkedRules = [];
+	var linkedRulesNb = 1;
 	var nbStylesheet, nbRules;
+	
+	/* If at least one element is visible we will search for selectors with it to also have selectors that match this element */
+	var search = node;
+	if(typeof node == "string") {
+		var visibleElmts = ParsimonyAdmin.currentDocument.querySelectorAll(node);
+		if(visibleElmts.length > 0) {
+			search = visibleElmts[0];
+		}
+	}
+	var matches = this.findSelectorsByElement(search);
+
 	for (var file in matches) {
 		/* We delete all selectors of iframe.css and lib/_*_.css */
 		if (file.indexOf("iframe.css") == "-1" && file.indexOf("lib/") == "-1") {
 			var selectors = matches[file];
 			for (var key2 in selectors) {
-				if (key2 != 'nbStylesheet' && key2 != 'nbRules') {
-					selectors[key2].filePath = file;
+				if (key2 != "nbStylesheet" && key2 != "nbRules") {
 					var selector = selectors[key2];
 					/* If a proposal already exists we remove it from proposal list */
-					if (file == CSSTHEMEPATH && proposals.indexOf(selector) > -1)
-						delete proposals[proposals.indefOf(selector)];
-					$this.addSelectorCSS(file, selector.selector, "", selector.nbStylesheet, (selector.nbRule + delta), selector.media, selector.nbMedia);
-					found = true;
+					if (file == CSSTHEMEPATH && proposals.indexOf(selector.selector) > -1){
+						delete proposals[proposals.indexOf(selector.selector)];
+					}
+					if(typeof node == "string" && selector.selector == node) {
+						if(selector.media == media) {
+							var nb = 20000 + linkedRulesNb;
+						} else {
+							var nb = 10000 + linkedRulesNb;
+						}
+						linkedRules[nb] = [file, selector.selector, this.getLastCSS(file, selector.media + selector.selector), selector.nbStylesheet, selector.nbRule, selector.media, selector.nbMedia];
+					} else {
+						linkedRules[this.getSpecificity(selector.selector) + linkedRulesNb] = [file, selector.selector, this.getLastCSS(file, selector.media + selector.selector), selector.nbStylesheet, selector.nbRule, selector.media, selector.nbMedia];
+					}
+					linkedRulesNb++;
 				}
 			}
+			/* Add proposals */
 			if (file == CSSTHEMEPATH) {
-				nbStylesheet = selectors['nbStylesheet'];
-				nbRules = selectors['nbRules'];
-				var media = document.getElementById("currentMdq").value;
-				/* Add proposals */
-				if (proposals.length > 0) {
+				nbStylesheet = selectors["nbStylesheet"]; /* init and fill values in case we ahve to create a selector in this file */ 
+				nbRules = selectors["nbRules"];
+				if(proposals.length > 0) {
 					for (var key in proposals) {
-						nbRules++;
 						if (media.length > 0) {
-							$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0);
 							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
+							linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0];
 						} else {
-							$this.addSelectorCSS(CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", "");
 							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
+							linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
 						}
-						delta++;
+						nbRules++;
+						linkedRulesNb++;
 					}
 				}
 			}
-			delete selectors['nbStylesheet'];
-			delete selectors['nbRules'];
-		} else {
-			delete matches[file];
 		}
 	}
-
-	/* If a selector has been found, we get his cssText from server */
-	if (found) {
-		$.post(BASE_PATH + "admin/getCSSSelectorsRules", {TOKEN: ParsimonyAdmin.currentWindow.TOKEN,
-			matches: matches
-		}, function(data) {
-			$.each(data, function(i, item) {
-				/* We set cssText value to selector's textarea */
-				var id = 'idcss' + item.nbStylesheet + "_" + item.nbRule + "_" + item.nbMedia;
-				document.getElementById(id).value = item.cssText;
-				$this.codeEditors[id].draw(false);
-				// Add new selectors to ParsimonyAdmin.CSSValues to save initial behavior
-				if (typeof ParsimonyAdmin.CSSValues[item.filePath] == "undefined")
-					ParsimonyAdmin.CSSValues[item.filePath] = {};
-				ParsimonyAdmin.CSSValues[item.filePath][item.media.replace(/\s+/g, "") + item.selector] = item.CSSValues;
-			});
-		});
+	
+	/* ------ Add main selector in CSS panel ----- */
+	var bestSpecificity = linkedRules[linkedRules.length -1];
+	if(typeof node == "string" && bestSpecificity && selector.selector != bestSpecificity[0]) {
+		this.currentFile = CSSTHEMEPATH;
+		this.currentIdStylesheet = nbStylesheet;
+		/* If CSS rule doesn't exists we create it, If it's a media we wrap rule with media declaration */
+		if (media.length > 0) {
+			ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + node + " { } }", nbRules);
+			this.currentIdMedia = nbRules;
+			this.currentMediaText = media;
+			this.currentIdRule = 0;
+		} else {
+			this.currentIdMedia = "";
+			this.currentMediaText = "";
+			this.currentIdRule = nbRules;
+			ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(node + "{}", nbRules);
+		}
+		document.getElementById("current_selector_update").value = node;
+	} else {
+		this.currentFile = bestSpecificity[0];
+		this.currentIdStylesheet = bestSpecificity[3];
+		this.currentIdRule = bestSpecificity[4];
+		this.currentIdMedia = bestSpecificity[6];
+		this.currentMediaText = bestSpecificity[5];
+		document.getElementById("current_selector_update").value = bestSpecificity[1];
 	}
-}
+	this.setCurrentRule(this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia);
+	
+	/* ------ Init form ----- */
+	document.getElementById("changecsspath").value = this.currentFile;
+	document.getElementById("panelcss_tab_code").innerHTML = "";
+	document.getElementById("linkedRules").innerHTML = "";
+	this.addSelectorCSS(this.currentFile, document.getElementById("current_selector_update").value, this.getLastCSS(this.currentFile, this.currentMediaText + document.getElementById("current_selector_update").value), this.currentIdStylesheet, this.currentIdRule, this.currentMediaText, this.currentIdMedia);
 
-blockAdminCSS.prototype.addNewSelectorCSS = function(path, selector) {
-	/* Get rule id, if not exist we create one */
-	this.mapSelectorWithStylesheet(path, selector);
+	/* Get existing code, last changes in priority */
+	var code = this.getLastCSS(this.currentFile, media + document.getElementById("current_selector_update").value);
+	this.currentProperties = this.extractCSSRules(code);
 
-	var media = this.currentMediaText;
-	if (media.length > 0) {
-		var media = document.getElementById("currentMdq").value;
+	/* We fill the visual CSS Form  */
+	this.fillVisualCssForm(this.currentProperties); 
+		
+	this.highlightBlock();
+	delete linkedRules[linkedRules.length-1];
+	
+
+	/* ------- Add linked selectors in CSS panel ----- */
+	for (var i in linkedRules) {
+		this.addSelectorCSS.apply(this, linkedRules[i]);
 	}
-	/* Get code */
-	var code = this.currentRule.cssText.split("{")[1].split("}")[0];
-	this.addSelectorCSS(path, selector, code, this.currentIdStylesheet, this.currentIdRule, media, this.currentIdMedia);
-	this.setCss(this.currentRule, code);
 }
 
 blockAdminCSS.prototype.addSelectorCSS = function(url, selector, styleCSS, nbstyle, nbrule, media, nbmedia) {
 	var id = 'idcss' + nbstyle + "_" + nbrule + "_" + nbmedia;
-	var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="$(\'#panelcss\').removeClass(\'CSSCode\');Parsimony.blocks[\'admin_css\'].displayCSSConf(\'' + url + '\',\'' + selector + '\',\'' + (media || "") + '\')"> ' + t('Visual') + ' </div></div>';
+	var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(\'' + url + '\',\'' + selector + '\',\'' + (media || "") + '\')"> ' + t('Edit') + ' </div></div>';
 	if (typeof media != "undefined" && media.toString().length > 0)
 		code += '<div class="mediaQueriesTitle">' + media + '</div>';
 	code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + Parsimony.blocks['admin_css'].formatCSS(styleCSS) + '</textarea>';
-	$("#changecsscode").append(code);
+	if (document.getElementById("current_selector_update").value == selector && media == this.currentMediaText) {
+		$("#panelcss_tab_code").prepend(code);
+	} else {
+		$("#linkedRules").prepend(code);
+	}
+
 	this.codeEditors[id] = new CSSlight(document.getElementById(id));
 }
 
-blockAdminCSS.prototype.addMediaQueries = function(minWidth, maxWidth) {
-	var media = "@media screen";
-	if (minWidth.length > 0) {
-		media += " and (min-width:" + minWidth + "px)";
+blockAdminCSS.prototype.getSpecificity = function(selector) {
+	var count = 0;
+	
+	/* Clean */
+	selector = selector.replace("+", " ");
+	selector = selector.replace("~", " ");
+	selector = selector.replace(/\s+/g, " ");
+	
+	/* Count IDs */
+	count += (selector.split("#").length - 1) * 100;
+	
+	/* Count classes */
+	count += (selector.split(".").length - 1) * 10;
+	
+	selector = selector.replace("::", " ");
+	
+	/* Count pseudo-classes */
+	count += (selector.split(":").length - 1) * 10;
+	
+	/* Count attributs */
+	if(selector.indexOf("[")) {
+		count += (selector.split("[").length - 1) * 10;
+		selector = selector.replace(/\[(.*?)\]/g, "");
 	}
-	if (maxWidth.length > 0) {
-		media += " and (max-width:" + maxWidth + "px)";
+	/* Count elements and pseudo-element */
+	var elmts = (" " + selector).match(/\s[-\w]+/g);
+	if(elmts){
+		count += elmts.length;
 	}
-	if (media != "@media screen" && document.querySelectorAll('#mediaqueriesdisplay .mediaq[data-media="' + media + '"]').length == 0) {
-		var doc = document.createElement("div");
-		doc.dataset.min = minWidth || 0;
-		doc.dataset.max = maxWidth || 9999;
+	
+	return count * 10;
+}
+
+blockAdminCSS.prototype.addMediaQueries = function(media) {	
+	if (document.querySelectorAll('#mediaqueriesdisplay .mediaq[data-media="' + media + '"]').length == 0) {
+
+		/* get media type */
+		var cutMediaType = media.match(/@media\s+([^\s\(]+)/);
+		console.log(cutMediaType);
+		if(cutMediaType != null) {
+			var mediaType = cutMediaType[1];
+		} else {
+			var mediaType = "all";
+		}
+		
+		/* get media properties */
+		var properties = {};
+		var titleMedia = "";
+		var cutMedia = media.match(/\([^\)]+/g);
+		for( var i = 0, len = cutMedia.length; i < len; i++){
+			var cutProperty = cutMedia[i].split(":");
+			var key = cutProperty[0].trim().substring(1);
+			var value = cutProperty[1].trim();
+			properties[key] = value;
+			titleMedia += "<br><span>&#746;</span>" + key + ": " + value;
+		}
+
+		/* For mediaqueries toolbar */
+		var doc = document.createElement("div"); 
+		doc.dataset.min = properties["min-width"] || 0;
+		doc.dataset.max = properties["max-width"] || 9999;
 		doc.dataset.media = media;
 		doc.classList.add("mediaq");
-		if (minWidth && maxWidth) {
-			doc.style.left = minWidth + "px";
-			doc.style.width = maxWidth - minWidth + "px";
-		} else if (minWidth) {
-			doc.style.left = minWidth + "px";
-		} else if (maxWidth) {
+		if (properties["min-width"] && properties["max-width"]) {
+			doc.style.left = properties["min-width"];
+			doc.style.width = parseInt(properties["max-width"]) - parseInt(properties["min-width"]) + "px";
+		} else if (properties["min-width"]) {
+			doc.style.left = properties["min-width"];
+		} else if (properties["max-width"]) {
 			doc.style.left = "0";
-			doc.style.width = maxWidth + "px";
+			doc.style.width = properties["max-width"];
 		} else {
 			doc.classList.add("active");
 		}
 		document.getElementById("mediaqueriesdisplay").insertBefore(doc, document.getElementById("globalcssscope"));
+		
+		/* For mediaqueries select */
+		var option = document.createElement("div"); 
+		option.classList.add("mdqOption");
+		option.dataset.media = media;
+		option.innerHTML = mediaType + titleMedia;
+		document.getElementById("selectmedias").insertBefore(option, document.getElementById("selectmedias").lastChild);
 		this.drawMediaQueries();
 	}
 	return media;
@@ -1281,49 +1304,6 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 blockAdminCSS.prototype.formatCSS = function(css) {
 	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#'"]*/g, "$1$2 ");
 }
-
-blockAdminCSS.prototype.updateCSSText = function(oldCssText, property, newValue) {
-	var newCSSText = "";
-	
-	if (oldCssText.length == 0)
-		oldCssText = property + ":" + newValue + ";";
-
-	/* We check if property is already set; must manage with : min-width and width props like  */
-	if (oldCssText.match(new RegExp("(^|[^a-z-])" + property + "[^:]*:")) != null) {
-		if (newValue.length > 0) {
-			newCSSText = oldCssText.replace(new RegExp("(^|[^a-z-])(" + property + "[^;]*)"), "$1" + property + ": " + newValue);
-		} else { /* if there is no value we delete property */
-			newCSSText = oldCssText.replace(new RegExp("(^|[^a-z-])" + property + "[^;]*[;]?"), "$1");
-		}
-	} else {
-		if (newValue.length > 0) {
-			newCSSText = oldCssText + (oldCssText.substring(oldCssText.length - 1) == ";" ? "" : ";") + property + ": " + newValue + ";";
-		} else {
-			newCSSText = oldCssText;
-		}
-	}
-	return newCSSText;
-}
-
-blockAdminCSS.prototype.openCSSForm = function() {
-	var panel = document.getElementById("panelcss");
-	panel.classList.remove('CSSCode');
-	panel.classList.add('CSSForm');
-	ParsimonyAdmin.setCookie("cssMode", "visual", 999);
-}
-
-blockAdminCSS.prototype.openCSSCode = function() {
-	var panel = document.getElementById("panelcss");
-	panel.classList.remove('CSSForm');
-	panel.classList.add('CSSCode');
-	$("#changecsscode").empty();
-	ParsimonyAdmin.setCookie("cssMode", "code", 999);
-}
-
-blockAdminCSS.prototype.openCSSPanel = function() {
-	ParsimonyAdmin.displayPanel("panelcss");
-}
-
 
 Parsimony.registerBlock("admin_css", new blockAdminCSS());
 
@@ -1387,7 +1367,7 @@ function CSSlight(elmt) {
 		this.hilight.innerHTML = '<div class="CSSLightline' + (this.rm.indexOf("1") == "-1" ? "" : " CSSLightbarre") + '" data-line="1">' + gutter + highlighted + '</div>';
 		this.textarea.style.height = this.hilight.getBoundingClientRect().height + "px";
 		if (change != false) {
-			/* Preview changes on CSS code mode && save changes in a temp object */
+			/* Preview changes on CSS code mode without commented rules && save changes in a temp object */
 			var value = this.textarea.value;
 			if (this.rm.length > 0) {
 				var lines = value.split("\n");
@@ -1397,9 +1377,22 @@ function CSSlight(elmt) {
 				}
 				value = lines.join("\n");
 			}
-
-			Parsimony.blocks['admin_css'].setCss(Parsimony.blocks['admin_css'].currentRule, value);
-			Parsimony.blocks['admin_css'].setCssChange(this.textarea.dataset.path, decodeURIComponent(this.textarea.dataset.selector), this.textarea.value, this.textarea.dataset.media);
+			var admin_css = Parsimony.blocks['admin_css'];
+			var selector = decodeURIComponent(this.textarea.dataset.selector);
+			if (this.textarea.dataset.media == "") {
+				admin_css.setCss(ParsimonyAdmin.currentDocument.styleSheets[this.textarea.dataset.nbstyle].cssRules[this.textarea.dataset.nbrule], value);
+			} else {
+				admin_css.setCss(ParsimonyAdmin.currentDocument.styleSheets[this.textarea.dataset.nbstyle].cssRules[this.textarea.dataset.nbmedia].cssRules[this.textarea.dataset.nbrule], value);
+			}
+			admin_css.setCssChange(this.textarea.dataset.path, selector, this.textarea.value, this.textarea.dataset.media);
+			
+			/*  */
+			if (selector == document.getElementById("current_selector_update").value && this.textarea.dataset.nbmedia == admin_css.currentIdMedia) {
+				admin_css.setCss(admin_css.currentRule, value);
+				admin_css.currentProperties = admin_css.extractCSSRules(this.textarea.value);
+				admin_css.fillVisualCssForm(admin_css.currentProperties);
+			}
+			
 		}
 	}
 

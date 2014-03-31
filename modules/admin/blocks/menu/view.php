@@ -28,10 +28,9 @@
 app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 ?>
 
-<ul class="menu" style="flex-grow:1;display: flex;">
-	<li class="opensidebar opensidebarleft" style="font-size: 22px;" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');
-			document.body.classList.toggle('closeleft')">☰</li>
-	<img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png" style="margin-left: 15px;">
+<ul class="menu" style="flex-grow:1;display: flex;width: 200px;max-width: 200px;">
+	<li class="opensidebar opensidebarleft" style="font-size: 27px;color: #F4F4F4;position: relative;left: -4px;cursor:pointer" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');document.body.classList.toggle('closeleft')">&#x2261;</li>
+	<img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png">
 	<?php
 		$profiles = glob('profiles/*', GLOB_ONLYDIR);
 		$nbProfile = count($profiles);
@@ -62,9 +61,12 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 		</ul>
 		<?php endif; ?>
 	</li>
+	
+</ul>
+<ul class="menu" style="flex-grow:1;display: flex;">
 	<?php if (count(\app::$devices) > 1): ?>
 		<li class="subMenu">
-			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo str_replace('theme', '', THEMETYPE); ?></a>
+			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo THEMETYPE; ?></a>
 			<ul id="changeDevice" class="changeVersion">
 				<?php foreach (\app::$devices AS $device): ?>
 					<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
@@ -72,26 +74,6 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 			</ul>
 		</li>
 	<?php endif; ?>
-</ul>
-<ul style="flex-grow:1;display: flex;align-items: center;">
-	<?php if ($_SESSION['behavior'] === 2): ?>
-		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling'); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
-		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"><input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"></form>
-	<?php endif; ?>
-	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
-</ul>
-<div style="flex-grow:25;display: flex;justify-content: center;align-items: center;">
-	<ul id="modesSwitcher"> 
-		<?php if ($_SESSION['behavior'] > 0): ?>
-			<li id="previewMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php
-			?><li id="editMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();"><?php echo t('Edit') ?></li><?php
-		endif;
-		if ($_SESSION['behavior'] === 2):
-			?><li id="creationMode" class="switchMode" <?php if (!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();"><?php echo t('Design') ?></li>
-			<?php endif; ?>
-	</ul>
-</div>
-<ul class="menu" style="flex-grow:2;display: flex;justify-content: center">
 	<li style="border-left: 0;position: relative" class="subMenu">
 		<a href="#" style="position: relative;"><span id="currentRes"></span></a>
 		<ul id="listres" class="changeVersion"></ul>
@@ -118,15 +100,34 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 		</select>
 	</li>
 </ul>
+<ul style="flex-grow:1;display: flex;align-items: center;">
+	<?php if ($_SESSION['behavior'] === 2): ?>
+		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling'); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
+		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"><input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"></form>
+	<?php endif; ?>
+	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
+</ul>
+<div style="flex-grow:25;display: flex;justify-content: center;align-items: center;">
+	<ul id="modesSwitcher"> 
+		<?php if ($_SESSION['behavior'] > 0): ?>
+			<li id="previewMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php
+			?><li id="editMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();"><?php echo t('Edit') ?></li><?php
+		endif;
+		if ($_SESSION['behavior'] === 2):
+			?><li id="creationMode" class="switchMode" <?php if (!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();"><?php echo t('Design') ?></li>
+			<?php endif; ?>
+	</ul>
+</div>
+
 <div style="flex-grow:1">
 	<ul class="menu" style="display: inline-block;float:right;position: relative;">
 		<li class="subMenu">
-			<a href="#modules/profile" class="toolbarsprite userprofile-icon" style="padding-left: 20px;">
+			<a href="#left_sidebar/profile" class="toolbarsprite userprofile-icon" style="padding-left: 20px;">
 <?php echo ucfirst(htmlentities($_SESSION['login'], ENT_QUOTES, "UTF-8")); ?>        
 			</a>
 			<ul>
 				<li>
-					<a href="#modules/language" class="toolbarspriteblack language-icon">
+					<a href="#left_sidebar/language" class="toolbarspriteblack language-icon">
 <?php echo \request::$locales[\app::$request->getLocale()] ?>
 					</a>
 				</li>
@@ -136,8 +137,6 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 				
 			</ul>
 		</li>
-		<li class="opensidebar opensidebarright" style="font-size: 22px;" onclick="$('#right_sidebar').toggleClass('pin2');$(this).toggleClass('active');
-			document.body.classList.toggle('closeright')">☰</li>
 	</ul>
 
 <?php if ($_SESSION['behavior'] == 2): ?>

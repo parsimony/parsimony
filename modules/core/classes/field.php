@@ -326,10 +326,10 @@ class field {
 	 * @return string|false
 	 */
 	public function validate($value) {
-		if(empty($value) && $this->required) {
+		$length = strlen($value);
+		if($length === 0 && $this->required) {
 			return FALSE;
 		} else {
-			$length = strlen($value);
 			if ($length >= $this->characters_min && $length <= $this->characters_max) {
 				return filter_var($value, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '#' .  str_replace('#','\#',$this->regex) . '#')));
 			}
@@ -362,7 +362,7 @@ class field {
 			$pos = ' FIRST ';
 		else
 			$pos = ' AFTER `' . $fieldBefore . '`';
-		if ($oldName)
+		if ($oldName !== FALSE)
 			$name = $oldName;
 		else
 			$name = $this->name;
@@ -376,6 +376,7 @@ class field {
 	 */
 	public function deleteColumn() {
 		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' DROP `' . $this->name . '`';
+			//	var_dump($sql);var_dump(\PDOconnection::getDB()->exec($sql));
 		return \PDOconnection::getDB()->exec($sql);
 	}
 

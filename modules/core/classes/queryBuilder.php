@@ -248,6 +248,7 @@ class queryBuilder {
 		 if($this->buildQuery()){
 			 return $this->_SQL['stmt']->fetchAll($fetchStyle);
 		 }else{
+			 unset($this->_SQL['firstFetch']); /* allow to re-exec query */
 			 return FALSE;
 		 }
 	 }
@@ -320,7 +321,7 @@ class queryBuilder {
 								$aliasName = $name . '_' . $tableName;
 								$this->_SQL['selects'][$aliasName] = $tableName . '.' . $name . ' AS ' . $aliasName;
 							}else{
-								$this->_SQL['selects'][$name] = $name; /* best than "table.*" which bug when using alias ( duplicate) */
+								$this->_SQL['selects'][$name] = $field->getTableName() . '.' . $name; /* best than "table.*" which bug when using alias ( duplicate) */
 							}
 						}
 						$foreignTableName = str_replace('\\model\\', '_', get_class($entity));
@@ -436,13 +437,7 @@ class queryBuilder {
 			$this->_SQL['stmt'] = \PDOconnection::getDB()->query($this->_SQL['query'], \PDO::FETCH_INTO, $this);
 		}
 		
-		if (is_object($this->_SQL['stmt'])) { /* first fetch could be used by a rewind or isEmpty */
-			$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch();
-			return TRUE;
-		}else{
-			$this->_SQL['firstFetch'] = FALSE;
-			return FALSE;
-		}
+		return $this->_SQL['stmt'];
 	}
 	
 	/* Iterator interface */
@@ -450,9 +445,13 @@ class queryBuilder {
 	/**
 	  * Rewind the cursor to the first row
 	  */
-	 public function rewind() { 
-		if(!isset($this->_SQL['firstFetch'])){
-			$this->buildQuery();
+	 public function rewind() {
+		if (!isset($this->_SQL['firstFetch'])) {
+			if ($this->buildQuery() !== FALSE) {
+				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch(); /* first fetch could be used by a rewind or isEmpty */
+			} else {
+				$this->_SQL['firstFetch'] = FALSE;
+			}
 		}
 		if ($this->_SQL['firstFetch'] !== FALSE) {
 			return $this->_SQL['position'] = 0;
@@ -460,7 +459,7 @@ class queryBuilder {
 		$this->_SQL['position'] = FALSE;
 	}
 
-	 /**
+	/**
 	  * Get the current row
 	  * @return entity object
 	  */
@@ -509,7 +508,11 @@ class queryBuilder {
 	 
 	 public function isEmpty() {
 		 if(!isset($this->_SQL['firstFetch'])){
-			$this->buildQuery();
+			if ($this->buildQuery() !== FALSE) {
+				$this->_SQL['firstFetch'] = $this->_SQL['stmt']->fetch(); /* first fetch could be used by a rewind or isEmpty */
+			} else {
+				$this->_SQL['firstFetch'] = FALSE;
+			}
 		}
 		return !(bool) $this->_SQL['firstFetch'];
 	}

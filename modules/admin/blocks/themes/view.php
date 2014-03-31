@@ -40,7 +40,7 @@
      #patternName{float: left;line-height: 27px;}
     .themeItem{position: relative;text-align:left;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;padding-left:7px;}
     .themeItem:first-child{border-top: 0;}
-    .themeItem.active{background: #e5e5e5;}
+    .themeItem.active{background: #f1f1f1;}
 	.add-theme:hover {border-bottom: 2px solid rgb(45, 193, 238);}
 	.add-theme{text-decoration: none;line-height: 28px;clear: both;font-size: 13px;
 	margin-left: 13px;padding-bottom: 3px;color: #777;text-transform: uppercase;font-weight: bold;}

@@ -1121,7 +1121,7 @@ class module extends \module {
 		}
 		
 		if (is_array($schema)) {
-			foreach ($schema as $table) {
+			foreach ($schema as $tableKey => $table) {
 
 				/* Prepare entity's properties */
 				$tplProp = '';
@@ -1216,7 +1216,7 @@ class ' . $table->name . ' extends \entity {
 				if ($oldObjModel !== FALSE) {
 					$nameFieldBefore = '';
 					$newObj->__wakeup(); /* to insert entity's ref into fields */
-					foreach ($newObj->getFields() as $fieldName => $field) {
+					foreach ($newObj->getFields() as $field) {
 						if (isset($oldSchema[$table->name]) && isset($oldSchema[$table->name][$field->name])) {
 							$field->alterColumn($nameFieldBefore);
 						} elseif (isset($matchOldNewNames[$field->name])) {
@@ -1228,10 +1228,11 @@ class ' . $table->name . ' extends \entity {
 							$nameFieldBefore = $field->name;
 						}
 					}
-					if(isset($oldSchema[$table->name])){
-						foreach ($oldSchema[$table->name] as $fieldName => $value) {
-							if (!property_exists($newObj, $fieldName) && !in_array($fieldName, $matchOldNewNames) ){
-								$sql = 'ALTER TABLE ' . PREFIX . $module . '_' . $table->name. ' DROP ' . $fieldName;
+					if(isset($oldSchema[$tableKey])){
+						foreach ($oldSchema[$tableKey]['properties'] as $field) {
+							$newFields = $newObj->getFields();
+							if (!isset($newFields[$field['name']]) && !in_array($field['name'], $matchOldNewNames) ){
+								$sql = 'ALTER TABLE ' . PREFIX . $module . '_' . $table->name. ' DROP ' . $field['name'];
 								\PDOconnection::getDB()->exec($sql);
 								//$field->deleteColumn();  //removed to avoid old includes
 							}

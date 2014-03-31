@@ -34,27 +34,42 @@ unset($activeModule[MODULE]);
 $activeModule = array_merge(array(MODULE => '5555'), $activeModule);
 unset($activeModule['admin']);
 unset($activeModule['core']);
+$activeModule['core'] = 0; /* add core(administration tab) module at the end */
 
 foreach ($activeModule as $module => $type) {
 	$moduleobj = \app::getModule($module);
 	$moduleInfos = \tools::getClassInfos($moduleobj);
-	if (!isset($moduleInfos['displayAdmin']) || $moduleInfos['displayAdmin'] == 4) {
-		$icon = '';
-		/*if (is_file('modules/' . $module . '/icon.png'))
-			$icon = ' style="background:url(' . BASE_PATH . $module . '/icon.png) 4px 4px no-repeat"';*/
-		$adminHTML = $moduleobj->displayAdmin();
-		if ($adminHTML == FALSE)
-			$htmlConfig = '';
-		else
-			$htmlConfig = '<a href="#modules/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
-			echo '<div class="titleTab ellipsis"' . $icon . '"> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
-		$display = '';
-		if ($module != MODULE)
-			$display = 'none';
+	if (!isset($moduleInfos['displayAdmin'])) {
+		$moduleInfos['displayAdmin'] = 3;
+	}
+	$adminHTML = $moduleobj->displayAdmin();
+	if ($adminHTML == FALSE)
+		$htmlConfig = '';
+	else
+		$htmlConfig = '<a href="#left_sidebar/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
+		echo '<div class="titleTab ellipsis"> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
+	$display = '';
+	if ($module != MODULE)
+		$display = 'none';
+	
+	if ($moduleInfos['displayAdmin'] > 0) :
 		?>
 		<div class="moduleParts <?php echo $display; ?>" data-module="<?php echo $module; ?>">
-			<div class="ellipsis subtitle" style="background: url(admin/img/file.png) 12px 9px no-repeat;" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?>                  </div>
-			<ul class="pages tabPanel">
+			<?php
+			if ($moduleInfos['displayAdmin'] & 4) :
+				$adminLinks = $moduleobj->getAminMenu();
+				if (!empty($adminLinks)) {
+					echo '<ul class="menuAdmin">';
+					foreach ($adminLinks as $href => $title) { 
+						echo '<li><a href="' . $href . '">' . $title . '</a></li>';
+					}
+					echo '</ul>';
+				}
+			endif;
+			if ($moduleInfos['displayAdmin']  & 1) :
+			?>
+			<div class="ellipsis subtitle" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?></div>
+			<ul class="pages">
 				<?php
 				foreach ($moduleobj->getPages() as $id_page => $page) {
 					if ($module === \app::$config['modules']['default'])
@@ -64,16 +79,20 @@ foreach ($activeModule as $module => $type) {
 					?>
 					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
 						<?php echo ucfirst(s($page->getTitle())); ?>
-						<a href="#modules/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
+						<a href="#left_sidebar/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
 					</li>
 					<?php
 				}
 				?>
-				<a href="#modules/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
-					<span class="ui-icon ui-icon-plus" style="position: relative;top: 4px;float: left;left: -1px;"></span>
+				<a href="#left_sidebar/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
+					<span class="ui-icon ui-icon-plus"></span>
 					<?php echo t('Add A Page'); ?>
 				</a>
 			</ul>
+			<?php
+			endif;
+			if ($moduleInfos['displayAdmin']  & 2) :
+			?>
 			<div class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
 			<ul class="models">
 				<?php
@@ -81,7 +100,7 @@ foreach ($activeModule as $module => $type) {
 					$entityTitle = s(ucfirst($entity->getTitle()));
 					if (!empty($entityTitle)) { 
 						?>
-						<a href="#modules/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
+						<a href="#left_sidebar/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
 						<?php
 					}
 				}
@@ -95,10 +114,11 @@ foreach ($activeModule as $module => $type) {
 					</li>
 				<?php endif; ?>
 			</ul>
+			<?php endif; ?>
 		</div>
 		<?php
-	}
+	endif;
 }
 if ($_SESSION['behavior'] === 2): ?>		
-	<div class="ellipsis"><a href="#modules/add" title="<?php echo t('Add a Module'); ?>" id="add-module">+ <?php echo t('Add a Module'); ?></a></div>
-<?php endif; ?>
+	<div class="ellipsis"><a href="#left_sidebar/add" title="<?php echo t('Add a Module'); ?>" id="add-module">+ <?php echo t('Add a Module'); ?></a></div>
+<?php endif;

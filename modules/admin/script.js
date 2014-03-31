@@ -575,8 +575,7 @@ var ParsimonyAdmin = {
 		this.setMode("creation");
 	},
 	setEditMode: function() {
-		$('#panelblocks,#manage').hide();
-		$('#modules').show();
+		$('#left_sidebar').show();
 		this.setMode("edit");
 	},
 	setPreviewMode : function (){
@@ -611,11 +610,7 @@ var ParsimonyAdmin = {
 		var sidebar = panel.parentNode;
 		$(".parsiblock",sidebar).hide();
 		panel.style.display = "block";
-		if(sidebar.id == "left_sidebar"){
-			$(".leftSidebarMenu .active").removeClass("active");
-		}else{
-			$(".rightSidebarMenu .active").removeClass("active");
-		}
+		$(".rightSidebarMenu .active").removeClass("active");
 		$("." + panel.id).addClass("active");
 	},	
 	removeEmptyTextNodes: function(elem) {

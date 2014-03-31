@@ -30,14 +30,14 @@
 namespace core;
 
 /**
- * @title Parsimony
+ * @title Administration
  * @description Module Core
  * @copyright 1
  * @browsers all
  * @php_version_min 5.3
  * @php_extension php_pdo_mysql,php_gd2
  * @php_settings magic_quotes_gpc:0,register_globals:0
- * @displayAdmin 0
+ * @displayAdmin 4
  * @mode r
  */
 class module extends \module {
@@ -197,7 +197,19 @@ class module extends \module {
 	public function getRights($role) {
 		return 1;
 	}
-
+	
+	/**
+	 * Define admin menu for left toolbar
+	 * @return array
+	 */
+	public function getAminMenu() {
+		return array('#left_sidebar/settings/admin' => 'General',
+			'#left_sidebar/permissions' => 'Permissions',
+			'#left_sidebar/model/core/role' => 'Roles',
+			'#left_sidebar/model/core/user' => 'Users');
+	}
+		
+	
 	public function install() {
 		parent::install();
 		$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'Super Admin', 'state' => '2'));

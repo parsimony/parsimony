@@ -115,7 +115,7 @@ class css {
 							$find = 'next';
 						} else {
 							if (!is_numeric($media)) {
-								$sel = str_replace(' ', '', $media);
+								$sel = $this->serializeMediaQuery($media);
 								$this->selectors[$ids]['media'] = $media;
 							}
 							else
@@ -162,7 +162,7 @@ class css {
 	 * @return string|false 
 	 */
 	public function selectorExists($selector, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector])) {
 			return $this->selectors[$media . $selector]['p'];
 		}
@@ -191,7 +191,7 @@ class css {
 			$new['media'] = $media;
 			$new['bmedia'] = PHP_EOL;
 		}
-		$this->selectors[str_replace(' ', '', $media) . $selector] = $new;
+		$this->selectors[$this->serializeMediaQuery($media) . $selector] = $new;
 	}
 
 	/**
@@ -199,7 +199,7 @@ class css {
 	 * @param string $selector
 	 */
 	public function deleteSelector($selector, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		unset($this->selectors[$media . $selector]);
 	}
 
@@ -210,7 +210,7 @@ class css {
 	 * @return string|false 
 	 */
 	public function propertyExists($selector, $property, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		$this->extractSelectorRules($selector, $media);
 		if (isset($this->selectors[$media . $selector]['properties'][$property])) {
 			return trim($this->selectors[$media . $selector]['properties'][$property]);
@@ -225,7 +225,7 @@ class css {
 	 * @return string 
 	 */
 	public function getPropertyValue($selector, $property, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		return $this->propertyExists($selector, $property, $media);
 	}
 
@@ -236,7 +236,7 @@ class css {
 	 * @param string $value
 	 */
 	public function addProperty($selector, $property, $value, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector]['p'])) {
 			$this->extractSelectorRules($selector, $media);
 			$this->selectors[$media . $selector]['properties'][$property] = $value;
@@ -251,7 +251,7 @@ class css {
 	 * @param string $newValue
 	 */
 	public function updateProperty($selector, $property, $newValue, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector]['p'])) {
 			$this->extractSelectorRules($selector, $media);
 			$this->selectors[$media . $selector]['properties'][$property] = $newValue;
@@ -265,7 +265,7 @@ class css {
 	 * @param string $property
 	 */
 	public function deleteProperty($selector, $property, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector]['p'])) {
 			$this->extractSelectorRules($selector, $media);
 			unset($this->selectors[$media . $selector]['properties'][$property]);
@@ -279,7 +279,7 @@ class css {
 	 * @return @array 
 	 */
 	public function extractSelectorRules($selector, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector]['p'])) {
 			if (!isset($this->selectors[$media . $selector]['properties'])) {
 				$this->selectors[$media . $selector]['properties'] = array();
@@ -306,7 +306,7 @@ class css {
 	 * @deprecated since version 3.0
 	 */
 	public function saveSelector($selector, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		$code = PHP_EOL;
 		foreach ($this->selectors[$media . $selector]['properties'] AS $property => $value) {
 			$code .= "\t" . $property . ' : ' . $value . ' ;' . PHP_EOL;
@@ -320,7 +320,7 @@ class css {
 	 * @param string $selectorCode
 	 */
 	public function replaceSelector($selector, $selectorCode, $media = '') {
-		$media = str_replace(' ', '', $media);
+		$media = $this->serializeMediaQuery($media);
 		if (isset($this->selectors[$media . $selector]['p'])) {
 			$this->selectors[$media . $selector]['p'] = $selectorCode;
 			return TRUE;
@@ -334,6 +334,29 @@ class css {
 	 */
 	public function getCSSValues() {
 		return $this->selectors;
+	}
+	
+	/**
+	 * Serizalize a media query to be conform with w3c
+	 * @return string
+	 */
+	public function serializeMediaQuery($mdq) {
+		$stripMedia = function($mdq){
+			$mdq = str_replace(' ', '', $mdq);
+			$mdq = str_replace(':', ': ', $mdq);
+			return $mdq;
+		};
+		$mdq = preg_replace('/[[:blank:]]+/',' ', $mdq);
+		$mediaqueryparts = explode('(', $mdq,  2);
+		$type = trim($mediaqueryparts[0]);
+		if(count($mediaqueryparts) > 1) {
+			$mdq = str_replace(array('(',')'), '', $mediaqueryparts[1]);
+			$split = explode(' and ', $mdq);
+			$split = array_map($stripMedia, $split);
+			sort($split);
+			$mdq = str_replace(' all and', '', $type ) . ' (' . implode(') and (', $split) . ')';
+		}
+		return $mdq;
 	}
 
 	/**

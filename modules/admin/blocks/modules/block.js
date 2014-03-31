@@ -11,7 +11,7 @@ function blockAdminModules() {
 	
 	this.model = function(module, entity) {
 		$(".models .sublist").removeClass("active");
-		$('[href="#modules/model/' + module + '/' + entity + '"]').addClass("active");
+		$('[href="#left_sidebar/model/' + module + '/' + entity + '"]').addClass("active");
 		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&model=" + module + " - " + entity + "&action=getViewAdminModel", true);
 	}
 	
@@ -50,7 +50,7 @@ function blockAdminModules() {
 		}
 
 		/* Manage navigation */
-		$("#modules").on("click.edit", ".gotopage", function(e) {
+		$("#left_sidebar").on("click.edit", ".gotopage", function(e) {
 			if (!e.target.classList.contains("ui-icon")) {
 				ParsimonyAdmin.goToPage(this.dataset.title, this.dataset.url);
 				return false;
@@ -87,14 +87,14 @@ function blockAdminModules() {
 	}
 
 	this.unloadCreationAndEditMode = function() {
-		$("#modules").off('.edit');
+		$("#left_sidebar").off('.edit');
 	}
 
 	this.loadCreationMode = function() {
 		this.loadCreationAndEditMode();
 
 		/* Link to dbdesigner */
-		$("#modules").on('click.edit', '.gotoDBDesigner', function() {
+		$("#left_sidebar").on('click.edit', '.gotoDBDesigner', function() {
 			this.querySelector("form").submit();
 			return false;
 		});
@@ -103,7 +103,7 @@ function blockAdminModules() {
 
 	this.unloadCreationMode = function() {
 		this.unloadCreationAndEditMode();
-		$("#modules").off('.edit');
+		$("#left_sidebar").off('.edit');
 
 	}
 

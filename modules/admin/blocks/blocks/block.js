@@ -11,9 +11,12 @@ function blockAdminBlocks() {
 	this.startDragging = function() {
 		if(this.startDrag == false) {
 			ParsimonyAdmin.$currentBody.append(document.getElementById("dropInPage"));
-			ParsimonyAdmin.displayPanel("paneltree");
 			ParsimonyAdmin.currentBody.addEventListener("dragover", this.dragndroping);
 			document.getElementById("tree").addEventListener("dragover", this.dragndroping);
+			setTimeout(function(){
+				document.querySelector('[href="#paneltree"]').click();
+			},300);
+			
 			this.startDrag = true;
 		}
 	}

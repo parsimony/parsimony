@@ -13,9 +13,6 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		ParsimonyAdmin.initBefore();
 		<?php
 		/* Define active panels */
-		if (isset($_COOKIE['leftToolbarPanel'])) {
-			echo '$(\'a[href="#' . $_COOKIE['leftToolbarPanel'] . '"]\')[0].click();';
-		}
 		if (isset($_COOKIE['rightToolbarPanel'])) {
 			echo '$(\'a[href="#' . $_COOKIE['rightToolbarPanel'] . '"]\')[0].click();';
 		}
@@ -35,38 +32,32 @@ $admin = new \core\blocks\container("admin");
 $menutop = new \admin\blocks\menu("toolbar");
 $admin->addBlock($menutop);
 
-/* Sidebar Left */
-$leftSidebar = new \core\blocks\tabs("left_sidebar");
+/* Sidebar Left:  Modules */
+$leftSidebar = new \admin\blocks\modules("left_sidebar");
 $leftSidebar->setConfig('cssClasses', 'sidebar');
-/* Modules */
-$block = new \admin\blocks\modules("modules");
-$block->setConfig('headerTitle', 'Modules');
-$leftSidebar->addBlock($block);
+$admin->addBlock($leftSidebar);
 
+/* Sidebar Right */
 if ($_SESSION['behavior'] == 2):
-	/* Blocks */
-	$block = new \admin\blocks\blocks("panelblocks");
-	$block->setConfig('headerTitle', 'Blocks');
-	$leftSidebar->addBlock($block);
 	
-	$block = new \admin\blocks\manage("manage");
-	$block->setConfig('headerTitle', 'Manage');
-	$leftSidebar->addBlock($block);
-
-
-	/* Sidebar Right */
 	$rightSidebar = new \core\blocks\tabs("right_sidebar");
 	$rightSidebar->setConfig('cssClasses', 'sidebar');
-	/* Tree */
-	$block = new \admin\blocks\tree("paneltree");
-	$block->setConfig('headerTitle', 'Tree');
-	$rightSidebar->addBlock($block);
-
-	/* CSS */
+	
+		/* CSS */
 	$block = new \admin\blocks\css("panelcss");
 	$block->setConfig('headerTitle', 'CSS');
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
+	
+	/* Blocks */
+	$block = new \admin\blocks\blocks("panelblocks");
+	$block->setConfig('headerTitle', 'Blocks');
+	$rightSidebar->addBlock($block);
+	
+	/* Tree */
+	$block = new \admin\blocks\tree("paneltree");
+	$block->setConfig('headerTitle', 'Tree');
+	$rightSidebar->addBlock($block);
 
 	/* Theme */
 	$block = new \admin\blocks\themes("themes");
@@ -74,7 +65,6 @@ if ($_SESSION['behavior'] == 2):
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
 endif;
-$admin->addBlock($leftSidebar);
 
 echo $admin->display();
 ?>
