@@ -291,7 +291,7 @@ function blockAdminCSS() {
 
 		/* Representation schemas */
 		.on('keyup.creation change.creation', '.representation input:not(".resultcss")', function(e) {
-			obj = $(this).closest('.representation')[0];
+			obj = this.parentNode;
 			var top = obj.querySelector('.repr_top');
 			var right = obj.querySelector('.repr_right');
 			var bottom = obj.querySelector('.repr_bottom');
@@ -325,7 +325,7 @@ function blockAdminCSS() {
 			trigger(obj.querySelector('.resultcss'), e.type);
 		})
 		.on('keyup.creation change.creation init.creation', '.resultcss', function() {
-			obj = $(this).closest('.representation')[0];
+			obj = this.parentNode;
 			var top = obj.querySelector('.repr_top');
 			var right = obj.querySelector('.repr_right');
 			var bottom = obj.querySelector('.repr_bottom');
@@ -464,7 +464,7 @@ function blockAdminCSS() {
 			document.getElementById("css-decoration").value = deco;
 			trigger(document.getElementById("css-decoration"), "change");
 		})
-		.on("change.creation", ".prop_text-decoration", function() {
+		.on("change.creation  init.creation", ".prop_text-decoration", function() {
 			var container = this.parentNode;
 			var value = this.value.replace(/[\s]{2,}/g, ' ');
 			var values = value.split(" ");
@@ -488,7 +488,7 @@ function blockAdminCSS() {
 			}
 			trigger(input, "change");
 		})
-		.on("change.creation", ".prop_font-weight, .prop_font-style", function() {
+		.on("change.creation init.creation", ".prop_font-weight, .prop_font-style", function() {
 			var container = this.parentNode;
 			if (this.value == "") {
 				container.classList.remove("active");
@@ -514,7 +514,7 @@ function blockAdminCSS() {
 
 			trigger(input, "change");
 		})
-		.on("change.creation", ".prop_text-align", function() {
+		.on("change.creation init.creation", ".prop_text-align", function() {
 			var container = this.parentNode;
 			if (this.value == "") {
 				if (container.querySelector(".active")) {
@@ -590,7 +590,7 @@ function blockAdminCSS() {
 		});
 
 		/* shadowWidget init*/
-		$('.shadowWidget').on("change.creation", ".rulePart", function(e) {
+		$(".shadowWidget").on("change.creation", ".rulePart", function(e) {
 			var container = e.delegateTarget;
 			var el = container.querySelector(".resultShadow");
 			el.value = container.querySelector('.h-offset').value.trim() + ' ' + container.querySelector('.v-offset').value.trim() + ' ' + container.querySelector('.blurShadow').value.trim() + ' ' + container.querySelector('.colorShadow').value.trim();
@@ -598,7 +598,7 @@ function blockAdminCSS() {
 			container.querySelector(".pointer").style.left = parseInt(container.querySelector('.h-offset').value) + 16 + "px";
 			container.querySelector(".pointer").style.top = parseInt(container.querySelector('.v-offset').value) + 16 + "px";
 		})
-		.on("change.creation", ".resultShadow", function(e) {
+		.on("change.creation  init.creation", ".resultShadow", function(e) {
 			var container = e.delegateTarget;
 			var el = container.querySelector(".resultShadow");
 			var res = el.value.split(" ");
@@ -659,7 +659,7 @@ function blockAdminCSS() {
 			elmt.value = "";
 			trigger(elmt, "change");
 		})
-		.on("change.creation", ".liveconfig", function(e) {
+		.on("change.creation init.creation", ".liveconfig", function(e) {
 			var container = e.delegateTarget;
 			var value = this.value.trim();
 			if (value.length > 0) {
@@ -938,8 +938,8 @@ blockAdminCSS.prototype.getLastCSS = function(filePath, ident) {
 	}
 	
 	/* If not, we take css rules from the origin */
-	if (typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {console.log(ident + "1");
-		if (typeof ParsimonyAdmin.CSSValues[filePath][ident] != "undefined") {console.log(ident + "2");
+	if (typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {
+		if (typeof ParsimonyAdmin.CSSValues[filePath][ident] != "undefined") {
 			code = ParsimonyAdmin.CSSValues[filePath][ident].p.trim();
 		}
 	}
@@ -950,7 +950,8 @@ blockAdminCSS.prototype.displayCSSConf = function(filePath, selector, media) {
 	
 	/* Clean form */
 	document.getElementById("form_css").reset(); // reset all input except inputs hidden
-	$(".modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
+	$(".panelcss_tab .modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
+	$(".panelcss_tab .active").removeClass("active"); // clean borders visual tools
 	document.getElementById("backTest").style.background = "url(admin/img/transparent.png)"; // clean background
 	$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker"); // clean cssPicker marker
 	document.getElementById("panelcss").classList.remove("CSSSearch");
@@ -1012,10 +1013,9 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 				
 				var media = "";
 				var rule = styleSheets[i].cssRules[j];
-
-				switch (rule.constructor.name) {
+				switch (rule.type) {
 					
-					case "CSSStyleRule":
+					case 1: //CSSStyleRule
 						/* If source map tell us we parse another CSS file */
 						if (rule.selectorText == ".parsimonyMarker") {
 							/* We set last id for CSS file just before*/
@@ -1035,7 +1035,7 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 						}
 						break;
 						
-					case "CSSMediaRule":
+					case 4: //CSSMediaRule
 						media = "@media " + rule.media.mediaText;
 
 						/* Add this media queries in shorthand list */
@@ -1130,7 +1130,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 			}
 		}
 	}
-	
+
 	/* ------ Add main selector in CSS panel ----- */
 	var bestSpecificity = linkedRules[linkedRules.length -1];
 	if(typeof node == "string" && bestSpecificity && selector.selector != bestSpecificity[0]) {
@@ -1235,7 +1235,6 @@ blockAdminCSS.prototype.addMediaQueries = function(media) {
 
 		/* get media type */
 		var cutMediaType = media.match(/@media\s+([^\s\(]+)/);
-		console.log(cutMediaType);
 		if(cutMediaType != null) {
 			var mediaType = cutMediaType[1];
 		} else {
@@ -1246,13 +1245,16 @@ blockAdminCSS.prototype.addMediaQueries = function(media) {
 		var properties = {};
 		var titleMedia = "";
 		var cutMedia = media.match(/\([^\)]+/g);
-		for( var i = 0, len = cutMedia.length; i < len; i++){
-			var cutProperty = cutMedia[i].split(":");
-			var key = cutProperty[0].trim().substring(1);
-			var value = cutProperty[1].trim();
-			properties[key] = value;
-			titleMedia += "<br><span>&#746;</span>" + key + ": " + value;
+		if(cutMedia != null) { /* ie: @media not all */
+			for( var i = 0, len = cutMedia.length; i < len; i++){
+				var cutProperty = cutMedia[i].split(":");
+				var key = cutProperty[0].trim().substring(1);
+				var value = cutProperty[1].trim();
+				properties[key] = value;
+				titleMedia += "<br><span>&#746;</span>" + key + ": " + value;
+			}
 		}
+		
 
 		/* For mediaqueries toolbar */
 		var doc = document.createElement("div"); 
