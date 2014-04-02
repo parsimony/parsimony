@@ -330,8 +330,13 @@ abstract class entity extends queryBuilder implements \Iterator {
 				\app::dispatchEvent('afterUpdate', array($values));
 				if (!empty($this->_extends)) {
 					foreach ($this->_extends as $entity) {
-						$resExtend = $entity->update($vars, FALSE);
-						if ($resExtend !== TRUE) {
+						if (empty($vars[$entity->getTableName()][$entity->getId()->name])) { /* To manage with extended entities without matched rows */
+							$vars[$entity->getTableName()][$entity->getId()->name] = $vars[$this->getTableName()][$this->getId()->name];
+							$resExtend = $entity->insertInto($vars, FALSE);
+						} else {
+							$resExtend = $entity->update($vars, FALSE);
+						}
+						if ($resExtend === FALSE) {
 							return $resExtend;
 						}
 					}
