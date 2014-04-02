@@ -132,7 +132,7 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo BASE_PATH; ?>logout" class="toolbarspriteblack close-icon"><?php echo t('Logout'); ?></a>
+					<a href="<?php echo BASE_PATH; ?>logout?preview=ok" class="toolbarspriteblack close-icon"><?php echo t('Logout'); ?></a>
 				</li>
 				
 			</ul>
