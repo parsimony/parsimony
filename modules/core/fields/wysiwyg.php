@@ -42,7 +42,7 @@ class wysiwyg extends \field {
 	
 	protected $type = 'LONGTEXT';
 	protected $characters_max = ''; //4294967295
-	protected $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor';
+	protected $wysiwygModules = 'bold,underline,italic,justifyLeft,justifyCenter,justifyRight,strikeThrough,subscript,superscript,orderedList,unOrderedList,undo,redo,outdent,indent,removeFormat,createLink,unlink,formatBlock,foreColor,hiliteColor,insertImage';
 	protected $editMode = 'fieldwysiwyg';
 	
 	/**
