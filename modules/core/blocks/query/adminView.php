@@ -163,6 +163,7 @@ $view = $this->getConfig('view');
 			<div id="schema_sql" style="overflow-y: auto;height:100%">
 				<?php
 				$aliasClasses = array_flip(\app::$aliasClasses);
+				$addLinkExtendsJS = '';
 				foreach (\app::$config['modules']['active'] as $module => $mode) :
 					$models = \app::getModule($module)->getModel();
 					if (count($models) > 0) :
@@ -170,8 +171,19 @@ $view = $this->getConfig('view');
 						<div class="schemasql ellipsis">
 							<a href="#" onclick="return false"><?php echo $module; ?></a>
 							<div class="menuh">
-								<?php foreach ($models as $model => $entity) : ?>
-								<div class="tableCont" table="<?php echo $module . '_' . $model; ?>">
+								<?php foreach ($models as $model => $entity) : 
+									$extends = $entity->getExtends();
+									$attrExtend = '';
+									if(!empty($extends)) {
+										$extendsArray = array();
+										foreach ($extends as $extend) {
+											$extendsArray[] = $extend->getTableName();
+											$addLinkExtendsJS = 'document.querySelector(".tableCont[table=' . $extend->getTableName() . '] .property").setAttribute("link", "' . $entity->getTableName() . '");';
+										}
+										$attrExtend = ' data-extends="' . implode(',', $extendsArray) . '"';
+									}
+								?>
+								<div class="tableCont" table="<?php echo $module . '_' . $model; ?>"<?php echo $attrExtend; ?>>
 									<div class="table ellipsis"><?php echo $model; ?></div>
 										<?php
 										$obj = app::getModule($module)->getEntity($model);
@@ -182,9 +194,11 @@ $view = $this->getConfig('view');
 													$link = ' link="core_user"';
 												else
 													$link = '';
+												if(!isset($extends[$field->getTableName()])) :
 												?>
 											<div class="property <?php echo $aliasClasses[get_class($field)]; ?>"<?php echo $link; ?>><?php echo $field->name; ?></div>
 												<?php
+												endif;
 										endforeach;
 										?>
 								</div>
@@ -395,7 +409,7 @@ $view = $this->getConfig('view');
 		table.append('<input type="hidden" class="left" name="tables[' + tableName + '][left]" value="' + left + '">');
 		var tableID = "table_" + tableName;
 		if($("#" + tableID ,$("#queryCanvas")).length == 0){
-			table.css({left: left + "px",top: "5px"}).removeClass("accessible inaccessible");
+			table.css({left: left + "px",top: top + "px"}).removeClass("accessible inaccessible");
 			table.attr('id',tableID);
 			$(".property",table).each(function(){
 				this.id = tableID + this.textContent;
@@ -571,6 +585,7 @@ $view = $this->getConfig('view');
 	});
 
 	$(document).ready(function() {
+		<?php echo $addLinkExtendsJS; ?>
 		$( "#links" ).sortable({ update:function(){$("#generate_query").trigger("click");} });
 		$('#tabs-admin-template').css('height','0px').css('overflow','hidden'); /* trick to init correctly code mirror */
 		$(".tabs").on('click'," > ul a",function(e){
@@ -582,13 +597,24 @@ $view = $this->getConfig('view');
 			$($(this).attr('href')).css('height','100%').css('overflow','inherit');
 		});
 
-		$(".schemasql").on('click',".tableCont",function(e){
-			if($(this).hasClass("inaccessible")){
+		$(".schemasql").on("click",".tableCont",function(e){
+			if(this.classList.contains("inaccessible")){
 				alert("You have no relation for this table");
 				return false;
 			}
-			var table = $(this).clone();
-			addTable( $(this).attr("table"), 50, 230);
+			var tableName = this.getAttribute("table");
+			addTable( tableName, 5, 230);
+			var getExtends = this.getAttribute("data-extends");
+			if(getExtends){	
+				var id_property = document.querySelector(".tableCont[table=" + tableName + "] .property").textContent;
+				var extendsArray = getExtends.split(",");
+				for(var i in extendsArray) {
+					addTable( extendsArray[i], 5, 400);
+					putLink(tableName,id_property,extendsArray[i],document.querySelector(".tableCont[table=" + extendsArray[i] + "] .property").textContent,"left outer join");
+				}
+			}
+			
+			draw();
 		});
 
 		$("#links").on('mouseover mouseout','.linkDef',function(event) {
@@ -718,7 +744,7 @@ $view = $this->getConfig('view');
 				}
 			});
 		});
-		jsPlumb.bind("click", function(connection, originalEvent) {
+		jsPlumb.bind("click", function(connection, originalEvent) { 
 				var sourceTable = $("#" + connection.sourceId).closest(".tableCont").attr("table");
 				var sourceProperty =  $("#" + connection.sourceId).text();
 

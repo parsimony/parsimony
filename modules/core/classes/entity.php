@@ -559,7 +559,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * @param entity $entity
 	  */
 	 public function extend($entity) {
-		$this->_extends[] = $entity;
+		$this->_extends[$entity->getTableName()] = $entity;
 		$foreignFields = $entity->getFields();
 		foreach($foreignFields AS $name => &$field) {
 			if(isset($this->fields[$name])){
@@ -571,8 +571,15 @@ abstract class entity extends queryBuilder implements \Iterator {
 			}
 		}
 	 }
-
 	 
+	 /*
+	  * get Extends
+	  * @return array
+	  */
+	 public function getExtends() {
+		 return $this->_extends;
+	 }
+
 	 /** *************************************************************
 	  * ************************* EVENTS *************
 	  * *************************************************** */
