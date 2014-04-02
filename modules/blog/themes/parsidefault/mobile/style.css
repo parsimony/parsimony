@@ -38,7 +38,7 @@ width: 100%;
 	height: 100px;
 }
 
-#lastposts .publicationGMT {
+#Lastposts .publicationGMT {
 box-shadow: inset -1px -1px 1px white, inset 1px 1px 1px white;
 display: inline-block;
 vertical-align: top;
@@ -53,17 +53,17 @@ text-transform: capitalize;
 background: #F2F2F2;
 color: #999;}
 
-#lastposts {
+#Lastposts {
 margin: 1%;
 font-family: arial;}
 
-#lastposts .author {
+#Lastposts .author {
 color: #999;
 font-size: 12px;
 text-transform: capitalize;
 line-height: 20px;}
 
-#lastposts .title {
+#Lastposts .title {
 	display : inline-block ;
 	width : 85% ;
 	position : relative ;
@@ -74,10 +74,10 @@ line-height: 27px;
 text-transform: capitalize;
 }
 
-#lastposts a {display:block;width:100%;height:100%;overflow: hidden;
+#Lastposts a {display:block;width:100%;height:100%;overflow: hidden;
 }
 
-#lastposts .content {
+#Lastposts .content {
 display: inline-block;
  width: 85%; 
 height: 94px; 
@@ -86,10 +86,10 @@ font-size: 16px;
 line-height: 16px; 
 color: rgb(85, 85, 85);}
 
-#lastposts .itemscope {
+#Lastposts .itemscope {
 border-bottom: 1px dotted #CCC;overflow: hidden;}
 
-#singlepost .publicationGMT {
+#Singlepost .publicationGMT {
 box-shadow: inset -1px -1px 1px white, inset 1px 1px 1px white;
 display: inline-block;
 vertical-align: top;
@@ -104,31 +104,31 @@ text-transform: capitalize;
 background: #F2F2F2;
 color: #999;}
 
-#singlepost {
+#Singlepost {
 margin: 1%;
 font-family: arial;}
 
-#singlepost .author {
+#Singlepost .author {
 color: #999;
 font-size: 12px;
 text-transform: capitalize;
 line-height: 20px;}
 
-#singlepost .title {
+#Singlepost .title {
 	display : inline-block ;
 	width : 85% ;
 	position : relative ;
 	text-decoration : none ;
 }
 
-#singlepost .title a {
+#Singlepost .title a {
 text-decoration: none;
 color: #09F;
 font-size: 20px;
 line-height: 25px;
 text-transform: capitalize;}
 
-#singlepost .content {
+#Singlepost .content {
 display: inline-block;
  width: 85%; 
 height: 94px; 
@@ -137,7 +137,7 @@ font-size: 14px;
 line-height: 18px;
 color: rgb(85, 85, 85);}
 
-#singlepost .itemscope {
+#Singlepost .itemscope {
 border-bottom: 1px dotted #CCC;}
 
 #ssmenu .parsimenu {
@@ -344,4 +344,4 @@ filter: progid;
 border: solid 1px #6D6D6D;padding: 5px;
 color: #F1F1F1;
 letter-spacing: 1.2px;font-weight: bold;}
-#aboutmobile{margin: 10px;}
+#Aboutmobile{margin: 10px;}
