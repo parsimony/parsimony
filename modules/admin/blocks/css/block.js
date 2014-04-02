@@ -467,7 +467,7 @@ function blockAdminCSS() {
 		.on("change.creation  init.creation", ".prop_text-decoration", function() {
 			var container = this.parentNode;
 			var value = this.value.replace(/[\s]{2,}/g, ' ');
-			var values = value.split(" ");
+			var values = value.trim().split(" ");
 			$(".active", container).each(function() {
 				this.classList.remove("active");
 			});
