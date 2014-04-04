@@ -70,10 +70,12 @@ class container extends \block {
 		}
 	}
 	
-	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop', $copy = FALSE) {
 		if (!empty($this->blocks)) {
 			foreach ($this->blocks as $block) {
-				$block->onMove($typeProgress, $module, $name, $themeType);
+				if(method_exists($block, 'onMove')) {
+					$block->onMove($typeProgress, $module, $name, $themeType, $copy);
+				}
 			}
 		}
 	}

@@ -29,7 +29,9 @@
 <style>
     .themeOptions form, .themeOptions .button{margin: 6px 0}
     #themes .placeholder {position: relative;clear: both;width: 200px;margin:10px;}
-    #themes h4{line-height: 25px;margin: 0;font-weight: normal;}
+    #themes h4{line-height: 25px;margin: 0;font-weight: normal;font-size: 16px;}
+	.moduleTheme{visibility: hidden;color:#ddd;font-size: 12px;}
+	.themeItem:hover .moduleTheme{visibility: visible}
     .themeOptions input {width: 100%;}
     #themeFormAdd{color:#444;border-right: 1px solid #CCC;}
     #themeFormAdd h4{padding: 0px 5px;line-height: 20px;text-transform: capitalize}
@@ -68,7 +70,8 @@ foreach ($modules as $moduleName => $mode) {
 			$imgURL = BASE_PATH . 'admin/img/defaulttheme.png';
 ?>
 	<li id="theme_<?php echo s($themeName); ?>" class="themeItem">
-		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?></h4>
+		<h4 class="ellipsis"><?php echo ucfirst(s($themeName)); ?><span class="moduleTheme"> - Module <?php echo ucfirst($moduleName); ?></span></h4>
+		
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
 			<div class="themeOptions">
 				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('preview').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
@@ -144,11 +147,11 @@ foreach ($modules as $moduleName => $mode) {
 	}
 	
     $("#themes").on("click",".duplicate",function(){
-		$('#themes div[rel="themenew"]').trigger('click');
-		$('#duplicatepattern').show();
-		$('#patternName').text($(this).data("themename").split(";")[1]);
-		$('#themeFormAdd input[name="template"]').val($(this).data("themename"));
-		$('#patternIMG').attr("src",($(this).data("imgurl")));
-		$('input[value="template"]').attr('checked', true);
+		document.getElementById("themes").classList.toggle("add");
+		document.getElementById("duplicatepattern").style.display = "block";
+		document.getElementById("patternName").textContent = this.dataset.themename.split(";")[1];
+		document.querySelector('#themeFormAdd input[name="template"]').value = this.dataset.themename;
+		document.getElementById("patternIMG").setAttribute("src", this.dataset.imgurl);
+		document.querySelector('input[value="template"]').setAttribute("checked", true);
     });
 </script>

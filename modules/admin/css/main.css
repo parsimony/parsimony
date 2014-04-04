@@ -10,7 +10,7 @@ body.closeleft #left_sidebar{left:-200px}
 
 /*############## SideBars ################# */
 
-.sidebar{position:fixed;width: 200px;height: 100%;top: 0;z-index: 1;overflow-y: auto;transition: left 0.1s, right 0.1s;background: #fafafa;color: #444;display:none}
+.sidebar{position:fixed;width: 200px;height: 100%;top: 0;z-index: 1;overflow-y: auto;overflow-x: hidden;transition: left 0.1s, right 0.1s;background: #fafafa;color: #444;display:none}
 .sidebar::-webkit-scrollbar { width: 0 !important }
 
 /* Sidebars Tabs */

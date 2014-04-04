@@ -91,7 +91,7 @@ class code extends \block {
 		return self::build($newModule, $newBlock, get_class($this), $configs, $viewPath);
 	}
 	
-	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop', $copy = FALSE) {
 		$oldPath = $this->getConfig('viewPath');
 		if ($typeProgress === 'theme')
 			$path = $module . '/themes/' . $name . '/' . $themeType . '/views/' . $this->id . '.php';
@@ -102,7 +102,7 @@ class code extends \block {
 			$this->setConfig('viewPath', $path); /* save the new path */
 			if (!empty($oldPath) && stream_resolve_include_path($oldPath) !== FALSE) { /* Check if we have to move an old view  : moveBlock */
 				\tools::file_put_contents(PROFILE_PATH . $path, file_get_contents($oldPath, FILE_USE_INCLUDE_PATH));
-				if(is_file(PROFILE_PATH . $oldPath))
+				if(is_file(PROFILE_PATH . $oldPath) && $copy === FALSE)
 					rename(PROFILE_PATH . $oldPath, PROFILE_PATH . $oldPath . '.back'); //do only for profile, not modules
 			} else { /* add block */
 				\tools::file_put_contents(PROFILE_PATH . $path, '<h1>' . t('Start programming in this area') . '</h1>');

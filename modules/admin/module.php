@@ -664,18 +664,21 @@ class module extends \module {
 	protected function addThemeAction($thememodule, $name, $patterntype, $template, $url = '') {
 		$name = \tools::sanitizeTechString($name);
 		if (!is_dir(PROFILE_PATH . $thememodule . '/themes/' . $name)) {
-			set_time_limit(0);
 			\tools::createDirectory(PROFILE_PATH . $thememodule . '/themes/' . $name, 0777);
-			if ($patterntype == 'template' && !empty($template)) {
-				list($oldModule, $oldName) = explode(';',$template);
+			if ($patterntype === 'template' && !empty($template)) {
+				list($oldModule, $oldName) = explode(';', $template);
 				$theme = array();
 				foreach (\app::$devices AS $device) {
 					$theme[$device['name']] = \theme::get($oldModule, $oldName, $device['name']);
 					$theme[$device['name']]->setModule($thememodule);
 					$theme[$device['name']]->setName($name);
+					$theme[$device['name']]->onMove('theme', $thememodule, $name, $device['name'], TRUE);
 				}
-				if(is_dir('modules/' . $thememodule . '/themes/' . $oldName . '/')) \tools::copy_dir('modules/' . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
-				\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+				if(is_dir('modules/' . $thememodule . '/themes/' . $oldName . '/')){
+					\tools::copy_dir('modules/' . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+				} else {
+					\tools::copy_dir(PROFILE_PATH . $thememodule . '/themes/' . $oldName . '/', PROFILE_PATH . $thememodule . '/themes/' . $name . '/');
+				}
 				foreach (\app::$devices AS $device) {
 					$theme[$device['name']]->save();
 				}
@@ -684,8 +687,8 @@ class module extends \module {
 				$theme->save();
 			}
 			/* Set theme in preview mode */
-			setcookie('THEMEMODULE', $thememodule, time()+60*60*24*30, '/');
-			setcookie('THEME', $name, time()+60*60*24*30, '/');
+			setcookie('THEMEMODULE', $thememodule, time() + 60 * 60 * 24 * 30, '/');
+			setcookie('THEME', $name, time() + 60 * 60 * 24 * 30, '/');
 			$return = array('eval' => 'top.window.location.reload()', 'notification' => t('The Theme has been created'), 'notificationType' => 'positive');
 		} else {
 			$return = array('eval' => '', 'notification' => t('The Theme has not been created, theme already exists'), 'notificationType' => 'negative');

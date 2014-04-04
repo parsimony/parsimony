@@ -54,7 +54,7 @@ class gallery extends \block {
 		$this->setConfig('height', '250');
 	}
 	
-	public function onMove($typeProgress, $module, $name, $themeType = 'desktop') {
+	public function onMove($typeProgress, $module, $name, $themeType = 'desktop', $copy = FALSE) {
 		$imgs = $this->getConfig('img');
 		foreach($imgs as $img){
 			$oldPath = $img['name'];
