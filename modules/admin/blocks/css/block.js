@@ -978,8 +978,8 @@ blockAdminCSS.prototype.extractCSSRules = function(code) {
 	for( var i = 0, len = cutProperties.length; i < len; i++) {
 		var cutProperty = cutProperties[i].split(":");
 		var property = cutProperty[0].trim();
-		if(property.length > 0) {
-			properties[cutProperty[0].trim()] = cutProperty[1].trim();
+		if(property.length > 0 && typeof cutProperty[1] != "undefined") {
+			properties[property] = cutProperty[1].trim();
 		}
 	}
 	return properties;
