@@ -107,9 +107,8 @@ if (strstr($_SERVER['REQUEST_URI'], '?') != FALSE)
 else
 	$frameUrl = $_SERVER['REQUEST_URI'] . '?preview=ok';
 $style = 'width: 100%; height: 100%;';
-$sized = '';
 if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COOKIE['screenX']) && is_numeric($_COOKIE['screenY'])) {
-	$sized = ' class="sized"';
+	echo '<script> document.body.classList.add("sizedPreview"); </script>';
 	if (isset($_COOKIE['landscape']) && $_COOKIE['landscape'] == 'landscape') {
 		$style = 'width: ' . $_COOKIE['screenY'] . 'px; height: ' . $_COOKIE['screenX'] . 'px;';
 	} else {
@@ -117,7 +116,7 @@ if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COO
 	}
 }
 ?>
-<div id="previewContainer" style="<?php echo $style; ?>"<?php echo $sized; ?>>
+<div id="previewContainer" style="<?php echo $style; ?>">
 	<iframe id="preview" src="<?php echo $frameUrl; ?>"></iframe>
 
 	<div id="blockOverlay"></div>

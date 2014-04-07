@@ -328,8 +328,10 @@ background-image: linear-gradient(top, #242424,#313131);
 .changeVersion li:hover{color: #FFF;}
 
 /* Top Toolbar middle part */
+.orientation{display:none}
 #toolbar .orientation span{display: inline-block;background: url(admin/img/sprite_menu_admin.png)  0 0 no-repeat;padding-left:20px;height:16px;margin-left: 5px;cursor:pointer;margin-top:2px}
 #toolbar .orientation span.landscape {background-position: 0 -32px; }
+.sizedPreview .orientation{display:block}
 #info_themetype,#currentRes{text-transform: capitalize}
 
 /* Icons */
@@ -427,7 +429,7 @@ background-color: #f9f9f9;
 
 /* Preview container */
 #previewContainer{position: relative;display: inline-block;padding-bottom: 35px;width:100%;height:100%;transition:all 0.4s;-webkit-transition:all 0.4s;transform-origin: 50% 50%;-webkit-transform-origin: 50% 50%;}
-#previewContainer.sized{overflow: hidden;padding-bottom: 0;border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;
+.sizedPreview #previewContainer{overflow: hidden;padding-bottom: 0;border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;
 			border-top: 0;box-shadow: 0 0 0 1px #999;box-sizing: content-box;-moz-box-sizing: content-box;
 }
 /* Block overlay */

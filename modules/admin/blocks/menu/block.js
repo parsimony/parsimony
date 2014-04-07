@@ -13,11 +13,12 @@ function blockAdminMenu() {
 				ParsimonyAdmin.$previewContainer.css({
 					"width": "100%",
 					"height": "100%"
-				}).removeClass("sized");
+				});
+				document.body.classList.remove("sizedPreview");
 				res = ["max", "max"];
 			} else {
 				res = res.split(/x/);
-				ParsimonyAdmin.$previewContainer.addClass("sized");
+				document.body.classList.add("sizedPreview");
 				if ($("#changeorientation").length === 0 || ($("#changeorientation").val() === 'portrait' && ParsimonyAdmin.getCookie("landscape") === 'portrait')) {
 					ParsimonyAdmin.$previewContainer.css({
 						"width": res[0] + "px",
