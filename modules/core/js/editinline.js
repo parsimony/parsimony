@@ -58,7 +58,7 @@ $(document).ready(function() {
 			
 			$(document.body).append('<div id="editArea"><div id="toolbarEdit"><div id="editLabel"></div><div id="saveEdit">Save</div><div id="cancelEdit">&#x2716;</div></div><input type="text" id="inputEditMode"><iframe id="editForm"></iframe></div>');
 
-			$(document).on("click.edit", ".parsieditinline", function() {
+			$(document).on("click.edit", ".parsieditinline", function() { console.log(1);
 				if(parsiEdit.currentElmt && parsiEdit.currentElmt != this){
 					$(parsiEdit.currentElmt).removeClass("editing");
 					parsiEdit.tools[parsiEdit.currentElmt.dataset.mode].onCancel(this);
@@ -69,20 +69,20 @@ $(document).ready(function() {
 			})
 
 			/* For default and form modes */	
-			.on("click.edit", "#saveEdit", function() {
+			.on("click.edit", "#saveEdit", function() {console.log(2);
 				parsiEdit.tools[parsiEdit.currentElmt.dataset.mode].onSave(this);
 			})
-			.on("click.edit", "#cancelEdit", function() {
+			.on("click.edit", "#cancelEdit", function() {console.log(3);
 				parsiEdit.tools[parsiEdit.currentElmt.dataset.mode].onCancel(this);
 			})
-			.on("input.edit", "#inputEditMode", function() {
+			.on("input.edit", "#inputEditMode", function() {console.log(4);
 				parsiEdit.tools[parsiEdit.currentElmt.dataset.mode].onInput(this);
 			});
 
 		},
 		destroy: function(){
 			$("#editArea").remove();
-			$(document).off("click.edit");
+			$(document).off(".edit", "**" );
 		},
 		onClick: function() {
 			$("#editLabel").text($(parsiEdit.currentElmt).data("label")).css("position", "relative"); /* position : trick for visual */
