@@ -59,7 +59,7 @@ $lang['fr']['Congratulations, Parsimony is now ready'] = 'Félicitation, Parsimo
 $lang['fr']['Let\'s Go !'] = 'C\'est Parti !';
 $lang['fr']['Your database connection settings are not valid'] = 'Les données de la connection à la base de données sont incorrectes';
 $lang['fr']['Site Name'] = 'Nom du Site Principal';
-$lang['fr']['Admin Account'] = 'Compte administrateur';
+$lang['fr']['Admin Account'] = 'Administrateur';
 $lang['fr']['Password confirmation is different'] = 'La confirmation du mot de passe n\'est pas correcte';
 $lang['fr']['Please choose a login'] = 'Veuillez choisir un identifiant';
 $lang['fr']['Please give a name to your site'] = 'Veuillez donner un nom à votre site';
@@ -252,9 +252,9 @@ while (1) {
             include('modules/core/classes/config.php');
             include('modules/core/classes/tools.php');
             $configObj = new \core\classes\config('profiles/www/config.php', TRUE);
-            $lang = 'en_EN';
-            if(isset($_COOKIE['lang'])) $lang = $_COOKIE['lang'];
-            $update = array('localization' => array('timezone' => $_POST['timezone'],'default_language' => $lang),
+            $configLang = 'en_EN';
+            if(isset($_COOKIE['lang'])) $configLang = $_COOKIE['lang'];
+            $update = array('localization' => array('timezone' => $_POST['timezone'], 'default_language' => $configLang),
 		'mail' => array('adminMail' => $_POST['mailadmin']),
 		'security' => array('salt' => substr(hash('sha1', uniqid(mt_rand())), 0, 8)));
             $configObj->saveConfig($update);
@@ -367,7 +367,7 @@ while (1) {
 		$serverOK = FALSE;
 	    }
             ?>
-            <h2><?php echo tr('PHP.ini Stettings'); ?></h2>
+            <h2><?php echo tr('PHP.ini Settings'); ?></h2>
             <?php
             $high = array();
             $low = array();
@@ -721,7 +721,7 @@ position: relative;display: block;text-align: left;font-weight: bold;color: #555
             * {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
             .form {padding:0px 30px;border-radius:5px;}
             .form label {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
-            .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #F8F8F8;}
+            .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #f1f1f1;}
             input[type="button"], input[type="submit"] {border-radius: 2px;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);-webkit-user-select: none;background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);border: 1px solid #AAA;color: #444;font-size: inherit;margin-bottom: 0px;min-width: 4em;padding: 3px 12px 3px 12px;margin: 20px 278px;}
 			a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
             ul{margin: 0;padding: 0;list-style: none;}
