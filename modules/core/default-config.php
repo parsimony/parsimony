@@ -44,7 +44,7 @@ $config['security']['salt'] = '';
 $config['devices']['desktop'] = '1';
 $config['devices']['mobile'] = '1';
 $config['devices']['tablet'] = '1';
-$config['devices']['tv'] = '1';
+$config['devices']['tv'] = '0';
 $config['devices']['defaultDevice'] = 'desktop';
 
 //Dev
