@@ -336,10 +336,11 @@ background-image: linear-gradient(top, #242424,#313131);
 
 /* Icons */
 .toolbarsprite, .toolbarspriteblack{line-height:26px;margin-left: 15px;display: inline-block;background-repeat:no-repeat}
+.toolbarsprite {margin-left: 0;}
 .toolbarsprite{background-image: url(admin/img/sprite_menu_admin.png) !important;opacity: 0.95;}
 .toolbarspriteblack{background-image: url(admin/img/sprite_menu_black.png);padding-left:25px !important; }
 .multisite-icon{background-position: 2px -119px !important;width: 16px;height: 34px}
-.info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 10px}
+.info-icon{background-position: 0 -192px;width: 16px;height: 16px;margin-top: 10px;margin-right: 10px;}
 .language-icon{background-position: 0 -25px;}
 .userprofile-icon{background-position: 0 -87px !important;padding-left:20px;}
 .close-icon{background-position:0 7px;width: 16px;height: 16px;margin-top: 5px}
