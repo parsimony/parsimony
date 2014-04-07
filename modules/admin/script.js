@@ -536,10 +536,10 @@ var ParsimonyAdmin = {
 				tag: type
 			});
 			if (notif.permission === "granted" || window.Notification.permission === "granted") {
-				notif.ondisplay = function(event) {
-					setTimeout(function() {
-						event.currentTarget.cancel();
-					}, 4000);
+				notif.onshow = function(event) {
+					setTimeout(function(notif) {
+						this.close();
+					}.bind(this), 4000);
 				}
 				return true;
 			}
