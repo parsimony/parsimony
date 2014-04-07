@@ -33,10 +33,12 @@
 <script>
 	$(document).ready(function() {
 		$("#name_module").keyup(function(){
-			this.value = this.value.replace(/[^a-zA-Z]+/,"");
+			this.value = this.value.replace(/[^a-zA-Z]+/, "");
 		});
-		$("#name_titre").keyup(function(){
-			this.value = this.value.replace(/[^a-zA-Z ]+/,"");
+		$("#name_titre").blur(function(){
+			if(document.getElementById("name_module").value.length == 0){
+				document.getElementById("name_module").value = this.value.replace(/[^a-zA-Z]+/g, "");
+			}
 		});
 	});
 </script>
@@ -51,10 +53,10 @@
 			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 			<input type="hidden" name="action" value="addModule">
 			<div class="placeholder">
-				<label><?php echo t('Title'); ?>: </label><input type="text" name="name_titre" id="name_titre" required>
+				<label><?php echo t('Title'); ?></label><input type="text" name="name_titre" id="name_titre" required>
 			</div>
 			<div class="placeholder">
-				<label><?php echo t('Name'); ?>: </label><input type="text" name="name_module" id="name_module" required>
+				<label><?php echo t('Name'); ?></label><input type="text" name="name_module" id="name_module" required>
 			</div>
 			<input type="submit" name="saveAddModule" id="saveAddModule" value="<?php echo t('Create'); ?>">
 		</form>
