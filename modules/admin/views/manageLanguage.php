@@ -29,7 +29,7 @@
 
 <div class="content">
 	<div id="conf_box_title"><?php echo t('Current Language') ?></div>
-	<select onchange="parent.ParsimonyAdmin.changeLocale(this.value)" id="languages" style="width:300px">
+	<select onchange="parent.ParsimonyAdmin.changeLocale(this.value)" id="languages" style="width:300px;max-width:350px">
 		<?php
 		foreach (\request::$locales AS $code => $locale) {
 			if (isset($_COOKIE['locale']) && isset(\request::$locales[$_COOKIE['locale']]) && $_COOKIE['locale'] == $code)
