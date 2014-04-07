@@ -1257,7 +1257,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				if (confirm(t('Delete connection from') + ' ' + connection.source.parent().find(".title").text() + ' ' + t('to') + ' ' + connection.target.parent().find(".title").text() + " ?")) {
 					jsPlumb.detach(connection);
 					jsPlumb.removeAllEndpoints(connection.sourceId);
-					//$("#" + connection.sourceId).remove();
+					$("#" + connection.sourceId).remove();
 				}
 			});
 
