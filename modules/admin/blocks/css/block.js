@@ -758,6 +758,11 @@ function blockAdminCSS() {
 					}
 				}
 				
+				/* if there is no propasol we add the element selector */
+				if(proposals.length == 0){
+					proposals[101] = "#" + block.id + " " + this.tagName.toLowerCase();
+				}
+				
 				$this.getCSSSelectorForElement(this, null, proposals);
 
 			});
@@ -828,10 +833,10 @@ function blockAdminCSS() {
 			ParsimonyAdmin.inProgress = '';
 		}*/
 		
-		$("#panelcss").off('.creation', "**");
+		$("#panelcss").off(".creation", "**");
 		$("#colorjack_square").hide();
 		$(document).add(ParsimonyAdmin.currentDocument).off(".parsimonyDND");
-		$('#container', ParsimonyAdmin.currentBody).off(".csspicker");
+		$("#container", ParsimonyAdmin.currentBody).off(".csspicker");
 		$(".parsimonyMove").off(".creation");
 		$(".parsimonyResize").off(".creation");
 		$("#right_sidebar").off(".creation");
@@ -957,8 +962,9 @@ blockAdminCSS.prototype.displayCSSConf = function(filePath, selector, media) {
 	document.getElementById("panelcss").classList.remove("CSSSearch");
 
 	/* Init vars to locate CSS rule : this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia,.. */
-	this.getCSSSelectorForElement(selector, media);
-
+	var proposal = new Array();
+	proposal[10000] = selector;
+	this.getCSSSelectorForElement(selector, media, proposal);
 
 }
 
@@ -1018,7 +1024,7 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 					case 1: //CSSStyleRule
 						/* If source map tell us we parse another CSS file */
 						if (rule.selectorText == ".parsimonyMarker") {
-							/* We set last id for CSS file just before*/
+							/* We set last id for CSS file just before */
 							if (j > 0) {
 								result[url]["nbStylesheet"] = i;
 								result[url]["nbRules"] = j;
@@ -1028,7 +1034,7 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 							result[url] = {"nbStylesheet": i, "nbRules": styleSheets[i].cssRules.length - 1};
 						} else if (typeof mediaFilter == "undefined" || mediaFilter == "") {
 							try {
-								if (typeof elmt == 'string' ? (elmt == rule.selectorText) : matchesSelector.call(elmt, rule.selectorText)) {
+								if (typeof elmt == "string" ? (elmt == rule.selectorText) : matchesSelector.call(elmt, rule.selectorText)) {
 									result[url][rule.selectorText] = {"nbStylesheet": i, "nbRule": j, "nbMedia": "", "selector": rule.selectorText, "media": ""};
 								}
 							} catch (Error) { }
@@ -1056,6 +1062,11 @@ blockAdminCSS.prototype.findSelectorsByElement = function(elmt, mediaFilter) {
 				}
 			}
 		}
+	}
+	/* Always have to return the CSSTHEMEPATH properties, create it if it doesn't exists */
+	if(typeof result[CSSTHEMEPATH] == "undefined") {
+		ParsimonyAdmin.currentDocument.styleSheets[0].insertRule(".parsimonyMarker{background-image: url(" + CSSTHEMEPATH + ") }", 0);
+		result[CSSTHEMEPATH] = {"nbStylesheet": 0, "nbRules": 1};
 	}
 	return result;
 }
@@ -1092,71 +1103,55 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 			var selectors = matches[file];
 			for (var key2 in selectors) {
 				if (key2 != "nbStylesheet" && key2 != "nbRules") {
-					var selector = selectors[key2];
+					var rule = selectors[key2];
 					/* If a proposal already exists we remove it from proposal list */
-					if (file == CSSTHEMEPATH && proposals.indexOf(selector.selector) > -1){
-						delete proposals[proposals.indexOf(selector.selector)];
+					if (file == CSSTHEMEPATH && proposals.indexOf(rule.selector) > -1){
+						delete proposals[proposals.indexOf(rule.selector)];
 					}
-					if(typeof node == "string" && selector.selector == node) {
-						if(selector.media == media) {
+					if(typeof node == "string" && rule.selector == node) {
+						if(rule.media == media) {
 							var nb = 20000 + linkedRulesNb;
 						} else {
 							var nb = 10000 + linkedRulesNb;
 						}
-						linkedRules[nb] = [file, selector.selector, this.getLastCSS(file, selector.media + selector.selector), selector.nbStylesheet, selector.nbRule, selector.media, selector.nbMedia];
+						linkedRules[nb] = [file, rule.selector, this.getLastCSS(file, rule.media + rule.selector), rule.nbStylesheet, rule.nbRule, rule.media, rule.nbMedia];
 					} else {
-						linkedRules[this.getSpecificity(selector.selector) + linkedRulesNb] = [file, selector.selector, this.getLastCSS(file, selector.media + selector.selector), selector.nbStylesheet, selector.nbRule, selector.media, selector.nbMedia];
+						linkedRules[this.getSpecificity(rule.selector) + linkedRulesNb] = [file, rule.selector, this.getLastCSS(file, rule.media + rule.selector), rule.nbStylesheet, rule.nbRule, rule.media, rule.nbMedia];
 					}
 					linkedRulesNb++;
 				}
 			}
-			/* Add proposals */
-			if (file == CSSTHEMEPATH) {
-				nbStylesheet = selectors["nbStylesheet"]; /* init and fill values in case we ahve to create a selector in this file */ 
-				nbRules = selectors["nbRules"];
-				if(proposals.length > 0) {
-					for (var key in proposals) {
-						if (media.length > 0) {
-							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
-							linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0];
-						} else {
-							ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
-							linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
-						}
-						nbRules++;
-						linkedRulesNb++;
-					}
-				}
+		}
+		if (file == CSSTHEMEPATH) {
+			nbStylesheet = selectors["nbStylesheet"]; /* init and fill values in case we ahve to create a selector in this file */ 
+			nbRules = selectors["nbRules"];
+		}
+	}
+	
+	/* Add proposals */
+	if(proposals.length > 0) {
+		for (var key in proposals) {
+			if (media.length > 0) {
+				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
+				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0];
+			} else {
+				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
+				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
 			}
+			nbRules++;
+			linkedRulesNb++;
 		}
 	}
 
 	/* ------ Add main selector in CSS panel ----- */
 	var bestSpecificity = linkedRules[linkedRules.length -1];
-	if(typeof node == "string" && bestSpecificity && selector.selector != bestSpecificity[0]) {
-		this.currentFile = CSSTHEMEPATH;
-		this.currentIdStylesheet = nbStylesheet;
-		/* If CSS rule doesn't exists we create it, If it's a media we wrap rule with media declaration */
-		if (media.length > 0) {
-			ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + node + " { } }", nbRules);
-			this.currentIdMedia = nbRules;
-			this.currentMediaText = media;
-			this.currentIdRule = 0;
-		} else {
-			this.currentIdMedia = "";
-			this.currentMediaText = "";
-			this.currentIdRule = nbRules;
-			ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(node + "{}", nbRules);
-		}
-		document.getElementById("current_selector_update").value = node;
-	} else {
-		this.currentFile = bestSpecificity[0];
-		this.currentIdStylesheet = bestSpecificity[3];
-		this.currentIdRule = bestSpecificity[4];
-		this.currentIdMedia = bestSpecificity[6];
-		this.currentMediaText = bestSpecificity[5];
-		document.getElementById("current_selector_update").value = bestSpecificity[1];
-	}
+	this.currentFile = bestSpecificity[0];
+	this.currentIdStylesheet = bestSpecificity[3];
+	this.currentIdRule = bestSpecificity[4];
+	this.currentIdMedia = bestSpecificity[6];
+	this.currentMediaText = bestSpecificity[5];
+	document.getElementById("current_selector_update").value = bestSpecificity[1];
+
 	this.setCurrentRule(this.currentIdStylesheet, this.currentIdRule, this.currentIdMedia);
 	
 	/* ------ Init form ----- */
