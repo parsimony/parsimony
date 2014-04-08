@@ -248,9 +248,7 @@ function blockAdminCSS() {
 			}
 		})
 		.on("click.creation", "#goWithThisSelector", function(e) {
-			if (document.getElementById("current_selector_update").value.length > 1) {
-				$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value, document.getElementById("currentMdq").value);
-			}
+			$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value, document.getElementById("currentMdq").value);
 		})
 
 		.on('keyup.creation', "#current_selector_update", function(event) {
