@@ -782,7 +782,12 @@ class module extends \module {
 	protected function saveConfigAction($file, $config) {
 		$configObj = new \config($file, TRUE);
 		$configObj->saveConfig($config);
-		$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
+		if($config['devices'] != \app::$config['devices'] || $config['sitename'] != \app::$config['sitename']) {
+			$action = 'top.window.location.reload()';
+		} else {
+			$action = 'ParsimonyAdmin.loadBlock(\'modules\');';
+		}
+		$return = array('eval' => $action, 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
 	}
 

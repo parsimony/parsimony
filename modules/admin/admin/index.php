@@ -34,7 +34,7 @@
 			if (data[0] == "{") {
 				var data = JSON.parse(data);
 				for (version in data) {
-					if (parseFloat(version) > <?php echo PARSIMONY_VERSION; ?>) {
+					if (parseFloat(version) > parseFloat("<?php echo PARSIMONY_VERSION; ?>")) {
 						document.getElementById("stablechannel").innerHTML = '<input type="button" value="'+ t('Update to version ') + version + '" class="updateVersion" data-urlupdate="' + data[version] + '">';
 						break;
 					} else {
