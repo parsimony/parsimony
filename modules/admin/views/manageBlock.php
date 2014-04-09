@@ -107,7 +107,7 @@ if (is_object($block) == NULL) {
 							<label> <?php echo t('Header Title'); ?></label> <input type="text" name="headerTitle" value="<?php echo $block->getConfig('headerTitle') ?>">
 						</div>
 						<div class="placeholder blockhead">
-							<label><?php echo t('Add CSS Classes'); ?></label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
+							<label><?php echo t('Add CSS Classes'); ?><span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="Without point and separated by a white space."></span></label> <input type="text" name="cssClasses" value="<?php echo $block->getConfig('cssClasses') ?>">
 						</div>
 						<div class="placeholder blockhead">
 							<label><?php echo t('HTML5 Tags'); ?></label>
