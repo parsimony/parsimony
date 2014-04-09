@@ -108,9 +108,9 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 /* Tree icons */
 #treedom_container > .tree_selector{background-color: #FAFAFA;color: #444444;}
 .parsicontainer{background: url(admin/img/parsicontainer.png) no-repeat 3px 3px;clear:both;padding-left: 18px;}
-#treedom_content.tree_selector{position:relative;min-height: 45px;background: #ECECEC url(admin/img/file.png) 5px 7px no-repeat;color: #444;}
+#treedom_content.tree_selector{position:relative;min-height: 45px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;background: #ECECEC url(admin/img/file.png) 5px 7px no-repeat;color: #444;}
 #treedom_content > .arrow_tree:first-child, #treedom_container > .arrow_tree:first-child{display:none}
-#treedom_container{background: #F1F1F1;color: #29AAD1;padding-left: 0;background-color: #ECECEC;color: #444444;}
+#treedom_container{background: #F1F1F1;color: #29AAD1;padding-left: 0;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;background-color: #ECECEC;color: #444444;}
 
 #treedom_content::before {content: " ";bottom: 2px;position: absolute;top: 23px;right: 0;left: 2px;border-radius: 1px 0 0 1px;background-color: #FDFDFD;}
 #treedom_content .tree_selector {position: relative;color:#444;}
