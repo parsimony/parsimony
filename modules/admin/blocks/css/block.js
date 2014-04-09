@@ -897,7 +897,7 @@ blockAdminCSS.prototype.checkChanges = function() {
 			list += '<div class="selector tooltip" data-tooltip="' + file + (media ? " : " + media : "") + '">' + ParsimonyAdmin.CSSValuesChanges[file][key].selector + "</div>";
 		}
 	}
-	document.getElementById("nbChanges").textContent = " " + cpt + " changes";
+	document.getElementById("nbChanges").textContent = " " + cpt + " change" + (cpt > 1 ? "s" : "");
 	document.getElementById("listchanges").innerHTML = list;
 	if (cpt > 0)
 		document.getElementById("toolChanges").classList.add('toolactive');
