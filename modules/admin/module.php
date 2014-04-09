@@ -832,18 +832,23 @@ class module extends \module {
 	public function structureTree($obj) {
 		$idPage = '';
 		$id = $obj->getId();
+		$textContent = $id;
 		if($id === 'content'){
 			$this->initObjects();
 			$obj = \app::$response->page;
 			$idPage = ' data-page="' . $obj->getId() . '"';
+			$textContent = '&nbsp;content - <span class="tree_selector_title">Page '. $obj->getTitle() . '</span>';
+		} elseif($id === 'container') {
+			$textContent = '&nbsp;container -  <span class="tree_selector_title">Theme ' . $obj->getName() . '</span>';
 		}
-		$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $id;
+		$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
 		foreach ($obj->getBlocks() AS $block) {
 			$idBlock = $block->getId();
-			if ($block instanceof \core\blocks\container || $idBlock === 'content')
+			if ($block instanceof \core\blocks\container || $idBlock === 'content'){
 				$html .= $this->structureTree($block);
-			else
+			} else {
 				$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
+			}
 		}
 		$html .= '</ul>';
 		return $html;

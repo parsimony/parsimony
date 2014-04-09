@@ -95,22 +95,27 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 
 /* Tree */
 
-#tree{padding : 5px 0;color:#444;font-weight: normal;letter-spacing: 1.1px;font-size: 12px;}
-.tree_selector{line-height: 24px;cursor:pointer;}
+#tree{color:#444;font-weight: normal;letter-spacing: 1.1px;font-size: 12px;}
+.tree_selector{line-height: 25px;cursor:pointer;}
+.tree_selector_title{font-style: italic;color: #858585;}
 #tree span.move_block{cursor:move;}
 #config_tree_selector{margin-right:5px;height: 16px;}
 #treedom_container > #config_tree_selector:first-child .move_block{display:none}
-#treedom_container{border-left:0 !important}
 
 #dropInTree{position:relative;height:0;width:100%;pointer-events:none}
 #dropInTree::after{position:absolute;width:100%;height:6px;top:-3px;left:0px;height:3px;width:100%;content: " ";background: #c8007a;}
 
 /* Tree icons */
+#treedom_container > .tree_selector{background-color: #FAFAFA;color: #444444;}
 .parsicontainer{background: url(admin/img/parsicontainer.png) no-repeat 3px 3px;clear:both;padding-left: 18px;}
-#treedom_content{background: url(admin/img/parsipage.png) no-repeat 1px 4px;position:relative;min-height: 45px;}
-#treedom_content::before {content: " ";bottom: 0;position: absolute;top: 23px;right: 0;left: 15px;border: 1px solid #CCC;border-radius: 2px;background-color: #FDFDFD;}
-#treedom_content .tree_selector {position: relative}
+#treedom_content.tree_selector{position:relative;min-height: 45px;background: #ECECEC url(admin/img/file.png) 5px 7px no-repeat;color: #444;}
+#treedom_content > .arrow_tree:first-child, #treedom_container > .arrow_tree:first-child{display:none}
+#treedom_container{background: #F1F1F1;color: #29AAD1;padding-left: 0;background-color: #ECECEC;color: #444444;}
+
+#treedom_content::before {content: " ";bottom: 2px;position: absolute;top: 23px;right: 0;left: 2px;border-radius: 1px 0 0 1px;background-color: #FDFDFD;}
+#treedom_content .tree_selector {position: relative;color:#444;}
 #treedom_content.currentDOM::before {top: 38px;}
+.themeName{background: #F1F1F1;padding: 8px;color: #2DC1EE;}
 
 #paneltree fieldset .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 12px -1px;}
 .parsimonyblock{background: url(admin/img/parsiblock.png) no-repeat 4px 1px;padding-left: 25px;}
