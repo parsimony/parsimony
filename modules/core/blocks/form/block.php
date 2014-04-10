@@ -124,7 +124,7 @@ if(isset($_POST[\'add\'])){
 		if($this->getConfig('module')){
 			$entity = \app::getModule($this->getConfig('module'))->getEntity($this->getConfig('entity'));
 			if($this->getConfig('updateparam') && \app::$request->getParam($this->getConfig('updateparam'))){
-				$entity->select()->where($entity->getId()->name . ' = :' . $this->getConfig('updateparam'))->fetch();
+				$entity->select()->where($entity->getModule() . '_' . $entity->getName() . '.' . $entity->getId()->name . ' = :' . $this->getConfig('updateparam'))->fetch();
 				/* have to remove where clause, cause update have to happen just on desired id */
 				$sql = $entity->getSQL();
 				unset($sql['wheres']);
