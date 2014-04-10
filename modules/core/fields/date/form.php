@@ -43,11 +43,11 @@ if ($this->use == 'normal') :
 		$dateNull = false;
 		$currentMonth = date('m', $stamp);
 	}
-	$elmts = array('year' => array('value'=> ($dateNull ? '' : date('Y', $stamp)), 'pattern'=>'^[12][0-9]{3}$', 'width'=>'40'),
-			'day' => array('value'=> ($dateNull ? '' : date('d', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			'hour' => array('value'=> ($dateNull ? '' : date('H', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			'minute' => array('value'=> ($dateNull ? '' : date('i', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'),
-			'second' => array('value'=> ($dateNull ? '' : date('s', $stamp)), 'pattern'=>'(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width'=>'25'));
+	$elmts = array('year' => array('value' => ($dateNull ? '' : date('Y', $stamp)), 'pattern' => '^[12][0-9]{3}$', 'width' => '40', 'help' => 'yyyy'),
+		'day' => array('value' => ($dateNull ? '' : date('d', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'dd'),
+		'hour' => array('value' => ($dateNull ? '' : date('H', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'hh'),
+		'minute' => array('value' => ($dateNull ? '' : date('i', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'mm'),
+		'second' => array('value' => ($dateNull ? '' : date('s', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'ss'));
 
 	$select = '<select class="field-date-month"  name="'.$this->name.'[month]" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;"><option></option>';
 	$months = array('01' => t('Jan'), '02' => t('Feb'), '03' => t('Mar'), '04' => t('Apr'), '05' => t('May'), '06' => t('Jun'), '07' => t('Jul'), '08' => t('Aug'), '09' => t('Sep'), '10' => t('Oct'), '11' => t('Nov'), '12' => t('Dec'));
@@ -62,7 +62,7 @@ if ($this->use == 'normal') :
 	$temp = str_replace('%month%', $select, $temp);
 
 	foreach ($elmts as $key => $v) {
-		$temp = str_replace('%'.$key.'%', '<input type="text" class="field-date-'.$key.'" style="width:'.$v['width'].'px" name="' . $tableName . '[' . $this->name . '][' . $key . ']" pattern="'.$v['pattern'].'" value="'.$v['value'].'" />', $temp);
+		$temp = str_replace('%' . $key . '%', '<input type="text" placeholder="' . $v['help'] . '" class="field-date-' . $key . '" style="width:' . $v['width'] . 'px" name="' . $tableName . '[' . $this->name . '][' . $key . ']" pattern="' . $v['pattern'] . '" value="' . $v['value'] . '" />', $temp);
 	}
 	echo $temp;
 	?>
