@@ -575,7 +575,6 @@ var ParsimonyAdmin = {
 		this.setMode("creation");
 	},
 	setEditMode: function() {
-		$('#left_sidebar').show();
 		this.setMode("edit");
 	},
 	setPreviewMode : function (){

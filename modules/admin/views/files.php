@@ -27,21 +27,18 @@
  */
 
 $dirPath = \app::$request->getParam('dirPath');
-if (!empty($dirPath)) {
-	$dirPath = PROFILE_PATH . $dirPath;
-}else {
-	$dirPath = substr(PROFILE_PATH, 0, -1) . $dirPath;
-}
-
-//securise $path todo
-$dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
+$dirPath = str_replace('..', '', $dirPath); /* securize path */
 
 echo '<div id="path">' . $dirPath . '</div><div id="dirsandfiles">';
 
 $extOk = array(); 
 $array_img = array('.jpeg', '.png', '.gif', '.jpg');
 $extKo = array('.obj');
-$files = glob($dirPath . '/*');
+if(empty($dirPath)){
+	$files = glob(PROFILE_PATH . '*');
+} else {
+	$files = glob(PROFILE_PATH . $dirPath . '/*');
+}
 $newfilename = '';
 foreach ((is_array($files) ? $files : array()) as $filename) :
 	$path = str_replace(PROFILE_PATH, '', $filename);
