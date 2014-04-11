@@ -1358,6 +1358,11 @@ function CSSlight(elmt) {
 				content = "";
 			}
 		}
+		if(line < 4) { console.log(line);
+			for (var i = line; i < 4; i++) {
+				highlighted += '</div><div class="CSSLightline" data-line="' + i + '"><span class="CSSLightgutter"></span>';
+			}
+		}
 		line++;
 		this.hilight.innerHTML = '<div class="CSSLightline' + (this.rm.indexOf("1") == "-1" ? "" : " CSSLightbarre") + '" data-line="1">' + gutter + highlighted + '</div>';
 		this.textarea.style.height = this.hilight.getBoundingClientRect().height + "px";

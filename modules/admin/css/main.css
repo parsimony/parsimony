@@ -155,7 +155,7 @@ input[type=text]::-webkit-calendar-picker-indicator {background: none;visibility
 #panelcss input[type="range"] {	height: 6px;padding:0;}
 #panelcss .panelcss_tab{padding: 8px;padding-top: 10px;background: #ffffff;box-shadow: 1px 1px 1px #E7E7E7;}
 .listOnly .CSSLightcontainer, .listOnly textarea{display:none}
-#linkedRules{box-shadow: 1px 1px 1px #E7E7E7;color: #444;background: #FFF;margin: 15px 7px;}
+#linkedRules{box-shadow: 1px 1px 1px #E7E7E7;color: #444;background: #FFF;margin: 30px 7px;}
 #linkedRules::before{position:relative;content: attr(data-title);border-left: 3px solid #2DC1EE;font-size: 18px;padding-left: 10px;}
 #linkedRules:empty::before{display:none}
 #panelcss_tab_background label{width: 100px;}
