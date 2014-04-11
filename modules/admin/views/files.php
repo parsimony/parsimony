@@ -26,19 +26,26 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 
-$dirPath = PROFILE_PATH . \app::$request->getParam('dirPath');
+$dirPath = \app::$request->getParam('dirPath');
+if (!empty($dirPath)) {
+	$dirPath = PROFILE_PATH . $dirPath;
+}else {
+	$dirPath = substr(PROFILE_PATH, 0, -1) . $dirPath;
+}
+
 //securise $path todo
 $dirPath = str_replace(DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR, '', $dirPath);
-echo '<div id="path">'.$dirPath.'</div><div id="dirsandfiles">';
+
+echo '<div id="path">' . $dirPath . '</div><div id="dirsandfiles">';
+
 $extOk = array(); 
-$array_img= array('.jpeg', '.png', '.gif', '.jpg');
+$array_img = array('.jpeg', '.png', '.gif', '.jpg');
 $extKo = array('.obj');
-$files = glob($dirPath . '/*'); 
+$files = glob($dirPath . '/*');
 $newfilename = '';
 foreach ((is_array($files) ? $files : array()) as $filename) :
 	$path = str_replace(PROFILE_PATH, '', $filename);
-	if (is_dir($filename)) :
-		?>
+	if (is_dir($filename)) : ?>
 		<div class="explorer_file dir" path="<?php echo $path; ?>" data-title="<?php echo basename($filename) ?>">
 			<div class="del"><span class="delete ui-icon ui-icon-closethick"></span></div>
 		</div>
