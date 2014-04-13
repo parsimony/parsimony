@@ -219,6 +219,7 @@ if (is_object($block) == NULL) {
 								$ownModules = \app::$config['modules']['active'];
 								unset($ownModules['core']);
 								unset($ownModules['blog']);
+								unset($ownModules['admin']);
 								if(count($ownModules) > 0):
 									?>
 									<label><?php echo t('Name of the new block'); ?></label>
