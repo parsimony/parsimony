@@ -580,16 +580,10 @@ abstract class entity extends queryBuilder implements \Iterator {
 		 return $this->_extends;
 	 }
 
-	 /** *************************************************************
+	 /** 
 	  * ************************* EVENTS *************
-	  * *************************************************** */
+	  *  */
 
-	 /**
-	  * Event before select
-	  */
-	 public function beforeSelect() {
-
-	 }
 
 	 /**
 	  * Event before update
@@ -617,18 +611,11 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 }
 
 	 /**
-	  * Event after select
-	  */
-	 public function afterSelect() {
-
-	 }
-
-	 /**
 	  * Event after update
 	  * @param array $values
 	  */
 	 public function afterUpdate($values) {
-
+		 $this->clearQuery();
 	 }
 
 	 /**
@@ -636,14 +623,14 @@ abstract class entity extends queryBuilder implements \Iterator {
 	  * @param array $values
 	  */
 	 public function afterInsert($values) {
-
+		 $this->clearQuery();
 	 }
 
 	 /**
 	  * Event after delete
 	  */
 	 public function afterDelete() {
-
+		 $this->clearQuery();
 	 }
 
 	 /**

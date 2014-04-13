@@ -245,15 +245,17 @@ class queryBuilder {
 	  * @return array
 	  */
 	 public function fetchAll($fetchStyle = \PDO::FETCH_INTO) {
-		 if($this->buildQuery()){
-			 return $this->_SQL['stmt']->fetchAll($fetchStyle);
-		 }else{
-			 unset($this->_SQL['firstFetch']); /* allow to re-exec query */
-			 return FALSE;
-		 }
-	 }
-	 
-	 /**
+		if ($this->buildQuery(true)) {
+			$fetchAll = $this->_SQL['stmt']->fetchAll($fetchStyle);
+			$this->clearQuery();
+			return $fetchAll;
+		} else {
+			unset($this->_SQL['firstFetch']); /* allow to re-exec query */
+			return FALSE;
+		}
+	}
+
+	/**
 	  * Return the PDOStatement object
 	  * @return PDOStatement
 	  */
@@ -440,7 +442,21 @@ class queryBuilder {
 		return $this->_SQL['stmt'];
 	}
 	
-	/* Iterator interface */
+	/**
+	 * Clear values of fields, for future queries with this object ; allow to re-exec query
+	 */
+	public function clearQuery() {
+		foreach ($this->getFields() as $field) {
+			$field->setValue(NULL);
+		}
+		if($this instanceof \entity) {
+			$this->_SQL = array();
+		}
+	}
+	
+	/** 
+	  * ************************* Iterator interface  *************
+	  *  */
 	
 	/**
 	  * Rewind the cursor to the first row
@@ -494,14 +510,7 @@ class queryBuilder {
 		 if ($this->_SQL['position'] !== FALSE) {
 			return TRUE;
 		} else {
-			if (method_exists($this, 'afterSelect')) {
-				$this->afterSelect();
-			}
-			/* Clear values of fields, for future queries */
-			foreach ($this->getFields() as $field) {
-				$field->setValue(NULL);
-			}
-			unset($this->_SQL['firstFetch']); /* allow to re-exec query */
+			$this->afterSelect();
 			return FALSE;
 		}
 	}
@@ -516,5 +525,23 @@ class queryBuilder {
 		}
 		return !(bool) $this->_SQL['firstFetch'];
 	}
+
+	/** 
+	  * ************************* EVENTS *************
+	  *  */
+	
+	/**
+	  * Event before select
+	  */
+	 public function beforeSelect() {
+
+	 }
+	
+	/**
+	  * Event after select
+	  */
+	 public function afterSelect() {
+		 $this->clearQuery();
+	 }
 
 }
