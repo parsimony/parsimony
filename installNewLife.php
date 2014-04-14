@@ -230,7 +230,7 @@ while (1) {
                 </div>
                 <input type="hidden" name="step" value="validstep1" />
 				<div style="padding: 10px 0;">
-					<input type="checkbox" name="agreewithlicence" id="agreewithlicence"><?php echo tr('I accept the terms of the license agreement'); ?>.
+					<input type="checkbox" name="agreewithlicence" id="agreewithlicence"><label class="agree" for="agreewithlicence"><?php echo tr('I accept the terms of the license agreement'); ?></label>.
 				</div>
             </div>
             <?php
@@ -549,15 +549,15 @@ while (1) {
                 <label><?php echo tr('Site Name'); ?> * </label>
                 <input type="text" name="name" value="<?php echo tr('My WebSite'); ?>" required>
             </div>
-
+			<div>
+                <label>E-mail *</label>
+                <input type="text" name="mail" value="<?php if (isset($_POST['mail'])) echo se($_POST['mail']); else echo $config['mail']['adminMail']; ?>" required>
+            </div>
+			
             <h2><?php tr('Admin Account Settings'); ?></h2>
             <div>
                 <label><?php echo tr('Login'); ?> * <small>(<?php echo tr('at least 6 characters alphanumeric'); ?>)</small> </label>
                 <input type="text" name="identifiant" value="<?php if (isset($_POST['identifiant'])) echo se($_POST['identifiant']); ?>" required>
-            </div>
-            <div>
-                <label>E-mail *</label>
-                <input type="text" name="mail" value="<?php if (isset($_POST['mail'])) echo se($_POST['mail']); else echo $config['mail']['adminMail']; ?>" required>
             </div>
             <div>
                 <label><?php echo tr('Password'); ?> * <small>(<?php echo tr('at least 8 characters alphanumeric'); ?>)</small></label>
@@ -684,11 +684,11 @@ $content = ob_get_clean();
         <div id="container">
             <div id="title"><img style="float:left;font-family:  Lucida Grande, sans-serif" src="http://parsimony.mobi/admin/img/parsimony-logo.png"><h1>Installation</h1></div>            <div id="content">
                 <ul id="breadcrumbs">
-                    <li <?php if ($step >= 1) echo ' class="current"'; ?>><a href="#"><?php echo tr('License'); ?></a></li>
-                    <li <?php if ($step >= 2) echo ' class="current"'; ?>><a href="#"><?php echo tr('Server'); ?></a></li>
-                    <li <?php if ($step >= 3) echo ' class="current"'; ?>><a href="#"><?php echo tr('Database'); ?></a></li>
-                    <li <?php if ($step >= 4) echo ' class="current"'; ?>><a href="#"><?php echo tr('Admin Account'); ?></a></li>
-                    <li <?php if ($step >= 5) echo ' class="current"'; ?>><a href="#"><?php echo tr('Finish'); ?></a></li>
+                    <li <?php if ($step >= 1) echo ' class="current"'; ?> data-step="1"><a href="#"><?php echo tr('License'); ?></a></li>
+                    <li <?php if ($step >= 2) echo ' class="current"'; ?> data-step="2"><a href="#"><?php echo tr('Server'); ?></a></li>
+                    <li <?php if ($step >= 3) echo ' class="current"'; ?> data-step="3"><a href="#"><?php echo tr('Database'); ?></a></li>
+                    <li <?php if ($step >= 4) echo ' class="current"'; ?> data-step="4"><a href="#"><?php echo tr('Admin Account'); ?></a></li>
+                    <li <?php if ($step >= 5) echo ' class="current"'; ?> data-step="5"><a href="#"><?php echo tr('Finish'); ?></a></li>
                 </ul>
                 <form method="post" id="form" class="form">
 					<?php echo $content; ?>
@@ -707,6 +707,7 @@ $content = ob_get_clean();
             </div>
         </div>
         <style>
+			* {-moz-box-sizing: border-box;box-sizing: border-box;}
             body{color: #484848;font-family: HelveticaNeue, Helvetica, Arial, sans-serif;font-size: 13px;background: #fafafa;}
             #container{width:700px;margin:70px auto;}
             #container h1{font-family: sans-serif;font-size: 21px;text-align: right;color: #303030;font-weight: bold;}
@@ -718,9 +719,9 @@ position: relative;display: block;text-align: left;font-weight: bold;color: #555
             .notify{margin: 5px 0;padding: 4px;color: #444;}
 			#secondlevel{font-weight: normal;display: block;text-align: left;margin: 2px 0 10px 0;font-size: 13px;color: rgb(45, 193, 238);display: block;padding: 0;line-height: 20px;}
             .notify span{font-weight: bold;}
-            * {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+			.agree{cursor: pointer}
             .form {padding:0px 30px;border-radius:5px;}
-            .form label {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
+            .form label:not(.agree) {text-transform: capitalize;padding: 8px 0;border-radius: 5px;min-width: 120px;position: relative;display: block;text-align: left;font-weight: bold;color: #666;text-shadow: 0px 1px 0px white;font-size: 16px;}
             .form input[type="text"],.form input[type="password"]{width: 340px;height: 30px;border-style: none;padding: 5px 0;text-shadow: 0px 1px 0px white;outline: none;color: #333;margin-right: 40px;padding-left: 5px;background: #f1f1f1;}
             input[type="button"], input[type="submit"] {border-radius: 2px;box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);-webkit-user-select: none;background: -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);background: -moz-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);border: 1px solid #AAA;color: #444;font-size: inherit;margin-bottom: 0px;min-width: 4em;padding: 3px 12px 3px 12px;margin: 20px 278px;}
 			a {text-align: center;padding: 0 10px;color: #333;text-decoration: none;line-height: 30px;display: block;}
@@ -736,11 +737,7 @@ position: relative;display: block;text-align: left;font-weight: bold;color: #555
 			#breadcrumbs li:nth-child(5):before{width: 190px;}
 			#breadcrumbs li::after {border-radius: 24px;font-size: 15px;width: 24px;height: 20px;color: #FFF;display: block;background-color: #ECECEC;position: absolute;text-align: center;padding-top: 3px;margin: 0 auto;margin-top: 0px;margin-left: 58px;z-index: 1;}
 			#breadcrumbs li.current::after {background-color:  rgb(45, 193, 238);}
-            #breadcrumbs li:nth-child(1):after{content : "1"}
-			#breadcrumbs li:nth-child(2):after{content : "2"}
-			#breadcrumbs li:nth-child(3):after{content : "3"}
-			#breadcrumbs li:nth-child(4):after{content : "4"}
-			#breadcrumbs li:nth-child(5):after{content : "5"}
+            #breadcrumbs li::after{content : attr(data-step)}
 			.next,.prev {display: inline-block;color: #fefefe;background-color: #2dc1ee;transition: 0.5s background-color;position: relative;}
 			.next:hover,.prev:hover {background-color: #0CA6D5;}
             .next::after{content: "";width: 0px;height: 0px;position: absolute;transition: 0.5s border-color;border-style: solid;margin-top: -5px;border-width: 20px 0 20px 30px;border-color: transparent transparent transparent #2dc1ee;right: -30px;}
@@ -752,7 +749,7 @@ position: relative;display: block;text-align: left;font-weight: bold;color: #555
             label.nocapital{text-transform: none;}
 			#agreewithlicence{position: relative;top: 2px;}
 			/* Select webkit */
-			select {padding: 3px;background-position: center right 4px;background-repeat: no-repeat;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;-moz-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC");font-size: 13px;margin: 0 7px 4px 0;background-color: #F8F8F8;color: rgb(73, 71, 71);border: none;}
+			select {padding: 3px;background-position: center right 4px;background-repeat: no-repeat;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;-webkit-appearance: button;-moz-appearance: button;appearance: button;border-radius: 2px;-webkit-padding-end: 15px;-moz-padding-end: 0px;-webkit-padding-start: 2px;-moz-padding-start: 2px;-moz-user-select: none;-webkit-user-select: none;user-select: none;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAICAYAAAAbQcSUAAAAWklEQVQokWNgoAOIAuI0PDiKaJMSgYCZmfkbkPkfHYPEQfJEG/b//3+FBQsWLGRjY/uJbBCIDxIHyRNtGDYDyTYI3UA+Pr4vFBmEbODbt2+bKDYIyUBWYtQBAIRzRP/XKJ//AAAAAElFTkSuQmCC");font-size: 13px;margin: 0 7px 4px 0;background-color: #F1F1F1;color: rgb(73, 71, 71);border: none;}
         </style>
     </body>
 </html>
