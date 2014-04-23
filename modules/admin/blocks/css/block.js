@@ -641,7 +641,7 @@ function blockAdminCSS() {
 
 		/* Borders */
 		$('#panelcss_tab_border_general').on("click.creation", ".borderMarkers", function(e) {
-			e.delegateTarget.querySelector('.active').classList.remove("active");
+			$(".active", e.delegateTarget).removeClass("active");
 			this.classList.add("active");
 			trigger(e.delegateTarget.querySelector('.prop_' + this.dataset.targetcss), "change");
 		})
