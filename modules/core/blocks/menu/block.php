@@ -64,6 +64,25 @@ class menu extends \block {
         $menu = array(array('id' => 1, 'title' => 'Home', 'url' => 'index'));
         $this->setConfig('menu', json_encode($menu));
     }
+	
+	public function getView() {
+		$menu = json_decode($this->getConfig('menu'), true);
+		if (is_array($menu)) {
+			ob_start();
+			$this->drawmenu($menu);
+			$t = ob_get_clean();
+			return $t;
+		}
+		return '';
+	}
+	
+	public function display() {
+		if ($this->getConfig('position') == 1) {
+			$this->setConfig('cssClasses', 'core_menu vertical ' . $this->getConfig('cssClasses'));
+		}
+		$this->setConfig('tag', 'ul');
+		return parent::display();
+	}
 
     public function drawAdminMenu($items) {
         foreach ($items AS $item) {
@@ -136,22 +155,27 @@ class menu extends \block {
                 $classes[] = 'last';
             if ($cpt == 1)
                 $classes[] = 'first';
+			$hasChild = FALSE;
+			if (isset($item['children'])) {
+				$hasChild = TRUE;
+				$classes[] = 'parent';
+			}
             if (count($classes) > 0)
                 $class = 'class="' . implode(' ', $classes) . '"';
             if (isset($dynamicURL)):
                 echo $dynamicURL;
                 unset($dynamicURL);
             else :
-            ?>
+			?>
                 <li id="itemlist_<?php echo $item['id'] ?>" <?php echo $class; ?>>
                 <a href="<?php echo $url ?>"><?php echo $title ?></a>
                 <?php
-                if (isset($item['children'])) {
-                    echo '<ul>';
-                    $this->drawmenu($item['children']) . '';
-                    echo '</ul>';
-                }
-                ?>
+                if ($hasChild === TRUE) {
+					echo '<ul>';
+					$this->drawmenu($item['children']);
+					echo '</ul>';
+				}
+				?>
                 </li>
             <?php
             endif;

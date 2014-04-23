@@ -28,48 +28,34 @@
 ?>
 <script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/nestedSortable/jquery.ui.nestedSortable.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo BASE_PATH; ?>core/blocks/menu/default.css">
 <style>
-    fieldset{background: #F9F9F9;}
     .placeholdermenu {background-color: #fff;border: 1px #ccc dashed}
     .ui-nestedSortable-error {background:#fbe3e4;color:#8a1f11;}
     ol {margin: 0;padding: 0;padding-left: 30px;}
     ol.sortable, ol.sortable ol {padding: 0;list-style-type: none;margin: 0 0 0 15px;}
     .sortable li {margin: 7px 0 0 0;padding: 0;}
-    .sortable li > div  {background: #CBDDF3 url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #2E63A5;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
+    .sortable li > div {background: #fff url(img/arrow_move.png) no-repeat 7px 6px;border: 1px solid #ccc;font-weight: bold;color: #222;padding: 3px;margin: 2px;cursor: move;line-height: 30px;padding-left:40px;border-radius: 4px;}
     .sortable li > div  input{background: transparent;}
     .sortable li > div > div{vertical-align: middle}
     .ui-icon-closethick{margin-top: 7px;}
-    #addPageItem li{margin:0 !important}
-    .parsimenu ul{top: 20px;left: -1px;}
-    #linkmenu{border :1px solid #ccc;margin-top:10px; padding-bottom: 10px;border-radius: 8px;}
-    linkmenuAdd{position: relative;top: 0px;margin-left: 25px;margin-top: 10px;margin-bottom: 10px;}
-    #addPageItem{margin-left: 25px;background: #EBEBEB -webkit-linear-gradient(#FEFEFE, #F8F8F8 40%, #E9E9E9);}
-    #addPageItem li{border-right: 1px #CCC solid;text-transform: capitalize;margin: 0 0 0 11px;padding: 4px;font-weight: normal;text-shadow: 0 1px 1px rgba(255, 255, 255, .9);color: #666;}
-    #previewmenu{border :1px solid #ccc;margin-top:10px;border-radius: 8px;padding-bottom: 10px;}
-    .title1{text-align: left;margin: 10px 25px;color: #777;}
-    .title2{text-align: left;position: relative;top: 8px;margin-left: 27px;margin-bottom: 15px;border-radius: 8px;color: #777;}
-
-    /* Overridde css for test */
-    #linkmenu{padding-left: 15px;}
-    #previewmenu legend{margin-left: 15px;}
-    #design-menu legend{margin-left: 15px;}
+	
+    #linkmenu, #previewmenu{border :1px solid #ccc;margin-top:10px; padding-bottom: 10px;border-radius: 3px;padding-left: 15px;background: #F9F9F9;}
     #design-menu{font-family: sans-serif;font-size: 12px;color:#585858}
-    .title1{margin: 10px 0;}
-    .title2{margin-left: 0;}
-    #addPageItem{margin-left: 0;}
-    #addPageItem li {cursor: pointer;}
-    #addPageItem li li{padding: 0;margin: 0}
-    #addPageItem li li a{padding: 4px;}
-    .sortable li > div{
-        border: 1px solid #ccc ;font-weight: bold;color: #222 ;text-shadow: 0  1px  0  #ffffff ;
-        background: #eee url(img/arrow_move.png) no-repeat 7px 6px;
-        background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-gradient(linear, left top, left bottom, from( #ffffff), to( #f1f1f1));
-        background: url(img/arrow_move.png) no-repeat 7px 6px, -webkit-linear-gradient( #ffffff, #f1f1f1); 
-        background: url(img/arrow_move.png) no-repeat 7px 6px, -moz-linear-gradient( #ffffff, #f1f1f1);
-        background: url(img/arrow_move.png) no-repeat 7px 6px, -ms-linear-gradient( #ffffff, #f1f1f1);
-        background: url(img/arrow_move.png) no-repeat 7px 6px, linear-gradient( #ffffff, #f1f1f1);
-    }
+	#addPageItem li {float : left ;position : relative ;list-style : none ;}
+	#addPageItem a, #addPageItem > li {color : #444 ;text-decoration : none ;display : block ;padding : 8px 20px ;background: #EEE;position: relative}
+	#addPageItem a:hover {background : #2DC1EE ;color: #f5f5f5;}
+	#addPageItem .current a {background : #eee ;}
+	#addPageItem .current a:hover {background : #2DC1EE ;}
+	#addPageItem ul {z-index : 2 ;display : none ;margin : 0 ;padding : 0 ;min-width : 100px ;position : absolute ;left : 0 ;}
+	#addPageItem ul li {float : none;}
+	#addPageItem ul li a {background : #eee ;}
+	#addPageItem ul li a:hover {background : #2DC1EE;}
+	#addPageItem li:hover > ul {display : block ;}
+	#addPageItem .parent > a::after {content: ' \25BE';}
+	
+	#design-menu h2{padding: 20px 0 0 5px;font-size: 19px;}
+	#design-menu h3{font-size: 13px;}
+
 </style>
 <div id="item-menu-template" class="none">
     <?php
@@ -83,112 +69,114 @@
 </div>
 <div id="design-menu">
     <div class="placeholder">
-        <label><?php echo t('Menu'); ?></label>
-        <select name="position"><option value="0">Horizontal</option><option value="1" <?php if ($this->getConfig('position') == 1) echo ' selected="selected"'; ?>>Vertical</option></select>
+		<label><?php echo t('Menu orientation'); ?></label>
+		<select name="position"><option value="0">Horizontal</option><option value="1" <?php if ($this->getConfig('position') == 1) echo ' selected="selected"'; ?>>Vertical</option></select>
     </div>
-    <fieldset id="linkmenu">
-        <legend><?php echo t('Add Links'); ?></legend>
-        <fieldset id="linkmenuAdd">
-            <div class="title1"><?php echo t('Add A Link Manually'); ?></div>
-            <input type="text" id="input_title" placeholder="<?php echo t('Title'); ?>" />
-            <input type="text" id="input_url"  placeholder="http://" />
-            <input type="button" value="<?php echo t('Add'); ?>" id="add-menu-item">
-        </fieldset>
-        <div class="title2"><?php echo t('Choose An Existing Link'); ?></div>
-        <ul id="addPageItem" class="parsimenu">
-            <?php
-            foreach (\app::$config['modules']['active'] as $module => $mode) {
-                $moduleObj = \app::getModule($module);
-                $pagesMod = $moduleObj->getPages();
-                if (!empty($pagesMod)) {
-                    ?>
-                    <li class="inline-block"><?php echo $module; ?><ul>
-                            <?php
-                            foreach ($moduleObj->getPages() as $key => $page) {
-                                $nb = 0;
-                                foreach ($page->getURLcomponents() as $tab) {
-                                    if(isset($tab['regex'])) $nb++; 
-                                }
-                                if ($nb <= 1)
-                                    echo '<li><a data-title="' . s($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
-                            }
-                            ?>
-                        </ul>
-                    </li>
-                    <?php
-                }
-            }
-            ?>
-        </ul>
-    </fieldset>
-    <fieldset id="previewmenu">
-        <legend><?php echo t('Preview Menu'); ?></legend>
-        <ol class="sortable">
-            <?php
-            $menu = json_decode($this->getConfig('menu'), true);
-            if (is_array($menu)) {
-                $this->drawadminmenu($menu);
-            }
-            ?>
-        </ol>
-        <input type="hidden" name="toHierarchy" id="toHierarchy">
-    </fieldset>
+	
+	<h2><?php echo t('Add Links'); ?></h2>
+    <div id="linkmenu">
+		<h3><?php echo t('Add A Link Manually'); ?></h3>
+			<input type="text" id="input_title" placeholder="<?php echo t('Title'); ?>" />
+			<input type="text" id="input_url"  placeholder="http://" />
+			<input type="button" value="<?php echo t('Add'); ?>" id="add-menu-item">
+		<h3><?php echo t('Choose An Existing Link'); ?></h3>
+		<ul id="addPageItem">
+			<?php
+			foreach (\app::$config['modules']['active'] as $module => $mode) {
+				$moduleObj = \app::getModule($module);
+				$pagesMod = $moduleObj->getPages();
+				if (!empty($pagesMod)) {
+					?>
+					<li><?php echo $module; ?><ul>
+							<?php
+							foreach ($moduleObj->getPages() as $key => $page) {
+								$nb = 0;
+								foreach ($page->getURLcomponents() as $tab) {
+									if(isset($tab['regex'])) $nb++; 
+								}
+								if ($nb <= 1)
+									echo '<li><a data-title="' . s($page->getTitle()) . '" data-module="' . $module . '" data-page="' . $key . '" href="' . $page->getURL() . '">' . $page->getTitle() . '</a></li>';
+							}
+							?>
+						</ul>
+					</li>
+					<?php
+				}
+			}
+			?>
+		</ul>
+		<div class="clearboth"></div>
+    </div>
+	
+	<h2><?php echo t('Preview Menu'); ?></h2>
+    <div id="previewmenu">
+		<ol class="sortable">
+			<?php
+			$menu = json_decode($this->getConfig('menu'), true);
+			if (is_array($menu)) {
+				$this->drawadminmenu($menu);
+			}
+			?>
+		</ol>
+		<input type="hidden" name="toHierarchy" id="toHierarchy">
+    </div>
 </div>
+
 <script>
     function refreshPos(){
-        $('#toHierarchy').val(JSON.stringify($('ol.sortable').nestedSortable('toHierarchy')));
+		$('#toHierarchy').val(JSON.stringify($('ol.sortable').nestedSortable('toHierarchy')));
     }
     $(document).ready(function() {
-        function getMaxId(){
-            var maxnb = 0;
-            $("ol.sortable li").each(function(i) {
-                var tab = $(this).attr("id").split(/itemlist_/);
-                if(parseInt(tab[1]) > maxnb) maxnb = parseInt(tab[1]);
-            });
-            return maxnb;
-        }
-        function addLink(title,url){
-            var maxnb = getMaxId() + 1;
-            var obj = $('#item-menu-template > li').clone().attr("id","itemlist_" + maxnb);
-            obj.find(".input_title").val(title).attr("name","title[" + maxnb + "]");
-            obj.find(".input_url").val(url).attr("name","url[" + maxnb + "]");
-            obj.find(".input_active").attr("name","active[" + maxnb + "]");
-            $("#input_title").val('');
-            $("#input_url").val('');
-            $("ol.sortable").append(obj);
-            refreshPos();
-        }
-        function addPage(module, page, title){
-            var maxnb = getMaxId() + 1;
-            var obj = $('#item-menu-page-template > li').clone().attr("id","itemlist_" + maxnb);
-            obj.find(".module").val(module).attr("name","module[" + maxnb + "]");
-            obj.find(".page").val(page).attr("name","page[" + maxnb + "]");
-            obj.find(".titlePage").text(title);
-            $("ol.sortable").append(obj);
-            refreshPos();
-        }
-        $("#add-menu-item").on("click",function(){
-            addLink($("#input_title").val(),$("#input_url").val());
-        });
-        $("#addPageItem a").on("click", function(){
-            addPage($(this).data('module'), $(this).data('page'), $(this).data('title'));
-            return false;
-        });
-        $('ol.sortable').nestedSortable({
-            forcePlaceholderSize: true,
-            handle: 'div',
-            helper:	'clone',
-            items: 'li',
-            opacity: .6,
-            placeholder: 'placeholdermenu',
-            revert: 250,
-            tabSize: 25,
-            tolerance: 'pointer',
-            toleranceElement: '> div',
-            update:function(){
-                refreshPos();
-            }
-        });
-        refreshPos();
+		function getMaxId(){
+			var maxnb = 0;
+			$("ol.sortable li").each(function(i) {
+				var tab = $(this).attr("id").split(/itemlist_/);
+				if(parseInt(tab[1]) > maxnb) maxnb = parseInt(tab[1]);
+			});
+			return maxnb;
+		}
+		function addLink(title,url){
+			var maxnb = getMaxId() + 1;
+			var obj = $('#item-menu-template > li').clone().attr("id","itemlist_" + maxnb);
+			obj.find(".input_title").val(title).attr("name","title[" + maxnb + "]");
+			obj.find(".input_url").val(url).attr("name","url[" + maxnb + "]");
+			obj.find(".input_active").attr("name","active[" + maxnb + "]");
+			$("#input_title").val('');
+			$("#input_url").val('');
+			$("ol.sortable").append(obj);
+			refreshPos();
+		}
+		function addPage(module, page, title){
+			var maxnb = getMaxId() + 1;
+			var obj = $('#item-menu-page-template > li').clone().attr("id","itemlist_" + maxnb);
+			obj.find(".module").val(module).attr("name","module[" + maxnb + "]");
+			obj.find(".page").val(page).attr("name","page[" + maxnb + "]");
+			obj.find(".titlePage").text(title);
+			$("ol.sortable").append(obj);
+			refreshPos();
+		}
+		$("#add-menu-item").on("click",function(){
+			addLink($("#input_title").val(),$("#input_url").val());
+		});
+		$("#addPageItem a").on("click", function(){
+			addPage($(this).data('module'), $(this).data('page'), $(this).data('title'));
+			return false;
+		});
+		$('ol.sortable').nestedSortable({
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholdermenu',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+			update:function(){
+				refreshPos();
+			}
+		});
+		refreshPos();
     });
 </script>

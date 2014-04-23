@@ -1,131 +1,88 @@
 /* {Menu container} */
-.parsimenu {
-	z-index: 9999;
-	margin: 0;
-	line-height: 100%;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
-	background: #8b8b8b; /* for non-css3 browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a9a9a9', endColorstr='#7a7a7a'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#a9a9a9), to(#7a7a7a)); /* for webkit browsers */
-	background: -moz-linear-gradient(top, #a9a9a9, #7a7a7a); /* for firefox 3.6+ */
-	border: solid 1px #6d6d6d;
-	display: inline-block;
-}
-/* {Menu Items} */
-.parsimenu li {
-	z-index: 9999;
-	float: left;
-	position: relative;
-	list-style: none;
-}
-/* {Menu Links Items} */
-.parsimenu a {
-	font-weight: bold;
-	color: #e7e5e5;
-	text-decoration: none;
-	display: block;
-	padding: 8px 20px;
-	margin: 0;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-}
-/* {Menu Active Items} */
-.parsimenu .current a{
-	background: #d1d1d1; /* for non-css3 browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#a1a1a1'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#a1a1a1)); /* for webkit browsers */
-	background: -moz-linear-gradient(top, #ebebeb, #a1a1a1); /* for firefox 3.6+ */
-	color: #444;
-	border-top: solid 1px #f8f8f8;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-	text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
-}
-/* {Menu Items Hover} */
-.parsimenu li:hover > a {
-	background: #d1d1d1; /* for non-css3 browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#a1a1a1'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#a1a1a1)); /* for webkit browsers */
-	background: -moz-linear-gradient(top, #ebebeb, #a1a1a1); /* for firefox 3.6+ */
-	color: #444;
-	border-top: solid 1px #f8f8f8;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-	text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
-}
-.parsimenu ul li:hover a{
-	background: none;
-	border: none;
-	color: #666;
-	box-shadow: none;
-}
-.parsimenu li:hover li a {
-	background: none;
-	border: none;
-	color: #666;
-	box-shadow: none;
-}
-/* {Sub Menu Links Hover} */
-.parsimenu ul a:hover {
-	background: #0399d4 !important; /* for non-css3 browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#04acec', endColorstr='#0186ba'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#04acec), to(#0186ba)) !important; /* for webkit browsers */
-	background: -moz-linear-gradient(top, #04acec, #0186ba) !important; /* for firefox 3.6+ */
-	color: #fff !important;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-}
-/* {Sub Menu} */
-.parsimenu ul {
-	z-index: 9999;
-	background: #ddd; /* for non-css3 browsers */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cfcfcf'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#cfcfcf)); /* for webkit browsers */
-	background: -moz-linear-gradient(top, #fff, #cfcfcf); /* for firefox 3.6+ */
-	display: none;
-	margin: 0;
-	padding: 0;
-	width: 185px;
-	position: absolute;
-	/*top: 30px;*/
-	left: 0;
-	border: solid 1px #b4b4b4;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-}
-/* dropdown */
-.parsimenu li:hover > ul {
-	display: block;
-}
-/* {Sub Menu Items} */
-.parsimenu ul li {
-	z-index: 9999;
-	float: none;
-	margin: 0;
-	padding: 0;
-}
-/* {Sub Menu links} */
-.parsimenu ul a {
-	font-weight: normal;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, .9);
-}
-/* {Sub Sub Menu Items} */
-.parsimenu ul ul {
-	z-index: 9999;
-	left: 185px;
-	top: -1px;
+:root{
+	background : #f5f5f5 ;
 }
 
-
-/* clearfix */
-.parsimenu:after {
-	content: ".";
-	display: block;
-	clear: both;
-	visibility: hidden;
-	line-height: 0;
-	height: 0;
+/* {Menu items} */
+li {
+	float : left ;
+	position : relative ;
+	list-style : none ;
 }
 
-.parsimenu.vertical ul {
-	left: 100%;
-	top: 0;
+/* {Menu links items} */
+a {
+	color : #444 ;
+	text-decoration : none ;
+	display : block ;
+	padding : 8px 20px ;
 }
-.parsimenu.vertical li {
-	float: none;
+
+/* {Menu links items hover} */
+a:hover {
+	background : #2DC1EE ;
+	color: #f5f5f5;
+}
+
+/* {Menu active items} */
+.current a {
+	background : #eee ;
+}
+
+/* {Menu active items hover} */
+.current a:hover {
+	background : #2DC1EE ;
+}
+
+/* {Sub menu} */
+ul {
+	z-index : 2 ;
+	display : none ;
+	margin : 0 ;
+	padding : 0 ;
+	min-width : 100px ;
+	position : absolute ;
+	left : 0 ;
+}
+
+/* {Second level items} */
+ul li{
+	float : none ;
+}
+
+/* {Second level links items} */
+ul li a{
+	background : #eee ;
+}
+
+/* {Second level links items hover} */
+ul li a:hover {
+	background : #2DC1EE ;
+}
+
+li:hover > ul {
+	display : block ;
+}
+/* {First level parent indicator} */
+.parent > a::after {
+	content: ' \25BE';
+}
+/* {Second level parent indicator} */
+ ul .parent > a::after {
+	content: ' \25B8';
+}
+/* {Third level menu} */
+ul ul {
+	z-index : 2 ;
+	left : 100% ;
+	top : 0 ;
+}
+
+#Tututututu.vertical ul {
+	left : 100% ;
+	top : 0 ;
+}
+
+#Tututututu.vertical li {
+	float : none ;
 }

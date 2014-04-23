@@ -134,7 +134,7 @@
 		<div id="datagridajaxsearch" class="admintabs"></div>
 		<div id="addmodel" class="admintabs none">
 			<?php
-			echo str_replace('action=""','target="formResult" action=""',$obj->getViewAddForm(TRUE));
+			echo str_replace('action=""', 'target="formResult" action=""', $obj->getViewAddForm());
 			?>
 		</div>
 	</div>
