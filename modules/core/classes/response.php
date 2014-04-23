@@ -202,6 +202,7 @@ class response {
 	public function concatFiles(array $files, $format) {
 		$hash = $format . 'concat_' . md5(implode('', $files));
 		$pathCache = 'profiles/' . PROFILE . '/modules/' . app::$config['modules']['default'] . '/' . $hash . '.' . $format;
+		$dltCache = '';
 		if (!is_file($pathCache) || app::$config['dev']['status'] !== 'prod') {
 			ob_start();
 			foreach ($files as $file) {
@@ -221,8 +222,9 @@ class response {
 			$content = ob_get_clean();
 			\tools::createDirectory(dirname($pathCache));
 			file_put_contents($pathCache, $content);
+			$dltCache = '?' . time();
 		}
-		return $hash . '.' . $format;
+		return $hash . '.' . $format . $dltCache;
 	}
 	
 	
