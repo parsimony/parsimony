@@ -98,7 +98,7 @@ $lang['fr']['You must enable the function'] = 'Vous devez activer la fonction';
 $lang['fr']['If you use Parsimony by mod userdir URLs ( ie. /<strong>~</strong>parsimony/), you have to check your /.htaccess file and update RewriteBase declaration. ( #RewriteBase /~myusername/ )'] = 'Si vous utilisez Parsimony via l\'URL du mod userdir ( ex : /<strong>~</strong>parsimony/ ), vous devez modifier la déclaration RewriteBase du fichier /.htaccess . ( #RewriteBase /~myusername/ )';
 
 /* Define roles */
-$_SESSION['behavior'] = 2;
+$_SESSION['permissions'] = 129023;
 $_SESSION['id_role'] = 1;
 /* Rights */
 define('DISPLAY', 1);

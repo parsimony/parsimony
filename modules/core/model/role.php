@@ -29,7 +29,7 @@ class role extends \entity {
 	
 	public function getViewAddForm() {
 		$this->setNewPermissionsView();
-		return parent::getViewUpdateForm();
+		return parent::getViewAddForm();
 	}
 	
 	public function getViewUpdateForm() {
@@ -43,12 +43,20 @@ class role extends \entity {
 	}
 
 	public function beforeInsert($vars) {
-		return $this->savePerm($vars);
+		if (is_array($vars['permissions'])) {
+			return $this->savePerm($vars);
+		} else {
+			return $vars;
+		}
 	}
 	
 	public function beforeUpdate($vars) {
-		$oldPerm = $this->where('id_role = ' . $vars['id_role'])->fetch()->permissions->value;
-		return $this->savePerm($vars, $oldPerm);
+		if (is_array($vars['permissions'])) {
+			$oldPerm = $this->where('id_role = ' . $vars['id_role'])->fetch()->permissions->value;
+			return $this->savePerm($vars, $oldPerm);
+		} else {
+			return $vars;
+		}
 	}
 	
 	public function savePerm($vars, $oldPerm = 0) {
