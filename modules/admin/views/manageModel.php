@@ -43,7 +43,7 @@
 		})
 		.off('click',".datagrid tr")
 		.on('click',".datagrid td.updateBTN",function(e){
-			var ide = parseInt($(".datagrid_id",$(this).parent()).html(),10);
+			var ide = parseInt($(".datagrid_id",$(this).parent()).html(),10);	
 			if($('#modifmodel3 > div[title="' + ide + '"]').length==0){
 				$( "#modifmodel3" ).append("<div title=\"" + ide + "\" class=\"adminzonetab\"><a href=\"#tabsamodifmodel-" + ide +"\">" + '<span class="floatright ui-icon ui-icon-closethick"></span>' + $(".datagrid_title",$(this).parent()).text() + "</a></div>");
 				if($( "#tabsamodifmodel-" + ide ).length == 0){
@@ -57,7 +57,7 @@
 			}else{
 		$('#modifmodel3 > div[title="' + ide + '"]').trigger("click");
 		}
-		top.ParsimonyAdmin.resizeConfBox();
+				top.ParsimonyAdmin.resizeConfBox(); 
 		})
 		.on('click',"#modifmodel3 > div", function(){
 			$('#contentajax > div').hide();
@@ -76,25 +76,36 @@
 
 			}
 		});
+		function countItem() {
+			var item = ' items';
+			var nbitems = $('#modifmodel3 > div').length ;
+			if(nbitems <= 1){ item = ' item';}
+			if(nbitems == 0){ $('#selected, #selectedsvg').css('display','none'); }
+			else {$('#selected').html( nbitems + item);	$('#selected, #selectedsvg').css('display','inline-block'); }
+		}
+		$(document).on('click',"#modifmodel3 span, .updateBTN",function(event){countItem();});
+		
 	});
 </script>
 <style>
-	#modifmodel3 {display:none;position: absolute;top:17px;left:0;z-index:1}
+	#selectedsvg{background-image: url('<?php echo BASE_PATH ?>admin/img/folder-open-alt.svg');display: inline-block;position: absolute;left: 10px;width: 19px;height: 16px;}
+	#selected{margin-left: 35px;display : none}
+	#modifmodel3 {display:none;position: absolute;top: 16px;left: 10px;z-index:1}
 	#selections_search{position: relative;}
+	#selections_search svg {position :relative; top : 3px; left : 10px;}
 	#selections_search:hover #modifmodel3{display:block;}
 	#modifmodel3 a{line-height: 16px;display: block;padding-left: 8px;padding-right: 25px;font-size: 12px;padding-top: 2px;padding-bottom: 2px;background: none;}
 	#modifmodel3 .adminzonetab {margin:0;padding:0;height:auto;float:none}
 	#modifmodel3 .adminzonetab a {position: relative;color: #555;background: #ECECEC;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
 	#modifmodel3 .adminzonetab a:hover {background: #ccc;}
-	#modifmodel3 .adminzonetab:hover span.ui-icon-closethick {display: inline-block;position: absolute;right: 0;margin: 1px -2px 0px 0px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;}
+	#modifmodel3 .adminzonetab:hover span.ui-icon-closethick {display: inline-block;position: absolute;right: 0;margin: -1px 0px 0px 0px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;}
 	#modifmodel3 span.ui-icon-closethick {display: none;}
 	#modifmodel3 span{border-radius: 5px;cursor: pointer;background: url(<?php echo BASE_PATH; ?>admin/img/icons.png) -96px -128px;display: block;overflow: hidden;width: 16px;height: 16px;background-color: #777;}
 	.updateBTN{text-align: center;width: 20px;padding:2px}
 	.adminzone{background: #fefefe;padding-top: 15px;}
 	.adminzonecontent{min-width:900px;bottom:0;top:60px;left:0;border-left:0;background: transparent}
 	.adminzonecontent .cols {width: 100%;}
-	#searchData {margin: 10px 10px;border-radius: 25px;text-shadow: none;line-height: 20px;border: none;
-	background-color: #F1F1F1;text-decoration: none;color: white;font-family: inherit;font-size: 14px;width: 115px;display: inline-block;padding: 4px;text-align: center;color: #777;}
+	#searchData {margin: 10px;border-radius: 25px;text-shadow: none;line-height: 20px;border: none;background-color: #F1F1F1;text-decoration: none;color: white;font-family: inherit;font-size: 14px;width: 115px;display: inline-block;padding: 2px;text-align: center;color: #777;}
 	#searchData::-webkit-input-placeholder{color : #777}
 	#searchData::-moz-placeholder{color : #777}
 	.adminzonetab{font-size: 20px;height: 30px;padding: 0 10px;margin: 10px;float: left;}
@@ -102,11 +113,14 @@
 	#conf_box_close{border:0;background-color:transparent}
 	#addmodelbtn{padding: 4px 25px;border-radius: 18px;line-height: 25px;background-color: #44C5EC;
 				 display: block;color: #fff;text-align: center;text-transform: uppercase;font-size: 14px;}
+	.firstpanel span{text-transform: capitalize;}
+
 </style>
 <div class="adminzone">
-	<div class="firstpanel adminzonetab"><a href="#datagridajax"> ☰ </a></div>
+	<div class="firstpanel adminzonetab"><a href="#datagridajax"> ☰ <span><?php echo $obj->getTitle() ?></span></a></div>
 	<input type="text" id="searchData" placeholder="<?php echo t('Search'); ?> ... ">
-	<div id="selections_search" class="none"><?php echo t('Selection'); ?>
+	<div id="selections_search" class="none">
+		<div id="selectedsvg"></div><div id="selected"></div>
 		<div id="modifmodel3"></div>
 	</div>
 	<div id="contentajax" class="adminzonecontent">
@@ -120,7 +134,7 @@
 		<div id="datagridajaxsearch" class="admintabs"></div>
 		<div id="addmodel" class="admintabs none">
 			<?php
-			echo str_replace('action=""', 'target="formResult" action=""', $obj->getViewAddForm());
+			echo str_replace('action=""','target="formResult" action=""',$obj->getViewAddForm(TRUE));
 			?>
 		</div>
 	</div>
