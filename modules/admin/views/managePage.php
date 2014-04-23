@@ -90,13 +90,13 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 				<ul>
 					<li class="active"><a href="#tabs-1"><?php echo t('URL & Rewriting'); ?></a></li>
 					<li><a href="#tabs-2"><?php echo t('SEO'); ?></a></li>
-					<li><a href="#tabs-3"><?php echo t('Theme'); ?></a></li>
+					<?php if ($_SESSION['permissions'] & 32): /* perm 32 = choose a theme */ ?>
+						<li><a href="#tabs-3"><?php echo t('Theme'); ?></a></li>
+					<?php endif; ?>
 				</ul>
 				<div class="clearboth" style="padding-top: 10px;"></div>
 				<div id="tabs-1" class="panel">
-					<?php
-					echo '<input type="hidden" name="module" value="' . s($module->getName()) . '">';
-					?>
+					<?php echo '<input type="hidden" name="module" value="' . s($module->getName()) . '">'; ?>
 					<div class="placeholder">
 						<label for="title"><?php echo t('Title'); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
 					</div>
@@ -110,14 +110,14 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 									echo $modulename;
 								?></span><?php if ($modulename != \app::$config['modules']['default']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
 					</div>
-					<?php if ($_SESSION['behavior'] === 2): ?>
+					<?php if ($_SESSION['permissions'] & 8): ?>
 						<div style="position: absolute;left: 570px;top: 82px;cursor:pointer;color: #333;line-height: 15px;" onclick="$('#tabs-admin-querieur').toggle();">
 							<span style="position: relative;top: 0px;right: 4px;" class="parsiplusone"></span><?php echo t('Dynamic page'); ?>
 						</div>
 					<?php endif; ?>
 					<div id="pageOverride" style="position: relative;top: 16px;left: 7px;"></div>
 					<div style="position:relative;padding-top: 30px;">
-					<?php if ($_SESSION['behavior'] === 2): ?>
+					<?php if ($_SESSION['permissions'] & 8): ?>
 						<?php $components = $page->getURLcomponents(); ?>
 							<div id="tabs-admin-querieur" class="none">
 								<div id="tabs-admin-query">
@@ -248,32 +248,34 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 						</table>
 					</div>
 				</div>
-				<div id="tabs-3" class="panel none">
-					<div class="placeholder">
-						<label for="theme"><?php echo t('Theme'); ?></label>
-						<select name="theme">
-							<option value="">Default</option>
-							<?php
-							$theme = $page->getTheme();
-							$currentTheme = FALSE;
-							if ($theme instanceof theme) {
-								$currentTheme = $theme->getModule() . '_' . $theme->getName();
-								if ($currentTheme === \app::$config['THEMEMODULE'] . '_' . \app::$config['THEME']) {
-									$currentTheme = '';
+				<?php if ($_SESSION['permissions'] & 32): /* perm 32 = choose a theme */ ?>
+					<div id="tabs-3" class="panel none">
+						<div class="placeholder">
+							<label for="theme"><?php echo t('Theme'); ?></label>
+							<select name="theme">
+								<option value="">Default</option>
+								<?php
+								$theme = $page->getTheme();
+								$currentTheme = FALSE;
+								if ($theme instanceof theme) {
+									$currentTheme = $theme->getModule() . '_' . $theme->getName();
+									if ($currentTheme === \app::$config['THEMEMODULE'] . '_' . \app::$config['THEME']) {
+										$currentTheme = '';
+									}
 								}
-							}
-							$modules = \app::$config['modules']['active'];
-							foreach ($modules as $moduleName => $mode) {
-								$module = \app::getModule($moduleName);
-								foreach ($module->getThemes() as $themeName) {
-									$name = $moduleName . '_' . $themeName;
-									echo '<option value="' . $name . '"' . ($currentTheme === $name ? ' selected="selected"' : '') . '>' . $themeName . ' (' . $moduleName . ')</option>';
+								$modules = \app::$config['modules']['active'];
+								foreach ($modules as $moduleName => $mode) {
+									$module = \app::getModule($moduleName);
+									foreach ($module->getThemes() as $themeName) {
+										$name = $moduleName . '_' . $themeName;
+										echo '<option value="' . $name . '"' . ($currentTheme === $name ? ' selected="selected"' : '') . '>' . $themeName . ' (' . $moduleName . ')</option>';
+									}
 								}
-							}
-							?>
-						</select>
+								?>
+							</select>
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 				<input class="none" type="submit" id="sendFormPage">
 			</div>
 		</form>
@@ -281,7 +283,9 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 	<div class="adminzonefooter">
 		<div id="save_page" class="save ellipsis"><?php echo t('Save'); ?></div>
 		<div id="goto_page" class="btn notNew"><?php echo t('See'); ?></div>
-		<div id="delete_page" class="btn notNew"><?php echo t('Delete'); ?></div>   
+		<?php if ($_SESSION['permissions'] & 8): ?>
+			<div id="delete_page" class="btn notNew"><?php echo t('Delete'); ?></div>
+		<?php endif; ?>
 	</div>
 </div>
 <script type="text/javascript">

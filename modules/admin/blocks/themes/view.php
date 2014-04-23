@@ -83,25 +83,30 @@ foreach ($modules as $moduleName => $mode) {
 						<input class="input" type="submit" value="<?php echo t('Choose') ?>" />
 					</form>
 				<?php endif; ?>
-				<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
-				<?php if($themeName !== app::$config['THEME']): ?>
-					<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
-						<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
-						<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
-						<input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
-						<input class="input" type="submit" value="<?php echo t('Delete') ?>" />
-					</form>
-				<?php endif; ?>
+				<?php if($_SESSION['permissions'] & 64): ?>
+					<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
+					<?php if($themeName !== app::$config['THEME']): ?>
+						<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
+							<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
+							<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
+							<input type="hidden" name="name" value="<?php echo s($themeName); ?>" />
+							<input class="input" type="submit" value="<?php echo t('Delete') ?>" />
+						</form>
+					<?php endif; 
+					endif; ?>
 			</div>
 		</div>
 	</li>
 	<?php
 	}
 }
+ if($_SESSION['permissions'] & 64):
 ?>
 	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> + <?php echo t('New'); ?> Theme</a>
+<?php endif; ?>
 	</ul>	
-</div> 
+</div>
+<?php if ($_SESSION['permissions'] & 64): ?>
 <div id="themenew">
 	<form method="POST" id="themeFormAdd" target="formResult" action="<?php echo BASE_PATH; ?>admin/addTheme">
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
@@ -135,7 +140,7 @@ foreach ($modules as $moduleName => $mode) {
 	</form>
 	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> < <?php echo t('Cancel'); ?></a>
 </div>
-
+<?php endif; ?>
 
 <script type="text/javascript">
 	function setActiveTheme(themeName){

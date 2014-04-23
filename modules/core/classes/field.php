@@ -234,7 +234,7 @@ class field {
 	}
 	
 	public function editInlineForAuthor($authorID) {
-		if($authorID === $_SESSION['id_user'] || $_SESSION['behavior'] >= 1){
+		if($authorID === $_SESSION['id_user'] || $_SESSION['permissions'] > 0){
 			$this->editInline();
 		} else {
 			return $this->display();
@@ -483,13 +483,15 @@ class field {
 	 * @param integer $rights
 	 */
 	public function setRights($role, $rights) {
-		/* We remove role entry if the role has the maximum of rights ( 7 = DISPLAY:1 + INSERT:2 + UPDATE:4 ) #performance */
-		if($rights === 7){
-			if(isset($this->rights[$role])){
-				unset($this->rights[$role]);
+		if (($this->getRights($_SESSION['id_role']) & $rights) === $rights) { /* check that user is allowed to set these rights */
+			/* We remove role entry if the role has the maximum of rights ( 7 = DISPLAY:1 + INSERT:2 + UPDATE:4 ) #performance */
+			if($rights === 7){
+				if(isset($this->rights[$role])){
+					unset($this->rights[$role]);
+				}
+			}else{
+				$this->rights[$role] = $rights;
 			}
-		}else{
-			$this->rights[$role] = $rights;
 		}
 	}
 

@@ -78,16 +78,20 @@ foreach ($activeModule as $module => $type) {
 						$pageURL = BASE_PATH . $module . '/' . $page->getURL();
 					?>
 					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
-						<?php echo ucfirst(s($page->getTitle())); ?>
+						<?php echo ucfirst(s($page->getTitle())); 
+						if ($_SESSION['permissions'] & 4): ?>
 						<a href="#left_sidebar/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
+						<?php endif; ?>
 					</li>
 					<?php
 				}
+				if ($_SESSION['permissions'] & 8):
 				?>
 				<a href="#left_sidebar/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
 					<span class="ui-icon ui-icon-plus"></span>
 					<?php echo t('Add A Page'); ?>
 				</a>
+				<?php endif; ?>
 			</ul>
 			<?php
 			endif;
@@ -104,7 +108,7 @@ foreach ($activeModule as $module => $type) {
 						<?php
 					}
 				}
-				if ($_SESSION['behavior'] === 2): ?>
+				if ($_SESSION['permissions'] & 4096): /* perm 4096 = db designer */ ?>
 					<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer') . ' ' . ucfirst($module); ?>">
 						<?php echo t('Database Designer') ?>
 						<form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">
@@ -119,6 +123,6 @@ foreach ($activeModule as $module => $type) {
 		<?php
 	endif;
 }
-if ($_SESSION['behavior'] === 2): ?>		
+if ($_SESSION['permissions'] & 16384) : /* perm 16384 = manage modules */  ?>		
 	<div class="ellipsis"><a href="#left_sidebar/add" title="<?php echo t('Add a Module'); ?>" id="add-module">+ <?php echo t('Add a Module'); ?></a></div>
 <?php endif;

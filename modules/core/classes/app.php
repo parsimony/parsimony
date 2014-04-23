@@ -318,7 +318,7 @@ namespace core\classes {
 				$line = $lastError['line'];
 				$message = $lastError['message'];
 				self::errorLog($lastError['type'], $lastError['file'], $lastError['line'], $lastError['message']);{
-				if (isset($_SESSION['behavior']) && $_SESSION['behavior'] == 2) 
+				if (isset($_SESSION['permissions']) && $_SESSION['permissions'] > 0) 
 					if (ob_get_level()) ob_clean();
 					if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 						echo json_encode(array('notification' => $message.' in '.$file.' '.t('in line').' '. $line, 'notificationType' => 'negative'));

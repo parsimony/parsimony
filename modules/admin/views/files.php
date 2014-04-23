@@ -31,8 +31,11 @@ $dirPath = str_replace('..', '', $dirPath); /* securize path */
 
 echo '<div id="path">' . $dirPath . '</div><div id="dirsandfiles">';
 
-$extOk = array(); 
 $array_img = array('.jpeg', '.png', '.gif', '.jpg');
+$extOk = array();
+if($_SESSION['permissions'] & 2048) { /* perm 2048 = Restrict file operations to medias */
+	$extOk = $array_img;
+}
 $extKo = array('.obj');
 if(empty($dirPath)){
 	$files = glob(PROFILE_PATH . '*');

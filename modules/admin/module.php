@@ -53,19 +53,50 @@ class module extends \module {
 	/**
 	 * Controller post
 	 * @param string $action
-	 * @return false 
+	 * @param string $httpMethod
+	 * @return string|false 
 	 */
 	public function controller($action, $httpMethod = 'GET') {
-		if($httpMethod === 'POST'){
-			$justForCreators = array('addBlock', 'removeBlock', 'saveCSS', 'moveBlock', 'dbDesigner', 'addTheme', 'changeTheme', 'deleteTheme', 'addModule', 'saveRights', 'saveModel', 'uptodate');
-			if ($_SESSION['behavior'] === 0 || ( $_SESSION['behavior'] === 1  && in_array($action, $justForCreators))){
-				return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied'), 'notificationType' => 'negative')), 200);
-			}
-			if (!empty($action)) {
-				return parent::controller($action, 'POST');
-			}
-		}else{
+		$rights = array('addBlock' => 32,
+				'removeBlock' => 256,
+				'saveCSS' => 16,
+				'moveBlock' => 256,
+				'dbDesigner' => 4096,
+				'addTheme' => 64,
+				'changeTheme' => 32,
+				'deleteTheme' => 64,
+				'addModule' => 16384,
+				'saveRights' => 65536,
+				'saveModel' => 4096,
+				'uptodate' => 2,
+				'saveBlockConfigs' => 128,
+				'getViewConfigBlock' => 128,
+				'savePage' => 4,
+				'reorderPages' => 8,
+				'getViewUpdatePage' => 4,
+				'deleteThisPage' => 8,
+				'checkOverridedPage' => 8,
+				'getViewTranslation' => 32768,
+				'saveTranslation' => 32768,
+				'getViewAddModule' => 16384,
+				'saveConfig' => 1,
+				'structureTree' => 128,
+				'getViewAdminRights' => 65536,
+				'upload' => 1024,
+				'explorer' => 512,
+				'files' => 512,
+				'explorerEditor' => 512,
+				'getBackUp' => 512,
+				'saveCode' => 512,
+				'createDir' => 512,
+				'deleteDir' => 512,
+				'deleteFile' => 512,
+				'savePicture' => 512);
+
+		if (!isset($rights[$action]) || $_SESSION['permissions'] & $rights[$action]) {
 			return parent::controller($action, $httpMethod);
+		} else {
+			return \app::$response->setContent($this->returnResult(array('eval' => '', 'notification' => t('Permission denied'), 'notificationType' => 'negative')), 200);
 		}
 	}
 
@@ -262,7 +293,7 @@ class module extends \module {
 	 * @param string $regex
 	 * @return string 
 	 */
-	protected function savePageAction($module, $id_page, $title, $meta, $regex, $theme, array $URLcomponents = array()) {
+	protected function savePageAction($module, $id_page, $title, $meta, $regex, $theme = FALSE, array $URLcomponents = array()) {
 		$moduleObj = \app::getModule($module);
 		try {
 			$page = $moduleObj->getPage($id_page);
@@ -274,15 +305,19 @@ class module extends \module {
 					$page->setRights($role->id_role, 0);
 				}
 			}
+			$page->setModule($module);
 			$moduleObj->addPage($page);
 		}
-		$page->setModule($module);
 		$page->setTitle($title);
-		$page->setTheme($theme);
+		if ($theme !== FALSE && $_SESSION['permissions'] & 32) { /* 32 = choose theme*/
+			$page->setTheme($theme);
+		}
 		$page->setMetas($meta);
-		if (isset($URLcomponents))
-			$page->setURLcomponents($URLcomponents);
-		$page->setRegex('@^' . $regex . '$@');
+		if ($_SESSION['permissions'] & 8) {
+			if (isset($URLcomponents))
+				$page->setURLcomponents($URLcomponents);
+			$page->setRegex('@^' . $regex . '$@');
+		}
 		$moduleObj->updatePage($page); //modif
 		if (\tools::serialize(PROFILE_PATH . $module . '/module', $moduleObj)) {
 			$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The page has been saved'), 'notificationType' => 'positive');
@@ -347,63 +382,6 @@ class module extends \module {
 		if($module->getName() != 'core') $url = $module->getName().'/';
 		$return = array('eval' => 'window.location = "' . BASE_PATH . $url . 'index";', 'notification' => t('The page has been deleted'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
-	}
-
-	/**
-	 * Get the rules of a css selector and return them in json
-	 * @param string $filePath
-	 * @param string $selector
-	 * @return string 
-	 */
-	protected function getCSSSelectorRulesAction($filePath, $selector) {
-		if(is_file(PROFILE_PATH. $filePath)) $filePath2 =  PROFILE_PATH. $filePath;
-		else $filePath2 =  'modules/'. $filePath;
-		$css = new \css($filePath2);
-		$selectorText = str_replace("\t", '', trim($css->selectorExists($selector)));
-		if (!$selectorText) $selectorText = '';
-		$CSSJson = array('selector' => $selector,'filePath' => $filePath, 'code' => $selectorText, 'values' => $css->extractSelectorRules($selector));
-		return json_encode($CSSJson);
-	}
-
-	/**
-	 * Get the selectors of a css file and return them in json
-	 * @param string $term
-	 * @param string $filePath
-	 * @return string 
-	 */
-	protected function getCSSSelectorsAction($filePath) {
-		if(is_file(PROFILE_PATH. $filePath)) $filePath =  PROFILE_PATH. $filePath;
-		else $filePath =  'modules/'. $filePath;
-		$css = new \css($filePath);
-		return json_encode($css->getAllSselectors());
-	}
-
-	/**
-	 * Get the rules of css selectors and return them in json
-	 * @param string $matches
-	 * @return string 
-	 */
-	protected function getCSSSelectorsRulesAction($matches) {
-		$result = array();
-		if(!empty($matches)){
-			foreach($matches AS $file => $selectors){
-				if(!empty($selectors)){
-					if(is_file(PROFILE_PATH.  $file)) $filePath2 =  PROFILE_PATH. $file;
-					else $filePath2 =  'modules/'.  $file;
-					$css = new \css($filePath2);
-					foreach($selectors AS $selector){
-						$values = $css->getCSSValues();
-						$media = str_replace(' ', '', $selector['media']);
-						$selector['cssText'] = preg_replace('@;[^a-zA-Z\-]*@m',';'.PHP_EOL, trim($css->selectorExists($media.$selector['selector'])));
-						$selector['CSSValues'] = (isset($values[$media.$selector['selector']]) ? $values[$media.$selector['selector']] : array());
-						$result[] = $selector;
-					}
-				}
-			}
-		}
-		\app::$response->setHeader('X-XSS-Protection', '0');
-		\app::$response->setHeader('Content-type', 'application/json');
-		return json_encode($result);
 	}
 
 	/**
@@ -509,14 +487,6 @@ class module extends \module {
 	}
 
 	/**
-	 * Get the view of the theme form
-	 * @return string|false 
-	 */
-	protected function getViewConfigThemesAction() {
-		return $this->getView('manageThemes');
-	}
-
-	/**
 	 * Get the view of the translation form
 	 * @return string|false 
 	 */
@@ -554,68 +524,6 @@ class module extends \module {
 		$config->saveConfig($lang);
 		$return = array('eval' => '$(\'span[data-key="' . $key . '"]\',ParsimonyAdmin.currentBody).html("' . $val . '")', 'notification' => t('The translation has been saved'), 'notificationType' => 'positive');
 		return $this->returnResult($return);
-	}
-
-	/**
-	 * Cross the nodes from a given node
-	 * @param string $node
-	 * @return string 
-	 */
-	private function domToArray($node) {
-		if ($node->children()) {
-			$tts = array();
-			foreach ($node->children() as $kid) {
-				if($kid->tag == 'center') {$kid->id = uniqid();$kid->tag = 'div';$kid->class = 'align_center';}
-				$allowTags = array('div','header','footer','section','article','aside','hgroup','nav');
-				if (in_array($kid->tag, $allowTags)/* && !empty($kid->id)*/) {
-					if(empty($kid->id)){
-						$kid->id = uniqid();
-					}
-					$tts[$kid->id]['content'] = $kid->id;
-						$tts[$kid->id]['tag'] = $kid->tag;
-						if(isset($kid->class)) $tts[$kid->id]['class'] = $kid->class;
-						if ($kid->children()) {
-							$mark = true;
-							foreach ($kid->children() as $sskid){ //verif if children be part of structure
-								if(!in_array($sskid->tag, $allowTags) && empty($sskid->id)) {
-									$mark = false;
-									break;
-								}
-							} 
-							$res = $this->domToArray($kid);
-							$tts[$kid->id] = array('content' => '');
-							if (empty($res) || !$mark)
-								$tts[$kid->id]['content'] = $kid->innertext;
-							else
-								$tts[$kid->id]['content'] = $res;
-						}
-				}else {echo $kid->tag.' - '.$kid->id;}
-			}
-			return $tts;
-		}
-	}
-
-	/**
-	 * Dump an array into a container theme
-	 * @param string $node
-	 * @param string $id by default container
-	 * @return string 
-	 */
-	private function arrayToBlocks($node, $id = 'container') {
-		if (is_array($node)) {
-			if($id=='content') $block = new \core\blocks\page($id);
-			else $block = new \core\blocks\container($id);
-			if(isset($node['tag'])) $block->setConfig('tag',$node['tag']);
-			foreach ($node as $id => $ssnode) {
-			$b = $this->arrayToBlocks($ssnode['content'], $id);
-			$block->addBlock($b);
-			}
-		} else {
-			$block = new \core\blocks\wysiwyg($id);
-			$block->setContent(utf8_encode($node));
-			if(isset($node['class'])) $block->setConfig('css_classes',$node['class']);
-		}
-		return $block;
 	}
 
 	/**
@@ -781,14 +689,19 @@ class module extends \module {
 	 */
 	protected function saveConfigAction($file, $config) {
 		$configObj = new \config($file, TRUE);
-		$configObj->saveConfig($config);
-		if($config['devices'] != \app::$config['devices'] || $config['sitename'] != \app::$config['sitename']) {
-			$action = 'top.window.location.reload()';
+		$action = 'ParsimonyAdmin.loadBlock(\'modules\');';
+		if ($_SESSION['permissions'] & 2) {
+			if ($config['devices'] != \app::$config['devices'] || $config['sitename'] != \app::$config['sitename']) {
+				$action = 'top.window.location.reload()';
+			}
 		} else {
-			$action = 'ParsimonyAdmin.loadBlock(\'modules\');';
+			if ($config['sitename'] != \app::$config['sitename']) {
+				$action = 'top.window.location.reload()';
+			}
+			$config = array('sitename' => $config['sitename']);
 		}
-		$return = array('eval' => $action, 'notification' => t('The Config has been saved'), 'notificationType' => 'positive');
-		return $this->returnResult($return);
+		$configObj->saveConfig($config);
+		return $this->returnResult(array('eval' => $action, 'notification' => t('The Config has been saved'), 'notificationType' => 'positive'));
 	}
 
 	/**
@@ -1053,22 +966,20 @@ class module extends \module {
 	 */
 	protected function saveRightsAction($type, $modulerights = array(), $modelsrights = array(), $pagesrights = array()) {
 
-		/* Save behavior for roles */
-		if (!empty($type)) {
-			foreach ($type as $numRole => $role) {
-				\app::$request->setParam('idrole' , $numRole); // set value to be used in prepared query
-				\app::getModule('core')->getEntity('role')->update(array('id_role' => $numRole, 'state' => $role ));
-			}
+		/* can't update rights for role admin ou his own role */
+		if (isset($modulerights[1])) {
+			unset($modulerights[1]);
 		}
-
-		$roles = array_keys($modulerights);
+		if (isset($modulerights[$_SESSION['id_role']])) {
+			unset($modulerights[$_SESSION['id_role']]);
+		}
 
 		/* Save rights for modules */
 		if (!empty($modulerights)) {
 			foreach (reset($modulerights) as $moduleName => $value) {
 				$module = \module::get($moduleName);
-				foreach ($roles as $numRole) {
-					if ($modulerights[$numRole][$moduleName] === 'on')
+				foreach ($modulerights as $numRole => $rights) {
+					if ($modulerights[$numRole][$moduleName] === 'on' || $moduleName === 'core')
 						$module->setRights($numRole, 1);
 					else
 						$module->setRights($numRole, 0);
@@ -1082,11 +993,11 @@ class module extends \module {
 		if (!empty($modelsrights)) {
 				foreach (reset($modelsrights) as $moduleName => $module) {
 					$moduleObj = \app::getModule($moduleName);
-					foreach ($roles as $numRole) {
+					foreach ($modulerights as $numRole => $rights) {
 						$modelsrights[$numRole][$moduleName] = json_decode($modelsrights[$numRole][$moduleName], TRUE);
 					}
 					foreach ($moduleObj->getModel() as $entityName => $entity) {
-						foreach ($roles as $numRole) {
+						foreach ($modulerights as $numRole => $rights) {
 							$entity->setRights($numRole, (int)$modelsrights[$numRole][$moduleName][$entityName]['rights']);
 							foreach ($modelsrights[$numRole][$moduleName][$entityName]['fields'] as $fieldName => $rights) {
 								$entity->getField($fieldName)->setRights($numRole, (int)$rights);
@@ -1102,8 +1013,8 @@ class module extends \module {
 					$moduleObj = \app::getModule($moduleName);
 					foreach ($module as $pageId => $pages) {
 						$page = $moduleObj->getPage($pageId);
-						foreach ($roles as $numRole) {
-							if ($pagesrights[$numRole][$moduleName][$pageId]['display'] === 'on')
+						foreach ($modulerights as $numRole => $rights) {
+							if ($pagesrights[$numRole][$moduleName][$pageId]['display'] === 'on' || $numRole === 1)
 								$page->setRights($numRole, 1);
 							else
 								$page->setRights($numRole, 0);
@@ -1128,11 +1039,10 @@ class module extends \module {
 		/* Get roles ids with behavior anonymous */
 		$rolesBehaviorAnonymous = array();
 		foreach (\app::getModule('core')->getEntity('role') as $role) {
-			if($role->state == 0){
+			//if($role->state == 0){ TODO
 				$rolesBehaviorAnonymous[] = $role->id_role;
-			}
+			//}
 		}
-		
 		if (is_array($schema)) {
 			foreach ($schema as $tableKey => $table) {
 
@@ -1142,6 +1052,7 @@ class module extends \module {
 				$tplAssign = '';
 				$args = array();
 				$matchOldNewNames = array();
+			
 				foreach ($table->properties as $fieldName => $fieldProps) {
 					list($name, $type) = explode(':', $fieldName);
 					$tplProp .= "\t".'protected $' . $name . ';'.PHP_EOL; //generates attributes
@@ -1465,7 +1376,7 @@ class ' . $table->name . ' extends \entity {
 	 * @return integer
 	 */
 	public function getRights($role) { /* to respect prototype */
-		if ($_SESSION['behavior'] > 0)
+		if ($_SESSION['permissions'] > 0)
 			return 1;
 		else
 			return 0;

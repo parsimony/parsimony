@@ -142,8 +142,8 @@ class page extends \block {
 		if($this->theme === FALSE || \app::$request->getParam('nostructure')){
 			return '';
 		}
-		/* Define THEME */
-		if($_SESSION['behavior'] === 2 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
+		/* Define THEME, perm 8 = choose a theme */
+		if($_SESSION['permissions'] & 8 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
 			return \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
 		}else{
 			if(empty($this->theme)){
@@ -360,13 +360,15 @@ class page extends \block {
 	 * @return integer $rights
 	 */
 	public function setRights($role, $rights) {
-		/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ) #performance */
-		if($rights === 1){
-			if(isset($this->rights[$role])){
-				unset($this->rights[$role]);
+		if (($this->getRights($_SESSION['id_role']) & $rights) === $rights) { /* check that user is allowed to set these rights */
+			/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ) #performance */
+			if($rights === 1){
+				if(isset($this->rights[$role])){
+					unset($this->rights[$role]);
+				}
+			}else{
+				$this->rights[$role] = $rights;
 			}
-		}else{
-			$this->rights[$role] = $rights;
 		}
 	}
 

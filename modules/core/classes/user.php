@@ -74,7 +74,7 @@ class user {
 		if (\app::getModule('core')->getEntity('user')->pseudo()->validate($login) === FALSE || \app::getModule('core')->getEntity('user')->pass()->validate($password) === FALSE) {
 			return FALSE;
 		} else {
-			$sth = PDOconnection::getDB()->prepare('SELECT pseudo, pass, id_user, ' . PREFIX . 'core_role.id_role, ' . PREFIX . 'core_role.state FROM ' . PREFIX . 'core_user INNER JOIN ' . PREFIX . 'core_role ON ' . PREFIX . 'core_user.id_role = ' . PREFIX . 'core_role.id_role WHERE pseudo = :pseudo AND ' . PREFIX . 'core_user.state = 1');
+			$sth = PDOconnection::getDB()->prepare('SELECT pseudo, pass, id_user, ' . PREFIX . 'core_role.id_role, ' . PREFIX . 'core_role.permissions FROM ' . PREFIX . 'core_user INNER JOIN ' . PREFIX . 'core_role ON ' . PREFIX . 'core_user.id_role = ' . PREFIX . 'core_role.id_role WHERE pseudo = :pseudo AND ' . PREFIX . 'core_user.state = 1');
 			$sth->execute(array(':pseudo' => $login));
 			$obj = $sth->fetch();
 			if (is_array($obj)) {
@@ -83,7 +83,8 @@ class user {
 					$_SESSION['login'] = $login;
 					$_SESSION['id_user'] = (int) $obj['id_user'];
 					$_SESSION['id_role'] = (int) $obj['id_role'];
-					$_SESSION['behavior'] = (int) $obj['state'];
+					$_SESSION['permissions'] = (int) $obj['permissions'];
+					$_SESSION['behavior'] = 2; // todo remove
 					return TRUE;
 				} else {
 					return FALSE;

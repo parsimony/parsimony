@@ -57,8 +57,8 @@ class image extends \block {
 	}
 
 	public function setContent($fileName) {
-		if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
-		$this->setConfig('imgPath',$fileName);
+		if (\app::getClass('user')->VerifyConnexion() &&  $_SESSION['permissions'] & 128) { /* perm 128 = configure blocks */
+			$this->setConfig('imgPath',$fileName);
 			return TRUE;
 		}
 		return FALSE;

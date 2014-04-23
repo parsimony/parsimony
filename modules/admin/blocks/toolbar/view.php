@@ -38,33 +38,42 @@ $leftSidebar->setConfig('cssClasses', 'sidebar');
 $admin->addBlock($leftSidebar);
 
 /* Sidebar Right */
-if ($_SESSION['behavior'] == 2):
-	
-	$rightSidebar = new \core\blocks\tabs("right_sidebar");
-	$rightSidebar->setConfig('cssClasses', 'sidebar');
-	
-		/* CSS */
+$rightSidebar = new \core\blocks\tabs("right_sidebar");
+
+/* CSS , perm 16 = design CSS */
+if ($_SESSION['permissions'] & 16) {
 	$block = new \admin\blocks\css("panelcss");
 	$block->setConfig('headerTitle', 'CSS');
 	$rightSidebar->addBlock($block);
 	$admin->addBlock($rightSidebar);
-	
-	/* Blocks */
-	$block = new \admin\blocks\blocks("panelblocks");
-	$block->setConfig('headerTitle', 'Blocks');
-	$rightSidebar->addBlock($block);
-	
-	/* Tree */
+}
+
+/* Blocks , perm 128 = configure blocks */
+if ($_SESSION['permissions'] & 128) {
 	$block = new \admin\blocks\tree("paneltree");
 	$block->setConfig('headerTitle', 'Tree');
 	$rightSidebar->addBlock($block);
+	
+	/* Blocks , perm 256 = manage blocks */
+	if ($_SESSION['permissions'] & 256) {
+		$block = new \admin\blocks\blocks("panelblocks");
+		$block->setConfig('headerTitle', 'Blocks');
+		$rightSidebar->addBlock($block);
+	}
+}
 
-	/* Theme */
+/* Theme , perm 32 = choose a theme */
+if ($_SESSION['permissions'] & 32) {
 	$block = new \admin\blocks\themes("themes");
 	$block->setConfig('headerTitle', 'Themes');
 	$rightSidebar->addBlock($block);
+}
+
+$blocks = $rightSidebar->getBlocks();
+if (!empty($blocks)) {
+	$rightSidebar->setConfig('cssClasses', 'sidebar');
 	$admin->addBlock($rightSidebar);
-endif;
+}
 
 echo $admin->display();
 ?>
@@ -118,26 +127,29 @@ if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COO
 ?>
 <div id="previewContainer" style="<?php echo $style; ?>">
 	<iframe id="preview" src="<?php echo $frameUrl; ?>"></iframe>
-
 	<div id="blockOverlay"></div>
 	<div id="parsimonyDND">
 		<div class="parsimonyResizeInfo">
 			<span class="parsimonyResizeClose" id="idName"></span>
-			<a href="#" style="border-left:0" class="toolbarButton configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration">
-				<span class="spanDND ui-icon-wrench"></span>
-			</a>
 			<div href="#" id="stylableElements" class="toolbarButton">
 				<a href="#" style="display:block;width: 100%;height: 100%" class="cssblock" data-action="onDesign">
 					<span class="spanDND sprite sprite-csspickerlittle"></span>
 				</a>
 				<div id="CSSProps" class="none"></div>
 			</div>
-			<a href="#" draggable="true" class="toolbarButton move_block" style="cursor:move">
-				<span class="spanDND ui-icon-arrow-4"></span>
+			<?php if ($_SESSION['permissions'] & 128) : ?>
+			<a href="#" class="toolbarButton configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="Configuration">
+				<span class="spanDND ui-icon-wrench"></span>
 			</a>
-			<a href="#" class="toolbarButton config_destroy" data-action="onDelete">
-				<span class="spanDND ui-icon-trash"></span>
-			</a>
+				<?php if ($_SESSION['permissions'] & 256) : ?>
+				<a href="#" draggable="true" class="toolbarButton move_block" style="cursor:move">
+					<span class="spanDND ui-icon-arrow-4"></span>
+				</a>
+				<a href="#" class="toolbarButton config_destroy" data-action="onDelete">
+					<span class="spanDND ui-icon-trash"></span>
+				</a>
+				<?php endif; ?>
+			<?php endif; ?>
 			<a href="#" style="border-right:0;border-radius: 0 3px 3px 0;" class="toolbarButton" onclick="ParsimonyAdmin.unSelectBlock();return false;">
 				<span class="spanDND ui-icon-closethick"></span>
 			</a>

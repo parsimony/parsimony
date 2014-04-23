@@ -29,10 +29,14 @@
 app::$response->addJSFile('admin/blocks/tree/block.js','footer');
 ?>
 <div id="config_tree_selector" class="none">
-	<span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
-	<span class="floatleft ui-icon ui-icon-wrench configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration'); ?>"></span>
 	<span class="spanDND sprite sprite-csspickerlittle cssblock floatleft" data-action="onDesign"></span>
-	<span class="ui-icon ui-icon-trash config_destroy floatleft" data-action="onDelete"></span>
+	<?php if ($_SESSION['permissions'] & 128) : ?>
+		<span class="floatleft ui-icon ui-icon-wrench configure_block" rel="getViewConfigBlock" data-action="onConfigure" title="<?php echo t('Configuration'); ?>"></span>
+		<?php if ($_SESSION['permissions'] & 256) : ?>
+		<span draggable="true" class="floatleft move_block ui-icon ui-icon-arrow-4"></span>
+		<span class="ui-icon ui-icon-trash config_destroy floatleft" data-action="onDelete"></span>
+		<?php endif;
+	endif; ?>
 </div>
 <div id="tree"> 
 	<?php

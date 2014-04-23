@@ -26,6 +26,11 @@
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
+
+$creationMode = FALSE;
+if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['permissions'] & 128 ){
+	$creationMode = TRUE;
+}
 ?>
 
 <ul class="menu" style="flex-grow:1;display: flex;width: 200px;max-width: 200px;">
@@ -34,11 +39,12 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 	<?php
 		$profiles = glob('profiles/*', GLOB_ONLYDIR);
 		$nbProfile = count($profiles);
+		$multisite = $nbProfile > 1 && $_SESSION['permissions'] & 512;
 	?>
-	<li<?php if ($nbProfile > 1) echo ' class="subMenu"'; ?> style="height:36px">
+	<li<?php if ($multisite === TRUE) echo ' class="subMenu"'; ?> style="height:36px">
 		<a href="#" data-title="<?php echo t('My domains'); ?>"><?php echo ucfirst(s(\app::$config['sitename'])); ?>   </a>
 		<?php
-		if ($nbProfile > 1) :
+		if ($multisite === TRUE) :
 		?>
 		<ul>
 			<?php
@@ -61,7 +67,6 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 		</ul>
 		<?php endif; ?>
 	</li>
-	
 </ul>
 <ul class="menu" style="flex-grow:1;display: flex;">
 	<?php if (count(\app::$devices) > 1): ?>
@@ -101,21 +106,21 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 	</li>
 </ul>
 <ul style="flex-grow:1;display: flex;align-items: center;">
-	<?php if ($_SESSION['behavior'] === 2): ?>
+	<?php if($_SESSION['permissions'] & 4096): /* perm 4096 = db designer */ ?>
 		<li class="roundBTN creation tooltip sprite sprite-bdd" data-tooltip="<?php echo t('Db Modeling'); ?>" data-pos="s" onclick="$(this).next('form').trigger('submit');"></li>
 		<form method="POST" class="none" action="<?php echo BASE_PATH ?>admin/dbDesigner" target="_blank"><input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"></form>
 	<?php endif; ?>
-	<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
+	<?php if($_SESSION['permissions'] & 512): /* perm 512 = file explorer */ ?>
+		<li class="roundBTN creation tooltip sprite sprite-dir" data-tooltip="<?php echo t('Files Explorer'); ?>" data-pos="s" onclick="ParsimonyAdmin.displayExplorer();"></li>
+	<?php endif; ?>
 </ul>
 <div style="flex-grow:25;display: flex;justify-content: center;align-items: center;">
 	<ul id="modesSwitcher"> 
-		<?php if ($_SESSION['behavior'] > 0): ?>
-			<li id="previewMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php
-			?><li id="editMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();"><?php echo t('Edit') ?></li><?php
-		endif;
-		if ($_SESSION['behavior'] === 2):
+		<li id="previewMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'preview') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setPreviewMode();"><?php echo t('Preview') ?></li><?php
+		?><li id="editMode" class="switchMode" <?php if (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'edit') echo 'class="selected"'; ?>onclick="ParsimonyAdmin.setEditMode();"><?php echo t('Edit') ?></li><?php
+		if ($creationMode === TRUE):
 			?><li id="creationMode" class="switchMode" <?php if (!isset($_COOKIE['mode']) || (isset($_COOKIE['mode']) && $_COOKIE['mode'] == 'creation')) echo 'class="selected"'; ?> onclick="ParsimonyAdmin.setCreationMode();"><?php echo t('Design') ?></li>
-			<?php endif; ?>
+		<?php endif; ?>
 	</ul>
 </div>
 
@@ -134,12 +139,11 @@ app::$response->addJSFile('admin/blocks/menu/block.js', 'footer');
 				<li>
 					<a href="<?php echo BASE_PATH; ?>logout?preview=ok" class="toolbarspriteblack close-icon"><?php echo t('Logout'); ?></a>
 				</li>
-				
 			</ul>
 		</li>
 	</ul>
 
-<?php if ($_SESSION['behavior'] == 2): ?>
+<?php if ($creationMode === TRUE): ?>
 		<a class="floatright tooltip toolbarsprite info-icon" href="#" data-tooltip="#infodev" data-pos="s"></a>
 		<div id="infodev">
 			<div>Time : <span id="infodev_timer"></span></div>

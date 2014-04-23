@@ -147,7 +147,9 @@ app::$response->addJSFile('lib/upload/parsimonyUpload.js');
 				list(path);
             }else pictureOrFile(path);
 		});
-                
+		
+        <?php if($_SESSION['permissions'] & 1024): /* perm 1024 = upload */ ?>
+				
        $("#explorerfiles").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
 			ajaxFileParams: {TOKEN: "<?php echo TOKEN; ?>", action: "upload", path: "<?php echo PROFILE_PATH; ?>" + document.getElementById("path").textContent, MODULE: "<?php echo MODULE ?>"},
 			start:function(file){
@@ -173,7 +175,9 @@ app::$response->addJSFile('lib/upload/parsimonyUpload.js');
                 }
 			}
 		});
-        
+		
+        <?php endif; ?>
+	
 		$("#explorerWrap").on("click",".explorer_file",function(){
             $(".explorer_file_selected").removeClass("explorer_file_selected");
             this.classList.add("explorer_file_selected");

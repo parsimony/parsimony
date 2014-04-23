@@ -102,7 +102,7 @@ class module {
 		$pages = array();
 		foreach ($this->pages as $key => $page) {
 			$page = $this->getPage($key);
-			if ($page !== FALSE)
+			if ($page !== FALSE && $page->getRights($_SESSION['id_role']) & DISPLAY)
 				$pages[$key] = $page;
 		}
 		return $pages;
@@ -249,9 +249,13 @@ class module {
 	public function getModel() {
 		$entities = glob('modules/' . $this->name . '/model/*.php');
 		$entities = is_array($entities) ? $entities : array(); // fix
+		$this->model = array();
 		foreach ($entities as &$filename) {
 			$model = basename($filename, '.php');
-			$this->model[$model] = $this->getEntity($model);
+			$entity = $this->getEntity($model);
+			if ($entity->getRights($_SESSION['id_role']) & DISPLAY) {
+				$this->model[$model] = $entity;
+			}
 		}
 		return $this->model;
 	}
@@ -515,7 +519,7 @@ class module extends \module {
 			$page->setRegex('@^index$@');
 			/* Set rights forbidden for non admins, admins are allowed by default */
 			foreach (\app::getModule('core')->getEntity('role') as $role) {
-				if($role->state == 0){
+				if($role->permissions == 0){
 					$mod->setRights($role->id_role, 0);
 					$page->setRights($role->id_role, 0);
 				}

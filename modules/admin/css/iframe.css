@@ -28,8 +28,8 @@ transform-origin: 0 0;transform: translateY(100%) rotateX(-90deg);
 .threedTop *.cssPicker::before,.threedBottom *.cssPicker::before{background-color: rgb(31, 170, 212);}
 
 /* translation */
-.translation{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
-.translation:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
+.editMode .translation{color: inherit !important;font: inherit !important;border-bottom:1px orange dotted !important;border-radius: inherit !important;margin: 0 !important;padding: 0 !important;line-height: inherit !important;}
+.editMode .translation:hover{background: orange !important;cursor:help;border: 1px dotted #DDD;}
 
 /* Marker drag n drop blocks */
 #container #dropInPage{position:relative;z-index:999995;height: 0px;pointer-events:none;clear:both}

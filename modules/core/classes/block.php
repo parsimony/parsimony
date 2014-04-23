@@ -276,7 +276,7 @@ abstract class block {
 					$view = $this->getView();
 					$html .= $view;
 				} catch (\Exception $e) {
-					if($_SESSION['behavior'] === 2){
+					if($_SESSION['permissions'] > 0){
 						/* Display Error or exception just for the dev */
 						ob_clean();
 						$html .= '<div class="PHPError"><div class="titleError"><strong>Block </strong>#'.$this->getId().' </div>';

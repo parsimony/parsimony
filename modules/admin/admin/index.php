@@ -86,43 +86,50 @@
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
 	<div id="admin_rights" class="adminzonemenu">
-		<div class="adminzonetab firstpanel"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache'); ?></a></div>
-		<?php if (PROFILE == 'www'): ?>
+		<div class="adminzonetab firstpanel"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information'); ?></a></div>
+		<?php if ($_SESSION['permissions'] & 2): ?>
+			<div class="adminzonetab"><a href="#tabsb-2" class="ellipsis"><?php echo t('Cache'); ?></a></div>
 			<div class="adminzonetab"><a href="#tabsb-1" class="ellipsis"><?php echo t('DB'); ?></a></div>
-		<?php endif; ?>			
-		<div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization'); ?></a></div>
-		<?php /* <div class="adminzonetab"><a href="#tabsb-4" class="ellipsis"><?php echo t('Preferences'); ?></a></div> */ ?>
-		<div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-11" class="ellipsis"><?php echo t('Site information'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-12" class="ellipsis"><?php echo t('Sessions'); ?></a></div>
-		<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-9" class="ellipsis"><?php echo t('Devices'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-3" class="ellipsis"><?php echo t('Localization'); ?></a></div>
+			<?php if ($_SESSION['permissions'] & 16384): ?>
+				<div class="adminzonetab"><a href="#tabsb-5" class="ellipsis"><?php echo t('Modules'); ?></a></div>
+			<?php endif; ?>
+			<div class="adminzonetab"><a href="#tabsb-6" class="ellipsis"><?php echo t('Security'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-7" class="ellipsis"><?php echo t('Development'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-8" class="ellipsis"><?php echo t('Mailing'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-12" class="ellipsis"><?php echo t('Sessions'); ?></a></div>
+			<div class="adminzonetab"><a href="#tabsb-10" class="ellipsis"><?php echo t('Version'); ?></a></div>
+		<?php endif; ?>
 	</div>
 	<div class="adminzonecontent">
 		<form action="" method="POST" target="formResult">
 			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 			<input type="hidden" name="action" value="saveConfig">
 			<div id="tabsconfig" style="min-width:465px;">
-				<?php if (PROFILE === 'www'): ?>
-					<div id="tabsb-1" class="admintabs">
-						<h2><?php echo t('Database'); ?> </h2>
-						<div class="placeholder">
-							<label class="label" for="host"><?php echo t('Host'); ?></label><input name="config[db][host]" type="text" value="<?php echo s(app::$config['db']['host']); ?>">
-						</div>
-						<div class="placeholder">
-							<label class="label" for="dbname"><?php echo t('DBname'); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo s(app::$config['db']['dbname']); ?>">
-						</div>
-						<div class="placeholder">
-							<label class="label" for="user"><?php echo t('User'); ?></label><input  name="config[db][user]" type="text" value="<?php echo app::$config['db']['user'] ?>">
-						</div>
-						<div class="placeholder">
-							<label class="label" for="password"><?php echo t('Password'); ?></label><input  name="config[db][pass]" type="text" value="<?php echo s(app::$config['db']['pass']); ?>">
-						</div>
+			<div id="tabsb-11" class="admintabs">
+				<h2><?php echo t('Site information'); ?></h2>
+				<div class="placeholder">
+					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
+					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">
+				</div>
+			</div>
+			<?php if ($_SESSION['permissions'] & 2): ?>
+				<div id="tabsb-1" class="admintabs">
+					<h2><?php echo t('Database'); ?> </h2>
+					<div class="placeholder">
+						<label class="label" for="host"><?php echo t('Host'); ?></label><input name="config[db][host]" type="text" value="<?php echo s(app::$config['db']['host']); ?>">
 					</div>
-				<?php endif; ?>
+					<div class="placeholder">
+						<label class="label" for="dbname"><?php echo t('DBname'); ?></label><input  name="config[db][dbname]" type="text" value="<?php echo s(app::$config['db']['dbname']); ?>">
+					</div>
+					<div class="placeholder">
+						<label class="label" for="user"><?php echo t('User'); ?></label><input  name="config[db][user]" type="text" value="<?php echo app::$config['db']['user'] ?>">
+					</div>
+					<div class="placeholder">
+						<label class="label" for="password"><?php echo t('Password'); ?></label><input  name="config[db][pass]" type="text" value="<?php echo s(app::$config['db']['pass']); ?>">
+					</div>
+				</div>
 				<div id="tabsb-2" class="admintabs">
 					<h2><?php echo t('Cache Management'); ?></h2>
 					<div class="placeholder">
@@ -177,6 +184,7 @@
 							</optgroup></select>
 					</div>
 				</div>
+				<?php if ($_SESSION['permissions'] & 16384): ?>
 				<div id="tabsb-5" class="admintabs">
 					<h2><?php echo t('Module management'); ?></h2>
 
@@ -231,6 +239,7 @@
 					}
 					?>
 				</div>
+			<?php endif; ?>
 			<div id="tabsb-6" class="admintabs">
 				<h2><?php echo t('Security'); ?></h2>
 				<div class="placeholder">
@@ -325,13 +334,6 @@
 					<input type="button" value="Update to lastest nightly version" class="updateVersion" data-urlupdate="http://nodeload.github.com/parsimony/parsimony_cms/legacy.zip/master">
 				</div>
 			</div>
-			<div id="tabsb-11" class="admintabs">
-				<h2><?php echo t('Site information'); ?></h2>
-				<div class="placeholder">
-					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
-					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">
-				</div>
-			</div>
 			<div id="tabsb-12" class="admintabs">
 				<h2><?php echo t('Sessions'); ?></h2>
 				<div class="placeholder">
@@ -348,6 +350,7 @@
 					<a href="http://www.php.net/manual/en/session.configuration.php#ini.session.save-path" target="_blank">You must create directory tree before use.</a>
 				</div>
 			</div>
+			<?php endif; ?>
 			<input type="hidden" name="file" value="<?php echo 'profiles/' . PROFILE . '/config.php'; ?>">
 			<input class="none" id="save_configs" type="submit">
 		</form>

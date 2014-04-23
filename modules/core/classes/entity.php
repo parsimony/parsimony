@@ -119,13 +119,15 @@ abstract class entity extends queryBuilder implements \Iterator {
 	 * @param integer $rights
 	 */
 	public function setRights($role, $rights) {
-		/* We remove role entry if the role has the maximum of rights ( 15 = DISPLAY:1 + INSERT:2 + UPDATE:4 + DELETE:8 ) #performance */
-		if($rights === 15){
-			if(isset($this->_rights[$role])){
-				unset($this->_rights[$role]);
+		if (($this->getRights($_SESSION['id_role']) & $rights) === $rights) { /* check that user is allowed to set these rights */
+			/* We remove role entry if the role has the maximum of rights ( 15 = DISPLAY:1 + INSERT:2 + UPDATE:4 + DELETE:8 ) #performance */
+			if ($rights === 15) {
+				if (isset($this->_rights[$role])) {
+					unset($this->_rights[$role]);
+				}
+			} else {
+				$this->_rights[$role] = $rights;
 			}
-		}else{
-			$this->_rights[$role] = $rights;
 		}
 	}
 

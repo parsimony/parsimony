@@ -62,7 +62,6 @@
 		.on('click',"#modifmodel3 > div", function(){
 			$('#contentajax > div').hide();
 			$('#tabsamodifmodel-' + $(this).attr('title')).show();
-
 		})
 		.on('click', 'span.ui-icon-closethick',function(e){
 			$(this).parent().parent().remove();
@@ -94,23 +93,8 @@
 	.adminzone{background: #fefefe;padding-top: 15px;}
 	.adminzonecontent{min-width:900px;bottom:0;top:60px;left:0;border-left:0;background: transparent}
 	.adminzonecontent .cols {width: 100%;}
-#searchData {
-margin: 10px 10px;
-border-radius: 25px;
-text-shadow: none;
-line-height: 20px;
-border: none;
-background-color: #F1F1F1;
-text-decoration: none;
-color: white;
-font-family: inherit;
-font-size: 14px;
-width: 115px;
-display: inline-block;
-padding: 4px;
-text-align: center;
-color: #777;
-}
+	#searchData {margin: 10px 10px;border-radius: 25px;text-shadow: none;line-height: 20px;border: none;
+	background-color: #F1F1F1;text-decoration: none;color: white;font-family: inherit;font-size: 14px;width: 115px;display: inline-block;padding: 4px;text-align: center;color: #777;}
 	#searchData::-webkit-input-placeholder{color : #777}
 	#searchData::-moz-placeholder{color : #777}
 	.adminzonetab{font-size: 20px;height: 30px;padding: 0 10px;margin: 10px;float: left;}
@@ -118,7 +102,6 @@ color: #777;
 	#conf_box_close{border:0;background-color:transparent}
 	#addmodelbtn{padding: 4px 25px;border-radius: 18px;line-height: 25px;background-color: #44C5EC;
 				 display: block;color: #fff;text-align: center;text-transform: uppercase;font-size: 14px;}
-
 </style>
 <div class="adminzone">
 	<div class="firstpanel adminzonetab"><a href="#datagridajax"> ☰ </a></div>
@@ -137,7 +120,7 @@ color: #777;
 		<div id="datagridajaxsearch" class="admintabs"></div>
 		<div id="addmodel" class="admintabs none">
 			<?php
-			echo str_replace('action=""','target="formResult" action=""',$obj->getViewAddForm(TRUE));
+			echo str_replace('action=""', 'target="formResult" action=""', $obj->getViewAddForm());
 			?>
 		</div>
 	</div>

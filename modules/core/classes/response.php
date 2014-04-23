@@ -101,7 +101,7 @@ class response {
 			}
 			
 			/* Set page infos to admin */
-			if (!defined('PARSI_ADMIN') && $_SESSION['behavior'] > 0 && \app::$request->getParam('popup') !== '') {
+			if (!defined('PARSI_ADMIN') && $_SESSION['permissions'] > 0 && \app::$request->getParam('popup') !== '') {
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 4) : '~ ' . floor(microtime(true) - $_SERVER['REQUEST_TIME']);
 
 				/* Store on client side all CSS selectors from theme style */
@@ -110,7 +110,7 @@ class response {
 				$CSSValues = $css->getCSSValues();
 				
 				$script = '';
-				if ($_SESSION['behavior'] === 2) {
+				if ($_SESSION['permissions'] > 0) {
 					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
 				}
 				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";top.ParsimonyAdmin.CSSValues = ' . json_encode(array($pathTheme => $CSSValues)) . ';' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
@@ -209,7 +209,7 @@ class response {
 				if ($pathParts === 'js' || $pathParts === 'css') {
 					$path = stream_resolve_include_path($file);
 					if ($path){
-						if ($_SESSION['behavior'] && $pathParts == 'css')
+						if ($_SESSION['permissions'] > 0 && $pathParts === 'css')
 							echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
 						include($path);
 					}
@@ -360,12 +360,12 @@ namespace {
 	/**
 	 *  t() must bedefined here
 	 */
-	if ($_SESSION['behavior'] === 2) {
+	if ($_SESSION['permissions'] & 32768) {
 
 		function t($text, $params = FALSE) {
 			$before = '';
 			$after = '';
-			if (isset($_GET['preview']) && \app::$response->page instanceof page) {
+			if (!defined('PARSI_ADMIN') && MODULE != 'admin') {
 				$before = '<span data-key="' . $text . '" class="translation">';
 				$after = '</span>';
 			}

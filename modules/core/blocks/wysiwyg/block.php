@@ -44,7 +44,7 @@ class wysiwyg extends code {
 	}
 
 	public function setContent($html) {
-		if (\app::getClass('user')->VerifyConnexion() && $_SESSION['behavior'] == 2) {
+		if (\app::getClass('user')->VerifyConnexion() && $_SESSION['permissions'] & 128) { /* perm 128 = configure blocks */
 			return \tools::file_put_contents(PROFILE_PATH . $this->getConfig('viewPath'), \tools::sanitize($html));
 		}
 		return FALSE;
@@ -74,6 +74,6 @@ class wysiwyg extends code {
 
 }
 
-if($_SESSION['behavior'] == 2 && !defined('PARSI_ADMIN')){
+if($_SESSION['permissions'] > 0 && !defined('PARSI_ADMIN')){
 	\app::addListener('afterPageLoad', array('core\blocks\wysiwyg', 'loadExternalFiles'));
 }

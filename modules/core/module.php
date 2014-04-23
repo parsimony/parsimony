@@ -64,7 +64,7 @@ class module extends \module {
 					return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
 				});
 		}
-	
+		
 		/* Tablet */
 		if ($devices['tablet']) {
 			\app::$devices[] = array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
@@ -97,7 +97,7 @@ class module extends \module {
 					return TRUE;
 				});
 		}
-
+		
 		\app::$aliasClasses = array('app' => 'core\classes\app',
 			'request' => 'core\classes\request',
 			'response' => 'core\classes\response',
@@ -203,21 +203,25 @@ class module extends \module {
 	 * @return array
 	 */
 	public function getAminMenu() {
-		return array('#left_sidebar/settings/admin' => 'General',
-			'#left_sidebar/permissions' => 'Permissions',
-			'#left_sidebar/model/core/role' => 'Roles',
-			'#left_sidebar/model/core/user' => 'Users');
+		$links = array();
+		if($_SESSION['permissions'] & 1) { /* perm 1 = settings */
+			$links['#left_sidebar/settings/admin'] = 'General';
+		}
+		if($_SESSION['permissions'] & 65536) {  /* perm 65536 = grant */
+			$links['#left_sidebar/permissions'] = 'Permissions';
+			$links['#left_sidebar/model/core/role'] = 'Roles';
+			$links['#left_sidebar/model/core/user'] = 'Users';
+		}
+		return $links;
 	}
 		
 	
 	public function install() {
 		parent::install();
-		$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'Super Admin', 'state' => '2'));
-		$this->getEntity('role')->insertInto(array('id_role' => '2', 'name' => 'Admin', 'state' => '2'));
-		$this->getEntity('role')->insertInto(array('id_role' => '3', 'name' => 'Developer', 'state' => '2'));
-		$this->getEntity('role')->insertInto(array('id_role' => '4', 'name' => 'Webmaster', 'state' => '1'));
-		$this->getEntity('role')->insertInto(array('id_role' => '5', 'name' => 'Subscriber', 'state' => '0'));
-		$this->getEntity('role')->insertInto(array('id_role' => '6', 'name' => 'Anonymous', 'state' => '0'));
+		$this->getEntity('role')->insertInto(array('id_role' => '1', 'name' => 'Administrator', 'permissions' => '129023'));
+		$this->getEntity('role')->insertInto(array('id_role' => '2', 'name' => 'Editor', 'permissions' => '34317'));
+		$this->getEntity('role')->insertInto(array('id_role' => '3', 'name' => 'Registered user', 'permissions' => '0'));
+		$this->getEntity('role')->insertInto(array('id_role' => '4', 'name' => 'Anonymous user', 'permissions' => '0'));
 	}
 
 }

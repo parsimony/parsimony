@@ -33,7 +33,7 @@ $role = app::getModule('core')->getEntity('role');
 	td{padding:5px 2px 5px 15px;}
 	.active{background:#AAA} 
 	.modulename{font-size: 13px;color: #777;letter-spacing: 1.2px;top: 1px;position: relative;}
-	#enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;}
+	.enablemodule{margin-bottom: 10px;color: #464646;padding: 3px 7px;font-size: 14px;position: relative;}
 	.firsttd{font-size: 18px;letter-spacing: 2px;vertical-align: middle}
 	.secondtd{text-transform: capitalize;color: #444;font-size: 12px;text-align: left !important;line-height: 22px;}
 	.entity{font-weight: bold;}
@@ -60,7 +60,6 @@ $(document).ready(function() {
 			var target = '.fieldbg .' + entity + ' input[type="checkbox"]' + '.' + crud;
 			$(target, modelArea).prop( "checked", prop);
 		}
-		
 		
 		$("tr", modelArea).each(function(){
 			
@@ -108,10 +107,9 @@ $(document).ready(function() {
 	<div id="conf_box_title"><?php echo t('Manage Rights') ?></div>
 	<div class="adminzonemenu">
 		<?php
-		$class = ' firstpanel';
 		foreach ($role->select() as $key => $row) {
+			$class = $row->id_role == 2 ? ' firstpanel' : '';
 			echo '<div class="adminzonetab' . $class . '"><a href="#tabs-' . $row->id_role . '" class="ellipsis">' . ucfirst($row->name) . '</a></div>';
-			$class = '';
 		}
 		?>
 	</div>
@@ -120,30 +118,12 @@ $(document).ready(function() {
 			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
 			<?php foreach ($role->select() as $key => $row) : ?>
 				<div id="tabs-<?php echo $row->id_role; ?>" class="admintabs">
-					<div style="padding:0 10px">
-						<h2 class="rolecss"><?php echo t('%s role', array($row->name)); ?></h2>
-						<table style="width:100%">
-							<thead>
-								<tr>
-									<th></th>
-									<th>Anonymous<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('The only right of reading content and in some cases<br> to add, delete or modify his own content') ;?>"></span></th>
-									<th>Editor<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('The right of editing content & pages') ;?>"></span></th>
-									<th>Developer<span class="tooltip ui-icon ui-icon-info floatleft" data-tooltip="<?php echo t('All web development rights : Design, Module, blocks, database & so on') ;?>"></span></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="entities" style="width: 160px;"><?php echo t('Status of'); ?> <span style="text-transform: capitalize"><?php echo $row->name; ?></span></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="0" <?php if($row->state == "0") echo 'checked="checked"';  ?> /></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="1" <?php if($row->state == "1") echo 'checked="checked"';  ?> /></td>
-									<td style="height: 40px;"><input type="radio" name="type[<?php echo $row->id_role; ?>]" value="2" <?php if($row->state == "2") echo 'checked="checked"';  ?> /></td>
-								</tr>
-							</tbody>
-						</table>
-					   <br>
-					</div>
-
-					<div style="clear:both"></div> 
+					<h2 class="rolecss"><?php echo t('%s role', array($row->name)); ?></h2>
+					<?php if($row->id_role == 1): ?>
+						<div style="padding: 10px;">Admin has all rights</div>
+					<?php else: 
+						$disabled = $_SESSION['id_role'] == $row->id_role ? TRUE : FALSE;
+					?>
 					<fieldset class="fieldsetmod">
 						<legend class="legmod"><label class="modulename"><?php echo t('Module'); ?> :</label>
 							<select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $row->id_role ?>-' + this.value).show()">
@@ -158,17 +138,15 @@ $(document).ready(function() {
 						</legend>
 						<?php
 						foreach (\app::$config['modules']['active'] as $moduleName => $type) {
-							echo '<div id="rights-' . $row->id_role. '-' . $moduleName . '" class="rightbox';
-							if ($moduleName != 'core')
-								echo ' none';
-							echo '">';
+							$module = app::getModule($moduleName);
+							echo '<div id="rights-' . $row->id_role. '-' . $moduleName . '" class="rightbox' . ($moduleName !== 'core' ? ' none' : '') . '">';
 							?>
-							<div id="enablemodule">
+							<div class="enablemodule<?php echo $moduleName === 'core' ? ' none' : ''; ?>">
 								<input type="hidden" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
-								<input type="checkbox" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]" <?php if (\app::getModule($moduleName)->getRights($row->id_role)) echo 'checked'; ?>>
+								<input type="checkbox" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]"<?php if ($module->getRights($row->id_role) || $moduleName === 'core') echo ' checked' . ($disabled === TRUE ? ' disabled' : '') ; ?>>
 								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $row->name)) ;?></label>
 							</div>
-						   <?php $module = app::getModule($moduleName);
+						   <?php
 								$models = $module->getModel();
 								if(count($models) > 0) : ?>
 						   <h2><?php echo t('Models'); ?></h2>
@@ -182,6 +160,7 @@ $(document).ready(function() {
 									foreach ($models as $modelName => $model) {
 										$myModel = $module->getEntity($modelName);
 										$rights = $myModel->getRights($row->id_role);
+										$ownRights = $myModel->getRights($_SESSION['id_role']);
 										$obj->$modelName = new \stdClass();
 										$obj->$modelName->rights = $rights;
 										$obj->$modelName->fields = new \stdClass();
@@ -189,28 +168,27 @@ $(document).ready(function() {
 										<tr class="line entity">
 											<?php
 											echo '<td class="secondtd entity">' . $modelName . '</td>
-										<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
-											<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
-												<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
-													<td class="' . $modelName . '"><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . '></td>';
+										<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY && $disabled === FALSE ? '' : ' disabled') . '></td>
+											<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT && $disabled === FALSE ? '' : ' disabled') . '></td>
+												<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+													<td class="' . $modelName . '"><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . ($ownRights & DELETE &&  $disabled === FALSE ? '' : ' disabled') . '></td>';
 
 											foreach ($myModel->getFields() as $fieldName => $field) {
 												if($field->entity->getName() === $modelName) { /* avoid pb with extended entities */
 													$rights = $field->getRights($row->id_role);
+													$ownRights = $field->getRights($_SESSION['id_role']);
 													if($rights === null) $rights = 0;
 													$obj->$modelName->fields->$fieldName = $rights;
 														echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
-														'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . '></td>
-														<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . '></td>
-														<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . '></td>
+														'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
 														<td class="disabled"></td>
 														</tr>';
 												}
 											}
 									 }
-
 									echo '<input type="hidden" class="modelSerialize" name="modelsrights[' . $row->id_role . '][' . $moduleName . ']" value=\''.  json_encode($obj).'\'>';
-
 									 ?>
 								</tbody>
 							</table>
@@ -236,7 +214,7 @@ $(document).ready(function() {
 										<tr class="line">
 										   <?php echo '
 										   <td class="secondtd" style="width:200px;">' . s($page->getTitle()) . '</td>
-										<td><input type="hidden" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . '></td>';
+										<td><input type="hidden" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . ($page->getRights($_SESSION['id_role']) & DISPLAY || $disabled === FALSE ? '' : ' disabled') . '></td>';
 									}
 									?>
 										</tr>
@@ -250,6 +228,7 @@ $(document).ready(function() {
 				}
 				?>
 					</fieldset>
+					<?php endif; ?>
 				</div>
 				<?php endforeach; ?>
 				<br>

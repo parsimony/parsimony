@@ -218,7 +218,7 @@ class request {
 	 */
 	public function dispatch() {
 		/* Admin UI ? */
-		if ($_SESSION['behavior'] > 0 && !isset($_GET['preview']) && $this->method === 'GET' && ($this->isAjax() !== TRUE || isset($_GET['getBlockAdmin']))) {
+		if ($_SESSION['permissions'] > 0 && !isset($_GET['preview']) && $this->method === 'GET' && ($this->isAjax() !== TRUE || isset($_GET['getBlockAdmin']))) {
 			define('PARSI_ADMIN', 1);
 			$adminPage = new \page(1, 'admin');
 			$adminPage->setTheme(FALSE);
@@ -260,29 +260,27 @@ class request {
 			/* Mainly to use in query block, session_ prefix to avoid collision */
 			$this->setParams(array('session_id_user' => $_SESSION['id_user'],
 									'session_id_role' => $_SESSION['id_role'],
-									'session_behavior' => $_SESSION['behavior'],
+									'session_permissions' => $_SESSION['permissions'],
 									'session_login' => $_SESSION['login']));
 
-			if($_SESSION['behavior'] > 0){
+			if($_SESSION['permissions'] > 0) {
 				/* If user is a creator we display errors and active admin module */
 				\app::$config['modules']['active']['admin'] = 1;
-				if($_SESSION['behavior'] === 2){
-					error_reporting(-1);
-					ini_set('display_errors', 1);
-					set_error_handler('\core\classes\app::errorHandler');
-					set_exception_handler('\core\classes\app::exceptionHandler');
-					register_shutdown_function('\core\classes\app::errorHandlerFatal');
-				}
+				error_reporting(-1);
+				ini_set('display_errors', 1);
+				set_error_handler('\core\classes\app::errorHandler');
+				set_exception_handler('\core\classes\app::exceptionHandler');
+				register_shutdown_function('\core\classes\app::errorHandlerFatal');
 			}
 
 		}else{
-			$_SESSION['behavior'] = 0;
-			$_SESSION['id_role'] = 6;
+			$_SESSION['permissions'] = 0;
+			$_SESSION['id_role'] = 4;
 			
 			/* Mainly to use in query block */
 			$this->setParams(array('session_id_user' => FALSE,
-									'session_id_role' => 6,
-									'session_behavior' => 0,
+									'session_id_role' => 4,
+									'session_permissions' => 0,
 									'session_login' => FALSE));
 		}
 		
