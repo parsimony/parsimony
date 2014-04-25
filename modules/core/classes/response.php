@@ -366,10 +366,10 @@ namespace {
 	 */
 	if ($_SESSION['permissions'] & 32768) {
 
-		function t($text, $params = FALSE) {
+		function t($text, $params = FALSE, $adminEdit = TRUE) {
 			$before = '';
 			$after = '';
-			if (!defined('PARSI_ADMIN') && MODULE != 'admin') {
+			if (!defined('PARSI_ADMIN') && MODULE != 'admin' && $adminEdit === TRUE) {
 				$before = '<span data-key="' . $text . '" class="translation">';
 				$after = '</span>';
 			}

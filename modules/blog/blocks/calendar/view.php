@@ -71,52 +71,52 @@ if (!empty($recposts) !== FALSE) {
 ?>
 <div class="calendar">
     <div class="monthTitle"><?php echo t($monthNames[$thisMonth - 1]) . ' ' . $thisYear; ?></div>
-    <div class="calendarInner">
-        <div class="weekTitle">
-            <div class="day">M</div>
-            <div class="day">T</div>
-            <div class="day">W</div>
-            <div class="day">T</div>
-            <div class="day">F</div>
-            <div class="day">S</div>
-            <div class="day">S</div>
-            <div style="clear:both"></div>
-        </div>
-        <div class="week">
-            <?php
-            $totalDays = $maxday;
-            $thismonth = getdate($firstDayOfMonth);
-            $startday = $thismonth['wday'];
-	    if($startday == 0) $startday = 7;
-            if ($startday >= 1) {
-                $totalDays = --$startday + $maxday;
-                for ($i = 1 - $startday; $i <= 0; $i++)
-                    echo '<div class="day out">' . date('d', mktime(0, 0, 0, $thisMonth, $i, $thisYear)) . '</div>';
-            }
-	    $nb = $startday;
-            foreach ($daysOfThisMonth as $day => $nbPosts) {
-                if ($nb == 7){
-                    echo '<div style="clear:both"></div></div><div class="week">';
-		    $nb = 0;
-		}
-                if ($nbPosts > 0)
-                    echo '<div class="day thisMonth hasposts"><a href="'.BASE_PATH.$thisYear.'/'.sprintf('%02d',$thisMonth).'/'.sprintf('%02d',$day).'">' . $day . '</a></div>';
-                else
-                    echo '<div class="day thisMonth">' . $day . '</div>';
-		$nb++;
-            }
-            $bonus = 42 - $totalDays;
-            if ($bonus >= 7)
-                $bonus = $bonus - 7;
-            for ($i = 1; $i <= $bonus; $i++)
-                echo '<div class="day out">' . $i . '</div>';
-            ?>
-        </div>
-    </div>
-    <div class="calendarNav">
-        <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prevMonth" title="<?php echo t($monthNames[$prev_month - 1]) ?>">< <span><?php echo t($monthNames[$prev_month - 1]) ?></span></a>
-        <?php if ($next_month <= date('n')): ?>
-            <a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="nextMonth" title="<?php echo t($monthNames[$next_month - 1]) ?>"><span><?php echo t($monthNames[$next_month - 1]) ?></span> ></a>
-        <?php endif; ?>
+	<div class="calendarInner">
+		<div class="weekTitle">
+			<div class="day">M</div>
+			<div class="day">T</div>
+			<div class="day">W</div>
+			<div class="day">T</div>
+			<div class="day">F</div>
+			<div class="day">S</div>
+			<div class="day">S</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="week">
+			<?php
+			$totalDays = $maxday;
+			$thismonth = getdate($firstDayOfMonth);
+			$startday = $thismonth['wday'];
+			if($startday == 0) $startday = 7;
+				if ($startday >= 1) {
+					$totalDays = --$startday + $maxday;
+					for ($i = 1 - $startday; $i <= 0; $i++)
+						echo '<div class="day out">' . date('d', mktime(0, 0, 0, $thisMonth, $i, $thisYear)) . '</div>';
+				}
+				$nb = $startday;
+				foreach ($daysOfThisMonth as $day => $nbPosts) {
+					if ($nb == 7){
+						echo '<div style="clear:both"></div></div><div class="week">';
+					$nb = 0;
+					}
+					if ($nbPosts > 0)
+						echo '<div class="day thisMonth hasposts"><a href="' . BASE_PATH . $thisYear . '/' . sprintf('%02d', $thisMonth) . '/' . sprintf('%02d', $day) . '">' . $day . '</a></div>';
+					else
+						echo '<div class="day thisMonth">' . $day . '</div>';
+					$nb++;
+				}
+				$bonus = 42 - $totalDays;
+				if ($bonus >= 7)
+					$bonus = $bonus - 7;
+				for ($i = 1; $i <= $bonus; $i++)
+					echo '<div class="day out">' . $i . '</div>';
+			?>
+		</div>
+	</div>
+	<div class="calendarNav">
+		<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prevMonth" title="<?php echo t($monthNames[$prev_month - 1], FALSE, FALSE) ?>">< <span><?php echo t($monthNames[$prev_month - 1]) ?></span></a>
+		<?php if ($next_month <= date('n')): ?>
+			<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="nextMonth" title="<?php echo t($monthNames[$next_month - 1], FALSE, FALSE) ?>"><span><?php echo t($monthNames[$next_month - 1]) ?></span> ></a>
+		<?php endif; ?>
     </div>
 </div>
