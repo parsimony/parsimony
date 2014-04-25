@@ -161,10 +161,10 @@ class module extends \module {
 		$response = $tempBlock->ajaxRefresh('add'); /* Get content before __sleep() */
 		$this->saveAll();
 		if ($this->$stop_typecont->searchBlock($idBlock) != NULL) {
-			$return = array('eval' => $response, 'jsFiles' => json_encode(\app::$response->getJSFiles()), 'CSSFiles' => json_encode(\app::$response->getCSSFiles()), 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
-		}
-		else
+			$return = array('eval' => $response, 'notification' => t('The Block is saved'), 'notificationType' => 'positive');
+		} else {
 			$return = array('eval' => '', 'notification' => t('Error on drop'), 'notificationType' => 'negative');
+		}
 		return $this->returnResult($return);
 	}
 
@@ -301,7 +301,7 @@ class module extends \module {
 			$page = new \page($id_page, $module);
 			/* Set rights forbidden for non admins, admins are allowed by default */
 			foreach (\app::getModule('core')->getEntity('role') as $role) {
-				if($role->state == 0){
+				if($role->permissions == 0){
 					$page->setRights($role->id_role, 0);
 				}
 			}
@@ -320,7 +320,7 @@ class module extends \module {
 		}
 		$moduleObj->updatePage($page); //modif
 		if (\tools::serialize(PROFILE_PATH . $module . '/module', $moduleObj)) {
-			$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'modules\');', 'notification' => t('The page has been saved'), 'notificationType' => 'positive');
+			$return = array('eval' => 'ParsimonyAdmin.loadBlock(\'left_sidebar\');', 'notification' => t('The page has been saved'), 'notificationType' => 'positive');
 			return $this->returnResult($return);
 		}
 	}
@@ -350,11 +350,11 @@ class module extends \module {
 	protected function getViewUpdatePageAction($module, $page) {
 		$moduleObj = \app::getModule($module);
 		if ($page === 'new') {
-			$lastPage = array_keys($moduleObj->getPages());
-			if (!empty($lastPage))
-				$idPage = max($lastPage) + 1;
-			else
-				$idPage = 1;
+			/* define a default name to this new page, we don't use getPages for right puposes */
+			$idPage = 1;
+			while (stream_resolve_include_path($module . '/pages/' . $idPage . '.obj') !== FALSE) {
+				$idPage++;
+			}
 			$page = new \page($idPage, $module);
 			$page->setTitle('Page ' . $idPage);
 			$page->setRegex('@^page_' . $idPage . '$@');
