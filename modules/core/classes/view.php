@@ -118,13 +118,7 @@ class view extends queryBuilder implements \Iterator {
 	}
 
 	public function __wakeup() {
-		/* !!TODO REMOVE!! */
-		if(isset($this->SQL) && !empty($this->SQL)){
-			$this->_SQL = $this->SQL;
-			unset($this->SQL);
-		}
-		/* !!TODO REMOVE!! */
-		
+
 		/* 
 		 * Load fields objects and inject a reference to its entity parent 
 		 * Create a public property for each field that links to the field value
@@ -137,13 +131,7 @@ class view extends queryBuilder implements \Iterator {
 				$name = $module . '_' . $entity;
 				if(!isset($this->entities[$name])){
 					$this->entities[$name] = app::getModule($module)->getEntity($entity);
-				}
-
-				/* !!TODO REMOVE!! */
-				if($fieldName !== $key){/* use $key for alias */
-					$field = new \core\fields\alias ($key, array('label' => $key , 'calculation' => $field));
-				}else
-				/* !!TODO REMOVE!! */		
+				}	
 
 				$field = $this->entities[$name]->getField($fieldName); 
 			}
