@@ -309,7 +309,7 @@ class css {
 		$media = $this->serializeMediaQuery($media);
 		$code = PHP_EOL;
 		foreach ($this->selectors[$media . $selector]['properties'] AS $property => $value) {
-			$code .= "\t" . $property . ' : ' . $value . ' ;' . PHP_EOL;
+			$code .= "\t" . $property . ': ' . $value . ';' . PHP_EOL;
 		}
 		$this->selectors[$media . $selector]['p'] = $code;
 	}

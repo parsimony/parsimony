@@ -35,6 +35,7 @@ var ParsimonyAdmin = {
 	inProgress: "",
 	typeProgress: "",
 	unsavedChanges: false,
+	CSSValues: {},
 
 	initBefore: function() {
 

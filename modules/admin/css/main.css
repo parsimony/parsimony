@@ -23,7 +23,7 @@ border: 1px solid #040404;box-shadow: 1px 1px 0 #363738;margin: 0 5px;}
 
 /* Preview frame */
 #preview{background-color: white;width: 100%;height: 100%;}
-#preview::-webkit-scrollbar { width: 0 !important }
+.creationMode #preview::-webkit-scrollbar { width: 0 !important }
 
 /* Title Tab */
 .titleTab{height: 28px;vertical-align: top;line-height: 25px;
