@@ -141,12 +141,16 @@ var ParsimonyAdmin = {
 			$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
 		});
 
-		$("#CSSProps").on("mouseenter.creation mouseleave.creation", "a", function(event) {
-			if (event.type == 'mouseenter') {
-				$("#" + ParsimonyAdmin.inProgress + " " + this.dataset.css, ParsimonyAdmin.currentDocument).addClass('cssPicker');
+		$("#CSSProps, #blockDetectSelectors").on("mouseenter.creation mouseleave.creation", "a", function(event) {
+			if (event.type == "mouseenter") {
+				$(this.dataset.selector, ParsimonyAdmin.currentDocument).addClass("cssPicker");
 			} else {
-				$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+				$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass("cssPicker");
 			}
+		}).on("click.creation", "a", function() {
+			Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, this.dataset.selector);
+			ParsimonyAdmin.displayPanel("panelcss");
+			return false;
 		});
 
 		Parsimony.blocksDispatch("loadCreationMode");
@@ -352,10 +356,9 @@ var ParsimonyAdmin = {
 			var CSSProps = '';
 			var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
 			if (typeof stylableElements == "object") {
-				$.each(stylableElements, function(index, value) {
-					CSSProps += '<a href="#" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(CSSTHEMEPATH, \'#\' + ParsimonyAdmin.inProgress + \' ' + value + '\');return false;" data-css="' + value + '">' + ' ' + t(index) + '</a>';
-				});
-
+				for(var index in stylableElements){
+					CSSProps += '<a href="#" data-selector="#' + ParsimonyAdmin.inProgress + ' ' + stylableElements[index] + '">' + ' ' + t(index) + '</a>';
+				}
 				if (CSSProps.length > 0) {
 					document.getElementById("stylableElements").style.display = "inline-block";
 				} else {

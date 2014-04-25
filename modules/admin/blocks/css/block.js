@@ -867,7 +867,7 @@ blockAdminCSS.prototype.highlightBlock = function() {
 			if (typeof stylableElements == "object") {
 				for(var title in stylableElements) {
 					var value = stylableElements[title];
-					CSSProps += '<a href="#" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(CSSTHEMEPATH, \'#' + block.id + ' ' + value + '\');return false;" data-css="' + value + '">' + ' ' + t(title) + '<div>' + value + '</div></a>';
+					CSSProps += '<a href="#" data-selector="#' + block.id + ' ' + value + '">' + ' ' + t(title) + '<div>' + value + '</div></a>';
 				}
 			}
 			document.getElementById("blockDetectSelectors").innerHTML = CSSProps;

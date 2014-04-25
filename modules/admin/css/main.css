@@ -28,7 +28,7 @@ border: 1px solid #040404;box-shadow: 1px 1px 0 #363738;margin: 0 5px;}
 /* Title Tab */
 .titleTab{height: 28px;vertical-align: top;line-height: 25px;
 color: rgb(73, 71, 71);cursor: pointer;clear:both;position: relative;padding-left: 11px;
-background-color: #f1f1f1;border-left: 3px solid rgb(45, 193, 238);margin: 8px 0;font-size: 18px;}
+background-color: #f1f1f1;border-left: 3px solid rgb(45, 193, 238);margin: 8px 0;font-size: 16px;}
 .titleTab:first-child{border-top:0}
 #left_sidebar .titleTab span{margin: 5px 7px 0px 7px;}
 #left_sidebar .titleTab .configmodule{display: block;float:right;margin: 5px;line-height: 0;background: url(admin/img/config.png) no-repeat;width: 16px;height: 16px;}
@@ -39,9 +39,9 @@ background-color: #f1f1f1;border-left: 3px solid rgb(45, 193, 238);margin: 8px 0
 background-position: 6px 7px;right: 0;top: 0;height: 30px;width: 30px;position: absolute;}
 .sublist:hover a.ui-icon-pencil{display: block}
 .modelSubList{padding-left: 30px;background-repeat: no-repeat;background-position: 8px 3px;}
-.subtitle{color: #777;text-transform: uppercase;font-weight: bold;padding-left: 30px;
-			line-height: 30px;background: url(admin/img/file.png) 16px 9px no-repeat;}
-.subtitle.db{background: url(admin/img/database.png) 16px 9px no-repeat;}
+.subtitle{color: #777;text-transform: uppercase;font-weight: bold;padding-left: 30px;font-size:12px;
+			line-height: 30px;background: url(admin/img/file.png) 15px 8px no-repeat;}
+.subtitle.db{background: url(admin/img/database.png) 16px 8px no-repeat;}
 .moduleParts ul{max-height: 300px;overflow-y: auto}
 .moduleParts .ui-icon-plus{position: relative;top: 4px;float: left;left: -1px;}
 .creationMode .gotoDBDesigner{display:block;padding-left: 45px;}

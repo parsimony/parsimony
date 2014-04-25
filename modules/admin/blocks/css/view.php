@@ -32,8 +32,8 @@ app::$response->addJSFile('admin/blocks/css/block.js','footer');
 
 ?>
 <div id="toolChanges">
-	<button id="savemycss" class="tooltip" data-tooltip="Sauvegarder" data-pos="n"></button>
-	<button id="reinitcss" class="tooltip" data-tooltip="Reinit" data-pos="n"></button>
+	<button id="savemycss" class="tooltip" data-tooltip="<?php echo t('Save'); ?>" data-pos="n"></button>
+	<button id="reinitcss" class="tooltip" data-tooltip="<?php echo t('Reinit'); ?>" data-pos="n"></button>
 	<span id="nbChanges" onclick="document.getElementById('listchanges').classList.toggle('none');"> 0 changes</span>
 	<div id="listchanges" class="none"></div>
 </div>
