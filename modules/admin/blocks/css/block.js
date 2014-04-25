@@ -428,10 +428,10 @@ function blockAdminCSS() {
 			var maxWidth = document.getElementById("mdqMaxWidthValue").value;
 			var mediaComp = [];
 			if(maxWidth.length > 0) {
-				  mediaComp.push("(max-width:" +  maxWidth + "px)");
+				  mediaComp.push("(max-width: " +  maxWidth + "px)");
 			}
 			if(minWidth.length > 0) {
-				  mediaComp.push("(min-width:" +  minWidth + "px)");
+				  mediaComp.push("(min-width: " +  minWidth + "px)");
 			}
 			$this.addMediaQueries("@media " + mediaComp.join(" and "));
 			document.getElementById("formAddMedia").style.display = 'none';
@@ -530,7 +530,7 @@ function blockAdminCSS() {
 			if (back_im.length > 0) {
 				back_im = "url(" + back_im + ") ";
 			} else if (color.length == 0) {
-				back_im = " url(admin/img/transparent.png) "
+				back_im = " url(admin/img/transparent.png) ";
 			}
 
 			//var size = document.querySelector(".prop_background-size").value;
@@ -552,7 +552,7 @@ function blockAdminCSS() {
 			parse.background = this.value;
 			var backColorElmt = document.querySelector(".prop_background-color");
 			backColorElmt.value = (parse.backgroundColor && parse.backgroundColor != "initial" ? rgbToHex(parse.backgroundColor) : "");
-			backColorElmt.nextElementSibling.style.backgroundColor = backColorElmt.value;
+			backColorElmt.nextElementSibling.style.background = backColorElmt.value;
 			document.querySelector(".prop_background-image").value = (parse.backgroundImage && parse.backgroundImage != "initial" && parse.backgroundImage != "none" ? parse.backgroundImage.replace("url(", "").replace(")", "").replace('"', "").replace(window.location.origin + window.location.pathname, "") : "");
 			document.querySelector(".prop_background-position").value = (parse.backgroundAttachment && parse.backgroundPosition != "initial" ? parse.backgroundPosition : "");
 			document.querySelector(".prop_background-attachment").value = (parse.backgroundAttachment && parse.backgroundAttachment != "initial" ? parse.backgroundAttachment : "");
@@ -955,6 +955,7 @@ blockAdminCSS.prototype.displayCSSConf = function(filePath, selector, media) {
 	document.getElementById("form_css").reset(); // reset all input except inputs hidden
 	$(".panelcss_tab .modifiedBorder").removeClass("modifiedBorder"); // clean borders visual tools
 	$(".panelcss_tab .active").removeClass("active"); // clean borders visual tools
+	$(".colorpicker3").removeAttr("style"); // clean colorpicker feedback
 	document.getElementById("backTest").style.background = "url(admin/img/transparent.png)"; // clean background
 	$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker"); // clean cssPicker marker
 	document.getElementById("panelcss").classList.remove("CSSSearch");
@@ -1103,15 +1104,11 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 				if (key2 != "nbStylesheet" && key2 != "nbRules") {
 					var rule = selectors[key2];
 					/* If a proposal already exists we remove it from proposal list */
-					if (file == CSSTHEMEPATH && proposals.indexOf(rule.selector) > -1){
+					if (file == CSSTHEMEPATH && proposals.indexOf(rule.selector) > -1 && rule.media === media){
 						delete proposals[proposals.indexOf(rule.selector)];
 					}
-					if(typeof node == "string" && rule.selector == node) {
-						if(rule.media == media) {
-							var nb = 20000 + linkedRulesNb;
-						} else {
-							var nb = 10000 + linkedRulesNb;
-						}
+					if(typeof node == "string" && rule.selector == node && rule.media == media) {
+						var nb = 20000 + linkedRulesNb;
 						linkedRules[nb] = [file, rule.selector, this.getLastCSS(file, rule.media + rule.selector), rule.nbStylesheet, rule.nbRule, rule.media, rule.nbMedia];
 					} else {
 						linkedRules[this.getSpecificity(rule.selector) + linkedRulesNb] = [file, rule.selector, this.getLastCSS(file, rule.media + rule.selector), rule.nbStylesheet, rule.nbRule, rule.media, rule.nbMedia];
@@ -1131,7 +1128,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 		for (var key in proposals) {
 			if (media.length > 0) {
 				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
-				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, media, 0];
+				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, 0, media, nbRules];
 			} else {
 				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
 				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
@@ -1358,7 +1355,7 @@ function CSSlight(elmt) {
 				content = "";
 			}
 		}
-		if(line < 4) { console.log(line);
+		if(line < 4) {
 			for (var i = line; i < 4; i++) {
 				highlighted += '</div><div class="CSSLightline" data-line="' + i + '"><span class="CSSLightgutter"></span>';
 			}
