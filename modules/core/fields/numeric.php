@@ -40,7 +40,7 @@ namespace core\fields;
 class numeric extends \field {
 
 	protected $type = 'INT';
-	protected $characters_max = 2;
+	protected $characters_max = 10;
 	protected $regex = '^[1-9\-]?[0-9]*$';
 	
 	/**
