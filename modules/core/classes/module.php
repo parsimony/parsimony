@@ -249,7 +249,6 @@ class module {
 	public function getModel() {
 		$entities = glob('modules/' . $this->name . '/model/*.php');
 		$entities = is_array($entities) ? $entities : array(); // fix
-		$this->model = array();
 		foreach ($entities as &$filename) {
 			$model = basename($filename, '.php');
 			$entity = $this->getEntity($model);

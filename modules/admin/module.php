@@ -1039,9 +1039,9 @@ class module extends \module {
 		/* Get roles ids with behavior anonymous */
 		$rolesBehaviorAnonymous = array();
 		foreach (\app::getModule('core')->getEntity('role') as $role) {
-			//if($role->state == 0){ TODO
+			if($role->permissions == 0) {
 				$rolesBehaviorAnonymous[] = $role->id_role;
-			//}
+			}
 		}
 		if (is_array($schema)) {
 			foreach ($schema as $tableKey => $table) {
