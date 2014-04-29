@@ -242,7 +242,7 @@ function blockAdminCSS() {
 		})
 
 		.on("keypress.creation", "#current_selector_update", function(e) {
-			if (e.which === 13 && this.value.length > 1) { // if [enter]
+			if (e.which === 13 && this.value.length > 0) { // if [enter]
 				$this.displayCSSConf(document.getElementById("changecsspath").value, this.value, document.getElementById("currentMdq").value);
 				e.preventDefault(); // to avoid submit form and save css
 			}
