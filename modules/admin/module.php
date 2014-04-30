@@ -138,8 +138,8 @@ class module extends \module {
 		/* If exists : Add default block CSS in current theme  */
 		if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
 			$css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
-			if (!is_file(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css') && is_file('modules/' . $this->theme->getModule() . '/themes/' . $this->page->getId() . '/' . $THEMETYPE . '/style.css')) {
-				file_put_contents(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css', file_get_contents('modules/' . $this->theme->getModule() . '/themes/' . $this->page->getId() . '/' . $THEMETYPE . '/style.css'));
+			if (!is_file(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css') && is_file('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/' . $THEMETYPE . '/style.css')) {
+				file_put_contents(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css', file_get_contents('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/' . $THEMETYPE . '/style.css'));
 			}
 			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/' . $THEMETYPE . '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
