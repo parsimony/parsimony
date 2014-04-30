@@ -1078,7 +1078,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 	/* Media querie given or not */
 	if (typeof media == "undefined" || media == null) {
 		var media = document.getElementById("currentMdq").value;
-	} else {
+	} else if(document.getElementById("currentMdq").value != media){
 		document.getElementById("currentMdq").value = media;
 		trigger(document.getElementById("currentMdq"), "change");
 	}
@@ -1097,8 +1097,8 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 	var matches = this.findSelectorsByElement(search);
 
 	for (var file in matches) {
-		/* We delete all selectors of iframe.css and lib/_*_.css */
-		if (file.indexOf("iframe.css") == "-1" && file.indexOf("lib/") == "-1") {
+		/* We just take selectors of the theme */
+		if (file == CSSTHEMEPATH) {
 			var selectors = matches[file];
 			for (var key2 in selectors) {
 				if (key2 != "nbStylesheet" && key2 != "nbRules") {
@@ -1153,7 +1153,7 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 	document.getElementById("changecsspath").value = this.currentFile;
 	document.getElementById("panelcss_tab_code").innerHTML = "";
 	document.getElementById("linkedRules").innerHTML = "";
-	this.addSelectorCSS(this.currentFile, document.getElementById("current_selector_update").value, this.getLastCSS(this.currentFile, this.currentMediaText + document.getElementById("current_selector_update").value), this.currentIdStylesheet, this.currentIdRule, this.currentMediaText, this.currentIdMedia);
+	this.addSelectorCSS(this.currentFile, document.getElementById("current_selector_update").value, this.getLastCSS(this.currentFile, this.currentMediaText + document.getElementById("current_selector_update").value), this.currentIdStylesheet, this.currentIdRule, this.currentMediaText, this.currentIdMedia, "panelcss_tab_code");
 
 	/* Get existing code, last changes in priority */
 	var code = this.getLastCSS(this.currentFile, media + document.getElementById("current_selector_update").value);
@@ -1172,18 +1172,16 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 	}
 }
 
-blockAdminCSS.prototype.addSelectorCSS = function(url, selector, styleCSS, nbstyle, nbrule, media, nbmedia) {
+blockAdminCSS.prototype.addSelectorCSS = function(url, selector, styleCSS, nbstyle, nbrule, media, nbmedia, targetId) {
 	var id = 'idcss' + nbstyle + "_" + nbrule + "_" + nbmedia;
 	var code = '<div class="selectorcss" title="' + url + '" selector="' + selector + '"><div class="selectorTitle"><b>' + selector + '</b> <small>in ' + url.replace(/^.*[\/\\]/g, '') + '</small></div><div class="gotoform" onclick="Parsimony.blocks[\'admin_css\'].displayCSSConf(\'' + url + '\',\'' + selector + '\',\'' + (media || "") + '\')"> ' + t('Edit') + ' </div></div>';
 	if (typeof media != "undefined" && media.toString().length > 0)
 		code += '<div class="mediaQueriesTitle">' + media + '</div>';
 	code += '<textarea class="csscode CSSLighttexta" id="' + id + '" spellcheck="false" name="selectors[' + id + '][code]" data-nbstyle="' + nbstyle + '" data-nbrule="' + nbrule + '" data-media="' + media + '" data-nbmedia="' + nbmedia + '" data-path="' + url + '" data-selector="' + encodeURIComponent(selector) + '">' + Parsimony.blocks['admin_css'].formatCSS(styleCSS) + '</textarea>';
-	if (document.getElementById("current_selector_update").value == selector && media == this.currentMediaText) {
-		$("#panelcss_tab_code").prepend(code);
-	} else {
-		$("#linkedRules").prepend(code);
+	if (targetId == null) {
+		targetId = "linkedRules";
 	}
-
+	$("#" + targetId).prepend(code);
 	this.codeEditors[id] = new CSSlight(document.getElementById(id));
 }
 
