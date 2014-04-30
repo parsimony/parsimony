@@ -484,8 +484,8 @@ class field {
 	 */
 	public function setRights($role, $rights) {
 		if (($this->getRights($_SESSION['id_role']) & $rights) === $rights) { /* check that user is allowed to set these rights */
-			/* We remove role entry if the role has the maximum of rights ( 7 = DISPLAY:1 + INSERT:2 + UPDATE:4 ) #performance */
-			if($rights === 7){
+			/* We remove role entry if the role has the maximum of rights ( 7 = DISPLAY:1 + INSERT:2 + UPDATE:4 ), or if role is admin ( admin should have all rights ) #performance */
+			if($rights === 7 || $role == 1){
 				if(isset($this->rights[$role])){
 					unset($this->rights[$role]);
 				}

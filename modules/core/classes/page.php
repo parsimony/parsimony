@@ -361,9 +361,9 @@ class page extends \block {
 	 */
 	public function setRights($role, $rights) {
 		if (($this->getRights($_SESSION['id_role']) & $rights) === $rights) { /* check that user is allowed to set these rights */
-			/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ) #performance */
-			if($rights === 1){
-				if(isset($this->rights[$role])){
+			/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ), or if role is admin ( admin should have all rights ) #performance */
+			if($rights === 1 || $role == 1){
+				if (isset($this->rights[$role])) {
 					unset($this->rights[$role]);
 				}
 			}else{

@@ -457,8 +457,8 @@ class module {
 	 * @param integer $rights
 	 */
 	public function setRights($role, $rights) {
-		/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ) #performance */
-		if($rights === 1){
+		/* We remove role entry if the role has the maximum of rights ( 1 = DISPLAY:1 ), or if role is admin ( admin should have all rights ) #performance */
+		if($rights === 1 || $role == 1){
 			if(isset($this->rights[$role])){
 				unset($this->rights[$role]);
 			}
