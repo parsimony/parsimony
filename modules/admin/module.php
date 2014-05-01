@@ -143,16 +143,19 @@ class module extends \module {
 			}
 			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/' . $THEMETYPE . '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
-				$newSelector = '#' . $idBlock . ' ' . str_replace(':host', '', $selector);
-				if (!$cssCurrentTheme->selectorExists($newSelector)) {
-					$cssCurrentTheme->addSelector($newSelector);
-				}
-				foreach ($css->extractSelectorRules($selector) as $property => $value) {
-					$value = str_replace('BASE_PATH', BASE_PATH, $value);
-					if (!$cssCurrentTheme->propertyExists($newSelector, $property)) {
-						$cssCurrentTheme->addProperty($newSelector, $property, $value);
-					} else {
-						$cssCurrentTheme->updateProperty($newSelector, $property, $value);
+				$rules = $css->extractSelectorRules($selector);
+				if (!empty($rules)) {
+					$newSelector = '#' . $idBlock . ' ' . str_replace(':host', '', $selector);
+					if (!$cssCurrentTheme->selectorExists($newSelector)) {
+						$cssCurrentTheme->addSelector($newSelector);
+					}
+					foreach ($rules as $property => $value) {
+						$value = str_replace('BASE_PATH', BASE_PATH, $value);
+						if (!$cssCurrentTheme->propertyExists($newSelector, $property)) {
+							$cssCurrentTheme->addProperty($newSelector, $property, $value);
+						} else {
+							$cssCurrentTheme->updateProperty($newSelector, $property, $value);
+						}
 					}
 				}
 			}
