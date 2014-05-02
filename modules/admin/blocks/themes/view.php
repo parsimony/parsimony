@@ -58,8 +58,13 @@
 <div id="themelist">
 	<ul>
 <?php
+/* Just list modules in development mode and determine if user has development rights on theme */
+$modulesDev = array_filter(\app::$config['modules']['active'], function ($value) {
+				return $value & 2;
+			});
+$creationRights = ($_SESSION['permissions'] & 64 && !empty($modulesDev));
+
 $modules = \app::$config['modules']['active'];
-unset($modules['admin']);
 foreach ($modules as $moduleName => $mode) {
 	$module = \app::getModule($moduleName);
 	foreach ($module->getThemes() as $themeName) {
@@ -83,7 +88,7 @@ foreach ($modules as $moduleName => $mode) {
 						<input class="input" type="submit" value="<?php echo t('Choose') ?>" />
 					</form>
 				<?php endif; ?>
-				<?php if($_SESSION['permissions'] & 64): ?>
+				<?php if($creationRights === TRUE): ?>
 					<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
 					<?php if($themeName !== app::$config['THEME']): ?>
 						<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
@@ -100,13 +105,13 @@ foreach ($modules as $moduleName => $mode) {
 	<?php
 	}
 }
- if($_SESSION['permissions'] & 64):
-?>
+ if ($creationRights === TRUE):
+	?>
 	<a href="#" class="ellipsis add-theme" onclick="document.getElementById('themes').classList.toggle('add')"> + <?php echo t('New'); ?> Theme</a>
 <?php endif; ?>
 	</ul>	
 </div>
-<?php if ($_SESSION['permissions'] & 64): ?>
+<?php if ($creationRights === TRUE): ?>
 <div id="themenew">
 	<form method="POST" id="themeFormAdd" target="formResult" action="<?php echo BASE_PATH; ?>admin/addTheme">
 		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>"/>
@@ -118,10 +123,7 @@ foreach ($modules as $moduleName => $mode) {
 			<label><?php echo t('Module'); ?></label>
 			<select name="thememodule">
 				<?php
-				$modules = \app::$config['modules']['active'];
-				unset($modules['admin']);
-					unset($modules['core']);
-				foreach ($modules as $moduleName => $mode) {
+				foreach ($modulesDev as $moduleName => $mode) {
 					echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
 				}
 				?>

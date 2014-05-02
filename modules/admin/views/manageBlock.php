@@ -204,7 +204,7 @@ if (is_object($block) == NULL) {
 							</div>
 						</div>
 					</div>
-					<div class="clear padd"> 
+					<div class="clear padd">
 						<h3>Mode</h3>
 						<div class="placeholder blockhead">
 							<input type="radio" name="mode" value="r" <?php if ($block->getConfig('mode') === 'r') echo ' checked="checked"'; ?> /> Read-only 
@@ -216,11 +216,11 @@ if (is_object($block) == NULL) {
 							<h3><?php echo t('Export this configuration in a new block'); ?></h3>
 							<div class="placeholder blockhead">
 								<?php
-								$ownModules = \app::$config['modules']['active'];
-								unset($ownModules['core']);
-								unset($ownModules['blog']);
-								unset($ownModules['admin']);
-								if(count($ownModules) > 0):
+									/* Just list modules in development mode */
+									$ownModules = array_filter(\app::$config['modules']['active'], function ($value) {
+										return $value & 2;
+									});
+									if(count($ownModules) > 0):
 									?>
 									<label><?php echo t('Name of the new block'); ?></label>
 									<input type="text" id="nameNewBlock">

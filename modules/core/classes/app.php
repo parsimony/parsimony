@@ -126,7 +126,7 @@ namespace core\classes {
 		 */
 		protected function launchActiveModules() {
 			foreach (self::$config['modules']['active'] as $moduleName => $type) {
-				if ($type == 1) {
+				if ($type & 1) {
 					self::$modules[$moduleName] = \module::get($moduleName);
 				}
 			}
