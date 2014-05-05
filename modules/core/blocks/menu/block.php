@@ -84,31 +84,36 @@ class menu extends \block {
 		return parent::display();
 	}
 
-    public function drawAdminMenu($items) {
+     public function drawAdminMenu($items) {
         foreach ($items AS $item) {
-            ?>
-            <li id="itemlist_<?php echo $item['id'] ?>">
-                <div>
-		    <?php if(isset($item['url'])): ?>
+			?>
+			<li id="itemlist_<?php echo $item['id'] ?>">
+				<div>
+			<?php if(isset($item['url'])): ?>
 			<div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" type="text" class="input_title" name="title[<?php echo $item['id'] ?>]" value="<?php echo $item['title'] ?>" /></div>
 			<div class="inline-block" style="width: 46%;box-sizing: border-box;"><input style="width: 100%;box-sizing: border-box;" class="input_url floatright" type="text" name="url[<?php echo $item['id'] ?>]"  value="<?php echo $item['url'] ?>" /></div>
-                    <?php else: 
-			if(!empty($item['module'])) $title = \app::getModule($item['module'])->getPage($item['page'])->getTitle();
-			else $title = '';
+					<?php else: 
+			if(!empty($item['module'])){
+				try {
+					$title = \app::getModule($item['module'])->getPage($item['page'])->getTitle();
+				} catch (\Exception $ex) { /* if module or page has been disabled, no pb  */
+					$title = 'DISABLED';
+				}
+			} else $title = '';
 			?>
 			<div class="inline-block" style="width: 92%;box-sizing: border-box;"><input type="hidden" class="module" name="module[<?php echo $item['id'] ?>]" value="<?php echo $item['module'] ?>" /><input type="hidden" class="page" name="page[<?php echo $item['id'] ?>]" value="<?php echo $item['page'] ?>" /><span class="titlePage"><?php echo 'Module : '.$item['module'].'  - Title : '.$title ?></span></div>
-		    <?php endif; ?>
-		    <div class="inline-block none"><input type="checkbox" class="input_active" /></div>
-                    <div class="inline-block floatright" style="width: 4%;box-sizing: border-box;"><a href="#" onclick="$(this).closest('li').remove();refreshPos();"><span class="ui-icon ui-icon-closethick"></span></a></div>
-                </div><?php
-            if (isset($item['children'])) {
-                echo '<ol>';
-                $this->drawAdminMenu($item['children']) . '';
-                echo '</ol>';
-            }
-            ?>
-            </li>
-            <?php
+			<?php endif; ?>
+			<div class="inline-block none"><input type="checkbox" class="input_active" /></div>
+					<div class="inline-block floatright" style="width: 4%;box-sizing: border-box;"><a href="#" onclick="$(this).closest('li').remove();refreshPos();"><span class="ui-icon ui-icon-closethick"></span></a></div>
+				</div><?php
+			if (isset($item['children'])) {
+				echo '<ol>';
+				$this->drawAdminMenu($item['children']) . '';
+				echo '</ol>';
+			}
+			?>
+			</li>
+			<?php
         }
     }
 
