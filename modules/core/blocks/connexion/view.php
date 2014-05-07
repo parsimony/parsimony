@@ -42,9 +42,9 @@ if (\app::getClass('user')->VerifyConnexion()) :
         $(document).ready(function() {
     	$(document).on("submit","#<?php echo $this->getId(); ?> .connexion",function(e){
     	    e.preventDefault();
-    	    $.post("<?php echo BASE_PATH; ?>login", { login: $(".login", this).val(), password: $(".password", this).val() },
+    	    $.post("<?php echo BASE_PATH; ?>login", { TOKEN: TOKEN, login: $(".login", this).val(), password: $(".password", this).val() },
     	    function(data) {
-    		if(data == 1){
+    		if(data != 0){
     		    window.location.reload();
     		}else{
     		    $("#<?php echo $this->getId(); ?> .error").fadeIn().html("<?php echo t('Login or/and password are invalid'); ?>");
