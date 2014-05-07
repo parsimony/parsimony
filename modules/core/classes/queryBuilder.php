@@ -450,7 +450,12 @@ class queryBuilder {
 			$field->setValue(NULL);
 		}
 		if($this instanceof \entity) {
-			$this->_SQL = array();
+			if (isset($this->_SQL['pagination'])) { /* keep pagination to allow to display pagination after the query */
+				$pagination = $this->_SQL['pagination'];
+				$this->_SQL = array('pagination' => $pagination);
+			} else {
+				$this->_SQL = array();
+			}
 		}
 	}
 	
