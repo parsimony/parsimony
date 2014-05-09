@@ -176,7 +176,7 @@ class module extends \module {
 	}
 
 	public function renewPassAction() {
-		$mail = app::$request->getParam('mail');
+		$mail = \app::$request->getParam('mail');
 		if ($mail !== FALSE && filter_var($mail, FILTER_VALIDATE_EMAIL)) {
 			return \app::getClass('user')->resetPassword(filter_var($mail, FILTER_VALIDATE_EMAIL));
 		} else {
