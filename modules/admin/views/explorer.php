@@ -39,7 +39,7 @@ app::$response->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 app::$response->addJSFile('lib/upload/parsimonyUpload.js');
 ?>
 
-<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
+<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.1.min.js"></script>
 <?php echo app::$response->printInclusions() ?>
 
 <style>

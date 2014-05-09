@@ -18,15 +18,18 @@
 		<?php if(THEMETYPE === 'desktop'): ?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<!--[if lt IE 9]>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script type="text/javascript">
 		'article aside footer header nav section time'.replace(/\w+/g,function(n){document.createElement(n)})
 		</script>
 		<![endif]-->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
+		<!--[if gte IE 9]><!-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-2.1.0.min.js"><\/script>')</script>
+		<!--<![endif]-->
 		<?php else: ?>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-2.0.2.min.js"><\/script>')</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-2.1.min.js"><\/script>')</script>
 		<script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>
 		<?php endif;
 		echo $this->page->printMetas();

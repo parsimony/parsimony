@@ -28,7 +28,7 @@
 
 app::$response->addCSSFile('core/css/parsimony.css');
 app::$response->addCSSFile('admin/css/ui.css');
-app::$response->addJSFile('lib/jquery/jquery-2.0.2.min.js');
+app::$response->addJSFile('lib/jquery/jquery-2.1.min.js');
 app::$response->addJSFile('lib/jquery-ui/jquery-ui-1.10.3.min.js');
 app::$response->addJSFile('lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js');
 app::$response->addJSFile('admin/script.js');

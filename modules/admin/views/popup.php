@@ -9,7 +9,7 @@
 			var THEMETYPE = '<?php echo THEMETYPE ?>';
 			var TOKEN = '<?php echo TOKEN ?>';
 		</script>
-		<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
+		<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.1.min.js"></script>
 		<?php
 		app::$response->addCSSFile('core/css/parsimony.css');
 		app::$response->addCSSFile('admin/css/ui.css');

@@ -148,8 +148,7 @@ if (isset($_POST['connexion'])) {
         </div>
 		<div id="firefox">For Parsimony administration it is recommended to use <a href="https://www.google.com/chrome">Chrome</a> or <a href="http://www.opera.com">Opera</a>.</div>
         <div id="ie">The Parsimony administration works with <a href="https://www.google.com/chrome">Chrome</a>, <a href="http://www.opera.com">Opera</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.<br>Please install <a href="https://www.google.com/chrome">Chrome</a>, <a href="http://www.opera.com">Opera</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a>.</div>
-		<script LANGUAGE="Javascript" SRC="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"> </script>
-		<script>window.jQuery || document.write('<script src="<?php echo BASE_PATH ?>lib/jquery/jquery-1.10.1.min.js"><\/script>')</script>
+		<script LANGUAGE="Javascript" SRC="<?php echo BASE_PATH ?>lib/jquery/jquery-2.1.min.js"> </script>
         <script>
             $(document).ready(function () {
                 if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
