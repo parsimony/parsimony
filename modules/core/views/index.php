@@ -13,6 +13,7 @@
 
 			document.cookie = "resMax=" + ((screen.height > screen.width ? screen.height : screen.width) * (window.devicePixelRatio ? window.devicePixelRatio : 1)) + "; expires=999; path=/";
 		</script>
+		<link rel="shortcut icon" href="<?php echo BASE_PATH . (isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png');  ?>" />
 		<meta name="generator" content="Parsimony">
 		<?php if(THEMETYPE === 'desktop'): ?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

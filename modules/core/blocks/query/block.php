@@ -108,11 +108,7 @@ class query extends code {
 			$myView = new \view($properties);
 			foreach ($myView->getFields() AS $sqlName => $field) {
 				if (isset($properties[$field->entity->getTableName() . '.' . $field->name]['display'])) {
-					if ($field instanceof field_string || $field instanceof field_string)
-						$displayLine = '';
-					else
-						$displayLine = '()';
-					$view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $row->' . $sqlName . $displayLine . '; ?></div>' . PHP_EOL;
+					$view_code .= "\t\t\t" . '<div class="itemprop ' . $sqlName . '"><?php echo $row->' . $sqlName . '(); ?></div>' . PHP_EOL;
 				}
 			}
 		} else {

@@ -364,44 +364,19 @@ namespace {
 	/**
 	 *  t() must bedefined here
 	 */
-	if ($_SESSION['permissions'] & 32768) {
 
-		function t($text, $params = FALSE, $adminEdit = TRUE) {
-			$before = '';
-			$after = '';
-			if (!defined('PARSI_ADMIN') && MODULE != 'admin' && $adminEdit === TRUE) {
-				$before = '<span data-key="' . $text . '" class="translation">';
-				$after = '</span>';
-			}
-			if (isset(app::$lang[$text])) {
-				if ($params !== FALSE)
-					return $before . vsprintf(app::$lang[$text], $params) . $after;
-				else
-					return $before . app::$lang[$text] . $after;
-			} else {
-				if ($params !== FALSE)
-					return $before . vsprintf($text, $params) . $after;
-				else
-					return $before . $text . $after;
-			}
+	function t($text, $params = FALSE) {
+		if (isset(app::$lang[$text])) {
+			if ($params !== FALSE)
+				return vsprintf(app::$lang[$text], $params);
+			else
+				return app::$lang[$text];
+		}else {
+			if ($params !== FALSE)
+				return vsprintf($text, $params);
+			else
+				return $text;
 		}
-
-	} else {
-
-		function t($text, $params = FALSE) {
-			if (isset(app::$lang[$text])) {
-				if ($params !== FALSE)
-					return vsprintf(app::$lang[$text], $params);
-				else
-					return app::$lang[$text];
-			}else {
-				if ($params !== FALSE)
-					return vsprintf($text, $params);
-				else
-					return $text;
-			}
-		}
-
 	}
 
 }

@@ -72,3 +72,4 @@ $config['modules']['active']['blog'] = '1';
 $config['modules']['default'] = 'blog';
 
 $config['sitename'] = 'My WebSite';
+$config['favicon'] = 'core/img/favicon.png';

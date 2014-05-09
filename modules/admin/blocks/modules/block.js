@@ -3,8 +3,8 @@ function blockAdminModules() {
 	this.init = function() {
 
 		$("#left_sidebar").on('click', 'div.titleTab', function() {
-			var next = $(this).next();
-			if(next.is('div')) $(this).next().slideToggle('fast');
+			$(this.nextElementSibling).slideToggle('fast');
+			this.parentNode.classList.toggle("active");
 		});
 
 	}

@@ -33,16 +33,15 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 }
 ?>
 
-<ul class="menu" style="flex-grow:1;display: flex;width: 200px;max-width: 200px;">
+<ul class="menu" id="profiles" style="flex-grow:1;display: flex;width: 200px;max-width: 200px;">
 	<li class="opensidebar opensidebarleft" style="font-size: 27px;color: #F4F4F4;position: relative;left: -4px;cursor:pointer" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');document.body.classList.toggle('closeleft')">&#x2261;</li>
-	<img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png">
 	<?php
 		$profiles = glob('profiles/*', GLOB_ONLYDIR);
 		$nbProfile = count($profiles);
 		$multisite = $nbProfile > 1 && $_SESSION['permissions'] & 512;
 	?>
 	<li<?php if ($multisite === TRUE) echo ' class="subMenu"'; ?> style="height:36px">
-		<a href="#" data-title="<?php echo t('My domains'); ?>"><?php echo ucfirst(s(\app::$config['sitename'])); ?>   </a>
+		<a href="#" style="width: 181px;padding: 0 10px;" data-title="<?php echo t('My domains'); ?>"><img src="<?php echo BASE_PATH . (isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png'); ?>"><?php echo ucfirst(s(\app::$config['sitename'])); ?></a>
 		<?php
 		if ($multisite === TRUE) :
 		?>
@@ -59,7 +58,7 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 							echo $basen . '.' . DOMAIN . '/connect';
 						else
 							echo DOMAIN . '/connect';
-						?>"><?php echo ucfirst($config['sitename']); ?></a>
+						?>"><img src="<?php echo BASE_PATH . (isset($config['favicon']) ? $config['favicon'] : 'core/img/favicon.png'); ?>"><?php echo ucfirst($config['sitename']); ?></a>
 					</li>
 					<?php
 				endif;
@@ -97,8 +96,7 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 				$('#changeorientation').val('portrait').trigger('change');
 			} else {
 				$('#changeorientation').val('landscape').trigger('change');
-			}
-			;
+			};
 			this.classList.toggle('landscape');"></span>
 		<select id="changeorientation" class="none">
 			<option value="portrait"><?php echo t('Portrait'); ?></option><option value="landscape"<?php if (isset($_COOKIE['landscape']) && $_COOKIE['landscape'] === 'landscape') echo 'selected="selected"'; ?>><?php echo t('Landscape'); ?></option>

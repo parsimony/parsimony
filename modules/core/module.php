@@ -38,7 +38,6 @@ namespace core;
  * @php_extension php_pdo_mysql,php_gd2
  * @php_settings magic_quotes_gpc:0,register_globals:0
  * @displayAdmin 4
- * @mode r
  */
 class module extends \module {
 

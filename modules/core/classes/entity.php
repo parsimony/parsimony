@@ -332,14 +332,16 @@ abstract class entity extends queryBuilder implements \Iterator {
 				\app::dispatchEvent('afterUpdate', array($values));
 				if (!empty($this->_extends)) {
 					foreach ($this->_extends as $entity) {
-						if (empty($vars[$entity->getTableName()][$entity->getId()->name])) { /* To manage with extended entities without matched rows */
-							$vars[$entity->getTableName()][$entity->getId()->name] = $vars[$this->getTableName()][$this->getId()->name];
-							$resExtend = $entity->insertInto($vars, FALSE);
-						} else {
-							$resExtend = $entity->update($vars, FALSE);
-						}
-						if ($resExtend === FALSE) {
-							return $resExtend;
+						if (isset($vars[$entity->getTableName()])) { /* to allow to update data just in main entity */
+							if (empty($vars[$entity->getTableName()][$entity->getId()->name])) { /* To manage with extended entities without matched rows */
+								$vars[$entity->getTableName()][$entity->getId()->name] = $vars[$this->getTableName()][$this->getId()->name];
+								$resExtend = $entity->insertInto($vars, FALSE);
+							} else {
+								$resExtend = $entity->update($vars, FALSE);
+							}
+							if ($resExtend === FALSE) {
+								return $resExtend;
+							}
 						}
 					}
 				}
@@ -406,9 +408,9 @@ abstract class entity extends queryBuilder implements \Iterator {
 				$val = $vars[$idName];
 			} elseif (is_numeric($this->$idName->value)) {
 				$val = $this->$idName->value;
-			} else {
+			}/* else { 
 				throw new \Exception(t('ID must be filled to update', FALSE));
-			}
+			}*/
 		}
 
 		foreach ($this->fields as $name => $field) {

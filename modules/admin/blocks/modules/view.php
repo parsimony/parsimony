@@ -43,86 +43,84 @@ foreach ($activeModule as $module => $type) {
 		$moduleInfos['displayAdmin'] = 3;
 	}
 	$adminHTML = $moduleobj->displayAdmin();
-	if ($adminHTML == FALSE)
+	if ($adminHTML === FALSE)
 		$htmlConfig = '';
 	else
 		$htmlConfig = '<a href="#left_sidebar/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
-		echo '<div class="titleTab ellipsis"> ' . ucfirst(s($moduleInfos['title'])) . $htmlConfig . '</div>';
-	$display = '';
-	if ($module != MODULE)
-		$display = 'none';
-	
 	if ($moduleInfos['displayAdmin'] > 0) :
 		?>
-		<div class="moduleParts <?php echo $display; ?>" data-module="<?php echo $module; ?>">
-			<?php
-			if ($moduleInfos['displayAdmin'] & 4) :
-				$adminLinks = $moduleobj->getAminMenu();
-				if (!empty($adminLinks)) {
-					echo '<ul class="menuAdmin">';
-					foreach ($adminLinks as $href => $title) { 
-						echo '<li><a href="' . $href . '">' . $title . '</a></li>';
+		<div class="moduleTab <?php echo $module === MODULE ? 'active' : ''; ?>" data-module="<?php echo $module; ?>">
+			<div class="titleTab ellipsis"><?php echo ucfirst(s($moduleInfos['title'])) . $htmlConfig; ?></div>
+			<div class="moduleParts">
+				<?php
+				if ($moduleInfos['displayAdmin'] & 4) :
+					$adminLinks = $moduleobj->getAminMenu();
+					if (!empty($adminLinks)) {
+						echo '<ul class="menuAdmin">';
+						foreach ($adminLinks as $href => $title) { 
+							echo '<li><a href="' . $href . '">' . $title . '</a></li>';
+						}
+						echo '</ul>';
 					}
-					echo '</ul>';
-				}
-			endif;
-			if ($moduleInfos['displayAdmin']  & 1) :
-			?>
-			<div class="ellipsis subtitle" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?></div>
-			<ul class="pages">
-				<?php
-				foreach ($moduleobj->getPages() as $id_page => $page) {
-					if ($module === \app::$config['modules']['default'])
-						$pageURL = BASE_PATH . $page->getURL();
-					else
-						$pageURL = BASE_PATH . $module . '/' . $page->getURL();
-					?>
-					<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
-						<?php echo ucfirst(s($page->getTitle())); 
-						if ($_SESSION['permissions'] & 4): ?>
-						<a href="#left_sidebar/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
-						<?php endif; ?>
-					</li>
-					<?php
-				}
-				if ($_SESSION['permissions'] & 8):
+				endif;
+				if ($moduleInfos['displayAdmin']  & 1) :
 				?>
-				<a href="#left_sidebar/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
-					<span class="ui-icon ui-icon-plus"></span>
-					<?php echo t('Add A Page'); ?>
-				</a>
-				<?php endif; ?>
-			</ul>
-			<?php
-			endif;
-			if ($moduleInfos['displayAdmin']  & 2) :
-			?>
-			<div class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
-			<ul class="models">
-				<?php
-				foreach ($moduleobj->getModel() as $entityName => $entity) {
-					$entityTitle = s(ucfirst($entity->getTitle()));
-					if (!empty($entityTitle)) { 
+				<div class="ellipsis subtitle" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?></div>
+				<ul class="pages">
+					<?php
+					foreach ($moduleobj->getPages() as $id_page => $page) {
+						if ($module === \app::$config['modules']['default'])
+							$pageURL = BASE_PATH . $page->getURL();
+						else
+							$pageURL = BASE_PATH . $module . '/' . $page->getURL();
 						?>
-						<a href="#left_sidebar/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
+						<li class="sublist ellipsis gotopage" draggable="true" id="page_<?php echo $id_page ?>" data-title="<?php echo s($page->getTitle()); ?>" data-url="<?php echo $pageURL ?>">
+							<?php echo ucfirst(s($page->getTitle())); 
+							if ($_SESSION['permissions'] & 4): ?>
+							<a href="#left_sidebar/page/<?php echo $module; ?>/<?php echo $id_page; ?>" class="ui-icon ui-icon-pencil" title="<?php echo t('Manage this page'); ?>"></a>
+							<?php endif; ?>
+						</li>
 						<?php
 					}
-				}
-				if ($_SESSION['permissions'] & 4096): /* perm 4096 = db designer */ ?>
-					<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer') . ' ' . ucfirst($module); ?>">
-						<?php echo t('Database Designer') ?>
-						<form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">
-							<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
-							<input type="hidden" name="module" value="<?php echo $module; ?>">
-						</form>
-					</li>
+					if ($_SESSION['permissions'] & 8):
+					?>
+					<a href="#left_sidebar/page/<?php echo $module ?>/new" class="sublist ellipsis" title="<?php echo t('Add A Page in') . ' ' . ucfirst($module); ?>">
+						<span class="ui-icon ui-icon-plus"></span>
+						<?php echo t('Add A Page'); ?>
+					</a>
+					<?php endif; ?>
+				</ul>
+				<?php
+				endif;
+				if ($moduleInfos['displayAdmin']  & 2) :
+				?>
+				<div class="db ellipsis subtitle" title="<?php echo t('Content') . ' ' . ucfirst($module); ?>"><?php echo ' ' . t('Content'); ?></div> 
+				<ul class="models">
+					<?php
+					foreach ($moduleobj->getModel() as $entityName => $entity) {
+						$entityTitle = s(ucfirst($entity->getTitle()));
+						if (!empty($entityTitle)) { 
+							?>
+							<a href="#left_sidebar/model/<?php echo $module; ?>/<?php echo $entityName; ?>" class="sublist modelSubList" title="<?php echo $entityTitle; ?>"><?php echo $entityTitle; ?></a>
+							<?php
+						}
+					}
+					if ($_SESSION['permissions'] & 4096): /* perm 4096 = db designer */ ?>
+						<li class="sublist gotoDBDesigner" title="<?php echo t('Database Designer') . ' ' . ucfirst($module); ?>">
+							<?php echo t('Database Designer') ?>
+							<form method="POST" class="none" action="<?php echo BASE_PATH; ?>admin/dbDesigner" target="_blank">
+								<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
+								<input type="hidden" name="module" value="<?php echo $module; ?>">
+							</form>
+						</li>
+					<?php endif; ?>
+				</ul>
 				<?php endif; ?>
-			</ul>
-			<?php endif; ?>
+			</div>
 		</div>
 		<?php
 	endif;
 }
-if ($_SESSION['permissions'] & 16384) : /* perm 16384 = manage modules */  ?>		
+if ($_SESSION['permissions'] & 16384) : /* perm 16384 = manage modules */  ?>
 	<div class="ellipsis"><a href="#left_sidebar/add" title="<?php echo t('Add a Module'); ?>" id="add-module">+ <?php echo t('Add a Module'); ?></a></div>
 <?php endif;

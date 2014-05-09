@@ -115,6 +115,7 @@ if (!empty($values)) {
 						data = JSON.parse(data);
 						$("#<?php echo $fieldName; ?>_list").append('<div class="itemasso"><input type="checkbox" name="<?php echo $tableName; ?>[<?php echo $foreignEntity->getName(); ?>][' + data.id + ']"> ' + data.title + '</div>');
 						document.getElementById("<?php echo $fieldName . '_form'; ?>").classList.add("none");
+						document.getElementById("<?php echo $fieldName . '_add'; ?>").classList.toggle("none");
 					} catch (e) {
 						top.ParsimonyAdmin.execResult(data);
 					}

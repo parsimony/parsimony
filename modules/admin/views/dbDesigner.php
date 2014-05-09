@@ -25,43 +25,28 @@
  * @package admin
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-if (!\app::getClass('user')->VerifyConnexion())
-	exit;
-if (!isset($_POST['module']))
-	$_POST['module'] = \app::$config['modules']['default'];
-if (!isset($_COOKIE['connectorchoice'])) {
-	$_COOKIE['connectorchoice'] = 'Bezier';
-}
-$moduleObj = \app::getModule($_POST['module']);
-$modulesInfos = \tools::getClassInfos($moduleObj);
-if (isset($modulesInfos['mode']) && strstr($modulesInfos['mode'], 'r')) {
+
+app::$response->addCSSFile('core/css/parsimony.css');
+app::$response->addCSSFile('admin/css/ui.css');
+app::$response->addJSFile('lib/jquery/jquery-2.0.2.min.js');
+app::$response->addJSFile('lib/jquery-ui/jquery-ui-1.10.3.min.js');
+app::$response->addJSFile('lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js');
+app::$response->addJSFile('admin/script.js');
+
+echo \app::$response->printInclusions();
+
+if ( \app::$config['modules']['active'][$module] & 2) { /* check if this module is in development or packaged */
 	?>
-	<style>
-		.areaWrite { display:none }
-	</style>
+	<style> .areaWrite { display:none } </style>
 	<?php
 }
 ?>
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>core/css/parsimony.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>admin/css/ui.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.css" type="text/css" media="all" />
-<script src="<?php echo BASE_PATH; ?>lib/jquery/jquery-2.0.2.min.js"></script>
-<script src="<?php echo BASE_PATH; ?>lib/jquery-ui/jquery-ui-1.10.3.min.js"></script>
-<script type="text/javascript">
-	var BASE_PATH = '<?php echo BASE_PATH ?>';
-</script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>lib/tooltip/parsimonyTooltip.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>admin/script.js"></script>
-<script type="text/javascript" src="<?php echo BASE_PATH; ?>var/cache/<?php echo app::$request->getLocale(); ?>-lang.js"></script>
-<style>.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
-</style>
+
 <style type="text/css">
+	.ui-state-disabled, .ui-widget-content .ui-state-disabled { opacity: .85; filter:Alpha(Opacity=85); background-image: none; }
 	#toolbar{position: fixed;left:0;right:0;min-width: 980px;z-index: 4;height:35px;color: white;
 font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradient(top, #333333, #222222);
 			box-shadow: 0px 1px 0px rgb(41, 41, 41);border-bottom: 1px solid rgb(17, 17, 17);}
-	
-	
 	.ui-icon { width: 16px; height: 16px;background-color:transparent; background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);display: block;overflow: hidden;}
 	body{margin:0;padding:0;height:100%;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 	select {background-image: url("<?php echo BASE_PATH; ?>admin/img/select.png")}
@@ -71,10 +56,10 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	._jsPlumb_endpoint{cursor: pointer;z-index: 2}
 	._jsPlumb_connector{cursor: pointer;}
 	#field_list{margin: 0;padding: 0;border-radius: 8px;padding-left: 5px;}
-	#field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #C7C7C7;}
+	#field_list .myfield{position: relative;font-size: 12px;color: #222;width: 187px;margin: 2px;cursor: move;text-align: left;padding: 6px;background-color: #fbfbfb;background-repeat: no-repeat;padding-left: 32px;background-position: 7px 5px;border: 1px solid #dfdfdf;}
 	#field_list .myfield:hover{background-color: #CBD8E8;}
-	#field_list .myfield span{display:none;position: absolute;right: 5px;top: 5px;}
-	#field_list .myfield:hover span{display:block}
+	#field_list .myfield a{display:none;position: absolute;right: 5px;top: 5px;}
+	#field_list .myfield:hover a{display:block}
 	#update_table{display: none;font-size: 12px;}
 	#update_field > div{display: none;overflow: auto;position: absolute;top: 48px;bottom: 0;}
 	.table {z-index:3;position:absolute; color:#484848;line-height:18px;cursor:pointer;
@@ -89,7 +74,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.dragActive { border:4px dotted #b634af; border-radius:50px;}
 	label{line-height: 26px;width: 140px;display: inline-block;padding-left: 10px;}
 	h2, .title {text-align:center;font-size: 12px;padding:7px;color: white;background: #1b74a4;}
-	.title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;/*text-decoration: underline;*/}
+	.title{border-top-left-radius: 3px;border-top-right-radius: 3px;text-align: center;}
 	#leftsidebar{box-shadow: 1px 1px 5px #444;z-index:10; text-align: center;width:200px;position:fixed;left:0px;top:36px;bottom:0;background: #f9f9f9;}
 	#rightsidebar{display:none;box-shadow: -2px 1px 8px #444;position:fixed;width:320px;background:#f9f9f9;right:0;top:36px;bottom: 0;}
 	#deletator{cursor: pointer;position:absolute;top:2px;right:0px;color:#fff;background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);}
@@ -107,28 +92,14 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.conf_box_close{background-image: url(<?php echo BASE_PATH; ?>admin/img/icons.png);margin: 2px 5px;position: absolute;top: 4px;right: 0px;color: white;cursor: pointer;}
 	.entity2,.entity1{font-weight:bold}
 	.title_popup{border-radius: 2px 2px 0 0;position: relative;background: #259BDB;text-align: center;color: white;border-color: #2E63A5;font-size: 18px;line-height: 39px;}
-	.tooltitle{font-size:13px;line-height: 15px;padding-left: 30px;font-weight: bold;}
-	.toolimg{position: absolute;top:5px;left:15px;}
-	.toolfield{position: relative;}
-	.tooldef{font-size:12px;font-style: italic;margin: 10px 5px;line-height : 15px;width: 250px;white-space: normal;}
-	.tooltype{margin: 0px 5px;}
-	.tooltab{margin: 10px 5px 0;font-size: 10px;font-family: inherit;color: white;border-top: 1px solid whitesmoke;border-left: 1px solid whitesmoke;border-bottom: 1px solid whitesmoke;}
-	.tooltab td{width:60px;height:40px;text-align: center;vertical-align: middle;border-right: 1px solid whitesmoke}
-	/*     tbody td:first-child{margin:0 10px}*/
-	.tooltab td input{width: 50px;font-size: inherit;height: 20px;}
-	.tooltab tbody{border-top: 1px solid whitesmoke}
-	.tooltab td progress{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: content-box;margin:3px;width: 50px}
 	.boxDropImage {color: white;border: 4px dashed #999;border-radius: 3px;text-align: center;margin: 5px;padding: 5px;}
-	#toolbar{font-weight: normal;line-height: 36px;color:#FBFBFB}
+	#toolbar{font-weight: normal;line-height: 36px;color:#F4F4F4}
 	.specialprop{border: none;border-radius: 0;padding: 5px;background: none;}
 	#extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
 	#btnLinkToExternal{margin-bottom: 15px;}
 	.dragActive2 {z-index: 1;border-radius: 100px;font-size: 12px;text-align: center;background: #1b74a4;color: #fff;padding: 17px 5px;}
-	#save.haveToSave{color: white;font-weight: bold;
-					 background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB);
-					 background-image: -moz-linear-gradient(top, #44C5EC, #259BDB);
-					 background-image: -ms-linear-gradient(top, #44C5EC, #259BDB);
-					 background-image: linear-gradient(top, #44C5EC, #259BDB);border: 1px solid #0F76F3;}
+	#save{height: 36px;background: #09F;border: 0;border-radius: 0;color: #FBFBFB;font-size: 14px;display:none}
+	#save.haveToSave{display:block}
 	#conf_box_overlay{z-index: 9999;text-align: center;position: fixed;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.85);}
 	#notify {top:35px}
 	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;}
@@ -138,494 +109,54 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.behaviorProperty {width: 136px;}
 	#rightsidebar{font-size:12px;}
 	#rightsidebar input[type='text']{width:159px}
+	#addTableBTN{position: absolute;width: 40px;min-width: initial;font-size: 17px;line-height: 29px;padding: 0;right: 0;top: 0;
+				 bottom: 0;color: #2DC1EE;background: #FFF;cursor: pointer;box-shadow: none;
+				 border: 0;border-top: 1px solid #ECECEC;border-bottom: 1px solid #ECECEC;border-radius: 0;}
+	#addTableBTN:hover{background: #F1F1F1;}
+	.connectors{padding-top: 7px;padding-left: 16px;position: absolute;left: 200px;vertical-align: top;line-height: 25px;color: #EEE;}
+	.connectors svg{cursor:pointer}
+	.connectors svg.active .stroke,.connectors svg:hover .stroke{stroke:#44C5EC;}
+	.connectors svg.active .fill,.connectors svg:hover .fill{fill:#44C5EC}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
-<div id="tooltip-new-fields" class="none toolfield">
-	<p class="tooldef ellipsis"><?php echo t('Create an entity and drag n\'drop fields in order to develop your DB model !'); ?></p>
-</div>
-
-<div id="tooltip-field_string" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/string/icon.png"><span class="tooltitle"><?php echo t('String Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo t('A String Field manages any finite sequence of characters (i.e., letters, numerals, symbols and punctuation marks.)'); ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>eF(_5</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="eF(_5"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<div id="tooltip-field_numeric" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/numeric/icon.png"><span class="tooltitle"><?php echo t('Numeric Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo t('A Numeric Field is a data field that holds only numbers to be calculated (without any decimal places).'); ?></p>
-	<div class="tooltype"> SQL Type : INT 2 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>45</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="45"></td>
-			</tr>
-		</tbody>
-	</table>
-</div> 
-
-<div id="tooltip-field_decimal" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/decimal/icon.png"><span class="tooltitle"><?php echo t('Decimal Field') ?></span></div>    
-	<p class="tooldef ellipsis"> <?php echo t('A Decimal Field is a data field that holds fixed-precision decimal numbers.') ?></p>
-	<div class="tooltype"> SQL Type : DECIMAL 20,6 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>45,12</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="45,12"></td>
-			</tr>
-		</tbody>
-	</table>
-</div> 
-
-<div id="tooltip-field_price" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/price/icon.png"><span class="tooltitle"><?php echo t('Price Field') ?></span></div>
-	<p class="tooldef ellipsis"> <?php echo 'A Price Field stores a money value in your entity. ' ?></p>
-	<div class="tooltype"> SQL Type : DECIMAL 7,2 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>12,34</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="12,34"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_percent" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/percent/icon.png"><span class="tooltitle"><?php echo t('Percent Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A Percent Field specializes in handling percentage data and displays a value between 0 and 100. ' ?></p>
-	<div class="tooltype"> SQL Type : DECIMAL 5,2 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>100</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="100"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_mail" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/mail/icon.png"><span class="tooltitle"><?php echo t('Mail Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A Mail Field is used when the data entered by the user has to be an email. ' ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>abcdef@ghi.jk</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="abcdef@ghi.jk"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_password" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/password/icon.png"><span class="tooltitle"><?php echo t('Password Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A password field stores in sha-1 hash the password + a salt. It displays a password input type.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>******</td>
-				<td><input type="password"></td>
-				<td><input type="password" value="abcdef@ghi"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_state" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/state/icon.png"><span class="tooltitle"><?php echo t('State Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A State field manages the status of an Entity. The state can be used as a Boolean (True / False) or can contain several values (Yes,Perhaps,No) separated by a comma (CSV). '; ?></p>
-	<div class="tooltype"> SQL Type : INT 2 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><select type="text"> 
-						<option value="0">Yes</option>';
-						<option value="1" selected="selected">No</option>
-						<option value="2">Perhaps</option>';
-					</select></td>
-				<td><select type="text"> 
-						<option value="0" selected="selected">Yes</option>';
-						<option value="1">No</option>
-						<option value="2">Perhaps</option>';
-					</select></td>
-				<td><select type="text" name="ping_status"> 
-						<option value="0">Yes</option>';
-						<option value="1">No</option>
-						<option value="2" selected="selected">Perhaps</option>';
-					</select></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_date" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/date/icon.png"><span class="tooltitle"><?php echo t('Date Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A date field is a component for presenting date and time.'; ?></p>
-	<div class="tooltype"> SQL Type : DATETIME by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>2012-07-06 09:42:30</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="2012-07-06 09:42:30"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_publication" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/date/icon.png"><span class="tooltitle"><?php echo t('Publication Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A Publication Field contains the published or scheduled date. It provides a Visibility Mode (public, private, protected by password) and also a workflow with different status like Pending, Draft and Published. '; ?></p>
-	<div class="tooltype"> SQL Type : DATETIME by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>2012-07-07 11:15:52</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="2012-07-07 11:15:52"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_progress" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/progress/icon.png"><span class="tooltitle"><?php echo t('Progress Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A Progress Field creates a progress bar. '; ?></p>
-	<div class="tooltype"> SQL Type : INT 3 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><progress value="22" max="100"></progress></td>
-				<td><progress value="" max=""></progress></td>
-				<td><progress value="50" max="100"></progress></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_image" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/image/icon.png"><span class="tooltitle"><?php echo t('Image Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field is used to store the path and display a configurable image in drag n drop.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><img title="" src="<?php echo BASE_PATH ?>core/fields/image/icon.png"></td>
-				<td>     
-					<div class="boxDropImage">
-						<input style="height: 25px;width: 120px;" type="file">
-						<label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
-					</div>
-				</td>
-				<td style="width: 145px;">       
-					<div class="boxDropImage" style="margin-top: 20px">
-						<input style="height: 25px;width: 120px;" type="file">
-						<label style="font-size: 10px;line-height: 15px;width: 140px;display: block;float: none;padding-left: 0px;">Drag n' Drop your New Image In this Window</label>      
-					</div>
-					<img title="" style="padding: 0 5px" src="<?php echo BASE_PATH ?>core/fields/image/icon.png">
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_url" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/url/icon.png"><span class="tooltitle"><?php echo t('URL Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field is used to specify a url.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td style="margin: 0 3px;width: 70px;">abc.def/ghijk</td>
-				<td><input type="text"></td>
-				<td style=""><input style="margin: 0 5px;width: 70px;" type="text" value="bcdef.gh/ijkl"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_url_rewriting" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/url_rewriting/icon.png"><span class="tooltitle"><?php echo t('Url rewriting Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field is a unique identifier of a record for the SEO generated by the title of your record (i.e. This is my article, /this-is-my-article).<br> URL rewriting allows to provide a better search engine optimization.<br> URL\'s appearance is modified to have more relevant links to web pages.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 255 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>url.rew/riting</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="url.rew/riting"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_wysiwyg" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/wysiwyg/icon.png"><span class="tooltitle"><?php echo t('WYSIWIG Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field is used to display a rich content such as text, images or videos.'; ?></p>
-	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Responsive Design Server Side</td>
-				<td><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg.png"></td>
-				<td><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/wysiwyg-update.png"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_textarea" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/textarea/icon.png"><span class="tooltitle"><?php echo t('Text Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field holds any type of character with a maximum length of 4,294,967,295.'; ?></p>
-	<div class="tooltype"> SQL Type : LONGTEXT by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Development on the fly</td>
-				<td><textarea></textarea>
-				<td><textarea>Development on the fly</textarea>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_user" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/user/icon.png"><span class="tooltitle"><?php echo t('User Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'A User Field manages the relationship with user entity. It contains a registered user in Parsimony.'; ?></p>
-	<div class="tooltype"> SQL Type : INT 11 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>1</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="15"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_ip" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/ip/icon.png"><span class="tooltitle"><?php echo t('IP Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field allows to store an IP address.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR 45 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>172.16.254.1</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="172.16.254.1"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_vote" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/vote/icon.png"><span class="tooltitle"><?php echo t('Vote Field') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'This field is under construction.'; ?></p>
-	<div class="tooltype"> SQL Type : FLOAT 20 by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>0,12</td>
-				<td><input type="text"></td>
-				<td><input type="text" value="2,34"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div id="tooltip-field_formasso" class="none toolfield"><div><img class="inline toolimg" title="" src="<?php echo BASE_PATH ?>core/fields/formasso/icon.png"><span class="tooltitle"><?php echo t('N:N Association Form') ?></span></div>
-	<p class="tooldef ellipsis"><?php echo 'N:N Association Form manages the display in the same form of two different entities connected with a N:N relationship.'; ?></p>
-	<div class="tooltype"> SQL Type : VARCHAR by default</div>
-	<table class="tooltab">
-		<thead>
-			<tr>
-				<td>Display</td>
-				<td>Add</td>
-				<td>Update</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>My TAGS e.g.</td>
-				<td><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation-add.png"></td>
-				<td><img style="margin:5px" title="" src="<?php echo BASE_PATH ?>core/files/n-n-relation.png"></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
 <div id="toolbar">
 	<a href="#" onclick="setTimeout(function() {var ww = window.open(window.location, '_self');ww.close();}, 0);" style="padding:0;height:28px;">
-		<img src="<?php echo BASE_PATH; ?>admin/img/parsimony.png">
+		<img src="<?php echo BASE_PATH; ?>admin/img/parsimony_little.png">
 	</a>
-	<div class="toolbarbonus inline-block">
-		<div class="floatleft" style="border-right: 1px solid #0c0c0c;padding-left: 20px;padding-right: 35px;">	
+	<div style="display: inline-block;vertical-align: top;font-size: 16px;padding-left: 7px;width: 160px;">Database Designer</div>
+	<form action="" method="POST" style="display: inline-block;position: absolute;left: 0;right: 0;height: 36px;text-align: center;">
+		<div class="connectors">
+			<input type="hidden" id="connectorchoice" name="connectorchoice" value="<?php echo isset($_COOKIE['connectorchoice']) ? s($_COOKIE['connectorchoice']) : 'Flowchart'; ?>">
 			<?php echo t('Connector'); ?>
-			<form action="" method="POST" style="display:inline-block;margin: 0;">
-				<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
-				<select id="connectorchoice" name="connectorchoice" onchange="ParsimonyAdmin.setCookie('connectorchoice', this.value, 999);$(this).parent().trigger('submit');">
-					<option>Bezier</option>
-					<option <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] == 'Flowchart') echo ' selected="selected"'; ?>>Flowchart</option>
-				</select>
-				<span style="padding-left: 35px;"><?php echo t('Current Module'); ?></span>
-				<select id="currentModule" name="module" onchange="$(this).parent().trigger('submit');">
-					<?php
-					foreach (\app::$config['modules']['active'] as $moduleName => $module) {
-						if ($moduleName == $_POST['module']) {
-							$selected = 'selected = "selected"';
-						} else {
-							$selected = '';
-						}
-						if ($moduleName != 'admin')
-							echo '<option ' . $selected . '>' . $moduleName . '</option>';
-					}
-					?>
-				</select> 
-			</form>
+			<svg height="23" width="23" viewBox="0 0 64 64" version="1.1" <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] === 'Flowchart') echo 'class="active"' ?> onclick="ParsimonyAdmin.setCookie('connectorchoice', 'Flowchart', 999);this.parentNode.parentNode.submit();" style="margin-left: 7px;">
+			<g transform="translate(0,-988.36217)"><path class="stroke" stroke-linejoin="miter" d="m64,996.36-32,0,0,24,0,24-32,0" stroke="#f1f1f1" stroke-linecap="butt" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="5" fill="none"/>
+			<path class="fill" fill="#f1f1f1" d="m16,1028.4,16-16,16,16-16-4.577z"/><path class="fill" fill="#f1f1f1" d="m64,990.36,0,12l-6-6c0-6,6-6,6-6z"/><path class="fill" fill="#f1f1f1" d="m0,1038.4,0,12l6-6c0-6-6-6-6-6z"/>
+			</g></svg>
+			<svg height="23" width="23" viewBox="0 0 64 64" version="1.1" <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] === 'Bezier') echo 'class="active"' ?>  onclick="ParsimonyAdmin.setCookie('connectorchoice', 'Bezier', 999);this.parentNode.parentNode.submit();">
+			<g transform="translate(0,-988.36217)"><path class="stroke" stroke-linejoin="miter" d="m64,996.36c-24,0-32,0-32,24s-8,24-32,24" stroke="#f1f1f1" stroke-linecap="butt" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="5" fill="none"/>
+			<path class="fill" fill="#f1f1f1" d="m64,990.36,0,12l-6-6c0-6,6-6,6-6z"/><path class="fill" fill="#f1f1f1" d="m0,1038.4,0,12l6-6c0-6-6-6-6-6z"/>
+			<g transform="translate(16.003935,1012.3464)"><path class="fill" fill-rule="nonzero" fill="#f1f1f1" d="M0,16.016,16.016,0,31.996,16.016,16.016,11.445z"/>
+			</g>
+		   </g></svg>
 		</div>
-		<div class="floatleft areaWrite" style="border-left: 1px solid #3c3c3c;padding-left: 35px;padding-right: 10px;">
-			<?php echo t('Add an Entity'); ?>
-			<form id="add_table" style="display:inline-block;margin: 0;">
-				<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
-				<input type="text" id="table_name" style="padding:1px;">
-				<input type="submit" style="height: 19px;line-height: 12px;" value="<?php echo t('Add'); ?>"> 
-			</form>
-		</div>
-		<div class="inline-block" style="position: absolute;right: 30px;top: 6px;">
-			<input type="button" id="save" class="areaWrite" value="<?php echo t('Save model'); ?>" style="height: 22px;margin-top: 1px;" />
-		</div>
+		<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
+		<span style="padding-left: 10px;"><?php echo t('Module'); ?></span>
+		<select id="currentModule" name="module" onchange="this.parentNode.submit();">
+			<?php
+			foreach (\app::$config['modules']['active'] as $moduleName => $moduleConf) {
+				if ($moduleName == $module) {
+					$selected = 'selected = "selected"';
+				} else {
+					$selected = '';
+				}
+				if ($moduleName !== 'admin')
+					echo '<option ' . $selected . '>' . $moduleName . '</option>';
+			}
+			?>
+		</select>
+	</form>
+	<div class="inline-block" style="position: absolute;right: 0;top: 0;">
+		<input type="button" id="save" class="areaWrite" value="<?php echo t('Save model'); ?>" />
 	</div>
 </div>
 <div id="notify"></div>
@@ -648,8 +179,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			<div style="margin:10px 0 20px">
 				<select id="linkToExternal">
 					<?php
-					foreach (\app::$config['modules']['active'] as $moduleName => $module) {
-						if ($moduleName != 'admin' && $moduleName != $_POST['module']) {
+					foreach (\app::$config['modules']['active'] as $moduleName => $moduleConf) {
+						if ($moduleName != 'admin' && $moduleName != $module) {
 							foreach (\app::getModule($moduleName)->getModel() as $entityName => $entity) {
 								echo '<option>' . $moduleName . ' - ' . $entityName . '</option>';
 							}
@@ -662,8 +193,14 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		</div>
 	</div>
 	<div id="leftsidebar" class="areaWrite">
+		<h2 class="hdb"><?php echo t('Add an Entity'); ?></h2>
+		<form id="add_table" style="position:relative;text-align: left">
+			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
+			<input type="text" id="table_name" style="width: 160px;position: relative;">
+			<input type="submit" id="addTableBTN" value=">"> 
+		</form>
 		<div>
-			<h2 data-tooltip="#tooltip-new-fields" class="tooltip hdb"><?php echo t('Fields'); ?></h2>
+			<h2 class="hdb"><?php echo t('Add a Field'); ?></h2>
 			<div id="field_list">
 				<?php
 				function filterprops($val){ return $val !== NULL;};
@@ -697,7 +234,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 						else
 							$none = '';
 						echo '<style>.property[type_class=' . $class . '],.myfield[type_class=' . $class . ']{background-image:url(' . BASE_PATH . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/icon.png); }</style>';
-						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<span class="tooltip ui-icon ui-icon-info" data-tooltip="#tooltip-' . $class . '"></span></div>';
+						echo '<div type_class="' . $class . '" data-attributs=\'' . s(json_encode($args)) . '\' class="myfield ellipsis" ' . $none . '>' . t(ucfirst(s($fieldInfos['title'])), FALSE) . '<a class="ui-icon ui-icon-info" href="http://parsimony.mobi/documentation/db-modeling#' . $class . '" target="_blank"></a></div>';
 						$html .= '<div id="update_' . $class . '">
 <div class="rightbar"><label class="ellipsis">' . t('Name') . ' </label><input type="text" name="name">
 <label class="ellipsis">' . t('Field') . ' </label><div class="inline-block" style="position:relative;top:10px">' . ucfirst(substr(strstr(strrchr(get_class($field), '\\'), '\\'), 1)) . '</div>    
@@ -748,7 +285,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		$oldSchema = array();
 		foreach ($moduleObj->getModel() as $entityName => $entity) {
 			$oldSchema[$entityName] = array();
-			$reflect = new ReflectionClass('\\' . $_POST['module'] . '\\model\\' . $entityName);
+			$reflect = new ReflectionClass('\\' . $module . '\\model\\' . $entityName);
 			$className = $reflect->getShortName();
 			$modelInfos = \tools::getClassInfos($reflect);
 			$tab = array('name' => $className, 'title' => $entity->getTitle(), 'oldName' => $className, 'behaviorTitle' => $entity->behaviorTitle, 'behaviorDescription' => $entity->behaviorDescription, 'behaviorKeywords' => $entity->behaviorKeywords, 'behaviorImage' => $entity->behaviorImage);
@@ -798,6 +335,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	<span id="deletator" class="ui-icon ui-icon-closethick"></span>
 </div>
 <script>
+	var BASE_PATH = '<?php echo BASE_PATH ?>';
 	var oldSchema = '<?php echo json_encode($oldSchema) ?>';
 	function enc(str) {
 		if(str != null){ /* for ex : behaviorTitle, etc.. */
@@ -877,7 +415,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			if (tablename.length > 0) {
 				if (dbadmin.keywordsReserveds.indexOf("," + tablename + ",") == -1) {
 					if (!$('#table_' + tablename).length) {
-						$("#canvas").append('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:300px;top:50px;"><div class="title">' + tablename + '</div><div type_class="field_ident">' + t('ID') + '</div></div>');
+						var nbTables = document.querySelectorAll(".table").length;
+						$("#canvas").append('<div id="table_' + tablename + '" data-attributs=\'{"name":"' + tablename + '","oldName":"' + tablename + '","title":"' + tablename + '","behaviorTitle":"","behaviorDescription":"","behaviorKeywords":"","behaviorImage":""}\' class="table new" style="left:' + (300 + 20 * nbTables) + 'px;top:' + (50 + 20 * nbTables) + 'px;"><div class="title">' + tablename + '</div><div type_class="field_ident">' + t('ID') + '</div></div>');
 						var myID_champ = "property_" + tablename + "_id_" + tablename;
 						var table_name = tablename;
 						var jsonproperties = jQuery.parseJSON(JSON.stringify($("#field_list div[type_class='field_ident']").data("attributs")));
@@ -901,8 +440,6 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			}
 		},
 		init: function() {
-			/* Tooltip */
-			$(".tooltip").parsimonyTooltip({triangleWidth: 5});
 
 			$(window).bind("beforeunload", function(event) {
 				if ($("#save").hasClass("haveToSave"))
@@ -1149,11 +686,11 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					propertylist = propertylist.substring(0, propertylist.length - 1) + '}},';
 				});
 				propertylist = propertylist.substring(0, propertylist.length - 1) + ']';
-				$.post('saveModel', {TOKEN: '<?php echo TOKEN; ?>', module: '<?php echo $_POST['module'] ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
+				$.post('saveModel', {TOKEN: '<?php echo TOKEN; ?>', module: '<?php echo $module ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
 					ParsimonyAdmin.notify(t('New Data Model has been Saved') + data, "positive");
 					$(".new").removeClass("new");
+					$("#save").removeClass("haveToSave");
 				});
-				$("#save").removeClass("haveToSave");
 			})
 			/* Choose behavior of the link */
 			.on('click', '#popup input', function() {
@@ -1195,6 +732,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 					$('#conf_box_overlay').hide();
 					$("#save").addClass("haveToSave");
 					dbadmin.refreshUI();
+					jsPlumb.removeAllEndpoints("extLink");
 				} else {
 					alert(t("Please choose the linked table"));
 				}
@@ -1210,7 +748,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			$("#field_list > div").draggable({zIndex: 2700, revert: true, helper: "clone"});
 
 			/* Add a Table */
-			$("#toolbar").on('submit', '#add_table', function(e) {
+			$("#leftsidebar").on("submit", "#add_table", function(e) {
 				e.preventDefault();
 				dbadmin.createTable($("#table_name").val());
 				$("#save").addClass("haveToSave");
@@ -1263,11 +801,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 
 			dbadmin.refreshUI();
 		},
-		//	    updateFormPreview :   function(){
-		//		$.post("action",'TOKEN=' + TOKEN + '&action=getPreviewAddForm&module=<?php //echo $_POST['module']  ?>&model=' + $(".current_property").closest(".table").find(".title").text() ,function(data){
-		//		    $("#preview_form .content").html(data);                 
-		//		});
-		//	    },
+
 		createAnchor: function(myID) {
 			myEndpoint = jsPlumb.addEndpoint(myID, $.extend({anchor: ["LeftMiddle", "RightMiddle"], uuid: myID + "_uuid"}, dbadmin.endpointOptions));
 		},

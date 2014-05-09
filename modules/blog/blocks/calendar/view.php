@@ -114,9 +114,9 @@ if (!empty($recposts) !== FALSE) {
 		</div>
 	</div>
 	<div class="calendarNav">
-		<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prevMonth" title="<?php echo t($monthNames[$prev_month - 1], FALSE, FALSE) ?>">< <span><?php echo t($monthNames[$prev_month - 1]) ?></span></a>
+		<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $prev_month . '&year=' . $prev_year; ?>" class="prevMonth" title="<?php echo t($monthNames[$prev_month - 1]) ?>">< <span><?php echo t($monthNames[$prev_month - 1]) ?></span></a>
 		<?php if ($next_month <= date('n')): ?>
-			<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="nextMonth" title="<?php echo t($monthNames[$next_month - 1], FALSE, FALSE) ?>"><span><?php echo t($monthNames[$next_month - 1]) ?></span> ></a>
+			<a href="<?php echo $_SERVER['PHP_SELF'] . '?month=' . $next_month . '&year=' . $next_year; ?>" class="nextMonth" title="<?php echo t($monthNames[$next_month - 1]) ?>"><span><?php echo t($monthNames[$next_month - 1]) ?></span> ></a>
 		<?php endif; ?>
     </div>
 </div>

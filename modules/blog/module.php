@@ -8,6 +8,7 @@ namespace blog;
  * @copyright 1
  * @browsers all
  * @php_version_min 5.3
+ * @modules_dependencies core:1
  */
 class module extends \module {
 

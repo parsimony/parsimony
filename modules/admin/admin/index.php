@@ -71,6 +71,18 @@
 			var ext = $('#extname').val() ;
 			var mime =  $('#extmime').val();
 			$('#authorizedextensions').append('<input type="hidden" name="config[ext][' + ext+ ']" value="removeThis"><div>' + ext + ' : ' + mime + '<input type="hidden" name="config[ext][' + ext+ ']" value="' + mime + '"><div class="remitem" onclick="$(this).parent().remove();"></div></div>')
+		})
+		.on("click.creation", ".explorer", function() {
+			top.callbackExplorerID = this.getAttribute("rel");
+			top.callbackExplorer = function(file) {
+				$("#" + top.callbackExplorerID).val(file);
+				$("#" + top.callbackExplorerID).trigger('change');
+				top.callbackExplorer = function(file) {
+					return false;
+				};
+				top.ParsimonyAdmin.explorer.close();
+			}
+			top.ParsimonyAdmin.displayExplorer();
 		});
 	});
 </script>
@@ -112,6 +124,14 @@
 				<div class="placeholder">
 					<label class="label" for="config[sitename]"><?php echo t('Site name'); ?></label>
 					<input name="config[sitename]" type="text" value="<?php echo s(app::$config['sitename']); ?>">
+				</div>
+				<div class="placeholder">
+					<label class="label" for="config[favicon]"><?php echo t('Favicon'); ?></label>
+					<div style="position: relative">
+						<input name="config[favicon]" id="favicon" type="text" value="<?php echo s((isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png')); ?>">
+						<span class="ui-icon ui-icon-folder-open explorer" rel="favicon" style="position: absolute;top: 29px;right: 5px;cursor: pointer;"></span>
+					</div>
+					
 				</div>
 			</div>
 			<?php if ($_SESSION['permissions'] & 2): ?>
