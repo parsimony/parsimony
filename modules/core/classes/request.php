@@ -194,7 +194,7 @@ class request {
 		if (empty($this->URL))
 			$this->URL = 'index';
 		$this->URL = explode('/', $this->URL, 2);
-		if (isset(\app::$config['modules']['active'][$this->URL[0]]) && $this->URL[0] !== \app::$config['modules']['default']) {  /* must be an active module and not the default module for SEO puposes*/
+		if (isset(\app::$config['modules']['active'][$this->URL[0]])) { 
 			$this->module = $this->URL[0];
 			if (isset($this->URL[1]))
 				$this->secondPartURL = $this->URL[1];
