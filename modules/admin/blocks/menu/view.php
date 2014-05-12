@@ -38,7 +38,7 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 	<?php
 		$profiles = glob('profiles/*', GLOB_ONLYDIR);
 		$nbProfile = count($profiles);
-		$multisite = $nbProfile > 1 && $_SESSION['permissions'] & 512;
+		$multisite = $nbProfile > 1 && $_SESSION['permissions'] & 8192;
 	?>
 	<li<?php if ($multisite === TRUE) echo ' class="subMenu"'; ?> style="height:36px">
 		<a href="#" style="width: 181px;padding: 0 10px;" data-title="<?php echo t('My domains'); ?>"><img src="<?php echo BASE_PATH . (isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png'); ?>"><?php echo ucfirst(s(\app::$config['sitename'])); ?></a>
