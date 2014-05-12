@@ -94,8 +94,9 @@ var ParsimonyAdmin = {
 		iframeStyle.setAttribute("rel", "stylesheet");
 		iframeStyle.setAttribute("type", "text/css");
 		iframeStyle.setAttribute("href", BASE_PATH + "admin/css/iframe.css");
-		this.currentDocument.getElementsByTagName('head')[0].appendChild(iframeStyle);
-
+		var head = this.currentDocument.getElementsByTagName('head')[0];
+		head.insertBefore(iframeStyle, head.firstChild);
+		
 		/* Init mode */
 		var initialMode = this.getCookie("mode");
 		if (initialMode == 'edit') {

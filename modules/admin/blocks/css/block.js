@@ -699,6 +699,7 @@ function blockAdminCSS() {
 				$(".cssPickerBTN").removeClass("active");
 				$(".cssPicker", ParsimonyAdmin.currentDocument).removeClass("cssPicker");
 				ParsimonyAdmin.$currentBody.css('transform', 'initial').css('-webkit-transform', 'initial').removeClass("threed");
+				ParsimonyAdmin.currentDocument.styleSheets[0].insertRule('.threed * {}', "0");
 			}
 			if (this.classList.contains("active")) {
 				destroyCSSpicker();
@@ -791,17 +792,15 @@ function blockAdminCSS() {
 				var style = 'rotateX(' + (x / 10) + 'deg) rotateY(' + (y / 10) + 'deg) translateZ(' + z + 'px)';
 				if (typeof ParsimonyAdmin.currentBody.style.transform != "undefined") {
 					ParsimonyAdmin.currentBody.style.transform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
-					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {transform:' + style + ';transform-style: preserve-3d;background-color:#f9f9f9;}', "0");
+					ParsimonyAdmin.currentDocument.styleSheets[0].deleteRule("0");
+					ParsimonyAdmin.currentDocument.styleSheets[0].insertRule('.threed * {transform:' + style + ';transform-style: preserve-3d;background-color:#f9f9f9;}', "0");
 				} else {
 					ParsimonyAdmin.currentBody.style.webkitTransform = 'rotateX(' + x + 'deg) rotateY(' + y + 'deg) scale(0.9)';
-					$this.iframeStyleSheet.deleteRule("0");
-					$this.iframeStyleSheet.insertRule('.threed * {-webkit-transform:' + style + ';-webkit-transform-style: preserve-3d;background-color:#f9f9f9}', "0");
+					ParsimonyAdmin.currentDocument.styleSheets[0].deleteRule("0");
+					ParsimonyAdmin.currentDocument.styleSheets[0].insertRule('.threed * {-webkit-transform:' + style + ';-webkit-transform-style: preserve-3d;background-color:#f9f9f9}', "0");
 				}
 			});
 		});
-
-		$this.iframeStyleSheet = ParsimonyAdmin.currentDocument.styleSheets[0];
 
 		/* Shortcut : Save on CTRL+S */
 		$(document).on("keydown.creation", function(e) {
