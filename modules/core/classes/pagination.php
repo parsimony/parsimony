@@ -58,7 +58,7 @@ class pagination {
     public function __construct($query, $itemsPerPage = 10, $args = array()) {
         $this->itemsPerPage = $itemsPerPage;
         if (!isset(self::$cache[$query]) || !empty($args)) {
-            $page = PDOconnection::getDB()->prepare('SELECT count(*) FROM ('. strtolower($query) . ') AS paginationtottal'); /* subquery to allow us to count even there is a group by */
+            $page = PDOconnection::getDB()->prepare('SELECT count(*) FROM ('. $query . ') AS paginationtottal'); /* subquery to allow us to count even there is a group by */
             $page->execute($args);
             if ($page) {
                 $page = $page->fetch();
