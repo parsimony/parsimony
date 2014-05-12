@@ -525,7 +525,7 @@ class module extends \module {
 	 * @return string 
 	 */
 	protected function dbDesignerAction($module = FALSE) {
-		if ($module !== FALSE || !isset(\app::$config['modules']['active'][$module])) {
+		if ($module === FALSE || !isset(\app::$config['modules']['active'][$module])) {
 			$module = \app::$config['modules']['default'];
 		}
 		$moduleObj = \app::getModule($module);
