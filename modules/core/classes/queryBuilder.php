@@ -445,17 +445,9 @@ class queryBuilder {
 	/**
 	 * Clear values of fields, for future queries with this object ; allow to re-exec query
 	 */
-	public function clearQuery() {
+	public function clearQuery() { 
 		foreach ($this->getFields() as $field) {
 			$field->setValue(NULL);
-		}
-		if($this instanceof \entity) {
-			if (isset($this->_SQL['pagination'])) { /* keep pagination to allow to display pagination after the query */
-				$pagination = $this->_SQL['pagination'];
-				$this->_SQL = array('pagination' => $pagination);
-			} else {
-				$this->_SQL = array();
-			}
 		}
 	}
 	
