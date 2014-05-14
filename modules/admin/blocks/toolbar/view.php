@@ -10,6 +10,499 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 <script type="text/javascript">
 
 	$(document).ready(function() {
+
+<?php
+    if(isset($_COOKIE['takeATour']) && $_COOKIE['takeATour'] == 'yes'):
+	if(isset($_COOKIE['locale']) && $_COOKIE['locale'] == 'fr_FR') 	app::$response->addJSFile('lib/takeATour/take-a-tour-fr.js');
+    app::$response->addJSFile('lib/takeATour/take-a-tour.js', 'footer');
+    app::$response->addCSSFile('lib/takeATour/style.css', 'footer');
+?>
+
+    // Configuration du Take A Tour
+	
+    window.takeATour = new TakeATour('tat-parsimony',
+    [
+        {
+            content:
+                "<div class='mark'>1/18</div><h2>"
+				+ t('Welcome to Parsimony') 
+				+"</h2><br>"
+				+ "<div class='alignLeft'><br><p>"
+				+ t('We will present some key features of Parsimony. If you are a project manager, developer, designer or webmaster, Parsimony offers incredible opportunities you\'ve always dreamed of!') 
+				+"</p>"    
+				+ "<br><p>"
+				+ t('Are you ready to begin your new life as a developer?') 	
+				+"<br>"
+				+ "<br><br><p>"
+				+  t('Start with a short tour of the interface!') 
+				+"</p></div>"
+				+ "<br><br><br><br><br><br><div><button onclick='takeATour.nextStep()'>"
+				+  t('Go!') 
+				+"</button>"
+				+ "<br><br><small><button onclick='takeATour.stop()'>"
+				+  t('No, thanks') 	
+				+"</button></small>"
+	
+        },
+        {
+            /*targetName: "switch-modes",*/
+					target : document.getElementById('modesSwitcher'),
+            content:
+                "<div class='mark'>2/18</div><h2>"
+				+  t('Three workspaces') 
+				+"</h2>"
+                + "<br><div class='alignLeft'><p>"
+		+  t('You can access different types of workspace.') 
+		+"</p><div>"
+                + "<div style='margin: 20px 0;line-height: 25px;'><span class='modesSwitcher'>Preview </span>"
+		+  t('This is the site as the user knows it.') 
+		+"</div>"
+                + "<div style='margin: 20px 0;line-height: 25px;'><span class='modesSwitcher'>Edit </span>"
+		+  t('You can access the list of pages, dynamic content and file explorer.') 
+		+"</div>"
+                + "<div style='margin: 20px 0;line-height: 25px;'><span class='modesSwitcher'>Design </span>"
+		+  t('This is your space Website Design: Data modeling, blocks, CSS, theme and tree structure of pages.') 
+		+"</div></div>"
+				+ "<div class='alignLeft'><p>"
+		+  t('These 3 workspaces are defined by default during installation of Parsimony and are configurable by granting or restricting roles permissions.') 
+		+"</p></div>"
+				+ "<div class='alignLeft'><p>"
+		+  t('The super administrator can define interface rights for each role.') 
+		+"</p></div>"
+          
+        },
+        {
+            target: document.getElementById('left_sidebar'),
+            content:
+                "<div class='mark'>3/18</div><h2>"
+		+  t('Edit bar') 
+		+"</h2>"
+                + "<br><div class='alignLeft'><p>"
+		+  t('It corresponds to ') 
+		+"<span class='modesSwitcher'>Edit</span>. "
+		+  t('It is used to edit the content and manage modules.') 
+		+"</p></div>"
+				+ "<div class='alignLeft'><p>"
+		+  t('This is where you access the configurations of your modules (default or newly created), the web pages and content management.') 
+		+"</p></div>"
+				+ "<div class='alignLeft'>"
+		+  t('We\'ll see each of the following items:') 
+		+"</div>"
+				+ "<br><div class='alignLeft'><ul><strong>"
+		+  t('Default modules') 
+		+"</strong>"
+                + "<li>"
+		+  t('Pages Management') 
+		+"</li>"
+                + "<li>"
+		+  t('Content Management') 
+		+"</li></ul></div>"
+				+"<br><div class='alignLeft'><ul><strong>"
+		+  t('Administration') 
+		+"</strong>"
+                + "<ul><li>"
+		+  t('Website configuration') 
+		+"</li>"
+                + "<li>"
+		+  t('Permission Management') 
+		+"</li>"
+                + "<li>"
+		+  t('Role Management') 
+		+"</li>"
+                + "<li>"
+		+  t('User Management') 
+		+"</li></ul></div>"
+                ,
+		
+
+        },
+		{
+            target: document.querySelector('div[data-module="blog"]'), /*div[data-module="blog"]  ---  > .titleTab*/
+            content:
+                "<div class='mark'>4/18</div><h2>"
+		+  t('The current module') 
+		+"</h2>"
+                + "<br><div class='alignLeft'>"
+		+  t('This is your content and pages management space.') 
+		+"<br><br>"
+                + "<ul><strong>"
+		+  t('Pages') 
+		+"</strong>"
+				+ "<li class='marg'>"
+		+  t('You see the list of pages and their configurations.') 
+		+"</li>"
+				+ "<li class='marg'>"
+		+  t('You can add new pages.') 
+		+"<span class='subli'></li></ul>"
+				+ "<div class='subli addp'><span class='ui-icon ui-icon-plus'></span>Add A Page</div>"
+				+ "<br><br><br><ul><strong>"
+		+  t('Database content') 
+		+"</strong>"
+				+ "<li class='marg'>"
+		+  t('You can search, add, update and delete content.') 
+		+"</li>"
+				+ "<li class='marg'>"
+		+  t('A modeling workspace is available to build or modify your data model.') 
+		+"</li></ul>"
+					 + "<div><span class='dbDesigner subli'>Database Designer</span></div></div>",
+					 callback: function() {
+                document.querySelector('#left_sidebar > div[data-module="blog"]').classList.add("active");
+		}
+        },
+		{
+            target: document.querySelector('div[data-module="core"]'),
+					/*data-module="core"*/
+            content:
+                "<div class='mark'>5/18</div><h2>"
+		+  t('Parsimony Administration') 
+		+"</h2>"
+				+ "<br><br><br><div class='alignLeft'><span class='taKeAdmin'>General</span>"
+		+  t('In this tab, you configure your Parsimony. ') 
+		+"</div>"
+				+ "<br><br><div class='alignLeft'><span class='taKeAdmin'>Permissions</span>"
+		+  t('You define the rights to the pages and data modules (CRUD).') 
+		+"</div>"
+				+ "<br><br><div class='alignLeft'><span class='taKeAdmin'>"
+		+  t('Roles') 
+		+ "</span>"
+		+  t('You specify the rights to user groups.') 
+		+"</div>"
+				+ "<br><br><div class='alignLeft'><span class='taKeAdmin'>Users</span>"
+		+  t('You determine the users rights.') 
+		+"</div>"
+				+ "<br><br><div class='alignLeft'><span id='add-module-take' style='margin-right : 10px;'>+ Add a Module</span>"
+		+  t(' is used to create a new data model or a new theme.') 
+		+"</div>",
+				callback: function() {
+			document.querySelector('#left_sidebar > div[data-module="blog"]').classList.remove("active");
+                document.querySelector('div[data-module="core"]').classList.add("active");
+        }
+        },	
+		{
+            target: document.querySelector('#left_sidebar a[href="#left_sidebar/settings/admin"]'),
+					/*data-module="core"*/
+            content:
+                "<div class='mark'>6/18</div><h2>General</h2>"
+				+ "<div class='alignLeft'><p>"
+		+  t('Parsimony Configuration: Site information, Cache, DB, Devices, Localization, Modules, Security, Development, Mailing, Sessions, Version.') 
+		+"</p></div>"
+				+ "<div class='alignLeft'><img style='max-width: 600px;' src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-administration.png'></div>",
+            callback: function() {
+             
+        }    
+			
+
+        },	
+		{
+            target: document.querySelector('#left_sidebar a[href="#left_sidebar/permissions"]'),
+					/*data-module="core"*/
+            content:
+                "<div class='mark'>7/18</div><h2>Permissions</h2>"
+				+ "<div class='alignLeft'><p>"
+		+  t('For each role, you can change the permissions on pages and data modules (CRUD).') 
+		+"</p></div>"
+		+ "<div class='alignLeft'><img style='width: 615px;' src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-permissions.png'></div>",
+                
+
+        },
+		{
+            target: document.querySelector('#left_sidebar a[href="#left_sidebar/model/core/role"]'),
+					/*data-module="core"*/
+            content:
+                "<div class='mark'>8/18</div><h2>"
+		+  t('Roles') 
+		+"</h2>"
+				+ "<div class='alignLeft'><p>"
+		+  t('The Roles tab helps you set or change roles.') 
+		+"</p></div>"
+				+ "<div class='alignLeft'><p>"
+		+  t('For each role, rights in the Parsimony interface can be defined.') 
+		+"</p></div>"
+				+"<br><div class='alignLeft'><ul><strong>"
+		+  t('Examples') 
+		+"</strong>"
+                + "<ul><li>"
+		+  t('A designer can only have rights to the CSS, the tree of pages and blocks management.') 
+		+"</li>"
+				+ "<li>"
+		+  t('An editor may be able to manage the content or change the SEO pages.') 
+		+"</li></ul>"
+				+ "</div><br>"
+				+ "<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-roles-editor-example.png'></div>",
+                
+
+        },
+		{
+            target: document.querySelector('#left_sidebar a[href="#left_sidebar/model/core/user"]'),
+					/*data-module="core"*/
+            content:
+                "<div class='mark'>9/18</div><h2>"
+		+  t('Users') 
+		+"</h2>"
+				+ "<div class='alignLeft'><p>"
+		+  t('Users tab lists your users and allows you to manage: edit, add, modify, delete.') 
+		+"</p></div>"
+		+ "<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-users.png'></div>"
+                
+
+        },
+			
+
+        {
+	
+            target: document.getElementById('right_sidebar'),
+            content:
+                "<div class='mark'>10/18</div><h2>"
+		+  t('Design Bar') 
+		+"</h2>"
+                + "<div class='alignLeft'><p>"
+		+"<span class='modesSwitcher'>Design</span>"
+		+  t('This is your website design area, you design, structure and style web pages.') 
+		+"</p></div>"
+                + "<div class='alignLeft'>"
+		+  t('You will access the following features:') 
+		+"<br><ul><li class='marg'>"
+		+  t('Editing CSS') 
+		+"</li>"
+                + "<li class='marg'>"
+		+  t('Adding and dropping blocks') 
+		+"</li>"
+                + "<li class='marg'>"
+		+  t('Organization and structure of the page (container and content)') 
+		+"</li>"
+                + "<li class='marg'>"
+		+  t('Theme Management') 
+		+".</li></ul></div>",
+				callback: function() {
+              	document.querySelector('.tabsContainer').style.border = '3px solid #ff0000';
+				document.querySelector('.tabsContainer').classList.add("animColors");
+				document.querySelector("a[href='#paneltree']").click();
+        }
+        },/*
+        {
+            target: document.getElementById('right_sidebar'),
+            content:
+                "<h2>Édition du style CSS</h2>"
+		  + "<div class='alignLeft'>Ici, vous disposez de disposer de puissants outils pour styler vos pages web.<br>"
+				+ "<ul>"
+				+ "<li class='marg'></li>"
+				+ "<li class='marg'>Edition des propriétés CSS </li>"
+				+ "<li class='marg'>Gestion des media queries : pour le responsive web design</li>"
+				+ "<li class='marg'>Ajout et recherche de sélecteurs CSS : une recherche manuelle de sélecteurs CSS</li>"
+				+ "<li class='marg'>Proposition de règles CSS liées au sélecteur en cours</li></ul>"
+		  + "</div>"
+				,
+            callback: function() {
+				 
+            }
+        },*/
+				
+		/*css-options*/
+        {
+            target: document.getElementById('right_sidebar'),
+            content:
+                "<div class='mark'>11/18</div><br><br><br><br><div class='alignLeft'>"
+		+  t('Parsimony offers impressive features to style your web pages.') 
+
+		+"</div><br><h3 class='alignLeft'>"
+		+  t('CSS inspector') 
+		+"</h3>"
+                + "<div class='alignLeft'><p>"
+		+"<span style='border : 3px solid #ff0000;border-radius :20px;padding: 5px;'><a href='#' style='background-position: 0 -1275px;width: 16px;height: 16px;background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;display: inline-block;top: 3px;position: relative;'></a></span>"
+		+  t('CSS inspector: a visual search of a CSS selector as the element inspector in your browser.') 
+		+"</p></div>"
+				+"<h3 class='alignLeft'>"
+		+  t('Editing CSS properties') 
+		+"</h3>"
+				+"<div class='alignLeft'><p>"
+		+  t('Here you apply new rules to a CSS selector, you edit, add, delete CSS properties.') 
+		+"<br>"
+		+  t('Example') 
+		+": body{font-size : 25px}"
+		+"</p></div>"
+				+ "<h3 class='alignLeft'>"
+		+  t('Media queries management') 
+		+"</h3>"
+				+"<div class='alignLeft'>"
+		+  t('You can easily add or edit media queries.') 
+		+"<br><br>"
+		+  t('Example to target iPads (portrait and landscape) in media query.') 
+		+"<br><br>@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {}<br>"
+		  + "<br><br>"
+		+  t('For each selector, you can choose the appropriate media query.') 
+		+"</p></div>",
+ 
+            callback: function() {
+		document.querySelector('.tabsContainer').classList.remove("animColors");
+		document.querySelector('.tabsContainer').style.border = 'none';
+				document.querySelector("a[href='#panelcss']").style.border = '3px solid #ff0000';
+				document.querySelector("a[href='#panelcss']").classList.add("animColors");
+                document.querySelector("a[href='#panelcss']").click();
+				document.querySelector('#csspicker').style.border = '3px solid #ff0000';
+				document.querySelector('#csspicker').style.top = '8px';
+				document.querySelector('#csspicker').style.borderRadius = '20px';
+				document.querySelector("#csspicker").classList.add("animColors");
+				
+				
+				document.querySelector('.sprite-picker').style.border = 'none';
+				document.querySelector('.sprite-picker').style.top = '11px';
+				document.querySelector('.sprite-picker').style.borderRadius = '0px'; 
+				document.querySelector("#selectorcontainer #current_selector_update").value = 'body';
+				document.getElementById('goWithThisSelector').click();
+				document.querySelector('div[rel="panelcss_tab_type"]').click();
+				document.querySelector('input[data-css="font-size"]').value = '25px';
+				/* MQ */
+				document.querySelector("a[href='#panelcss']").style.border = 'none';
+				document.getElementById('mediaselected').style.border = '3px solid rgb(45, 193, 238)';
+				document.getElementById('mediaselected').classList.add("animColors");
+				document.getElementById('mediaselected').click();
+				document.querySelector("#selectmedias div:last-child").click();
+				document.querySelector("#mdqMinWidthValue").value = '768';
+				document.querySelector("#mdqMaxWidthValue").value = '1024';
+			}
+        }
+		,
+        {
+            target: document.getElementById('right_sidebar'),
+            content:
+                "<div class='mark'>12/18</div><h2>"
+				+  t('Page Tree') 
+		+"</h2>"
+		+ "<div class='alignLeft'>"
+                + "<div>"
+				+  t('The page tree is the organization and structure of your web page (container and content).') 
+				+"<div class='marg' style='border: 3px solid #ff0000;padding: 5px;margin: 10px 5px;'>"
+				+  t('Container: The theme corresponds to the structure of the web page which remains throughout the web application.') 
+		+"</div>"
+				+"<div class='marg' style='border: 3px solid rgb(45, 238, 99);padding: 5px;margin: 10px 5px;'>"
+				+  t('Content: The content that changes depending on the url of pages.') 
+		+"</div></div>"
+		+ "</div>"
+				+"<div class='alignLeft'><div style='position : relative;zoom: 0.8;top: -35px;left : 30px;'><div id='thpbrowser'><div id='thptop' style='border-bottom: 1px solid #ccc;'><span id='thpbuttons'><span class='button'></span><span class='button'></span><span class='button'></span></span><span id='thpbar'><span id='thpmess1' class='messAnim'> http://mysite.com/page1</span><span id='thpmess2' class='messAnim'> http://mysite.com/page2</span></span></div><div id='thppageAnim' style='height:89%;overflow: hidden;' class=''>	<div id='thpcontAnim'>	<div id='thpheaderAnim'></div>	<div id='thpmiddleAnim'><div id='thpcontentAnim'><div id='thpslidepageAnim1' class='slidepageAnim'><div id='thpcontentAnim1'></div><div id='thpcontentAnim2'></div><div id='thpcontentAnim3'></div></div><div id='thpslidepageAnim2' class='slidepageAnim'><div id='thpcontentAnim4'></div>	<div id='thpcontentAnim5'></div></div></div><div id='thpmenuAnim'> </div></div><div id='thpfooterAnim'></div></div></div></div><div id='thpshowtheme'><div onmouseover='document.getElementById('thppageAnim').classList.add('themeeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('themeeffect');' style='display: inline-block;'>Theme</div></div><div id='thpshowpage'><div onmouseover='document.getElementById('thppageAnim').classList.add('pageeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('pageeffect');'>Content</div></div></div></div>" ,
+            callback: function() {
+		document.querySelector("a[href='#panelcss']").classList.remove("animColors");
+		document.querySelector("#csspicker").classList.remove("animColors");
+		document.getElementById('mediaselected').classList.remove("animColors");
+		document.getElementById('mediaselected').style.border = 'none';
+		document.querySelector('#csspicker').style.border = 'none';
+		document.querySelector('.sprite-picker').style.top = '0px';
+		document.querySelector('#csspicker').style.top = '';
+				document.querySelector('#csspicker').style.borderRadius = '0px';
+				document.querySelector('.sprite-picker').style.borderRadius = '0px'; 
+		document.getElementById('reinitcss').click();
+		document.getElementById('rmvMDQ').click();
+		document.getElementById('current_selector_update').value = '';
+                document.querySelector("a[href='#paneltree']").click();
+				
+				
+				document.getElementById('treedom_container').style.border = '3px solid #ff0000';
+				document.getElementById('treedom_container').style.top = '8px';
+				document.getElementById('treedom_container').classList.add("animColors");
+				
+				document.getElementById('treedom_content').style.border = '3px solid rgb(45, 238, 99)';
+				document.getElementById('treedom_content').style.top = '8px';
+				document.getElementById('treedom_content').classList.add("animColors");
+				
+            }
+        },
+        {
+            target: document.getElementById('right_sidebar'),
+            content:
+                "<div class='mark'>13/18</div><h2>"
+				+  t('Theme management') 
+		+"</h2>"
+		+ "<br><div class='alignLeft'><p>"
+				+  t('You can manage your themes preview a theme, select, duplicate, or delete it.') 
+			+ "</p></div><br><br>"
+	+ "<div class='alignLeft'><p>"
+				+  t('You can add new themes:') 
+		+"<br><br><a href='#' style='border-bottom: 2px solid rgb(45, 193, 238);text-decoration: none;line-height: 28px;clear: both;font-size: 13px;margin-left: 13px;padding-bottom: 3px;color: #777;text-transform: uppercase;font-weight: bold;'> + New theme</a>",
+callback: function() {
+	document.getElementById('treedom_content').classList.remove("animColors");
+	document.getElementById('treedom_container').classList.remove("animColors");
+	document.getElementById('treedom_container').style.border = 'none';
+				document.getElementById('treedom_content').style.border = 'none';
+                document.querySelector("a[href='#themes']").click();
+				document.querySelector('.contimg .themeOptions').style.right='0';
+				/*document.querySelector('.contimg .themeOptions .button').style.height = '24px';*/
+            }
+        },
+        {target : document.querySelector('#toolbar ul:nth-child(2) .subMenu:nth-child(2)'),
+//            targetName: "device-menu",
+            content: "<div class='mark'>14/18</div><h2>"
+				+  t('Change views') 
+		+"</h2><div class='alignLeft'><p>"
+				+  t('You can choose the view corresponding to a mobile, tablet, TV and desktop device.') 
+		+"</p></div>"
+			+ "<div class='alignLeft'><p>"
+				+  t('You change the resolution of your screen and view your website in different screen configurations.') 
+		+"</p></div>"
+	+"<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-resolution.gif'></div>",
+        },
+
+        {
+	target : document.querySelector('#toolbar .sprite-bdd'),
+            targetName: "Infor",
+            content: "<div class='mark'>15/18</div><h2>"
+				+  t('Access data modeling') 
+		+"</h2>"
+	+ "<div class='alignLeft'><p>"
+				+  t('DB Designer is used to build  your data modeling: structure and data relationships.') 
+		+"</p></div>"
+	+"<br><div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/dbdesigner.gif'></div>",
+        },
+			{
+	target : document.querySelector('#toolbar .sprite-dir'),
+            targetName: "file-explorer",
+            content: "<div class='mark'>16/18</div><h2>"
+				+  t('Access the file explorer') 
+		+"</h2>"
+	+ "<div class='alignLeft'><p>"
+				+  t('Here you can browse through your files: php, css, html, images (crop, resize etc).') 
+		+"</p></div>"
+	+"<br><div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/file-explorer.gif'></div>",
+        },	
+			{
+	target : document.querySelector('#toolbar > div ul.menu'),
+            targetName: "info",
+            content: "<br><br><br><div class='mark'>17/18</div><h2>"
+			+  t('Information about your site configuration') 	
+		+" </h2><br><div class='alignLeft'>"
+				
+		+  t('This is the state of your current configuration.') 
+		+"<br><br>"
+				
+		+  t('You can access important information: server loading time, theme, module, page, and PHP version.') 
+		+"</div>"
+			+"<br><br><br><h2>"
+	+  t('Configure the language and user profile') 
+		+"</h2><div class='alignLeft'><br>"
+				+  t('You can log out or choose a different language for the administration of Parsimony.') 
+		+" </div>"
+ 
+        },		
+        {
+            content:
+                "<div class='mark'>18/18</div><h2>"
+		+  t('End of presentation') 
+		+"</h2><br><br><div class='alignLeft'><p style='font-weight: bold;'>"
+				+  t('You can now create stunning web applications with all these features and discover very unique others.') 
+		+"</p></div>"
+		+"<br><br><div style='margin : 20px auto'><img src='<?php echo BASE_PATH ?>core/img/logo-parsimony-big.png'></div>",
+            callback: function() {
+                document.querySelector("a[href='#panelblocks']").click();
+            }
+        }
+    ]);
+
+    // Démarrage du Take a Tour
+    takeATour.start();
+
+
+<?php endif ?>
+
+
+
 		ParsimonyAdmin.initBefore();
 		<?php
 		/* Define active panels */
