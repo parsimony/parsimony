@@ -281,7 +281,7 @@ class field {
 		$fieldName = $tableName . '_' . $this->name;
 		$value = $this->value;
 		$id = $row->getId()->value;
-		if ($id !== null) {
+		if (is_numeric($id)) {
 			$fieldName .= '_' . $id;
 		}
 		?>
