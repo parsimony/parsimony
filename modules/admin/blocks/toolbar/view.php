@@ -186,7 +186,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 				+ "<div class='alignLeft'><p>"
 		+  t('Parsimony Configuration: Site information, Cache, DB, Devices, Localization, Modules, Security, Development, Mailing, Sessions, Version.') 
 		+"</p></div>"
-				+ "<div class='alignLeft'><img style='max-width: 600px;' src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-administration.png'></div>",
+				+ "<div class='alignLeft'><img style='max-width: 600px;' src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-administration.png'></div>",
             callback: function() {
              
         }    
@@ -201,7 +201,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 				+ "<div class='alignLeft'><p>"
 		+  t('For each role, you can change the permissions on pages and data modules (CRUD).') 
 		+"</p></div>"
-		+ "<div class='alignLeft'><img style='width: 615px;' src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-permissions.png'></div>",
+		+ "<div class='alignLeft'><img style='width: 615px;' src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-permissions.png'></div>",
                 
 
         },
@@ -228,7 +228,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		+  t('An editor may be able to manage the content or change the SEO pages.') 
 		+"</li></ul>"
 				+ "</div><br>"
-				+ "<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-roles-editor-example.png'></div>",
+				+ "<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-roles-editor-example.png'></div>",
                 
 
         },
@@ -242,7 +242,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 				+ "<div class='alignLeft'><p>"
 		+  t('Users tab lists your users and allows you to manage: edit, add, modify, delete.') 
 		+"</p></div>"
-		+ "<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-users.png'></div>"
+		+ "<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-users.png'></div>"
                 
 
         },
@@ -437,7 +437,7 @@ callback: function() {
 			+ "<div class='alignLeft'><p>"
 				+  t('You change the resolution of your screen and view your website in different screen configurations.') 
 		+"</p></div>"
-	+"<div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/takeATour-imgs-resolution.gif'></div>",
+	+"<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-resolution.gif'></div>",
         },
 
         {
@@ -449,7 +449,7 @@ callback: function() {
 	+ "<div class='alignLeft'><p>"
 				+  t('DB Designer is used to build  your data modeling: structure and data relationships.') 
 		+"</p></div>"
-	+"<br><div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/dbdesigner.gif'></div>",
+	+"<br><div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/dbdesigner.gif'></div>",
         },
 			{
 	target : document.querySelector('#toolbar .sprite-dir'),
@@ -460,7 +460,7 @@ callback: function() {
 	+ "<div class='alignLeft'><p>"
 				+  t('Here you can browse through your files: php, css, html, images (crop, resize etc).') 
 		+"</p></div>"
-	+"<br><div class='alignLeft'><img src='<?php echo BASE_PATH ?>lib/takeATour/images/file-explorer.gif'></div>",
+	+"<br><div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/file-explorer.gif'></div>",
         },	
 			{
 	target : document.querySelector('#toolbar > div ul.menu'),
