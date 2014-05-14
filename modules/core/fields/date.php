@@ -69,7 +69,7 @@ class date extends \field {
 						(isset($value['minute']) ? str_pad($value['minute'], 2, '0', STR_PAD_LEFT) : '00') . ':' .
 						(isset($value['second']) ? str_pad($value['second'], 2, '0', STR_PAD_LEFT) : '00');
 			}elseif (preg_match('#'.$this->regex.'#', $value, $date)) {
-				if (checkdate($date[2], $date[3], $date[1])) {
+				if (checkdate($date[2], $date[3], $date[1]) || $value === '0000-00-00 00:00:00') {
 					return $value;
 				}
 			}
