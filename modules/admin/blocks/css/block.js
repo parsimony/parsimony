@@ -195,7 +195,10 @@ function blockAdminCSS() {
 			$this.currentRule.style[this.dataset.js] = this.value;
 
 			/* Update position of visual tool */
-			$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
+			var inProgress = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
+			if(inProgress) {
+				$this.updatePosition(inProgress.getBoundingClientRect());
+			}
 
 			if (this.value.length > 0) {
 				$this.currentProperties[this.dataset.css] = this.value;
@@ -661,15 +664,17 @@ function blockAdminCSS() {
 			var container = e.delegateTarget;
 			var value = this.value.trim();
 			if (value.length > 0) {
-				var cut = value.split(" ");
-				for (var i = 0, len = cut.length; i < len; i++) {
-					cut[i] = cut[i].trim();
-					if (cut[i].substring(0, 1) == "#") {
-						container.querySelector('.borderColor').value = cut[i];
-					} else if (",none,solid,dashed,dotted,double,groove,ridge,inset,outset,".indexOf(cut[i]) != -1) {
-						container.querySelector('.borderStyle').value = cut[i];
-					} else {
-						container.querySelector('.borderWidth').value = cut[i];
+				if(e.type != "init") {
+					var cut = value.split(" ");
+					for (var i = 0, len = cut.length; i < len; i++) {
+						cut[i] = cut[i].trim();
+						if (cut[i].substring(0, 1) == "#") {
+							container.querySelector('.borderColor').value = cut[i];
+						} else if (",none,solid,dashed,dotted,double,groove,ridge,inset,outset,".indexOf(cut[i]) != -1) {
+							container.querySelector('.borderStyle').value = cut[i];
+						} else {
+							container.querySelector('.borderWidth').value = cut[i];
+						}
 					}
 				}
 				container.querySelector('.borderMarkers[data-targetcss="' + this.dataset.css + '"]').classList.add("modifiedBorder");
