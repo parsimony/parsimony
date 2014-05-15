@@ -216,7 +216,7 @@ class field {
 	 * @return string
 	 */
 	public function editInline() {
-		if($this->currentRights & UPDATE) {
+		if($_SESSION['permissions'] > 0 && $this->currentRights & UPDATE) { /* editinline by default only for admins*/
 			return '<div data-id="' . $this->entity->getId()->value.'" ' . $this->getEditOptions . '>'
 						. $this->display()
 						. '</div>';
