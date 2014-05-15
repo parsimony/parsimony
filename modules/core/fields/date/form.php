@@ -49,7 +49,7 @@ if ($this->use == 'normal') :
 		'minute' => array('value' => ($dateNull ? '' : date('i', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'mm'),
 		'second' => array('value' => ($dateNull ? '' : date('s', $stamp)), 'pattern' => '(?:([01]?[0-9]|2[0-3]):)?([0-5][0-9])', 'width' => '25', 'help' => 'ss'));
 
-	$select = '<select class="field-date-month"  name="' . $tableName . '[' . $this->name . '][month]" style="vertical-align: top;height: 28px;width: 70px;font-size: 13px;"><option></option>';
+	$select = '<select class="field-date-month"  name="' . $tableName . '[' . $this->name . '][month]"><option></option>';
 	$months = array('01' => t('Jan'), '02' => t('Feb'), '03' => t('Mar'), '04' => t('Apr'), '05' => t('May'), '06' => t('Jun'), '07' => t('Jul'), '08' => t('Aug'), '09' => t('Sep'), '10' => t('Oct'), '11' => t('Nov'), '12' => t('Dec'));
 	foreach ($months as $key => $month) {
 		if ($key == $currentMonth)
