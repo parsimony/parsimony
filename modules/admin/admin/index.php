@@ -216,9 +216,13 @@
 						$module = substr(strrchr($filename, '/'), 1);
 						if ($module !== 'core' && $module !== 'admin' && is_file('modules/' . $module . '/module.php')) {
 							$i++;
-							if (isset(\app::$config['modules']['active'][$module])) $checked = 'checked="checked"';
-							else $checked = '';
-							$value = '0';
+							if (isset(\app::$config['modules']['active'][$module])) {
+								$checked = 'checked="checked"';
+								$value = \app::$config['modules']['active'][$module];
+							} else {
+								$checked = '';
+								$value = '0';
+							}
 							if (is_file('modules/' . $module . '/module.php')) {
 								include_once('modules/' . $module . '/module.php');
 								$name = $module . '\\module';
