@@ -91,7 +91,7 @@
 		var markerChangeEditor = false;
 		var myForm = $("#entity").closest("form");
 
-		$(myForm).on("change", "select", function() {
+		$("#entity").on("change", function() {
 			markerChangeEditor = true;
 			var db = $("#entity").val().split(" - ");
 			if ($("#regenerateview").is(":checked")) {
