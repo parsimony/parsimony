@@ -14,6 +14,7 @@ function blockAdminCSS() {
 	this.initPreview = function() {
 		this.CSSValuesChanges = {};
 		document.getElementById("changecsspath").value = CSSTHEMEPATH;
+		//setTimeout("alert();this.drawMediaQueries();", 2000);
 	}
 	
 	this.loadCreationMode = function() {
@@ -817,6 +818,8 @@ function blockAdminCSS() {
 				document.getElementById("savemycss").click();
 			}
 		});
+		
+		this.drawMediaQueries();
 
 		var usedMedia = ParsimonyAdmin.getCookie("currentMdq");
 		if(usedMedia) {

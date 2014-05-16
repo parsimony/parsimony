@@ -101,7 +101,7 @@ class response {
 			}
 			
 			/* Set page infos to admin */
-			if (!defined('PARSI_ADMIN') && $_SESSION['permissions'] > 0 && \app::$request->getParam('popup') !== '') {
+						if (!defined('PARSI_ADMIN') && $_SESSION['permissions'] > 0 && \app::$request->getParam('popup') !== '') {
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 4) : '~ ' . floor(microtime(true) - $_SERVER['REQUEST_TIME']);
 
 				/* Store on client side all CSS selectors from theme style */
@@ -110,10 +110,10 @@ class response {
 				$CSSValues = $css->getCSSValues();
 				
 				$script = '';
-				if ($_SESSION['permissions'] > 0) {
-					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
+				if ($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['permissions'] & 128 ) {
+					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";top.Parsimony.blocks["admin_css"].CSSValues["' . $pathTheme . '"] = ' . json_encode($CSSValues) . ';';
 				}
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";top.Parsimony.blocks["admin_css"].CSSValues["' . $pathTheme . '"] = ' . json_encode($CSSValues) . ';' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
+				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			\app::dispatchEvent('afterPageLoad');
