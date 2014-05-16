@@ -662,7 +662,7 @@ while (1) {
 			$install = file('installNewLife.php');
 			$install[0] = '<?php exit; ';
 			file_put_contents('installNewLife.php',  implode('',$install));
-			setcookie("takeATour", 'yes');
+			setcookie("takeATour", 'yes', time() + 3600, '/');
             ?>
             <h1 style="text-align: center;"><?php echo tr('Congratulations, Parsimony is now ready'); ?></h1>
 

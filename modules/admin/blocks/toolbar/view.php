@@ -112,9 +112,8 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
                 + "<li>"
 		+  t('User Management') 
 		+"</li></ul></div>"
-                ,
+                
 		
-
         },
 		{
             target: document.querySelector('div[data-module="blog"]'), /*div[data-module="blog"]  ---  > .titleTab*/
@@ -438,6 +437,9 @@ callback: function() {
 				+  t('You change the resolution of your screen and view your website in different screen configurations.') 
 		+"</p></div>"
 	+"<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-resolution.gif'></div>",
+		callback: function() {
+			document.querySelector('#parsimonyDND .ui-icon-closethick').click();
+            }
         },
 
         {
@@ -449,7 +451,7 @@ callback: function() {
 	+ "<div class='alignLeft'><p>"
 				+  t('DB Designer is used to build  your data modeling: structure and data relationships.') 
 		+"</p></div>"
-	+"<br><div class='alignLeft'><iframe width='560' height='315' src='//www.youtube.com/embed/a7YYd3UZtws' frameborder='0' allowfullscreen></iframe></div>",
+	+"<br><div class='alignLeft'><iframe width='560' height='315' src='//www.youtube.com/embed/a7YYd3UZtws?autohide=1&showinfo=0&rel=0&controls=0' frameborder='0' allowfullscreen></iframe></div>",
         },
 			{
 	target : document.querySelector('#toolbar .sprite-dir'),
@@ -460,7 +462,7 @@ callback: function() {
 	+ "<div class='alignLeft'><p>"
 				+  t('Here you can browse through your files: php, css, html, images (crop, resize etc).') 
 		+"</p></div>"
-	+"<br><div class='alignLeft'><iframe width='560' height='315' src='//www.youtube.com/embed/XLMfDzYINdo' frameborder='0' allowfullscreen></iframe></div>",
+	+"<br><div class='alignLeft'><iframe width='560' height='315' src='//www.youtube.com/embed/XLMfDzYINdo?autohide=1&showinfo=0&rel=0&controls=0' frameborder='0' allowfullscreen></iframe></div>",
         },	
 			{
 	target : document.querySelector('#toolbar > div ul.menu'),
