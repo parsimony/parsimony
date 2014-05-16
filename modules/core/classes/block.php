@@ -373,7 +373,7 @@ class '.$blockName.' extends \\'.$extends.' {
 		if (is_file('modules/' . $this->moduleName . '/blocks/' . $this->blockName . '/block.php')) {
 			return 'document.getElementById("preview").contentWindow.location.reload()';
 		} elseif ($type == 'add'){
-			return 'ParsimonyAdmin.addBlock("' . $this->id . '","' . preg_replace("@<script[^>]*>[\S\s]*?<\/script[^>]*>@i", "", str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display())))) . '");$("#changeres").trigger("change");';
+			return 'Parsimony.blocks["admin_blocks"].addBlock("' . $this->id . '","' . preg_replace("@<script[^>]*>[\S\s]*?<\/script[^>]*>@i", "", str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display())))) . '");$("#changeres").trigger("change");';
 		}else{
 			return '$("#' . $this->id . '",ParsimonyAdmin.currentBody).replaceWith("' .  str_replace('"', '\"', str_replace("\0", '', preg_replace("@[\t\n\r\v\x0B]@", "", $this->display()))) . '");$("#changeres").trigger("change");';
 		}
