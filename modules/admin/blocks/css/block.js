@@ -1,5 +1,7 @@
 function blockAdminCSS() {
 
+	this.CSSValues = {},
+	this.CSSValuesChanges = {},
 	this.currentIdStylesheet = 0;
 	this.currentIdRule = 0;
 	this.currentIdMedia = 0;
@@ -10,6 +12,7 @@ function blockAdminCSS() {
 
 
 	this.initPreview = function() {
+		this.CSSValuesChanges = {};
 		document.getElementById("changecsspath").value = CSSTHEMEPATH;
 	}
 	
@@ -130,20 +133,20 @@ function blockAdminCSS() {
 		.on("click.creation", "#savemycss", function() {
 			/* Save changes */
 			$.post(BASE_PATH + "admin/saveCSS", {TOKEN: ParsimonyAdmin.currentWindow.TOKEN,
-				changes: JSON.stringify(ParsimonyAdmin.CSSValuesChanges) /* encode to allow a [class="tt"] selectors */
+				changes: JSON.stringify($this.CSSValuesChanges) /* encode to allow a [class="tt"] selectors */
 			}, function(data) {
 				ParsimonyAdmin.execResult(data);
 				/* Update CSSValues */
-				for (var file in ParsimonyAdmin.CSSValuesChanges) {
-					for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
-						if (typeof ParsimonyAdmin.CSSValues[file] == "undefined") {
-							ParsimonyAdmin.CSSValues[file] = {};
+				for (var file in $this.CSSValuesChanges) {
+					for (var key in $this.CSSValuesChanges[file]) {
+						if (typeof $this.CSSValues[file] == "undefined") {
+							$this.CSSValues[file] = {};
 						}
-						ParsimonyAdmin.CSSValues[file][key] = {s:ParsimonyAdmin.CSSValuesChanges[file][key].selector,p:ParsimonyAdmin.CSSValuesChanges[file][key].value};
+						$this.CSSValues[file][key] = {s:$this.CSSValuesChanges[file][key].selector, p:$this.CSSValuesChanges[file][key].value};
 					}
 				}
 				/* Clean changes */
-				ParsimonyAdmin.CSSValuesChanges = {};
+				$this.CSSValuesChanges = {};
 				/* Reinit UI */
 				$this.checkChanges();
 			});
@@ -151,17 +154,17 @@ function blockAdminCSS() {
 
 		/* Reinit changes */
 		.on("click.creation", "#reinitcss", function() {
-			for (var file in ParsimonyAdmin.CSSValuesChanges) {
-				for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
-					var selector = ParsimonyAdmin.CSSValuesChanges[file][key];
+			for (var file in $this.CSSValuesChanges) {
+				for (var key in $this.CSSValuesChanges[file]) {
+					var selector = $this.CSSValuesChanges[file][key];
 					var selectors = $this.findSelectorsByElement(selector.selector, selector.media);
 					var selectorName = selector.media + selector.selector;
 					if (typeof selectors[file] !== "undefined") {
 						var infos = selectors[file][selectorName];
 						if (infos) {
 							var oldValue = "";
-							if (typeof ParsimonyAdmin.CSSValues[file][selectorName] !== "undefined") {
-								oldValue = ParsimonyAdmin.CSSValues[file][selectorName].p
+							if (typeof $this.CSSValues[file][selectorName] !== "undefined") {
+								oldValue = $this.CSSValues[file][selectorName].p
 							}
 							$this.setCurrentRule(infos.nbStylesheet, infos.nbRule, infos.nbMedia);
 							$this.setCss($this.currentRule, oldValue);
@@ -170,7 +173,7 @@ function blockAdminCSS() {
 								editor.value = oldValue;
 						}
 					}
-					delete ParsimonyAdmin.CSSValuesChanges[file][key];
+					delete $this.CSSValuesChanges[file][key];
 				}
 			}
 			$this.checkChanges();
@@ -388,7 +391,7 @@ function blockAdminCSS() {
 			document.getElementById("parsidatalist").innerHTML = "";
 			var options = "";
 			if (this.id == "current_selector_update") {
-				var data = ParsimonyAdmin.CSSValues[CSSTHEMEPATH];
+				var data = $this.CSSValues[CSSTHEMEPATH];
 				for(var i in data) {
 					options += '<option>' + data[i].s + '</option>';
 				}
@@ -894,11 +897,11 @@ blockAdminCSS.prototype.setCurrentRule = function(idStyle, idRule, idMedia) {
 blockAdminCSS.prototype.checkChanges = function() {
 	var cpt = 0;
 	var list = "";
-	for (var file in ParsimonyAdmin.CSSValuesChanges) {
-		for (var key in ParsimonyAdmin.CSSValuesChanges[file]) {
+	for (var file in this.CSSValuesChanges) {
+		for (var key in this.CSSValuesChanges[file]) {
 			cpt++;
-			media = ParsimonyAdmin.CSSValuesChanges[file][key].media;
-			list += '<div class="selector tooltip" data-tooltip="' + file + (media ? " : " + media : "") + '">' + ParsimonyAdmin.CSSValuesChanges[file][key].selector + "</div>";
+			media = this.CSSValuesChanges[file][key].media;
+			list += '<div class="selector tooltip" data-tooltip="' + file + (media ? " : " + media : "") + '">' + this.CSSValuesChanges[file][key].selector + "</div>";
 		}
 	}
 	document.getElementById("nbChanges").textContent = " " + cpt + " change" + (cpt > 1 ? "s" : "");
@@ -916,19 +919,19 @@ blockAdminCSS.prototype.updatePosition = function(bounds) {
 /* Save CSS changes in an object */
 blockAdminCSS.prototype.setCssChange = function(path, selector, value, media) {
 
-	if (typeof ParsimonyAdmin.CSSValuesChanges[path] == "undefined")
-		ParsimonyAdmin.CSSValuesChanges[path] = {};
+	if (typeof this.CSSValuesChanges[path] == "undefined")
+		this.CSSValuesChanges[path] = {};
 	var key = media + selector;
 	/* Add this selector in changed selector list */
-	if (typeof ParsimonyAdmin.CSSValuesChanges[path][key] == "undefined") {
-		ParsimonyAdmin.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
+	if (typeof this.CSSValuesChanges[path][key] == "undefined") {
+		this.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
 		this.checkChanges();
 		/* If this is the first time we use this media query */
 		if (media && document.querySelectorAll('#mediaqueriesdisplay .mediaq[data-media="' + media + '"]').length == 0) {
 			this.addMediaQueries(media);
 		}
 	} else {
-		ParsimonyAdmin.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
+		this.CSSValuesChanges[path][key] = {"value": value, "selector": selector, "media": media}; // fix for count changes
 	}
 }
 
@@ -937,17 +940,17 @@ blockAdminCSS.prototype.getLastCSS = function(filePath, ident) {
 	var code = "";
 	
 	/* If selector has already been updated */
-	if (typeof ParsimonyAdmin.CSSValuesChanges[filePath] != "undefined") {
-		if (typeof ParsimonyAdmin.CSSValuesChanges[filePath][ident] != "undefined") {
-			code = ParsimonyAdmin.CSSValuesChanges[filePath][ident].value.trim();
+	if (typeof this.CSSValuesChanges[filePath] != "undefined") {
+		if (typeof this.CSSValuesChanges[filePath][ident] != "undefined") {
+			code = this.CSSValuesChanges[filePath][ident].value.trim();
 			return code; //if we already cleaned up do not try to go further
 		}
 	}
 	
 	/* If not, we take css rules from the origin */
-	if (typeof ParsimonyAdmin.CSSValues[filePath] != "undefined") {
-		if (typeof ParsimonyAdmin.CSSValues[filePath][ident] != "undefined") {
-			code = ParsimonyAdmin.CSSValues[filePath][ident].p.trim();
+	if (typeof this.CSSValues[filePath] != "undefined") {
+		if (typeof this.CSSValues[filePath][ident] != "undefined") {
+			code = this.CSSValues[filePath][ident].p.trim();
 		}
 	}
 	return code;

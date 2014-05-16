@@ -645,7 +645,7 @@ if (isset($_COOKIE['screenX']) && isset($_COOKIE['screenY']) && is_numeric($_COO
 				</a>
 				<?php endif; ?>
 			<?php endif; ?>
-			<a href="#" style="border-right:0;border-radius: 0 3px 3px 0;" class="toolbarButton" onclick="ParsimonyAdmin.unSelectBlock();return false;">
+			<a href="#" style="border-right:0;border-radius: 0 3px 3px 0;" class="toolbarButton" onclick="Parsimony.blocks['admin_blocks'].unSelectBlock();return false;">
 				<span class="spanDND ui-icon-closethick"></span>
 			</a>
 			<div class="arrow" style="left: 20px; border-color: #f9f9f9 transparent transparent;bottom: -14px;margin-left: -7px;width: 0;height: 0;position: absolute;border-width: 7px;border-style: solid;"></div>

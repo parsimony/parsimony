@@ -16,7 +16,7 @@ function blockAdminTree() {
 		$('#right_sidebar').on('click', '.tree_selector', function(event) {
 			event.stopPropagation();
 			var idBlock = this.id.split("treedom_")[1];
-			ParsimonyAdmin.selectBlock(idBlock);
+			Parsimony.blocks['admin_blocks'].selectBlock(idBlock);
 			var blockPreview = $("#" + idBlock, ParsimonyAdmin.currentBody);
 			if (blockPreview.length > 0) {
 				ParsimonyAdmin.$currentBody.animate({

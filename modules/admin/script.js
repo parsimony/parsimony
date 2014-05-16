@@ -32,10 +32,7 @@ var ParsimonyAdmin = {
 	currentDocument: "",
 	currentBody: "",
 	currentMode: "",
-	inProgress: "",
-	typeProgress: "",
 	unsavedChanges: false,
-	CSSValues: {},
 
 	initBefore: function() {
 
@@ -84,9 +81,6 @@ var ParsimonyAdmin = {
 		this.currentBody = this.currentDocument.body;
 		this.$currentBody = $(this.currentBody);
 		this.popin = document.getElementById("conf_box_content_iframe");
-		this.inProgress = "container";
-		this.updateUI();
-		this.CSSValuesChanges = {},
 		this.changeDeviceUpdate();
 
 		/* Add Iframe style */
@@ -94,7 +88,7 @@ var ParsimonyAdmin = {
 		iframeStyle.setAttribute("rel", "stylesheet");
 		iframeStyle.setAttribute("type", "text/css");
 		iframeStyle.setAttribute("href", BASE_PATH + "admin/css/iframe.css");
-		var head = this.currentDocument.getElementsByTagName('head')[0];
+		var head = this.currentDocument.getElementsByTagName("head")[0];
 		head.insertBefore(iframeStyle, head.firstChild);
 		
 		/* Init mode */
@@ -115,13 +109,7 @@ var ParsimonyAdmin = {
 
 	},
 	loadCreationMode: function() {
-		this.$currentBody.on('click.creation', '.translation', function(e) {
-			e.trad = true;
-			ParsimonyAdmin.closeParsiadminMenu();
-			ParsimonyAdmin.addTitleParsiadminMenu(t('Translation'));
-			ParsimonyAdmin.addOptionParsiadminMenu('<span class="ui-icon ui-icon-pencil floatleft"></span><a href="#" class="action" rel="getViewTranslation" params="key=' + $(this).data("key") + '" title="' + t('Translation') + '">' + t('Translate') + '</a>');
-		})
-		.on('click.creation', 'a', function(e) {
+		this.$currentBody.on('click.creation', 'a', function(e) {
 			e.link = true;
 			e.preventDefault();
 			if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
@@ -267,135 +255,6 @@ var ParsimonyAdmin = {
 		$.post(url, params, function(data) {
 			callBack(data);
 		});
-	},
-	destroyBlock: function() {
-		if (ParsimonyAdmin.inProgress != "container") {
-			if (confirm(t('Do you really want to remove the block ') + ParsimonyAdmin.inProgress + ' ?') == true) {
-				ParsimonyAdmin.returnToShelter();
-				if ($("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".parsicontainer").attr("id") == "treedom_content")
-					var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest("#treedom_content").data('page');
-				else
-					var parentId = $("#treedom_" + ParsimonyAdmin.inProgress).parent().closest(".parsicontainer").attr('id').replace("treedom_", "");
-				ParsimonyAdmin.postData(BASE_PATH + "admin/removeBlock", {
-					TOKEN: TOKEN,
-					MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE,
-					idBlock: ParsimonyAdmin.inProgress,
-					parentBlock: parentId,
-					typeProgress: ParsimonyAdmin.typeProgress,
-					IDPage: ($(".core_page", ParsimonyAdmin.currentBody).data('page') || $(".sublist.selected").attr("id").replace("page_", ""))
-				}, function(data) {
-					ParsimonyAdmin.execResult(data);
-					ParsimonyAdmin.returnToShelter();
-					ParsimonyAdmin.updateUI();
-					document.getElementById("parsimonyDND").style.display = "none";
-				});
-			}
-		}
-	},
-	addBlock: function(idBlock, contentBlock) {
-		var idNextBlock = Parsimony.blocks['admin_blocks'].lastIdNextBlock;
-		var parentBlock = Parsimony.blocks['admin_blocks'].lastIdParent;
-		if(idNextBlock == null || idNextBlock == "last" ){
-			/* empty container */
-			var testDropIncontainer = $("#" + parentBlock + " >  .dropInContainer", this.currentBody);
-			if(testDropIncontainer.length > 0){
-				testDropIncontainer.remove();
-			}
-			$("#" + parentBlock, this.currentBody).append(contentBlock);
-		}else {
-			$("#" + idNextBlock, this.currentBody).before(contentBlock);
-		}
-		this.returnToShelter();
-		this.updateUI(function(){
-			$("#" + idBlock, ParsimonyAdmin.currentBody).trigger("click");
-		});
-	},
-	moveBlock: function(idBlock, changeType) {
-		var elmt = $("#" + idBlock, this.currentBody);
-		this.addBlock(idBlock, elmt);
-		if(changeType && changeType == 'pageToTheme'){
-			this.inProgress = idBlock.toLowerCase();
-			elmt.attr("id", this.inProgress)
-		} else if(changeType && changeType == 'themeToPage'){
-			this.inProgress = idBlock[0].toUpperCase() + idBlock.substring(1);
-			elmt.attr("id", this.inProgress);
-		}
-	},
-	selectBlock: function(idBlock) {
-		
-		this.inProgress = idBlock;
-		
-		var block = this.currentDocument.getElementById(idBlock);
-		if (block) { /* in case we could'nt find the block id in preview but in tree */
-			this.typeProgress = block.compareDocumentPosition(this.currentDocument.getElementById("content")) == 10 ? "page" : "theme";
-			var blockTreeObj = document.getElementById("treedom_" + block.id);
-		} else {
-			var blockTreeObj = document.getElementById("treedom_" + idBlock);
-			this.typeProgress = blockTreeObj.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme";
-		}
-		
-		var oldSelection = this.currentDocument.querySelector(".selection-block");
-		var oldSelectionTree = document.querySelector(".currentDOM");
-		var config_tree_selector = document.getElementById("config_tree_selector");
-
-		oldSelection && oldSelection.classList.remove("selection-block");
-		oldSelectionTree && oldSelectionTree.classList.remove("currentDOM");
-		
-		if(block){
-			block.classList.add("selection-block");
-
-			/* Prepare DND UI */
-			if (window.getComputedStyle(block, null).position !== "static") {
-				document.getElementById("parsimonyDND").classList.add('positionOK');
-			} else {
-				document.getElementById("parsimonyDND").classList.remove('positionOK');
-			}
-			Parsimony.blocks['admin_css'].updatePosition(block.getBoundingClientRect());
-			Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, "#" + ParsimonyAdmin.inProgress);
-
-			/* Provide selectors proposals */
-			var CSSProps = '';
-			var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
-			if (typeof stylableElements == "object") {
-				for(var index in stylableElements){
-					CSSProps += '<a href="#" data-selector="#' + ParsimonyAdmin.inProgress + ' ' + stylableElements[index] + '">' + ' ' + t(index) + '</a>';
-				}
-				if (CSSProps.length > 0) {
-					document.getElementById("stylableElements").style.display = "inline-block";
-				} else {
-					document.getElementById("stylableElements").style.display = "none";
-				}
-			}
-			document.getElementById("CSSProps").innerHTML = CSSProps;
-		}
-		
-		if (idBlock == "container") {
-			$(".move_block, .config_destroy").hide();
-		} else if (idBlock == "content") {
-			$(".config_destroy").hide();
-		} else {
-			$(".move_block, .config_destroy").show();
-		}
-		
-		if (blockTreeObj){
-			blockTreeObj.classList.add("currentDOM");
-			
-			/* can't detroy a container that contain #content */
-			if (blockTreeObj.classList.contains("core_container") && blockTreeObj.querySelector("#treedom_content")) {
-				$(".config_destroy").hide();
-			}
-			
-			config_tree_selector.style.display = "block";
-			blockTreeObj.insertBefore(config_tree_selector, blockTreeObj.firstChild);
-		}
-			
-
-		
-
-	},
-	unSelectBlock: function() {
-		$('#parsimonyDND, #config_tree_selector').hide();
-		this.inProgress = '';
 	},
 	showOverlay: function() {
 		document.getElementById("conf_box_overlay").style.display = "block";
@@ -565,16 +424,6 @@ var ParsimonyAdmin = {
 	},
 	addOptionParsiadminMenu: function(option) {
 		$("#menu .options").append('<div class="option">' + option + '</div>');
-	},
-	updateUI : function (callBack){
-		$(".dropInContainer",this.currentBody).remove();
-		$("#config_tree_selector").hide().prependTo("#right_sidebar");
-		this.loadBlock('tree', {MODULE: this.currentWindow.MODULE, THEMEMODULE: this.currentWindow.THEMEMODULE, THEME: this.currentWindow.THEME, THEMETYPE: this.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent}, callBack);
-		$(".core_container",this.currentBody).each(function(){
-		if($(this).find('.parsiblock:not("#content")').length == 0) {
-			$(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + $(this).get(0).id + ". " + t("Drop the blocks in this space") + '</div></div>');
-		}else $(".dropInContainerChild:first",this).remove();
-		});
 	},
 	setCreationMode: function() {
 		this.setMode("creation");

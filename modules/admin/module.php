@@ -279,7 +279,7 @@ class module extends \module {
 				$css->save();
 			}
 			$this->saveAll();
-			$return = array('eval' => '$("#" + ParsimonyAdmin.inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted'), 'notificationType' => 'positive');
+			$return = array('eval' => '$("#" + Parsimony.blocks["admin_blocks"].inProgress,ParsimonyAdmin.currentBody).remove();$("#changeres").trigger("change");', 'notification' => t('The block has been deleted'), 'notificationType' => 'positive');
 		}else
 			$return = array('notification' => t('Container block cannot be deleted'), 'notificationType' => 'negative');
 		return $this->returnResult($return);
@@ -439,15 +439,15 @@ class module extends \module {
 		$blockparent = $this->$start_typecont->searchBlock($startParentBlock);
 		$blockparent->rmBlock($idBlock);
 		
-		$js = 'ParsimonyAdmin.moveBlock("' . $idBlock . '");';
+		$js = 'Parsimony.blocks["admin_blocks"].moveBlock("' . $idBlock . '");';
 		if ($start_typecont === 'page' && $stop_typecont === 'theme') {
 			$idBlock = strtolower($idBlock);
 			$block->setId($idBlock);
-			$js = 'ParsimonyAdmin.moveBlock("' . ucfirst($idBlock) . '", "pageToTheme");';
+			$js = 'Parsimony.blocks["admin_blocks"].moveBlock("' . ucfirst($idBlock) . '", "pageToTheme");';
 		} elseif ($start_typecont === 'theme' && $stop_typecont === 'page') {
 			$idBlock = ucfirst($idBlock);
 			$block->setId($idBlock);
-			$js = 'ParsimonyAdmin.moveBlock("' . strtolower($idBlock) . '", "themeToPage");';
+			$js = 'Parsimony.blocks["admin_blocks"].moveBlock("' . strtolower($idBlock) . '", "themeToPage");';
 		}
 
 		//stop
