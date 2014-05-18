@@ -154,15 +154,12 @@ padding: 0px 0px 5px 70px;}
 	position : relative ;
 }
 
-#mymenu ul.parsimenu.horizontal {
+#mymenu {
     background:#333;
     padding-left: 20px;
-}
-
-mymenu {
-top: -4px;
-left: 0px;
-position: relative;}
+	top: -4px;
+	left: 0px;
+	position: relative;}
 
 #header_html h1 {
     position : relative ;
@@ -205,10 +202,6 @@ font-size: 15px;}
 #mymenu li a:hover {
 background-color: #F8F9FB;
 color: #5d5d5d}
-
-#myhomeimg {
-	border : 1px solid #444 ;
-}
 
 .recentposts li {
 list-style-position: inside;
