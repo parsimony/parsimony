@@ -32,6 +32,7 @@ app::$response->addJSFile('lib/jquery/jquery-2.1.min.js');
 app::$response->addJSFile('lib/jquery-ui/jquery-ui-1.10.3.min.js');
 app::$response->addJSFile('lib/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js');
 app::$response->addJSFile('admin/script.js');
+app::$response->addJSFile('core/js/parsimony.js');
 
 echo \app::$response->printInclusions();
 
