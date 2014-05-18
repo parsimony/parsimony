@@ -14,7 +14,6 @@ function blockAdminCSS() {
 	this.initPreview = function() {
 		this.CSSValuesChanges = {};
 		document.getElementById("changecsspath").value = CSSTHEMEPATH;
-		//setTimeout("alert();this.drawMediaQueries();", 2000);
 	}
 	
 	this.loadCreationMode = function() {
@@ -42,7 +41,7 @@ function blockAdminCSS() {
 				dndstart.rule.style.top = parseFloat(dndstart.top) + e.pageY - dndstart.pageY + "px";
 				document.getElementById("box_top").value = dndstart.rule.style.top || "";
 				document.getElementById("box_left").value = dndstart.rule.style.left || "";
-				$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
+				$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(Parsimony.blocks['admin_blocks'].inProgress).getBoundingClientRect());
 			})
 			.on("mouseup.parsimonyDND", dndstart, function(e) {
 				ParsimonyAdmin.iframe.style.pointerEvents = "all";
@@ -57,7 +56,7 @@ function blockAdminCSS() {
 		$(".parsimonyResize").on("mousedown.creation", function(e) {
 			e.stopImmediatePropagation();
 			ParsimonyAdmin.iframe.style.pointerEvents = "none";
-			var DNDiframe = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
+			var DNDiframe = ParsimonyAdmin.currentDocument.getElementById(Parsimony.blocks['admin_blocks'].inProgress);
 			var bounds = DNDiframe.getBoundingClientRect();
 			var dndstart = {
 				DNDiframe: DNDiframe,
@@ -178,7 +177,7 @@ function blockAdminCSS() {
 				}
 			}
 			$this.checkChanges();
-			$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress).getBoundingClientRect());
+			$this.updatePosition(ParsimonyAdmin.currentDocument.getElementById(Parsimony.blocks['admin_blocks'].inProgress).getBoundingClientRect());
 			$this.displayCSSConf(document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value);
 			
 		})
@@ -199,7 +198,7 @@ function blockAdminCSS() {
 			$this.currentRule.style[this.dataset.js] = this.value;
 
 			/* Update position of visual tool */
-			var inProgress = ParsimonyAdmin.currentDocument.getElementById(ParsimonyAdmin.inProgress);
+			var inProgress = ParsimonyAdmin.currentDocument.getElementById(Parsimony.blocks['admin_blocks'].inProgress);
 			if(inProgress) {
 				$this.updatePosition(inProgress.getBoundingClientRect());
 			}
@@ -838,7 +837,7 @@ function blockAdminCSS() {
 		/*if (document.getElementById("toolChanges").classList.contains("toolactive")) {
 			ParsimonyAdmin.CSSValuesChanges = {};
 			document.getElementById("reinitcss").click(); // place before unload event
-			ParsimonyAdmin.inProgress = '';
+			Parsimony.blocks['admin_blocks'].inProgress = '';
 		}*/
 		
 		$("#panelcss").off(".creation", "**");

@@ -1,19 +1,14 @@
 function blockAdminTree() {
 
-	this.initBefore = function() {
+	this.init = function() {
 
 		/* Help on Tree*/
 		$('#right_sidebar').on('click', '.arrow_tree', function(event) {
 			event.stopPropagation();
 			this.classList.toggle('down');
 			$(this).nextAll('ul,li').toggleClass('none');
-		});
-
-	}
-
-	this.init = function() {
-
-		$('#right_sidebar').on('click', '.tree_selector', function(event) {
+		})
+		.on("click", ".tree_selector", function(event) {
 			event.stopPropagation();
 			var idBlock = this.id.split("treedom_")[1];
 			Parsimony.blocks['admin_blocks'].selectBlock(idBlock);
@@ -23,7 +18,8 @@ function blockAdminTree() {
 					scrollTop: blockPreview.offset().top - 50
 				}, "fast");
 			}
-		}).on('mouseenter', '.tree_selector', function(event) {
+		})
+		.on("mouseenter", ".tree_selector", function(event) {
 			event.stopPropagation();
 			$("#" + this.id.split("treedom_")[1], ParsimonyAdmin.currentBody).trigger('mouseover');
 		})

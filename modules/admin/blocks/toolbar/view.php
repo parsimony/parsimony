@@ -504,19 +504,14 @@ callback: function() {
 <?php endif ?>
 
 
-
-		ParsimonyAdmin.initBefore();
+		ParsimonyAdmin.init();
 		<?php
 		/* Define active panels */
 		if (isset($_COOKIE['rightToolbarPanel'])) {
 			echo '$(\'a[href="#' . $_COOKIE['rightToolbarPanel'] . '"]\')[0].click();';
 		}
 		?>
-		
-		$(ParsimonyAdmin.currentDocument).ready(function() {
-			if (!ParsimonyAdmin.isInit)
-				ParsimonyAdmin.init();
-		});
+	
 	});
 </script>
 

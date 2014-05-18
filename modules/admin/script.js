@@ -27,20 +27,20 @@
  */
 
 var ParsimonyAdmin = {
-	isInit: false,
+
 	currentWindow: "",
 	currentDocument: "",
 	currentBody: "",
 	currentMode: "",
-	unsavedChanges: false,
 
-	initBefore: function() {
+	init: function() {
 
 		this.previewContainer = document.getElementById("previewContainer");
 		this.$previewContainer = $(this.previewContainer);
 		this.iframe = this.previewContainer.querySelector("#preview");
 		this.$iframe = $(this.iframe);
 		this.currentWindow = this.iframe.contentWindow;
+		this.popin = document.getElementById("conf_box_content_iframe");
 		
 		$("#formResult").on("load", function() {
 			var elmt = $(this).contents().find('body').text();
@@ -71,7 +71,28 @@ var ParsimonyAdmin = {
 				}
 			}
 		};
-		Parsimony.blocksDispatch("initBefore");
+		
+		/* Init tooltip */
+		$(".tooltip").parsimonyTooltip({
+			triangleWidth: 5
+		});
+
+		/* Shortcut : Save on CTRL+S */
+		document.addEventListener("keydown", function(e) {
+			if (e.keyCode == 83 && e.ctrlKey) {
+				e.preventDefault();
+				$("form", $('#conf_box_content_iframe').contents().find("body")).trigger("submit");
+			}
+		}, false);
+
+		$(window).on("beforeunload", function(event) {
+			if (document.getElementById("nbChanges").textContent.trim().substring(0,1) > 0) {
+				return t("You have unsaved CSS changes");
+			}
+		});
+
+		this.removeEmptyTextNodes(document.body);
+		Parsimony.blocksDispatch("init");
 	},
 
 	initPreview: function() {
@@ -80,7 +101,6 @@ var ParsimonyAdmin = {
 		this.$currentDocument = $(this.currentDocument);
 		this.currentBody = this.currentDocument.body;
 		this.$currentBody = $(this.currentBody);
-		this.popin = document.getElementById("conf_box_content_iframe");
 		this.changeDeviceUpdate();
 
 		/* Add Iframe style */
@@ -101,21 +121,26 @@ var ParsimonyAdmin = {
 			document.querySelector(".switchMode:last-child").click();
 		}
 
-		//override jQuery ready function to exec them with ajax portions
-		setTimeout('$.fn.ready = function(a) {ParsimonyAdmin.currentWindow.eval(" exec = " + a.toString()+";exec.call(window)");}', 4000);
-		//document.getElementById("preview").contentWindow.$.fn.ready = function(a) {a.call(document.getElementById("preview").contentWindow);}
+		//override jQuery ready function to exec them when a block is saved in ajax
+		this.currentWindow.$.fn.ready = function(a) {a.call(this.currentWindow);}
 
 		Parsimony.blocksDispatch("initPreview");
 
 	},
 	loadCreationMode: function() {
-		this.$currentBody.on('click.creation', 'a', function(e) {
+		/*this.$currentBody.on('click.creation', 'a', function(e) {
 			e.link = true;
 			e.preventDefault();
 			if(e.trad != true) ParsimonyAdmin.closeParsiadminMenu();
 			ParsimonyAdmin.addTitleParsiadminMenu("Link");
 			ParsimonyAdmin.addOptionParsiadminMenu('<a href="#" onclick="ParsimonyAdmin.goToPage(\'' + $(this).text().replace("'", "\\'").trim() + '\',\'' + $(this).attr('href') + '\');return false;"><span class="ui-icon ui-icon-extlink floatleft"></span>' + t('Go to the link') + '</a>');
 		});
+		
+		 $(document).on('click', '#menu a', function(e) {
+			ParsimonyAdmin.closeParsiadminMenu();
+			$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
+		});
+		 **/
 
 		$("#dialog-id").on("keyup.creation", function(e) {
 			this.value = this.value.toLowerCase().replace(/[^a-z_]+/g, "");
@@ -125,18 +150,14 @@ var ParsimonyAdmin = {
 			}
 		});
 
-		$(document).on('click', '#menu a', function(e) {
-			ParsimonyAdmin.closeParsiadminMenu();
-			$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass('cssPicker');
-		});
-
 		$("#CSSProps, #blockDetectSelectors").on("mouseenter.creation mouseleave.creation", "a", function(event) {
 			if (event.type == "mouseenter") {
 				$(this.dataset.selector, ParsimonyAdmin.currentDocument).addClass("cssPicker");
 			} else {
 				$('.cssPicker', ParsimonyAdmin.currentDocument).removeClass("cssPicker");
 			}
-		}).on("click.creation", "a", function() {
+		})
+		.on("click.creation", "a", function() {
 			Parsimony.blocks['admin_css'].displayCSSConf(CSSTHEMEPATH, this.dataset.selector);
 			ParsimonyAdmin.displayPanel("panelcss");
 			return false;
@@ -146,8 +167,8 @@ var ParsimonyAdmin = {
 	},
 	unloadCreationMode: function() {
 		$(".selection-block", this.currentBody).removeClass("selection-block");
-		this.closeParsiadminMenu();
-		this.$currentBody.off('.creation');
+		/*this.closeParsiadminMenu();
+		this.$currentBody.off('.creation');*/
 		$("#dialog-id").off('.creation');
 		$(document).add('#config_tree_selector').off('.creation');
 		$("#CSSProps").off('.creation');
@@ -159,6 +180,7 @@ var ParsimonyAdmin = {
 		/* Enable edit on block wysiwyg */
 		$(".core_wysiwyg", this.currentBody).attr("data-mode", "blockwysiwyg").addClass("parsieditinline");
 		this.currentWindow.parsiEdit.init();
+		
 		Parsimony.blocksDispatch("loadEditMode");
 	},
 	unloadEditMode: function() {
@@ -179,37 +201,13 @@ var ParsimonyAdmin = {
 			}
 		});
 		this.closeConfBox();
+		
 		Parsimony.blocksDispatch("loadPreviewMode");
 	},
 	unloadPreviewMode: function() {
 		this.$currentBody.off('.preview');
+		
 		Parsimony.blocksDispatch("unloadPreviewMode");
-	},
-	init: function() {
-
-		this.isInit = true;
-
-		/* Init tooltip */
-		$(".tooltip").parsimonyTooltip({
-			triangleWidth: 5
-		});
-
-		/* Shortcut : Save on CTRL+S */
-		document.addEventListener("keydown", function(e) {
-			if (e.keyCode == 83 && e.ctrlKey) {
-				e.preventDefault();
-				$("form", $('#conf_box_content_iframe').contents().find("body")).trigger("submit");
-			}
-		}, false);
-
-		$(window).on("beforeunload", function(event) {
-			if (ParsimonyAdmin.unsavedChanges == true) return t("You have unsaved changes");
-		});
-
-		this.hideOverlay();
-		this.removeEmptyTextNodes(document.body);
-		Parsimony.blocksDispatch("init");
-
 	},
 	goToPage: function(pageTitle, pageUrl) {
 		/* Unload current Mode to clean events */
@@ -483,14 +481,6 @@ var ParsimonyAdmin = {
 				this.removeEmptyTextNodes(child);
 			}
 		}
-	}
-}
-var $lang = new Array;
-function t(val) {
-	if ($lang[val]) {
-		return $lang[val];
-	} else {
-		return val;
 	}
 }
 

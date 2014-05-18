@@ -1,6 +1,6 @@
 function blockAdminMenu() {
 
-	this.initBefore = function() {
+	this.init = function() {
 
 		/* Orientation and resolution */
 		$("#toolbar").on('change', '#changeres', function() {
@@ -44,7 +44,7 @@ function blockAdminMenu() {
 		$('#listres').on('click', 'li', function() {
 			$('#changeres').val(this.dataset.res).trigger('change');
 		})
-				.on('change', 'input', function() {
+		.on('change', 'input', function() {
 			var width = document.getElementById("customWidth").value;
 			var height = document.getElementById("customHeight").value;
 			if (width && height) {

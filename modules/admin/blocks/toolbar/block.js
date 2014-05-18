@@ -1,6 +1,6 @@
 function blockAdminToolbar() {
 
-	this.initBefore = function() {
+	this.init = function() {
 
 		/* Tabs */
 		$('.tabsContainer').on('click', 'a', function() { 
