@@ -101,13 +101,17 @@ class response {
 			}
 			
 			/* Set page infos to admin */
-						if (!defined('PARSI_ADMIN') && $_SESSION['permissions'] > 0 && \app::$request->getParam('popup') !== '') {
+			if (!defined('PARSI_ADMIN') && $_SESSION['permissions'] > 0 && \app::$request->getParam('popup') !== '') {
 				$timer = isset($_SERVER['REQUEST_TIME_FLOAT']) ? round(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 4) : '~ ' . floor(microtime(true) - $_SERVER['REQUEST_TIME']);
 
 				/* Store on client side all CSS selectors from theme style */
 				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
 				$css = new css(PROFILE_PATH . $pathTheme);
 				$CSSValues = $css->getCSSValues();
+				
+				/* Be sure that editiniline can be used in edit mode */
+				\app::$response->addJSFile('core/js/editinline.js');
+				\app::$response->addCSSFile('core/css/editinline.css');
 				
 				$script = '';
 				if ($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['permissions'] & 128 ) {
