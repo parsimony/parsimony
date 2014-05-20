@@ -1,4 +1,4 @@
-html{height:100%}/*firefox fix*/
+html{padding-top: 35px;height:100%;/*firefox fix*/}
 body{background:url(admin/img/carbon_fibre.png);overflow: hidden; height: 100%;/* height firefox fix*/}
 body.creationMode{margin-right:230px;margin-left:200px;}
 body.editMode{margin-left:200px;}
@@ -66,10 +66,10 @@ border-style: solid;border-width: 13px 13px 13px 0;border-color: transparent #fe
 #right_sidebar{right:0;width:230px;box-shadow: -1px 1px 2px #444}
 
 /* Top toolbar */
-#toolbar{position: relative;margin-left: -200px;min-width: 775px;display:flex;justify-content:space-between;z-index: 2;height:35px;color:#F4F4F4;
+#toolbar{position: fixed;top:0;left:0;right:0;min-width: 775px;display:flex;justify-content:space-between;z-index: 2;height:35px;color:#F4F4F4;
 font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradient(top, #333333, #222222);
 			box-shadow: 0px 1px 0px rgb(41, 41, 41);border-bottom: 1px solid rgb(17, 17, 17);}
-
+.creationMode #toolbar{right:230px;}
 #infodev{display:none;}
 #infodev div{margin:10px 0;}
 
@@ -441,12 +441,12 @@ background-color: #f9f9f9;
 #idName{vertical-align: top;margin: 5px;display: inline-block;}
 
 /* Preview container */
-#previewContainer{position: relative;display: inline-block;padding-bottom: 35px;width:100%;height:100%;transition:all 0.4s;-webkit-transition:all 0.4s;transform-origin: 50% 50%;-webkit-transform-origin: 50% 50%;}
+#previewContainer{position: relative;display: inline-block;width:100%;height:100%;transition:all 0.4s;transform-origin: 50% 50%;-webkit-transform-origin: 50% 50%;}
 .sizedPreview #previewContainer{overflow: hidden;padding-bottom: 0;border: 40px solid #0E0D0D;border-radius: 0 0 15px 15px;
 			border-top: 0;box-shadow: 0 0 0 1px #999;box-sizing: content-box;-moz-box-sizing: content-box;
 }
 /* Block overlay */
-#blockOverlay{pointer-events: none;position: absolute;top:0;left:0;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;/* too slow */background-color:rgba(5,178,248,0.10)}
+#blockOverlay{pointer-events: none;position: absolute;top:0;left:0;transition: all 0.1s;-moz-transition: all 0.1s;/* too slow */background-color:rgba(5,178,248,0.10)}
 
 /* Shelter for unused div*/
 #shelter > div{display:none;}
