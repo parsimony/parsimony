@@ -36,7 +36,7 @@ app::$response->addJSFile('core/js/parsimony.js');
 
 echo \app::$response->printInclusions();
 
-if ( \app::$config['modules']['active'][$module] & 2) { /* check if this module is in development or packaged */
+if ( !(\app::$config['modules']['active'][$module] & 2)) { /* check if this module is in development or packaged */
 	?>
 	<style> .areaWrite { display:none } </style>
 	<?php
