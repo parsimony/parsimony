@@ -45,7 +45,6 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 	
         },
         {
-            /*targetName: "switch-modes",*/
 					target : document.getElementById('modesSwitcher'),
             content:
                 "<div class='mark'>2/18</div><h2>"
@@ -150,7 +149,6 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
         },
 		{
             target: document.querySelector('div[data-module="core"]'),
-					/*data-module="core"*/
             content:
                 "<div class='mark'>5/18</div><h2>"
 		+  t('Parsimony Administration') 
@@ -179,7 +177,6 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
         },	
 		{
             target: document.querySelector('#left_sidebar a[href="#left_sidebar/settings/admin"]'),
-					/*data-module="core"*/
             content:
                 "<div class='mark'>6/18</div><h2>General</h2>"
 				+ "<div class='alignLeft'><p>"
@@ -189,24 +186,18 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
             callback: function() {
              
         }    
-			
-
         },	
 		{
             target: document.querySelector('#left_sidebar a[href="#left_sidebar/permissions"]'),
-					/*data-module="core"*/
             content:
                 "<div class='mark'>7/18</div><h2>Permissions</h2>"
 				+ "<div class='alignLeft'><p>"
 		+  t('For each role, you can change the permissions on pages and data modules (CRUD).') 
 		+"</p></div>"
 		+ "<div class='alignLeft'><img style='width: 615px;' src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-permissions.png'></div>",
-                
-
         },
 		{
             target: document.querySelector('#left_sidebar a[href="#left_sidebar/model/core/role"]'),
-					/*data-module="core"*/
             content:
                 "<div class='mark'>8/18</div><h2>"
 		+  t('Roles') 
@@ -227,13 +218,10 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		+  t('An editor may be able to manage the content or change the SEO pages.') 
 		+"</li></ul>"
 				+ "</div><br>"
-				+ "<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-roles-editor-example.png'></div>",
-                
-
+				+ "<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-roles-editor-example.png'></div>",            
         },
 		{
             target: document.querySelector('#left_sidebar a[href="#left_sidebar/model/core/user"]'),
-					/*data-module="core"*/
             content:
                 "<div class='mark'>9/18</div><h2>"
 		+  t('Users') 
@@ -242,13 +230,8 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 		+  t('Users tab lists your users and allows you to manage: edit, add, modify, delete.') 
 		+"</p></div>"
 		+ "<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-users.png'></div>"
-                
-
         },
-			
-
         {
-	
             target: document.getElementById('right_sidebar'),
             content:
                 "<div class='mark'>10/18</div><h2>"
@@ -277,26 +260,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 				document.querySelector('.tabsContainer').classList.add("animColors");
 				document.querySelector("a[href='#paneltree']").click();
         }
-        },/*
-        {
-            target: document.getElementById('right_sidebar'),
-            content:
-                "<h2>Édition du style CSS</h2>"
-		  + "<div class='alignLeft'>Ici, vous disposez de disposer de puissants outils pour styler vos pages web.<br>"
-				+ "<ul>"
-				+ "<li class='marg'></li>"
-				+ "<li class='marg'>Edition des propriétés CSS </li>"
-				+ "<li class='marg'>Gestion des media queries : pour le responsive web design</li>"
-				+ "<li class='marg'>Ajout et recherche de sélecteurs CSS : une recherche manuelle de sélecteurs CSS</li>"
-				+ "<li class='marg'>Proposition de règles CSS liées au sélecteur en cours</li></ul>"
-		  + "</div>"
-				,
-            callback: function() {
-				 
-            }
-        },*/
-				
-		/*css-options*/
+        },
         {
             target: document.getElementById('right_sidebar'),
             content:
@@ -377,7 +341,7 @@ app::$response->addJSFile('admin/blocks/toolbar/block.js', 'footer');
 				+  t('Content: The content that changes depending on the url of pages.') 
 		+"</div></div>"
 		+ "</div>"
-				+"<div class='alignLeft'><div style='position : relative;zoom: 0.8;top: -35px;left : 30px;'><div id='thpbrowser'><div id='thptop' style='border-bottom: 1px solid #ccc;'><span id='thpbuttons'><span class='button'></span><span class='button'></span><span class='button'></span></span><span id='thpbar'><span id='thpmess1' class='messAnim'> http://mysite.com/page1</span><span id='thpmess2' class='messAnim'> http://mysite.com/page2</span></span></div><div id='thppageAnim' style='height:89%;overflow: hidden;' class=''>	<div id='thpcontAnim'>	<div id='thpheaderAnim'></div>	<div id='thpmiddleAnim'><div id='thpcontentAnim'><div id='thpslidepageAnim1' class='slidepageAnim'><div id='thpcontentAnim1'></div><div id='thpcontentAnim2'></div><div id='thpcontentAnim3'></div></div><div id='thpslidepageAnim2' class='slidepageAnim'><div id='thpcontentAnim4'></div>	<div id='thpcontentAnim5'></div></div></div><div id='thpmenuAnim'> </div></div><div id='thpfooterAnim'></div></div></div></div><div id='thpshowtheme'><div onmouseover='document.getElementById('thppageAnim').classList.add('themeeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('themeeffect');' style='display: inline-block;'>Theme</div></div><div id='thpshowpage'><div onmouseover='document.getElementById('thppageAnim').classList.add('pageeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('pageeffect');'>Content</div></div></div></div>" ,
+				+"<div class='alignLeft'><div style='position : relative;-ms-transform:scale(0.8);-webkit-transform:scale(0.8);transform:scale(0.8); top: -35px;left : 30px;'><div id='thpbrowser'><div id='thptop' style='border-bottom: 1px solid #ccc;'><span id='thpbuttons'><span class='button'></span><span class='button'></span><span class='button'></span></span><span id='thpbar'><span id='thpmess1' class='messAnim'> http://mysite.com/page1</span><span id='thpmess2' class='messAnim'> http://mysite.com/page2</span></span></div><div id='thppageAnim' style='height:89%;overflow: hidden;' class=''>	<div id='thpcontAnim'>	<div id='thpheaderAnim'></div>	<div id='thpmiddleAnim'><div id='thpcontentAnim'><div id='thpslidepageAnim1' class='slidepageAnim'><div id='thpcontentAnim1'></div><div id='thpcontentAnim2'></div><div id='thpcontentAnim3'></div></div><div id='thpslidepageAnim2' class='slidepageAnim'><div id='thpcontentAnim4'></div>	<div id='thpcontentAnim5'></div></div></div><div id='thpmenuAnim'> </div></div><div id='thpfooterAnim'></div></div></div></div><div id='thpshowtheme'><div onmouseover='document.getElementById('thppageAnim').classList.add('themeeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('themeeffect');' style='display: inline-block;'>Theme</div></div><div id='thpshowpage'><div onmouseover='document.getElementById('thppageAnim').classList.add('pageeffect');' onmouseout='document.getElementById('thppageAnim').classList.remove('pageeffect');'>Content</div></div></div></div>" ,
             callback: function() {
 		document.querySelector("a[href='#panelcss']").classList.remove("animColors");
 		document.querySelector("#csspicker").classList.remove("animColors");
@@ -423,11 +387,9 @@ callback: function() {
 				document.getElementById('treedom_content').style.border = 'none';
                 document.querySelector("a[href='#themes']").click();
 				document.querySelector('.contimg .themeOptions').style.right='0';
-				/*document.querySelector('.contimg .themeOptions .button').style.height = '24px';*/
             }
         },
         {target : document.querySelector('#toolbar ul:nth-child(2) .subMenu:nth-child(2)'),
-//            targetName: "device-menu",
             content: "<div class='mark'>14/18</div><h2>"
 				+  t('Change views') 
 		+"</h2><div class='alignLeft'><p>"
