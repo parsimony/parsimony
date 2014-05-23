@@ -38,7 +38,7 @@
     #duplicatepattern{display:none}
     .contimg{position:relative;width:100%;height:150px;background-repeat: no-repeat;background-position: center}
     .contimg:hover .themeOptions{right:0}
-    .themeOptions{position: absolute;transition: right 0.2s;width:50%;background:rgba(0,0,0,.6);padding-left:10px;top: 0;height: 100%;right: -50%;z-index: 999;padding-right: 15px;}
+    .themeOptions{position: absolute;transition: right 0.2s;width:50%;background:rgba(0, 0, 0, 0.3);padding-left:10px;top: 0;height: 100%;right: -50%;z-index: 999;padding-right: 15px;}
      #patternName{float: left;line-height: 27px;}
     .themeItem{position: relative;text-align:left;border-top: 1px solid white;border-bottom: 1px solid #D3D5DB;padding-left:7px;}
     .themeItem:first-child{border-top: 0;}
