@@ -359,12 +359,6 @@ app::$response->addJSFile('admin/blocks/css/block.js','footer');
 		});
 	});
 
-
-	function trigger(el, event){
-		ev = document.createEvent('Event');
-		ev.initEvent(event, true, false);
-		el.dispatchEvent(ev);
-	}
 	function rgbToHex(color) {
 		if (color.substring(0, 1) === '#') {
 			return color;

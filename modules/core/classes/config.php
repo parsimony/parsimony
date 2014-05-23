@@ -141,7 +141,7 @@ class config implements \arrayaccess {
      * @param string $key
      */
     public function remove($key) {
-        $this->content = preg_replace('@[' . PHP_EOL . ']?[.*]?' . preg_quote($key, '@') . '.?=.*;[.*' . PHP_EOL . ']?@Ui', '', trim($this->content));
+        $this->content = preg_replace('@[' . PHP_EOL . ']?[.*]?' . preg_quote($key, '@') . '[^=]*=.*;[.*' . PHP_EOL . ']?@Ui', '', trim($this->content));
     }
     
     /**

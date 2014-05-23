@@ -322,31 +322,189 @@
 				</div>
 			</div>
 			<div id="tabsb-9" class="admintabs">
-				<h2><?php echo t('Devices'); ?></h2>
-				<table>
-					<thead>
-						<tr><th>Device</th><th>State</th><th>Default</th></tr>
-					</thead>
-					<tbody>
+				<h2><?php echo t('Cross-platform strategy'); ?></h2>
+				<style>
+					.version {border:1px solid #C7C7C7;margin:40px 0 0 0;padding: 10px;position: relative;background: #F7F7F7;}
+					.version::before{content: "Version " attr(data-title);position: absolute;top: -30px;left: 0;text-transform: capitalize;font-size: 18px;}
+					.version:empty::before{content: "<?php echo t('Empty Version'); ?>"}
+					.version:empty::after{content:"<?php echo t('Drop devices that you want to manage in a same version here...'); ?>";color: #AAA;}
+					.version.over {border: 2px dashed #000;}
+
+					.devices{border:1px solid #f5f5f5;padding:7px;}
+					.devices:empty::before{content:"<?php echo t('All devices have been used.'); ?>";color:#ddd}
+					.device img {width: 70%;}
+					.device{background:#f9f9f9;padding:5px;border-radius: 4px;transition: 0.2s;padding-bottom: 20px;text-align: center;margin:0 5px;display:inline-block;position:relative;cursor: move;}
+					.device:hover{background:#eee;transform: scale(1.1);-webkit-transform: scale(1.1);}
+					.device::after {content: attr(data-title);position: absolute;left: 0;right: 0;bottom: 2px;text-align: center;text-transform: capitalize;color: #999;font-size: 14px;}
+					.versions .device {background: #FBFBFB;}
+					.versions .device:hover .rmDevice{display:block}
+
+					#addVersion{border-radius: 118px;background: #44C5EC;padding: 6px;font-size: 17px;cursor:pointer;color: #FFF;width: 230px;text-align: center;margin: 20px auto;}
+					#addVersion:hover{background: #7DDAF7}
+					.rmDevice{position: absolute;top: -10px;right: -10px;background: #DDD;cursor:pointer;padding: 4px 7px;color: #FFF;border-radius: 15px;font-size: 11px;display:none}
+					#summary{line-height: 22px;font-size: 13px;}
+					#summary ul{padding-left:20px;list-style: initial;}
+				</style>
+				<script>
+					var elmtDragged = null;
+
+					$(document).ready(function() {
+						$(document).on("dragenter", ".version", function(e) {
+							this.classList.add('over');
+						})
+						.on("dragover", ".version", function(e) {
+							e.preventDefault();
+							e.originalEvent.dataTransfer.dropEffect = "'move';"
+							return false;
+						})
+						.on("dragleave", ".version", function(e) {
+							this.classList.remove('over');
+						})
+						.on("drop", ".version", function(e) {
+							elmtDragged.style.opacity = 1;
+							this.appendChild(elmtDragged);
+							generateSummary();
+							e.stopPropagation();
+							return false;
+						})
+						.on("dragstart", ".device", function(e) {
+							this.style.opacity = '0.3';
+							elmtDragged = this;
+						})
+						.on("dragend", function(e) {
+							updateUi()
+						})
+						.on("click", ".rmDevice", function(e) {
+							/* todo checker on peut pas supprimer destop si il est seul dans la version */
+							if(document.querySelectorAll(".versions .device").length > 1){
+								document.querySelector(".devices").appendChild(this.parentNode);
+								updateUi();
+							} else {
+								alert("You can't have an empty default verison.");
+							}
+						})
+						.on("click", '#addVersion', function(e) {
+							if(document.querySelectorAll(".version:empty").length == 0) {
+								var newVersion = document.createElement("DIV");
+								newVersion.classList.add("version");
+								document.querySelector(".versions").insertBefore(newVersion, this);
+							}
+						});
+					});
+					function updateUi(){
+						var versions = document.querySelectorAll(".version");
+							var versionFrom = "";
+							[].forEach.call(versions, function(version) {
+								version.classList.remove('over');
+								var devices = [];
+								var devicesElmt = version.querySelectorAll(".device");
+								[].forEach.call(devicesElmt, function(device) { 
+									devices.push(device.dataset.title);
+								});
+								version.dataset.title = devices.join(",");
+								if(version.dataset.title.length) {
+									versionFrom += '<input type="hidden" name="config[versions][' + devices.join("-") + ']" value="1">';
+								}
+							});
+							document.getElementById("versionForm").innerHTML = versionFrom;
+							var devicesElmt = document.querySelectorAll(".device");
+							[].forEach.call(devicesElmt, function(device) {
+								device.style.opacity = 1;
+							});
+							elmtDragged = null;
+					}
+
+					function generateSummary() {
+						var nbVersions = 0;
+						var versions = document.querySelectorAll(".version");
+						[].forEach.call(versions, function(version) {
+							if(version.querySelectorAll(".device").length > 0) {
+								nbVersions++;
+							}
+						});
+
+						if(nbVersions > 1) {
+							var text = "You create your website in " + nbVersions + " different versions, each version serves different HTML for one url :<ul>";
+							[].forEach.call(versions, function(version) {
+								text += "<li>One website version manages the " + version.dataset.title + " view.";
+								var nbDevices = version.querySelectorAll(".device").length;
+								if(nbDevices > 1) {
+									text += " You can use CSS media queries to optimize how the content is rendered on each device(" + version.dataset.title + ").";
+								}
+								text += "</li>";
+							});
+							text += "</ul>";
+						} else {
+							var version = document.querySelector(".version");
+							var nbDevices = version.querySelectorAll(".device").length;
+
+							if(nbDevices > 1) {
+								var text = "You create a " + version.dataset.title + " website and use only CSS media queries to modify the rendering.";
+							} else {
+								var text = "You create a " + version.dataset.title + " design and deliver it to all devices.";
+							}
+						}
+						document.getElementById("resumeVersion").innerHTML = text;
+					}
+
+				</script>
+				<?php
+				if(!isset(\app::$config['versions'])) {
+					app::$config['versions'] = array('desktop' => '1');
+				}
+				$devices = \app::$devices;
+				ob_start();
+				foreach (app::$config['versions'] as $name => $version) : ?>
+					<div class="version" data-title=""><?php 
+						$devicesV = explode('-', $name);
+						foreach ($devicesV as $device) : 
+							if(!empty($device)) {
+								unset($devices[$device]);
+								?><div class="device" data-title="<?php echo $device; ?>" draggable="true"><div class="rmDevice">X</div><img src="http://parsimony.mobi/admin/img/devices/<?php echo $device; ?>.svg"></div><?php
+							}
+						endforeach; 
+					?></div>
+				<?php endforeach; 
+				$versions = ob_get_clean();
+				?>
+
+				<h3><?php echo t('List of available devices'); ?></h3>
+				<p><?php echo t('Drag \'n drop the device that you want to mange in a version'); ?>.</p>
+				<div class="devices"><?php
+				foreach ($devices as $device): 
+						echo '<div class="device" data-title="' . $device['name'] . '" draggable="true"><div class="rmDevice">X</div><img src="http://parsimony.mobi/admin/img/devices/' . $device['name'] . '.svg"></div>';
+					endforeach;
+				?></div>
+
+				<div class="versions">
+					<h3 style="margin-bottom: 0;"><?php echo t('List of active Versions'); ?></h3>
+					<?php echo $versions; ?>
+					<div id="addVersion"><?php echo t('+ Add a version'); ?></div>
+				</div>
+				<h3><?php echo t('Configuration Summary'); ?></h3>
+				<div id="summary">
+					<p id="resumeVersion"></p>
+					<div><span class="bold">Note:</span> <?php echo t('All devices and versions share the same set of URLs and the same database.'); ?>
+					<ul>
+						<li><span class="bold">Responsive Web Design:</span> <?php echo t('For the same URL, Parsimony serves the same HTML and CSS media queries are used to change how the page is rendered on the device'); ?></li>
+						<li><span class="bold">Responsive Design + Server Side Components:</span> <?php echo t('For the same URL, Parsimony serves differents resources (HTML, CSS, JS...) for ecah version.'); ?></li>
+					</ul>
+					</div>
+				</div>
+				<div id="versionFormDefault">
 					<?php
-					$devices = array('desktop', 'mobile', 'tablet', 'tv');
-					foreach ($devices AS $device) {
-					?>
-						<tr class="trover">
-							<td><?php echo t(ucfirst($device), FALSE); ?></td>
-							<td>
-								<input type="hidden" name="config[devices][<?php echo $device; ?>]" value="0">
-								<input type="checkbox" name="config[devices][<?php echo $device; ?>]" value="1" <?php if (app::$config['devices'][$device]) echo 'checked="checked"'; ?><?php if (app::$config['devices']['defaultDevice'] == $device) echo ' class="hidden"'; ?>>
-							</td>
-							<td>
-								<input type="radio" name="config[devices][defaultDevice]" onclick="top.ParsimonyAdmin.setCookie('device', '<?php echo $device; ?>', 999);" value="<?php echo $device; ?>" <?php if (app::$config['devices']['defaultDevice'] == $device) echo 'checked="checked"'; ?>>
-							</td>
-						</tr>
-					<?php
+					foreach (app::$config['versions'] as $name => $version) {
+						echo '<input type="hidden" name="config[versions][' . $name . ']" value="removeThis">';
 					}
 					?>
-					</tbody>
-				</table>
+				</div>
+				<div id="versionForm">
+					<?php
+					foreach (app::$config['versions'] as $name => $version) {
+						echo '<input type="hidden" name="config[versions][' . $name . ']" value="1">';
+					}
+					?>
+				</div>
 			</div>
 			<div id="tabsb-10" class="admintabs">
 				<h2><?php echo t('Current'); ?> Parsimony <?php echo t('Version'); ?> : <span id="numVersion"><?php echo PARSIMONY_VERSION; ?></span> <img src="<?php echo BASE_PATH; ?>admin/img/load.gif" id="updateVersionLoad" /></h2>

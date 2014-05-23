@@ -344,29 +344,39 @@ var ParsimonyAdmin = {
 		$("#dropInPage", this.currentBody).prependTo($("#shelter"));
 		$("#dropInTree").prependTo($("#shelter"));
 	},
-	changeDevice: function(device) {
-		this.setCookie("device", device, 999);
-		THEMETYPE = device;
+	changeDevice: function(version) {
+		this.setCookie("version", version, 999);
+		THEMETYPE = version;
 		document.getElementById("changeres").value = "";// to change res.
-		this.changeDeviceUpdate(device);
-		document.getElementById("info_themetype").textContent = device;
+		this.changeDeviceUpdate(version);
+		document.getElementById("info_themetype").textContent = version;
 		this.iframe.setAttribute("src", this.iframe.getAttribute("src"));
 		this.loadBlock('panelblocks');
 	},
-	changeDeviceUpdate: function() {
+	changeDeviceUpdate: function(version) {
+		if(typeof version == "undefined"){
+			version = THEMETYPE;
+		}
 		var select = '<div id="customReso"><input id="customWidth" type="number" placeholder="Width" min="100" max="5000"> X <input id="customHeight" type="number" placeholder="Height" min="100" max="5000"></div>';
 		var firstRes = "";
 		var nb = 0;
-		var changeres = $('#changeres');
-		$.each(JSON.parse(this.resolutions[THEMETYPE]), function(i, item) {
-			if (nb == 0) firstRes = i;
-			select += '<li data-res="' + i + '">' + item + ' (' + i + ')</li>';
-			nb++;
-		});
-		document.getElementById("currentRes").textContent = changeres[0].value;
+		var changeres = document.getElementById("changeres");
+		var devices = version.split("-");
+		for(var i = 0, len = devices.length; i < len; i++) {
+			var res = JSON.parse(this.resolutions[devices[i]]);
+			for(var j in res) {
+				if (nb == 0) firstRes = j;
+				select += '<li data-res="' + j + '">' + res[j] + ' (' + j + ')</li>';
+				nb++;
+			}
+		}
+		
+		document.getElementById("currentRes").textContent = changeres.value;
 		document.getElementById("listres").innerHTML = select;
-		if (changeres[0].value == "") changeres.val(firstRes).trigger('change');
-		$('#currentRes').css("position", "relative"); //fix
+		if (changeres.value == "") {
+			changeres.value = firstRes;
+			trigger(changeres, 'change');
+		}
 	},
 	changeLocale: function(locale) {
 		this.setCookie("locale", locale, 999);
@@ -489,4 +499,10 @@ if(top.window != self){ /* to be sure not reload admin in preview */
 	if (pageUrl.indexOf('?') > -1 && pageUrl.indexOf('?preview=ok') == -1) pageUrl += '&preview=ok';
 	else pageUrl += '?preview=ok';
 	window.location = pageUrl;
+}
+
+function trigger(el, event){
+	ev = document.createEvent('Event');
+	ev.initEvent(event, true, false);
+	el.dispatchEvent(ev);
 }

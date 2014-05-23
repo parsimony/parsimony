@@ -45,57 +45,47 @@ class module extends \module {
 
 	public function __wakeup() {
 
-		/* Add devices */
-		$devices = \app::$config['devices'];
-
-		/* TV */
-		if ($devices['tv']) {
-			\app::$devices[] = array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
-					'1080x1920' => '1080p',
-					'1024x768' => '4/3',
-					'1280x768' => '15/9',
-					'1360x768' => '16/9 HD',
-					'1366x768' => '16/9 HD Ready',
-					'1920x1080' => '16/9 Full HD',
-					'1600x900' => '16/9 HD Extended',
-					'768x1366' => '16/9 HD Ready',
-					'1000x1600' => '16/10'), 'detectFnc' => function() {
-					return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
-				});
-		}
+		\app::$devices = array(
+			/* TV */
+			'tv' => array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
+				'1080x1920' => '1080p',
+				'1024x768' => '4/3',
+				'1280x768' => '15/9',
+				'1360x768' => '16/9 HD',
+				'1366x768' => '16/9 HD Ready',
+				'1920x1080' => '16/9 Full HD',
+				'1600x900' => '16/9 HD Extended',
+				'768x1366' => '16/9 HD Ready',
+				'1000x1600' => '16/10'), 'detectFnc' => function() {
+				return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
+			}),
 		
-		/* Tablet */
-		if ($devices['tablet']) {
-			\app::$devices[] = array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
-					'601x921' => 'Google Nexus 7',
-					'600x1024' => 'Samsung Galaxy Tab 2 7.7',
-					'768x1366' => 'Microsoft Surface',
-					'768x1024' => 'Apple iPad'), 'detectFnc' => function() {
-					return preg_match('/(Tablet|Ipad|Kindle|Silk)|(Android(?!.*(Mobi|Opera Mini)))/i', $_SERVER['HTTP_USER_AGENT']); /* tablet must be under mobile because "Android" test is good only without "Mobile" in user agent string */
-				});
-		}
+			/* Tablet */
+			'tablet' => array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
+				'601x921' => 'Google Nexus 7',
+				'600x1024' => 'Samsung Galaxy Tab 2 7.7',
+				'768x1366' => 'Microsoft Surface',
+				'768x1024' => 'Apple iPad'), 'detectFnc' => function() { 
+				return preg_match('/(Tablet|Ipad|Kindle|Silk)|(Android(?!.*(Mobi|Opera Mini)))/i', $_SERVER['HTTP_USER_AGENT']); /* tablet must be under mobile because "Android" test is good only without "Mobile" in user agent string */
+			}),
 		
-		/* Mobile */
-		if ($devices['mobile']) {
-			\app::$devices[] = array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
-					'320x568' => 'Apple iPhone 5',
-					'360x640' => 'Samsung Galaxy S3&4 / HTC One',
-					'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
-					return preg_match('/Mobi|Opera Mini|BlackBerry/i', $_SERVER['HTTP_USER_AGENT']);
-				});
-		}
+			/* Mobile */
+			'mobile' => array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
+				'320x568' => 'Apple iPhone 5',
+				'360x640' => 'Samsung Galaxy S3&4 / HTC One',
+				'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
+				return preg_match('/Mobi|Opera Mini|BlackBerry/i', $_SERVER['HTTP_USER_AGENT']);
+			}),
 		
-		/* Desktop */
-		if ($devices['desktop']) {
-			\app::$devices[] = array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
-					'640x480' => '',
-					'800x600' => '',
-					'1024x768' => '',
-					'1280x960' => '',
-					'1280x1024' => ''), 'detectFnc' => function() {
-					return TRUE;
-				});
-		}
+			/* Desktop */
+			'desktop' => array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
+				'640x480' => '',
+				'800x600' => '',
+				'1024x768' => '',
+				'1280x960' => '',
+				'1280x1024' => ''), 'detectFnc' => function() {
+				return TRUE;
+			}));
 		
 		\app::$aliasClasses = array('app' => 'core\classes\app',
 			'request' => 'core\classes\request',

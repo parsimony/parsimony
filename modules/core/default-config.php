@@ -40,13 +40,6 @@ $config['ext']['rar'] = 'application/x-rar-compressed';
 $config['security']['allowedipadmin'] = '';
 $config['security']['salt'] = '';
 
-//Devices
-$config['devices']['desktop'] = '1';
-$config['devices']['mobile'] = '1';
-$config['devices']['tablet'] = '1';
-$config['devices']['tv'] = '0';
-$config['devices']['defaultDevice'] = 'desktop';
-
 //Dev
 $config['dev']['status'] = 'dev';
 $config['dev']['serialization'] = 'obj';
@@ -73,3 +66,7 @@ $config['modules']['default'] = 'blog';
 
 $config['sitename'] = 'My WebSite';
 $config['favicon'] = 'core/img/favicon.png';
+
+$config['versions']['tablet'] = '1';
+$config['versions']['mobile'] = '1';
+$config['versions']['desktop'] = '1';

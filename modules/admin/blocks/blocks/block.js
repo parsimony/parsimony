@@ -434,10 +434,10 @@ function blockAdminBlocks() {
 	}
 	
 	this.updateUI = function(callBack)  {
-		$(".dropInContainer",this.currentBody).remove();
+		$(".dropInContainer",ParsimonyAdmin.currentBody).remove();
 		$("#config_tree_selector").hide().prependTo("#right_sidebar");
 		ParsimonyAdmin.loadBlock('tree', {MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent}, callBack);
-		$(".core_container",this.currentBody).each(function(){
+		$(".core_container",ParsimonyAdmin.currentBody).each(function(){ 
 			if($(this).find('.parsiblock:not("#content")').length == 0) {
 				$(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + this.id + ". " + t("Drop the blocks in this space") + '</div></div>');
 			}else $(".dropInContainerChild:first",this).remove();

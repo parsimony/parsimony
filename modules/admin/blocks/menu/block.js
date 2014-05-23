@@ -53,7 +53,7 @@ function blockAdminMenu() {
 		});
 
 		$('#changeDevice').on('click', 'li', function() {
-			ParsimonyAdmin.changeDevice(this.dataset.device);
+			ParsimonyAdmin.changeDevice(this.dataset.version);
 		});
 
 	}
