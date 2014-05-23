@@ -27,7 +27,7 @@
  */
 ?>
 <style>
-    .themeOptions form, .themeOptions .button{margin: 6px 0}
+    .themeOptions form, .themeOptions .button{margin: 5px 0}
     #themes .placeholder {position: relative;clear: both;width: 200px;margin:10px;}
     #themes h4{line-height: 25px;margin: 0;font-weight: normal;font-size: 16px;}
 	.moduleTheme{visibility: hidden;color:#ddd;font-size: 12px;}
@@ -50,10 +50,7 @@
 	#themes #themenew{display:none;}
 	#themes.add #themelist{display:none;}
 	#themes.add #themenew{display:block;}
-	
-	
 </style>
-
 
 <div id="themelist">
 	<ul>
@@ -79,7 +76,7 @@ foreach ($modules as $moduleName => $mode) {
 		
 		<div class="contimg" style="background-image:url(<?php echo $imgURL; ?>)" class="floatleft">
 			<div class="themeOptions">
-				<input class="button preview"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('preview').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
+				<input class="button preview highlight"  onclick="$('#themelist li.active').removeClass('active');$(this).closest('li').addClass('active');top.ParsimonyAdmin.setCookie('THEMEMODULE','<?php echo $moduleName; ?>',999);top.ParsimonyAdmin.setCookie('THEME','<?php echo s($themeName); ?>',999);document.getElementById('preview').contentWindow.location.reload();" type="button" value="<?php echo t('Preview') ?>" />
 				<?php if($themeName !== app::$config['THEME']): ?>
 					<form method="POST" action="<?php echo BASE_PATH; ?>admin/changeTheme" target="formResult">
 						<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
@@ -89,7 +86,7 @@ foreach ($modules as $moduleName => $mode) {
 					</form>
 				<?php endif; ?>
 				<?php if($creationRights === TRUE): ?>
-					<input class="button duplicate" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
+					<input class="button duplicate highlight" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
 					<?php if($themeName !== app::$config['THEME']): ?>
 						<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
 							<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
