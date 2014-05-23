@@ -238,7 +238,7 @@
 								<td>' . $module . '</td>
 								<td>
 									<input type="hidden" name="config[modules][active][' . $module . ']" value="removeThis">
-									<input type="checkbox" name="config[modules][active][' . $module . ']" ' . ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden"' : '') . ' value="' . $value . '" ' . $checked . '>
+									<input type="checkbox" class="onOff" name="config[modules][active][' . $module . ']" ' . ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden"' : '') . ' value="' . $value . '" ' . $checked . '>
 								</td>
 								<td>
 									<input type="radio" name="config[modules][default]" value="' . $module . '" ' . ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '') . '>

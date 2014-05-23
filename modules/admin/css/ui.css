@@ -136,9 +136,70 @@ input[type="checkbox"]:checked:after {
 	padding: 1px 3px;
     margin:0;
 	color: #555;
-	position: absolute;
+position: absolute;
+}
+input[type='checkbox'].onOff {
+outline: 0;
+vertical-align: initial;
+-webkit-appearance: button;
+background-color: #ccc;
+width: 45px;
+height: 20px;
+box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
+transition: background-color 1s;
+border-radius: 20px;  
+}
+input[type='checkbox'].onOff:after{
+  content: "";
+display: block;
+position: absolute;
+top: 0;
+left: 0;
+width: 36%;
+height: 82%;
+background-color: #fdfdfd;
+margin: 3%;
+border-radius: 45px;
+background: rgb(255,255,255);
+transition: .5s all;
+padding: 0;
 }
 
+input[type='checkbox'].onOff:checked{
+background: #44C5EC;
+} 
+
+input[type='checkbox'].onOff:checked:after {
+  left: 59%;
+}
+input[type='checkbox'].onOff:before {
+content: "OFF";
+color: #fff;
+font-size: 10px;
+margin-left:20px;
+line-height : 20px;
+}
+input[type='checkbox'].onOff:checked:before {
+content: "ON";
+color: #fff;
+font-size: 10px;
+margin-left:8px;
+line-height : 20px;
+}
+
+input[type='checkbox'][data-unchecked].onOff:before {
+content: attr(data-unchecked);
+text-align: left;
+position: absolute;
+left : 50px;
+color:#333;
+width : 250px;margin-left:8px;
+text-transform: capitalize;
+}
+
+input[type='checkbox'][data-checked].onOff:checked:before {
+content: attr(data-checked);
+}
 input[type="radio"]:checked:after {
 	content: "●";
 	position: relative;

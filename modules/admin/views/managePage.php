@@ -72,6 +72,10 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 	.adminzone .btn {margin: 5px 10px;}
 	.adminzone .save {margin-left: 10px;}
 	#paramname{width: 120px;margin-right: 10px;}
+	#regenerate{position: absolute;
+left: 522px;
+top: 32px;
+z-index: 1;}
 </style>
 
 <div class="adminzone" id="adminformpage">
@@ -100,8 +104,11 @@ color: #FFF;padding: 3px 7px;font-size: 14px;background-color: #2DC1EE;border-le
 					<div class="placeholder">
 						<label for="title"><?php echo t('Title'); ?></label><input type="text" name="title" style="width:95%;" value="<?php echo s($page->getTitle()); ?>">
 					</div>
-					<div class="placeholder inputregex">
+					<div style="position: relative">
+					<svg id="regenerate" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#333333"><g><path d="M 6,0 C 2.733,0 0.077,2.61 0.002,5.859 C 0.071,3.025 2.226,0.75 4.875,0.75 C 7.567,0.75 9.75,3.101 9.75,6 C 9.75,6.621 10.254,7.125 10.875,7.125 C 11.496,7.125 12,6.621 12,6 C 12,2.686 9.314,0 6,0 ZM 6,12 C 9.267,12 11.923,9.39 11.998,6.141 C 11.929,8.975 9.774,11.25 7.125,11.25 C 4.433,11.25 2.25,8.899 2.25,6 C 2.25,5.379 1.746,4.875 1.125,4.875 C 0.504,4.875 0,5.379 0,6 C 0,9.314 2.686,12 6,12 Z"></path></g></svg>
+					<div class="placeholder inputregex" style="display: inline-block">
 						<label for="title"><?php echo t('URL'); ?></label><input type="text" id="patternurlregex" name="regex" style="width:540px;" value="<?php echo s(substr($page->getRegex(), 2, -2)); ?>">
+					</div>
 					</div>
 					<div style="top: 5px;position: relative;left: 7px;text-overflow:ellipsis;font-size:13px">
 						<span for="genereURL"><?php echo t('URL'); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php

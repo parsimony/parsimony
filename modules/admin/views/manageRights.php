@@ -55,7 +55,7 @@ $(document).ready(function() {
 		var modelArea = tr.parentNode;
 
 		if( tr.classList.contains("entity")){
-			var crud =  this.className;
+			var crud =  this.className.replace('onOff','');
 			var prop = this.checked;
 			var target = '.fieldbg .' + entity + ' input[type="checkbox"]' + '.' + crud;
 			$(target, modelArea).prop( "checked", prop);
@@ -143,7 +143,7 @@ $(document).ready(function() {
 							?>
 							<div class="enablemodule<?php echo $moduleName === 'core' ? ' none' : ''; ?>">
 								<input type="hidden" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]" value="0">
-								<input type="checkbox" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]"<?php if ($module->getRights($row->id_role) || $moduleName === 'core') echo ' checked' . ($disabled === TRUE ? ' disabled' : '') ; ?>>
+								<input type="checkbox" class="onOff" name="modulerights[<?php echo $row->id_role; ?>][<?php echo $moduleName; ?>]"<?php if ($module->getRights($row->id_role) || $moduleName === 'core') echo ' checked' . ($disabled === TRUE ? ' disabled' : '') ; ?>>
 								<label><?php echo t('Enable the %s module for %s role', array(ucfirst($moduleName), $row->name)) ;?></label>
 							</div>
 						   <?php
@@ -168,10 +168,10 @@ $(document).ready(function() {
 										<tr class="line entity">
 											<?php
 											echo '<td class="secondtd entity">' . $modelName . '</td>
-										<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY && $disabled === FALSE ? '' : ' disabled') . '></td>
-											<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT && $disabled === FALSE ? '' : ' disabled') . '></td>
-												<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
-													<td class="' . $modelName . '"><input type="checkbox" class="delete" ' . ($rights & DELETE ? 'checked="checked"' : '') . ($ownRights & DELETE &&  $disabled === FALSE ? '' : ' disabled') . '></td>';
+										<td class="' . $modelName . '"><input type="checkbox" class="display onOff" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY && $disabled === FALSE ? '' : ' disabled') . '></td>
+											<td class="' . $modelName . '"><input type="checkbox" class="insert onOff" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT && $disabled === FALSE ? '' : ' disabled') . '></td>
+												<td class="' . $modelName . '"><input type="checkbox" class="update onOff" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+													<td class="' . $modelName . '"><input type="checkbox" class="delete onOff" ' . ($rights & DELETE ? 'checked="checked"' : '') . ($ownRights & DELETE &&  $disabled === FALSE ? '' : ' disabled') . '></td>';
 
 											foreach ($myModel->getFields() as $fieldName => $field) {
 												if($field->entity->getName() === $modelName) { /* avoid pb with extended entities */
@@ -180,9 +180,9 @@ $(document).ready(function() {
 													if($rights === null) $rights = 0;
 													$obj->$modelName->fields->$fieldName = $rights;
 														echo '<tr class="fieldbg"><td class="fieldname">'. $fieldName .'</td>'.
-														'<td class="' . $modelName . '"><input type="checkbox" class="display" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY &&  $disabled === FALSE ? '' : ' disabled') . '></td>
-														<td class="' . $modelName . '"><input type="checkbox" class="insert" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT &&  $disabled === FALSE ? '' : ' disabled') . '></td>
-														<td class="' . $modelName . '"><input type="checkbox" class="update" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+														'<td class="' . $modelName . '"><input type="checkbox" class="display onOff" ' . ($rights & DISPLAY ? 'checked="checked"' : '') . ($ownRights & DISPLAY &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="insert onOff" ' . ($rights & INSERT ? 'checked="checked"' : '') . ($ownRights & INSERT &&  $disabled === FALSE ? '' : ' disabled') . '></td>
+														<td class="' . $modelName . '"><input type="checkbox" class="update onOff" ' . ($rights & UPDATE ? 'checked="checked"' : '') . ($ownRights & UPDATE &&  $disabled === FALSE ? '' : ' disabled') . '></td>
 														<td class="disabled"></td>
 														</tr>';
 												}
@@ -214,7 +214,7 @@ $(document).ready(function() {
 										<tr class="line">
 										   <?php echo '
 										   <td class="secondtd" style="width:200px;">' . s($page->getTitle()) . '</td>
-										<td><input type="hidden" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display" ' . $displayChecked . ($page->getRights($_SESSION['id_role']) & DISPLAY || $disabled === FALSE ? '' : ' disabled') . '></td>';
+										<td><input type="hidden" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" value="0"><input type="checkbox" name="pagesrights[' . $row->id_role . '][' . $moduleName . '][' . $page->getId() . '][display]" class="display onOff" ' . $displayChecked . ($page->getRights($_SESSION['id_role']) & DISPLAY || $disabled === FALSE ? '' : ' disabled') . '></td>';
 									}
 									?>
 										</tr>

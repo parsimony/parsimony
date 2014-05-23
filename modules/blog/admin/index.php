@@ -88,7 +88,7 @@
 				<h2><?php echo t('Comments settings', false); ?></h2>
 				<div>
 					<input type="hidden" name="config[blog][allowComments]" value="0" />
-					<input type="checkbox" name="config[blog][allowComments]" <?php if ($this->getConfig('allowComments') === '1') echo ' checked="checked"'; ?> value="1" />
+					<input type="checkbox" class="onOff" name="config[blog][allowComments]" <?php if ($this->getConfig('allowComments') === '1') echo ' checked="checked"'; ?> value="1" />
 					<?php echo t('Allow people to post comments', FALSE) . ' '; ?> 
 				</div>
 				<div>
@@ -98,12 +98,12 @@
 				</div>  
 				<div>
 					<input type="hidden" name="config[blog][loggedin]" value="0" />
-					<input type="checkbox" name="config[blog][loggedin]" <?php if ($this->getConfig('loggedin') === '1') echo ' checked="checked"'; ?> value="1"/>
+					<input type="checkbox" class="onOff" name="config[blog][loggedin]" <?php if ($this->getConfig('loggedin') === '1') echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('The user must be logged in to comment', FALSE) . ' '; ?> 
 				</div>
 				<div>
 					<input type="hidden" name="config[blog][fillNameMail]" value="0" />
-					<input name="config[blog][fillNameMail]" type="checkbox" <?php if ($this->getConfig('fillNameMail') === '1') echo ' checked="checked"'; ?> value="1"/>
+					<input name="config[blog][fillNameMail]" class="onOff" type="checkbox" <?php if ($this->getConfig('fillNameMail') === '1') echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('Comment author must fill out name and e-mail', false); ?>
 				</div>
 				<div>
@@ -123,25 +123,25 @@
 				<h2><?php echo t('E-mail me whenever', false); ?></h2>
 				<div>
 					<input type="hidden" name="config[blog][mailForAnyPost]" value="0" />
-					<input name="config[blog][mailForAnyPost]" type="checkbox" <?php if ($this->getConfig('mailForAnyPost') === '1') echo ' checked="checked"'; ?> value="1"/>
+					<input name="config[blog][mailForAnyPost]" class="onOff" type="checkbox" <?php if ($this->getConfig('mailForAnyPost') === '1') echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('Anyone posts a comment', false); ?>
 				</div>
 
 				<div style="border-bottom: 1px solid #CCC;box-shadow: 0px 2px 1px #fff;padding-bottom: 20px;">
 					<input type="hidden" name="config[blog][heldModeration]" value="0" />
-					<input name="config[blog][heldModeration]" type="checkbox"<?php if ($this->getConfig('heldModeration') === '1') echo ' checked="checked"'; ?> value="1"/>
+					<input name="config[blog][heldModeration]" class="onOff" type="checkbox"<?php if ($this->getConfig('heldModeration') === '1') echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('A comment is held for moderation', false); ?>
 				</div>
 
 				<h2><?php echo t('Before a comment appears', false); ?></h2>
 				<div>
 					<input type="hidden" name="config[blog][alwaysApprove]" value="0" />
-					<input name="config[blog][alwaysApprove]" type="checkbox" <?php if ($this->getConfig('alwaysApprove') === '1') echo ' checked="checked"'; ?> value="1"/>
+					<input name="config[blog][alwaysApprove]" class="onOff" type="checkbox" <?php if ($this->getConfig('alwaysApprove') === '1') echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('An administrator must always approve the comment', false); ?>
 				</div>
 				<div style="border-bottom: 1px solid #CCC;box-shadow: 0px 2px 1px #fff;padding-bottom: 20px;">
 					<input type="hidden" name="config[blog][previousComment]" value="0" />
-					<input name="config[blog][previousComment]" type="checkbox" <?php if ($this->getConfig('previousComment') === '1')echo ' checked="checked"'; ?> value="1"/>
+					<input name="config[blog][previousComment]" class="onOff" type="checkbox" <?php if ($this->getConfig('previousComment') === '1')echo ' checked="checked"'; ?> value="1"/>
 					<?php echo t('Comment author must have a previously approved comment', false); ?>
 				</div>
 				<div>

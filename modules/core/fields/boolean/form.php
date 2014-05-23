@@ -27,6 +27,7 @@
  */
 
 echo $this->displayLabel($fieldName);
+$states = explode(',', $this->states);
  ?>
 <input type="hidden" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="0" />
-<input type="checkbox" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="1" <?php if($value == 1) echo ' checked="checked"' ?> />
+<input type="checkbox" class="onOff" data-checked="<?php echo isset($states[1]) ? $states[1] : "" ?>" data-unchecked="<?php echo $states[0] ?>" name="<?php echo $tableName ?>[<?php echo $this->name ?>]" class="<?php echo $fieldName ?>" id="<?php echo $fieldName ?>" value="1" <?php if($value == 1) echo ' checked="checked"' ?> />
