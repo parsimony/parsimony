@@ -99,9 +99,9 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	#extLink {position: fixed;right: 14px;top: 45px;height: 100px;width: 100px;line-height: 25px;padding-top: 20px;}
 	#btnLinkToExternal{margin-bottom: 15px;}
 	.dragActive2 {z-index: 1;border-radius: 100px;font-size: 12px;text-align: center;background: #1b74a4;color: #fff;padding: 17px 5px;}
-	#save{height: 36px;background: #09F;border: 0;border-radius: 0;color: #FBFBFB;font-size: 14px;display:none}
+	#save{height: 36px;box-shadow: none;border-radius: 0;font-size: 14px;display:none}
 	#save.haveToSave{display:block}
-	#conf_box_overlay{z-index: 9999;text-align: center;position: fixed;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.85);}
+	#conf_box_overlay{z-index: 9999;text-align: center;position: fixed;left:0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.85);}
 	#notify {top:35px}
 	#currentModule{font-weight: bold;padding-left: 5px;margin-left: 10px;}
 	.hdb{background: transparent;font-weight: normal;font-size: 20px;height: 28px;color: #777;border-bottom: 2px solid #2DC1EE;padding: 0;margin: 10px 10px 11px 11px;}

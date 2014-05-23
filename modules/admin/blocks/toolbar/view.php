@@ -544,7 +544,7 @@ echo $admin->display();
 	<div id="conf_box_title"><?php echo t('Enter an ID for the new block') ?></div>
 	<div id="dialog-input"><input type="text" id="dialog-id" /><input type="hidden" id="dialog-id-options" /></div>
 	<div id="dialog-ac">
-		<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>"/>
+		<input type="button" id="dialog-ok" value="<?php echo t("Add", FALSE) ?>" class="highlight" />
 		<input type="button" id="dialog-cancel" onclick="ParsimonyAdmin.closeConfBox();ParsimonyAdmin.returnToShelter();" value="<?php echo t("Cancel", FALSE) ?>" />
 	</div>
 </div>

@@ -58,7 +58,7 @@
 			<div class="placeholder">
 				<label><?php echo t('Name'); ?></label><input type="text" name="name_module" id="name_module" required>
 			</div>
-			<input type="submit" name="saveAddModule" id="saveAddModule" value="<?php echo t('Create'); ?>">
+			<input type="submit" name="saveAddModule" id="saveAddModule" value="<?php echo t('Create'); ?>" class="floatright">
 		</form>
 	</div>
 </div>

@@ -73,6 +73,8 @@ if (is_object($block) == NULL) {
 		.padd{padding-top: 5px;}
 		#block_conf select[multiple]{background-image: none !important}
 		#block_conf select[multiple]:enabled:hover{background-image: none !important}
+		#btnNewJSFile, #btnNewCSSFile{vertical-align: middle;}
+		#btnNewJSFile{vertical-align: bottom;}
 		.adminzonecontent{min-height: 500px}
 	</style>
 	<div id="block_conf" class="adminzone">
@@ -245,7 +247,7 @@ if (is_object($block) == NULL) {
 			</form>
 		</div>
 		<div class="adminzonefooter">
-			<div id="save_page" class="save ellipsis"><?php echo t('Save'); ?></div>
+			<button id="save_page" class="save highlight"><?php echo t('Save'); ?></button>
 		</div>
 	</div>
 	<?php

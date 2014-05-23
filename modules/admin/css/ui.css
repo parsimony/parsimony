@@ -53,62 +53,57 @@ select {padding: 1px 0 4px;vertical-align: middle;background-position: center ri
 }
 select:enabled:hover[multiple]{	background: none;}
 /* Textarea and Inputs */
-textarea, input[type="text"], input[type="password"], input[type="file"], input[type='email'] {
-border-style: none;
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
 padding: 4px;
-text-shadow: 0px 1px 0px white;
 outline: none;
 border: 1px solid #ECECEC;
 color: #333;
 border-radius: 1px;
 background: white;
 }
-/* Textarea and Inputs  : hover and Focus */
-input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus, input[type="file"]:hover, input[type="file"]:focus {
-
-}
 
 /* Buttons */
 button,input[type='button'],input[type='submit'] {
-	border-radius: 2px;
+	border-radius: 2px;outline:0;
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-	-webkit-user-select: none;
-	-moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-	-moz-user-select: none;
-	background: -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
 	background: linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
 	border: 1px solid #aaa;
 	color: #444;
 	font-size: inherit;
 	margin-bottom: 0px;
-	min-width: 4em;
-padding: 3px 12px 3px 12px;
+	padding: 4px 12px 4px 12px;
+	cursor:pointer
 }
-button:hover,input[type='button']:hover,input[type='submit']:hover {
-	background: #ebebeb -webkit-linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-	background: #ebebeb linear-gradient(#fefefe, #f8f8f8 40%, #e9e9e9);
-	border-color: #999;
-color: #222;
+
+
+button:hover, input[type='button']:hover, input[type='submit']:hover {
+	background: rgb(229, 227, 221);
 }
-button:active,input[type='button']:active,input[type='submit']:active {
+
+button:active, input[type='button']:active, input[type='submit']:active {
 	box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
-	background: #ebebeb -webkit-linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
-	background: #ebebeb linear-gradient(#f4f4f4, #efefef 40%, #dcdcdc);
 	color: #333;
 }
-button[disabled],input[type='button'][disabled],input[type='submit'][disabled],button[disabled]:hover,input[type='button'][disabled]:hover,input[type='submit'][disabled]:hover {
-	box-shadow: none;
-	background: -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
-	background: linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
-	border-color: #aaa;
-	color: #888;
+
+button[disabled], input[type='button'][disabled], input[type='submit'][disabled] {
+	opacity: 0.5;
+	pointer-events: none
+}
+
+button.highlight, input[type='button'].highlight, input[type='submit'] {
+	border-color: #44C5EC;
+	background: #44C5EC;
+	color: white;
+}
+button.highlight:hover, input[type='button'].highlight:hover, input[type='submit']:hover {
+	border-color: #16A1E7;
+	background: #16A1E7;
 }
 
 /* Checkbox and radio */
 input[type="checkbox"], input[type="radio"]{
 	position: relative;
-	background: rgba(191,185,169,.2);
+	background: rgb(242, 241, 238);
 	height: 16px;
 	cursor: pointer;
 	border-radius: 3px;
@@ -120,7 +115,7 @@ input[type="checkbox"], input[type="radio"]{
 }
 input[type="checkbox"][disabled], input[type="radio"][disabled]{opacity:0.3}
 input[type="checkbox"]:hover, input[type="radio"]:hover {
-	background-color: rgba(191,185,169,.4)
+	background-color: rgb(229, 227, 221)
 }
 input[type="radio"] {
 	border-radius: 25px;
@@ -136,69 +131,69 @@ input[type="checkbox"]:checked:after {
 	padding: 1px 3px;
     margin:0;
 	color: #555;
-position: absolute;
+	position: absolute;
 }
 input[type='checkbox'].onOff {
-outline: 0;
-vertical-align: initial;
--webkit-appearance: button;
-background-color: #ccc;
-width: 45px;
-height: 20px;
-box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
-transition: background-color 1s;
-border-radius: 20px;  
+	outline: 0;
+	vertical-align: initial;
+	-webkit-appearance: button;
+	background-color: #ccc;
+	width: 45px;
+	height: 20px;
+	box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
+	transition: background-color 1s;
+	border-radius: 20px;  
 }
 input[type='checkbox'].onOff:after{
-  content: "";
-display: block;
-position: absolute;
-top: 0;
-left: 0;
-width: 36%;
-height: 82%;
-background-color: #fdfdfd;
-margin: 3%;
-border-radius: 45px;
-background: rgb(255,255,255);
-transition: .5s all;
-padding: 0;
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 36%;
+	height: 82%;
+	background-color: #fdfdfd;
+	margin: 3%;
+	border-radius: 45px;
+	background: rgb(255,255,255);
+	transition: .5s all;
+	padding: 0;
 }
 
 input[type='checkbox'].onOff:checked{
-background: #44C5EC;
+	background: #44C5EC;
 } 
 
 input[type='checkbox'].onOff:checked:after {
-  left: 59%;
+	left: 59%;
 }
 input[type='checkbox'].onOff:before {
-content: "OFF";
-color: #fff;
-font-size: 10px;
-margin-left:20px;
-line-height : 20px;
+	content: "OFF";
+	color: #fff;
+	font-size: 10px;
+	margin-left:20px;
+	line-height : 20px;
 }
 input[type='checkbox'].onOff:checked:before {
-content: "ON";
-color: #fff;
-font-size: 10px;
-margin-left:8px;
-line-height : 20px;
+	content: "ON";
+	color: #fff;
+	font-size: 10px;
+	margin-left:8px;
+	line-height : 20px;
 }
 
 input[type='checkbox'][data-unchecked].onOff:before {
-content: attr(data-unchecked);
-text-align: left;
-position: absolute;
-left : 50px;
-color:#333;
-width : 250px;margin-left:8px;
-text-transform: capitalize;
+	content: attr(data-unchecked);
+	text-align: left;
+	position: absolute;
+	left : 50px;
+	color:#333;
+	width : 250px;margin-left:8px;
+	text-transform: capitalize;
 }
 
 input[type='checkbox'][data-checked].onOff:checked:before {
-content: attr(data-checked);
+	content: attr(data-checked);
 }
 input[type="radio"]:checked:after {
 	content: "●";
@@ -294,5 +289,3 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-trash {background-position: -176px -96px;}
 
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
-input[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 50%;font-size: .8em;}
-textarea[required]:after{content: "*";position: absolute;color: #df4e1e;right: 1%;top: 20%;font-size: .8em;}

@@ -57,24 +57,6 @@
 					  text-overflow: ellipsis;text-decoration: none;color: #777}
 	textarea{width: 450px;height:250px;margin : 10px}
 	.commentcl div{margin : 10px 0;line-height: 18px;}
-	.adminzone .save{
-		z-index: 999;
-		position: relative;
-		margin: 5px 20px;
-		float: right;
-		text-shadow: 0 1px rgba(0, 0, 0, 0.35);
-		border-radius: 5px;
-		border: 1px solid rgb(7, 130, 214);
-		text-decoration: none;
-		color: white;
-		line-height: 25px;
-		cursor: pointer;
-		font-size: 15px;
-		padding: 2px 10px;
-		background: webkit-gradient(top, #44C5EC, #259BDB);
-		background: -webkit-linear-gradient(top, #44C5EC, #259BDB);
-		background: -moz-linear-gradient(top, #44C5EC, #259BDB);
-	}
 </style>
 <?php $this->initConfig(); ?>
 <div class="adminzone">
@@ -167,8 +149,8 @@
 </div>  
 	<div class="adminzonefooter"> 
 		<div>
-			<div id="save_page" class="save ellipsis" onclick="$('form').trigger('submit');
-			return false;"><?php echo t('Save', false); ?></div>
+			<button id="save_page" class="save highlight" onclick="$('form').trigger('submit');
+			return false;"><?php echo t('Save', false); ?></button>
 		</div>
 	</div>  
 

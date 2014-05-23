@@ -288,10 +288,10 @@ z-index: 1;}
 		</form>
 	</div>
 	<div class="adminzonefooter">
-		<div id="save_page" class="save ellipsis"><?php echo t('Save'); ?></div>
-		<div id="goto_page" class="btn notNew"><?php echo t('See'); ?></div>
+		<button id="save_page" class="save highlight"><?php echo t('Save'); ?></button>
+		<button id="goto_page" class="btn notNew highlight"><?php echo t('See'); ?></button>
 		<?php if ($_SESSION['permissions'] & 8): ?>
-			<div id="delete_page" class="btn notNew"><?php echo t('Delete'); ?></div>
+			<button id="delete_page" class="btn notNew highlight"><?php echo t('Delete'); ?></button>
 		<?php endif; ?>
 	</div>
 </div>

@@ -236,6 +236,6 @@ $(document).ready(function() {
 			</form>
 	</div>
 	<div class="adminzonefooter">
-		<div id="save_page" class="save ellipsis" onclick="$('form').trigger('submit');return false;"><?php echo t('Save'); ?></div>
+		<button id="save_page" class="save highlight" onclick="$('form').trigger('submit');return false;"><?php echo t('Save'); ?></button>
 	</div>
 </div>

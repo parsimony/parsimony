@@ -128,7 +128,7 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 .arrow_tree.down{background:url(admin/img/arrow.png) no-repeat 5px 5px} 
 
 /* Panel CSS */
-#savemycss,#reinitcss{vertical-align: bottom;box-shadow: none;outline:0}
+#savemycss,#reinitcss{vertical-align: bottom;box-shadow: none;outline:0;min-width: 4em;}
 #savemycss:hover,#reinitcss:hover{box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);}
 #savemycss{border: 0;border-radius: 5px 0 0 5px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;background: url(admin/img/btncss.png) no-repeat 13px 5px;}
 #reinitcss{border: 0;position: relative;left: -1px;padding: 0px 12px 3px 3px;width: 30px;height: 30px;background: url(admin/img/btncss.png) no-repeat 13px -24px;}
@@ -377,8 +377,7 @@ background-image: linear-gradient(top, #242424,#313131);
 #dialog-input{text-align: center;padding: 20px 0;background: #fafafa;}
 #dialog-id{background-color: #fefefe;}
 #dialog-ac{text-align: right;padding: 10px;background: #ececec;}
-#dialog-ok{margin-right: 10px;background: rgb(45, 193, 238);color: white;}
-#dialog-cancel{color: #777;background: #fafafa;box-shadow: none;border: 1px solid #ececec;}
+#dialog-ok{margin-right: 10px;}
 .followingBalls{
 background-color:#FAFAFA;position:absolute;top:0;left:0;width:14px;height:14px;border-radius:7px;
 -webkit-border-radius:7px;
