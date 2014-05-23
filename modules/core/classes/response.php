@@ -106,7 +106,7 @@ class response {
 
 				/* Store on client side all CSS selectors from theme style */
 				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
-				$css = new css(PROFILE_PATH . $pathTheme);
+				$css = new css(stream_resolve_include_path($pathTheme));
 				$CSSValues = $css->getCSSValues();
 				
 				/* Be sure that editiniline can be used in edit mode */
