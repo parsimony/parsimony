@@ -62,6 +62,14 @@
 			input.classList.add('hidden');
 			input.checked = true;
 		})
+		.on('click', '#tabsb-5 .developmentMode', function() {
+			var input = this.parentNode.parentNode.querySelector('.onOff');
+			if(this.checked == true && (input.value & 2) == 0) {
+				input.value = parseInt(input.value) + 2;
+			} else if(this.checked == false && (input.value & 2) == 2) {
+				input.value = parseInt(input.value) - 2;
+			}
+		})
 		.on('click', '#tabsb-9 input[type="radio"]', function() {
 			$('#tabsb-9 input[type=checkbox]').removeClass('hidden');
 			var input = document.querySelector('#tabsb-9 input[type="checkbox"][name="config[devices][' + this.value + ']"]');
@@ -207,23 +215,30 @@
 				<?php if ($_SESSION['permissions'] & 16384): ?>
 				<div id="tabsb-5" class="admintabs">
 					<h2><?php echo t('Module management'); ?></h2>
-
 					<?php
-					$i = 0;
-					$tplright = '';
-					$tplleft = '';
-					foreach (glob('modules/*', GLOB_ONLYDIR) as $filename) {
-						$module = substr(strrchr($filename, '/'), 1);
-						if ($module !== 'core' && $module !== 'admin' && is_file('modules/' . $module . '/module.php')) {
-							$i++;
-							if (isset(\app::$config['modules']['active'][$module])) {
-								$checked = 'checked="checked"';
-								$value = \app::$config['modules']['active'][$module];
-							} else {
+					$modules = glob('modules/*', GLOB_ONLYDIR);
+					if (count($modules) > 2) { /* minimum 2: core && admin */
+						?>
+					<table style="width: 100%;">
+						<thead>
+							<tr>
+								<th><?php echo t('Module') ?></th>
+								<th><?php echo t('State') ?></th>
+								<th><?php echo t('Default') ?></th>
+								<th><?php echo t('Development') ?></th>
+							</tr>
+						</thead>
+						<tbody>
+					<?php
+						foreach ($modules as $filename) {
+							$module = substr(strrchr($filename, '/'), 1);
+							if ($module !== 'core' && $module !== 'admin' && is_file('modules/' . $module . '/module.php')) {
 								$checked = '';
 								$value = '0';
-							}
-							if (is_file('modules/' . $module . '/module.php')) {
+								if (isset(\app::$config['modules']['active'][$module])) {
+									$checked = 'checked="checked"';
+									$value = \app::$config['modules']['active'][$module];
+								}
 								include_once('modules/' . $module . '/module.php');
 								$name = $module . '\\module';
 								$rc = new ReflectionClass($name);
@@ -232,33 +247,26 @@
 									if (isset($method->name) && $method->name === '__wakeup') $value = '1';
 								}
 								/* ----  */
+								?>
+								<tr>
+									<td><?php echo $module ?></td>
+									<td>
+										<input type="hidden" name="config[modules][active][<?php echo  $module ?>]" value="removeThis">
+										<input type="checkbox" name="config[modules][active][<?php echo $module ?>]" <?php echo ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden onOff"' : ' class="onOff"') ?> value="<?php echo $value ?>" <?php echo $checked  ?>>
+									</td>
+									<td>
+										<input type="radio" name="config[modules][default]" value="<?php echo $module ?>" <?php echo ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '') ?>>
+									</td>
+									<td>
+										<input type="checkbox" class="onOff developmentMode" onclick="" <?php echo ( $value & 2 ? 'checked="checked"' : '') ?>>
+									</td>
+								</tr>
+								<?php
 							}
-							$input = ' 
-							<tr class="trover">
-								<td>' . $module . '</td>
-								<td>
-									<input type="hidden" name="config[modules][active][' . $module . ']" value="removeThis">
-									<input type="checkbox" class="onOff" name="config[modules][active][' . $module . ']" ' . ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden"' : '') . ' value="' . $value . '" ' . $checked . '>
-								</td>
-								<td>
-									<input type="radio" name="config[modules][default]" value="' . $module . '" ' . ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '') . '>
-								</td>
-								';
-							if ($i % 2 == 0)
-								$tplright .= $input;
-							else
-								$tplleft .= $input;
-						}
-					}
-					if (!empty($tplleft)) {
-						echo '<table style="float:left;">
-							<thead><tr><th>' . t('Module') . '</th><th>' . t('State') . '</th><th>' . t('Default') . '</th></thead><tbody>' . $tplleft . '</tbody></table>';
-					}
-					if (!empty($tplright)) {
-						echo '<table style="float:left; margin-left: 30px">
-							<thead><tr><th>' . t('Module') . '</th><th>' . t('State') . '</th><th>' . t('Default') . '</th></thead>' . $tplright . '</tbody></table>';
-					}
-					if (empty($tplright) && empty($tplleft)) {
+						}?>
+							</tbody>
+						</table><?php
+					} else {
 						echo '<div style="margin-top:20px">' . t('No module detected') . '</div>';
 					}
 					?>
