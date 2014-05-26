@@ -40,3 +40,5 @@ dist
 *.bak
 sess_*
 cache
+/var/
+/profiles/
