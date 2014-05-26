@@ -1,4 +1,4 @@
-html{padding-top: 35px;height:100%;/*firefox fix*/}
+html{padding-top: 35px; /* */position:fixed;top:0;left:0;right:0;bottom:0;/* fix:#preview move to -35px */}
 body{background:url(admin/img/carbon_fibre.png);overflow: hidden; height: 100%;/* height firefox fix*/}
 body.creationMode{margin-right:230px;margin-left:200px;}
 body.editMode{margin-left:200px;}
