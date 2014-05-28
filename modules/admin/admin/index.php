@@ -103,12 +103,12 @@
 			var input = this.parentNode.parentNode.querySelector('.onOff');
 			if(this.checked == true) {
 				this.nextElementSibling.classList.remove("none");
-				if((input.value & 2) == 0){
+				if((input.value & 4) == 0){
 					input.value = parseInt(input.value) + 4;
 				}
 			} else if(this.checked == false) {
 				this.nextElementSibling.classList.add("none");
-				if((input.value & 2) == 2){
+				if((input.value & 4) == 4){
 					input.value = parseInt(input.value) - 4;
 				}
 			}
@@ -269,21 +269,23 @@
 						foreach ($modules as $filename) {
 							$module = substr(strrchr($filename, '/'), 1);
 							if ($module !== 'core' && $module !== 'admin' && is_file('modules/' . $module . '/module.php')) {
-								$checked = '';
-								$value = '0';
-								if (isset(\app::$config['modules'][$module]) && \app::$config['modules'][$module] & 1) {
-									$checked = 'checked="checked"';
-									$value = \app::$config['modules'][$module];
-								}
-								include_once('modules/' . $module . '/module.php');
-								$name = $module . '\\module';
-								$rc = new ReflectionClass($name);
-								/* ---- hasMethod() doesn't work for __wakeup */
-								foreach ($rc->getMethods() AS $method) {
-									if (isset($method->name) && $method->name === '__wakeup') $value = '1';
-								}
-								/* ----  */
 								if(isset(\app::$config['modules'][$module])):
+									$checked = '';
+									$value = 1;
+									if (\app::$config['modules'][$module] & 1) {
+										$checked = 'checked="checked"';
+										$value = \app::$config['modules'][$module];
+									}
+									include_once('modules/' . $module . '/module.php');
+									$name = $module . '\\module';
+									$rc = new ReflectionClass($name);
+									/* ---- hasMethod() doesn't work for __wakeup */
+									foreach ($rc->getMethods() AS $method) {
+										if (isset($method->name) && $method->name === '__wakeup' && (\app::$config['modules'][$module] & 2) != 2) {
+											$value = $value + 2;
+										}
+									}
+									/* ----  */
 								?>
 								<tr<?php echo ( !empty($checked) ? ' class="active"' : '') ?>>
 									<td><?php echo $module ?></td>
@@ -295,8 +297,8 @@
 										<input type="radio" name="config[defaultModule]" value="<?php echo $module ?>" <?php echo ( app::$config['defaultModule'] == $module ? 'checked="checked"' : '') ?>>
 									</td>
 									<td>
-										<input type="checkbox" class="onOff developmentMode" <?php echo ( $value & 2 ? 'checked="checked"' : '') ?>>
-										<button class="package highlight<?php echo ( $value & 2 ? '' : ' none') ?>" data-module="<?php echo $module ?>"><?php echo t('Package') ?></button>
+										<input type="checkbox" class="onOff developmentMode" <?php echo ( $value & 4 ? 'checked="checked"' : '') ?>>
+										<button class="package highlight<?php echo ( $value & 4 ? '' : ' none') ?>" data-module="<?php echo $module ?>"><?php echo t('Package') ?></button>
 									</td>
 								</tr>
 								<?php
