@@ -126,7 +126,7 @@ class menu extends \block {
             if (isset($item['url'])) {
                 if(empty($item['url'])) {
                     $url = '#';
-                } elseif(substr($item['url'], 0,4) === 'http') {
+                } elseif(substr($item['url'], 0, 4) === 'http') {
                     $url = $item['url'];
                 } else {
                     $url = BASE_PATH . $item['url'];
@@ -134,7 +134,7 @@ class menu extends \block {
                 $title = $item['title'];
             } else {
                 $page = \app::getModule($item['module'])->getPage($item['page']);
-                if ($item['module'] == \app::$config['modules']['default'])
+                if ($item['module'] === \app::$config['defaultModule'])
                                 $url = BASE_PATH . substr($page->getRegex(), 2, -2);
                 else $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
                 if (count($page->getURLcomponents()) == 0) {
@@ -154,7 +154,7 @@ class menu extends \block {
                     }
                 }
             }
-            if (isset($_GET[0]) && BASE_PATH . $_GET[0] == $url)
+            if (BASE_PATH . \app::$request->getParam('parsiurl') == $url)
                 $classes[] = 'current';
             if ($count == $cpt)
                 $classes[] = 'last';

@@ -136,7 +136,7 @@ if (is_object($block) == NULL) {
 							<select name="allowedModules[]" multiple="multiple">
 								<?php
 								$allowedModules = (array) $block->getConfig('allowedModules');
-								$modules = \app::$config['modules']['active'];
+								$modules = \app::$activeModules;
 								foreach ($modules as $moduleName => $state) {
 									echo '<option' . (in_array($moduleName, $allowedModules) ? ' selected="selected"' : '') . '>' . $moduleName . '</option>';
 								}
@@ -219,7 +219,7 @@ if (is_object($block) == NULL) {
 							<div class="placeholder blockhead">
 								<?php
 									/* Just list modules in development mode */
-									$ownModules = array_filter(\app::$config['modules']['active'], function ($value) {
+									$ownModules = array_filter(\app::$activeModules, function ($value) {
 										return $value & 2;
 									});
 									if(count($ownModules) > 0):

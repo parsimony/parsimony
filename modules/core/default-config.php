@@ -60,9 +60,9 @@ $config['mail']['server'] = '';
 $config['mail']['port'] = '25';
 
 /* Modules */
-$config['modules']['active']['core'] = '1';
-$config['modules']['active']['blog'] = '1';
-$config['modules']['default'] = 'blog';
+$config['modules']['core'] = '3';
+$config['modules']['blog'] = '3';
+$config['defaultModule'] = 'blog';
 
 $config['sitename'] = 'My WebSite';
 $config['favicon'] = 'core/img/favicon.png';

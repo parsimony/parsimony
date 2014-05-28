@@ -205,7 +205,7 @@ class response {
 	 */
 	public function concatFiles(array $files, $format) {
 		$hash = $format . 'concat_' . md5(implode('', $files));
-		$pathCache = 'profiles/' . PROFILE . '/modules/' . app::$config['modules']['default'] . '/' . $hash . '.' . $format;
+		$pathCache = 'profiles/' . PROFILE . '/modules/' . app::$config['defaultModule'] . '/' . $hash . '.' . $format;
 		$dltCache = '';
 		if (!is_file($pathCache) || app::$config['dev']['status'] !== 'prod') {
 			ob_start();

@@ -40,12 +40,6 @@ class view extends queryBuilder implements \Iterator {
 	 * @var array $entities
 	 */
 	public $entities = array();
-
-	/**
-	 * !!TODO REMOVE!!
-	 * @var array of SQL fields in order to build SQL query 
-	 */
-	protected $SQL = array();
 	
 	/**
 	 * Init view from an array of block query

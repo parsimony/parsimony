@@ -36,7 +36,7 @@ app::$response->addJSFile('core/js/parsimony.js');
 
 echo \app::$response->printInclusions();
 
-if ( !(\app::$config['modules']['active'][$module] & 2)) { /* check if this module is in development or packaged */
+if ( !(\app::$activeModules[$module] & 2)) { /* check if this module is in development or packaged */
 	?>
 	<style> .areaWrite { display:none } </style>
 	<?php
@@ -144,7 +144,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		<span style="padding-left: 10px;"><?php echo t('Module'); ?></span>
 		<select id="currentModule" name="module" onchange="this.parentNode.submit();">
 			<?php
-			foreach (\app::$config['modules']['active'] as $moduleName => $moduleConf) {
+			foreach (\app::$activeModules as $moduleName => $moduleConf) {
 				if ($moduleName == $module) {
 					$selected = 'selected = "selected"';
 				} else {
@@ -180,7 +180,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			<div style="margin:10px 0 20px">
 				<select id="linkToExternal">
 					<?php
-					foreach (\app::$config['modules']['active'] as $moduleName => $moduleConf) {
+					foreach (\app::$activeModules as $moduleName => $moduleConf) {
 						if ($moduleName != 'admin' && $moduleName != $module) {
 							foreach (\app::getModule($moduleName)->getModel() as $entityName => $entity) {
 								echo '<option>' . $moduleName . ' - ' . $entityName . '</option>';

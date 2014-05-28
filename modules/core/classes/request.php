@@ -157,7 +157,7 @@ class request {
 		if (is_file($pathCache . '.php')) {
 			include $pathCache . '.php';
 		} else {
-			foreach (app::$config['modules']['active'] as $moduleName => $type) {
+			foreach (app::$activeModules as $moduleName => $type) {
 				if (is_file('modules/' . $moduleName . '/locale/' . $this->locale . '.php'))
 					include('modules/' . $moduleName . '/locale/' . $this->locale . '.php');
 			}
@@ -203,7 +203,7 @@ class request {
 		if (empty($this->URL))
 			$this->URL = 'index';
 		$this->URL = explode('/', $this->URL, 2);
-		if (isset(\app::$config['modules']['active'][$this->URL[0]])) { 
+		if (isset(\app::$activeModules[$this->URL[0]])) { 
 			$this->module = $this->URL[0];
 			if (isset($this->URL[1]))
 				$this->secondPartURL = $this->URL[1];
@@ -212,7 +212,7 @@ class request {
 			if(method_exists(app::getModule('core'), $this->URL[0] . 'Action')){
 				$this->module = 'core';
 			}else{
-				$this->module = \app::$config['modules']['default'];
+				$this->module = \app::$config['defaultModule'];
 			}
 			$this->secondPartURL = $_GET['parsiurl'];
 		}
@@ -274,7 +274,7 @@ class request {
 
 			if($_SESSION['permissions'] > 0) {
 				/* If user is a creator we display errors and active admin module */
-				\app::$config['modules']['active']['admin'] = 1;
+				\app::$activeModules['admin'] = 1;
 				error_reporting(-1);
 				ini_set('display_errors', 1);
 				set_error_handler('\core\classes\app::errorHandler');

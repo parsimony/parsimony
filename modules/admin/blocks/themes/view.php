@@ -56,12 +56,12 @@
 	<ul>
 <?php
 /* Just list modules in development mode and determine if user has development rights on theme */
-$modulesDev = array_filter(\app::$config['modules']['active'], function ($value) {
-				return $value & 2;
+$modulesDev = array_filter(\app::$activeModules, function ($value) {
+				return $value & 1 && $value & 4;
 			});
 $creationRights = ($_SESSION['permissions'] & 64 && !empty($modulesDev));
 
-$modules = \app::$config['modules']['active'];
+$modules = \app::$activeModules;
 foreach ($modules as $moduleName => $mode) {
 	$module = \app::getModule($moduleName);
 	foreach ($module->getThemes() as $themeName) {

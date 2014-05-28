@@ -56,20 +56,6 @@
 				checkVersion();
 			});
 		})
-		.on('click', '#tabsb-5 input[type="radio"]', function() {
-			$('#tabsb-5 input[type=checkbox]').removeClass('hidden');
-			var input = document.querySelector('#tabsb-5 input[type="checkbox"][name="config[modules][active][' + this.value + ']"]');
-			input.classList.add('hidden');
-			input.checked = true;
-		})
-		.on('click', '#tabsb-5 .developmentMode', function() {
-			var input = this.parentNode.parentNode.querySelector('.onOff');
-			if(this.checked == true && (input.value & 2) == 0) {
-				input.value = parseInt(input.value) + 2;
-			} else if(this.checked == false && (input.value & 2) == 2) {
-				input.value = parseInt(input.value) - 2;
-			}
-		})
 		.on('click', '#tabsb-9 input[type="radio"]', function() {
 			$('#tabsb-9 input[type=checkbox]').removeClass('hidden');
 			var input = document.querySelector('#tabsb-9 input[type="checkbox"][name="config[devices][' + this.value + ']"]');
@@ -92,6 +78,52 @@
 			}
 			top.ParsimonyAdmin.displayExplorer();
 		});
+		
+		$("#tabsb-5").on('click', '.installModule', function(e) {
+			e.preventDefault();
+			$.post(BASE_PATH + 'admin/installModule', {TOKEN: TOKEN, module: this.dataset.module}, function(data) {
+				if(data == 1) {
+					top.document.location.href = top.document.location.origin + top.document.location.pathname + "#" ;
+					top.document.location.href = top.document.location.origin + top.document.location.pathname + "#left_sidebar/settings/admin";
+				} else {
+					alert("Error");
+				}
+			});
+		})
+		.on('click', '.activeModule', function() {
+			this.parentNode.parentNode.classList.toggle("active");
+		})
+		.on('click', 'input[type="radio"]', function() {
+			$('#tabsb-5 input[type=checkbox]').removeClass('hidden');
+			var input = document.querySelector('#tabsb-5 input[type="checkbox"][name="config[modules][' + this.value + ']"]');
+			input.classList.add('hidden');
+			input.checked = true;
+		})
+		.on('click', '.developmentMode', function() {
+			var input = this.parentNode.parentNode.querySelector('.onOff');
+			if(this.checked == true) {
+				this.nextElementSibling.classList.remove("none");
+				if((input.value & 2) == 0){
+					input.value = parseInt(input.value) + 4;
+				}
+			} else if(this.checked == false) {
+				this.nextElementSibling.classList.add("none");
+				if((input.value & 2) == 2){
+					input.value = parseInt(input.value) - 4;
+				}
+			}
+		})
+		.on('click', '.package', function(e) {
+			e.preventDefault();
+			$.post(BASE_PATH + 'admin/packageModule', {TOKEN: TOKEN, module: this.dataset.module}, function(data) {
+				if(data != 0) {
+					document.location = BASE_PATH + data;
+				} else {
+					alert("Error");
+				}
+			});
+		});
+		
 	});
 </script>
 <style>
@@ -102,6 +134,10 @@
 	#authorizedextensions {position: relative;top: 25px;}
 	#authorizedextensions > div {padding: 7px;margin: 6px 0;border: 1px solid #ddd;}
 	#extname{width: 40px;}
+	#tabsb-5 .package{margin-left:15px;visibility:hidden}
+	#tabsb-5 .developmentMode{visibility:hidden}
+	#tabsb-5 .active .package{visibility:visible}
+	#tabsb-5 .active .developmentMode{visibility:visible}
 </style>
 <div class="adminzone" id="admin_rights">
 	<div id="conf_box_title"><?php echo t('Settings') ?></div>
@@ -235,9 +271,9 @@
 							if ($module !== 'core' && $module !== 'admin' && is_file('modules/' . $module . '/module.php')) {
 								$checked = '';
 								$value = '0';
-								if (isset(\app::$config['modules']['active'][$module])) {
+								if (isset(\app::$config['modules'][$module]) && \app::$config['modules'][$module] & 1) {
 									$checked = 'checked="checked"';
-									$value = \app::$config['modules']['active'][$module];
+									$value = \app::$config['modules'][$module];
 								}
 								include_once('modules/' . $module . '/module.php');
 								$name = $module . '\\module';
@@ -247,21 +283,31 @@
 									if (isset($method->name) && $method->name === '__wakeup') $value = '1';
 								}
 								/* ----  */
+								if(isset(\app::$config['modules'][$module])):
 								?>
-								<tr>
+								<tr<?php echo ( !empty($checked) ? ' class="active"' : '') ?>>
 									<td><?php echo $module ?></td>
 									<td>
-										<input type="hidden" name="config[modules][active][<?php echo  $module ?>]" value="removeThis">
-										<input type="checkbox" name="config[modules][active][<?php echo $module ?>]" <?php echo ( app::$config['modules']['default'] == $module ? 'checked="checked" class="hidden onOff"' : ' class="onOff"') ?> value="<?php echo $value ?>" <?php echo $checked  ?>>
+										<input type="hidden" name="config[modules][<?php echo $module ?>]" value="0">
+										<input type="checkbox" name="config[modules][<?php echo $module ?>]" value="<?php echo $value ?>" <?php echo $checked  ?> class="activeModule onOff<?php echo ( app::$config['defaultModule'] == $module ? ' hidden' : '') ?> ">
 									</td>
 									<td>
-										<input type="radio" name="config[modules][default]" value="<?php echo $module ?>" <?php echo ( app::$config['modules']['default'] == $module ? 'checked="checked"' : '') ?>>
+										<input type="radio" name="config[defaultModule]" value="<?php echo $module ?>" <?php echo ( app::$config['defaultModule'] == $module ? 'checked="checked"' : '') ?>>
 									</td>
 									<td>
-										<input type="checkbox" class="onOff developmentMode" onclick="" <?php echo ( $value & 2 ? 'checked="checked"' : '') ?>>
+										<input type="checkbox" class="onOff developmentMode" <?php echo ( $value & 2 ? 'checked="checked"' : '') ?>>
+										<button class="package highlight<?php echo ( $value & 2 ? '' : ' none') ?>" data-module="<?php echo $module ?>"><?php echo t('Package') ?></button>
 									</td>
 								</tr>
 								<?php
+								else:
+									?>
+								<tr style="background: #f5f5f5">
+									<td><?php echo $module ?></td>
+									<td colspan="3"><button class="installModule highlight" data-module="<?php echo $module ?>">Install</button></td>
+								</tr>
+								<?php
+								endif;
 							}
 						}?>
 							</tbody>

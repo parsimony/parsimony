@@ -36,38 +36,6 @@ namespace core\classes;
 class tools {
 
 	/**
-	 * Convert relative URL to Absolute URL 
-	 * @static function
-	 * @param string $txt
-	 * @param string $basePath
-	 * @return string
-	 */
-	public static function absolute_url($txt, $basePath) {
-		$needles = array('href="', 'src="', 'url("', 'background="');
-		$new_txt = '';
-		if (substr($basePath, -1) != '/')
-			$basePath .= '/';
-		$new_base_url = $basePath;
-		$base_url_parts = parse_url($basePath);
-		foreach ($needles as $needle) {
-			while ($pos = strpos($txt, $needle)) {
-			$pos += strlen($needle);
-			if (substr($txt, $pos, 7) != 'http://' && substr($txt, $pos, 8) != 'https://' && substr($txt, $pos, 6) != 'ftp://' && substr($txt, $pos, 9) != 'mailto://') {
-				if (substr($txt, $pos, 1) == '/')
-					$new_base_url = $base_url_parts['scheme'] . '://' . $base_url_parts['host'];
-				$new_txt .= substr($txt, 0, $pos) . $new_base_url;
-			} else {
-				$new_txt .= substr($txt, 0, $pos);
-			}
-			$txt = substr($txt, $pos);
-			}
-			$txt = $new_txt . $txt;
-			$new_txt = '';
-		}
-		return $txt;
-	}
-
-	/**
 	 * Copy an entire dir to another
 	 * @static function
 	 * @param string $dir2copy
@@ -79,14 +47,14 @@ class tools {
 		if (is_dir($dir2copy)) {
 			if ($dh = opendir($dir2copy)) {
 			while (($file = readdir($dh)) !== false) {
-				if (!is_dir($dir_paste))
-				mkdir($dir_paste, 0777
-				);
-				if (is_dir($dir2copy . $file) && $file != '..' &&
-					$file != '.')
-				self::copy_dir($dir2copy . $file . '/', $dir_paste . $file . '/');
-				elseif ($file != '..' && $file != '.')
-				copy($dir2copy . $file, $dir_paste . $file);
+				if (!is_dir($dir_paste)) {
+					self::createDirectory($dir_paste, 0777);
+				}
+				if (is_dir($dir2copy . $file) && $file != '..' && $file != '.') {
+					self::copy_dir($dir2copy . $file . '/', $dir_paste . $file . '/');
+				} elseif ($file != '..' && $file != '.') {
+					copy($dir2copy . $file, $dir_paste . $file);
+				}
 			}
 			closedir($dh);
 			}
@@ -248,8 +216,9 @@ class tools {
 	 * @param object $obj
 	 * @return bool
 	 */
-	public static function serialize($filename,$obj) {
-		$serial = serialize($obj);
+	public static function serialize($filename, $obj) {
+		$objCopy = clone $obj; /* to let used object awake => don't call _sleep on $obj */
+		$serial = serialize($objCopy);
 		/* we save serialized objects with aliases names to allow to overreide classes and reduce file size */
 		foreach(\app::$aliasClasses AS $alias => $className){
 			$serial = str_replace('O:' . strlen($className) . ':"' . $className . '"', 'O:' . strlen($alias) . ':"' . $alias . '"', $serial);

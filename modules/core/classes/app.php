@@ -44,6 +44,9 @@ namespace core\classes {
 
 		/** @var @static array contains all configs */
 		public static $config = array();
+		
+		/** @var @static array contains all active modules */
+		public static $activeModules = array();
 
 		/** @var @static array contains translations */
 		public static $lang = array();
@@ -76,7 +79,7 @@ namespace core\classes {
 			self::$config = $config;
 
 			/* set include path with profile before module to allow profile's files to override module's files */
-			set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/' . PROFILE . '/modules/' . $config['modules']['default'] . '/' . PATH_SEPARATOR . './modules/' . $config['modules']['default'] . '/');
+			set_include_path('.' . PATH_SEPARATOR . './' . PROFILE_PATH . PATH_SEPARATOR . './modules/' . PATH_SEPARATOR . './profiles/' . PROFILE . '/modules/' . $config['defaultModule'] . '/' . PATH_SEPARATOR . './modules/' . $config['defaultModule'] . '/');
 
 			/* Check if it's a file */
 			if ($this->sendFile($_GET['parsiurl']) === FALSE) {
@@ -125,7 +128,8 @@ namespace core\classes {
 		 * Call the onLoad method of each active modules
 		 */
 		protected function launchActiveModules() {
-			foreach (self::$config['modules']['active'] as $moduleName => $type) {
+			self::$activeModules = array_filter(self::$config['modules']);
+			foreach (self::$activeModules as $moduleName => $type) {
 				if ($type & 1) {
 					self::$modules[$moduleName] = \module::get($moduleName);
 				}

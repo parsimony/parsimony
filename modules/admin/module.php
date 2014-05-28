@@ -78,6 +78,8 @@ class module extends \module {
 				'checkOverridedPage' => 8,
 				'saveTranslation' => 32768,
 				'getViewAddModule' => 16384,
+				'installModule' => 16384,
+				'packageModule' => 16384,
 				'saveConfig' => 1,
 				'structureTree' => 128,
 				'getViewAdminRights' => 65536,
@@ -525,8 +527,8 @@ class module extends \module {
 	 * @return string 
 	 */
 	protected function dbDesignerAction($module = FALSE) {
-		if ($module === FALSE || !isset(\app::$config['modules']['active'][$module])) {
-			$module = \app::$config['modules']['default'];
+		if ($module === FALSE || !isset(\app::$activeModules[$module])) {
+			$module = \app::$config['defaultModule'];
 		}
 		$moduleObj = \app::getModule($module);
 		ob_start();
@@ -1340,6 +1342,88 @@ class ' . $table->name . ' extends \entity {
 	 */
 	protected function savePictureAction($file, $code) {
 		return \tools::file_put_contents($file, base64_decode($code));
+	}
+	
+	/**
+	 * Install a module
+	 * @param string $module
+	 * @return string 
+	 */
+	protected function installModuleAction($module = FALSE) {
+		if(is_file('modules/' . $module . '/module.php') && !isset(\app::$config['modules'][$module])) {
+			try {
+				\app::$activeModules[$module] = '1';
+				$moduleObj = \app::getModule($module);
+				if($moduleObj->install()){
+					$configObj = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
+					$update = array('modules' => array($module => (method_exists($moduleObj, '__wakeup')) ? '3' : '1'));
+					$configObj->saveConfig($update);
+					return TRUE;
+				}
+			} catch (\Exception $ex) {
+				return FALSE;
+			}
+			
+		}
+	}
+	
+	/**
+	 * Package a module
+	 * @param string $module
+	 * @return string 
+	 */
+	protected function packageModuleAction($module = 'core') {
+		\tools::rmdir('var/pack/');
+		\tools::copy_dir('modules/' . $module . '/', 'var/pack/' . $module . '/');
+		
+		/* If this module has a profile, retrieve profile */
+		if(is_dir('profiles/' . PROFILE . '/modules/' . $module . '/')) { 
+			/* Remove concats */
+			$concats = glob('profiles/' . PROFILE . '/modules/' . $module . '/*concat_*');
+			if(is_array($concats) && !empty($concats)) {
+				foreach ($concats as $file) {
+					unlink($file);
+				}
+			}
+			\tools::copy_dir('profiles/' . PROFILE . '/modules/' . $module . '/', 'var/pack/' . $module . '/');
+		}
+		
+		/* Clean rights: keep only default rights */
+		
+		/* Module Rights */
+		$objModule = \app::getModule($module);
+		$rolesToRemove = array();
+		foreach (\app::getModule('core')->getEntity('role')->where('id_role > 4') as $role) {
+			$rolesToRemove[] = $role->id_role;
+			$objModule->setRights($role->id_role, 1);
+		}
+		\tools::serialize('var/pack/' . $module . '/module', $objModule);
+		
+		/* Pages rights */
+		foreach($objModule->getPages() AS $page) {
+			foreach ($rolesToRemove as $idRole) {
+				$page->setRights($idRole, 1);
+			}
+			\tools::serialize('var/pack/' . $module . '/pages/' . $page->getId(), $page);
+		}
+		
+		/* Model rights */
+		foreach($objModule->getModel() AS $entity){
+			foreach ($rolesToRemove as $idRole) {
+				$entity->setRights($idRole, 15);
+				foreach($entity->getFields() AS $field)  {
+					$field->setRights($idRole, 7);
+				}
+			}
+			\tools::serialize('var/pack/' . $module . '/model/' . $entity->getName(), $entity);
+		}
+		
+		/* generate and send Zip to client */
+		$phar = new \PharData('profiles/' . PROFILE . '/modules/' . $module . '.zip');
+		$phar->buildFromDirectory('./var/pack');
+		\app::$response->setHeader('Content-type', 'application/zip');
+		return 'profiles/' . PROFILE . '/modules/' . $module . '.zip';
+
 	}
 	
 	/**

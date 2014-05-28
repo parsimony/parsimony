@@ -63,7 +63,7 @@ class page extends \block {
 	 */
 	public function __construct( $id, $module = FALSE) {
 		parent::__construct($id);
-		if($module === FALSE) $module = \app::$config['modules']['default'];
+		if($module === FALSE) $module = \app::$config['defaultModule'];
 		$this->moduleName = $module;
 	}
 
@@ -349,7 +349,7 @@ class page extends \block {
 		}
 		/* SEO : canonical url for index */
 		if($this->regex === '@^index$@'){
-			\app::$response->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['modules']['default'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
+			\app::$response->head .= '<link rel="canonical" href="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http') . '://' . DOMAIN . BASE_PATH . ($this->moduleName === \app::$config['defaultModule'] ? '' : $this->moduleName . '/') . '" />' . PHP_EOL;
 		}
 		return $html;
 	}

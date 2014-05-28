@@ -29,7 +29,7 @@ app::$response->addJSFile('admin/blocks/blocks/block.js', 'footer');
 ?>
 <ul class="blocks">
 	<?php
-	$activeModule = \app::$config['modules']['active'];
+	$activeModule = \app::$activeModules;
 
 	/* Put active module at the top of the list, and remove admin */
 	unset($activeModule[MODULE]);

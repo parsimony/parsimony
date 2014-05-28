@@ -38,7 +38,7 @@ width: 130px;background-color: #fafafa;margin: 0 10px;}
 	#tabs-admin-query{position:relative;text-align: left}
 	.modulecss{padding: 5px;list-style: none;border: 1px solid #C8CBCF;background-color: #ECECEC;text-transform: capitalize;}
 	.modulecss a{text-decoration: none;color:#333;}
-	.details{display:none;position:absolute;top:23px;z-index:1;background: #fff;width: 650px;border: 1px solid #C5C6C9;padding: 3px;overflow-x: scroll}
+	.details{display:none;position:absolute;top:18px;z-index:1;background: #fff;width: 650px;border: 1px solid #C5C6C9;padding: 3px;overflow-x: scroll}
 	.detailsCont{width: 1500px;}
 	.entity{border-radius: 3px;box-shadow: #666 0px 1px 3px;background: #FBFBFB;margin:2px 2px;}
 	.cent{width:100%;box-sizing:border-box;}
@@ -113,9 +113,9 @@ z-index: 1;}
 					<div style="top: 5px;position: relative;left: 7px;text-overflow:ellipsis;font-size:13px">
 						<span for="genereURL"><?php echo t('URL'); ?> : </span><span id="totalurl">http://<?php echo $_SERVER['HTTP_HOST'] . BASE_PATH ?><span class="modulename"><?php
 								$modulename = $module->getName();
-								if ($modulename != \app::$config['modules']['default'])
+								if ($modulename != \app::$config['defaultModule'])
 									echo $modulename;
-								?></span><?php if ($modulename != \app::$config['modules']['default']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
+								?></span><?php if ($modulename != \app::$config['defaultModule']) echo '/'; ?><span id="patternurl" ><?php echo $page->getURL(); ?></span></span>
 					</div>
 					<?php if ($_SESSION['permissions'] & 8): ?>
 						<div style="position: absolute;left: 570px;top: 82px;cursor:pointer;color: #333;line-height: 15px;" onclick="$('#tabs-admin-querieur').toggle();">
@@ -182,26 +182,29 @@ z-index: 1;}
 									<div id="schema_sql" class="choicebuilder" style="width: 175px;">
 										<div class="choicetitle"><?php echo t('A SQL property'); ?></div>
 										<?php
-										$models = $module->getModel();
-										$allowedField = array('field_ident' => '1', 'field_string' => 'example', 'field_numeric' => '1', 'field_numeric' => '1', 'field_url_rewriting' => 'example', 'field_user' => '1');
-										$aliasClasses = array_flip(\app::$aliasClasses);
-										if (count($models) > 0) {
-											echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
-											<li class="ui-state-default ui-corner-top modulecss">' . $module->getName() . '</li><div class="details"><div class="detailsCont">';
-											foreach ($models as $modelName => $model) {
-												echo '<div class="inline-block entity" table="' . $module->getName() . '_' . $modelName . '">
-								<div class="table entityname ellipsis">' . $module->getName() . '_' . $modelName . '</div>';
-												$obj = $module->getEntity($modelName);
-												foreach ($obj->getFields() AS $field) {
-													$className = get_class($field);
-													if (isset($allowedField[$aliasClasses[$className]])) {
-														/* remove ^ and $ for regex to allow multiple composant in general regex */
-														echo '<div name="' . $field->name . '" regex="(' . str_replace('^', '', str_replace('$', '', $field->regex)) . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
+										foreach (\app::$activeModules as $moduleName => $type) {
+											$module = app::getModule($moduleName);
+											$models = $module->getModel();
+											$allowedField = array('field_ident' => '1', 'field_string' => 'example', 'field_numeric' => '1', 'field_numeric' => '1', 'field_url_rewriting' => 'example', 'field_user' => '1');
+											$aliasClasses = array_flip(\app::$aliasClasses);
+											if (count($models) > 0) {
+												echo '<div class="floatleft ui-tabs-nav" style="position:relative;">
+												<li class="ui-state-default ui-corner-top modulecss">' . $module->getName() . '</li><div class="details"><div class="detailsCont">';
+												foreach ($models as $modelName => $model) {
+													echo '<div class="inline-block entity" table="' . $module->getName() . '_' . $modelName . '">
+									<div class="table entityname ellipsis">' . $module->getName() . '_' . $modelName . '</div>';
+													$obj = $module->getEntity($modelName);
+													foreach ($obj->getFields() AS $field) {
+														$className = get_class($field);
+														if (isset($allowedField[$aliasClasses[$className]])) {
+															/* remove ^ and $ for regex to allow multiple composant in general regex */
+															echo '<div name="' . $field->name . '" regex="(' . str_replace('^', '', str_replace('$', '', $field->regex)) . ')" val="'.$allowedField[$aliasClasses[$className]].'" class="ellipsis property ' . $className . '">' . $field->name . '</div>';
+														}
 													}
+													echo '</div>';
 												}
-												echo '</div>';
+												echo '</div></div></div>';
 											}
-											echo '</div></div></div>';
 										}
 										?>
 										<div class="clearboth"></div>
@@ -270,7 +273,7 @@ z-index: 1;}
 										$currentTheme = '';
 									}
 								}
-								$modules = \app::$config['modules']['active'];
+								$modules = \app::$activeModules;
 								foreach ($modules as $moduleName => $mode) {
 									$module = \app::getModule($moduleName);
 									foreach ($module->getThemes() as $themeName) {

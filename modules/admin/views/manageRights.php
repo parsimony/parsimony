@@ -128,7 +128,7 @@ $(document).ready(function() {
 						<legend class="legmod"><label class="modulename"><?php echo t('Module'); ?> :</label>
 							<select name="module" onchange="$(this).closest('.admintabs').find('.rightbox').hide();$('#rights-<?php echo $row->id_role ?>-' + this.value).show()">
 								<?php
-								$modules = \app::$config['modules']['active'];
+								$modules = \app::$activeModules;
 								unset($modules['admin']);
 								foreach ($modules as $moduleName => $type) {
 									echo '<option value="' . $moduleName . '">' . $moduleName . '</option>';
@@ -137,7 +137,7 @@ $(document).ready(function() {
 							</select>
 						</legend>
 						<?php
-						foreach (\app::$config['modules']['active'] as $moduleName => $type) {
+						foreach (\app::$activeModules as $moduleName => $type) {
 							$module = app::getModule($moduleName);
 							echo '<div id="rights-' . $row->id_role. '-' . $moduleName . '" class="rightbox' . ($moduleName !== 'core' ? ' none' : '') . '">';
 							?>

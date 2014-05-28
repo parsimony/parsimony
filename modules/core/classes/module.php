@@ -78,7 +78,7 @@ class module {
 	 * @return module
 	 */
 	public static function get($name) {
-		if (isset(app::$config['modules']['active'][$name]) || $name === 'admin') {
+		if (isset(app::$activeModules[$name]) || $name === 'admin') {
 			if (!class_exists($name . '\\module', false))
 				include('modules/' . $name. '/module.php');
 			$path = stream_resolve_include_path($name . '/module.' . \app::$config['dev']['serialization']);
@@ -330,20 +330,24 @@ class module {
 
 	/**
 	 * Install Module, create model in DB
+	 * @return boolean
 	 */
 	public function install() {
 		foreach ($this->getModel() AS $model) {
 			$this->getEntity($model->getName())->createTable();
 		}
+		return TRUE;
 	}
 
 	/**
 	 * Uninstall Module, delete model of DB
+	 * @return boolean
 	 */
 	public function uninstall() {
 		foreach ($this->getModel() AS $model) {
 			$this->getEntity($model->getName())->deleteTable();
 		}
+		return TRUE;
 	}
 
 	/**

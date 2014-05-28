@@ -27,7 +27,7 @@
  */
 app::$response->addJSFile('admin/blocks/modules/block.js', 'footer');
 
-$activeModule = \app::$config['modules']['active'];
+$activeModule = \app::$activeModules;
 
 /* Put active module at the top of the list, and remove admin && core modules */
 unset($activeModule[MODULE]);
@@ -69,7 +69,7 @@ foreach ($activeModule as $module => $type) {
 				<ul class="pages">
 					<?php
 					foreach ($moduleobj->getPages() as $id_page => $page) {
-						if ($module === \app::$config['modules']['default'])
+						if ($module === \app::$config['defaultModule'])
 							$pageURL = BASE_PATH . $page->getURL();
 						else
 							$pageURL = BASE_PATH . $module . '/' . $page->getURL();

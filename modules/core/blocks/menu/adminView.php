@@ -82,7 +82,7 @@
 		<h3><?php echo t('Choose An Existing Link'); ?></h3>
 		<ul id="addPageItem">
 			<?php
-			foreach (\app::$config['modules']['active'] as $module => $mode) {
+			foreach (\app::$activeModules as $module => $mode) {
 				$moduleObj = \app::getModule($module);
 				$pagesMod = $moduleObj->getPages();
 				if (!empty($pagesMod)) {
