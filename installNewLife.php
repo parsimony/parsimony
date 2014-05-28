@@ -579,6 +579,7 @@ while (1) {
 			include('profiles/www/config.php');
 			define('PREFIX',$config['db']['prefix']);
 			app::$config = $config;
+			app::$activeModules = array_filter($config['modules']);
 			$config['aliasClasses'] = array('app' => 'core\classes\app',
 				'request' => 'core\classes\request',
 				'response' => 'core\classes\response',
