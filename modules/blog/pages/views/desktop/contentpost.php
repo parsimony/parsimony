@@ -12,4 +12,4 @@
 	<div class="noResults"><?php echo t('No results'); ?></div>
 <?php endif; ?>
 
-<?php $view->getPagination(); ?>
+<?php echo $view->getPagination(); ?>
