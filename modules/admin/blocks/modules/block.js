@@ -40,13 +40,11 @@ function blockAdminModules() {
 	}
 
 	this.loadCreationAndEditMode = function() {
-		//highlight link on list page
-		var src = ParsimonyAdmin.currentWindow.location.href.toLocaleString().replace("http://", "");
-		var src = src.substring(src.indexOf(BASE_PATH)).replace("?preview=ok", "").replace("preview=ok", "");
-		var itemLink = $('.sublist[data-url="' + src + '"]');
-		if (itemLink.length > 0) {
-			$(".sublist.selected").removeClass('selected');
-			itemLink.addClass('selected');
+		//highlight link on page list
+		$(".sublist.selected").removeClass("selected");
+		var pageItem = document.getElementById("page_" + document.getElementById("infodev_page").textContent);
+		if(pageItem) {
+			pageItem.classList.add("selected");
 		}
 
 		/* Manage navigation */

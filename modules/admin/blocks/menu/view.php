@@ -142,13 +142,15 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 	</ul>
 
 <?php if ($creationMode === TRUE): ?>
-		<a class="floatright tooltip toolbarsprite info-icon" href="#" data-tooltip="#infodev" data-pos="s"></a>
-		<div id="infodev">
-			<div>Time : <span id="infodev_timer"></span></div>
-			<div>Current Theme : <span id="infodev_theme"></span></div>
-			<div>Current Module : <span id="infodev_module"></span></div>
-			<div>Current Page : <span id="infodev_page"></span></div>
-			<div>PHP version : <span><?php echo phpversion(); ?></span></div>
-		</div>
-<?php endif; ?>
+	<a class="floatright tooltip toolbarsprite info-icon" href="#" data-tooltip="#infodev" data-pos="s"></a>
+<?php endif;
+/* keep infodev even for edit mode */
+?>
+	<div id="infodev">
+		<div><?php echo t('Time') ?> : <span id="infodev_timer"></span></div>
+		<div><?php echo t('Current Theme') ?> : <span id="infodev_theme"></span></div>
+		<div><?php echo t('Current Module') ?> : <span id="infodev_module"></span></div>
+		<div><?php echo t('Current Page') ?> : <span id="infodev_page"></span></div>
+		<div><?php echo t('PHP version') ?> : <span><?php echo phpversion(); ?></span></div>
+	</div>
 </div>

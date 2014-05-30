@@ -114,10 +114,11 @@ class response {
 				\app::$response->addCSSFile('core/css/editinline.css');
 				
 				$script = '';
-				if ($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['permissions'] & 128 ) {
-					$script = 'top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";top.Parsimony.blocks["admin_css"].CSSValues["' . $pathTheme . '"] = ' . json_encode($CSSValues) . ';';
+				if ($_SESSION['permissions'] & 16) {
+					$script = 'top.Parsimony.blocks["admin_css"].CSSValues["' . $pathTheme . '"] = ' . json_encode($CSSValues) . ';';
 				}
-				$body .= '<script>top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
+				$body .= '<script>top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
+				$body .= 'top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";' . $script . 'document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			\app::dispatchEvent('afterPageLoad');
