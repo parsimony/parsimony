@@ -66,7 +66,7 @@ foreach ($activeModule as $module => $type) {
 				if ($moduleInfos['displayAdmin']  & 1) :
 				?>
 				<div class="ellipsis subtitle" title="<?php echo t('Pages in') . ' ' . ucfirst($module); ?>"><?php echo t('Pages'); ?></div>
-				<ul class="pages">
+				<ul class="pages<?php echo $_SESSION['permissions'] & 8 ? ' sortable' : ''; ?>">
 					<?php
 					foreach ($moduleobj->getPages() as $id_page => $page) {
 						if ($module === \app::$config['defaultModule'])

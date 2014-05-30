@@ -56,7 +56,7 @@ function blockAdminModules() {
 		})
 
 		/* Sort pages */
-		.on("dragstart.sortPages", ".gotopage", function(e) {
+		$(".pages.sortable").on("dragstart.sortPages", ".gotopage", function(e) {
 			$("#conf_box_overlay").css({"opacity": 0, "z-index": 0, "display": "block"});
 			var evt = e.originalEvent;
 			evt.dataTransfer.effectAllowed = 'move';

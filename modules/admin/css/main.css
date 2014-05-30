@@ -49,6 +49,7 @@ background-position: 6px 7px;right: 0;top: 0;height: 30px;width: 30px;position: 
 .moduleParts .ui-icon-plus{position: relative;top: 4px;float: left;left: -1px;}
 .creationMode .gotoDBDesigner{display:block;padding-left: 45px;}
 .gotopage{padding-left: 30px}
+.sortable .gotopage:hover::before{content: "\2261";position: absolute;left: 7px;font-size: 21px;top: -3px;cursor: ns-resize;color: #BBB;}
 .gotoDBDesigner{display: none;padding-left: 25px;}
 .gotoDBDesigner:before{content: "";display: block;width: 16px;height: 16px;background: url(admin/img/icons.png) -30px -78px;position: absolute;left:25px;top: 4px;}
 .modelSubList.active:after {right: 0;position: absolute;width: 0px;height: 0px;
