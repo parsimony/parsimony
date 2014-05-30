@@ -88,6 +88,7 @@
 	});
 </script>
 <style>
+	.datagrid .field_formasso{display:none}
 	#selectedsvg{background-image: url('<?php echo BASE_PATH ?>admin/img/folder-open-alt.svg');display: inline-block;position: absolute;left: 10px;width: 19px;height: 16px;}
 	#selected{margin-left: 35px;display : none}
 	#modifmodel3 {display:none;position: absolute;top: 16px;left: 10px;z-index:1}

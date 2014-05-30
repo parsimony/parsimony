@@ -37,7 +37,6 @@ $obj->buildQuery(TRUE);
 $fields = $obj->getFields();
 $aliasClasses = array_flip(\app::$aliasClasses);
 ?>
-<style>.field_formasso{display:none}</style>
 <div class="datagridWrapper">
     <table class="datagrid">
         <thead>
