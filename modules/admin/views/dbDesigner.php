@@ -157,7 +157,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 		</select>
 	</form>
 	<div class="inline-block" style="position: absolute;right: 0;top: 0;">
-		<input type="button" id="save" class="areaWrite" value="<?php echo t('Save model'); ?>" />
+		<input type="button" id="save" class="areaWrite highlight" value="<?php echo t('Save model'); ?>" />
 	</div>
 </div>
 <div id="notify"></div>
