@@ -693,15 +693,15 @@ class module extends \module {
 		$configObj = new \config($file, TRUE);
 		$action = 'ParsimonyAdmin.loadBlock(\'modules\');';
 		if ($_SESSION['permissions'] & 2) {
-			if ($config['versions'] != \app::$config['versions']) { 
+			if (isset($config['versions']) && $config['versions'] != \app::$config['versions']) { 
 				$configObj->saveConfig(array('versions' => 'removeThis'));
 				$action = 'top.window.location.reload()';
 			}
-			if ($config['sitename'] != \app::$config['sitename']) {
+			if (isset($config['sitename']) && $config['sitename'] != \app::$config['sitename']) {
 				$action = 'top.window.location.reload()';
 			}
 		} else {
-			if ($config['sitename'] != \app::$config['sitename']) {
+			if (isset($config['sitename']) && $config['sitename'] != \app::$config['sitename']) {
 				$action = 'top.window.location.reload()';
 			}
 			$config = array('sitename' => $config['sitename']);
