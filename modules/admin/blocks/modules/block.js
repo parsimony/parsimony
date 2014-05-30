@@ -75,7 +75,7 @@ function blockAdminModules() {
 					if (this.id)
 						list.push(this.id);
 				});
-				$.post(BASE_PATH + "admin/reorderPages", {TOKEN:TOKEN, module: $(dragInfos.list).data("module"), order: list}, function(data) {
+				$.post(BASE_PATH + "admin/reorderPages", {TOKEN:TOKEN, module: $(dragInfos.list).parent(".moduleTab").data("module"), order: list}, function(data) {
 					ParsimonyAdmin.notify(t("The changes have been saved"), "positive");
 				});
 			});
