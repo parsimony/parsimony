@@ -358,13 +358,4 @@ app::$response->addJSFile('admin/blocks/css/block.js','footer');
 			}
 		});
 	});
-
-	function rgbToHex(color) {
-		if (color.substring(0, 1) === '#') {
-			return color;
-		}
-		var part = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
-		return "#" + ((1 << 24) + (parseInt(part[2]) << 16) + (parseInt(part[3]) << 8) + parseInt(part[4])).toString(16).slice(1);
-	};
-
 </script>

@@ -557,7 +557,7 @@ function blockAdminCSS() {
 			var parse = document.getElementById("parseCSS").style;
 			parse.background = this.value;
 			var backColorElmt = document.querySelector(".prop_background-color");
-			backColorElmt.value = (parse.backgroundColor && parse.backgroundColor != "initial" ? rgbToHex(parse.backgroundColor) : "");
+			backColorElmt.value = (parse.backgroundColor && parse.backgroundColor != "initial" ? $this.rgbToHex(parse.backgroundColor) : "");
 			backColorElmt.nextElementSibling.style.background = backColorElmt.value;
 			document.querySelector(".prop_background-image").value = (parse.backgroundImage && parse.backgroundImage != "initial" && parse.backgroundImage != "none" ? parse.backgroundImage.replace("url(", "").replace(")", "").replace('"', "").replace(window.location.origin + window.location.pathname, "") : "");
 			document.querySelector(".prop_background-position").value = (parse.backgroundAttachment && parse.backgroundPosition != "initial" ? parse.backgroundPosition : "");
@@ -1299,6 +1299,19 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 		}
 	}
 }
+
+blockAdminCSS.prototype.rgbToHex = function(color) {
+		if (color.substring(0, 1) === '#') {
+			return color;
+		} 
+		if(/rgba/.test(color)) { 
+				var part = /(.*?)rgba\((\d+), (\d+), (\d+), ([^\)]+)\)/.exec(color);
+				 var a = parseFloat(part[4]);
+				color = "rgb(" + (1 - a )  * 255 + a * parseInt(part[2]) + ", " + (1 - a )  * 255 + a * parseInt(part[3]) + ", " + (1 - a )  * 255 + a * parseInt(part[4]) + ")";
+		}
+		var part = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+		return "#" + ((1 << 24) + (parseInt(part[2]) << 16) + (parseInt(part[3]) << 8) + parseInt(part[4])).toString(16).slice(1);
+};
 
 blockAdminCSS.prototype.formatCSS = function(css) {
 	return css.replace(/\/\*.*\*\//g, "").replace(/;[^a-z-]*/g, ";\n").replace(/(^|\n)([^:]+:)[^a-z0-9-#'"]*/g, "$1$2 ");
