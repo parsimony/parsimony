@@ -46,7 +46,7 @@ foreach ($activeModule as $module => $type) {
 	if ($adminHTML === FALSE)
 		$htmlConfig = '';
 	else
-		$htmlConfig = '<a href="#left_sidebar/settings/' . $module . '" class="action configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
+		$htmlConfig = '<a href="#left_sidebar/settings/' . $module . '" class="configmodule" title="' . t('Administration Module') . ' ' . ucfirst(s($moduleInfos['title'])) . '"></a>';
 	if ($moduleInfos['displayAdmin'] > 0) :
 		?>
 		<div class="moduleTab <?php echo $module === MODULE ? 'active' : ''; ?>" data-module="<?php echo $module; ?>">

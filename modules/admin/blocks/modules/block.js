@@ -2,9 +2,12 @@ function blockAdminModules() {
 
 	this.init = function() {
 
-		$("#left_sidebar").on('click', 'div.titleTab', function() {
-			$(this.nextElementSibling).slideToggle('fast');
-			this.parentNode.classList.toggle("active");
+		$("#left_sidebar").on('click', 'div.titleTab', function(e) {
+			if(e.target == this) {
+				$(this.nextElementSibling).slideToggle('fast');
+				this.parentNode.classList.toggle("active");
+			}
+			
 		});
 
 	}
