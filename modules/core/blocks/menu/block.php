@@ -134,25 +134,29 @@ class menu extends \block {
                 $title = $item['title'];
             } else {
                 $page = \app::getModule($item['module'])->getPage($item['page']);
-                if ($item['module'] === \app::$config['defaultModule'])
-                                $url = BASE_PATH . substr($page->getRegex(), 2, -2);
-                else $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
-                if (count($page->getURLcomponents()) == 0) {
-                    $title = $page->getTitle();
-                } else {
-                    $dynamicURL = '';
-                    foreach ($page->getURLcomponents() AS $urlRegex) {
-                        if (isset($urlRegex['modelProperty'])) {
-                            $prop = explode('.', $urlRegex['modelProperty']);
-                            $table = explode('_', $prop[0], 2);
-                            $entity = \app::getModule($table[0])->getEntity($table[1]);
-                            $entityTitle = $entity->getBehaviorTitle();
-                            foreach ($entity as $row) {
-                                $dynamicURL .= '<li><a href="' . str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $row->$prop[1], $url) . '">' . $row->$entityTitle . '</a></li>';
-                            }
-                        }
-                    }
-                }
+				if($page->getRights($_SESSION['id_role']) & DISPLAY) {
+					if ($item['module'] === \app::$config['defaultModule'])
+									$url = BASE_PATH . substr($page->getRegex(), 2, -2);
+					else $url = BASE_PATH . $item['module'] . '/' . substr($page->getRegex(), 2, -2);
+					if (count($page->getURLcomponents()) == 0) {
+						$title = $page->getTitle();
+					} else {
+						$dynamicURL = '';
+						foreach ($page->getURLcomponents() AS $urlRegex) {
+							if (isset($urlRegex['modelProperty'])) {
+								$prop = explode('.', $urlRegex['modelProperty']);
+								$table = explode('_', $prop[0], 2);
+								$entity = \app::getModule($table[0])->getEntity($table[1]);
+								$entityTitle = $entity->getBehaviorTitle();
+								foreach ($entity as $row) {
+									$dynamicURL .= '<li><a href="' . str_replace('(?<' . $urlRegex['name'] . '>' . $urlRegex['regex'] . ')', $row->$prop[1], $url) . '">' . $row->$entityTitle . '</a></li>';
+								}
+							}
+						}
+					}
+				} else {
+					$dynamicURL = '';
+				}
             }
             if (BASE_PATH . \app::$request->getParam('parsiurl') == $url)
                 $classes[] = 'current';
