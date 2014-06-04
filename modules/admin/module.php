@@ -183,7 +183,7 @@ class module extends \module {
 	 * @param string $cssClasses
 	 * @return string 
 	 */
-	protected function saveBlockConfigsAction($typeProgress, $idBlock, $headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
+	protected function saveBlockConfigsAction($typeProgress, $idBlock, $headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode, $devices = array(), $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 		$this->initObjects();
 		$block = $this->$typeProgress->searchBlock($idBlock);
 
@@ -195,6 +195,8 @@ class module extends \module {
 		else $block->removeConfig('tag');
 		if(!empty($allowedModules)) $block->setConfig('allowedModules', $allowedModules);
 		else $block->removeConfig('allowedModules');
+		if(!empty($devices) && count($devices) < count(\app::$devices)) $block->setConfig('devices', $devices);
+		else $block->removeConfig('devices');
 		$block->removeConfig('exclude');
 		if(!empty($allowedRoles)) $block->setConfig('allowedRoles', $allowedRoles);
 		else $block->removeConfig('allowedRoles');
@@ -230,7 +232,7 @@ class module extends \module {
 		if (method_exists($block, 'saveConfigs')) {
 			$block->saveConfigs();
 		} else {
-			$rm = array('action', 'MODULE', 'THEME', 'DEVICE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles');
+			$rm = array('action', 'MODULE', 'THEME', 'DEVICE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles', 'devices');
 			$rm = array_flip($rm);
 			$configs = array_diff_key($_POST, $rm);
 			foreach ($configs AS $configName => $value) {
