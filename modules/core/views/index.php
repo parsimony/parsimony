@@ -37,7 +37,7 @@
 		echo $this->head;
 		?>
 	</head>
-	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
+	<body class="device-<?php echo DEVICE; ?> module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
 		<?php echo $body; ?>
 		<?php echo $this->printInclusions('footer') ?>
 	</body>
