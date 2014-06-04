@@ -39,13 +39,18 @@ h4{margin: 5px 0;}
 <?php \app::getModule('blog')->initConfig();
 /* VISITORS */
 $configs = \app::getModule('blog')->getConfigs();
-
 $params = \app::$request->getParams();
-	
-if(\app::$response->page->getModule() == 'blog') {
+$url = (isset($params['title'])) ? $params['title'] : $params['url'];
+$selURL = 'select ' . PREFIX . 'blog_post.id_post, ' . PREFIX . 'blog_post.url from ' . PREFIX . 'blog_post where ' . PREFIX . 'blog_post.url =  "' . $url . '"';
+$qURL = \PDOconnection::getDB()->query($selURL);
+			
+$URL = $qURL->fetch();
+if($URL !== FALSE){
+$idpage = $URL['id_post'];
+
 	// params title or url
 	if ((isset($params['url']) && is_string($params['url'])) || (isset($params['title']) )) {
-		$url = (isset($params['title'])) ? $params['title'] : $params['url'];
+	
 		// If config allows to comment this post or posts
 		if ($configs['allowComments'] == '1') { 
 			// define url	
@@ -54,7 +59,6 @@ if(\app::$response->page->getModule() == 'blog') {
 			$result = $qpage->fetch();
 			$has_comment = $result['has_comment'];	
 			$rowdate = $result['publicationGMT'];
-			$idpage = $result['id_post'];
 			$entity = \app::getModule('blog')->getEntity('comment');			
 			$desc = '';
 			// Number of items
@@ -76,6 +80,7 @@ if(\app::$response->page->getModule() == 'blog') {
 					if($heldFormoderation == '1') $notify = t('Your comment is held for moderation');
 					else $notify = t('Your comment is approved');
 					if (isset($_POST['add'])) {
+						$_POST['blog_comment']['id_post'] = $idpage;
 						$res = $entity->insertInto($_POST);
 						if ($res === TRUE || is_numeric($res)) {
 							echo '<div class="notify positive">' . $notify . '</div>';
@@ -129,9 +134,7 @@ if(\app::$response->page->getModule() == 'blog') {
 							// we fill them with session data before insert 
 								echo $entity->author_url()->form();
 								echo $entity->content()->form(); ?>
-
-								<input type="hidden" value="<?php echo $idpage; ?>" name="id_post">
-								<input type="submit" value="<?php echo t('Save'); ?>" name="add" class="submit">
+								<input type="submit" value="<?php echo t('Post this comment'); ?>" name="add" class="submit">
 							</form>
 
 							<?php
@@ -140,10 +143,12 @@ if(\app::$response->page->getModule() == 'blog') {
 						?>
 
 						<form method="POST" action="<?php echo BASE_PATH; ?>login" class="connexion">
+							<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
+							<input type="hidden" name="URL" value="<?php if(MODULE == \app::$config['defaultModule']) echo $params['parsiurl']; else echo MODULE.$params['parsiurl'] ; ?>" />
 							<div class="none error"></div>
-							<div class="connectLogin"><label><?php echo t('User'); ?> : </label><input type="text" name="login" class="login" /></div>
-							<div class="connectPassword"><label><?php echo t('Password'); ?> : </label><input type="password" name="password" class="password" /></div>
-							<div class="connectSubmit"><input type="submit" value="<?php echo t('Login'); ?>" /></div>
+							<div class="connectLogin"><label><?php echo t('User'); ?> </label><input type="text" name="login" class="login" /></div>
+							<div class="connectPassword"><label><?php echo t('Password'); ?> </label><input type="password" name="password" class="password" /></div>
+							<div class="connectSubmit"><input type="submit" value="<?php echo t('Login'); ?>" class="submit"></div>
 						</form>
 					<?php endif; ?>
 
@@ -162,8 +167,7 @@ if(\app::$response->page->getModule() == 'blog') {
 						endif; 
 						echo $entity->author_url()->form();
 						echo $entity->content()->form(); ?>
-						<input type="hidden" value="<?php echo $idpage; ?>" name="id_post">
-						<input type="submit" value="<?php echo t('Save'); ?>" name="add" class="submit">
+						<input type="submit" value="<?php echo t('Post this comment'); ?>" name="add" class="submit">
 					</form>
 
 				<?php endif; 
@@ -173,7 +177,7 @@ if(\app::$response->page->getModule() == 'blog') {
 		}
 	}
 }
-else echo t('Your comment block is not in a page of the blog module');
+else echo t('Your comment block is not linked with a post URL');
 ?>  
 
 

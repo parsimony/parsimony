@@ -64,7 +64,7 @@
 	<div class="adminzonemenu"></div>
 	<div class="adminzonecontent">
 		<form action="" method="POST" target="formResult"> 
-			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
+			<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>">
 			<input type="hidden" name="action" value="saveConfig">
 			<div class="commentcl">
 				<h2><?php echo t('Comments settings', false); ?></h2>
@@ -150,7 +150,7 @@
 	<div class="adminzonefooter"> 
 		<div>
 			<button id="save_page" class="save highlight" onclick="$('form').trigger('submit');
-			return false;"><?php echo t('Save', false); ?></button>
+			return false;"><?php echo t('Save settings', false); ?></button>
 		</div>
 	</div>  
 
