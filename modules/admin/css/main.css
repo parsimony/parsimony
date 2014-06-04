@@ -108,7 +108,7 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 
 #dropInTree{position:relative;height:0;width:100%;pointer-events:none}
 #dropInTree::after{position:absolute;width:100%;height:6px;top:-3px;left:0px;height:3px;width:100%;content: " ";background: #c8007a;}
-.tree_selector .notDisplayed{color:#bbb}
+#treedom_container .tree_selector.notDisplayed{color:#bbb}
 
 /* Tree icons */
 #treedom_container > .tree_selector{background-color: #FAFAFA;color: #444444;}
