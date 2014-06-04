@@ -64,7 +64,7 @@ class image extends \block {
 		return FALSE;
 	}
 	
-	public function onMove($typeProgress, $module, $name, $themeType = 'desktop', $copy = FALSE) {
+	public function onMove($typeProgress, $module, $name, $copy = FALSE) {
 		$oldPath = $this->getConfig('imgPath');
 		$imagePath = substr(strstr($oldPath, '/files/'), 7);
 		$newPath = $module . '/files/' . $imagePath;

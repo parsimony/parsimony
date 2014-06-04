@@ -37,7 +37,6 @@ namespace admin;
  * @php_version_min 5.3
  * @php_extension php_pdo_mysql
  * @php_settings magic_quotes_gpc:0,register_globals:0
- * @modules_dependencies core:1
  */
 
 class module extends \module {
@@ -110,7 +109,7 @@ class module extends \module {
 	 * @param string $stop_typecont
 	 * @return string 
 	 */
-	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
+	protected function addBlockAction($popBlock, $parentBlock, $idBlock, $id_next_block, $stop_typecont, $content, $MODULE, $THEMEMODULE, $THEME) {
 		$this->initObjects();
 		$idBlock = strtolower($idBlock);
 		if($stop_typecont === 'page') { /* block id in page have to start with a capital */
@@ -120,11 +119,11 @@ class module extends \module {
 		$idBlock = $tempBlock->getId(); /* To sanitize id */	
 		if (method_exists($tempBlock, 'onMove')) { /* init path of views */
 			if($stop_typecont === 'theme') {
-				if ($tempBlock->onMove('theme', $THEMEMODULE, $THEME, $THEMETYPE)) {
+				if ($tempBlock->onMove('theme', $THEMEMODULE, $THEME)) {
 					return $this->returnResult(array('notification' => t('ID block already exists in this theme, please choose antother')));
 				}
 			} else {
-				if ($tempBlock->onMove('page', $MODULE, $this->page->getId(), $THEMETYPE)) {
+				if ($tempBlock->onMove('page', $MODULE, $this->page->getId())) {
 					return $this->returnResult(array('notification' => t('ID block already exists in this page, please choose antother')));
 				}
 			}
@@ -139,10 +138,10 @@ class module extends \module {
 		/* If exists : Add default block CSS in current theme  */
 		if (is_file('modules/' . str_replace('\\', '/', $popBlock) . '/default.css')) {
 			$css = new \css('modules/' . str_replace('\\', '/', $popBlock) . '/default.css');
-			if (!is_file(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css') && is_file('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/' . $THEMETYPE . '/style.css')) {
-				file_put_contents(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css', file_get_contents('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/' . $THEMETYPE . '/style.css'));
+			if (!is_file(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/style.css') && is_file('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/style.css')) {
+				file_put_contents(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/style.css', file_get_contents('modules/' . $this->theme->getModule() . '/themes/' . $this->theme->getName() . '/style.css'));
 			}
-			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/' . $THEMETYPE . '/style.css');
+			$cssCurrentTheme = new \css(PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME. '/style.css');
 			foreach ($css->getAllSselectors() as $selector) {
 				$rules = $css->extractSelectorRules($selector);
 				if (!empty($rules)) {
@@ -231,7 +230,7 @@ class module extends \module {
 		if (method_exists($block, 'saveConfigs')) {
 			$block->saveConfigs();
 		} else {
-			$rm = array('action', 'MODULE', 'THEME', 'THEMETYPE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles');
+			$rm = array('action', 'MODULE', 'THEME', 'DEVICE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles');
 			$rm = array_flip($rm);
 			$configs = array_diff_key($_POST, $rm);
 			foreach ($configs AS $configName => $value) {
@@ -264,7 +263,7 @@ class module extends \module {
 	 * @param string $idBlock
 	 * @return string
 	 */
-	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock, $THEMEMODULE, $THEME, $THEMETYPE) {
+	protected function removeBlockAction($typeProgress, $parentBlock, $idBlock, $THEMEMODULE, $THEME) {
 		$this->initObjects();
 		$parent = $this->$typeProgress->searchBlock($parentBlock);
 		$block = $this->$typeProgress->searchBlock($idBlock);
@@ -274,10 +273,10 @@ class module extends \module {
 		$parent->rmBlock($idBlock);
 		$test = $this->$typeProgress->searchBlock($idBlock);
 		if ($test == NULL){
-			$path = PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/' . $THEMETYPE . '/style.css';
+			$path = PROFILE_PATH . $THEMEMODULE . '/themes/' . $THEME . '/style.css';
 			if(is_file($path)){
 				$css = new \css($path);
-				$css->deleteSelector('#' . $idBlock);
+				$css->deleteBlockSelectors('#' . $idBlock);
 				$css->save();
 			}
 			$this->saveAll();
@@ -433,7 +432,7 @@ class module extends \module {
 	 * @param string $parentBlock
 	 * @return string 
 	 */
-	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock, $MODULE, $THEMEMODULE, $THEME, $THEMETYPE) {
+	protected function moveBlockAction($start_typecont, $idBlock, $popBlock, $startParentBlock, $id_next_block, $stop_typecont, $parentBlock, $MODULE, $THEMEMODULE, $THEME) {
 		$this->initObjects();
 		
 		//start
@@ -460,11 +459,11 @@ class module extends \module {
 		if ($this->$stop_typecont->searchBlock($idBlock) !== NULL){
 			if (method_exists($block, 'onMove')) { /* init path of views */
 				if($stop_typecont === 'theme') {
-					if ($block->onMove('theme', $THEMEMODULE, $THEME, $THEMETYPE)) {
+					if ($block->onMove('theme', $THEMEMODULE, $THEME)) {
 						return $this->returnResult(array('notification' => t('ID block already exists in this theme, please choose antother')));
 					}
 				} else {
-					if ($block->onMove('page', $MODULE, $this->page->getId(), $THEMETYPE)) {
+					if ($block->onMove('page', $MODULE, $this->page->getId())) {
 						return $this->returnResult(array('notification' => t('ID block already exists in this page, please choose antother')));
 					}
 				}
@@ -693,10 +692,6 @@ class module extends \module {
 		$configObj = new \config($file, TRUE);
 		$action = 'ParsimonyAdmin.loadBlock(\'modules\');';
 		if ($_SESSION['permissions'] & 2) {
-			if (isset($config['versions']) && $config['versions'] != \app::$config['versions']) { 
-				$configObj->saveConfig(array('versions' => 'removeThis'));
-				$action = 'top.window.location.reload()';
-			}
 			if (isset($config['sitename']) && $config['sitename'] != \app::$config['sitename']) {
 				$action = 'top.window.location.reload()';
 			}
@@ -766,7 +761,12 @@ class module extends \module {
 			if ($block instanceof \core\blocks\container || $idBlock === 'content'){
 				$html .= $this->structureTree($block);
 			} else {
-				$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
+				$devices = $block->getConfig('devices');
+				if(is_array($block->getConfig('devices'))){
+					$html .= '<li class="tree_selector parsimonyblock' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $idBlock . '"> ' . $idBlock . ' <img src="http://parsimony.mobi/admin/img/devices/' . implode('.svg" width="14"> <img src="http://parsimony.mobi/admin/img/devices/', $block->getConfig('devices') ). '.svg" width="14"> </li>';
+				} else {
+					$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
+				}
 			}
 		}
 		$html .= '</ul>';
@@ -1430,7 +1430,7 @@ class ' . $table->name . ' extends \entity {
 	 * Init objects theme module & page
 	 */
 	private function initObjects() {
-		$this->theme = \theme::get(\app::$request->getParam('THEMEMODULE'), \app::$request->getParam('THEME'), \app::$request->getParam('THEMETYPE'));
+		$this->theme = \theme::get(\app::$request->getParam('THEMEMODULE'), \app::$request->getParam('THEME'));
 		$this->module = \app::getModule(\app::$request->getParam('MODULE'));
 		$IDPage = \app::$request->getParam('IDPage');
 		if ($IDPage && is_numeric($IDPage)) {

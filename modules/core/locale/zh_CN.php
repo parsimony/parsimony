@@ -134,7 +134,6 @@ $lang['Title can\'t be empty'] = ' 名称不能为空白';
 $lang['Structure can\'t be empty'] = ' 结构不能为空白';
 $lang['Parsimony doesn\'t know this HTTP format'] = 'Parsimony不能识别此HTTP规格';
 $lang['Parsimony doesn\'t know this HTTP status'] = 'Parsimony不能识别此HTTP状态';
-$lang['Themetype can\'t be empty'] = ' 主题类型不能为空白';
 $lang['Error : No file Uploaded'] = ' 下载页面时出现错误';
 $lang['Error : The file format is invalid'] = ' 此文件规格无效';
 $lang['Error : the filename can\'t be empty'] = '  文档名不能为空白';

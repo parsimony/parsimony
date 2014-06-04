@@ -46,17 +46,15 @@ app::$response->addJSFile('admin/blocks/blocks/block.js', 'footer');
 				$blockClassName = $module . '\blocks\\' . $blockName;
 				$reflect = new ReflectionClass('\\' . $blockClassName);
 				$blockInfos = \tools::getClassInfos($reflect);
-				if (!isset($blockInfos['allowed_types']) || (isset($blockInfos['allowed_types']) && strstr(',' . str_replace(' ', '', $blockInfos['allowed_types']) . ',', ',' . THEMETYPE . ','))) {
-					if (isset($blockInfos['block_category']))
-						$categBlock = $blockInfos['block_category'];
-					else
-						$categBlock = $module;
-					if (!isset($blocksCat[$categBlock]))
-						$blocksCat[$categBlock] = '';
-					if (isset($blockInfos['description']))
-						$description = ucfirst(s($blockInfos['description']));
-					$blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))) . '" data-tooltip="' . $description . '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . $module . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
-				}
+				if (isset($blockInfos['block_category']))
+					$categBlock = $blockInfos['block_category'];
+				else
+					$categBlock = $module;
+				if (!isset($blocksCat[$categBlock]))
+					$blocksCat[$categBlock] = '';
+				if (isset($blockInfos['description']))
+					$description = ucfirst(s($blockInfos['description']));
+				$blocksCat[$categBlock] .= '<div class="admin_core_block tooltip" data-title="' . trim(ucfirst(s($blockInfos['title']))) . '" data-tooltip="' . $description . '" draggable="true" id="' . str_replace('\\', '', $blockClassName) . '" data-block="' . $blockClassName . '" style="background:url(' . BASE_PATH . $module . '/blocks/' . $blockName . '/icon.png) center center no-repeat;"></div>';
 			}
 			/* List default stylables selecteurs */
 			if (is_file('modules/' . $module . '/blocks/' . $blockName . '/default.css')) {

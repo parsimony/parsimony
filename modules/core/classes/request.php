@@ -173,28 +173,17 @@ class request {
 	 * Detect device of visitor
 	 */
 	protected function determineDevice() {
-		if (!isset($_COOKIE['version'])) {
-
-			/* take last version by default */
-			$versions = array_keys(\app::$config['versions']);
-			$_COOKIE['version'] = array_pop($versions);
-
-			/* If there is one version we take this */
-			if (count(\app::$config['versions']) > 1) {
-				foreach ($versions AS $nameVersion) {
-					$devices = explode('-', $nameVersion);
-					foreach ($devices as $device) {
-						$func = \app::$devices[$device]['detectFnc'];
-						if ($func() === 1) {
-							$_COOKIE['version'] = $nameVersion;
-							break;
-						}
-					}
+		if (!isset($_COOKIE['device'])) {
+			$_COOKIE['device'] = 'desktop';
+			foreach (\app::$devices AS $device) {
+				if ($device['detectFnc']() === 1) {
+					$_COOKIE['device'] = $device['name'];
+						break;
 				}
 			}
 		}
-		define('THEMETYPE', $_COOKIE['version']);
-	}
+		define('DEVICE', $_COOKIE['device']);
+		}
 
 	/**
 	 * Determine Module

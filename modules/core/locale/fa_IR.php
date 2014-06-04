@@ -134,7 +134,6 @@ $lang['Title can\'t be empty'] = 'عنوان نباید خالی باشد';
 $lang['Structure can\'t be empty'] = 'ساختار نباید خالی باشد';
 $lang['Parsimony doesn\'t know this HTTP format'] = 'Parsimony این فرمت HTTP را متوجه نمی‌شود!';
 $lang['Parsimony doesn\'t know this HTTP status'] = 'Parsimony این HTTP status را متوجه نمی‌شود!';
-$lang['Themetype can\'t be empty'] = 'نوع پوسته نباید خالی باشد';
 $lang['Error : No file Uploaded'] = 'خطا: هیچ فایلی آپلود نشده است';
 $lang['Error : The file format is invalid'] = 'خطا: فرمت فایل غیر مجاز است';
 $lang['Error : the filename can\'t be empty'] = 'خطا: نام فایل نباید خالی باشد';

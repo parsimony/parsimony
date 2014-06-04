@@ -46,7 +46,7 @@ function blockAdminBlocks() {
 		if (typeof content != "undefined") contentToAdd = content;
 		ParsimonyAdmin.postData(BASE_PATH + "admin/" + action, {
 			TOKEN: TOKEN,
-			MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE,
+			MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, DEVICE: ParsimonyAdmin.currentWindow.DEVICE,
 			popBlock: blockType,
 			idBlock: idBlock,
 			id_next_block: idNextBlock,
@@ -254,7 +254,7 @@ function blockAdminBlocks() {
 								if (maxFileSize > file.size) {
 									var fd = new FormData();
 									fd.append("fileField", files[0]);
-									$.each({action: "upload", path: "profiles/www/modules/core/files", TOKEN: TOKEN, MODULE: MODULE, THEME: THEME, THEMETYPE: THEMETYPE, THEMEMODULE: THEMEMODULE}, function(i, val) {
+									$.each({action: "upload", path: "profiles/www/modules/core/files", TOKEN: TOKEN, MODULE: MODULE, THEME: THEME, DEVICE: DEVICE, THEMEMODULE: THEMEMODULE}, function(i, val) {
 										fd.append(i, val);
 									});
 									var xhr = new XMLHttpRequest();
@@ -312,7 +312,7 @@ function blockAdminBlocks() {
 					var parentId = $("#treedom_" + this.inProgress).parent().closest(".parsicontainer").attr('id').replace("treedom_", "");
 				ParsimonyAdmin.postData(BASE_PATH + "admin/removeBlock", {
 					TOKEN: TOKEN,
-					MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE,
+					MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, DEVICE: ParsimonyAdmin.currentWindow.DEVICE,
 					idBlock: this.inProgress,
 					parentBlock: parentId,
 					typeProgress: $this.typeProgress,
@@ -436,7 +436,7 @@ function blockAdminBlocks() {
 	this.updateUI = function(callBack)  {
 		$(".dropInContainer",ParsimonyAdmin.currentBody).remove();
 		$("#config_tree_selector").hide().prependTo("#right_sidebar");
-		ParsimonyAdmin.loadBlock('tree', {MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, THEMETYPE: ParsimonyAdmin.currentWindow.THEMETYPE, IDPage: top.document.getElementById("infodev_page").textContent}, callBack);
+		ParsimonyAdmin.loadBlock('tree', {MODULE: ParsimonyAdmin.currentWindow.MODULE, THEMEMODULE: ParsimonyAdmin.currentWindow.THEMEMODULE, THEME: ParsimonyAdmin.currentWindow.THEME, DEVICE: ParsimonyAdmin.currentWindow.DEVICE, IDPage: top.document.getElementById("infodev_page").textContent}, callBack);
 		$(".core_container",ParsimonyAdmin.currentBody).each(function(){ 
 			if($(this).find('.parsiblock:not("#content")').length == 0) {
 				$(this).prepend('<div class="dropInContainer"><div class="dropInContainerChild">Id #' + this.id + ". " + t("Drop the blocks in this space") + '</div></div>');
@@ -476,7 +476,7 @@ function blockAdmin() {
 			else
 				parentId = inProgress.parent().closest(".core_container").attr('id').replace("treedom_", "");
 		}
-		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&MODULE=" + ParsimonyAdmin.currentWindow.MODULE + "&THEMEMODULE=" + ParsimonyAdmin.currentWindow.THEMEMODULE + "&THEME=" + ParsimonyAdmin.currentWindow.THEME + "&THEMETYPE=" + ParsimonyAdmin.currentWindow.THEMETYPE + "&idBlock=" + Parsimony.blocks['admin_blocks'].inProgress + "&parentBlock=" + parentId + "&typeProgress=" + Parsimony.blocks['admin_blocks'].typeProgress + "&action=" + this.getAttribute('rel') + "&IDPage=" + $(".core_page", ParsimonyAdmin.currentBody).data('page'));
+		ParsimonyAdmin.displayConfBox(BASE_PATH + "admin/action", "TOKEN=" + TOKEN + "&MODULE=" + ParsimonyAdmin.currentWindow.MODULE + "&THEMEMODULE=" + ParsimonyAdmin.currentWindow.THEMEMODULE + "&THEME=" + ParsimonyAdmin.currentWindow.THEME + "&DEVICE=" + ParsimonyAdmin.currentWindow.DEVICE + "&idBlock=" + Parsimony.blocks['admin_blocks'].inProgress + "&parentBlock=" + parentId + "&typeProgress=" + Parsimony.blocks['admin_blocks'].typeProgress + "&action=" + this.getAttribute('rel') + "&IDPage=" + $(".core_page", ParsimonyAdmin.currentBody).data('page'));
 	}
 
 	this.onDesign = function(e) {

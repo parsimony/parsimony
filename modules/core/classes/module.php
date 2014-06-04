@@ -170,7 +170,7 @@ class module {
 		if (empty($theme)) {
 			$blockObj = & $this->getPage($idPage)->searchBlock($id);
 		} else {
-			$theme = \theme::get($this->name, $theme, THEMETYPE);
+			$theme = \theme::get($this->name, $theme);
 			$blockObj = $theme->searchBlock($id, $theme);
 		}
 		if (method_exists($blockObj, $method . 'Action')) {

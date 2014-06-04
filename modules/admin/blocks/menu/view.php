@@ -68,16 +68,14 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 	</li>
 </ul>
 <ul class="menu" style="flex-grow:1;display: flex;">
-	<?php if (count(\app::$config['versions']) > 1): ?>
-		<li class="subMenu">
-			<a href="#" id="info_themetype" data-title="<?php echo t('Version'); ?>"><?php echo THEMETYPE; ?></a>
-			<ul id="changeDevice" class="changeVersion">
-				<?php foreach (\app::$config['versions'] AS $versionName => $version): ?>
-					<li data-version="<?php echo $versionName; ?>"><?php echo ucfirst(str_replace('-', ', ', $versionName)); ?></li>
-				<?php endforeach; ?>
-			</ul>
-		</li>
-	<?php endif; ?>
+	<li class="subMenu">
+		<a href="#" id="infoDevice" data-title="<?php echo t('Version'); ?>"><?php echo DEVICE; ?></a>
+		<ul id="changeDevice" class="changeVersion">
+			<?php foreach (\app::$devices AS $device): ?>
+				<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</li>
 	<li style="border-left: 0;position: relative" class="subMenu">
 		<a href="#" style="position: relative;"><span id="currentRes"></span></a>
 		<ul id="listres" class="changeVersion"></ul>

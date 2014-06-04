@@ -92,9 +92,9 @@ class response {
 			if ($theme instanceof theme) {
 				define('THEMEMODULE', $theme->getModule());
 				define('THEME', $theme->getName());
-				$this->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css');
+				$this->addCSSFile(THEMEMODULE . '/themes/' . THEME . '/style.css');
 				$body = $theme->display(); /* Display with theme */
-			} else{
+			} else {
 				define('THEMEMODULE', '');
 				define('THEME', '');
 				$body = $body->display(); /* Display without theme */
@@ -110,7 +110,7 @@ class response {
 				
 				$body .= '<script>top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
 
-				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/' . THEMETYPE . '/style.css';
+				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/style.css';
 				
 				if ($_SESSION['permissions'] & 16) {
 					/* Store on client side all CSS selectors from theme style */
@@ -118,7 +118,7 @@ class response {
 					$CSSValues = $css->getCSSValues();
 					$body .= 'top.Parsimony.blocks["admin_css"].CSSValues["' . $pathTheme . '"] = ' . json_encode($CSSValues) . ';';
 				}
-				$body .= 'top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . THEMETYPE . '.css";document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
+				$body .= 'top.history.replaceState({url:document.location.pathname}, document.title, document.location.pathname.replace("?preview=ok","").replace("preview=ok",""));top.$_GET=' . json_encode($_GET) . ';top.$_POST=' . json_encode($_POST) . ';top.CSSTHEMEPATH = "' . $pathTheme . '";top.CSSPAGEPATH = "' . MODULE . '/css/' . DEVICE . '.css";document.addEventListener("DOMContentLoaded", function() {top.ParsimonyAdmin.initPreview();});  </script>';
 			}
 			
 			\app::dispatchEvent('afterPageLoad');
@@ -215,7 +215,7 @@ class response {
 				if ($pathParts === 'js' || $pathParts === 'css') {
 					$path = stream_resolve_include_path($file);
 					if ($path){
-						if ($_SESSION['permissions'] > 0 && $pathParts === 'css')
+						if ($_SESSION['permissions'] & 16 && $pathParts === 'css')
 							echo '.parsimonyMarker{background-image: url(' . $file . ') }' . PHP_EOL;
 						include($path);
 					}

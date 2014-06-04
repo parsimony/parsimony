@@ -93,7 +93,7 @@ if (is_object($block) == NULL) {
 					<input type="hidden" name="MODULE" value="<?php echo $_POST['MODULE']; ?>" />
 					<input type="hidden" name="THEMEMODULE" value="<?php echo $_POST['THEMEMODULE']; ?>" />
 					<input type="hidden" name="THEME" value="<?php echo $_POST['THEME']; ?>" />
-					<input type="hidden" name="THEMETYPE" value="<?php echo $_POST['THEMETYPE']; ?>" />
+					<input type="hidden" name="DEVICE" value="<?php echo $_POST['DEVICE']; ?>" />
 					<input type="hidden" name="getVars" />
 					<input type="hidden" name="postVars" />
 					<input type="hidden" name="idBlock" value="<?php echo $_POST['idBlock']; ?>" />
@@ -131,13 +131,24 @@ if (is_object($block) == NULL) {
 					</div>
 					<div class="clear padd"> 
 						<h3>Display</h3>
+						
+						<div class="placeholder blockhead">
+							<label><?php echo t('In wich devices this block can be displayed'); ?></label>
+							<select name="devices[]" multiple="multiple">
+								<?php
+								$allowedDevices = (array) $block->getConfig('devices');
+								print_r($allowedDevices);
+								foreach (\app::$devices AS $device): ?>
+									<option value="<?php echo $device['name']; ?>"<?php echo (in_array($device['name'], $allowedDevices) ? ' selected="selected"' : ''); ?>><?php echo ucfirst($device['name']); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
 						<div class="placeholder blockhead">
 							<label><?php echo t('Only for the following modules'); ?></label>
 							<select name="allowedModules[]" multiple="multiple">
 								<?php
 								$allowedModules = (array) $block->getConfig('allowedModules');
-								$modules = \app::$activeModules;
-								foreach ($modules as $moduleName => $state) {
+								foreach (\app::$activeModules as $moduleName => $state) {
 									echo '<option' . (in_array($moduleName, $allowedModules) ? ' selected="selected"' : '') . '>' . $moduleName . '</option>';
 								}
 								?>

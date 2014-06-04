@@ -42,7 +42,7 @@ app::$response->addJSFile('admin/blocks/tree/block.js','footer');
 	<?php
 	$IDPage = \app::$request->getParam('IDPage');
 	if ($IDPage && is_numeric($IDPage)) {
-		echo \app::getModule('admin')->structureTree(\theme::get(\app::$request->getParam('THEMEMODULE'), \app::$request->getParam('THEME'), \app::$request->getParam('THEMETYPE')));
+		echo \app::getModule('admin')->structureTree(\theme::get(\app::$request->getParam('THEMEMODULE'), \app::$request->getParam('THEME')));
 	}
 	?>
 </div>

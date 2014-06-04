@@ -134,7 +134,6 @@ $lang['Title can\'t be empty'] = 'Le titre ne peut pas être vierge';
 $lang['Structure can\'t be empty'] = 'La structure ne peut pas être vierge';
 $lang['Parsimony doesn\'t know this HTTP format'] = 'Parsimony ne connaît pas ce format HTTP';
 $lang['Parsimony doesn\'t know this HTTP status'] = 'Parsimony ne connaît pas ce statut HTTP';
-$lang['Themetype can\'t be empty'] = 'Le type du thèeme ne peut pas être vierge';
 $lang['Error : No file Uploaded'] = 'Erreur lors du téléchargement du fichier';
 $lang['Error : The file format is invalid'] = 'Erreur lors du téléchargement : le format du fichier est invalide';
 $lang['Error : the filename can\'t be empty'] = 'Erreur : Le fichier n\'a pas de nom';

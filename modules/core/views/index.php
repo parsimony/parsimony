@@ -7,7 +7,7 @@
 			var BASE_PATH = '<?php echo BASE_PATH ?>';
 			var MODULE = '<?php echo MODULE ?>';
 			var THEME = '<?php echo THEME ?>';
-			var THEMETYPE = '<?php echo THEMETYPE ?>';
+			var DEVICE = '<?php echo DEVICE ?>';
 			var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 			var TOKEN = '<?php echo TOKEN ?>';
 
@@ -15,7 +15,7 @@
 		</script>
 		<link rel="shortcut icon" href="<?php echo BASE_PATH . (isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png');  ?>" />
 		<meta name="generator" content="Parsimony">
-		<?php if(THEMETYPE === 'desktop'): ?>
+		<?php if(DEVICE === 'desktop'): ?>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<!--[if lt IE 9]>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

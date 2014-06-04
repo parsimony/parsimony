@@ -32,7 +32,7 @@
 	$(document).ready(function() {
 		$('#images img:first').trigger('click');
 		$("#droparea").parsimonyUpload({ajaxFile: "<?php echo BASE_PATH; ?>admin/action",
-			ajaxFileParams: {action: "upload", TOKEN: "<?php echo TOKEN; ?>", path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",THEMETYPE: "<?php echo $_POST['THEMETYPE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
+			ajaxFileParams: {action: "upload", TOKEN: "<?php echo TOKEN; ?>", path: "<?php echo PROFILE_PATH . $_POST['MODULE'] . '/files'; ?>",MODULE: "<?php echo $_POST['MODULE'] ?>",THEME: "<?php echo $_POST['THEME'] ?>",DEVICE: "<?php echo $_POST['DEVICE'] ?>",THEMEMODULE: "<?php echo $_POST['THEMEMODULE'] ?>"},
 			start:function(file){console.log("Start load : " + file.name)},
 			onProgress:function(file, progress){console.log("Load:  " + file.name + " - " + progress + " %</div>")},
 			stop:function(response){

@@ -209,7 +209,7 @@ abstract class block {
 	 * @return string
 	 */
 	public function display() {
-
+		
 		$html = '';
 		$balise = 'div';
 		$maxAge = 0;
@@ -218,6 +218,10 @@ abstract class block {
 
 		foreach($this->configs AS $name => $config){
 			switch ($name) {
+				case 'devices':
+					if (is_array($config) && !in_array(DEVICE, $config))
+						return '';
+					break;
 				case 'allowedModules':
 					if (is_array($config) && !in_array(MODULE, $config))
 						return '';
@@ -403,7 +407,7 @@ class '.$blockName.' extends \\'.$extends.' {
 		}
 		return $rbloc;
 	}
-
+	
 }
 
 ?>

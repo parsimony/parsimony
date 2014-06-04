@@ -134,7 +134,6 @@ $lang['Title can\'t be empty'] = 'Titlul nu poate fi gol';
 $lang['Structure can\'t be empty'] = 'Structura nu poate fi goala';
 $lang['Parsimony doesn\'t know this HTTP format'] = 'Parsimony nu cunoaste acest format HTTP';
 $lang['Parsimony doesn\'t know this HTTP status'] = 'Parsimony nu cunoaste acest statut HTTP';
-$lang['Themetype can\'t be empty'] = 'Tipul temei nu poate fi gol';
 $lang['Error : No file Uploaded'] = 'Eroare: nu a fost incarcat niciun fisier';
 $lang['Error : The file format is invalid'] = 'Eroare: formatul fisierului este invalid';
 $lang['Error : the filename can\'t be empty'] = 'Eroare: numele fisierului nu poate fi gol';

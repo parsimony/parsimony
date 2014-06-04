@@ -144,13 +144,13 @@ class page extends \block {
 		}
 		/* Define THEME, perm 8 = choose a theme */
 		if($_SESSION['permissions'] & 8 && isset($_COOKIE['THEME']) && isset($_COOKIE['THEMEMODULE'])){
-			return \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME'], THEMETYPE);
+			return \theme::get($_COOKIE['THEMEMODULE'], $_COOKIE['THEME']);
 		}else{
 			if(empty($this->theme)){
-				return \theme::get(app::$config['THEMEMODULE'], app::$config['THEME'], THEMETYPE);
+				return \theme::get(app::$config['THEMEMODULE'], app::$config['THEME']);
 			}else{
 				$themeParts = explode('_', $this->theme, 2);
-				return \theme::get($themeParts[0], $themeParts[1], THEMETYPE);
+				return \theme::get($themeParts[0], $themeParts[1]);
 			}
 		}
 	}
@@ -206,76 +206,6 @@ class page extends \block {
 		return $this;
 	}
 
-	/**
-	 * Add a block
-	 * @param block $block
-	 * @param string $idNext optional
-	 */
-	public function addBlock(block $block, $idNext = false) {
-		if (!isset($this->blocks[THEMETYPE]))
-			$this->blocks[THEMETYPE] = array();
-		if (!$idNext) {
-			$this->blocks[THEMETYPE][$block->getId()] = $block;
-		} else {
-			$tempBlocks = array();
-			foreach ($this->blocks[THEMETYPE] as $idBlock => $tempBlock) {
-				if ($idBlock === $idNext) {
-					$tempBlocks[$block->getId()] = $block;
-				}
-				$tempBlocks[$idBlock] = $tempBlock;
-			}
-			if ($idNext === 'last')
-				$tempBlocks[$block->getId()] = $block;
-			$this->blocks[THEMETYPE] = $tempBlocks;
-		}
-		return $this;
-	}
-
-	/**
-	 * Remove a block
-	 * @param string $idBlock
-	 * @return page object
-	 */
-	public function rmBlock($idBlock) {
-		if (isset($this->blocks[THEMETYPE][$idBlock])) {
-			unset($this->blocks[THEMETYPE][$idBlock]);
-			return $this;
-		} else {
-			return FALSE;
-		}
-	}
-
-	/**
-	 * Get children blocks
-	 * @return array of blocks
-	 */
-	public function getBlocks() {
-		if (!isset($this->blocks[THEMETYPE]))
-			$this->blocks = array(THEMETYPE => array());
-		return $this->blocks[THEMETYPE];
-	}
-
-	/**
-	 * Set children blocks
-	 * @param array of blocks
-	 * @return page object
-	 */
-	public function setBlocks(array $blocks) {
-		$this->blocks[THEMETYPE] = $blocks;
-		return $this;
-	}
-
-	/**
-	 * Get a block child 
-	 * @param string $idBlock
-	 * @return an block object
-	 */
-	public function getBlock($idBlock) {
-		if (isset($this->blocks[THEMETYPE][$idBlock]))
-			return $this->blocks[THEMETYPE][$idBlock];
-		else
-			return FALSE;
-	}
 
 	/**
 	 * Get URL or an example of URL if there are regex
@@ -339,11 +269,12 @@ class page extends \block {
 	 */
 	public function display() {
 		$html = '';
-		if (!empty($this->blocks[THEMETYPE])) {
-			foreach ($this->blocks[THEMETYPE] as $selected_block) {
+		if (!empty($this->blocks)) {
+			foreach ($this->blocks as $selected_block) {
 				$html .= $selected_block->display();
 			}
-		}else{
+		}
+		if(empty($html)){
 			/* SEO : noindex for empty pages */
 			$this->setMeta('robots','noindex');
 		}

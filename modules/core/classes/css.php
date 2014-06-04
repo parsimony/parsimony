@@ -202,6 +202,19 @@ class css {
 		$media = $this->serializeMediaQuery($media);
 		unset($this->selectors[$media . $selector]);
 	}
+	
+	/**
+	 * Delete selectors of a block
+	 * @param string $blockId
+	 */
+	public function deleteBlockSelectors($blockId) {
+		$length = strlen($blockId);
+		foreach ($this->selectors as $key => $selector) {
+			if(substr($selector['s'], 0, $length) === $blockId){
+				unset($this->selectors[$key]);
+			}
+		}
+	}
 
 	/**
 	 * Determine if a property exists

@@ -199,12 +199,12 @@ class query extends code {
 		\app::removeListener('beforeBuildQuery'); /* have to filter once a page load  */
 	}
 	
-	public function onMove($typeProgress, $module, $name, $themeType = 'desktop', $copy = FALSE) {
+	public function onMove($typeProgress, $module, $name, $copy = FALSE) {
 		$oldPath = $this->getConfig('viewPath');
 		if ($typeProgress === 'theme')
-			$path = $module . '/themes/' . $name . '/' . $themeType . '/views/' . $this->id . '.php';
+			$path = $module . '/themes/' . $name . '/views/' . $this->id . '/view.php';
 		else
-			$path = $module . '/pages/views/' . $themeType . '/' . $this->id . '.php';
+			$path = $module . '/pages/views/' . $this->id . '/view.php';
 		
 		if (is_file(PROFILE_PATH . $path) === FALSE) { /* check if a view with this path already exists in profile */
 			$this->setConfig('viewPath', $path); /* save the new path */
