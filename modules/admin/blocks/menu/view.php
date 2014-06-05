@@ -72,7 +72,7 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 		<a href="#" id="infoDevice" data-title="<?php echo t('Version'); ?>"><?php echo DEVICE; ?></a>
 		<ul id="changeDevice" class="changeVersion">
 			<?php foreach (\app::$devices AS $device): ?>
-				<li data-device="<?php echo $device['name']; ?>"><?php echo ucfirst($device['name']); ?></li>
+				<li data-device="<?php echo $device['name']; ?>"><svg height="18" width="18" viewBox="0 0 14 14"><path d="<?php echo $device['icon']; ?>"></path></svg><?php echo ucfirst($device['name']); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</li>

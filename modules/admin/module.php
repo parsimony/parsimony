@@ -759,7 +759,9 @@ class module extends \module {
 		}
 		$devices = $obj->getConfig('devices');
 		if (is_array($devices)) {
-			$html = '<ul class="tree_selector container parsicontainer ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent . ' <img src="http://parsimony.mobi/admin/img/devices/' . implode('.svg" width="14"> <img src="http://parsimony.mobi/admin/img/devices/', $devices ). '.svg" width="14"> </li>';
+			$html = '<ul class="tree_selector container parsicontainer ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
+			foreach($devices AS $device)
+				$html .= '<svg height="12" width="12" viewBox="0 0 14 14"><path d="' . \app::$devices[$device]['icon'] . '"></path></svg>';
 		} else {
 			$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
 		}
@@ -770,7 +772,10 @@ class module extends \module {
 			} else {
 				$devices = $block->getConfig('devices');
 				if (is_array($devices)) {
-					$html .= '<li class="tree_selector parsimonyblock ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $idBlock . '"> ' . $idBlock . ' <img src="http://parsimony.mobi/admin/img/devices/' . implode('.svg" width="14"> <img src="http://parsimony.mobi/admin/img/devices/', $devices ). '.svg" width="14"> </li>';
+					$html .= '<li class="tree_selector parsimonyblock ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $idBlock . '"> ' . $idBlock . '';
+					foreach($devices AS $device)
+						$html .= '<svg height="12" width="12" viewBox="0 0 14 14"><path d="' . \app::$devices[$device]['icon'] . '"></path></svg>';
+					$html .= '</li>';
 				} else {
 					$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
 				}

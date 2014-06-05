@@ -109,6 +109,9 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 #dropInTree{position:relative;height:0;width:100%;pointer-events:none}
 #dropInTree::after{position:absolute;width:100%;height:6px;top:-3px;left:0px;height:3px;width:100%;content: " ";background: #c8007a;}
 #treedom_container .tree_selector.notDisplayed{color:#bbb}
+#treedom_container svg{ fill:transparent;margin-left:3px;transition:fill 0.2s ease;}
+#treedom_container:hover svg{ fill:#666;margin-left:3px}
+#treedom_container:hover .tree_selector.notDisplayed svg{ fill:#bbb;margin-left:3px}
 
 /* Tree icons */
 #treedom_container > .tree_selector{background-color: #FAFAFA;color: #444444;}
@@ -340,6 +343,8 @@ background-image: linear-gradient(top, #242424,#313131);
 #customReso input{padding: 3px;border: 1px solid #E7E6E6;width: 65px;}
 .changeVersion li{color: #555;cursor: pointer;min-width:140px;line-height:30px;white-space: nowrap;padding: 0px 15px}
 .changeVersion li:hover{color: #FFF;}
+.changeVersion li svg{margin-right: 4px;vertical-align: sub;}
+.changeVersion li:hover svg{fill: #FFF;}
 
 /* Top Toolbar middle part */
 .orientation{display:none}

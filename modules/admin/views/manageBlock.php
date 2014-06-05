@@ -132,12 +132,11 @@ if (is_object($block) == NULL) {
 					<div class="clear padd"> 
 						<h3>Display</h3>
 						
-						<div class="placeholder blockhead">
-							<label><?php echo t('In wich devices this block can be displayed'); ?></label>
+						<div class="placeholder blockhead" style="width:100%">
+							<label><?php echo t('Only for the selected devices'); ?></label>
 							<select name="devices[]" multiple="multiple">
 								<?php
 								$allowedDevices = (array) $block->getConfig('devices');
-								print_r($allowedDevices);
 								foreach (\app::$devices AS $device): ?>
 									<option value="<?php echo $device['name']; ?>"<?php echo (in_array($device['name'], $allowedDevices) ? ' selected="selected"' : ''); ?>><?php echo ucfirst($device['name']); ?></option>
 								<?php endforeach; ?>
