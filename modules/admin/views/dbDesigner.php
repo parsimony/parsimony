@@ -109,7 +109,6 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	#connectorchoice{margin-left: 10px;}
 	.behaviorProperty {width: 136px;}
 	#rightsidebar{font-size:12px;}
-	#rightsidebar input[type='text']{width:159px}
 	#addTableBTN{position: absolute;width: 40px;min-width: initial;font-size: 17px;line-height: 29px;padding: 0;right: 0;top: 0;
 				 bottom: 0;color: #2DC1EE;background: #FFF;cursor: pointer;box-shadow: none;
 				 border: 0;border-top: 1px solid #ECECEC;border-bottom: 1px solid #ECECEC;border-radius: 0;}
@@ -118,6 +117,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	.connectors svg{cursor:pointer}
 	.connectors svg.active .stroke,.connectors svg:hover .stroke{stroke:#44C5EC;}
 	.connectors svg.active .fill,.connectors svg:hover .fill{fill:#44C5EC}
+	.visibilityform span {vertical-align: sub;line-height: 17px;width:70px;display:inline-block;}
+	#rightsidebar input[type='text']{width:153px}
 </style> 
 <div id="extLink"><?php echo t('Link to an external module'); ?></div>
 <div id="toolbar">
@@ -252,20 +253,24 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 <div class="rightbar"><label class="ellipsis">' . t('Default Values') . '</label><input type="text" name="default"></div>
 <div class="rightbar"><label class="ellipsis">' . t('Required') . '</label><select style="font-size:13px;height:26px" name="required"><option value="1">' . t('True') . '</option><option value="0">' . t('False') . '</option></select></div>
 <div class="rightbar"><label class="ellipsis">' . t('Regex') . '</label><input type="text" name="regex"></div>
-<div class="rightbar" style="padding:5px 10px 10px 10px;">
-<div style="padding:3px 0px;">
-' . t('In which form display the field ?') . '
+
 </div>
-<div class="visibilityform">
+<div><h3>Administration views</h3>
+
+<div style="padding-left: 10px;">
+<div style="line-height:25px;">' . t('Display the field in:') . '</div>
+
+<div class="visibilityform ">
 	<input data-form="form-display" checked="checked" type="checkbox" value="1">
-	<span class="ellipsis" for="display" style="width:70px;display:inline-block">' . t('Display') . '</span>
+	<span class="ellipsis" for="display">' . t('Datagrid') . '</span>
 	<input data-form="form-add" checked="checked" type="checkbox" value="2">
-	<span class="ellipsis" for="add" style="width:70px;display:inline-block;">' . t('Add') . '</span>
+	<span class="ellipsis" for="add">' . t('Adding form') . '</span>
 	<input type="checkbox" checked="checked" value="4" data-form="form-update">
-	<span class="ellipsis" for="update" style="width:70px;display:inline-block;">' . t('Update') . '</span>
+	<span class="ellipsis" for="update">' . t('Update form') . '</span>
 	<input type="hidden" name="visibility">
+	</div>
 </div>
-</div>
+
 </div>';
 						if (is_file('modules/' . str_replace('\\', '/', \app::$aliasClasses[$class]) . '/admin.php')) {
 							$html .= '<fieldset class="specialprop"><h3>' . t('Specials properties') . '</h3>';
