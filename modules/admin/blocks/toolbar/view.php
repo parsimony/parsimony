@@ -398,7 +398,7 @@ callback: function() {
 			+ "<div class='alignLeft'><p>"
 				+  t('You change the resolution of your screen and view your website in different screen configurations.') 
 		+"</p></div>"
-	+"<div class='alignLeft'><img src='http://parsimony.mobi/images-take-a-tour/takeATour-imgs-resolution.gif'></div>",
+	+"<div class='alignLeft'><iframe width='560' height='315' src='//www.youtube.com/embed/F43Rxr2zi5Y?autohide=1&showinfo=0&rel=0&controls=0' frameborder='0' allowfullscreen></iframe></div>",
 		callback: function() {
 			document.querySelector('#parsimonyDND .ui-icon-closethick').click();
             }
