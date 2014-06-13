@@ -27,13 +27,13 @@
  */
 
 $tags = array();
-if($this->value){
-	$items = explode(',',$this);
-	foreach($items AS $item){
-		$myItem = explode('||',$item);
-		if(isset($myItem[1]))
+if ($this->value) {
+	$items = explode(',', $this->value);
+	foreach ($items AS $item) {
+		$myItem = explode('||', $item);
+		if (isset($myItem[1]))
 			$tags[$myItem[0]] = $myItem[1];
 	}
-	echo implode(', ',$tags);
+	echo implode(', ', $tags);
 }
 ?>

@@ -72,8 +72,16 @@ class container extends \block {
 	
 	public function onMove($typeProgress, $module, $name, $copy = FALSE) {
 		if (!empty($this->blocks)) {
-			foreach ($this->blocks as $block) {
+			foreach ($this->blocks as $idBlock => $block) {
+				if ($typeProgress === 'theme') {
+					$idBlock = strtolower($idBlock);
+					$block->setId($idBlock);
+				} else {
+					$idBlock = ucfirst($idBlock);
+					$block->setId($idBlock);
+				}
 				if(method_exists($block, 'onMove')) {
+					
 					$block->onMove($typeProgress, $module, $name, $copy);
 				}
 			}

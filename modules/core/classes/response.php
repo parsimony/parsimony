@@ -108,6 +108,9 @@ class response {
 				\app::$response->addJSFile('core/js/editinline.js');
 				\app::$response->addCSSFile('core/css/editinline.css');
 				
+				/* correct resMax with preview screen */
+				\app::$response->head .= '<script>document.cookie = "DW=" + (top.ParsimonyAdmin.getCookie("screenX") || screen.width) + ";path=/";document.cookie = "DH=" + (top.ParsimonyAdmin.getCookie("screenY") || screen.height)  + ";path=/";</script>';
+				
 				$body .= '<script>top.document.getElementById("infodev_timer").textContent="' . $timer . ' s";top.document.getElementById("infodev_module").textContent="' . MODULE . '";top.document.getElementById("infodev_theme").textContent="' . THEME . '";top.setActiveTheme("' . THEME . '");top.document.getElementById("infodev_page").textContent="' . $this->page->getId() . '";';
 
 				$pathTheme = THEMEMODULE . '/themes/' . THEME . '/style.css';

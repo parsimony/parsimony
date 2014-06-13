@@ -594,7 +594,7 @@ class module extends \module {
 					$theme[$device['name']]->save();
 				}
 			} else {
-				$theme = new \theme('container', $name, 'desktop', $thememodule);
+				$theme = new \theme('container', $name, $thememodule);
 				$theme->save();
 			}
 			/* Set theme in preview mode */
@@ -614,7 +614,7 @@ class module extends \module {
 	 * @return string 
 	 */
 	protected function changeThemeAction($THEMEMODULE, $name) {
-		$path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/desktop/theme.' .\app::$config['dev']['serialization']);
+		$path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/theme.' .\app::$config['dev']['serialization']);
 		if ($path) {
 				$configObj = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
 				$update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);

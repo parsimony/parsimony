@@ -68,9 +68,9 @@ function blockAdminBlocks() {
 			var now  = new Date().getTime();
 			if(now - $this.lastDragTimestamp > 40) {
 				var node = e.target;
-				var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matchesSelector);
+				var matchesSelector = (document.documentElement.matches || document.documentElement.mozMatchesSelector);
 				while (node != this){
-					if (matchesSelector.call(node, '.parsiblock,.tree_selector')) {	
+					if (matchesSelector.call(node, ".parsiblock,.tree_selector")) {	
 						if (node.classList.contains("tree_selector")){
 							var theBlock = ParsimonyAdmin.currentDocument.getElementById(node.id.split("treedom_")[1]);
 							var theBlockTree = node;
@@ -80,12 +80,12 @@ function blockAdminBlocks() {
 						}
 						if($this.isMoveBlock == true){
 							/* Check if block is trying to put in itself in move mode */
-							if (theBlock.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById($this.inProgress)) == 10) {
+							if (theBlockTree.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("treedom_" + $this.inProgress)) == 10) {
 								return true;
 							}
 							
 							/* Can't move block around him */
-							if ($this.inProgress == theBlock.id) {
+							if (("treedom_" + $this.inProgress) == theBlockTree.id) {
 								return true;
 							}
 						}
@@ -97,21 +97,21 @@ function blockAdminBlocks() {
 
 						/* if it's a container and mouse doesn't point boundaries */
 						if (theBlockTree.classList.contains("container") && e.clientY - offset.top > 4 && offset.bottom - e.clientY > 4 ) {
-							if (theBlock.querySelectorAll(".dropInContainer").length > 0) {
-								theBlock.querySelector(".dropInContainerChild").appendChild(dropInPage);
+							if (theBlockTree.querySelectorAll(".tree_selector").length == 0) {
+								theBlock /* block can be hidden server side */ && theBlock.querySelector(".dropInContainerChild").appendChild(dropInPage);
 								theBlockTree.appendChild(document.getElementById("dropInTree"), theBlockTree);
 
 							} else {
-								theBlock.appendChild(dropInPage);
+								theBlock && theBlock.appendChild(dropInPage);
 								theBlockTree.appendChild(document.getElementById("dropInTree"));
 							}
 						}else{
 							var middle = offset.top + (offset.height / 2);
 							if (e.clientY < middle) { /* Before */
-								theBlock.parentNode.insertBefore(dropInPage, theBlock);
+								theBlock && theBlock.parentNode.insertBefore(dropInPage, theBlock);
 								theBlockTree.parentNode.insertBefore(document.getElementById("dropInTree"), theBlockTree);
 							} else { /* after */
-								theBlock.parentNode.insertBefore(dropInPage, theBlock.nextElementSibling);
+								theBlock && theBlock.parentNode.insertBefore(dropInPage, theBlock.nextElementSibling);
 								theBlockTree.parentNode.insertBefore(document.getElementById("dropInTree"), theBlockTree.nextElementSibling);
 							}
 						}
@@ -160,16 +160,21 @@ function blockAdminBlocks() {
 			evt.dataTransfer.effectAllowed = 'copy';
 			$this.startDragging();
 		});
-		$("#parsimonyDND").add('#paneltree').on('dragstart.creation', ".move_block", function(event) {
+		$("#parsimonyDND").add("#paneltree").on("dragstart.creation", ".move_block", function(event) {
 			$this.isMoveBlock = true;
 			var evt = event.originalEvent;
 			var elmt = ParsimonyAdmin.currentDocument.getElementById($this.inProgress);
-			evt.dataTransfer.setDragImage(elmt, 15, 15);
-			var startTypeCont = elmt.compareDocumentPosition(ParsimonyAdmin.currentDocument.getElementById("content")) == 10 ? "page" : "theme" ;
-			var parentContainer = $(elmt).parent().closest(".core_container"); // parent in case it's a container himself
-			if(parentContainer.hasClass("core_page")) startIdParentBlock = parentContainer.data('page');
-			else startIdParentBlock = parentContainer.attr('id');
-			evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:$this.inProgress,startIdParentBlock:startIdParentBlock,startTypeCont:startTypeCont}));
+			var treeElmt = document.getElementById("treedom_" + $this.inProgress);
+			if(elmt) { /* block can be hidden server side */
+				evt.dataTransfer.setDragImage(elmt, 15, 15);
+			} else {
+				evt.dataTransfer.setDragImage(treeElmt, 15, 15);
+			}
+			var startTypeCont = treeElmt.compareDocumentPosition(document.getElementById("treedom_content")) == 10 ? "page" : "theme" ;
+			var parentContainer = $(treeElmt).parent().closest(".parsicontainer"); // parent in case it's a container himself
+			if(parentContainer.attr("id") == "treedom_content") startIdParentBlock = parentContainer.data("page");
+			else startIdParentBlock = parentContainer.attr("id").substring(8);
+			evt.dataTransfer.setData("parsimony/moveblock", JSON.stringify({idBlock:$this.inProgress, startIdParentBlock:startIdParentBlock, startTypeCont:startTypeCont}));
 			evt.dataTransfer.effectAllowed = 'copyMove';
 			$this.startDragging();
 		});
@@ -194,6 +199,11 @@ function blockAdminBlocks() {
 			var blockInst = ParsimonyAdmin.currentWindow.Parsimony.blocks[this.classList[1]];
 			(typeof blockInst == "object" && blockInst["onClickCreation"] == "function") ? blockInst.onClickCreation.apply(this, [e]) : Parsimony.blocks['blockAdmin'].onClickCreation.apply(this, [e]);
 		})
+		.on("click.creation", ".parsiblock a", function(e) {
+			if(this.tagName == "A" && (this.getAttribute("href") || "").substring(0,1) != "#" ) {
+				e.preventDefault();
+			}
+		})
 		.on('mouseover.creation', ".parsiblock", function(event) {
 			event.stopImmediatePropagation();
 			if ($this.inProgress != this.id) {
@@ -210,18 +220,19 @@ function blockAdminBlocks() {
 			var evt = event.originalEvent;
 			evt.preventDefault(); /* Firefox fix */
 			evt.stopPropagation();
-			var elmt = $("#dropInPage", ParsimonyAdmin.currentBody);
+			var elmt = $("#dropInTree");
 			
 			/* Hide position of visual tool */
 			document.getElementById("parsimonyDND").style.display = "none";
 			$this.inProgress = "";
 			if (elmt.length > 0) {
-				var parentContainer = elmt.closest(".core_container");
-				$this.lastIdParent = parentContainer.attr("id");
+				var parentContainer = elmt.closest(".parsicontainer");
+				$this.lastIdParent = parentContainer.attr("id").substring(8);
 				var stopIdParentBlock = "";
-				if(elmt.closest(".core_container").hasClass("core_page")) stopIdParentBlock = parentContainer.data('page');
-				else stopIdParentBlock = parentContainer.attr('id');
-				var idNextBlock = elmt.next(".parsiblock").attr('id');
+				if(parentContainer.attr("id") == "treedom_content") stopIdParentBlock = parentContainer.data("page");
+				else stopIdParentBlock = parentContainer.attr("id").substring(8);
+				var idNextBlock = elmt.next(".tree_selector").attr("id");
+				idNextBlock = idNextBlock ? idNextBlock.substring(8) : idNextBlock; 
 				$this.lastIdNextBlock = idNextBlock;
 
 				/* Move block action */
@@ -233,7 +244,7 @@ function blockAdminBlocks() {
 						alert("Can't move container in container");
 						return false;
 					}
-					$this.changeBlockPosition('', obj.idBlock, idNextBlock, obj.startIdParentBlock, stopIdParentBlock, obj.startTypeCont, (elmt.closest(".core_page").length > 0 ? 'page' : 'theme'), "moveBlock");
+					$this.changeBlockPosition('', obj.idBlock, idNextBlock, obj.startIdParentBlock, stopIdParentBlock, obj.startTypeCont, (elmt.closest("#treedom_content").length > 0 ? 'page' : 'theme'), "moveBlock");
 				} else {
 					
 					/* Add a block or other types of things */

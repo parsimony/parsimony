@@ -57,7 +57,7 @@ class module extends \module {
 				'1920x1080' => '16/9 Full HD',
 				'1600x900' => '16/9 HD Extended',
 				'768x1366' => '16/9 HD Ready',
-				'1000x1600' => '16/10'), 'detectFnc' => function() {
+				'1000x1600' => '16/10'), 'detectFunc' => function() {
 				return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
 			}),
 		
@@ -67,7 +67,7 @@ class module extends \module {
 				'601x921' => 'Google Nexus 7',
 				'600x1024' => 'Samsung Galaxy Tab 2 7.7',
 				'768x1366' => 'Microsoft Surface',
-				'768x1024' => 'Apple iPad'), 'detectFnc' => function() { 
+				'768x1024' => 'Apple iPad'), 'detectFunc' => function() { 
 				return preg_match('/(Tablet|Ipad|Kindle|Silk)|(Android(?!.*(Mobi|Opera Mini)))/i', $_SERVER['HTTP_USER_AGENT']); /* tablet must be under mobile because "Android" test is good only without "Mobile" in user agent string */
 			}),
 		
@@ -76,7 +76,7 @@ class module extends \module {
 				'resolution' => array('384x640' => 'Nexus 4',
 				'320x568' => 'Apple iPhone 5',
 				'360x640' => 'Samsung Galaxy S3&4 / HTC One',
-				'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
+				'320x480' => 'Nokia Lumia 900'), 'detectFunc' => function() {
 				return preg_match('/Mobi|Opera Mini|BlackBerry/i', $_SERVER['HTTP_USER_AGENT']);
 			}),
 		
@@ -87,7 +87,7 @@ class module extends \module {
 				'800x600' => '',
 				'1024x768' => '',
 				'1280x960' => '',
-				'1280x1024' => ''), 'detectFnc' => function() {
+				'1280x1024' => ''), 'detectFunc' => function() {
 				return TRUE;
 			}));
 		

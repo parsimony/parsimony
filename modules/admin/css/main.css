@@ -203,7 +203,7 @@ input[type=text]::-webkit-calendar-picker-indicator {background: none;visibility
 .selectorTitle{margin-right: 39px;}
 .gotoform{background-image: -webkit-linear-gradient(bottom,#818181,#A4A4A4);background-image: -moz-linear-gradient(bottom,#818181,#A4A4A4);position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;border-radius: 0 0 0 3px;font-size: 10px;color: #FAFAFA;}
 .gotoform:hover{background:#777;color:white}
-.selectorcss b{overflow:hidden}
+.selectorcss b{overflow:hidden;-moz-user-select: initial;-webkit-user-select: initial;-ms-user-select: initial;user-select: initial;}
 .activebtn{cursor:pointer;border-radius: 2px;width: 9px;background: #F1F1F1;line-height: 10px;margin: 3px 1px;
 height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: block;color: rgb(68, 68, 68);}
 .activebtn:hover{background: #e1e1e1;color:#444;}
@@ -244,7 +244,7 @@ background-image: url(admin/img/stripe.png);transition: all 0.5s;}
 #mediaqueriesdisplay.hide{height:0;padding: 0;}
 #mediaqueriesdisplay.active{display:block;border-top: 1px solid #111;}
 #scopeMediaQueries{position: absolute;top: 0;bottom: 0;background-image: -webkit-linear-gradient(bottom, #333, #222);border-left: 1px solid #222;border-right: 1px solid #222;}
-#mediaqueriesdisplay .mediaq{margin:3px 0;height: 11px;border: 3px solid #ddd;border-top: 0;position: relative;cursor: pointer}
+#mediaqueriesdisplay .mediaq{margin:3px 0;height: 11px;border: 3px solid #ddd;border-top: 0;position: relative;cursor: pointer;font-size: 9px;line-height: 6px;white-space: nowrap;text-align: center;color:#ddd}
 #mediaqueriesdisplay .mediaq.active{border: 3px solid #2DC1EE;border-top: 0;}
 #arrow-down {width: 0px;height: 0px;border-left: 10px solid rgba(0, 0, 0, 0);border-right: 10px solid rgba(0, 0, 0, 0);
 	border-top: 10px solid #DFDFDF;position:absolute;top:0}
@@ -261,6 +261,7 @@ border-radius: 0 10px 0 0;cursor: pointer;box-shadow: inset 0 1px 0 #3C3C3C;bord
 #selectmedias div:last-child{border-bottom:0}
 #mediaselected{padding: 0 7px;margin: 8px 0;font-size: 12px;padding-left: 33px;cursor:pointer;background-image: url("admin/img/select.png");
 background-repeat: no-repeat;background-position: center right 10px;}
+#mediaselected.matchesKO{color: #ca6464;}
 #mediaselected span{font-size: 20px;line-height: 15px;font-weight: bold;color: #777777;}
 
 /* When searching a selector */

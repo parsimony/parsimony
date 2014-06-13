@@ -77,8 +77,10 @@ class request {
 		$this->determineModule();
 		
 		/* Determine used device */
-		$this->determineDevice();
-
+		if (!isset($_COOKIE['device'])) {
+			$_COOKIE['device'] = $this->determineDevice();
+		}
+		define('DEVICE', $_COOKIE['device']);
 	}
 
 	/**
@@ -171,19 +173,16 @@ class request {
 
 	/**
 	 * Detect device of visitor
+	 * @return string
 	 */
 	protected function determineDevice() {
-		if (!isset($_COOKIE['device'])) {
-			$_COOKIE['device'] = 'desktop';
-			foreach (\app::$devices AS $device) {
-				if ($device['detectFnc']() === 1) {
-					$_COOKIE['device'] = $device['name'];
-						break;
-				}
+		foreach (\app::$devices AS $device) {
+			if ($device['detectFunc']() === 1) {
+				return $device['name'];
 			}
 		}
-		define('DEVICE', $_COOKIE['device']);
-		}
+		return 'desktop';
+	}
 
 	/**
 	 * Determine Module
