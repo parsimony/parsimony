@@ -42,7 +42,7 @@ class container extends \block {
 
 	public function display() {
 		if ($this->getConfig('column')) {
-			\app::$response->head .= '<style> #' . $this->getId() . ' > .parsiblock{float:left} </style>';
+			\app::$response->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:inline-block} </style>';
 			$this->setConfig('cssClasses', ' column' . $this->getConfig('cssClasses'));
 		}
 		return parent::display();
@@ -52,7 +52,7 @@ class container extends \block {
 		$html = '';
 		if (!empty($this->blocks)) {
 			foreach ($this->blocks as $block) {
-				$html .= $block->display() . PHP_EOL;
+				$html .= $block->display();
 			}
 		}
 		return $html;

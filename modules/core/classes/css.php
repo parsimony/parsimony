@@ -386,7 +386,7 @@ class css {
 			if ($oldMedia != $media) {
 				if (!empty($output)) {
 					if (!empty($oldMedia)) $output .= PHP_EOL . '}';
-					if (!empty($media)) $output .= $selector['bmedia'] . $media . '{';
+					if (!empty($media)) $output .= (isset($selector['bmedia']) ? $selector['bmedia'] : '') . $media . '{';
 				}
 				$oldMedia = $media;
 			}

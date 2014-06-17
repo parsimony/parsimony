@@ -206,6 +206,8 @@ class request {
 		}
 		if (empty($this->secondPartURL))
 			$this->secondPartURL = 'index';
+		
+		$this->params['parsiurl'] = $this->secondPartURL; /* / = /index */
 		define('MODULE', $this->module);
 	}
 

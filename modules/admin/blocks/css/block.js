@@ -1312,9 +1312,9 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 blockAdminCSS.prototype.testCurrentMediaQuery = function() {
 	/* warn developer if the current media query doens't match */
 	if(ParsimonyAdmin.currentWindow.matchMedia(document.getElementById("currentMdq").value.replace("@media ","")).matches){
-		document.getElementById("mediaselected").classList.remove("matchesKO");
+		document.getElementById("mediaqueries").classList.remove("matchesKO");
 	} else {
-		document.getElementById("mediaselected").classList.add("matchesKO");
+		document.getElementById("mediaqueries").classList.add("matchesKO");
 	}
 }
 

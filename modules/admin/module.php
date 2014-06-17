@@ -1482,5 +1482,3 @@ class ' . $table->name . ' extends \entity {
 	}
 
 }
-
-?>

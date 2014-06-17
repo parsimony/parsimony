@@ -38,7 +38,7 @@ if(is_object($recposts)):
 <ul>
 <?php foreach ($recposts as $key => $recentpost) : ?>
 	<li class="recentposts">
-            <a href="<?php echo BASE_PATH .$recentpost['url'] ?>"  style="overflow: hidden;text-overflow: ellipsis;"><?php echo $recentpost['title'] ?></a>
+            <a href="<?php echo BASE_PATH . $recentpost['url'] ?>"><?php echo $recentpost['title'] ?></a>
 	</li>
 <?php endforeach; ?>
 </ul>

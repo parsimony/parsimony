@@ -47,6 +47,7 @@ app::$response->addJSFile('admin/blocks/css/block.js','footer');
 		<div id="arrow-down"></div>
 		<div id="globalcssscope" data-min="0" data-max="9999" data-media="" class="mediaq active"></div>
 	</div>
+	<svg id="targeted" width="20" height="20" viewBox="0 0 32 32" fill="#ee5a2d"><g><path d="M 16,2.24c-7.598,0-13.76,6.162-13.76,13.76c0,7.6, 6.162,13.76, 13.76,13.76c 7.6,0, 13.76-6.16, 13.76-13.76C 29.76,8.402, 23.6,2.24, 16,2.24z M 17.12,27.144L 17.12,20.96 L 14.88,20.96 l0,6.184 c-5.291-0.525-9.498-4.733-10.024-10.024L 11.040,17.12 L 11.040,14.88 L 4.856,14.88 C 5.382,9.589, 9.589,5.381, 14.88,4.856L 14.88,11.040 l 2.24,0 L 17.12,4.856 c 5.293,0.525, 9.499,4.733, 10.024,10.024L 20.96,14.88 l0,2.24 l 6.184,0 C 26.619,22.411, 22.413,26.619, 17.12,27.144z"></path></g></svg>
 	<input type="hidden" id="currentMdq" data-range="" value="" />
 	<div onclick="this.nextSibling.classList.toggle('none')" id="mediaselected">Media query: All</div>
 	<div id="selectmedias" class="none">

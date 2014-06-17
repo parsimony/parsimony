@@ -1,0 +1,1 @@
+<span>Menu</span><a href="#closemenu" style="float:right;text-decoration:none;">X</a>

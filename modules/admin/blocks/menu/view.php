@@ -34,7 +34,7 @@ if($_SESSION['permissions'] & 16 || $_SESSION['permissions'] & 32 || $_SESSION['
 ?>
 
 <ul class="menu" id="profiles" style="flex-grow:1;display: flex;width: 200px;max-width: 200px;">
-	<li class="opensidebar opensidebarleft" style="font-size: 27px;color: #F4F4F4;position: relative;left: -4px;cursor:pointer" onclick="$('#left_sidebar').toggleClass('pin2');$(this).toggleClass('active');document.body.classList.toggle('closeleft')">&#x2261;</li>
+	<li id="opensidebarleft">&#x2261;</li>
 	<?php
 		$profiles = glob('profiles/*', GLOB_ONLYDIR);
 		$nbProfile = count($profiles);
