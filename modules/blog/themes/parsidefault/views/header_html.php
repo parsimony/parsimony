@@ -1,1 +1,0 @@
-<h1><?php echo app::$config['sitename']?></h1>

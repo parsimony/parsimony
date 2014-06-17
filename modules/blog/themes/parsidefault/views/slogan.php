@@ -1,1 +1,0 @@
-<h3>Parsimony: Just a more effective webprogramming</h3><div></div> 
