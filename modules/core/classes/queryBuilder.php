@@ -235,6 +235,7 @@ class queryBuilder {
 	  */
 	 public function fetch() {
 		 foreach ($this as $obj) {
+			 $this->clearQuery();
 			 return $obj;
 		 }
 	 }
