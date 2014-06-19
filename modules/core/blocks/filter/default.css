@@ -1,0 +1,14 @@
+/* {Filter title} */
+h2{}
+/* {Filter label} */
+label {}
+/* {Filter checkbox} */
+input[type="text"] {}
+/* {Filter input range} */
+.rangefilter input{}
+/* {Filter checkbox} */
+input[type="checkbox"] {}
+/* {Filter input date} */
+input[type="date"]{}
+/* {Filter select} */
+select {}

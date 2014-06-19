@@ -36,6 +36,8 @@
 .dynamic.start,.dynamic.end{border: 1px solid #CCC;padding: 0px 0 7px;}
 .opacity{opacity: 0.6}
 .defaultrange{display: none;margin: 5px 0 !important;}
+.first{order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;}
+.second{order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -108,6 +110,7 @@ if ($block) {
 	$sorthtml = '';
 	$properties = $this->getConfig('properties');
 	$selected = $block->getConfig('selected');
+	$count = 0;
 	foreach ($selected as $key => $value) {
 		if(isset($value['alias'])){
 				$name = $value['alias'];
@@ -140,15 +143,15 @@ if ($block) {
 					#<?php echo $cssname ?>_startend:checked + .labelvalues .btnvalues {background:#44C5EC;}
 				</style>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
-					<label>Template <?php echo $name  ?></label>
+				<div class="placeholder first">
+					<label><?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="date">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'datetimerange') echo 'selected="selected"'; ?>>datetimerange</option>
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'daterange') echo 'selected="selected"'; ?>>daterange</option>
 					</select>
 				</div>
-				<div class="" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
-					<label style="display: block;margin: 5px 7px 0px 0px;color: #464646;padding: 3px 7px;font-size: 14px;border-bottom: 0px;border-top-left-radius: 2px;border-top-right-radius: 2px;background-color: #F1F1F1;">Default value <?php echo $name  ?></label>
+				<div class="second">
+					<label style="display: block;margin: 5px 7px 0px 0px;color: #464646;padding: 3px 7px;font-size: 14px;border-bottom: 0px;border-top-left-radius: 2px;border-top-right-radius: 2px;background-color: #F1F1F1;"><?php echo $name  ?></label>
 					<div style="margin: 15px 0;line-height: 15px;"><span style="margin-right: 10px">Static values</span>
 					<input type="checkbox" name="properties[<?php echo $name ?>][default][state]" id="<?php echo $cssname ?>_checkvalues" class="checkvalues" <?php if(isset($properties[$name]['default']['state'])) echo 'checked="checked"'; ?>>
 					<label for="<?php echo $cssname ?>_checkvalues" class="labelvalues">
@@ -206,15 +209,15 @@ if ($block) {
 			}elseif (get_class($field) === 'core\fields\boolean' || get_class($field) === 'core\fields\state') {
 			?>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
-					<label>Template <?php echo $name  ?></label>
+				<div class="placeholder first">
+					<label><?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="tpl">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'string') echo 'selected="selected"'; ?>>string</option>			
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'select') echo 'selected="selected"'; ?>>select</option>
 					</select>
 				</div>
-				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
-					<label>Default value <?php echo $name  ?></label>
+				<div class="placeholder second">
+					<label><?php echo $name  ?></label>
 					<input type="text" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['boolstring'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
 				</div>
 			</div>	
@@ -222,16 +225,16 @@ if ($block) {
 			else{		
 				?>
 			<div style="display: flex">
-				<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
-					<label>Template <?php echo $name  ?></label>
+				<div class="placeholder first">
+					<label><?php echo $name  ?></label>
 					<select name="properties[<?php echo $name ?>][tpl]" class="tpl">
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'string') echo 'selected="selected"'; ?>>string</option>			
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'choice') echo 'selected="selected"'; ?>>choice</option>
 						<option <?php if(isset($properties[$name]['tpl']) && $properties[$name]['tpl'] === 'range') echo 'selected="selected"'; ?>>range</option>
 					</select>
 				</div>
-				<div class="placeholder" style="order: 2;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 0%;min-height: 5%;">
-					<label>Default value <?php echo $name  ?></label>
+				<div class="placeholder second">
+					<label><?php echo $name  ?></label>
 					<input type="text" placeholder="Min" name="properties[<?php echo $name ?>][default][rangeStart]" <?php if(isset($properties[$name]['default']['rangeStart'])) echo 'value="'.$properties[$name]['default']['rangeStart'].'"'; ?>/>	
 					<input type="text" placeholder="Max" class="defaultrange" name="properties[<?php echo $name ?>][default][rangeEnd]" <?php if(isset($properties[$name]['default']['rangeEnd'])) echo 'value="'.$properties[$name]['default']['rangeEnd'].'"'; ?>/>	
 				</div>
@@ -245,7 +248,7 @@ if ($block) {
 		if (isset($value['group'])) { 
 			if(get_class($field) === 'core\fields\date' || get_class($field) === 'core\fields\publication'){
 			?>
-			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+			<div class="placeholder first">
 			<label><?php echo $name ?></label>
 			<select name="properties[<?php echo $name ?>][group]">
 				<option></option>
@@ -257,7 +260,7 @@ if ($block) {
 			<?php
 			}else{
 			?>
-			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+			<div class="placeholder first">
 				
 			<label><?php echo $name ?></label>
 				<select name="properties[<?php echo $name ?>][group]">
@@ -275,7 +278,7 @@ if ($block) {
 		ob_start();
 		if (isset($value['sort'])) { 
 			?>
-			<div class="placeholder" style="order: 1;flex: 1 1 auto;align-self: auto;min-width: 40%;margin: 10px 4% 10px 8%;min-height: 5%;">
+			<div class="placeholder first">
 				<label><?php echo $name ?></label>
 				<select name="properties[<?php echo $name ?>][sort]">
 						<option></option>
@@ -291,7 +294,8 @@ if ($block) {
 	$filtertitle = '<h2>'.t('Filters by').'</h2>';
 	$grouptitle = '<h2>'.t('Group by').'</h2>';
 	$sorttitle = '<h2>'.t('Sort by').'</h2>';
-	echo ((!empty($filterhtml)) ? $filtertitle.$filterhtml : ''). ((!empty($grouphtml)) ? $grouptitle.$grouphtml : '').((!empty($sorthtml)) ? $sorttitle.$sorthtml : '');
+	$tplfilter = '<div style="display: flex; font-size: 18px;"><div class="placeholder first">Template </div><div class="placeholder second">Default value </div></div>';
+	echo ((!empty($filterhtml)) ? $filtertitle.$tplfilter.$filterhtml : ''). ((!empty($grouphtml)) ? $grouptitle.$grouphtml : '').((!empty($sorthtml)) ? $sorttitle.$sorthtml : '');
 }
 ?>
 	

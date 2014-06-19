@@ -31,7 +31,7 @@ namespace core\blocks;
 
 /**
  * @title Filter
- * @description displays a Code editor (PHP, js, HTML, CSS)
+ * @description Add filters form (filter, group or sort by) to a related query block
  * @copyright 1
  * @browsers all
  * @php_version_min 5.3
