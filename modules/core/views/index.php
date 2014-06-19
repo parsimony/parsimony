@@ -10,8 +10,10 @@
 			var DEVICE = '<?php echo DEVICE ?>';
 			var THEMEMODULE = '<?php echo THEMEMODULE ?>';
 			var TOKEN = '<?php echo TOKEN ?>';
-
-			document.cookie = "resMax=" + ((screen.height > screen.width ? screen.height : screen.width) * (window.devicePixelRatio ? window.devicePixelRatio : 1)) + "; expires=999; path=/";
+			
+			document.cookie = "DW=" + screen.width + ";path=/";
+			document.cookie = "DH=" + screen.height  + ";path=/";
+			document.cookie = "DPR=" + (window.devicePixelRatio || 1) + ";path=/";
 		</script>
 		<link rel="shortcut icon" href="<?php echo BASE_PATH . (isset(\app::$config['favicon']) ? \app::$config['favicon'] : 'core/img/favicon.png');  ?>" />
 		<meta name="generator" content="Parsimony">
@@ -24,20 +26,19 @@
 		</script>
 		<![endif]-->
 		<!--[if gte IE 9]><!-->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-2.1.0.min.js"><\/script>')</script>
 		<!--<![endif]-->
 		<?php else: ?>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="' + BASE_PATH + 'lib/jquery/jquery-2.1.min.js"><\/script>')</script>
-		<script type="text/javascript"> !location.hash && setTimeout(function () { window.scrollTo(0, 0);}, 1000);</script>
 		<?php endif;
 		echo $this->page->printMetas();
 		echo $this->printInclusions();
 		echo $this->head;
 		?>
 	</head>
-	<body class="module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
+	<body class="device-<?php echo DEVICE; ?> module-<?php echo MODULE; ?> page-<?php echo MODULE; ?>-<?php echo $this->page->getId(); ?>">
 		<?php echo $body; ?>
 		<?php echo $this->printInclusions('footer') ?>
 	</body>

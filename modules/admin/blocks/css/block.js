@@ -455,6 +455,7 @@ function blockAdminCSS() {
 			if(document.getElementById("current_selector_update").value.length > 0){
 				$this.displayCSSConf( document.getElementById("changecsspath").value, document.getElementById("current_selector_update").value, this.dataset.media);
 			}
+			$this.testCurrentMediaQuery();
 		})
 			
 		/* Font text-decoration */
@@ -735,42 +736,48 @@ function blockAdminCSS() {
 				
 				/* search for selectors and sort them by specificity */
 				var proposals = [];
+				
+				var node = this;
+				/* avoid select field editinline wrapper*/
+				if(node.classList.contains("fieldeditinline")) {
+					node = node.parentNode;
+				}
 
 				/* If element has an ID we choose it immediatly */
-				if (this.id.length > 0) {
-					proposals[1000] = "#" + this.id;
+				if (node.id.length > 0) {
+					proposals[1000] = "#" + node.id;
 				}
 
 				/* classes */
 				var forbidClasses = ",selection-block,parsiblock,parsieditinline,cssPicker,";
-				for (var i = 0, len = this.classList.length; i < len; i++) {
-					if (proposals.indexOf(this.classList[i]) == "-1" && forbidClasses.indexOf("," + this.classList[i] + ",") == "-1") {
-						proposals[$this.getSpecificity("." + this.classList[i]) + proposals.length] = "." + this.classList[i];
+				for (var i = 0, len = node.classList.length; i < len; i++) {
+					if (proposals.indexOf(node.classList[i]) == "-1" && forbidClasses.indexOf("," + node.classList[i] + ",") == "-1") {
+						proposals[$this.getSpecificity("." + node.classList[i]) + proposals.length] = "." + node.classList[i];
 					}
 				}
 
 				/* search for parent block */
-				var block = this;
+				var block = node;
 				while (!block.classList.contains("parsiblock")) {
 					block = block.parentNode;
 				}
 
 				/* search for predefined block selectors */
-				var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matchesSelector);
+				var matchesSelector = (document.documentElement.webkitMatchesSelector || document.documentElement.mozMatchesSelector || document.documentElement.matches);
 				var stylableElements = ParsimonyAdmin.stylableElements[block.classList[1]];
 				for(var i in stylableElements) {
 					var selector = "#" + block.id + " " + stylableElements[i];
-					if (matchesSelector.call(this, selector)) {
+					if (matchesSelector.call(node, selector)) {
 						proposals[$this.getSpecificity(selector) + proposals.length] = selector;
 					}
 				}
 				
 				/* if there is no propasol we add the element selector */
 				if(proposals.length == 0){
-					proposals[101] = "#" + block.id + " " + this.tagName.toLowerCase();
+					proposals[101] = "#" + block.id + " " + node.tagName.toLowerCase();
 				}
-				
-				$this.getCSSSelectorForElement(this, null, proposals);
+
+				$this.getCSSSelectorForElement(node, null, proposals);
 
 			});
 		});
@@ -1255,9 +1262,10 @@ blockAdminCSS.prototype.addMediaQueries = function(media) {
 
 		/* For mediaqueries toolbar */
 		var doc = document.createElement("div"); 
-		doc.dataset.min = properties["min-width"] || 0;
-		doc.dataset.max = properties["max-width"] || 9999;
+		doc.dataset.min = parseInt(properties["min-width"] || 0);
+		doc.dataset.max = parseInt(properties["max-width"] || 9999);
 		doc.dataset.media = media;
+		doc.textContent = media.replace("@media ", "");
 		doc.classList.add("mediaq");
 		if (properties["min-width"] && properties["max-width"]) {
 			doc.style.left = properties["min-width"];
@@ -1292,11 +1300,21 @@ blockAdminCSS.prototype.drawMediaQueries = function() {
 	document.getElementById("arrow-down").style.left = arrow + "px";
 	var mediaqs = document.querySelectorAll(".mediaq");
 	for (var i = 0, len = mediaqs.length; i < len; i++) {
-		if (width >= mediaqs[i].dataset.min && width <= mediaqs[i].dataset.max) {
+		if (ParsimonyAdmin.currentWindow.matchMedia(mediaqs[i].textContent).matches) {
 			mediaqs[i].classList.add("active");
 		} else {
 			mediaqs[i].classList.remove("active");
 		}
+	}
+	this.testCurrentMediaQuery();
+}
+
+blockAdminCSS.prototype.testCurrentMediaQuery = function() {
+	/* warn developer if the current media query doens't match */
+	if(ParsimonyAdmin.currentWindow.matchMedia(document.getElementById("currentMdq").value.replace("@media ","")).matches){
+		document.getElementById("mediaqueries").classList.remove("matchesKO");
+	} else {
+		document.getElementById("mediaqueries").classList.add("matchesKO");
 	}
 }
 

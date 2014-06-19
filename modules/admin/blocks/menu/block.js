@@ -34,11 +34,17 @@ function blockAdminMenu() {
 			ParsimonyAdmin.setCookie("screenX", res[0], 999);
 			ParsimonyAdmin.setCookie("screenY", res[1], 999);
 			ParsimonyAdmin.setCookie("landscape", $("#changeorientation").val(), 999);
-
+			setTimeout(function() { /* timeout to calc the size after transitionend */
+				Parsimony.blocks['admin_css'].drawMediaQueries();
+			},500);
+			
 		})
-		.on('change', '#changeorientation', function(e) {
+		.on("change", "#changeorientation", function() {
 			ParsimonyAdmin.setCookie("landscape", $("#changeorientation").val(), 999);
 			$("#changeres").trigger("change");
+		})
+		.on("click", "#opensidebarleft", function() {
+			document.body.classList.toggle("closeleft");
 		});
 
 		$('#listres').on('click', 'li', function() {

@@ -42,7 +42,7 @@ class container extends \block {
 
 	public function display() {
 		if ($this->getConfig('column')) {
-			\app::$response->head .= '<style> #' . $this->getId() . ' > .parsiblock{float:left} </style>';
+			\app::$response->head .= '<style> #' . $this->getId() . ' > .parsiblock{display:inline-block} </style>';
 			$this->setConfig('cssClasses', ' column' . $this->getConfig('cssClasses'));
 		}
 		return parent::display();
@@ -52,7 +52,7 @@ class container extends \block {
 		$html = '';
 		if (!empty($this->blocks)) {
 			foreach ($this->blocks as $block) {
-				$html .= $block->display() . PHP_EOL;
+				$html .= $block->display();
 			}
 		}
 		return $html;
@@ -72,8 +72,16 @@ class container extends \block {
 	
 	public function onMove($typeProgress, $module, $name, $copy = FALSE) {
 		if (!empty($this->blocks)) {
-			foreach ($this->blocks as $block) {
+			foreach ($this->blocks as $idBlock => $block) {
+				if ($typeProgress === 'theme') {
+					$idBlock = strtolower($idBlock);
+					$block->setId($idBlock);
+				} else {
+					$idBlock = ucfirst($idBlock);
+					$block->setId($idBlock);
+				}
 				if(method_exists($block, 'onMove')) {
+					
 					$block->onMove($typeProgress, $module, $name, $copy);
 				}
 			}

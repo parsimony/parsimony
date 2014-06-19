@@ -5,7 +5,7 @@ $config['BASE_PATH'] = '';
 
 //Themes
 $config['THEMEMODULE'] = 'blog';
-$config['THEME'] = 'parsidefault';
+$config['THEME'] = 'defaultTheme';
 
 //Database
 $config['db']['host'] = 'localhost';

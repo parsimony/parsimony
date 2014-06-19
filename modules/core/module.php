@@ -47,43 +47,41 @@ class module extends \module {
 
 		\app::$devices = array(
 			/* TV */
-			'tv' => array('name' => 'tv', 'resolution' => array('720x1280' => '720p',
-				'1080x1920' => '1080p',
-				'1024x768' => '4/3',
-				'1280x768' => '15/9',
-				'1360x768' => '16/9 HD',
+			'tv' => array('name' => 'tv', 'icon' => 'M 13.415,3.939c-1.214-0.175-2.507-0.301-3.857-0.372L 11.813,1.313l-0.875-0.875L 7.867,3.508 C 7.58,3.503, 7.291,3.5, 7,3.5l0,0L 3.5,0L 2.625,0.875l 2.655,2.655c-1.653,0.058-3.231,0.199-4.695,0.409 C 0.209,5.412,0,7.039,0,8.75s 0.209,3.338, 0.585,4.811C 2.549,13.843, 4.719,14, 7,14 c 2.281,0, 4.451-0.157, 6.415-0.439C 13.791,12.088, 14,10.461, 14,8.75S 13.791,5.412, 13.415,3.939z M 11.811,11.957 C 10.338,12.146, 8.711,12.25, 7,12.25c-1.711,0-3.338-0.104-4.811-0.293C 1.907,10.975, 1.75,9.891, 1.75,8.75 c0-1.141, 0.157-2.226, 0.439-3.207C 3.662,5.354, 5.289,5.25, 7,5.25c 1.711,0, 3.338,0.104, 4.811,0.293 C 12.093,6.524, 12.25,7.609, 12.25,8.75C 12.25,9.891, 12.093,10.975, 11.811,11.957z',
+				'resolution' => array('1280x768' => '15/9',
 				'1366x768' => '16/9 HD Ready',
-				'1920x1080' => '16/9 Full HD',
 				'1600x900' => '16/9 HD Extended',
-				'768x1366' => '16/9 HD Ready',
-				'1000x1600' => '16/10'), 'detectFnc' => function() {
+				'1920x1080' => '16/9 Full HD'), 'detectFunc' => function() {
 				return preg_match('/TV/i', $_SERVER['HTTP_USER_AGENT']);
 			}),
 		
 			/* Tablet */
-			'tablet' => array('name' => 'tablet', 'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
+			'tablet' => array('name' => 'tablet', 'icon' => 'M 10.938,0L 2.188,0 C 1.466,0, 0.875,0.591, 0.875,1.313l0,11.375 c0,0.722, 0.591,1.313, 1.313,1.313l 8.75,0 c 0.722,0, 1.313-0.591, 1.313-1.313L 12.25,1.313 C 12.25,0.591, 11.659,0, 10.938,0z M 6.563,13.563 c-0.242,0-0.438-0.196-0.438-0.438s 0.196-0.438, 0.438-0.438s 0.438,0.196, 0.438,0.438S 6.804,13.563, 6.563,13.563z M 10.5,12.25L 2.625,12.25 L 2.625,1.75 l 7.875,0 L 10.5,12.25 z',
+				'resolution' => array('800x1280' => 'Google Nexus 10 / Samsung Galaxy Tab 2 10.1',
 				'601x921' => 'Google Nexus 7',
 				'600x1024' => 'Samsung Galaxy Tab 2 7.7',
 				'768x1366' => 'Microsoft Surface',
-				'768x1024' => 'Apple iPad'), 'detectFnc' => function() { 
+				'768x1024' => 'Apple iPad'), 'detectFunc' => function() { 
 				return preg_match('/(Tablet|Ipad|Kindle|Silk)|(Android(?!.*(Mobi|Opera Mini)))/i', $_SERVER['HTTP_USER_AGENT']); /* tablet must be under mobile because "Android" test is good only without "Mobile" in user agent string */
 			}),
 		
 			/* Mobile */
-			'mobile' => array('name' => 'mobile', 'resolution' => array('384x640' => 'Nexus 4',
+			'mobile' => array('name' => 'mobile', 'icon' => 'M 5.25,0.875l 2.625,0 l0,0.875 l-2.625,0 L 5.25,0.875 z M 3.5,2.625l 6.125,0 l0,8.75 L 3.5,11.375 L 3.5,2.625 z M 6.125,12.25l 0.875,0 l0,0.875 l-0.875,0 L 6.125,12.25 z M 3.5,0C 3.063,0, 2.625,0.438, 2.625,0.875l0,12.25 c0,0.438, 0.438,0.875, 0.875,0.875l 6.125,0 c 0.438,0, 0.875-0.438, 0.875-0.875L 10.5,0.875 c0-0.438-0.438-0.875-0.875-0.875L 3.5,0 z',
+				'resolution' => array('384x640' => 'Nexus 4',
 				'320x568' => 'Apple iPhone 5',
 				'360x640' => 'Samsung Galaxy S3&4 / HTC One',
-				'320x480' => 'Nokia Lumia 900'), 'detectFnc' => function() {
+				'320x480' => 'Nokia Lumia 900'), 'detectFunc' => function() {
 				return preg_match('/Mobi|Opera Mini|BlackBerry/i', $_SERVER['HTTP_USER_AGENT']);
 			}),
 		
 			/* Desktop */
-			'desktop' => array('name' => 'desktop', 'resolution' => array('max' => 'Normal',
+			'desktop' => array('name' => 'desktop', 'icon' => 'M 7.875,10.5l0,0.875 l 2.625,0 l0,1.75 L 3.5,13.125 l0-1.75 l 2.625,0 l0-0.875 L0,10.5 L0,0.875 l 14,0 l0,9.625 L 7.875,10.5 z M 13.125,1.75L 0.875,1.75 l0,7 l 12.25,0 L 13.125,1.75 z M 1.75,5.223L 1.75,2.625 l 2.625,0 L 1.75,5.223z',
+				'resolution' => array('max' => 'Normal',
 				'640x480' => '',
 				'800x600' => '',
 				'1024x768' => '',
 				'1280x960' => '',
-				'1280x1024' => ''), 'detectFnc' => function() {
+				'1280x1024' => ''), 'detectFunc' => function() {
 				return TRUE;
 			}));
 		

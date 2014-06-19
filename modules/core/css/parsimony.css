@@ -40,6 +40,8 @@ audio:not([controls]) {display: none;height: 0;}
 
 /* Parsimony CSS */
 
+img, embed, object, video {  max-width: 100%;}
+
 /* clearfix for blocks */
 .parsiblock::before,.parsiblock::after {content: " ";display: table;}
 .parsiblock::after {clear: both;}

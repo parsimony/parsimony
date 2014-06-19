@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Parsimony
  *
@@ -22,18 +22,10 @@
  * @copyright Julien Gras et Benoît Lorillot
  * 
  * @category Parsimony
- * @package core/fields
+ * @package core/blocks
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-
-$tags = array();
-if ($this->value) {
-	$items = explode(',', $this->value);
-	foreach ($items AS $item) {
-		$myItem = explode('||', $item);
-		if (isset($myItem[1]))
-			$tags[$myItem[0]] = $myItem[1];
-	}
-	echo implode(', ', $tags);
-}
 ?>
+<div class="placeholder"><label>Block ident</label>
+	<input type="text" name="reflectedBlock" value="<?php if($this->getConfig('reflectedBlock')) echo $this->getConfig('reflectedBlock'); ?>">
+</div>

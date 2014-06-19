@@ -18,6 +18,8 @@ body.closeleft #left_sidebar{left:-200px}
 .roundBTN{width: 28px;height: 28px;top: 5px;display: block;cursor: pointer;border-radius: 4px;background-color: #242424;
 border: 1px solid #040404;box-shadow: 1px 1px 0 #363738;margin: 0 5px;}
 .roundBTN.active,.roundBTN:hover{background-color: rgb(45, 193, 238);box-shadow: none;border: 1px solid rgb(45, 193, 238);}
+#opensidebarleft{font-size: 27px;color: #F4F4F4;position: relative;left: -4px;cursor:pointer}
+body.previewMode #opensidebarleft{display:none}
 
 #admin{text-align: left;}
 
@@ -108,7 +110,10 @@ background-image: url(admin/img/defaultsprite.png);background-repeat: no-repeat;
 
 #dropInTree{position:relative;height:0;width:100%;pointer-events:none}
 #dropInTree::after{position:absolute;width:100%;height:6px;top:-3px;left:0px;height:3px;width:100%;content: " ";background: #c8007a;}
-.tree_selector .notDisplayed{color:#bbb}
+#treedom_container .tree_selector.notDisplayed{color:#bbb}
+#treedom_container svg{ fill:transparent;margin-left:3px;transition:fill 0.2s ease;}
+#treedom_container:hover svg{ fill:#666;margin-left:3px}
+#treedom_container:hover .tree_selector.notDisplayed svg{ fill:#bbb;margin-left:3px}
 
 /* Tree icons */
 #treedom_container > .tree_selector{background-color: #FAFAFA;color: #444444;}
@@ -200,7 +205,7 @@ input[type=text]::-webkit-calendar-picker-indicator {background: none;visibility
 .selectorTitle{margin-right: 39px;}
 .gotoform{background-image: -webkit-linear-gradient(bottom,#818181,#A4A4A4);background-image: -moz-linear-gradient(bottom,#818181,#A4A4A4);position: absolute;right: 0;top: 0;cursor: pointer;padding: 0 4px;border-radius: 0 0 0 3px;font-size: 10px;color: #FAFAFA;}
 .gotoform:hover{background:#777;color:white}
-.selectorcss b{overflow:hidden}
+.selectorcss b{overflow:hidden;-moz-user-select: initial;-webkit-user-select: initial;-ms-user-select: initial;user-select: initial;}
 .activebtn{cursor:pointer;border-radius: 2px;width: 9px;background: #F1F1F1;line-height: 10px;margin: 3px 1px;
 height: 11px;border: 1px solid #BBB;text-align: center;font-size: 12px;display: block;color: rgb(68, 68, 68);}
 .activebtn:hover{background: #e1e1e1;color:#444;}
@@ -241,8 +246,11 @@ background-image: url(admin/img/stripe.png);transition: all 0.5s;}
 #mediaqueriesdisplay.hide{height:0;padding: 0;}
 #mediaqueriesdisplay.active{display:block;border-top: 1px solid #111;}
 #scopeMediaQueries{position: absolute;top: 0;bottom: 0;background-image: -webkit-linear-gradient(bottom, #333, #222);border-left: 1px solid #222;border-right: 1px solid #222;}
-#mediaqueriesdisplay .mediaq{margin:3px 0;height: 11px;border: 3px solid #ddd;border-top: 0;position: relative;cursor: pointer}
+#mediaqueriesdisplay .mediaq{margin:3px 0;height: 11px;border: 3px solid #ddd;border-top: 0;position: relative;cursor: pointer;font-size: 9px;line-height: 6px;white-space: nowrap;text-align: center;color:#ddd}
 #mediaqueriesdisplay .mediaq.active{border: 3px solid #2DC1EE;border-top: 0;}
+#mediaqueries #targeted{display:none;position: absolute;left: 29px;top: 3px;}
+#mediaqueries.matchesKO #targeted{display:block}
+#mediaqueries.matchesKO #mediaselected{text-indent: 20px;}
 #arrow-down {width: 0px;height: 0px;border-left: 10px solid rgba(0, 0, 0, 0);border-right: 10px solid rgba(0, 0, 0, 0);
 	border-top: 10px solid #DFDFDF;position:absolute;top:0}
 #mdqlabel{position: absolute;left: 200px;top: -21px;color: #B9B9B9;z-index: 2;font-size: 11px;background: #272727;padding: 5px;
@@ -340,6 +348,8 @@ background-image: linear-gradient(top, #242424,#313131);
 #customReso input{padding: 3px;border: 1px solid #E7E6E6;width: 65px;}
 .changeVersion li{color: #555;cursor: pointer;min-width:140px;line-height:30px;white-space: nowrap;padding: 0px 15px}
 .changeVersion li:hover{color: #FFF;}
+.changeVersion li svg{margin-right: 4px;vertical-align: sub;}
+.changeVersion li:hover svg{fill: #FFF;}
 
 /* Top Toolbar middle part */
 .orientation{display:none}

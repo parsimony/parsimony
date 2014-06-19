@@ -94,9 +94,9 @@ class code extends \block {
 	public function onMove($typeProgress, $module, $name, $copy = FALSE) {
 		$oldPath = $this->getConfig('viewPath');
 		if ($typeProgress === 'theme')
-			$path = $module . '/themes/' . $name . '/views/' . $this->id . '/view.php';
+			$path = $module . '/themes/' . $name . '/views/' . $this->id . '.php';
 		else
-			$path = $module . '/pages/views/' . $this->id . '/view.php';
+			$path = $module . '/pages/views/' . $this->id . '.php';
 		
 		if (is_file(PROFILE_PATH . $path) === FALSE) { /* check if a view with this path already exists in profile */
 			$this->setConfig('viewPath', $path); /* save the new path */

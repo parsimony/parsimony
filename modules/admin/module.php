@@ -183,7 +183,7 @@ class module extends \module {
 	 * @param string $cssClasses
 	 * @return string 
 	 */
-	protected function saveBlockConfigsAction($typeProgress, $idBlock, $headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode,  $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
+	protected function saveBlockConfigsAction($typeProgress, $idBlock, $headerTitle, $maxAge, $tag, $ajaxReload, $ajaxLoad, $cssClasses, $mode, $devices = array(), $allowedModules = array(), $allowedRoles = array(), $CSSFiles = array(), $JSFiles = array()) {
 		$this->initObjects();
 		$block = $this->$typeProgress->searchBlock($idBlock);
 
@@ -195,6 +195,8 @@ class module extends \module {
 		else $block->removeConfig('tag');
 		if(!empty($allowedModules)) $block->setConfig('allowedModules', $allowedModules);
 		else $block->removeConfig('allowedModules');
+		if(!empty($devices) && count($devices) < count(\app::$devices)) $block->setConfig('devices', $devices);
+		else $block->removeConfig('devices');
 		$block->removeConfig('exclude');
 		if(!empty($allowedRoles)) $block->setConfig('allowedRoles', $allowedRoles);
 		else $block->removeConfig('allowedRoles');
@@ -230,7 +232,7 @@ class module extends \module {
 		if (method_exists($block, 'saveConfigs')) {
 			$block->saveConfigs();
 		} else {
-			$rm = array('action', 'MODULE', 'THEME', 'DEVICE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles');
+			$rm = array('action', 'MODULE', 'THEME', 'DEVICE', 'THEMEMODULE', 'idBlock', 'parentBlock', 'typeProgress', 'maxAge', 'tag', 'ajaxReload', 'css_classes', 'allowedModules', 'allowedRoles', 'devices');
 			$rm = array_flip($rm);
 			$configs = array_diff_key($_POST, $rm);
 			foreach ($configs AS $configName => $value) {
@@ -592,7 +594,7 @@ class module extends \module {
 					$theme[$device['name']]->save();
 				}
 			} else {
-				$theme = new \theme('container', $name, 'desktop', $thememodule);
+				$theme = new \theme('container', $name, $thememodule);
 				$theme->save();
 			}
 			/* Set theme in preview mode */
@@ -612,7 +614,7 @@ class module extends \module {
 	 * @return string 
 	 */
 	protected function changeThemeAction($THEMEMODULE, $name) {
-		$path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/desktop/theme.' .\app::$config['dev']['serialization']);
+		$path = stream_resolve_include_path($THEMEMODULE . '/themes/' . $name . '/theme.' .\app::$config['dev']['serialization']);
 		if ($path) {
 				$configObj = new \core\classes\config('profiles/' . PROFILE . '/config.php', TRUE);
 				$update = array('THEMEMODULE' => $THEMEMODULE,'THEME' => $name);
@@ -755,15 +757,25 @@ class module extends \module {
 		} elseif($id === 'container') {
 			$textContent = '&nbsp;container -  <span class="tree_selector_title">Theme ' . $obj->getName() . '</span>';
 		}
-		$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
+		$devices = $obj->getConfig('devices');
+		if (is_array($devices)) {
+			$html = '<ul class="tree_selector container parsicontainer ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
+			foreach($devices AS $device)
+				$html .= '<svg height="12" width="12" viewBox="0 0 14 14"><path d="' . \app::$devices[$device]['icon'] . '"></path></svg>';
+		} else {
+			$html = '<ul class="tree_selector container parsicontainer" id="treedom_' . $id . '"' . $idPage . '><span class="arrow_tree"></span>' . $textContent;
+		}
 		foreach ($obj->getBlocks() AS $block) {
 			$idBlock = $block->getId();
 			if ($block instanceof \core\blocks\container || $idBlock === 'content'){
 				$html .= $this->structureTree($block);
 			} else {
 				$devices = $block->getConfig('devices');
-				if(is_array($block->getConfig('devices'))){
-					$html .= '<li class="tree_selector parsimonyblock' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $idBlock . '"> ' . $idBlock . ' <img src="http://parsimony.mobi/admin/img/devices/' . implode('.svg" width="14"> <img src="http://parsimony.mobi/admin/img/devices/', $block->getConfig('devices') ). '.svg" width="14"> </li>';
+				if (is_array($devices)) {
+					$html .= '<li class="tree_selector parsimonyblock ' . (in_array(DEVICE, $devices) ? '' : ' notDisplayed') . '" id="treedom_' . $idBlock . '"> ' . $idBlock . '';
+					foreach($devices AS $device)
+						$html .= '<svg height="12" width="12" viewBox="0 0 14 14"><path d="' . \app::$devices[$device]['icon'] . '"></path></svg>';
+					$html .= '</li>';
 				} else {
 					$html .= '<li class="tree_selector parsimonyblock" id="treedom_' . $idBlock . '"> ' . $idBlock . '</li>';
 				}
@@ -1470,5 +1482,3 @@ class ' . $table->name . ' extends \entity {
 	}
 
 }
-
-?>

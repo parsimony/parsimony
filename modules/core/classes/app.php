@@ -172,8 +172,9 @@ namespace core\classes {
 			
 			/* Adaptive imgs */
 			$resMax = 0;
-			if (isset($params['adapt']) && isset($_COOKIE['resMax'])) {
-				$resMax = $params['adapt'] = ceil($_COOKIE['resMax'] / 100) * 100; /* to limit amount of cached images versions */
+			if (isset($params['adapt']) && isset($_COOKIE['DW']) && isset($_COOKIE['DH']) && isset($_COOKIE['DPR'])) {
+				$resMax = max($_COOKIE['DW'], $_COOKIE['DH']) * (int) $_COOKIE['DPR'];
+				$resMax = $params['adapt'] = ceil($resMax / 100) * 100; /* to limit amount of cached images versions */
 				if (isset($params['x']) && $params['x'] > $resMax) {
 					$params['x'] = $resMax;
 				}
@@ -218,13 +219,12 @@ namespace core\classes {
 		}
 
 		/**
-		 * Get a module and cache the instance
+		 * Add a device
 		 * @static function
-		 * @param string $module
-		 * @return module object
+		 * @param array $device
 		 */
-		public static function setDevice(array $device) {
-			array_unshift(self::$devices, $device);
+		public static function addDevice(array $device) {
+			self::$devices = array_merge(array($device['name'] => $device), self::$devices);
 		}
 
 		/**
