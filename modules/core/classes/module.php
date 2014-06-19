@@ -530,7 +530,7 @@ class module extends \module {
 			$mod->addPage($page);
 			$mod->save();
 			$config = new \config('profiles/'.PROFILE . '/config.php', TRUE);
-			$config->add('$config[\'modules\'][\'active\'][\'' . $name . '\']', '2');
+			$config->add('$config[\'modules\'][\'' . $name . '\']', '7');
 			return $config->save();
 		}else {
 			return FALSE;

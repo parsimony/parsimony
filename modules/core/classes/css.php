@@ -390,7 +390,9 @@ class css {
 				}
 				$oldMedia = $media;
 			}
-			$output .= $selector['b'] . $selector['s'] . ' {' . $selector['p'] . '}';
+			if (!empty($selector['p'])) {
+				$output .= $selector['b'] . $selector['s'] . ' {' . $selector['p'] . '}';
+			}
 		}
 		if (substr($media, 0, 1) == '@')
 			$output .= PHP_EOL . '}';

@@ -316,6 +316,7 @@ abstract class entity extends queryBuilder implements \Iterator {
 			$query = substr($query, 0, -1);
 			if (isset($this->_SQL['wheres'])) {
 				$query .= ' WHERE ' . implode(' AND ', $this->_SQL['wheres']);
+				$query = preg_replace('/([,\s\(])' . $this->_tableName . '([\.\s])/', '$1' . PREFIX . $this->_tableName . '$2', $query); /* prefix table namesyy */
 			} else {
 				$query .= ' WHERE ' . $this->getId()->name . ' = :' . $this->getId()->name . ';';
 			}
