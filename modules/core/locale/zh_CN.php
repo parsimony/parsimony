@@ -432,7 +432,7 @@ $lang['The Entity'] = ' 个体';
 $lang['This word'] =  '文字';
 $lang['belongs to a list of Reserved Words, Please Choose another'] = ' 属于预设目录文字，请选择其他文字';
 $lang['Enter a Name of Entity'] = ' 输入项目名';
-$lang['New Data Model has been Saved'] = '新模板数据已保存';
+$lang['New Data Model has been saved'] = '新模板数据已保存';
 $lang['Primary key'] = '主关键码';
 $lang['Foreign Key'] = ' 外部关键码';
 $lang['to Foreign Key'] = '至外部关键码';
@@ -449,35 +449,7 @@ $lang['State'] = ' 状态';
 $lang['Permissions'] = ' 准入';
 $lang['Manage Rights'] = '管理权';
 $lang['Manage Roles'] = '管理名册';
-
-
-
-
-
-
-
-
-
-$lang['Are you sure to delete this entity ?'] = '您确定删除此项目？';
-$lang['Are you sure to delete this property ?'] = '您确定删除此属性？';
 $lang['Are you sure to delete this page ?'] = ' 您确定删除此页？';
-
-$lang['Delete connection from'] = ' 删除连接';
-$lang['to'] = '到';
-$lang['Site structure']= ' 组织结构';
-$lang['Dynamic content']= ' 新内容';
-$lang['ID'] = ' 身份验证';
-$lang['already exists'] = ' 已存在';
-$lang['The Entity'] = '项目';
-$lang['This word'] = ' 文字';
-$lang['belongs to a list of Reserved Words, Please Choose another'] = '属于预设目录文字，请选择其他文字';
-$lang['Enter a Name of Entity'] = '输入项目名';
-$lang['New Data Model has been Saved'] = ' 新模板数据已保存';
-$lang['Primary key'] = '主关键码';
-$lang['Foreign Key'] = ' 外部关键码';
-$lang['to Foreign Key'] = ' 至外部关键码';
-$lang['Please enter a field name'] = ' 请输入一个区域名';
-
 $lang['The ability to write code is pretty much a super power in today\'s society']='编写程序是当今社会生活中的重要能力';
 $lang['Record'] = ' 注册';
 $lang['Add in'] = ' 加入到';
