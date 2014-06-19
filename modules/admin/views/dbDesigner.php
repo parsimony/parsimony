@@ -693,7 +693,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				});
 				propertylist = propertylist.substring(0, propertylist.length - 1) + ']';
 				$.post('saveModel', {TOKEN: '<?php echo TOKEN; ?>', module: '<?php echo $module ?>', list: propertylist, oldSchema: oldSchema}, function(data) {
-					ParsimonyAdmin.notify(t('New Data Model has been Saved') + data, "positive");
+					ParsimonyAdmin.notify(t('New Data Model has been saved') + data, "positive");
 					$(".new").removeClass("new");
 					$("#save").removeClass("haveToSave");
 				});
