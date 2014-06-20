@@ -34,7 +34,7 @@ namespace core\classes;
  * PDOconnection Class 
  * Provides an access for databases building and storing a PHP Data Object.
  */
-class queryBuilder {
+class queryBuilder implements \Iterator {
 	
 	/**
 	 * @var array of SQL fields in order to build SQL query
@@ -233,10 +233,20 @@ class queryBuilder {
 	  * Return first data row
 	  * @return entity object
 	  */
-	 public function fetch() {
-		 foreach ($this as $obj) {
-			 $this->clearQuery();
-			 return $obj;
+	 public function fetch($fetchStyle = FALSE) {
+		 if($fetchStyle !== FALSE) {
+			 if ($this->buildQuery(true) !== FALSE) {
+				 $fetchAll = call_user_func_array(array($this->_SQL['stmt'], 'fetch'), func_get_args());
+				$this->clearQuery();
+				return $fetchAll;
+			 } else {
+				 return FALSE;
+			 }
+		 } else {
+			 foreach ($this as $obj) {
+				 $this->clearQuery();
+				return $obj;
+			}
 		 }
 	 }
 	 
@@ -245,15 +255,13 @@ class queryBuilder {
 	  * @param int $fetchStyle
 	  * @return array
 	  */
-	 public function fetchAll($fetchStyle = \PDO::FETCH_INTO) {
+	 public function fetchAll($fetchStyle = \PDO::FETCH_OBJ) {
 		if ($this->buildQuery(true)) {
-			$fetchAll = $this->_SQL['stmt']->fetchAll($fetchStyle);
+			$fetchAll = call_user_func_array(array($this->_SQL['stmt'], 'fetchAll'), func_get_args());
 			$this->clearQuery();
 			return $fetchAll;
-		} else {
-			unset($this->_SQL['firstFetch']); /* allow to re-exec query */
-			return FALSE;
 		}
+		return FALSE;
 	}
 
 	/**
