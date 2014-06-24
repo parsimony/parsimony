@@ -76,7 +76,7 @@ class comment extends \entity {
 			$rowdate = $result['publicationGMT'];
 			// if comments are open in blog configs 
 			if (\app::getModule('blog')->getEntity('comment')->olderComments($rowdate, $days) == TRUE){
-				// if blog configs allow comments
+				// if this post allows comments
 				if ($has_comment == '1') {
 					// If user is connected, we define variables login and mail with session_login
 					if(isset($params['session_login']) && $params['session_login'] != ''){ 
