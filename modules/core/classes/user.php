@@ -84,7 +84,6 @@ class user {
 					$_SESSION['id_user'] = (int) $obj['id_user'];
 					$_SESSION['id_role'] = (int) $obj['id_role'];
 					$_SESSION['permissions'] = (int) $obj['permissions'];
-					$_SESSION['behavior'] = 2; // todo remove
 					return TRUE;
 				} else {
 					return FALSE;

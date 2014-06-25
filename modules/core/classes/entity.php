@@ -772,7 +772,6 @@ abstract class entity extends queryBuilder implements \Iterator {
 		unset($properties['_SQL']);
 		unset($properties['fields']);
 		unset($properties['_extends']);
-		unset($properties['_tableTitle']); /* Todo remove */
 		if(empty($this->behaviorTitle)){
 			unset($properties['behaviorTitle']);
 		}
@@ -784,6 +783,9 @@ abstract class entity extends queryBuilder implements \Iterator {
 		}
 		if(empty($this->behaviorImage)){
 			unset($properties['behaviorImage']);
+		}
+		if(empty($this->behaviorAuthor)){
+			unset($properties['behaviorAuthor']);
 		}
 		unset($this->extends);
 		$fields = array_keys($properties);

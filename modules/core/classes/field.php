@@ -191,7 +191,6 @@ class field {
 		unset($properties['editMode']);
 		unset($properties['getEditOptions']);
 		unset($properties['entity']);
-		unset($properties['module']); /* todo remove */
 		foreach ($properties AS $name => $value) { /* unset unchanged values */
 			if(isset($defaultValues[$name]) && $properties[$name] == $defaultValues[$name]) {
 				unset($properties[$name]);
