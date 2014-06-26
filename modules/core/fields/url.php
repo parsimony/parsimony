@@ -40,22 +40,16 @@ namespace core\fields;
 
 class url extends \field {
 
-	protected $regex = '(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)';
-
 	/**
 	 * Validate field
 	 * @param string $value
 	 * @return string
 	 */
 	public function validate($value) {
-		$length = strlen($value);
-		if ($length >= $this->characters_min && $length <= $this->characters_max) {
-			if (!$this->required && empty($value))
-				return '';
-			else
-				return filter_var($value, FILTER_VALIDATE_URL);
+		if (!empty($value) && strstr($value, '://') === FALSE) {
+			$value = 'http://' . $value;
 		}
-		return FALSE;
+		return parent::validate($value);
 	}
 
 }
