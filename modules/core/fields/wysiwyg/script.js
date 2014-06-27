@@ -35,11 +35,15 @@ $(document).ready(function() {
 				}
 
 			}
-
+		},
+		destroy: function() {
+			if (typeof window['wysiwygy'] != "undefined") {
+				window['wysiwygy'].destroy();
+				delete window['wysiwygy'];
+			}
 		},
 		onClick: function() {
 			if(typeof parsiEdit.oldValue == "undefined" || parsiEdit.oldValue == null){
-				$(".HTML5editorToolbar").show();
 				parsiEdit.oldValue = parsiEdit.currentElmt.innerHTML;
 				parsiEdit.currentElmt.setAttribute("contenteditable", "true");
 				$(".HTML5editorToolbar").show();
@@ -70,7 +74,6 @@ $(document).ready(function() {
 				parsiEdit.oldValue = null;
 			}
 			$(".HTML5editorToolbar").hide();
-			//parsiEdit.currentElmt.setAttribute("contenteditable", "false");
 		}
 
 	});

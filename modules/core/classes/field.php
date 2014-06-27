@@ -375,7 +375,6 @@ class field {
 	 */
 	public function deleteColumn() {
 		$sql = 'ALTER TABLE ' . PREFIX . $this->entity->getModule() . '_' . $this->entity->getName() . ' DROP `' . $this->name . '`';
-			//	var_dump($sql);var_dump(\PDOconnection::getDB()->exec($sql));
 		return \PDOconnection::getDB()->exec($sql);
 	}
 
