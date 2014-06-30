@@ -30,28 +30,31 @@
 
 <script>
 	function checkVersion() {
-		$.get("http://parsimony.mobi/lastversion.php", function(data) {
-			if (data[0] == "{") {
-				var data = JSON.parse(data);
+		$.get("http://parsimony.mobi/lastversion?v=<?php echo PARSIMONY_VERSION; ?>", function(data) {
+			if (typeof data == "object") {
+				var newVersion = "";
 				for (version in data) {
-					if (parseFloat(version) > parseFloat("<?php echo PARSIMONY_VERSION; ?>")) {
-						document.getElementById("stablechannel").innerHTML = '<input type="button" value="'+ t('Update to version ') + version + '" class="updateVersion" data-urlupdate="' + data[version] + '">';
-						break;
-					} else {
-						document.getElementById("numVersion").innerHTML = version;
+					if (data[version].name == "<?php echo PARSIMONY_VERSION; ?>") {
+						if(newVersion.length == 0){
+							document.getElementById("stablechannel").innerHTML = t('You have the latest stable version');
+						} else {
+							document.getElementById("stablechannel").innerHTML = '<input type="button" value="'+ t('Update to version ') + newVersion + '" class="updateVersion" data-urlupdate="' + data[version - 1].zip + '" data-versionupdate="' + data[version - 1].name + '">';
+							break;
+						}
 					}
-					document.getElementById("stablechannel").innerHTML = t('You have the latest stable version');
+					newVersion = data[version].name;
 				}
 			}
 		});
 	}
+	
 	$(document).ready(function() {
 
 		checkVersion();
 
 		$(document).on('click', '.updateVersion', function() {
 			document.getElementById('updateVersionLoad').style.display = "inline";
-			$.post(BASE_PATH + 'admin/uptodate', {url: this.dataset.urlupdate}, function(data) {
+			$.post(BASE_PATH + 'admin/uptodate', {url: this.dataset.urlupdate, version: this.dataset.versionupdate, TOKEN: TOKEN}, function(data) {
 				document.getElementById('updateVersionLoad').style.display = "none";
 				checkVersion();
 			});
@@ -378,12 +381,9 @@
 			</div>
 			<div id="tabsb-10" class="admintabs">
 				<h2><?php echo t('Current'); ?> Parsimony <?php echo t('Version'); ?> : <span id="numVersion"><?php echo PARSIMONY_VERSION; ?></span> <img src="<?php echo BASE_PATH; ?>admin/img/load.gif" id="updateVersionLoad" /></h2>
-				<div><h3>Stable channel</h3>
-					<div id="stablechannel">
-					</div>
-				</div>
-				<div><h3>Nightly channel</h3>
-					<input type="button" value="Update to lastest nightly version" class="updateVersion" data-urlupdate="http://nodeload.github.com/parsimony/parsimony_cms/legacy.zip/master">
+				<div>
+					<h3>Stable channel</h3>
+					<div id="stablechannel"></div>
 				</div>
 			</div>
 			<div id="tabsb-12" class="admintabs">

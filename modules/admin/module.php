@@ -1197,56 +1197,66 @@ class ' . $table->name . ' extends \entity {
 		return ' ';
 	}
 
-	protected function uptodateAction($url) {
+	protected function uptodateAction($url, $version) {
 
-		$majTitle = 'maj-'.time();
-		$zipFile = 'var/maj/'.$majTitle.'.zip';
-		if (!is_dir('var/maj/'.$majTitle.'/extract'))
-			mkdir('var/maj/'.$majTitle.'/extract', 0755, TRUE);
-		if (!is_dir('var/maj/'.$majTitle.'/backup/modules'))
-			mkdir('var/maj/'.$majTitle.'/backup/modules', 0755, TRUE);
+		$majTitle = 'maj-' . time();
+		$zipFile = 'var/maj/' . $majTitle . '.zip';
+		if (!is_dir('var/maj/' . $majTitle . '/extract'))
+			mkdir('var/maj/' . $majTitle . '/extract', 0755, TRUE);
+		if (!is_dir('var/maj/' . $majTitle . '/backup/modules'))
+			mkdir('var/maj/' . $majTitle . '/backup/modules', 0755, TRUE);
 
-		if(copy($url,'var/maj/'.$majTitle.'.zip') === TRUE){
+		if (copy($url, 'var/maj/' . $majTitle . '.zip') === TRUE) {
 			//echo 'Maj downloaded';
 			$zip = new \ZipArchive();
-			if($zip->open($zipFile) === TRUE){
-				if($zip->extractTo('var/maj/'.$majTitle.'/extract') === TRUE){
+			if ($zip->open($zipFile) === TRUE) {
+				if ($zip->extractTo('var/maj/' . $majTitle . '/extract') === TRUE) {
 					//echo 'Zip extracted';
 					//get main directory 
-					$searchDir = glob('var/maj/'.$majTitle.'/extract/parsimony*', GLOB_ONLYDIR);
-					if(is_array($searchDir)){
+					$searchDir = glob('var/maj/' . $majTitle . '/extract/parsimony*', GLOB_ONLYDIR);
+					if (is_array($searchDir)) {
 						$mainDir = basename($searchDir[0]);
 					}
-					if(is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/core') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/admin') && is_dir('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/blog')){
-						if(rename('lib', 'var/maj/'.$majTitle.'/backup/lib') === TRUE){
+					if (is_dir('var/maj/' . $majTitle . '/extract/' . $mainDir . '/lib') && is_dir('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/core') && is_dir('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/admin') && is_dir('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/blog')) {
+						if (rename('lib', 'var/maj/' . $majTitle . '/backup/lib') === TRUE) {
 							//echo 'Lib directory saved in backup';
-							if(rename('modules/core', 'var/maj/'.$majTitle.'/backup/modules/core') === TRUE && rename('modules/admin', 'var/maj/'.$majTitle.'/backup/modules/admin') === TRUE && rename('modules/blog', 'var/maj/'.$majTitle.'/backup/modules/blog') === TRUE){
+							if (rename('modules/core', 'var/maj/' . $majTitle . '/backup/modules/core') === TRUE && rename('modules/admin', 'var/maj/' . $majTitle . '/backup/modules/admin') === TRUE && rename('modules/blog', 'var/maj/' . $majTitle . '/backup/modules/blog') === TRUE) {
 								//echo 'Module directory saved in backup';
-								if(rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib', 'lib') === TRUE){
-									if(rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/core', 'modules/core') === TRUE && rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/admin', 'modules/admin') === TRUE && rename('var/maj/'.$majTitle.'/extract/'.$mainDir.'/modules/blog', 'modules/blog') === TRUE){
+								if (rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/lib', 'lib') === TRUE) {
+									if (rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/core', 'modules/core') === TRUE && rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/admin', 'modules/admin') === TRUE && rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/modules/blog', 'modules/blog') === TRUE) {
+										$index = file('var/maj/' . $majTitle . '/extract/' . $mainDir . '/index.php');
+										if(trim($index[1]) == 'include(\'installNewLife.php\');exit;'){
+											unset($index[1]);
+											file_put_contents('var/maj/' . $majTitle . '/extract/' . $mainDir . '/index.php', implode('',$index));
+										}
+										rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/index.php', 'index.php');
+										rename('var/maj/' . $majTitle . '/extract/' . $mainDir . '/.htaccess', '.htaccess');
 										//echo 'Succesfull';
+										if (is_file('modules/core/updateto' . $version . '.php')) {
+											include('modules/core/updateto' . $version . '.php');
+										}
 										return TRUE;
-									}else{
-										rename('lib', 'var/maj/'.$majTitle.'/extract/'.$mainDir.'/lib');
-										rename('var/maj/'.$majTitle.'/backup/modules/core', 'modules/core');
-										rename('var/maj/'.$majTitle.'/backup/modules/admin', 'modules/admin');
-										rename('var/maj/'.$majTitle.'/backup/modules/blog', 'modules/blog');
-										rename('var/maj/'.$majTitle.'/backup/lib', 'lib');
+									} else {
+										rename('lib', 'var/maj/' . $majTitle . '/extract/' . $mainDir . '/lib');
+										rename('var/maj/' . $majTitle . '/backup/modules/core', 'modules/core');
+										rename('var/maj/' . $majTitle . '/backup/modules/admin', 'modules/admin');
+										rename('var/maj/' . $majTitle . '/backup/modules/blog', 'modules/blog');
+										rename('var/maj/' . $majTitle . '/backup/lib', 'lib');
 									}
-								}else{
-									rename('var/maj/'.$majTitle.'/backup/modules/core', 'modules/core');
-									rename('var/maj/'.$majTitle.'/backup/modules/admin', 'modules/admin');
-									rename('var/maj/'.$majTitle.'/backup/modules/blog', 'modules/blog');
-									rename('var/maj/'.$majTitle.'/backup/lib', 'lib');
+								} else {
+									rename('var/maj/' . $majTitle . '/backup/modules/core', 'modules/core');
+									rename('var/maj/' . $majTitle . '/backup/modules/admin', 'modules/admin');
+									rename('var/maj/' . $majTitle . '/backup/modules/blog', 'modules/blog');
+									rename('var/maj/' . $majTitle . '/backup/lib', 'lib');
 								}
-							}else{
-								rename('var/maj/'.$majTitle.'/lib', 'lib');
+							} else {
+								rename('var/maj/' . $majTitle . '/lib', 'lib');
 							}
 						}
 					}
 					$zip->close();
-				}else{
-
+				} else {
+					
 				}
 			}
 		}

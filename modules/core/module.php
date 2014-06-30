@@ -139,7 +139,7 @@ class module extends \module {
 			\app::$response->addCSSFile(\app::$config['defaultModule'] . '/css/style.css');
 		}
 		if(DEVICE !== 'desktop') { /* set viewport here allow us to override it later */
-			\app::$response->page->setMeta('viewport', 'width=device-width, user-scalable=no');
+			\app::$response->page->setMeta('viewport', 'width=device-width, initial-scale=1');
 			\app::$response->page->setMeta('apple-mobile-web-app-capable', 'yes');
 		}
 	}
