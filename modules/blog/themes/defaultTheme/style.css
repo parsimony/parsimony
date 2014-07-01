@@ -132,8 +132,9 @@
 				 left: 10px;
 				 top: 10px;
 				 font-weight: 700;}
-#container:target {transform: translateX(-250px);
-				   -webkit-transform: translateX(-250px);}
+#container:target {position:relative;right:250px;}
+#container:target #rightcolumn {transform: translateX(0);
+				  -webkit-transform: translateX(0);}
 body {background-color: #f7f7f7;
 	  height: 100%;
 	  font-family: 'Segoe UI',Tahoma,Helvetica,sans-serif, Helvetica, sans-serif;
@@ -260,6 +261,9 @@ html {height: 100%;}
 	#hamburger {display: none;}
 	.core_query .content {margin: 0 0 0 70px;
 						  padding: 20px 0 15px;}
+	#Slogan h3 {font-size : 1.5em;}
+	#Slogan {right: 15px;}
+	#closemenu a {display: none;}
 }
 
 #menumobile {margin: 0;
@@ -372,11 +376,6 @@ html {height: 100%;}
 				  vertical-align:top;}
 }
 
-@media (min-width: 700px){
-	#Slogan h3 {font-size : 1.5em;}
-	#Slogan {right: 15px;}
-	#closemenu a {display: none;}
-}
 .box {box-shadow: 1px 1px 1px #bbb;}
 #recentposts a::before {width: 0;
 				   height: 0;
