@@ -511,10 +511,6 @@ margin:0}
 #checkmedia:checked + #labelmedia span{margin-left:25px;}
 #checkmedia:checked + #labelmedia #btnmedia{background:#44C5EC;}
 
-/* Fix wysiwyg */
-#HTML5editorToolbar button{min-width: initial !important;}
-.HTML5Editor ul{list-style: disc outside none;padding-left:40px;margin:12px 0 }
-
 /* ################ Hacks tricks ################## */
 [draggable] {-moz-user-select: none;-webkit-user-select: none;user-select: none;}
 

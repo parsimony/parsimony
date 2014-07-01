@@ -1144,10 +1144,10 @@ blockAdminCSS.prototype.getCSSSelectorForElement = function(node, media, proposa
 		for (var key in proposals) {
 			if (media.length > 0) {
 				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(media + " { " + proposals[key] + " { } }", nbRules);
-				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, 0, media, nbRules];
+				linkedRules[key + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, 0, media, nbRules];
 			} else {
 				ParsimonyAdmin.currentDocument.styleSheets[nbStylesheet].insertRule(proposals[key] + "{}", nbRules);
-				linkedRules[this.getSpecificity(proposals[key]) + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
+				linkedRules[key + linkedRulesNb] = [CSSTHEMEPATH, proposals[key], "", nbStylesheet, nbRules, "", ""];
 			}
 			nbRules++;
 			linkedRulesNb++;

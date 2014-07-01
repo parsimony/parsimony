@@ -289,3 +289,7 @@ input[type="range"]::-webkit-slider-thumb {
 .ui-icon-trash {background-position: -176px -96px;}
 
 :invalid{background: #fff no-repeat 98% center;box-shadow: 0 0 5px #ffeded;border-color: #ffeded}
+
+/* Fix wysiwyg */
+#HTML5editorToolbar button{min-width: initial !important;}
+.HTML5Editor ul{list-style: disc outside none;padding-left:40px;margin:12px 0 }
