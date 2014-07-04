@@ -234,7 +234,7 @@ class field {
 	
 	public function editInlineForAuthor($authorID) {
 		if($authorID === $_SESSION['id_user'] || $_SESSION['permissions'] > 0){
-			$this->editInline();
+			return $this->editInline();
 		} else {
 			return $this->display();
 		}
