@@ -82,13 +82,13 @@ class code extends \block {
 		\app::getModule('admin')->saveAll(); /* finish to save config */
 	}
 
-	public function forkAction($newBlock, $newModule) {
+	public function forkAction($newName, $newModule) {
 		$configs = $this->getConfigs();
 		$viewPath = $configs['viewPath'];
-		$configs['viewPath'] = 'modules/' . $newModule . '/blocks/' . $newBlock . '/view.php';
+		$configs['viewPath'] = 'modules/' . $newModule . '/blocks/' . $newName . '/view.php';
 		$configs['mode'] = 'r';
 		$configs = base64_encode(serialize($configs));
-		return self::build($newModule, $newBlock, get_class($this), $configs, $viewPath);
+		return self::build($newModule, $newName, get_class($this), $configs, $viewPath);
 	}
 	
 	public function onMove($typeProgress, $module, $name, $copy = FALSE) {

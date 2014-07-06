@@ -51,7 +51,7 @@ if (is_object($block) == NULL) {
 			<?php if(method_exists($block, 'forkAction')): ?>
 			$(document).on('click', "#createNewBlock", function(event) {
 				event.preventDefault();
-				$.post(BASE_PATH + "core/callBlock", {idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo $_POST['THEME']; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', newName: $("#nameNewBlock").val(),newModule :  $("#nameTargetModule").val()},function(data){
+				$.post(BASE_PATH + "<?php echo $typeProgress === 'theme' ? $_POST['THEMEMODULE'] : $_POST['MODULE']; ?>/callBlock", {TOKEN:TOKEN, idPage:"<?php if($typeProgress == 'page') echo $_POST['IDPage']; ?>", theme: "<?php if($typeProgress === 'theme') echo $_POST['THEME']; ?>", id:"<?php echo $block->getId(); ?>", method:'fork', newName: $("#nameNewBlock").val(),newModule :  $("#nameTargetModule").val()},function(data){
 					top.ParsimonyAdmin.execResult(data);
 					top.ParsimonyAdmin.loadBlock("panelblocks");
 				});
@@ -225,7 +225,7 @@ if (is_object($block) == NULL) {
 					</div>
 					<?php if(method_exists($block, 'forkAction')): ?>
 						<div class="clear padd">
-							<h3><?php echo t('Export this configuration in a new block'); ?></h3>
+							<h3><?php echo t('Fork this block'); ?></h3>
 							<div class="placeholder blockhead">
 								<?php
 									/* Just list modules in development mode */
