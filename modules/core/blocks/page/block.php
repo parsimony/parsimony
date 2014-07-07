@@ -44,6 +44,10 @@ class page extends \block {
 		$this->setConfig('attributes', 'data-page="' . \app::$response->page->getId() . '"');
 		return parent::display();
 	}
+	
+	public function getView() {
+		return \app::$response->page->display();
+	}
 
 }
 
