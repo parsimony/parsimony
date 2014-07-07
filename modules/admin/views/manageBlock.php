@@ -190,7 +190,7 @@ if (is_object($block) == NULL) {
 								$files = $block->getConfig('CSSFiles');
 								if (!empty($files)) {
 									foreach ($files as $file => $pos) {
-										echo '<div><div class="remitem" onclick="$(this).parent().remove();">X</div><input type="hidden" name="CSSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
+										echo '<div><div class="remitem" onclick="$(this).parent().remove();"></div><input type="hidden" name="CSSFiles[' . $file . ']" value="' . $pos . '">' . $file . ' - ' . $pos . '</div>';
 									}
 								}
 								?>
@@ -198,7 +198,7 @@ if (is_object($block) == NULL) {
 						</div>
 						<div class="placeholder blockhead">
 							<label><?php echo t('JS Files'); ?></label>
-							<input type="text" id="newJSFile" placeholder="http://example.com/css.css or lib/fancybox/example.js">
+							<input type="text" id="newJSFile" placeholder="http://example.com/script.js or lib/fancybox/example.js">
 							<select id="posNewJSFile">
 								<option value="header">Header</option>
 								<option value="footer">Footer</option>
