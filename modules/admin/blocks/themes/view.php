@@ -87,7 +87,7 @@ foreach ($modules as $moduleName => $mode) {
 				<?php endif; ?>
 				<?php if($creationRights === TRUE): ?>
 					<input class="button duplicate highlight" data-themename="<?php echo s($moduleName.';'.$themeName); ?>" data-imgurl="<?php echo $imgURL; ?>" type="button" value="<?php echo t('Duplicate') ?>" />
-					<?php if($themeName !== app::$config['THEME']): ?>
+					<?php if($themeName !== app::$config['THEME'] || $moduleName !== app::$config['THEMEMODULE']): ?>
 						<form method="POST" action="<?php echo BASE_PATH; ?>admin/deleteTheme" target="formResult">
 							<input type="hidden" name="THEMEMODULE" value="<?php echo $moduleName; ?>" />
 							<input type="hidden" name="TOKEN" value="<?php echo TOKEN; ?>" />
