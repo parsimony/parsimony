@@ -36,7 +36,7 @@ app::$response->addJSFile('core/js/parsimony.js');
 
 echo \app::$response->printInclusions();
 
-if ( !(\app::$activeModules[$module] & 2)) { /* check if this module is in development or packaged */
+if ( !(\app::$activeModules[$module] & 4)) { /* check if this module is in development or packaged */
 	?>
 	<style> .areaWrite { display:none } </style>
 	<?php
@@ -128,13 +128,13 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 	<div style="display: inline-block;vertical-align: top;font-size: 16px;padding-left: 7px;width: 160px;">Database Designer</div>
 	<form action="" method="POST" style="display: inline-block;position: absolute;left: 0;right: 0;height: 36px;text-align: center;">
 		<div class="connectors">
-			<input type="hidden" id="connectorchoice" name="connectorchoice" value="<?php echo isset($_COOKIE['connectorchoice']) ? s($_COOKIE['connectorchoice']) : 'Flowchart'; ?>">
+			<input type="hidden" id="connectorchoice" name="connectorchoice" value="<?php echo isset($_COOKIE['connectorchoice']) ? s($_COOKIE['connectorchoice']) : 'Bezier'; ?>">
 			<?php echo t('Connector'); ?>
 			<svg height="23" width="23" viewBox="0 0 64 64" version="1.1" <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] === 'Flowchart') echo 'class="active"' ?> onclick="ParsimonyAdmin.setCookie('connectorchoice', 'Flowchart', 999);this.parentNode.parentNode.submit();" style="margin-left: 7px;">
 			<g transform="translate(0,-988.36217)"><path class="stroke" stroke-linejoin="miter" d="m64,996.36-32,0,0,24,0,24-32,0" stroke="#f1f1f1" stroke-linecap="butt" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="5" fill="none"/>
 			<path class="fill" fill="#f1f1f1" d="m16,1028.4,16-16,16,16-16-4.577z"/><path class="fill" fill="#f1f1f1" d="m64,990.36,0,12l-6-6c0-6,6-6,6-6z"/><path class="fill" fill="#f1f1f1" d="m0,1038.4,0,12l6-6c0-6-6-6-6-6z"/>
 			</g></svg>
-			<svg height="23" width="23" viewBox="0 0 64 64" version="1.1" <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] === 'Bezier') echo 'class="active"' ?>  onclick="ParsimonyAdmin.setCookie('connectorchoice', 'Bezier', 999);this.parentNode.parentNode.submit();">
+			<svg height="23" width="23" viewBox="0 0 64 64" version="1.1" <?php if (isset($_COOKIE['connectorchoice']) && $_COOKIE['connectorchoice'] === 'Bezier' || !isset($_COOKIE['connectorchoice'])) echo 'class="active"' ?>  onclick="ParsimonyAdmin.setCookie('connectorchoice', 'Bezier', 999);this.parentNode.parentNode.submit();">
 			<g transform="translate(0,-988.36217)"><path class="stroke" stroke-linejoin="miter" d="m64,996.36c-24,0-32,0-32,24s-8,24-32,24" stroke="#f1f1f1" stroke-linecap="butt" stroke-miterlimit="4" stroke-dasharray="none" stroke-width="5" fill="none"/>
 			<path class="fill" fill="#f1f1f1" d="m64,990.36,0,12l-6-6c0-6,6-6,6-6z"/><path class="fill" fill="#f1f1f1" d="m0,1038.4,0,12l6-6c0-6-6-6-6-6z"/>
 			<g transform="translate(16.003935,1012.3464)"><path class="fill" fill-rule="nonzero" fill="#f1f1f1" d="M0,16.016,16.016,0,31.996,16.016,16.016,11.445z"/>
@@ -385,6 +385,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 			connectorStyle: {strokeStyle: "#44c5ec", position: "absolute", lineWidth: 2},
 			isTarget: false},
 		keywordsReserveds: ",this,__halt_compiler,abstract,and,array,as,break,callable,case,catch,class,clone,const,continue,declare,default,die,do,echo,else,elseif,empty,enddeclare,endfor,endforeach,endif,endswitch,endwhile,eval,exit,extends,final,for,foreach,function,global,goto,if,implements,include,include_once,instanceof,insteadof,interface,isset,list,namespace,new,or,print,private,protected,public,require,require_once,return,static,switch,throw,trait,try,unset,use,var,while,xor,Compile-time constants,__CLASS__,__DIR__,__FILE__,__FUNCTION__,__LINE__,__METHOD__,__NAMESPACE__,__TRAIT__,",
+		keywordsReservedsField: ",this,behaviorTitle,behaviorDescription,behaviorKeywords,behaviorImage,behaviorAuthor,",
 		buildLink: function(sourceModule, source, targetModule, target) {
 			//var objSource = $("#table_" + source);
 			var objTarget = $("#table_" + target);
@@ -490,19 +491,37 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 							if (!confirm(('Your Attention Please : If you change the name of the table, you will break all your database queries already done with the old name.'))) {
 								return false;
 							}
+							
+							/* Set new table id */
+							jsPlumb.detachAllConnections(current_update_table);
+							current_update_table.attr("id", "table_" + newName);
+							
 							/* we change the entity name of all his properties */
 							$(".property", current_update_table).each(function() {
 								var attrs = $(this).data("attributs");
 								attrs.entity = newName;
 								$(this).data("attributs", attrs);
+								jsPlumb.detachAllConnections(this);
+								jsPlumb.removeAllEndpoints(this);
+								this.setAttribute("id", "property_" + newName + "_" + attrs.name);
+								if(this.getAttribute("type_class") == "field_foreignkey"){
+									dbadmin.createConnector(this);
+								}
 							});
+							
+							dbadmin.createAnchor($(".property", current_update_table)[0].id);
+							dbadmin.createAnchorForeignKey( "table_" + newName);
+							
 							/* we change the link entity name for all foreign keys that link to this table */
 							$('.property[type_class="field_foreignkey"]').each(function() {
 								var attrs = $(this).data("attributs");
-								if (attrs.link == oldName)
+								if (attrs.link == oldName){
 									attrs.link = newName;
-								$(this).data("attributs", attrs);
+									$(this).data("attributs", attrs);
+									dbadmin.createConnector(this);
+								}	
 							});
+
 						}
 						var json = '{';
 						$("#update_table input[name],#update_table select[name]").each(function() {
@@ -855,7 +874,7 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 				drop: function(event, ui) {
 					var champ = ui.draggable.clone();
 					var nom_champ = prompt(t('Please enter a field name') + ' ?');
-					if (nom_champ != "this" && nom_champ != null) {
+					if (nom_champ != null && dbadmin.keywordsReservedsField.indexOf("," + nom_champ + ",") == -1) {
 						nom_champ = nom_champ.toLowerCase().replace(/[^a-z_]+/g, "");
 						if (nom_champ != "") {
 							var id = "property_" + event.target.id.substring(6) + "_" + nom_champ;
