@@ -128,9 +128,9 @@ namespace core\classes {
 		 * Call the onLoad method of each active modules
 		 */
 		protected function launchActiveModules() {
-			self::$activeModules = array_filter(self::$config['modules']);
+			self::$activeModules = array_filter(self::$config['modules']); /* only get active modules */
 			foreach (self::$activeModules as $moduleName => $type) {
-				if ($type & 1) {
+				if ($type & 2) { /* launch autostart modules */
 					self::$modules[$moduleName] = \module::get($moduleName);
 				}
 			}
