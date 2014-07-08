@@ -61,12 +61,8 @@ $config['mail']['port'] = '25';
 
 /* Modules */
 $config['modules']['core'] = '3';
-$config['modules']['blog'] = '3';
+$config['modules']['blog'] = '1';
 $config['defaultModule'] = 'blog';
 
 $config['sitename'] = 'My WebSite';
 $config['favicon'] = 'core/img/favicon.png';
-
-$config['versions']['tablet'] = '1';
-$config['versions']['mobile'] = '1';
-$config['versions']['desktop'] = '1';
