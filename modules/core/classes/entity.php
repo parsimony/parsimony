@@ -787,6 +787,9 @@ abstract class entity extends queryBuilder implements \Iterator {
 		if(empty($this->behaviorAuthor)){
 			unset($properties['behaviorAuthor']);
 		}
+		if(empty($this->_rights)){
+			unset($properties['_rights']);
+		}
 		unset($this->extends);
 		$fields = array_keys($properties);
 		return $fields;

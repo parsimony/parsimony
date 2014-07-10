@@ -461,21 +461,25 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 
 			/* Save field settings */
 			$("#update_field").on('click', '.save_field', function() {
-				if ($('#update_' + current_update_field.attr('type_class') + ' input[name="name"]').val() != $('#update_' + current_update_field.attr('type_class') + ' input[name="oldName"]').val()) {
+				var currentForm = $('#update_' + current_update_field.attr('type_class'));
+				var attrs = current_update_field.data("attributs");
+				
+				if (attrs.name != attrs.oldName) {
 					if (!confirm(('Your Attention Please : If you change the name of the property, you will break all your database queries already done with the old name.'))) {
 						return false;
 					}
 				}
-				var json = '{';
-				$("#update_" + current_update_field.attr('type_class') + " input[name],#update_" + current_update_field.attr('type_class') + " select[name]").each(function() {
-					json += '"' + $(this).attr('name') + '":"' + $(this).val().replace(/"/g, '\\"').replace(/\\/g, '\\\\') + '",';
+
+				$("input[name], select[name]", currentForm).each(function() {
+					attrs[this.getAttribute("name")] = this.value;
 				});
-				var obj = jQuery.parseJSON(json.substring(0, json.length - 1) + "}");
+
 				if (current_update_field.hasClass("new"))
-					obj.oldName = obj.name;
-				current_update_field.data("attributs", obj);
-				$("#deletator").prependTo($("body"));
-				current_update_field.text(obj.name);
+					attrs.oldName = attrs.name;
+
+				current_update_field.data("attributs", attrs);
+				$("#deletator").prependTo("body");
+				current_update_field.text(attrs.name);
 				$(this).parent().hide();
 				$("#rightsidebar").hide();
 				$("#save").addClass("haveToSave");
@@ -483,6 +487,8 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 
 			/* Save table Settings */
 			$("#update_table").on('click', '.save_table', function() {
+
+				var attrs = current_update_table.data("attributs");
 				var oldName = $('#update_table input[name="oldName"]').val();
 				var newName = $('#update_table input[name="name"]').val();
 				if (dbadmin.keywordsReserveds.indexOf("," + newName + ",") == -1) {
@@ -521,18 +527,17 @@ font-size: 12px;background-color: #272727;background-image: -webkit-linear-gradi
 									dbadmin.createConnector(this);
 								}	
 							});
-
 						}
-						var json = '{';
+
 						$("#update_table input[name],#update_table select[name]").each(function() {
-							json += '"' + $(this).attr('name') + '":"' + $(this).val().replace(/"/g, '\\"') + '",';
+							attrs[this.getAttribute("name")] = this.value;
 						});
-						var obj = jQuery.parseJSON(json.substring(0, json.length - 1) + "}");
+
 						if (current_update_table.hasClass("new"))
-							obj.oldName = obj.name;
-						current_update_table.data("attributs", obj);
-						$("#deletator").prependTo($("body"));
-						current_update_table.find(".title").text(obj.name);
+							attrs.oldName = attrs.name;
+						current_update_table.data("attributs", attrs);
+						$("#deletator").prependTo("body");
+						current_update_table.find(".title").text(attrs.name);
 						$(this).parent().parent().hide();
 						$("#rightsidebar").hide();
 						$("#save").addClass("haveToSave");

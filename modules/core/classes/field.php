@@ -79,7 +79,7 @@ class field {
 	//others
 
 	/** @var string visibility */
-	protected $rights;
+	protected $rights = array();
 
 	/** @var object of the entity container */
 	protected $entity = '';
