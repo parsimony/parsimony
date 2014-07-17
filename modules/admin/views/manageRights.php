@@ -44,9 +44,16 @@ $role = app::getModule('core')->getEntity('role');
 			background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
 			background-image: linear-gradient(top,#F9F9F9,#ECECEC);}
 	.fieldsetmod{background: rgb(252, 252, 252);border: 1px solid #f0f0f0;margin: 10px;border-radius: 8px;padding-bottom: 10px;}
+	.disablemodule table{opacity : 0.2} 
 </style>
 <script>
 $(document).ready(function() {
+	$(".enablemodule").on('change', 'input[type="checkbox"]', function(){
+		var prop = this.checked;
+		var module = $(this).closest('.rightbox')[0];
+		if(prop == false) module.classList.add('disablemodule');
+		else module.classList.remove('disablemodule');
+	});
 	$(".modelArea").on('change', 'input[type="checkbox"]', function(){
 		
 		var obj = {};
