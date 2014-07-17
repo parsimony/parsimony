@@ -117,8 +117,12 @@ app::$response->addJSFile('lib/CodeMirror/addon/format/formatting.js');
 <div style="clear:both"></div>
 <textarea id="editor" name="editor"><?php
 	$code = '';
-	if (file_exists($path))
-	    $code = file_get_contents($path);
+	$base= str_replace('profiles/www/', '', $path);
+	if (!file_exists($path) && file_exists($base)) {	
+		\tools::createDirectory(str_replace(basename($path), '',$base));
+		copy($base, $path);
+	}
+	$code = file_get_contents($path);
 	$code = preg_replace('#.*<\?php __halt_compiler\(\); \?>#Usi', '', $code);
 	echo s($code);
 	?></textarea>
