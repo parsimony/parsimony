@@ -185,6 +185,8 @@
 .tat .buttons .previous{opacity : 0}
 .tat .modesSwitcher{box-shadow: none !important;
 background-image: -webkit-linear-gradient(top, #44C5EC, #259BDB) !important;
+background-image: -moz-linear-gradient(#44C5EC, #259BDB) !important;
+background-image: linear-gradient(#44C5EC, #259BDB) !important;
 padding: 2px 8px;margin-right: 5px;
 color: #fff;}
 .dbDesigner:before {
